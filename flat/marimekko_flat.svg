@@ -1,0 +1,562 @@
+<svg id="root" viewBox="0 0 1100 660" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
+<defs>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
+    .bg-main  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    .ct       { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+    .cs       { font-size:11px; fill:#79747E; font-weight:400; }
+    .an       { font-size:10px; fill:#79747E; font-weight:400; }
+    .al       { font-size:12px; fill:#1C1B1F; font-weight:500; }
+    .as       { font-size:11px; fill:#79747E; font-weight:400; }
+    .lt       { font-size:11px; fill:#1C1B1F; font-weight:400; }
+    .lv       { font-size:11px; fill:#1C1B1F; font-weight:500; }
+    .gl       { stroke:#E7E0EC; stroke-width:1; }
+    .bl       { stroke:#79747E; stroke-width:1.5; }
+    .lgd-bg   { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+    .lgd-div  { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+    .lgd-ttl  { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+    .footer   { font-size:10px; fill:#79747E; font-weight:400; }
+    .t-wrap   { cursor:pointer; }
+    .t-track  { fill:#E7E0EC; }
+    .t-thumb  { fill:#ffffff; }
+    .t-label  { font-size:11px; font-weight:500; fill:#49454F; }
+    .pt-track { fill:#E7E0EC; transition:fill 0.3s; }
+    .pt-thumb { fill:#ffffff; }
+    .pt-label { font-size:11px; font-weight:500; fill:#49454F; }
+
+    .lgd-val  { opacity:0; transition:opacity 0.2s; }
+    svg.print .lgd-val  { opacity:1; }
+    svg.print .pt-track { fill:#d97316; }
+
+    /* Cell value labels */
+    .cv { font-size:13px; font-weight:500; fill:white; text-anchor:middle; dominant-baseline:central; pointer-events:none; }
+    .cv-sm { font-size:10px; font-weight:400; fill:rgba(255,255,255,0.9); text-anchor:middle; dominant-baseline:central; pointer-events:none; }
+
+    /* Column dividers */
+    .cdiv { stroke:white; stroke-width:2; }
+
+    /* Hover */
+    .mcell { cursor:pointer; transition:opacity 0.12s ease; }
+    .mcell:hover { opacity:0.82; }
+
+    /* Bubble overlay */
+    .bubble   { opacity:0; pointer-events:none; transition:opacity 0.12s ease; }
+    .bub-fill { fill:#FFFBFE; }
+    .bub-bdr  { fill:none; stroke:#79747E; stroke-width:1; }
+    .bub-val  { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .bub-lbl  { fill:#49454F; font-size:10px; font-weight:400; }
+
+    .border-dark  { display:none; }
+    .border-light { display:block; }
+
+    svg.dark .bg-main  { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.4)); }
+    svg.dark .ct       { fill:#E6E0E9; }
+    svg.dark .cs       { fill:#938F99; }
+    svg.dark .an       { fill:#938F99; }
+    svg.dark .al       { fill:#E6E0E9; }
+    svg.dark .as       { fill:#938F99; }
+    svg.dark .lt       { fill:#E6E0E9; }
+    svg.dark .lv       { fill:#E6E0E9; }
+    svg.dark .gl       { stroke:#49454F; }
+    svg.dark .bl       { stroke:#938F99; }
+    svg.dark .lgd-bg   { fill:#49454F; stroke:#938F99; }
+    svg.dark .lgd-div  { stroke:#938F99; }
+    svg.dark .lgd-ttl  { fill:#938F99; }
+    svg.dark .footer   { fill:#938F99; }
+    svg.dark .t-track  { fill:#49454F; }
+    svg.dark .t-label  { fill:#CAC4D0; }
+    svg.dark .pt-track { fill:#49454F; }
+    svg.dark .pt-label { fill:#CAC4D0; }
+    svg.dark.print .pt-track { fill:#d97316; }
+    svg.dark .bub-fill { fill:#2C2B30; }
+    svg.dark .bub-bdr  { stroke:#938F99; }
+    svg.dark .bub-val  { fill:#E6E0E9; }
+    svg.dark .bub-lbl  { fill:#CAC4D0; }
+    svg.dark .border-dark  { display:block; }
+    svg.dark .border-light { display:none; }
+  </style>
+</defs>
+
+<!-- Background -->
+<rect class="bg-main" width="1100" height="660" rx="18"/>
+<g class="border-light"><rect x="0.75" y="0.75" width="1098.5" height="658.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/></g>
+<g class="border-dark"><rect x="0.75" y="0.75" width="1098.5" height="658.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/></g>
+
+<!-- Title -->
+<text x="68" y="42" class="ct">Sales by Product &amp; Country</text>
+<text x="68" y="62" class="cs">Marimekko chart · column width ∝ product share · segment height ∝ country share · hover to inspect</text>
+
+<!-- Total label (matches reference) -->
+<text x="459" y="84" class="an" text-anchor="middle" font-size="13" font-weight="600" fill="#1C1B1F">Total = 1,366</text>
+
+<!-- Dark toggle -->
+<g class="t-wrap" id="dark-toggle" transform="translate(800,50)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
+  <circle id="tthumb" cx="52" cy="0" r="10" class="t-thumb"/>
+  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Light</text>
+</g>
+
+<!-- Print toggle -->
+<g class="t-wrap" id="print-toggle" transform="translate(882,50)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
+  <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
+</g>
+
+<!--
+  CHART AREA: x=68..850 y=92..512  W=782 H=420
+  Column x / width (from python):
+    Product A: x=68.0   w=198.1
+    Product B: x=266.1  w=246.2
+    Product C: x=512.2  w=149.4
+    Product D: x=661.7  w=188.3
+
+  Colors (top→bottom in each col): India, France, Germany, UK, China, USA
+  Stacking order: USA at bottom, India at top (matching reference top→bottom visual)
+  The reference shows top=USA, but looking again at the data order:
+    Top of col A: 97(USA) then 14(China) then 63(UK) then 97(Germany) then 26(France) then 49(India) at bottom
+  So stacking from BOTTOM: India, France, Germany, UK, China, USA (USA at top)
+  Actually reference image: TOP=USA(red), then China(green), UK(blue), Germany(yellow), France(purple), India(pink) at BOTTOM
+  Let me stack from top → bottom: USA, China, UK, Germany, France, India
+  y starts at 92 (top) and accumulates downward.
+-->
+
+<!--
+  Recomputing top-down stacking:
+  Product A (x=68, w=198.1, total=346):
+    USA    h=97/346*420=117.7  y=92.0   → y_end=209.7
+    China  h=14/346*420=17.0   y=209.7  → y_end=226.7
+    UK     h=63/346*420=76.5   y=226.7  → y_end=303.2
+    Germany h=97/346*420=117.7 y=303.2  → y_end=420.9  (rounding: 420.9→420.8)
+    France h=26/346*420=31.6   y=420.9  → y_end=452.4
+    India  h=49/346*420=59.5   y=452.4  → y_end=512.0 ✓
+
+  Product B (x=266.1, w=246.2, total=430):
+    USA    h=97/430*420=94.7   y=92.0  → 186.7
+    China  h=87/430*420=85.0   y=186.7 → 271.7
+    UK     h=67/430*420=65.4   y=271.7 → 337.1
+    Germany h=65/430*420=63.5  y=337.1 → 400.6
+    France h=29/430*420=28.3   y=400.6 → 429.0
+    India  h=85/430*420=83.0   y=429.0 → 512.0 ✓
+
+  Product C (x=512.2, w=149.4, total=261):
+    USA    h=45/261*420=72.4   y=92.0  → 164.4
+    China  h=54/261*420=86.9   y=164.4 → 251.3
+    UK     h=18/261*420=29.0   y=251.3 → 280.3
+    Germany h=36/261*420=57.9  y=280.3 → 338.2
+    France h=24/261*420=38.6   y=338.2 → 376.8
+    India  h=84/261*420=135.2  y=376.8 → 512.0 ✓
+
+  Product D (x=661.7, w=188.3, total=329):
+    USA    h=61/329*420=77.9   y=92.0  → 169.9
+    China  h=32/329*420=40.9   y=169.9 → 210.7
+    UK     h=66/329*420=84.3   y=210.7 → 295.0
+    Germany h=73/329*420=93.2  y=295.0 → 388.2
+    France h=47/329*420=60.0   y=388.2 → 448.2
+    India  h=50/329*420=63.8   y=448.2 → 512.0 ✓
+-->
+
+<!-- ═══ MARIMEKKO CELLS ═══ -->
+<!-- Colours: USA=#E8563A  China=#2DB87A  UK=#3B9EE8  Germany=#F5B82E  France=#8B7FE8  India=#D94FBF -->
+
+<!-- ── Product A ── -->
+<!-- USA -->
+<g class="mcell" data-name="USA · Product A" data-val="97" data-pct="28%">
+  <rect x="68.0" y="92.0" width="198.1" height="117.7" fill="#00D4E8">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.00s" fill="freeze"/>
+  </rect>
+  <text x="167.0" y="150.9" class="cv">97</text>
+</g>
+<!-- China -->
+<g class="mcell" data-name="China · Product A" data-val="14" data-pct="4%">
+  <rect x="68.0" y="210.7" width="198.1" height="17.0" fill="#00B87A">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.05s" fill="freeze"/>
+  </rect>
+  <text x="167.0" y="219.2" class="cv-sm">14</text>
+</g>
+<!-- UK -->
+<g class="mcell" data-name="UK · Product A" data-val="63" data-pct="18%">
+  <rect x="68.0" y="228.7" width="198.1" height="76.5" fill="#F59E0B">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.10s" fill="freeze"/>
+  </rect>
+  <text x="167.0" y="267.0" class="cv">63</text>
+</g>
+<!-- Germany -->
+<g class="mcell" data-name="Germany · Product A" data-val="97" data-pct="28%">
+  <rect x="68.0" y="306.2" width="198.1" height="117.7" fill="#F43F5E">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.15s" fill="freeze"/>
+  </rect>
+  <text x="167.0" y="365.0" class="cv">97</text>
+</g>
+<!-- France -->
+<g class="mcell" data-name="France · Product A" data-val="26" data-pct="8%">
+  <rect x="68.0" y="424.9" width="198.1" height="31.6" fill="#8B5CF6">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.20s" fill="freeze"/>
+  </rect>
+  <text x="167.0" y="440.7" class="cv-sm">26</text>
+</g>
+<!-- India -->
+<g class="mcell" data-name="India · Product A" data-val="49" data-pct="14%">
+  <rect x="68.0" y="457.5" width="198.1" height="54.5" fill="#3B82F6">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.25s" fill="freeze"/>
+  </rect>
+  <text x="167.0" y="484.8" class="cv">49</text>
+</g>
+
+<!-- ── Product B ── -->
+<!-- USA -->
+<g class="mcell" data-name="USA · Product B" data-val="97" data-pct="23%">
+  <rect x="268.1" y="92.0" width="244.1" height="94.7" fill="#00D4E8">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.08s" fill="freeze"/>
+  </rect>
+  <text x="390.2" y="139.4" class="cv">97</text>
+</g>
+<!-- China -->
+<g class="mcell" data-name="China · Product B" data-val="87" data-pct="20%">
+  <rect x="268.1" y="187.7" width="244.1" height="85.0" fill="#00B87A">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.13s" fill="freeze"/>
+  </rect>
+  <text x="390.2" y="230.2" class="cv">87</text>
+</g>
+<!-- UK -->
+<g class="mcell" data-name="UK · Product B" data-val="67" data-pct="16%">
+  <rect x="268.1" y="273.7" width="244.1" height="65.4" fill="#F59E0B">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.18s" fill="freeze"/>
+  </rect>
+  <text x="390.2" y="306.4" class="cv">67</text>
+</g>
+<!-- Germany -->
+<g class="mcell" data-name="Germany · Product B" data-val="65" data-pct="15%">
+  <rect x="268.1" y="340.1" width="244.1" height="63.5" fill="#F43F5E">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.23s" fill="freeze"/>
+  </rect>
+  <text x="390.2" y="371.9" class="cv">65</text>
+</g>
+<!-- France -->
+<g class="mcell" data-name="France · Product B" data-val="29" data-pct="7%">
+  <rect x="268.1" y="404.6" width="244.1" height="28.3" fill="#8B5CF6">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.28s" fill="freeze"/>
+  </rect>
+  <text x="390.2" y="418.8" class="cv-sm">29</text>
+</g>
+<!-- India -->
+<g class="mcell" data-name="India · Product B" data-val="85" data-pct="20%">
+  <rect x="268.1" y="433.9" width="244.1" height="78.1" fill="#3B82F6">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.33s" fill="freeze"/>
+  </rect>
+  <text x="390.2" y="473.0" class="cv">85</text>
+</g>
+
+<!-- ── Product C ── -->
+<!-- USA -->
+<g class="mcell" data-name="USA · Product C" data-val="45" data-pct="17%">
+  <rect x="514.2" y="92.0" width="147.5" height="72.4" fill="#00D4E8">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.16s" fill="freeze"/>
+  </rect>
+  <text x="587.9" y="128.2" class="cv">45</text>
+</g>
+<!-- China -->
+<g class="mcell" data-name="China · Product C" data-val="54" data-pct="21%">
+  <rect x="514.2" y="165.4" width="147.5" height="86.9" fill="#00B87A">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.21s" fill="freeze"/>
+  </rect>
+  <text x="587.9" y="208.9" class="cv">54</text>
+</g>
+<!-- UK -->
+<g class="mcell" data-name="UK · Product C" data-val="18" data-pct="7%">
+  <rect x="514.2" y="253.3" width="147.5" height="29.0" fill="#F59E0B">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.26s" fill="freeze"/>
+  </rect>
+  <text x="587.9" y="267.8" class="cv-sm">18</text>
+</g>
+<!-- Germany -->
+<g class="mcell" data-name="Germany · Product C" data-val="36" data-pct="14%">
+  <rect x="514.2" y="283.3" width="147.5" height="57.9" fill="#F43F5E">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.31s" fill="freeze"/>
+  </rect>
+  <text x="587.9" y="312.3" class="cv">36</text>
+</g>
+<!-- France -->
+<g class="mcell" data-name="France · Product C" data-val="24" data-pct="9%">
+  <rect x="514.2" y="342.2" width="147.5" height="38.6" fill="#8B5CF6">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.36s" fill="freeze"/>
+  </rect>
+  <text x="587.9" y="361.5" class="cv-sm">24</text>
+</g>
+<!-- India -->
+<g class="mcell" data-name="India · Product C" data-val="84" data-pct="32%">
+  <rect x="514.2" y="381.8" width="147.5" height="130.2" fill="#3B82F6">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.41s" fill="freeze"/>
+  </rect>
+  <text x="587.9" y="446.9" class="cv">84</text>
+</g>
+
+<!-- ── Product D ── -->
+<!-- USA -->
+<g class="mcell" data-name="USA · Product D" data-val="61" data-pct="19%">
+  <rect x="663.7" y="92.0" width="186.3" height="77.9" fill="#00D4E8">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.24s" fill="freeze"/>
+  </rect>
+  <text x="756.9" y="131.0" class="cv">61</text>
+</g>
+<!-- China -->
+<g class="mcell" data-name="China · Product D" data-val="32" data-pct="10%">
+  <rect x="663.7" y="170.9" width="186.3" height="40.9" fill="#00B87A">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.29s" fill="freeze"/>
+  </rect>
+  <text x="756.9" y="191.3" class="cv-sm">32</text>
+</g>
+<!-- UK -->
+<g class="mcell" data-name="UK · Product D" data-val="66" data-pct="20%">
+  <rect x="663.7" y="212.8" width="186.3" height="84.3" fill="#F59E0B">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.34s" fill="freeze"/>
+  </rect>
+  <text x="756.9" y="254.9" class="cv">66</text>
+</g>
+<!-- Germany -->
+<g class="mcell" data-name="Germany · Product D" data-val="73" data-pct="22%">
+  <rect x="663.7" y="298.1" width="186.3" height="93.2" fill="#F43F5E">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.39s" fill="freeze"/>
+  </rect>
+  <text x="756.9" y="344.7" class="cv">73</text>
+</g>
+<!-- France -->
+<g class="mcell" data-name="France · Product D" data-val="47" data-pct="14%">
+  <rect x="663.7" y="392.3" width="186.3" height="60.0" fill="#8B5CF6">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.44s" fill="freeze"/>
+  </rect>
+  <text x="756.9" y="422.3" class="cv">47</text>
+</g>
+<!-- India -->
+<g class="mcell" data-name="India · Product D" data-val="50" data-pct="15%">
+  <rect x="663.7" y="453.3" width="186.3" height="58.7" fill="#3B82F6">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.49s" fill="freeze"/>
+  </rect>
+  <text x="756.9" y="482.7" class="cv">50</text>
+</g>
+
+<!-- Column dividers (white vertical lines between columns) -->
+<line x1="267.1" y1="92" x2="267.1" y2="512" class="cdiv"/>
+<line x1="513.2" y1="92" x2="513.2" y2="512" class="cdiv"/>
+<line x1="662.7" y1="92" x2="662.7" y2="512" class="cdiv"/>
+
+<!-- Chart border lines -->
+<line x1="68" y1="92"  x2="850" y2="92"  class="bl"/>
+<line x1="68" y1="512" x2="850" y2="512" class="bl"/>
+<line x1="68" y1="92"  x2="68"  y2="512" class="bl"/>
+<line x1="850" y1="92" x2="850" y2="512" class="bl"/>
+
+<!-- ── X-axis labels ── -->
+<!-- Product A: cx=167, total=346, 25% -->
+<text x="167.0" y="530" class="al" text-anchor="middle">Product A</text>
+<text x="167.0" y="547" class="as" text-anchor="middle">346</text>
+<text x="167.0" y="562" class="as" text-anchor="middle">25%</text>
+
+<!-- Product B: cx=390, total=430, 31% -->
+<text x="390.2" y="530" class="al" text-anchor="middle">Product B</text>
+<text x="390.2" y="547" class="as" text-anchor="middle">430</text>
+<text x="390.2" y="562" class="as" text-anchor="middle">31%</text>
+
+<!-- Product C: cx=587, total=261, 19% -->
+<text x="587.9" y="530" class="al" text-anchor="middle">Product C</text>
+<text x="587.9" y="547" class="as" text-anchor="middle">261</text>
+<text x="587.9" y="562" class="as" text-anchor="middle">19%</text>
+
+<!-- Product D: cx=756, total=329, 24% -->
+<text x="756.9" y="530" class="al" text-anchor="middle">Product D</text>
+<text x="756.9" y="547" class="as" text-anchor="middle">329</text>
+<text x="756.9" y="562" class="as" text-anchor="middle">24%</text>
+
+<!-- ── LEGEND ── -->
+<rect x="868" y="92" width="208" height="310" rx="14" class="lgd-bg"/>
+<text x="886" y="116" class="lgd-ttl">COUNTRY</text>
+
+<g transform="translate(886,132)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="#00D4E8"/>
+  <text x="22" y="11" class="lt">USA</text>
+  <text x="186" y="11" class="lv lgd-val" text-anchor="end">300 (22%)</text>
+</g>
+<g transform="translate(886,160)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="#00B87A"/>
+  <text x="22" y="11" class="lt">China</text>
+  <text x="186" y="11" class="lv lgd-val" text-anchor="end">187 (14%)</text>
+</g>
+<g transform="translate(886,188)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="#F59E0B"/>
+  <text x="22" y="11" class="lt">UK</text>
+  <text x="186" y="11" class="lv lgd-val" text-anchor="end">214 (16%)</text>
+</g>
+<g transform="translate(886,216)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="#F43F5E"/>
+  <text x="22" y="11" class="lt">Germany</text>
+  <text x="186" y="11" class="lv lgd-val" text-anchor="end">271 (20%)</text>
+</g>
+<g transform="translate(886,244)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="#8B5CF6"/>
+  <text x="22" y="11" class="lt">France</text>
+  <text x="186" y="11" class="lv lgd-val" text-anchor="end">126 (9%)</text>
+</g>
+<line x1="886" y1="272" x2="1058" y2="272" class="lgd-div"/>
+<g transform="translate(886,284)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="#3B82F6"/>
+  <text x="22" y="11" class="lt">India</text>
+  <text x="186" y="11" class="lv lgd-val" text-anchor="end">268 (20%)</text>
+</g>
+
+<!-- Second legend panel: axis note -->
+<rect x="868" y="416" width="208" height="80" rx="14" class="lgd-bg"/>
+<text x="886" y="440" class="lgd-ttl">AXES</text>
+<text x="886" y="458" class="lt" font-size="10">Column width = product share</text>
+<text x="886" y="474" class="lt" font-size="10">Segment height = country share</text>
+<text x="886" y="490" class="lt" font-size="10">within each product</text>
+
+<text x="68" y="640" class="footer">Sales by Product &amp; Country · 4 products × 6 countries · Marimekko / Mekko chart · Total = 1,366</text>
+
+<!-- ── BUBBLE OVERLAY ── -->
+<g id="bubble-overlay">
+  <g class="bubble" id="tip">
+    <path id="tip-path" class="bub-fill" d="M0,0"/>
+    <path id="tip-bdr"  class="bub-bdr"  d="M0,0"/>
+    <text id="tip-line1" x="0" y="0" class="bub-val"/>
+    <text id="tip-line2" x="0" y="0" class="bub-lbl"/>
+    <text id="tip-line3" x="0" y="0" class="bub-lbl"/>
+  </g>
+</g>
+
+<script type="text/javascript"><![CDATA[
+(function() {
+  var svg = document.getElementById('root');
+  var tip      = document.getElementById('tip');
+  var tipPath  = document.getElementById('tip-path');
+  var tipBdr   = document.getElementById('tip-bdr');
+  var tipLine1 = document.getElementById('tip-line1');
+  var tipLine2 = document.getElementById('tip-line2');
+  var tipLine3 = document.getElementById('tip-line3');
+  var W = 110, H = 54, TH = 10;
+
+  function bubPath(x, y, flip) {
+    var lx = x - W/2, rx = x + W/2, ty, by;
+    if (!flip) {
+      ty = y - TH - H; by = y - TH;
+      return ['M',x-8,',',by,' L',lx+10,',',by,' Q',lx,',',by,' ',lx,',',by-10,
+              ' L',lx,',',ty+10,' Q',lx,',',ty,' ',lx+10,',',ty,
+              ' L',rx-10,',',ty,' Q',rx,',',ty,' ',rx,',',ty+10,
+              ' L',rx,',',by-10,' Q',rx,',',by,' ',rx-10,',',by,
+              ' L',x+8,',',by,' L',x,',',y,' Z'].join('');
+    } else {
+      ty = y + TH; by = y + TH + H;
+      return ['M',x-8,',',ty,' L',lx+10,',',ty,' Q',lx,',',ty,' ',lx,',',ty+10,
+              ' L',lx,',',by-10,' Q',lx,',',by,' ',lx+10,',',by,
+              ' L',rx-10,',',by,' Q',rx,',',by,' ',rx,',',by-10,
+              ' L',rx,',',ty+10,' Q',rx,',',ty,' ',rx-10,',',ty,
+              ' L',x+8,',',ty,' L',x,',',y,' Z'].join('');
+    }
+  }
+
+  function showTip(evt, name, val, pct) {
+    var pt = svg.createSVGPoint();
+    pt.x = evt.clientX; pt.y = evt.clientY;
+    var sp = pt.matrixTransform(svg.getScreenCTM().inverse());
+    var tx = Math.max(W/2+4, Math.min(sp.x, 1100-W/2-4));
+    var ty = sp.y;
+    var flip = ty < H + TH + 30;
+    var p = bubPath(tx, ty, flip);
+    tipPath.setAttribute('d', p); tipBdr.setAttribute('d', p);
+    var textY = flip ? ty + TH + 16 : ty - TH - H + 16;
+    var parts = name.split(' · ');
+    tipLine1.setAttribute('x', tx); tipLine1.setAttribute('y', textY);
+    tipLine1.setAttribute('text-anchor','middle');
+    tipLine1.textContent = parts[0] + ' — ' + (parts[1]||'');
+    tipLine2.setAttribute('x', tx); tipLine2.setAttribute('y', textY + 18);
+    tipLine2.setAttribute('text-anchor','middle');
+    tipLine2.textContent = 'Value: ' + val;
+    tipLine3.setAttribute('x', tx); tipLine3.setAttribute('y', textY + 34);
+    tipLine3.setAttribute('text-anchor','middle');
+    tipLine3.textContent = 'Share within product: ' + pct;
+    tip.style.opacity = '1';
+  }
+
+  var cells = svg.querySelectorAll('.mcell');
+  cells.forEach(function(g) {
+    var name = g.getAttribute('data-name');
+    var val  = g.getAttribute('data-val');
+    var pct  = g.getAttribute('data-pct');
+    g.addEventListener('mouseenter', function(e){ showTip(e,name,val,pct); });
+    g.addEventListener('mousemove',  function(e){ showTip(e,name,val,pct); });
+    g.addEventListener('mouseleave', function(){ tip.style.opacity='0'; });
+  });
+
+  /* ── Dark / print toggles ── */
+  var lightColors = {
+    'USA':     '#00D4E8',
+    'China':   '#00B87A',
+    'UK':      '#F59E0B',
+    'Germany': '#F43F5E',
+    'France':  '#8B5CF6',
+    'India':   '#3B82F6'
+  };
+  var darkColors = {
+    'USA':     '#22D3EE',
+    'China':   '#10B981',
+    'UK':      '#FBB724',
+    'Germany': '#FB6181',
+    'France':  '#A78BFA',
+    'India':   '#60A5FA'
+  };
+
+  function swapCellColors(dark) {
+    var palette = dark ? darkColors : lightColors;
+    svg.querySelectorAll('.mcell').forEach(function(g) {
+      var name = g.getAttribute('data-name') || '';
+      var country = name.split(' · ')[0];
+      var color = palette[country];
+      if (color) {
+        var rect = g.querySelector('rect');
+        if (rect) rect.setAttribute('fill', color);
+      }
+    });
+    /* legend swatches */
+    var countries = ['USA','China','UK','Germany','France','India'];
+    svg.querySelectorAll('.lgd-bg ~ g rect, .lgd-bg + text ~ g rect').forEach(function(){});
+    svg.querySelectorAll('[transform^="translate(886"]').forEach(function(g) {
+      var txt = g.querySelector('text');
+      if (!txt) return;
+      var country = txt.textContent.trim();
+      var color = palette[country];
+      var rect = g.querySelector('rect');
+      if (color && rect) rect.setAttribute('fill', color);
+    });
+  }
+
+  function setMode(wantDark) {
+    var currently = svg.classList.contains('dark');
+    if (wantDark === currently) return;
+    var thumb = document.getElementById('tthumb');
+    var lbl   = document.getElementById('tlabel');
+    if (wantDark) {
+      svg.classList.add('dark');
+      if (thumb) thumb.setAttribute('cx','52');
+      if (lbl)   lbl.textContent = 'Light';
+    } else {
+      svg.classList.remove('dark');
+      if (thumb) thumb.setAttribute('cx','16');
+      if (lbl)   lbl.textContent = 'Dark';
+    }
+    swapCellColors(wantDark);
+  }
+  document.getElementById('dark-toggle').addEventListener('click', function() {
+    setMode(!svg.classList.contains('dark'));
+  });
+  document.getElementById('print-toggle').addEventListener('click', function() {
+    var thumb = document.getElementById('pthumb'), lbl = document.getElementById('plabel');
+    if (svg.classList.toggle('print')) { thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
+    else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print'; }
+  });
+  window.setMode = setMode;
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
+  });
+  (function(){ setMode(window.location.href.indexOf('theme=dark')!==-1); })();
+})();
+]]></script>
+</svg>

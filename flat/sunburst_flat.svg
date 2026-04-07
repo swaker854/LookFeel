@@ -1,0 +1,474 @@
+<svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
+<defs>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
+    .bg-main   { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    .ct        { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+    .cs        { font-size:11px; fill:#79747E; font-weight:400; }
+    .lt        { font-size:11px; fill:#1C1B1F; font-weight:400; }
+    .lv        { font-size:11px; fill:#1C1B1F; font-weight:500; }
+    .lgd-bg    { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+    .lgd-div   { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+    .lgd-ttl   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+    .footer    { font-size:10px; fill:#79747E; font-weight:400; }
+    .t-wrap    { cursor:pointer; }
+    .t-track   { fill:#E7E0EC; }
+    .t-thumb   { fill:#ffffff; }
+    .t-label   { font-size:11px; font-weight:500; fill:#49454F; }
+    .pt-track  { fill:#E7E0EC; transition:fill 0.3s; }
+    .pt-thumb  { fill:#ffffff; }
+    .pt-label  { font-size:11px; font-weight:500; fill:#49454F; }
+    .lgd-val   { opacity:0; transition:opacity 0.2s; }
+    svg.print .lgd-val  { opacity:1; }
+    svg.print .pt-track { fill:#d97316; }
+
+    .arc-lbl   { font-size:9px; font-weight:500; fill:#FFFBFE; pointer-events:none; }
+    .center-val{ font-size:20px; font-weight:500; fill:#1C1B1F; }
+    .center-sub{ font-size:10px; fill:#79747E; }
+
+    .bub-bg    { fill:#FFFBFE; }
+    .bub-bdr   { fill:none; stroke:#79747E; stroke-width:1; }
+    .bub-val   { font-size:12px; font-weight:500; fill:#1C1B1F; }
+    .bub-lbl   { font-size:10px; fill:#49454F; }
+
+    svg.dark .bg-main    { fill:#1C1B1F; }
+    svg.dark .ct         { fill:#E6E0E9; }
+    svg.dark .cs         { fill:#938F99; }
+    svg.dark .lt         { fill:#E6E0E9; }
+    svg.dark .lv         { fill:#E6E0E9; }
+    svg.dark .lgd-bg     { fill:#49454F; stroke:#938F99; }
+    svg.dark .lgd-div    { stroke:#938F99; }
+    svg.dark .lgd-ttl    { fill:#938F99; }
+    svg.dark .footer     { fill:#938F99; }
+    svg.dark .t-track    { fill:#49454F; }
+    svg.dark .t-label    { fill:#CAC4D0; }
+    svg.dark .pt-track   { fill:#49454F; }
+    svg.dark .pt-label   { fill:#CAC4D0; }
+    svg.dark.print .pt-track { fill:#d97316; }
+    svg.dark .bub-bg     { fill:#2C2B30; }
+    svg.dark .bub-bdr    { stroke:#938F99; }
+    svg.dark .bub-val    { fill:#E6E0E9; }
+    svg.dark .bub-lbl    { fill:#CAC4D0; }
+    svg.dark .center-val { fill:#E6E0E9; }
+    svg.dark .center-sub { fill:#938F99; }
+
+    .border-dark  { display:none; }
+    .border-light { display:block; }
+    svg.dark .border-dark  { display:block; }
+    svg.dark .border-light { display:none; }
+  </style>
+</defs>
+
+<!-- Background -->
+<rect class="bg-main" width="1100" height="620" rx="18"/>
+<g class="border-dark">
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
+</g>
+<g class="border-light">
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
+</g>
+
+<!-- Title -->
+<text x="68" y="50" class="ct">Revenue Sunburst by Category &amp; Quarter</text>
+<text x="68" y="70" class="cs">Inner ring = category · outer ring = quarterly breakdown · hover to inspect · print for values</text>
+
+<!-- Dark toggle -->
+<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
+  <circle id="tthumb" cx="52" cy="0" r="10" class="t-thumb"/>
+  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Light</text>
+</g>
+
+<!-- Print toggle -->
+<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
+  <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
+</g>
+
+<!-- Sunburst slices + labels (no tooltips here) -->
+<g id="sunburst" transform="translate(390,320)"/>
+
+<!-- Tooltip overlay — always on top of everything, same coordinate space -->
+<g id="tooltip-layer" transform="translate(390,320)" pointer-events="none"/>
+
+<!-- LEGEND -->
+<rect x="820" y="92" width="212" height="440" rx="14" class="lgd-bg"/>
+<text x="838" y="116" class="lgd-ttl">CATEGORIES</text>
+<g transform="translate(838,132)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="#8B5CF6"/>
+  <text x="22" y="11" class="lt">Violet</text>
+  <text x="180" y="11" class="lv lgd-val" text-anchor="end">$79M</text>
+</g>
+<g transform="translate(838,160)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="#00D4E8"/>
+  <text x="22" y="11" class="lt">Cyan</text>
+  <text x="180" y="11" class="lv lgd-val" text-anchor="end">$72M</text>
+</g>
+<g transform="translate(838,188)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="#00B87A"/>
+  <text x="22" y="11" class="lt">Emerald</text>
+  <text x="180" y="11" class="lv lgd-val" text-anchor="end">$68M</text>
+</g>
+<g transform="translate(838,216)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="#3B82F6"/>
+  <text x="22" y="11" class="lt">Blue</text>
+  <text x="180" y="11" class="lv lgd-val" text-anchor="end">$64M</text>
+</g>
+<g transform="translate(838,244)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="#0D9488"/>
+  <text x="22" y="11" class="lt">Teal</text>
+  <text x="180" y="11" class="lv lgd-val" text-anchor="end">$61M</text>
+</g>
+<g transform="translate(838,272)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="#F59E0B"/>
+  <text x="22" y="11" class="lt">Amber</text>
+  <text x="180" y="11" class="lv lgd-val" text-anchor="end">$60M</text>
+</g>
+<g transform="translate(838,300)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="#F43F5E"/>
+  <text x="22" y="11" class="lt">Rose</text>
+  <text x="180" y="11" class="lv lgd-val" text-anchor="end">$55M</text>
+</g>
+<line x1="838" y1="326" x2="1014" y2="326" class="lgd-div"/>
+<g transform="translate(838,338)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="#64748B"/>
+  <text x="22" y="11" class="lt">Other</text>
+  <text x="180" y="11" class="lv lgd-val" text-anchor="end">$48M</text>
+</g>
+<line x1="838" y1="366" x2="1014" y2="366" class="lgd-div"/>
+<text x="838" y="384" class="lgd-ttl">QUARTERS</text>
+<g transform="translate(838,398)">
+  <rect x="0" y="0" width="10" height="10" rx="2" fill="#E0E0E0" stroke="#79747E" stroke-width="0.8"/>
+  <text x="18" y="8" class="lt" style="font-size:10px">Q1 · lightest</text>
+</g>
+<g transform="translate(838,416)">
+  <rect x="0" y="0" width="10" height="10" rx="2" fill="#B0B0B0" stroke="#79747E" stroke-width="0.8"/>
+  <text x="18" y="8" class="lt" style="font-size:10px">Q2 · mid-light</text>
+</g>
+<g transform="translate(838,434)">
+  <rect x="0" y="0" width="10" height="10" rx="2" fill="#787878" stroke="#79747E" stroke-width="0.8"/>
+  <text x="18" y="8" class="lt" style="font-size:10px">Q3 · mid-dark</text>
+</g>
+<g transform="translate(838,452)">
+  <rect x="0" y="0" width="10" height="10" rx="2" fill="#383838" stroke="#79747E" stroke-width="0.8"/>
+  <text x="18" y="8" class="lt" style="font-size:10px">Q4 · darkest</text>
+</g>
+
+<text x="68" y="600" class="footer">Revenue by Category &amp; Quarter · hierarchical sunburst · inner = category · outer = quarterly split · total $507M</text>
+
+<script type="text/javascript"><![CDATA[
+(function () {
+  var svg      = document.getElementById('root');
+  var group    = document.getElementById('sunburst');
+  var tipLayer = document.getElementById('tooltip-layer');
+
+  var rHole  = 68;
+  var rInner = 155;
+  var rOuter = 248;
+  var GAP    = 1.4;
+
+  var cats = [
+    { label:'Violet',  val:79, color:'#8B5CF6', dark:'#A78BFA', quarters:[18,20,21,20] },
+    { label:'Cyan',    val:72, color:'#00D4E8', dark:'#22D3EE', quarters:[16,18,20,18] },
+    { label:'Emerald', val:68, color:'#00B87A', dark:'#10B981', quarters:[15,17,18,18] },
+    { label:'Blue',    val:64, color:'#3B82F6', dark:'#60A5FA', quarters:[14,16,17,17] },
+    { label:'Teal',    val:61, color:'#0D9488', dark:'#2DD4BF', quarters:[13,15,16,17] },
+    { label:'Amber',   val:60, color:'#F59E0B', dark:'#FBB724', quarters:[13,15,16,16] },
+    { label:'Rose',    val:55, color:'#F43F5E', dark:'#FB6181', quarters:[12,13,15,15] },
+    { label:'Other',   val:48, color:'#64748B', dark:'#94A3B8', quarters:[11,12,12,13] },
+  ];
+  var total = cats.reduce(function (s, c) { return s + c.val; }, 0);
+
+  /* ── colour helpers ── */
+  function hexToRgb(h) {
+    return [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)];
+  }
+  function tint(rgb, t) { /* t=0 white … t=1 full colour */
+    return 'rgb('+Math.round(255+(rgb[0]-255)*t)+','+Math.round(255+(rgb[1]-255)*t)+','+Math.round(255+(rgb[2]-255)*t)+')';
+  }
+  function quarterTints(hex) {
+    var rgb = hexToRgb(hex);
+    return [tint(rgb,0.28), tint(rgb,0.52), tint(rgb,0.76), tint(rgb,1.0)];
+  }
+
+  /* ── geometry ── */
+  function rad(d) { return d * Math.PI / 180; }
+  function pt(r, d) { return [r * Math.cos(rad(d)), r * Math.sin(rad(d))]; }
+  function midAngle(a1, a2) { return (a1 + a2) / 2; }
+
+  function annularPath(r1, r2, a1, a2) {
+    var large = (a2 - a1 > 180) ? 1 : 0;
+    var p1 = pt(r2,a1), p2 = pt(r2,a2), p3 = pt(r1,a2), p4 = pt(r1,a1);
+    return ['M',p1[0],p1[1],'A',r2,r2,0,large,1,p2[0],p2[1],
+            'L',p3[0],p3[1],'A',r1,r1,0,large,0,p4[0],p4[1],'Z'].join(' ');
+  }
+
+  /* ── tooltip builder (returns a <g> to append to tipLayer) ── */
+  function makeTip(mx, my, lines) {
+    /* lines = [{cls, text}, …] */
+    var bw = 92, lineH = 16, pad = 10;
+    var bh = pad * 2 + lines.length * lineH - 4;
+    var tipH = 8;
+
+    /* position above the midpoint, pushed away from centre */
+    var dist = Math.sqrt(mx*mx + my*my);
+    var nx = dist > 0 ? mx/dist : 0;
+    var ny = dist > 0 ? my/dist : -1;
+    var tx = mx + nx * 30 - bw/2;
+    var ty = my + ny * 30 - bh - tipH;
+
+    /* clamp to stay inside the SVG (coords relative to sunburst center 390,320) */
+    var minX = -370, maxX = 380, minY = -300, maxY = 285;
+    if (tx < minX) tx = minX;
+    if (tx + bw > maxX) tx = maxX - bw;
+    if (ty < minY) ty = minY;
+    if (ty + bh > maxY) ty = maxY - bh;
+
+    var tipX = mx - tx;  /* tip arrow x relative to bubble top-left */
+    tipX = Math.max(10, Math.min(bw-10, tipX));
+
+    var g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.style.display = 'none';
+
+    /* shadow rect (slight offset for depth) */
+    var sh = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    sh.setAttribute('x', tx+2); sh.setAttribute('y', ty+2);
+    sh.setAttribute('width', bw); sh.setAttribute('height', bh);
+    sh.setAttribute('rx', 9); sh.setAttribute('fill', 'rgba(0,0,0,0.08)');
+    g.appendChild(sh);
+
+    /* background */
+    var bg = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    bg.setAttribute('x', tx); bg.setAttribute('y', ty);
+    bg.setAttribute('width', bw); bg.setAttribute('height', bh);
+    bg.setAttribute('rx', 9); bg.setAttribute('class', 'bub-bg');
+    g.appendChild(bg);
+
+    /* border */
+    var bd = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    bd.setAttribute('x', tx); bd.setAttribute('y', ty);
+    bd.setAttribute('width', bw); bd.setAttribute('height', bh);
+    bd.setAttribute('rx', 9); bd.setAttribute('class', 'bub-bdr');
+    g.appendChild(bd);
+
+    /* arrow */
+    var arrowY = ty + bh;
+    var arr = document.createElementNS('http://www.w3.org/2000/svg','path');
+    arr.setAttribute('d', 'M'+(tx+tipX-7)+','+arrowY+' L'+(tx+tipX)+','+(arrowY+tipH)+' L'+(tx+tipX+7)+','+arrowY);
+    arr.setAttribute('class','bub-bdr');
+    arr.setAttribute('fill','none'); /* border-only arrow – fill added below */
+    g.appendChild(arr);
+
+    /* arrow fill */
+    var arrFill = document.createElementNS('http://www.w3.org/2000/svg','path');
+    arrFill.setAttribute('d', 'M'+(tx+tipX-6)+','+arrowY+' L'+(tx+tipX)+','+(arrowY+tipH-1)+' L'+(tx+tipX+6)+','+arrowY);
+    arrFill.setAttribute('class','bub-bg');
+    arrFill.setAttribute('stroke','none');
+    g.appendChild(arrFill);
+
+    /* text lines */
+    lines.forEach(function (ln, i) {
+      var t = document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x', tx + bw/2);
+      t.setAttribute('y', ty + pad + i * lineH + lineH/2);
+      t.setAttribute('class', ln.cls);
+      t.setAttribute('text-anchor','middle');
+      t.setAttribute('dominant-baseline','central');
+      t.textContent = ln.text;
+      g.appendChild(t);
+    });
+
+    return g;
+  }
+
+  /* ── build everything ── */
+  function build(isDark) {
+    /* clear both layers */
+    while (group.firstChild)    group.removeChild(group.firstChild);
+    while (tipLayer.firstChild) tipLayer.removeChild(tipLayer.firstChild);
+
+    /* centre labels */
+    var cv = document.createElementNS('http://www.w3.org/2000/svg','text');
+    cv.setAttribute('x',0); cv.setAttribute('y',-8);
+    cv.setAttribute('class','center-val'); cv.setAttribute('text-anchor','middle');
+    cv.textContent = '$507M';
+    group.appendChild(cv);
+
+    var cs2 = document.createElementNS('http://www.w3.org/2000/svg','text');
+    cs2.setAttribute('x',0); cs2.setAttribute('y',12);
+    cs2.setAttribute('class','center-sub'); cs2.setAttribute('text-anchor','middle');
+    cs2.textContent = 'total revenue';
+    group.appendChild(cs2);
+
+    var startDeg = -90;
+
+    cats.forEach(function (cat) {
+      var catSweep = (cat.val / total) * 360;
+      var catEnd   = startDeg + catSweep;
+      var catColor = isDark ? cat.dark : cat.color;
+      var tints    = quarterTints(isDark ? cat.dark : cat.color);
+      var catMidA  = midAngle(startDeg + GAP/2, catEnd - GAP/2);
+      var catMidPt = pt((rHole + rInner) / 2, catMidA);
+      var pct      = Math.round(cat.val / total * 1000) / 10;
+
+      /* ── inner slice ── */
+      var iPath = document.createElementNS('http://www.w3.org/2000/svg','path');
+      iPath.setAttribute('d', annularPath(rHole, rInner, startDeg + GAP/2, catEnd - GAP/2));
+      iPath.setAttribute('fill', catColor);
+      iPath.setAttribute('stroke', '#FFFBFE');
+      iPath.setAttribute('stroke-width','1');
+      iPath.style.cursor = 'pointer';
+
+      /* build tooltip node (hidden) */
+      var iTip = makeTip(catMidPt[0], catMidPt[1], [
+        { cls:'bub-val', text: '$'+cat.val+'M' },
+        { cls:'bub-lbl', text: cat.label+' · '+pct+'%' },
+      ]);
+      tipLayer.appendChild(iTip);
+
+      /* hover events — show/hide tip, dim siblings */
+      (function (tip, pathEl) {
+        pathEl.addEventListener('mouseenter', function () {
+          tip.style.display = 'block';
+          /* dim all other paths slightly */
+          var all = group.querySelectorAll('path[data-arc]');
+          all.forEach(function (p) { if (p !== pathEl) p.style.opacity = '0.4'; });
+        });
+        pathEl.addEventListener('mouseleave', function () {
+          tip.style.display = 'none';
+          var all = group.querySelectorAll('path[data-arc]');
+          all.forEach(function (p) { p.style.opacity = '1'; });
+        });
+      })(iTip, iPath);
+
+      iPath.setAttribute('data-arc','1');
+      group.appendChild(iPath);
+
+      /* inner arc label */
+      if (catSweep > 22) {
+        var lbl = document.createElementNS('http://www.w3.org/2000/svg','text');
+        lbl.setAttribute('x', catMidPt[0]);
+        lbl.setAttribute('y', catMidPt[1]);
+        lbl.setAttribute('class','arc-lbl');
+        lbl.setAttribute('text-anchor','middle');
+        lbl.setAttribute('dominant-baseline','central');
+        /* rotate label to follow the arc */
+        var rotA = catMidA + 90;
+        if (rotA > 90 && rotA < 270) rotA += 180; /* flip upside-down labels */
+        lbl.setAttribute('transform','rotate('+rotA+','+catMidPt[0]+','+catMidPt[1]+')');
+        lbl.textContent = cat.label;
+        group.appendChild(lbl);
+      }
+
+      /* ── outer quarterly slices ── */
+      var qTotal  = cat.quarters.reduce(function (s,v) { return s+v; }, 0);
+      var qStart  = startDeg + GAP/2;
+
+      cat.quarters.forEach(function (qv, qi) {
+        var qSweep  = (qv / qTotal) * (catSweep - GAP) - GAP * 0.4;
+        var qEnd    = qStart + qSweep;
+        var qMidA   = midAngle(qStart, qEnd);
+        var qMidPt  = pt((rInner + rOuter) / 2, qMidA);
+        var qPct    = Math.round(qv / cat.val * 100);
+
+        var oPath = document.createElementNS('http://www.w3.org/2000/svg','path');
+        oPath.setAttribute('d', annularPath(rInner + 1, rOuter, qStart, qEnd));
+        oPath.setAttribute('fill', tints[qi]);
+        oPath.setAttribute('stroke','#FFFBFE');
+        oPath.setAttribute('stroke-width','1');
+        oPath.style.cursor = 'pointer';
+
+        var oTip = makeTip(qMidPt[0], qMidPt[1], [
+          { cls:'bub-val', text: '$'+qv+'M' },
+          { cls:'bub-lbl', text: cat.label+' · Q'+(qi+1) },
+          { cls:'bub-lbl', text: qPct+'% of '+cat.label },
+        ]);
+        tipLayer.appendChild(oTip);
+
+        (function (tip, pathEl) {
+          pathEl.addEventListener('mouseenter', function () {
+            tip.style.display = 'block';
+            var all = group.querySelectorAll('path[data-arc]');
+            all.forEach(function (p) { if (p !== pathEl) p.style.opacity = '0.4'; });
+          });
+          pathEl.addEventListener('mouseleave', function () {
+            tip.style.display = 'none';
+            var all = group.querySelectorAll('path[data-arc]');
+            all.forEach(function (p) { p.style.opacity = '1'; });
+          });
+        })(oTip, oPath);
+
+        oPath.setAttribute('data-arc','1');
+        group.appendChild(oPath);
+
+        /* outer value label */
+        if (qSweep > 10) {
+          var qlbl = document.createElementNS('http://www.w3.org/2000/svg','text');
+          qlbl.setAttribute('x', qMidPt[0]);
+          qlbl.setAttribute('y', qMidPt[1]);
+          qlbl.setAttribute('class','arc-lbl');
+          qlbl.setAttribute('text-anchor','middle');
+          qlbl.setAttribute('dominant-baseline','central');
+          var qRotA = qMidA + 90;
+          if (qRotA > 90 && qRotA < 270) qRotA += 180;
+          qlbl.setAttribute('transform','rotate('+qRotA+','+qMidPt[0]+','+qMidPt[1]+')');
+          qlbl.textContent = '$'+qv+'M';
+          group.appendChild(qlbl);
+        }
+
+        qStart = qEnd + GAP * 0.4;
+      });
+
+      startDeg = catEnd;
+    });
+
+    /* stagger fade-in on first build */
+    if (!group._built) {
+      group._built = true;
+      var arcs = group.querySelectorAll('path[data-arc]');
+      arcs.forEach(function (p, i) {
+        p.style.opacity = '0';
+        setTimeout(function () {
+          p.style.transition = 'opacity 0.35s ease';
+          p.style.opacity    = '1';
+        }, 50 + i * 30);
+      });
+    }
+  }
+
+  build(false);
+
+  /* ── toggles ── */
+  function setMode(wantDark) {
+    var cur = svg.classList.contains('dark');
+    if (wantDark === cur) return;
+    if (wantDark) {
+      svg.classList.add('dark');
+      document.getElementById('tthumb').setAttribute('cx','52');
+      document.getElementById('tlabel').textContent = 'Light';
+    } else {
+      svg.classList.remove('dark');
+      document.getElementById('tthumb').setAttribute('cx','16');
+      document.getElementById('tlabel').textContent = 'Dark';
+    }
+    build(wantDark);
+  }
+
+  document.getElementById('dark-toggle').addEventListener('click', function () {
+    setMode(!svg.classList.contains('dark'));
+  });
+  document.getElementById('print-toggle').addEventListener('click', function () {
+    var thumb = document.getElementById('pthumb'), lbl = document.getElementById('plabel');
+    if (svg.classList.toggle('print')) { thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
+    else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print';  }
+  });
+
+  window.setMode = setMode;
+  window.addEventListener('message', function (e) {
+    if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
+  });
+  (function () { setMode(window.location.href.indexOf('theme=dark') !== -1); })();
+})();
+]]></script>
+</svg>

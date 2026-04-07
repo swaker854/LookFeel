@@ -1,0 +1,531 @@
+<svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
+<defs>
+
+  <!-- Flat solid fills — light mode (single-stop, identical to bar chart) -->
+  <linearGradient id="g1"><stop offset="0%" stop-color="#00D4E8"/></linearGradient>
+  <linearGradient id="g2"><stop offset="0%" stop-color="#00B87A"/></linearGradient>
+  <linearGradient id="g3"><stop offset="0%" stop-color="#F59E0B"/></linearGradient>
+  <linearGradient id="g4"><stop offset="0%" stop-color="#F43F5E"/></linearGradient>
+  <linearGradient id="g5"><stop offset="0%" stop-color="#8B5CF6"/></linearGradient>
+  <linearGradient id="g6"><stop offset="0%" stop-color="#3B82F6"/></linearGradient>
+  <linearGradient id="g7"><stop offset="0%" stop-color="#0D9488"/></linearGradient>
+
+  <!-- Flat solid fills — dark mode -->
+  <linearGradient id="g1d"><stop offset="0%" stop-color="#22D3EE"/></linearGradient>
+  <linearGradient id="g2d"><stop offset="0%" stop-color="#10B981"/></linearGradient>
+  <linearGradient id="g3d"><stop offset="0%" stop-color="#FBB724"/></linearGradient>
+  <linearGradient id="g4d"><stop offset="0%" stop-color="#FB6181"/></linearGradient>
+  <linearGradient id="g5d"><stop offset="0%" stop-color="#A78BFA"/></linearGradient>
+  <linearGradient id="g6d"><stop offset="0%" stop-color="#60A5FA"/></linearGradient>
+  <linearGradient id="g7d"><stop offset="0%" stop-color="#2DD4BF"/></linearGradient>
+
+  <!-- Legend swatches -->
+  <linearGradient id="c1"><stop offset="0%" stop-color="#00D4E8"/></linearGradient>
+  <linearGradient id="c2"><stop offset="0%" stop-color="#00B87A"/></linearGradient>
+  <linearGradient id="c3"><stop offset="0%" stop-color="#F59E0B"/></linearGradient>
+  <linearGradient id="c4"><stop offset="0%" stop-color="#F43F5E"/></linearGradient>
+  <linearGradient id="c5"><stop offset="0%" stop-color="#8B5CF6"/></linearGradient>
+  <linearGradient id="c6"><stop offset="0%" stop-color="#3B82F6"/></linearGradient>
+  <linearGradient id="c7"><stop offset="0%" stop-color="#0D9488"/></linearGradient>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
+    .bg-main   { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    .ct        { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+    .cs        { font-size:11px; fill:#79747E; font-weight:400; }
+    .an        { font-size:10px; fill:#79747E; font-weight:400; }
+    .al        { font-size:11px; fill:#1C1B1F; font-weight:500; }
+    .lt        { font-size:11px; fill:#1C1B1F; font-weight:400; }
+    .lv        { font-size:11px; fill:#1C1B1F; font-weight:500; }
+    .gl        { stroke:#E7E0EC; stroke-width:1; fill:none; }
+    .bl        { stroke:#79747E; stroke-width:1.5; fill:none; }
+    .rl        { stroke:#C4BECE; stroke-width:0.75; fill:none; }
+    .sp        { stroke:#79747E; stroke-width:1; opacity:0.25; }
+    .lgd-bg    { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+    .lgd-div   { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+    .lgd-ttl   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+    .footer    { font-size:10px; fill:#79747E; font-weight:400; }
+    .t-wrap    { cursor:pointer; }
+    .t-track   { fill:#E7E0EC; }
+    .t-thumb   { fill:#ffffff; }
+    .t-label   { font-size:11px; font-weight:500; fill:#49454F; }
+    .pt-track  { fill:#E7E0EC; transition:fill 0.3s; }
+    .pt-thumb  { fill:#ffffff; }
+    .pt-label  { font-size:11px; font-weight:500; fill:#49454F; }
+
+    .lgd-val   { opacity:0; transition:opacity 0.2s; }
+    svg.print .lgd-val  { opacity:1; }
+    svg.print .pt-track { fill:#d97316; }
+
+    /* series polygon hover — same .ca / .bw / .bb pattern */
+    .bw        { cursor:pointer; }
+    .bb        { transition:opacity 0.15s; }
+    .ca:hover .bw .bb      { opacity:0.15; }
+    .ca:hover .bw:hover .bb { opacity:1; }
+
+    /* tooltip */
+    .bubble    { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
+    .bw:hover .bubble { opacity:1; }
+    .dw        { cursor:pointer; }
+    .dw .bubble { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
+    .dw:hover .bubble { opacity:1; }
+    svg.print .bubble { opacity:0 !important; }
+    svg.print .ca:hover .bw .bb { opacity:1 !important; }
+
+    .bub-bg    { fill:#FFFBFE; }
+    .bub-bdr   { fill:none; stroke:#79747E; stroke-width:1; }
+    .bub-tip   { fill:none; stroke:#79747E; stroke-width:1; }
+    .bub-val   { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .bub-lbl   { fill:#49454F; font-size:10px; font-weight:400; }
+
+    /* dot on each axis vertex */
+    .dot       { r:4; }
+
+    svg.dark .bg-main   { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+    svg.dark .ct        { fill:#E6E0E9; }
+    svg.dark .cs        { fill:#938F99; }
+    svg.dark .an        { fill:#938F99; }
+    svg.dark .al        { fill:#E6E0E9; }
+    svg.dark .lt        { fill:#E6E0E9; }
+    svg.dark .lv        { fill:#E6E0E9; }
+    svg.dark .gl        { stroke:#49454F; }
+    svg.dark .bl        { stroke:#938F99; }
+    svg.dark .rl        { stroke:#6B6572; }
+    svg.dark .sp        { stroke:#938F99; }
+    svg.dark .lgd-bg    { fill:#49454F; stroke:#938F99; }
+    svg.dark .lgd-div   { stroke:#938F99; }
+    svg.dark .lgd-ttl   { fill:#938F99; }
+    svg.dark .footer    { fill:#938F99; }
+    svg.dark .t-track   { fill:#49454F; }
+    svg.dark .t-label   { fill:#CAC4D0; }
+    svg.dark .pt-track  { fill:#49454F; }
+    svg.dark .pt-label  { fill:#CAC4D0; }
+    svg.dark.print .pt-track { fill:#d97316; }
+    svg.dark .bub-bg    { fill:#1C1B1F; }
+    svg.dark .bub-bdr   { fill:none; stroke:#938F99; stroke-width:1; }
+    svg.dark .bub-tip   { fill:none; stroke:#938F99; stroke-width:1; }
+    svg.dark .bub-val   { fill:#E6E0E9; }
+    svg.dark .bub-lbl   { fill:#CAC4D0; }
+
+    .border-dark      { display:none; }
+    .border-light     { display:block; }
+    svg.dark .border-dark  { display:block; }
+    svg.dark .border-light { display:none; }
+
+    /* Radial expand — CSS keyframes with transform-box keeps gradient url() refs valid */
+    @keyframes radar-expand {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    .sa {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: radar-expand 1.10s cubic-bezier(0.34,1.4,0.64,1) both;
+    }
+    #series-anim-3 { animation-delay: 0.00s; }
+    #series-anim-2 { animation-delay: 0.20s; }
+    #series-anim-1 { animation-delay: 0.40s; }
+  </style>
+</defs>
+
+<!--
+  ═══════════════════════════════════════════════════════
+  GEOMETRY
+  Centre: cx=430, cy=310   R(max)=220
+  7 axes, angle[i] = -90° + i*(360/7)° = -90 + i*51.4286°
+  In radians: start = -π/2, step = 2π/7
+
+  Axis angles (degrees from top, clockwise):
+    0: -90°        → top
+    1: -90+51.43   = -38.57°
+    2: -90+102.86  =  12.86°
+    3: -90+154.29  =  64.29°
+    4: -90+205.71  = 115.71°
+    5: -90+257.14  = 167.14°
+    6: -90+308.57  = 218.57°  (= -141.43°)
+
+  Unit vectors (cos θ, sin θ) where θ measured from +x axis:
+    a0: θ=-90°   cos=-0°=0,     sin=-1    → (0,      -1)
+    a1: θ=-38.57° cos=0.7818,  sin=-0.6235 → (0.7818, -0.6235)
+    a2: θ=12.86°  cos=0.9749,   sin=0.2225 → (0.9749,  0.2225)
+    a3: θ=64.29°  cos=0.4339,   sin=0.9010 → (0.4339,  0.9010)
+    a4: θ=115.71° cos=-0.4339,  sin=0.9010 → (-0.4339, 0.9010)
+    a5: θ=167.14° cos=-0.9749,  sin=0.2225 → (-0.9749, 0.2225)
+    a6: θ=218.57° cos=-0.7818, sin=-0.6235 → (-0.7818,-0.6235)
+
+  Axis tip coordinates at R=220 (cx=430, cy=310):
+    a0: (430+0*220,       310-1*220)      = (430,      90)
+    a1: (430+0.7818*220,  310-0.6235*220) = (430+172,  310-137) = (602, 173)
+    a2: (430+0.9749*220,  310+0.2225*220) = (430+214,  310+49)  = (644, 359)
+    a3: (430+0.4339*220,  310+0.9010*220) = (430+95,   310+198) = (525, 508)
+    a4: (430-0.4339*220,  310+0.9010*220) = (430-95,   310+198) = (335, 508)
+    a5: (430-0.9749*220,  310+0.2225*220) = (430-214,  310+49)  = (216, 359)
+    a6: (430-0.7818*220,  310-0.6235*220) = (430-172,  310-137) = (258, 173)
+
+  Ring radii: R*0.2=44, R*0.4=88, R*0.6=132, R*0.8=176, R*1.0=220
+  Ring polygon points = unit vec * ringR + centre
+
+  ═══════════════════════════════════════════════════════
+  DATA — Product Performance Scorecard (scale 0–100)
+  Axes: Revenue, Growth, Margin, Satisfaction, Retention, Innovation, Quality
+
+  Series A (Cyan)   : 72, 65, 58, 80, 74, 55, 68
+  Series B (Violet) : 55, 82, 70, 63, 58, 88, 72
+  Series C (Emerald): 64, 50, 85, 71, 82, 62, 90
+
+  Plotted point for axis i, value v (0-100):
+    r = (v/100) * 220
+    x = cx + cos[i]*r
+    y = cy + sin[i]*r  (note: sin negative because y inverted, already folded into unit vecs)
+
+  Series A point coords (r = v/100 * 220):
+    a0 Revenue      72 → r=158.4 → (430+0*158.4,        310-1*158.4)       = (430.0, 151.6)
+    a1 Growth       65 → r=143.0 → (430+0.7818*143.0,   310-0.6235*143.0)  = (430+111.8, 310-89.2) = (541.8, 220.8)
+    a2 Margin       58 → r=127.6 → (430+0.9749*127.6,   310+0.2225*127.6)  = (430+124.4, 310+28.4) = (554.4, 338.4)
+    a3 Satisfaction 80 → r=176.0 → (430+0.4339*176.0,   310+0.9010*176.0)  = (430+76.4,  310+158.6)= (506.4, 468.6)
+    a4 Retention    74 → r=162.8 → (430-0.4339*162.8,   310+0.9010*162.8)  = (430-70.6,  310+146.7)= (359.4, 456.7)
+    a5 Innovation   55 → r=121.0 → (430-0.9749*121.0,   310+0.2225*121.0)  = (430-117.9, 310+26.9) = (312.1, 336.9)
+    a6 Quality      68 → r=149.6 → (430-0.7818*149.6,   310-0.6235*149.6)  = (430-116.9, 310-93.3) = (313.1, 216.7)
+
+  Series B point coords:
+    a0 Revenue      55 → r=121.0 → (430, 189.0)
+    a1 Growth       82 → r=180.4 → (430+141.0, 310-112.5) = (571.0, 197.5)
+    a2 Margin       70 → r=154.0 → (430+150.1, 310+34.3)  = (580.1, 344.3)
+    a3 Satisfaction 63 → r=138.6 → (430+60.2,  310+124.9) = (490.2, 434.9)
+    a4 Retention    58 → r=127.6 → (430-55.4,  310+114.9) = (374.6, 424.9)
+    a5 Innovation   88 → r=193.6 → (430-188.7, 310+43.1)  = (241.3, 353.1)
+    a6 Quality      72 → r=158.4 → (430-123.9, 310-98.8)  = (306.1, 211.2)
+
+  Series C point coords:
+    a0 Revenue      64 → r=140.8 → (430, 169.2)
+    a1 Growth       50 → r=110.0 → (430+86.0,  310-68.6)  = (516.0, 241.4)
+    a2 Margin       85 → r=187.0 → (430+182.3, 310+41.6)  = (612.3, 351.6)
+    a3 Satisfaction 71 → r=156.2 → (430+67.8,  310+140.7) = (497.8, 450.7)
+    a4 Retention    82 → r=180.4 → (430-78.3,  310+162.5) = (351.7, 472.5)
+    a5 Innovation   62 → r=136.4 → (430-132.9, 310+30.3)  = (297.1, 340.3)
+    a6 Quality      90 → r=198.0 → (430-154.8, 310-123.4) = (275.2, 186.6)
+-->
+
+<!-- Background -->
+<rect class="bg-main" width="1100" height="620" rx="18"/>
+<g class="border-dark">
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5"
+    fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
+</g>
+<g class="border-light">
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5"
+    fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
+</g>
+
+<!-- Title -->
+<text x="68" y="50" class="ct">Product Performance Scorecard</text>
+<text x="68" y="70" class="cs">3 series · 7 axes · score 0–100 · hover to inspect · print for values</text>
+
+<!-- Dark toggle -->
+<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
+  <circle id="tthumb" cx="52" cy="0" r="10" class="t-thumb"/>
+  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Light</text>
+</g>
+
+<!-- Print toggle -->
+<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
+  <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
+</g>
+
+<!-- ── RADAR RINGS (concentric polygons at 20/40/60/80/100%) ── -->
+<!-- Ring 20%  r=44  points = unit[i]*44 + centre -->
+<polygon class="gl" points="
+  430,266
+  464.4,282.6
+  472.8,319.8
+  448.9,349.6
+  411.1,349.6
+  387.2,319.8
+  395.6,282.6"/>
+
+<!-- Ring 40%  r=88 -->
+<polygon class="gl" points="
+  430,222
+  498.8,255.1
+  515.7,329.6
+  468.2,389.3
+  391.8,389.3
+  344.3,329.6
+  361.2,255.1"/>
+
+<!-- Ring 60%  r=132 -->
+<polygon class="gl" points="
+  430,178
+  533.2,227.6
+  558.5,339.4
+  487.4,428.9
+  372.6,428.9
+  301.5,339.4
+  326.8,227.6"/>
+
+<!-- Ring 80%  r=176 -->
+<polygon class="rl" points="
+  430,134
+  567.6,200.2
+  601.4,349.2
+  506.6,468.5
+  353.4,468.5
+  258.6,349.2
+  292.4,200.2"/>
+
+<!-- Ring 100% r=220 (outermost) -->
+<polygon class="rl" points="
+  430,90
+  602,173
+  644,359
+  525,508
+  335,508
+  216,359
+  258,173"/>
+
+<!-- ── SPOKES (axis lines from centre to tip) ── -->
+<line x1="430" y1="310" x2="430" y2="90"   class="sp"/>
+<line x1="430" y1="310" x2="602" y2="173"  class="sp"/>
+<line x1="430" y1="310" x2="644" y2="359"  class="sp"/>
+<line x1="430" y1="310" x2="525" y2="508"  class="sp"/>
+<line x1="430" y1="310" x2="335" y2="508"  class="sp"/>
+<line x1="430" y1="310" x2="216" y2="359"  class="sp"/>
+<line x1="430" y1="310" x2="258" y2="173"  class="sp"/>
+
+<!-- ── RING VALUE LABELS (on axis 0 / top spoke) ── -->
+<text x="435" y="270" class="an">20</text>
+<text x="435" y="226" class="an">40</text>
+<text x="435" y="182" class="an">60</text>
+<text x="435" y="138" class="an">80</text>
+<text x="435" y="94"  class="an">100</text>
+
+<!-- ── AXIS LABELS ── -->
+<!-- a0 top -->
+<text x="430" y="76" class="al" text-anchor="middle">Revenue</text>
+<!-- a1 upper-right -->
+<text x="614" y="162" class="al" text-anchor="start">Growth</text>
+<!-- a2 lower-right -->
+<text x="654" y="368" class="al" text-anchor="start">Margin</text>
+<!-- a3 bottom-right -->
+<text x="530" y="526" class="al" text-anchor="middle">Satisfaction</text>
+<!-- a4 bottom-left -->
+<text x="330" y="526" class="al" text-anchor="middle">Retention</text>
+<!-- a5 lower-left -->
+<text x="204" y="368" class="al" text-anchor="end">Innovation</text>
+<!-- a6 upper-left -->
+<text x="246" y="162" class="al" text-anchor="end">Quality</text>
+
+<!-- ══════════════════════════════════════
+     SERIES — drawn back-to-front
+     Each is a filled polygon + stroke outline + hover dots
+     ══════════════════════════════════════ -->
+<g class="ca">
+
+<!-- ── Series C: Emerald (back layer) ── -->
+<g class="bw" id="bw3">
+  <g class="bb">
+    <g id="series-anim-3" class="sa">
+      <polygon id="poly-3"
+        points="430,169.2 516,241.4 612.3,351.6 497.8,450.7 351.7,472.5 297.1,340.3 275.2,186.6"
+        fill="url(#g2)" fill-opacity="0.18" stroke="url(#g2)" stroke-width="2" stroke-linejoin="round"/>
+      <!-- dot + tooltip per vertex -->
+      <g class="dw"><circle cx="430"   cy="169.2" r="6" fill="url(#g2)"/>
+        <g class="bubble" transform="translate(430,169.2)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">64</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Revenue · Emerald</text></g>
+      </g>
+      <g class="dw"><circle cx="516"   cy="241.4" r="6" fill="url(#g2)"/>
+        <g class="bubble" transform="translate(516,241.4)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">50</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Growth · Emerald</text></g>
+      </g>
+      <g class="dw"><circle cx="612.3" cy="351.6" r="6" fill="url(#g2)"/>
+        <g class="bubble" transform="translate(612.3,351.6)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">85</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Margin · Emerald</text></g>
+      </g>
+      <g class="dw"><circle cx="497.8" cy="450.7" r="6" fill="url(#g2)"/>
+        <g class="bubble" transform="translate(497.8,450.7)"><rect x="-50" y="-52" width="100" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-41,-14 Q-50,-14 -50,-23 L-50,-43 Q-50,-52 -41,-52 L41,-52 Q50,-52 50,-43 L50,-23 Q50,-14 41,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">71</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Satisfaction · Emerald</text></g>
+      </g>
+      <g class="dw"><circle cx="351.7" cy="472.5" r="6" fill="url(#g2)"/>
+        <g class="bubble" transform="translate(351.7,472.5)"><rect x="-44" y="-52" width="88" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-35,-14 Q-44,-14 -44,-23 L-44,-43 Q-44,-52 -35,-52 L35,-52 Q44,-52 44,-43 L44,-23 Q44,-14 35,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">82</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Retention · Emerald</text></g>
+      </g>
+      <g class="dw"><circle cx="297.1" cy="340.3" r="6" fill="url(#g2)"/>
+        <g class="bubble" transform="translate(297.1,340.3)"><rect x="-48" y="-52" width="96" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-39,-14 Q-48,-14 -48,-23 L-48,-43 Q-48,-52 -39,-52 L39,-52 Q48,-52 48,-43 L48,-23 Q48,-14 39,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">62</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Innovation · Emerald</text></g>
+      </g>
+      <g class="dw"><circle cx="275.2" cy="186.6" r="6" fill="url(#g2)"/>
+        <g class="bubble" transform="translate(275.2,186.6)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">90</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Quality · Emerald</text></g>
+      </g>
+    </g>
+  </g>
+</g>
+
+<!-- ── Series B: Violet (middle layer) ── -->
+<g class="bw" id="bw2">
+  <g class="bb">
+    <g id="series-anim-2" class="sa">
+      <polygon id="poly-2"
+        points="430,189 571,197.5 580.1,344.3 490.2,434.9 374.6,424.9 241.3,353.1 306.1,211.2"
+        fill="url(#g5)" fill-opacity="0.18" stroke="url(#g5)" stroke-width="2" stroke-linejoin="round"/>
+      <g class="dw"><circle cx="430"   cy="189"   r="6" fill="url(#g5)"/>
+        <g class="bubble" transform="translate(430,189)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">55</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Revenue · Violet</text></g>
+      </g>
+      <g class="dw"><circle cx="571"   cy="197.5" r="6" fill="url(#g5)"/>
+        <g class="bubble" transform="translate(571,197.5)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">82</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Growth · Violet</text></g>
+      </g>
+      <g class="dw"><circle cx="580.1" cy="344.3" r="6" fill="url(#g5)"/>
+        <g class="bubble" transform="translate(580.1,344.3)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">70</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Margin · Violet</text></g>
+      </g>
+      <g class="dw"><circle cx="490.2" cy="434.9" r="6" fill="url(#g5)"/>
+        <g class="bubble" transform="translate(490.2,434.9)"><rect x="-46" y="-52" width="92" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-37,-14 Q-46,-14 -46,-23 L-46,-43 Q-46,-52 -37,-52 L37,-52 Q46,-52 46,-43 L46,-23 Q46,-14 37,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">63</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Satisfaction · Violet</text></g>
+      </g>
+      <g class="dw"><circle cx="374.6" cy="424.9" r="6" fill="url(#g5)"/>
+        <g class="bubble" transform="translate(374.6,424.9)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">58</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Retention · Violet</text></g>
+      </g>
+      <g class="dw"><circle cx="241.3" cy="353.1" r="6" fill="url(#g5)"/>
+        <g class="bubble" transform="translate(241.3,353.1)"><rect x="-44" y="-52" width="88" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-35,-14 Q-44,-14 -44,-23 L-44,-43 Q-44,-52 -35,-52 L35,-52 Q44,-52 44,-43 L44,-23 Q44,-14 35,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">88</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Innovation · Violet</text></g>
+      </g>
+      <g class="dw"><circle cx="306.1" cy="211.2" r="6" fill="url(#g5)"/>
+        <g class="bubble" transform="translate(306.1,211.2)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">72</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Quality · Violet</text></g>
+      </g>
+    </g>
+  </g>
+</g>
+
+<!-- ── Series A: Cyan (front layer) ── -->
+<g class="bw" id="bw1">
+  <g class="bb">
+    <g id="series-anim-1" class="sa">
+      <polygon id="poly-1"
+        points="430,151.6 541.8,220.8 554.4,338.4 506.4,468.6 359.4,456.7 312.1,336.9 313.1,216.7"
+        fill="url(#g1)" fill-opacity="0.18" stroke="url(#g1)" stroke-width="2" stroke-linejoin="round"/>
+      <g class="dw"><circle cx="430"   cy="151.6" r="6" fill="url(#g1)"/>
+        <g class="bubble" transform="translate(430,151.6)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">72</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Revenue · Cyan</text></g>
+      </g>
+      <g class="dw"><circle cx="541.8" cy="220.8" r="6" fill="url(#g1)"/>
+        <g class="bubble" transform="translate(541.8,220.8)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">65</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Growth · Cyan</text></g>
+      </g>
+      <g class="dw"><circle cx="554.4" cy="338.4" r="6" fill="url(#g1)"/>
+        <g class="bubble" transform="translate(554.4,338.4)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">58</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Margin · Cyan</text></g>
+      </g>
+      <g class="dw"><circle cx="506.4" cy="468.6" r="6" fill="url(#g1)"/>
+        <g class="bubble" transform="translate(506.4,468.6)"><rect x="-50" y="-52" width="100" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-41,-14 Q-50,-14 -50,-23 L-50,-43 Q-50,-52 -41,-52 L41,-52 Q50,-52 50,-43 L50,-23 Q50,-14 41,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">80</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Satisfaction · Cyan</text></g>
+      </g>
+      <g class="dw"><circle cx="359.4" cy="456.7" r="6" fill="url(#g1)"/>
+        <g class="bubble" transform="translate(359.4,456.7)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">74</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Retention · Cyan</text></g>
+      </g>
+      <g class="dw"><circle cx="312.1" cy="336.9" r="6" fill="url(#g1)"/>
+        <g class="bubble" transform="translate(312.1,336.9)"><rect x="-44" y="-52" width="88" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-35,-14 Q-44,-14 -44,-23 L-44,-43 Q-44,-52 -35,-52 L35,-52 Q44,-52 44,-43 L44,-23 Q44,-14 35,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">55</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Innovation · Cyan</text></g>
+      </g>
+      <g class="dw"><circle cx="313.1" cy="216.7" r="6" fill="url(#g1)"/>
+        <g class="bubble" transform="translate(313.1,216.7)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">68</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Quality · Cyan</text></g>
+      </g>
+    </g>
+  </g>
+</g>
+
+</g><!-- /ca -->
+
+<!-- ── LEGEND ── -->
+<rect x="870" y="100" width="200" height="240" rx="14" class="lgd-bg"/>
+<text x="888" y="124" class="lgd-ttl">SERIES</text>
+
+<g transform="translate(888,140)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c1)"/>
+  <text x="22" y="11" class="lt">Cyan</text>
+  <text x="178" y="11" class="lv lgd-val" text-anchor="end">A</text>
+</g>
+<g transform="translate(888,170)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c5)"/>
+  <text x="22" y="11" class="lt">Violet</text>
+  <text x="178" y="11" class="lv lgd-val" text-anchor="end">B</text>
+</g>
+<g transform="translate(888,200)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c2)"/>
+  <text x="22" y="11" class="lt">Emerald</text>
+  <text x="178" y="11" class="lv lgd-val" text-anchor="end">C</text>
+</g>
+
+<line x1="888" y1="226" x2="1052" y2="226" class="lgd-div"/>
+<text x="888" y="246" class="lgd-ttl">AXES (score 0–100)</text>
+<text x="888" y="264" class="an">Revenue · Growth · Margin</text>
+<text x="888" y="280" class="an">Satisfaction · Retention</text>
+<text x="888" y="296" class="an">Innovation · Quality</text>
+
+<!-- Values table (visible in print mode) -->
+<rect x="870" y="356" width="200" height="200" rx="14" class="lgd-bg lgd-val"/>
+<text x="888" y="380" class="lgd-ttl lgd-val">VALUES (Rev·Grw·Mar·Sat·Ret·Inn·Qua)</text>
+<g transform="translate(888,396)">
+  <rect x="0" y="0" width="10" height="10" rx="2" fill="url(#c1)" class="lgd-val"/>
+  <text x="16" y="9" class="an lgd-val">Cyan    72·65·58·80·74·55·68</text>
+</g>
+<g transform="translate(888,416)">
+  <rect x="0" y="0" width="10" height="10" rx="2" fill="url(#c5)" class="lgd-val"/>
+  <text x="16" y="9" class="an lgd-val">Violet  55·82·70·63·58·88·72</text>
+</g>
+<g transform="translate(888,436)">
+  <rect x="0" y="0" width="10" height="10" rx="2" fill="url(#c2)" class="lgd-val"/>
+  <text x="16" y="9" class="an lgd-val">Emerald 64·50·85·71·82·62·90</text>
+</g>
+
+<text x="68" y="590" class="footer">Product Performance Scorecard · 3 series · 7 axes · score 0–100</text>
+
+<script type="text/javascript"><![CDATA[
+(function() {
+  var svg = document.getElementById('root');
+
+  var series = [
+    { id:1, light:'g1', dark:'g1d' },
+    { id:2, light:'g5', dark:'g5d' },
+    { id:3, light:'g2', dark:'g2d' },
+  ];
+
+  function swapColors(dark) {
+    series.forEach(function(s) {
+      var poly = document.getElementById('poly-' + s.id);
+      if (!poly) return;
+      var grad = 'url(#' + (dark ? s.dark : s.light) + ')';
+      poly.setAttribute('fill', grad);
+      poly.setAttribute('stroke', grad);
+      /* dots */
+      var g = document.getElementById('bw' + s.id);
+      if (!g) return;
+      var circles = g.querySelectorAll('circle');
+      circles.forEach(function(c) { c.setAttribute('fill', grad); });
+    });
+  }
+
+  function setMode(wantDark) {
+    var currently = svg.classList.contains('dark');
+    if (wantDark === currently) return;
+    var thumb = document.getElementById('tthumb');
+    var lbl   = document.getElementById('tlabel');
+    if (wantDark) {
+      svg.classList.add('dark');
+      if (thumb) thumb.setAttribute('cx', '52');
+      if (lbl)   lbl.textContent = 'Light';
+    } else {
+      svg.classList.remove('dark');
+      if (thumb) thumb.setAttribute('cx', '16');
+      if (lbl)   lbl.textContent = 'Dark';
+    }
+    swapColors(wantDark);
+  }
+
+  document.getElementById('dark-toggle').addEventListener('click', function() {
+    setMode(!svg.classList.contains('dark'));
+  });
+  document.getElementById('print-toggle').addEventListener('click', function() {
+    var thumb = document.getElementById('pthumb'), lbl = document.getElementById('plabel');
+    if (svg.classList.toggle('print')) { thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
+    else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print';  }
+  });
+
+  window.setMode = setMode;
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
+  });
+
+  (function() {
+    setMode(window.location.href.indexOf('theme=dark') !== -1);
+  })();
+})();
+]]></script>
+</svg>

@@ -1,0 +1,458 @@
+<svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
+<defs>
+
+  <!-- Flat solid fills — light mode (single stop = solid color, identical pattern to bar chart) -->
+  <linearGradient id="g1"><stop offset="0%" stop-color="#00D4E8"/></linearGradient>
+  <linearGradient id="g2"><stop offset="0%" stop-color="#00B87A"/></linearGradient>
+  <linearGradient id="g3"><stop offset="0%" stop-color="#F59E0B"/></linearGradient>
+  <linearGradient id="g4"><stop offset="0%" stop-color="#F43F5E"/></linearGradient>
+  <linearGradient id="g5"><stop offset="0%" stop-color="#8B5CF6"/></linearGradient>
+  <linearGradient id="g6"><stop offset="0%" stop-color="#3B82F6"/></linearGradient>
+  <linearGradient id="g7"><stop offset="0%" stop-color="#0D9488"/></linearGradient>
+  <linearGradient id="goth"><stop offset="0%" stop-color="#64748B"/></linearGradient>
+
+  <!-- Flat solid fills — dark mode -->
+  <linearGradient id="g1d"><stop offset="0%" stop-color="#22D3EE"/></linearGradient>
+  <linearGradient id="g2d"><stop offset="0%" stop-color="#10B981"/></linearGradient>
+  <linearGradient id="g3d"><stop offset="0%" stop-color="#FBB724"/></linearGradient>
+  <linearGradient id="g4d"><stop offset="0%" stop-color="#FB6181"/></linearGradient>
+  <linearGradient id="g5d"><stop offset="0%" stop-color="#A78BFA"/></linearGradient>
+  <linearGradient id="g6d"><stop offset="0%" stop-color="#60A5FA"/></linearGradient>
+  <linearGradient id="g7d"><stop offset="0%" stop-color="#2DD4BF"/></linearGradient>
+  <linearGradient id="gothd"><stop offset="0%" stop-color="#94A3B8"/></linearGradient>
+
+  <!-- Legend swatches -->
+  <linearGradient id="c1"><stop offset="0%" stop-color="#00D4E8"/></linearGradient>
+  <linearGradient id="c2"><stop offset="0%" stop-color="#00B87A"/></linearGradient>
+  <linearGradient id="c3"><stop offset="0%" stop-color="#F59E0B"/></linearGradient>
+  <linearGradient id="c4"><stop offset="0%" stop-color="#F43F5E"/></linearGradient>
+  <linearGradient id="c5"><stop offset="0%" stop-color="#8B5CF6"/></linearGradient>
+  <linearGradient id="c6"><stop offset="0%" stop-color="#3B82F6"/></linearGradient>
+  <linearGradient id="c7"><stop offset="0%" stop-color="#0D9488"/></linearGradient>
+  <linearGradient id="coth"><stop offset="0%" stop-color="#64748B"/></linearGradient>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
+    .bg-main   { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    .ct        { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+    .cs        { font-size:11px; fill:#79747E; font-weight:400; }
+    .an        { font-size:10px; fill:#79747E; font-weight:400; }
+    .al        { font-size:10px; fill:#79747E; font-weight:500; }
+    .ax        { font-size:10px; fill:#49454F; font-weight:500; letter-spacing:0.3px; }
+    .lt        { font-size:11px; fill:#1C1B1F; font-weight:400; }
+    .lv        { font-size:11px; fill:#1C1B1F; font-weight:500; }
+    .gl        { stroke:#E7E0EC; stroke-width:1; }
+    .bl        { stroke:#79747E; stroke-width:1.5; }
+    .lgd-bg    { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+    .lgd-div   { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+    .lgd-ttl   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+    .footer    { font-size:10px; fill:#79747E; font-weight:400; }
+    .t-wrap    { cursor:pointer; }
+    .t-track   { fill:#E7E0EC; }
+    .t-thumb   { fill:#ffffff; }
+    .t-label   { font-size:11px; font-weight:500; fill:#49454F; }
+    .pt-track  { fill:#E7E0EC; transition:fill 0.3s; }
+    .pt-thumb  { fill:#ffffff; }
+    .pt-label  { font-size:11px; font-weight:500; fill:#49454F; }
+
+    .lgd-val   { opacity:0; transition:opacity 0.2s; }
+    svg.print .lgd-val   { opacity:1; }
+    svg.print .pt-track  { fill:#d97316; }
+
+    /* bubble hover — same pattern as bar chart .bb / .bw */
+    .bw        { cursor:pointer; }
+    .bb        { transition:opacity 0.15s; }
+    .ca:hover .bw .bb      { opacity:0.20; }
+    .ca:hover .bw:hover .bb { opacity:1; }
+
+    /* tooltip — identical to bar chart */
+    .bubble    { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
+    .bw:hover .bubble { opacity:1; }
+    svg.print .bubble  { opacity:0 !important; }
+    svg.print .ca:hover .bw .bb { opacity:1 !important; }
+
+    .bub-bg    { fill:#FFFBFE; }
+    .bub-bdr   { fill:none; stroke:#79747E; stroke-width:1; }
+    .bub-tip   { fill:none; stroke:#79747E; stroke-width:1; }
+    .bub-val   { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .bub-lbl   { fill:#49454F; font-size:10px; font-weight:400; }
+
+    svg.dark .bg-main   { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+    svg.dark .ct        { fill:#E6E0E9; }
+    svg.dark .cs        { fill:#938F99; }
+    svg.dark .an        { fill:#938F99; }
+    svg.dark .al        { fill:#938F99; }
+    svg.dark .ax        { fill:#938F99; }
+    svg.dark .lt        { fill:#E6E0E9; }
+    svg.dark .lv        { fill:#E6E0E9; }
+    svg.dark .gl        { stroke:#49454F; }
+    svg.dark .bl        { stroke:#938F99; }
+    svg.dark .lgd-bg    { fill:#49454F; stroke:#938F99; }
+    svg.dark .lgd-div   { stroke:#938F99; }
+    svg.dark .lgd-ttl   { fill:#938F99; }
+    svg.dark .footer    { fill:#938F99; }
+    svg.dark .t-track   { fill:#49454F; }
+    svg.dark .t-label   { fill:#CAC4D0; }
+    svg.dark .pt-track  { fill:#49454F; }
+    svg.dark .pt-label  { fill:#CAC4D0; }
+    svg.dark.print .pt-track { fill:#d97316; }
+    svg.dark .bub-bg    { fill:#1C1B1F; }
+    svg.dark .bub-bdr   { fill:none; stroke:#938F99; stroke-width:1; }
+    svg.dark .bub-tip   { fill:none; stroke:#938F99; stroke-width:1; }
+    svg.dark .bub-val   { fill:#E6E0E9; }
+    svg.dark .bub-lbl   { fill:#CAC4D0; }
+
+    .border-dark      { display:none; }
+    .border-light     { display:block; }
+    svg.dark .border-dark  { display:block; }
+    svg.dark .border-light { display:none; }
+  </style>
+</defs>
+
+<!-- Background -->
+<rect class="bg-main" width="1100" height="620" rx="18"/>
+<g class="border-dark">
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5"
+    fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
+</g>
+<g class="border-light">
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5"
+    fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
+</g>
+
+<!-- Title -->
+<text x="68" y="50" class="ct">Revenue vs Growth by Category</text>
+<text x="68" y="70" class="cs">7 series + Other · size = market share · hover to inspect · print for values</text>
+
+<!-- Dark toggle -->
+<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
+  <circle id="tthumb" cx="52" cy="0" r="10" class="t-thumb"/>
+  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Light</text>
+</g>
+
+<!-- Print toggle -->
+<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
+  <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
+</g>
+
+<!--
+  Plot area: x 68–820, y 100–500  (752 × 400 px)
+  X axis: Revenue $0–$100M  → px = 68 + (rev/100)*752
+  Y axis: Growth 0–50%      → py = 500 - (growth/50)*400
+
+  Data (Revenue, Growth%, MarketShare%):
+  Cyan     $72M  38%  18%  → x=609  y=196  r=28
+  Emerald  $68M  22%  17%  → x=579  y=324  r=26
+  Amber    $60M  44%  15%  → x=519  y=148  r=24
+  Rose     $55M  15%  14%  → x=482  y=380  r=22
+  Violet   $79M  31%  20%  → x=661  y=252  r=32 (largest)
+  Blue     $64M  27%  16%  → x=549  y=284  r=25
+  Teal     $61M  42%  15%  → x=527  y=164  r=24
+  Other    $48M  12%  12%  → x=429  y=404  r=19
+
+  px = 68 + (rev/100)*752
+  py = 500 - (growth/50)*400
+  r  = sqrt(share/20)*32
+-->
+
+<!-- Grid lines — horizontal (Y) -->
+<line x1="68"  y1="500" x2="820" y2="500" class="bl"/>
+<line x1="68"  y1="420" x2="820" y2="420" class="gl"/>
+<line x1="68"  y1="340" x2="820" y2="340" class="gl"/>
+<line x1="68"  y1="260" x2="820" y2="260" class="gl"/>
+<line x1="68"  y1="180" x2="820" y2="180" class="gl"/>
+<line x1="68"  y1="100" x2="820" y2="100" class="gl"/>
+
+<!-- Grid lines — vertical (X) -->
+<line x1="68"  y1="100" x2="68"  y2="500" class="bl"/>
+<line x1="218" y1="100" x2="218" y2="500" class="gl"/>
+<line x1="368" y1="100" x2="368" y2="500" class="gl"/>
+<line x1="518" y1="100" x2="518" y2="500" class="gl"/>
+<line x1="668" y1="100" x2="668" y2="500" class="gl"/>
+<line x1="818" y1="100" x2="818" y2="500" class="gl"/>
+
+<!-- Y axis labels (Growth %) -->
+<text x="56" y="504" class="an" text-anchor="end">0%</text>
+<text x="56" y="424" class="an" text-anchor="end">10%</text>
+<text x="56" y="344" class="an" text-anchor="end">20%</text>
+<text x="56" y="264" class="an" text-anchor="end">30%</text>
+<text x="56" y="184" class="an" text-anchor="end">40%</text>
+<text x="56" y="104" class="an" text-anchor="end">50%</text>
+
+<!-- X axis labels (Revenue $M) -->
+<text x="68"  y="518" class="an" text-anchor="middle">$0</text>
+<text x="218" y="518" class="an" text-anchor="middle">$20M</text>
+<text x="368" y="518" class="an" text-anchor="middle">$40M</text>
+<text x="518" y="518" class="an" text-anchor="middle">$60M</text>
+<text x="668" y="518" text-anchor="middle" class="an">$80M</text>
+<text x="818" y="518" class="an" text-anchor="middle">$100M</text>
+
+<!-- Axis titles -->
+<text x="444" y="540" class="ax" text-anchor="middle">Revenue</text>
+<text x="24" y="300" class="ax" text-anchor="middle" transform="rotate(-90,24,300)">YoY Growth</text>
+
+<g class="ca">
+
+<!-- Cyan  $72M  38%  r=28  cx=609  cy=196 -->
+<g class="bw" id="bw1">
+  <g class="bb" style="opacity:0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.00s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="scale" from="0" to="1" dur="0.65s" begin="0.00s" fill="freeze"
+      calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"
+      additive="sum" style="transform-origin:609px 196px"/>
+    <circle id="bubble-1" cx="609" cy="196" r="28" fill="url(#g1)" opacity="0.90"/>
+  </g>
+  <g class="bubble" transform="translate(609,156)">
+    <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bg"/>
+    <path d="M-8,-6 L-25,-6 Q-34,-6 -34,-15 L-34,-35 Q-34,-44 -25,-44 L25,-44 Q34,-44 34,-35 L34,-15 Q34,-6 25,-6 L8,-6" class="bub-bdr"/>
+    <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
+    <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">$72M</text>
+    <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Cyan · 38%</text>
+  </g>
+</g>
+
+<!-- Emerald  $68M  22%  r=26  cx=579  cy=324 -->
+<g class="bw" id="bw2">
+  <g class="bb" style="opacity:0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.12s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="scale" from="0" to="1" dur="0.65s" begin="0.12s" fill="freeze"
+      calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"
+      additive="sum" style="transform-origin:579px 324px"/>
+    <circle id="bubble-2" cx="579" cy="324" r="26" fill="url(#g2)" opacity="0.90"/>
+  </g>
+  <g class="bubble" transform="translate(579,284)">
+    <rect x="-40" y="-44" width="80" height="38" rx="9" class="bub-bg"/>
+    <path d="M-8,-6 L-31,-6 Q-40,-6 -40,-15 L-40,-35 Q-40,-44 -31,-44 L31,-44 Q40,-44 40,-35 L40,-15 Q40,-6 31,-6 L8,-6" class="bub-bdr"/>
+    <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
+    <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">$68M</text>
+    <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Emerald · 22%</text>
+  </g>
+</g>
+
+<!-- Amber  $60M  44%  r=24  cx=519  cy=148 -->
+<g class="bw" id="bw3">
+  <g class="bb" style="opacity:0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.24s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="scale" from="0" to="1" dur="0.65s" begin="0.24s" fill="freeze"
+      calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"
+      additive="sum" style="transform-origin:519px 148px"/>
+    <circle id="bubble-3" cx="519" cy="148" r="24" fill="url(#g3)" opacity="0.90"/>
+  </g>
+  <g class="bubble" transform="translate(519,112)">
+    <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bg"/>
+    <path d="M-8,-6 L-25,-6 Q-34,-6 -34,-15 L-34,-35 Q-34,-44 -25,-44 L25,-44 Q34,-44 34,-35 L34,-15 Q34,-6 25,-6 L8,-6" class="bub-bdr"/>
+    <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
+    <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">$60M</text>
+    <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Amber · 44%</text>
+  </g>
+</g>
+
+<!-- Rose  $55M  15%  r=22  cx=482  cy=380 -->
+<g class="bw" id="bw4">
+  <g class="bb" style="opacity:0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.36s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="scale" from="0" to="1" dur="0.65s" begin="0.36s" fill="freeze"
+      calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"
+      additive="sum" style="transform-origin:482px 380px"/>
+    <circle id="bubble-4" cx="482" cy="380" r="22" fill="url(#g4)" opacity="0.90"/>
+  </g>
+  <g class="bubble" transform="translate(482,346)">
+    <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bg"/>
+    <path d="M-8,-6 L-25,-6 Q-34,-6 -34,-15 L-34,-35 Q-34,-44 -25,-44 L25,-44 Q34,-44 34,-35 L34,-15 Q34,-6 25,-6 L8,-6" class="bub-bdr"/>
+    <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
+    <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">$55M</text>
+    <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Rose · 15%</text>
+  </g>
+</g>
+
+<!-- Violet  $79M  31%  r=32  cx=661  cy=252 -->
+<g class="bw" id="bw5">
+  <g class="bb" style="opacity:0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.48s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="scale" from="0" to="1" dur="0.65s" begin="0.48s" fill="freeze"
+      calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"
+      additive="sum" style="transform-origin:661px 252px"/>
+    <circle id="bubble-5" cx="661" cy="252" r="32" fill="url(#g5)" opacity="0.90"/>
+  </g>
+  <g class="bubble" transform="translate(661,208)">
+    <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bg"/>
+    <path d="M-8,-6 L-25,-6 Q-34,-6 -34,-15 L-34,-35 Q-34,-44 -25,-44 L25,-44 Q34,-44 34,-35 L34,-15 Q34,-6 25,-6 L8,-6" class="bub-bdr"/>
+    <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
+    <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">$79M</text>
+    <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Violet · 31%</text>
+  </g>
+</g>
+
+<!-- Blue  $64M  27%  r=25  cx=549  cy=284 -->
+<g class="bw" id="bw6">
+  <g class="bb" style="opacity:0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.60s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="scale" from="0" to="1" dur="0.65s" begin="0.60s" fill="freeze"
+      calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"
+      additive="sum" style="transform-origin:549px 284px"/>
+    <circle id="bubble-6" cx="549" cy="284" r="25" fill="url(#g6)" opacity="0.90"/>
+  </g>
+  <g class="bubble" transform="translate(549,247)">
+    <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bg"/>
+    <path d="M-8,-6 L-25,-6 Q-34,-6 -34,-15 L-34,-35 Q-34,-44 -25,-44 L25,-44 Q34,-44 34,-35 L34,-15 Q34,-6 25,-6 L8,-6" class="bub-bdr"/>
+    <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
+    <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">$64M</text>
+    <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Blue · 27%</text>
+  </g>
+</g>
+
+<!-- Teal  $61M  42%  r=24  cx=527  cy=164 -->
+<g class="bw" id="bw7">
+  <g class="bb" style="opacity:0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.72s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="scale" from="0" to="1" dur="0.65s" begin="0.72s" fill="freeze"
+      calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"
+      additive="sum" style="transform-origin:527px 164px"/>
+    <circle id="bubble-7" cx="527" cy="164" r="24" fill="url(#g7)" opacity="0.90"/>
+  </g>
+  <g class="bubble" transform="translate(527,128)">
+    <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bg"/>
+    <path d="M-8,-6 L-25,-6 Q-34,-6 -34,-15 L-34,-35 Q-34,-44 -25,-44 L25,-44 Q34,-44 34,-35 L34,-15 Q34,-6 25,-6 L8,-6" class="bub-bdr"/>
+    <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
+    <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">$61M</text>
+    <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Teal · 42%</text>
+  </g>
+</g>
+
+<!-- Other  $48M  12%  r=19  cx=429  cy=404 -->
+<g class="bw" id="bw8">
+  <g class="bb" style="opacity:0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.84s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="scale" from="0" to="1" dur="0.65s" begin="0.84s" fill="freeze"
+      calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"
+      additive="sum" style="transform-origin:429px 404px"/>
+    <circle id="bubble-8" cx="429" cy="404" r="19" fill="url(#goth)" opacity="0.90"/>
+  </g>
+  <g class="bubble" transform="translate(429,373)">
+    <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
+    <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
+    <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
+    <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">$48M</text>
+    <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Other · 12%</text>
+  </g>
+</g>
+
+</g><!-- /ca -->
+
+<!-- LEGEND -->
+<rect x="848" y="100" width="224" height="390" rx="14" class="lgd-bg"/>
+<text x="866" y="124" class="lgd-ttl">SERIES</text>
+<g transform="translate(866,140)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c1)"/>
+  <text x="22" y="11" class="lt">Cyan</text>
+  <text x="200" y="11" class="lv lgd-val" text-anchor="end">$72M · 38%</text>
+</g>
+<g transform="translate(866,170)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c2)"/>
+  <text x="22" y="11" class="lt">Emerald</text>
+  <text x="200" y="11" class="lv lgd-val" text-anchor="end">$68M · 22%</text>
+</g>
+<g transform="translate(866,200)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c3)"/>
+  <text x="22" y="11" class="lt">Amber</text>
+  <text x="200" y="11" class="lv lgd-val" text-anchor="end">$60M · 44%</text>
+</g>
+<g transform="translate(866,230)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c4)"/>
+  <text x="22" y="11" class="lt">Rose</text>
+  <text x="200" y="11" class="lv lgd-val" text-anchor="end">$55M · 15%</text>
+</g>
+<g transform="translate(866,260)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c5)"/>
+  <text x="22" y="11" class="lt">Violet</text>
+  <text x="200" y="11" class="lv lgd-val" text-anchor="end">$79M · 31%</text>
+</g>
+<g transform="translate(866,290)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c6)"/>
+  <text x="22" y="11" class="lt">Blue</text>
+  <text x="200" y="11" class="lv lgd-val" text-anchor="end">$64M · 27%</text>
+</g>
+<g transform="translate(866,320)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c7)"/>
+  <text x="22" y="11" class="lt">Teal</text>
+  <text x="200" y="11" class="lv lgd-val" text-anchor="end">$61M · 42%</text>
+</g>
+<line x1="866" y1="352" x2="1054" y2="352" class="lgd-div"/>
+<g transform="translate(866,364)">
+  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#coth)"/>
+  <text x="22" y="11" class="lt">Other</text>
+  <text x="200" y="11" class="lv lgd-val" text-anchor="end">$48M · 12%</text>
+</g>
+
+<!-- Size key -->
+<text x="866" y="406" class="lgd-ttl">BUBBLE SIZE</text>
+<circle cx="876" cy="427" r="13" fill="none" stroke="#79747E" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+<text x="894" y="431" class="an">Large = high share</text>
+<circle cx="876" cy="453" r="7" fill="none" stroke="#79747E" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+<text x="894" y="457" class="an">Small = low share</text>
+<text x="894" y="473" class="an">Area ∝ market share</text>
+
+<text x="68" y="580" class="footer">Revenue vs YoY Growth · 7 series + Other · bubble size = market share</text>
+
+<script type="text/javascript"><![CDATA[
+(function() {
+  var svg = document.getElementById('root');
+
+  var items = [
+    { id:1, light:'g1',   dark:'g1d'   },
+    { id:2, light:'g2',   dark:'g2d'   },
+    { id:3, light:'g3',   dark:'g3d'   },
+    { id:4, light:'g4',   dark:'g4d'   },
+    { id:5, light:'g5',   dark:'g5d'   },
+    { id:6, light:'g6',   dark:'g6d'   },
+    { id:7, light:'g7',   dark:'g7d'   },
+    { id:8, light:'goth', dark:'gothd' },
+  ];
+
+  function swapColors(dark) {
+    items.forEach(function(b) {
+      var el = document.getElementById('bubble-' + b.id);
+      if (el) el.setAttribute('fill', 'url(#' + (dark ? b.dark : b.light) + ')');
+    });
+  }
+
+  function setMode(wantDark) {
+    var currently = svg.classList.contains('dark');
+    if (wantDark === currently) return;
+    var thumb = document.getElementById('tthumb');
+    var lbl   = document.getElementById('tlabel');
+    if (wantDark) {
+      svg.classList.add('dark');
+      if (thumb) thumb.setAttribute('cx', '52');
+      if (lbl)   lbl.textContent = 'Light';
+    } else {
+      svg.classList.remove('dark');
+      if (thumb) thumb.setAttribute('cx', '16');
+      if (lbl)   lbl.textContent = 'Dark';
+    }
+    swapColors(wantDark);
+  }
+
+  document.getElementById('dark-toggle').addEventListener('click', function() {
+    setMode(!svg.classList.contains('dark'));
+  });
+  document.getElementById('print-toggle').addEventListener('click', function() {
+    var thumb = document.getElementById('pthumb'), lbl = document.getElementById('plabel');
+    if (svg.classList.toggle('print')) { thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
+    else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print';  }
+  });
+
+  window.setMode = setMode;
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
+  });
+
+  (function() {
+    setMode(window.location.href.indexOf('theme=dark') !== -1);
+  })();
+})();
+]]></script>
+</svg>
