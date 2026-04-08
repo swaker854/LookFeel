@@ -19,7 +19,6 @@
   <linearGradient id="c4"><stop offset="0%" stop-color="#F59E0B"/></linearGradient>
   <linearGradient id="c5"><stop offset="0%" stop-color="#64748B"/></linearGradient>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
     .bg-main   { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
     .ct        { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
     .cs        { font-size:11px; fill:#79747E; font-weight:400; }
@@ -53,15 +52,27 @@
     .bub-val   { fill:#1C1B1F; font-size:13px; font-weight:500; }
     .bub-lbl   { fill:#49454F; font-size:10px; font-weight:400; }
     .bub-div   { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+
     @keyframes drawWave { from{stroke-dashoffset:var(--len,900);} to{stroke-dashoffset:0;} }
     .wave-edge { stroke-dasharray:var(--len,900); stroke-dashoffset:var(--len,900);
-                 animation: drawWave 1.5s cubic-bezier(0.4,0,0.2,1) both; }
+                 animation: drawWave 1.5s cubic-bezier(0.4,0,0.2,1) both;
+                 transition: opacity 0.2s; }
     .w1{animation-delay:0.00s;} .w2{animation-delay:0.18s;}
     .w3{animation-delay:0.34s;} .w4{animation-delay:0.50s;} .w5{animation-delay:0.66s;}
+
     @keyframes washIn { from{opacity:0;} to{opacity:1;} }
     .area-fill { animation: washIn 1.2s cubic-bezier(0.4,0,0.2,1) both; }
     .f1{animation-delay:0.00s;} .f2{animation-delay:0.18s;}
     .f3{animation-delay:0.34s;} .f4{animation-delay:0.50s;} .f5{animation-delay:0.66s;}
+
+    /* ── wave edge dimming on column hover ── */
+    svg.hovering .wave-edge        { opacity: 0.10; }
+    svg.hovering .wave-edge.active { opacity: 1;    }
+
+    /* dot markers on the active column — hidden by default, shown on hover */
+    .col-dot { opacity:0; transition:opacity 0.15s; pointer-events:none; }
+    svg.hovering .col-dot.active { opacity:1; }
+
     svg.dark .bg-main   { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
     svg.dark .ct        { fill:#E6E0E9; }
     svg.dark .cs        { fill:#938F99; }
@@ -132,14 +143,14 @@
 <text x="56" y="184" class="an" text-anchor="end">$200M</text>
 <text x="56" y="104" class="an" text-anchor="end">$250M</text>
 
-<text x="68"  y="522" class="al" text-anchor="middle">Q1 &apos;22</text>
-<text x="180" y="522" class="al" text-anchor="middle">Q2 &apos;22</text>
-<text x="291" y="522" class="al" text-anchor="middle">Q3 &apos;22</text>
-<text x="403" y="522" class="al" text-anchor="middle">Q4 &apos;22</text>
-<text x="515" y="522" class="al" text-anchor="middle">Q1 &apos;23</text>
-<text x="627" y="522" class="al" text-anchor="middle">Q2 &apos;23</text>
-<text x="738" y="522" class="al" text-anchor="middle">Q3 &apos;23</text>
-<text x="850" y="522" class="al" text-anchor="middle">Q4 &apos;23</text>
+<text x="68"  y="522" class="al" text-anchor="middle">Q1 '22</text>
+<text x="180" y="522" class="al" text-anchor="middle">Q2 '22</text>
+<text x="291" y="522" class="al" text-anchor="middle">Q3 '22</text>
+<text x="403" y="522" class="al" text-anchor="middle">Q4 '22</text>
+<text x="515" y="522" class="al" text-anchor="middle">Q1 '23</text>
+<text x="627" y="522" class="al" text-anchor="middle">Q2 '23</text>
+<text x="738" y="522" class="al" text-anchor="middle">Q3 '23</text>
+<text x="850" y="522" class="al" text-anchor="middle">Q4 '23</text>
 
 <line x1="459" y1="100" x2="459" y2="504" stroke="#c0b8a8" stroke-width="1" stroke-dasharray="5,4" opacity="0.6"/>
 <text x="263" y="90" class="an" text-anchor="middle">2022</text>
@@ -184,36 +195,17 @@
   <line id="ch6" class="crosshair" x1="738" y1="100" x2="738" y2="504"/>
   <line id="ch7" class="crosshair" x1="850" y1="100" x2="850" y2="504"/>
 </g>
+<g id="dots-layer"></g>
 <g id="hit-layer"></g>
 <g id="tip-layer"></g>
 
 <rect x="870" y="100" width="210" height="310" rx="14" class="lgd-bg" stroke-width="1"/>
 <text x="888" y="124" class="lgd-ttl">SERIES</text>
-<g transform="translate(888,140)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c1)"/>
-  <text x="22" y="11" class="lt">Cyan</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$72M</text>
-</g>
-<g transform="translate(888,170)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c2)"/>
-  <text x="22" y="11" class="lt">Violet</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$62M</text>
-</g>
-<g transform="translate(888,200)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c3)"/>
-  <text x="22" y="11" class="lt">Emerald</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$35M</text>
-</g>
-<g transform="translate(888,230)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c4)"/>
-  <text x="22" y="11" class="lt">Amber</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$22M</text>
-</g>
-<g transform="translate(888,260)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c5)"/>
-  <text x="22" y="11" class="lt">Slate</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$19M</text>
-</g>
+<g transform="translate(888,140)"><rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c1)"/><text x="22" y="11" class="lt">Cyan</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$72M</text></g>
+<g transform="translate(888,170)"><rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c2)"/><text x="22" y="11" class="lt">Violet</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$62M</text></g>
+<g transform="translate(888,200)"><rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c3)"/><text x="22" y="11" class="lt">Emerald</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$35M</text></g>
+<g transform="translate(888,230)"><rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c4)"/><text x="22" y="11" class="lt">Amber</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$22M</text></g>
+<g transform="translate(888,260)"><rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c5)"/><text x="22" y="11" class="lt">Slate</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$19M</text></g>
 <line x1="888" y1="290" x2="1062" y2="290" class="lgd-div"/>
 <text x="888" y="352" class="lt">Q4 2023 total</text>
 <text x="888" y="370" class="lv lgd-val">$210M</text>
@@ -224,23 +216,122 @@
 <script type="text/javascript">
 //<![CDATA[
 (function() {
-  var svg = document.getElementById('root');
-  var ns  = 'http://www.w3.org/2000/svg';
+  var svg      = document.getElementById('root');
+  var ns       = 'http://www.w3.org/2000/svg';
+  var dotsL    = document.getElementById('dots-layer');
+  var hitLayer = document.getElementById('hit-layer');
+  var tipLayer = document.getElementById('tip-layer');
 
   var series = [
-    { label:'Cyan',    light:'#00D4E8', dark:'#22D3EE', vals:[38,42,46,50,55,60,66,72] },
-    { label:'Violet',  light:'#8B5CF6', dark:'#A78BFA', vals:[32,35,38,41,45,50,56,62] },
-    { label:'Emerald', light:'#00B87A', dark:'#10B981', vals:[18,20,21,23,25,27,31,35] },
-    { label:'Amber',   light:'#F59E0B', dark:'#FBB724', vals:[11,12,13,14,15,17,19,22] },
-    { label:'Slate',   light:'#64748B', dark:'#94A3B8', vals:[10,11,12,13,14,16,17,19] },
+    { id:1, label:'Cyan',    light:'#00D4E8', dark:'#22D3EE', vals:[38,42,46,50,55,60,66,72],
+      ys:[342.4,311.7,294.1,268.1,261.2,221.8,205.0,165.6] },
+    { id:2, label:'Violet',  light:'#8B5CF6', dark:'#A78BFA', vals:[32,35,38,41,45,50,56,62],
+      ys:[394.1,373.9,360.8,346.4,344.2,320.2,315.6,281.4] },
+    { id:3, label:'Emerald', light:'#00B87A', dark:'#10B981', vals:[18,20,21,23,25,27,31,35],
+      ys:[439.4,423.2,416.9,410.5,415.3,399.6,403.8,381.6] },
+    { id:4, label:'Amber',   light:'#F59E0B', dark:'#FBB724', vals:[11,12,13,14,15,17,19,22],
+      ys:[468.3,459.3,457.1,457.1,455.5,444.2,453.9,437.7] },
+    { id:5, label:'Slate',   light:'#64748B', dark:'#94A3B8', vals:[10,11,12,13,14,16,17,19],
+      ys:[487.8,483.0,486.2,480.2,483.0,477.5,480.2,473.3] },
   ];
 
   var quarters = ["Q1 '22","Q2 '22","Q3 '22","Q4 '22","Q1 '23","Q2 '23","Q3 '23","Q4 '23"];
   var xs   = [68,180,291,403,515,627,738,850];
   var colW = 56;
+  var allTips = {};
 
   var totals = xs.map(function(_,qi){
     return series.reduce(function(s,sr){ return s + sr.vals[qi]; }, 0);
+  });
+
+  var allWaves = [
+    document.getElementById('we1'),
+    document.getElementById('we2'),
+    document.getElementById('we3'),
+    document.getElementById('we4'),
+    document.getElementById('we5'),
+  ];
+
+  function el(tag, attrs) {
+    var e = document.createElementNS(ns, tag);
+    Object.keys(attrs).forEach(function(k){ e.setAttribute(k, attrs[k]); });
+    return e;
+  }
+
+  /* Build dots for each column — shown only on hover */
+  xs.forEach(function(x, qi) {
+    series.forEach(function(s) {
+      var dot = el('circle', {
+        cx: x, cy: s.ys[qi], r: 4,
+        fill: s.light, stroke: '#FFFBFE', 'stroke-width': 2,
+        'class': 'col-dot', 'data-col': qi
+      });
+      dotsL.appendChild(dot);
+    });
+  });
+
+  /* Build tooltips */
+  xs.forEach(function(x, qi) {
+    var bw = 168, bh = 146, hw = bw / 2;
+    var bCx = x, bCy = 200;
+    if (bCx - hw < 68)  bCx = 68 + hw;
+    if (bCx + hw > 850) bCx = 850 - hw;
+
+    var tipG = el('g', { 'class':'tip', id:'tip_'+qi });
+    tipLayer.appendChild(tipG);
+    allTips[qi] = tipG;
+
+    tipG.appendChild(el('rect', { x:bCx-hw, y:bCy-12, width:bw, height:bh+12, rx:10, 'class':'bub-bg' }));
+    tipG.appendChild(el('rect', { x:bCx-hw, y:bCy-12, width:bw, height:bh+12, rx:10, 'class':'bub-bdr' }));
+
+    var qLbl = el('text', { x:bCx, y:bCy+5, 'text-anchor':'middle', 'dominant-baseline':'central', 'class':'bub-lbl' });
+    qLbl.textContent = quarters[qi];
+    tipG.appendChild(qLbl);
+    tipG.appendChild(el('line', { x1:bCx-hw+8, y1:bCy+15, x2:bCx+hw-8, y2:bCy+15, 'class':'bub-div' }));
+
+    series.forEach(function(s, si) {
+      var rowY = bCy + 28 + si * 18;
+      tipG.appendChild(el('circle', { cx:bCx-hw+14, cy:rowY, r:4, fill:s.light }));
+      var sLbl = el('text', { x:bCx-hw+24, y:rowY, 'dominant-baseline':'central', 'class':'bub-lbl' });
+      sLbl.textContent = s.label;
+      tipG.appendChild(sLbl);
+      var sVal = el('text', { x:bCx+hw-8, y:rowY, 'text-anchor':'end', 'dominant-baseline':'central', 'class':'bub-val', 'font-size':'11' });
+      sVal.textContent = '$'+s.vals[qi]+'M';
+      tipG.appendChild(sVal);
+    });
+
+    tipG.appendChild(el('line', { x1:bCx-hw+8, y1:bCy+118, x2:bCx+hw-8, y2:bCy+118, 'class':'bub-div' }));
+    var totLbl = el('text', { x:bCx-hw+8, y:bCy+130, 'dominant-baseline':'central', 'class':'bub-lbl' });
+    totLbl.textContent = 'Total';
+    tipG.appendChild(totLbl);
+    var totVal = el('text', { x:bCx+hw-8, y:bCy+130, 'text-anchor':'end', 'dominant-baseline':'central', 'class':'bub-val' });
+    totVal.textContent = '$'+totals[qi]+'M';
+    tipG.appendChild(totVal);
+
+    /* hit zone */
+    var hx1 = Math.max(68,  x - colW);
+    var hx2 = Math.min(850, x + colW);
+    var hit = el('rect', { x:hx1, y:100, width:hx2-hx1, height:404,
+      fill:'transparent', cursor:'crosshair', id:'hit'+qi });
+    hitLayer.appendChild(hit);
+
+    var ch = document.getElementById('ch' + qi);
+    var colDots = dotsL.querySelectorAll('.col-dot[data-col="'+qi+'"]');
+
+    hit.addEventListener('mouseenter', function() {
+      /* dim ALL waves — nothing gets .active, so all stay dim */
+      svg.classList.add('hovering');
+      /* show dots for this column only */
+      colDots.forEach(function(d) { d.classList.add('active'); });
+      allTips[qi].style.opacity = '1';
+      if (ch) ch.style.opacity = '1';
+    });
+    hit.addEventListener('mouseleave', function() {
+      svg.classList.remove('hovering');
+      colDots.forEach(function(d) { d.classList.remove('active'); });
+      allTips[qi].style.opacity = '';
+      if (ch) ch.style.opacity = '';
+    });
   });
 
   function swapAreaFills(dark) {
@@ -258,20 +349,25 @@
       if (!e) return;
       e.setAttribute('stroke', dark ? series[i-1].dark : series[i-1].light);
     });
+    /* also update dot fills */
+    dotsL.querySelectorAll('.col-dot').forEach(function(d, i) {
+      var si = i % 5;
+      d.setAttribute('fill', dark ? series[si].dark : series[si].light);
+      d.setAttribute('stroke', dark ? '#1C1B1F' : '#FFFBFE');
+    });
   }
 
   function setMode(wantDark) {
-    var currently = svg.classList.contains('dark');
-    if (wantDark === currently) return;
+    if (wantDark === svg.classList.contains('dark')) return;
     var thumb = document.getElementById('tthumb');
     var lbl   = document.getElementById('tlabel');
     if (wantDark) {
       svg.classList.add('dark');
-      if (thumb) thumb.setAttribute('cx', '52');
+      if (thumb) thumb.setAttribute('cx','52');
       if (lbl)   lbl.textContent = 'Light';
     } else {
       svg.classList.remove('dark');
-      if (thumb) thumb.setAttribute('cx', '16');
+      if (thumb) thumb.setAttribute('cx','16');
       if (lbl)   lbl.textContent = 'Dark';
     }
     swapAreaFills(wantDark);
@@ -287,88 +383,14 @@
     else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print';  }
   });
 
-  var hitLayer = document.getElementById('hit-layer');
-  var tipLayer = document.getElementById('tip-layer');
-  var allTips  = {};
-
-  function el(tag, attrs) {
-    var e = document.createElementNS(ns, tag);
-    Object.keys(attrs).forEach(function(k){ e.setAttribute(k, attrs[k]); });
-    return e;
-  }
-
-  xs.forEach(function(x, qi) {
-    var bw = 168, bh = 146, hw = bw / 2;
-    var bCx = x, bCy = 200;
-    if (bCx - hw < 68)  bCx = 68 + hw;
-    if (bCx + hw > 850) bCx = 850 - hw;
-
-    var tipG = el('g', { 'class':'tip', id:'tip_'+qi });
-    tipLayer.appendChild(tipG);
-    allTips[qi] = tipG;
-
-    /* No filter — flat design */
-    tipG.appendChild(el('rect', { x:bCx-hw, y:bCy-12, width:bw, height:bh+12, rx:10, 'class':'bub-bg' }));
-    tipG.appendChild(el('rect', { x:bCx-hw, y:bCy-12, width:bw, height:bh+12, rx:10, 'class':'bub-bdr' }));
-
-    var qLbl = el('text', { x:bCx, y:bCy+5, 'text-anchor':'middle',
-      'dominant-baseline':'central', 'class':'bub-lbl' });
-    qLbl.textContent = quarters[qi];
-    tipG.appendChild(qLbl);
-
-    tipG.appendChild(el('line', { x1:bCx-hw+8, y1:bCy+15, x2:bCx+hw-8, y2:bCy+15, 'class':'bub-div' }));
-
-    series.forEach(function(s, si) {
-      var rowY = bCy + 28 + si * 18;
-      tipG.appendChild(el('circle', { cx:bCx-hw+14, cy:rowY, r:4, fill:s.light }));
-      var sLbl = el('text', { x:bCx-hw+24, y:rowY, 'dominant-baseline':'central', 'class':'bub-lbl' });
-      sLbl.textContent = s.label;
-      tipG.appendChild(sLbl);
-      var sVal = el('text', { x:bCx+hw-8, y:rowY, 'text-anchor':'end',
-        'dominant-baseline':'central', 'class':'bub-val', 'font-size':'11' });
-      sVal.textContent = '$'+s.vals[qi]+'M';
-      tipG.appendChild(sVal);
-    });
-
-    tipG.appendChild(el('line', { x1:bCx-hw+8, y1:bCy+118, x2:bCx+hw-8, y2:bCy+118, 'class':'bub-div' }));
-    var totLbl = el('text', { x:bCx-hw+8, y:bCy+130, 'dominant-baseline':'central', 'class':'bub-lbl' });
-    totLbl.textContent = 'Total';
-    tipG.appendChild(totLbl);
-    var totVal = el('text', { x:bCx+hw-8, y:bCy+130, 'text-anchor':'end',
-      'dominant-baseline':'central', 'class':'bub-val' });
-    totVal.textContent = '$'+totals[qi]+'M';
-    tipG.appendChild(totVal);
-
-    var hx1 = Math.max(68,  x - colW);
-    var hx2 = Math.min(850, x + colW);
-    var hit = el('rect', { x:hx1, y:100, width:hx2-hx1, height:404,
-      fill:'transparent', cursor:'crosshair', id:'hit'+qi });
-    hitLayer.appendChild(hit);
-
-    var ch = document.getElementById('ch' + qi);
-    hit.addEventListener('mouseenter', function() {
-      allTips[qi].style.opacity = '1';
-      if (ch) ch.style.opacity = '1';
-    });
-    hit.addEventListener('mouseleave', function() {
-      allTips[qi].style.opacity = '';
-      if (ch) ch.style.opacity = '';
-    });
-  });
-
-  /* theme param handled below */
-
   window.setMode = setMode;
   window.addEventListener('message', function(e) {
     if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
   });
 
-  /* ── URL param: ?theme=dark|light sets initial mode ── */
   (function() {
-    var href = window.location.href;
-    setMode(href.indexOf('theme=dark') !== -1);
+    setMode(window.location.href.indexOf('theme=dark') !== -1);
   })();
-
 })();
 //]]>
 </script>
