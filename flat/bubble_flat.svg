@@ -199,8 +199,8 @@
 <!-- Cyan  $72M  38%  r=28  cx=609  cy=196 -->
 <g class="bw" id="bw1">
   <g class="bb" style="opacity:0">
-    <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.00s" fill="freeze"/>
-    <animateTransform attributeName="transform" type="scale" from="0" to="1" dur="0.65s" begin="0.00s" fill="freeze"
+    <animate attributeName="opacity" from="0" to="1" dur="0.45s" begin="0.00s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="scale" from="0.6" to="1" dur="0.65s" begin="0.00s" fill="freeze"
       calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"
       additive="sum" style="transform-origin:609px 196px"/>
     <circle id="bubble-1" cx="609" cy="196" r="28" fill="url(#g1)" opacity="0.90"/>
@@ -217,8 +217,8 @@
 <!-- Emerald  $68M  22%  r=26  cx=579  cy=324 -->
 <g class="bw" id="bw2">
   <g class="bb" style="opacity:0">
-    <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.12s" fill="freeze"/>
-    <animateTransform attributeName="transform" type="scale" from="0" to="1" dur="0.65s" begin="0.12s" fill="freeze"
+    <animate attributeName="opacity" from="0" to="1" dur="0.45s" begin="0.12s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="scale" from="0.6" to="1" dur="0.65s" begin="0.12s" fill="freeze"
       calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"
       additive="sum" style="transform-origin:579px 324px"/>
     <circle id="bubble-2" cx="579" cy="324" r="26" fill="url(#g2)" opacity="0.90"/>
@@ -235,8 +235,8 @@
 <!-- Amber  $60M  44%  r=24  cx=519  cy=148 -->
 <g class="bw" id="bw3">
   <g class="bb" style="opacity:0">
-    <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.24s" fill="freeze"/>
-    <animateTransform attributeName="transform" type="scale" from="0" to="1" dur="0.65s" begin="0.24s" fill="freeze"
+    <animate attributeName="opacity" from="0" to="1" dur="0.45s" begin="0.24s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="scale" from="0.6" to="1" dur="0.65s" begin="0.24s" fill="freeze"
       calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"
       additive="sum" style="transform-origin:519px 148px"/>
     <circle id="bubble-3" cx="519" cy="148" r="24" fill="url(#g3)" opacity="0.90"/>
@@ -253,8 +253,8 @@
 <!-- Rose  $55M  15%  r=22  cx=482  cy=380 -->
 <g class="bw" id="bw4">
   <g class="bb" style="opacity:0">
-    <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.36s" fill="freeze"/>
-    <animateTransform attributeName="transform" type="scale" from="0" to="1" dur="0.65s" begin="0.36s" fill="freeze"
+    <animate attributeName="opacity" from="0" to="1" dur="0.45s" begin="0.36s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="scale" from="0.6" to="1" dur="0.65s" begin="0.36s" fill="freeze"
       calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"
       additive="sum" style="transform-origin:482px 380px"/>
     <circle id="bubble-4" cx="482" cy="380" r="22" fill="url(#g4)" opacity="0.90"/>
@@ -271,11 +271,11 @@
 <!-- Violet  $79M  31%  r=32  cx=661  cy=252 -->
 <g class="bw" id="bw5">
   <g class="bb" style="opacity:0">
-    <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.48s" fill="freeze"/>
-    <animateTransform attributeName="transform" type="scale" from="0" to="1" dur="0.65s" begin="0.48s" fill="freeze"
+    <animate attributeName="opacity" from="0" to="1" dur="0.45s" begin="0.48s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="scale" from="0.6" to="1" dur="0.65s" begin="0.48s" fill="freeze"
       calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"
       additive="sum" style="transform-origin:661px 252px"/>
-    <circle id="bubble-5" cx="661" cy="252" r="32" fill="url(#g5)" opacity="0.90"/>
+    <circle id="bubble-5" cx="661" cy="252" r="58" fill="url(#g5)" opacity="0.90"/>
   </g>
   <g class="bubble" transform="translate(661,208)">
     <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bg"/>
@@ -289,8 +289,8 @@
 <!-- Blue  $64M  27%  r=25  cx=549  cy=284 -->
 <g class="bw" id="bw6">
   <g class="bb" style="opacity:0">
-    <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.60s" fill="freeze"/>
-    <animateTransform attributeName="transform" type="scale" from="0" to="1" dur="0.65s" begin="0.60s" fill="freeze"
+    <animate attributeName="opacity" from="0" to="1" dur="0.45s" begin="0.60s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="scale" from="0.6" to="1" dur="0.65s" begin="0.60s" fill="freeze"
       calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"
       additive="sum" style="transform-origin:549px 284px"/>
     <circle id="bubble-6" cx="549" cy="284" r="25" fill="url(#g6)" opacity="0.90"/>
@@ -307,8 +307,8 @@
 <!-- Teal  $61M  42%  r=24  cx=527  cy=164 -->
 <g class="bw" id="bw7">
   <g class="bb" style="opacity:0">
-    <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.72s" fill="freeze"/>
-    <animateTransform attributeName="transform" type="scale" from="0" to="1" dur="0.65s" begin="0.72s" fill="freeze"
+    <animate attributeName="opacity" from="0" to="1" dur="0.45s" begin="0.72s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="scale" from="0.6" to="1" dur="0.65s" begin="0.72s" fill="freeze"
       calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"
       additive="sum" style="transform-origin:527px 164px"/>
     <circle id="bubble-7" cx="527" cy="164" r="24" fill="url(#g7)" opacity="0.90"/>
@@ -325,8 +325,8 @@
 <!-- Other  $48M  12%  r=19  cx=429  cy=404 -->
 <g class="bw" id="bw8">
   <g class="bb" style="opacity:0">
-    <animate attributeName="opacity" from="0" to="1" dur="0.35s" begin="0.84s" fill="freeze"/>
-    <animateTransform attributeName="transform" type="scale" from="0" to="1" dur="0.65s" begin="0.84s" fill="freeze"
+    <animate attributeName="opacity" from="0" to="1" dur="0.45s" begin="0.84s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="scale" from="0.6" to="1" dur="0.65s" begin="0.84s" fill="freeze"
       calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"
       additive="sum" style="transform-origin:429px 404px"/>
     <circle id="bubble-8" cx="429" cy="404" r="19" fill="url(#goth)" opacity="0.90"/>

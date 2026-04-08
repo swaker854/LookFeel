@@ -58,6 +58,9 @@
     svg.dark .border-dark  { display:block; }
     svg.dark .border-light { display:none; }
   </style>
+  <clipPath id="card-clip">
+    <rect width="1100" height="680" rx="18"/>
+  </clipPath>
 </defs>
 
 <!-- Background card -->
@@ -83,12 +86,10 @@
   <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
 </g>
 
-<!-- ═══ ICICLE CELLS (chart origin: translate 40, 68) ═══
-     Total width: 1020px (5 cols × 170 + gaps), height: 620px
-     Col x positions (absolute): L0=40, L1=211, L2=382, L3=553, L4=724
-     Col widths all 168px (1px white stroke = visual gap)
--->
-<g transform="translate(40,68)">
+<!-- ═══ ICICLE CELLS — UPDATED MARGINS ═══ -->
+<g clip-path="url(#card-clip)">
+<!-- Shifted down to y=95 and scaled to 0.83 to match bar chart spacing -->
+<g transform="translate(40,95) scale(1, 0.83)">
 
 <!-- ── LEVEL 0: root ── -->
 <rect x="0" y="0" width="168" height="620" fill="#7FBCD2" stroke="white" stroke-width="1" class="icell d0" data-name="flare" data-val="819293"/>
@@ -159,7 +160,7 @@
 <rect x="342" y="172.3" width="168" height="0.6" fill="#E07838" stroke="white" stroke-width="1" class="icell d2" data-name="Spring" data-val="2213"/>
 <rect x="342" y="173.9" width="168" height="0.2" fill="#E07838" stroke="white" stroke-width="1" class="icell d2" data-name="SpringForce" data-val="1681"/>
 
-<!-- query children — 27 items, mostly thin stripes -->
+<!-- query children -->
 <rect x="342" y="176.1" width="168" height="0.2" fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="AggregateExpression" data-val="1616"/>
 <rect x="342" y="178.0" width="168" height="1.9" fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="Arithmetic" data-val="3891"/>
 <rect x="342" y="181.6" width="168" height="1.2" fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="BinaryExpression" data-val="2893"/>
@@ -331,9 +332,10 @@
 <rect x="684" y="587.0" width="168" height="5.7" fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="StackedAreaLayout" data-val="9121"/>
 
 </g>
+</g>
 <!-- END chart group -->
 
-<!-- ── LEGEND PANEL — right side, matching bar/treemap style ── -->
+<!-- ── LEGEND PANEL ── -->
 <rect x="900" y="68" width="162" height="402" rx="14" class="lgd-bg"/>
 <text x="918" y="92" class="lgd-ttl">MODULE</text>
 
@@ -389,7 +391,7 @@
   <text x="140" y="11" class="lv lgd-val" text-anchor="end">389,684</text>
 </g>
 
-<!-- Depth legend — secondary panel -->
+<!-- Depth legend -->
 <rect x="900" y="482" width="162" height="118" rx="14" class="lgd-bg"/>
 <text x="918" y="506" class="lgd-ttl">DEPTH</text>
 <g transform="translate(918,520)">
@@ -413,11 +415,9 @@
   <text x="22" y="7" class="lt" font-size="10">L4 · leaf</text>
 </g>
 
-<!-- ── BUBBLE OVERLAY — always on top ── -->
+<!-- BUBBLE OVERLAY -->
 <g id="bubble-overlay">
-  <!-- Bubbles are shown by JS mouseenter on .icell, positioned at mouse -->
   <g class="bubble" id="tip">
-    <!-- dynamic content injected by JS -->
     <path id="tip-path" class="bub-fill" d="M0,0"/>
     <path id="tip-bdr" class="bub-bdr" d="M0,0"/>
     <text id="tip-name" x="0" y="0" class="bub-name"/>
@@ -441,7 +441,6 @@
   var W = 96, H = 52, TH = 10;
 
   function bubPath(x, y, flip) {
-    // tip points up (below the box) vs flip=tip points down
     if (!flip) {
       return 'M'+(x-8)+','+(y)+' L'+(x-W/2+10)+','+(y)+' Q'+(x-W/2)+','+(y)+' '+(x-W/2)+','+(y-10)+
              ' L'+(x-W/2)+','+(y-H-TH)+' Q'+(x-W/2)+','+(y-H-TH-10)+' '+(x-W/2+10)+','+(y-H-TH-10)+
@@ -450,7 +449,7 @@
              ' L'+(x+8)+','+(y)+' L'+x+','+(y+TH)+' Z';
     } else {
       return 'M'+(x-8)+','+(y)+' L'+(x-W/2+10)+','+(y)+' Q'+(x-W/2)+','+(y)+' '+(x-W/2)+','+(y+10)+
-             ' L'+(x-W/2)+','+(y+H+TH)+' Q'+(x-W/2)+','+(y+H+TH+10)+' '+(x-W/2+10)+','+(y+H+TH+10)+
+             ' L'+(x-W/2)+','+(y+H+TH)+' Q'+(x-W/2)+','+(y+H+TH-10)+' '+(x-W/2+10)+','+(y+H+TH+10)+
              ' L'+(x+W/2-10)+','+(y+H+TH+10)+' Q'+(x+W/2)+','+(y+H+TH+10)+' '+(x+W/2)+','+(y+H+TH)+
              ' L'+(x+W/2)+','+(y+10)+' Q'+(x+W/2)+','+(y)+' '+(x+W/2-10)+','+(y)+
              ' L'+(x+8)+','+(y)+' L'+x+','+(y-TH)+' Z';
@@ -493,19 +492,17 @@
     });
   });
 
-  /* ── Entrance: stagger fade-in by depth level ── */
   [0,1,2,3,4].forEach(function(d) {
     var els = svg.querySelectorAll('.d'+d);
     els.forEach(function(el, i) {
       el.style.opacity = '0';
       setTimeout(function() {
-        el.style.transition = 'opacity 0.35s ease';
+        el.style.transition = 'opacity 1.2s ease';
         el.style.opacity = '1';
-      }, d * 120 + i * 2);
+      }, d * 350 + i * 10);
     });
   });
 
-  /* ── Dark / print toggles ── */
   function setMode(wantDark) {
     var currently = svg.classList.contains('dark');
     if (wantDark === currently) return;

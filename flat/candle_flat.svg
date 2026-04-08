@@ -165,7 +165,7 @@
 <!-- 1 Oct BULL -->
 <g class="cw" id="cw1" data-bubble="b1">
   <line x1="128" y1="228" x2="128" y2="320" class="w-bull"/>
-  <g id="cb1" style="transform-origin:128px 268px; opacity:0">
+  <g id="cb1" style="">
     <rect class="c-bull" x="110" y="244" width="36" height="48" rx="3"/>
   </g>
 </g>
@@ -173,7 +173,7 @@
 <!-- 2 Nov BEAR -->
 <g class="cw" id="cw2" data-bubble="b2">
   <line x1="188" y1="200" x2="188" y2="268" class="w-bear"/>
-  <g id="cb2" style="transform-origin:188px 254px; opacity:0">
+  <g id="cb2" style="">
     <rect class="c-bear" x="170" y="244" width="36" height="20" rx="3"/>
   </g>
 </g>
@@ -181,7 +181,7 @@
 <!-- 3 Dec BEAR -->
 <g class="cw" id="cw3" data-bubble="b3">
   <line x1="249" y1="252" x2="249" y2="348" class="w-bear"/>
-  <g id="cb3" style="transform-origin:249px 298px; opacity:0">
+  <g id="cb3" style="">
     <rect class="c-bear" x="231" y="264" width="36" height="68" rx="3"/>
   </g>
 </g>
@@ -189,7 +189,7 @@
 <!-- 4 Jan BULL -->
 <g class="cw" id="cw4" data-bubble="b4">
   <line x1="309" y1="280" x2="309" y2="360" class="w-bull"/>
-  <g id="cb4" style="transform-origin:309px 314px; opacity:0">
+  <g id="cb4" style="">
     <rect class="c-bull" x="291" y="296" width="36" height="36" rx="3"/>
   </g>
 </g>
@@ -197,7 +197,7 @@
 <!-- 5 Feb BULL -->
 <g class="cw" id="cw5" data-bubble="b5">
   <line x1="369" y1="220" x2="369" y2="308" class="w-bull"/>
-  <g id="cb5" style="transform-origin:369px 262px; opacity:0">
+  <g id="cb5" style="">
     <rect class="c-bull" x="351" y="228" width="36" height="68" rx="3"/>
   </g>
 </g>
@@ -205,7 +205,7 @@
 <!-- 6 Mar BULL -->
 <g class="cw" id="cw6" data-bubble="b6">
   <line x1="429" y1="172" x2="429" y2="248" class="w-bull"/>
-  <g id="cb6" style="transform-origin:429px 208px; opacity:0">
+  <g id="cb6" style="">
     <rect class="c-bull" x="411" y="188" width="36" height="40" rx="3"/>
   </g>
 </g>
@@ -213,7 +213,7 @@
 <!-- 7 Apr BEAR -->
 <g class="cw" id="cw7" data-bubble="b7">
   <line x1="489" y1="160" x2="489" y2="244" class="w-bear"/>
-  <g id="cb7" style="transform-origin:489px 210px; opacity:0">
+  <g id="cb7" style="">
     <rect class="c-bear" x="471" y="188" width="36" height="44" rx="3"/>
   </g>
 </g>
@@ -221,7 +221,7 @@
 <!-- 8 May BEAR -->
 <g class="cw" id="cw8" data-bubble="b8">
   <line x1="549" y1="212" x2="549" y2="300" class="w-bear"/>
-  <g id="cb8" style="transform-origin:549px 258px; opacity:0">
+  <g id="cb8" style="">
     <rect class="c-bear" x="531" y="232" width="36" height="52" rx="3"/>
   </g>
 </g>
@@ -229,7 +229,7 @@
 <!-- 9 Jun BULL -->
 <g class="cw" id="cw9" data-bubble="b9">
   <line x1="609" y1="224" x2="609" y2="304" class="w-bull"/>
-  <g id="cb9" style="transform-origin:609px 260px; opacity:0">
+  <g id="cb9" style="">
     <rect class="c-bull" x="591" y="236" width="36" height="48" rx="3"/>
   </g>
 </g>
@@ -237,7 +237,7 @@
 <!-- 10 Jul BULL -->
 <g class="cw" id="cw10" data-bubble="b10">
   <line x1="670" y1="148" x2="670" y2="260" class="w-bull"/>
-  <g id="cb10" style="transform-origin:670px 198px; opacity:0">
+  <g id="cb10" style="">
     <rect class="c-bull" x="652" y="160" width="36" height="76" rx="3"/>
   </g>
 </g>
@@ -245,7 +245,7 @@
 <!-- 11 Aug BEAR -->
 <g class="cw" id="cw11" data-bubble="b11">
   <line x1="730" y1="132" x2="730" y2="216" class="w-bear"/>
-  <g id="cb11" style="transform-origin:730px 180px; opacity:0">
+  <g id="cb11" style="">
     <rect class="c-bear" x="712" y="160" width="36" height="40" rx="3"/>
   </g>
 </g>
@@ -253,7 +253,7 @@
 <!-- 12 Sep BEAR -->
 <g class="cw" id="cw12" data-bubble="b12">
   <line x1="790" y1="180" x2="790" y2="268" class="w-bear"/>
-  <g id="cb12" style="transform-origin:790px 226px; opacity:0">
+  <g id="cb12" style="">
     <rect class="c-bear" x="772" y="200" width="36" height="52" rx="3"/>
   </g>
 </g>
@@ -443,19 +443,20 @@
 (function () {
   var svg = document.getElementById('root');
 
-  /* ── Entrance animation: spring scale from body center, staggered 90ms ── */
-  var bodies = ['cb1','cb2','cb3','cb4','cb5','cb6','cb7','cb8','cb9','cb10','cb11','cb12'];
-  bodies.forEach(function(id, i) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    el.style.transition = 'none';
-    el.style.transform  = 'scale(1,0)';
-    el.style.opacity    = '0';
-    setTimeout(function() {
-      el.style.transition = 'transform 1.2s cubic-bezier(0.34,1.4,0.64,1), opacity 0.35s ease';
-      el.style.transform  = 'scale(1,1)';
-      el.style.opacity    = '1';
-    }, 80 + i * 90);
+  /* ── Entrance animation: fade in body + wick together, staggered 90ms ── */
+  var candle_ids = [1,2,3,4,5,6,7,8,9,10,11,12];
+  candle_ids.forEach(function(i, idx) {
+    var body = document.getElementById('cb' + i);
+    var wrap = document.getElementById('cw' + i);
+    /* fade the whole candle group (wick + body) via the cw wrapper */
+    if (wrap) {
+      wrap.style.transition = 'none';
+      wrap.style.opacity    = '0';
+      setTimeout(function() {
+        wrap.style.transition = 'opacity 1.2s ease';
+        wrap.style.opacity    = '1';
+      }, 80 + idx * 200);
+    }
   });
 
   /* ── Hover bubbles ── */
