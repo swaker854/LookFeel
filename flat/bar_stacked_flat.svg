@@ -1,27 +1,17 @@
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif" class="dark">
 <defs>
-
-  <!-- Clip to chart area -->
   <clipPath id="chartclip">
     <rect x="68" y="96" width="782" height="412"/>
   </clipPath>
-
-  <!-- Bar fills handled by flat CSS classes — no gradients -->
-
-  <!-- Legend swatch gradients — solid single-color, light mode canonical -->
   <linearGradient id="c1"><stop offset="0%" stop-color="#00D4E8"/></linearGradient>
   <linearGradient id="c2"><stop offset="0%" stop-color="#8B5CF6"/></linearGradient>
   <linearGradient id="c3"><stop offset="0%" stop-color="#00B87A"/></linearGradient>
   <linearGradient id="c4"><stop offset="0%" stop-color="#F59E0B"/></linearGradient>
   <linearGradient id="c5"><stop offset="0%" stop-color="#64748B"/></linearGradient>
-
-  <!-- Tooltip shadow -->
   <filter id="tipshadow" x="-40%" y="-80%" width="180%" height="320%">
     <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="rgba(0,0,0,0.20)"/>
   </filter>
-
   <style>
-    /* ── base ── */
     .bg-main   { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
     .ct        { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
     .cs        { font-size:11px; fill:#79747E; font-weight:400; }
@@ -43,54 +33,48 @@
     .pt-track  { fill:#E7E0EC; transition:fill 0.3s; }
     .pt-thumb  { fill:#ffffff; }
     .pt-label  { font-size:11px; font-weight:500; fill:#49454F; }
-
-    /* ── legend values hidden until print ── */
     .lgd-val   { opacity:0; transition:opacity 0.2s; }
     svg.print .lgd-val  { opacity:1; }
     svg.print .pt-track { fill:#d97316; }
-
-    /* ── tooltip divider ── */
     .tip-div   { stroke:#CAC4D0; stroke-width:1; }
     svg.dark .tip-div { stroke:#49454F; }
-
-    /* ── crosshair ── */
     .crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
-
-    /* ── tooltips ── */
     .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     svg.print .tip { opacity:0 !important; }
     .bub-bg    { fill:#FFFBFE; }
     .bub-bdr   { fill:none; stroke:#79747E; stroke-width:1; }
-    .bub-tip-p { fill:#FFFBFE; stroke:none; }
     .bub-val   { fill:#1C1B1F; font-size:13px; font-weight:500; }
     .bub-lbl   { fill:#49454F; font-size:10px; font-weight:400; }
 
-    /* ── flat bar fill classes — light mode ── */
     .fc1 { fill:#00D4E8; }
     .fc2 { fill:#8B5CF6; }
     .fc3 { fill:#00B87A; }
     .fc4 { fill:#F59E0B; }
     .fc5 { fill:#64748B; }
-    /* ── flat bar fill classes — dark mode ── */
     svg.dark .fc1 { fill:#22D3EE; }
     svg.dark .fc2 { fill:#A78BFA; }
     svg.dark .fc3 { fill:#10B981; }
     svg.dark .fc4 { fill:#FBB724; }
     svg.dark .fc5 { fill:#94A3B8; }
 
-    /* ── stacked bar rise animation ── */
-    @keyframes barRise { from { transform:scaleY(0); } to { transform:scaleY(1); } }
-    .bar-seg {
-      animation: barRise 0.65s cubic-bezier(0.34,1.1,0.64,1) both;
-      transform-box: fill-box;
-      transform-origin: bottom center;
+    /* ── fade only — no scale ── */
+    @keyframes colFade {
+      0%   { opacity:0;    }
+      40%  { opacity:0.08; }
+      100% { opacity:1;    }
     }
-    .d0 { animation-delay:0.00s; } .d1 { animation-delay:0.10s; }
-    .d2 { animation-delay:0.20s; } .d3 { animation-delay:0.30s; }
-    .d4 { animation-delay:0.40s; } .d5 { animation-delay:0.50s; }
-    .d6 { animation-delay:0.60s; } .d7 { animation-delay:0.70s; }
+    .col-g {
+      animation: colFade 0.9s ease-out both;
+    }
+    .col-g.d0 { animation-delay:0.00s; }
+    .col-g.d1 { animation-delay:0.12s; }
+    .col-g.d2 { animation-delay:0.24s; }
+    .col-g.d3 { animation-delay:0.36s; }
+    .col-g.d4 { animation-delay:0.48s; }
+    .col-g.d5 { animation-delay:0.60s; }
+    .col-g.d6 { animation-delay:0.72s; }
+    .col-g.d7 { animation-delay:0.84s; }
 
-    /* ── dark mode ── */
     svg.dark .bg-main   { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
     svg.dark .ct        { fill:#E6E0E9; }
     svg.dark .cs        { fill:#938F99; }
@@ -113,64 +97,41 @@
     svg.dark .crosshair { stroke:#938F99; }
     svg.dark .bub-bg    { fill:#1C1B1F; }
     svg.dark .bub-bdr   { fill:none; stroke:#938F99; stroke-width:1; }
-    svg.dark .bub-tip-p { fill:#1C1B1F; stroke:none; }
     svg.dark .bub-val   { fill:#E6E0E9; font-size:13px; font-weight:500; }
     svg.dark .bub-lbl   { fill:#CAC4D0; font-size:10px; font-weight:400; }
-
-    /* ── border ── */
     .border-dark      { display:none; }
     .border-light     { display:block; }
     svg.dark .border-dark  { display:block; }
     svg.dark .border-light { display:none; }
-
-    /* ── hover column dimming ── */
     .col-g .seg { transition:opacity 0.12s; }
-    .chart-g:hover .col-g .seg { opacity:0.25; }
-    .chart-g:hover .col-g:hover .seg { opacity:1; }
-    svg.print .chart-g:hover .col-g .seg { opacity:1 !important; }
+    .chart-g.hovering .col-g .seg { opacity:0.25; }
+    .chart-g.hovering .col-g.active .seg { opacity:1; }
+    svg.print .chart-g.hovering .col-g .seg { opacity:1 !important; }
   </style>
 </defs>
 
-<!-- Background -->
 <rect class="bg-main" width="1100" height="620" rx="18"/>
-
-<!-- border -->
 <g class="border-dark">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5"
-    fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
 </g>
 <g class="border-light">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5"
-    fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
 </g>
 
-<!-- Title -->
 <text x="68" y="50" class="ct">Revenue by Quarter</text>
 <text x="68" y="70" class="cs">5 product lines · stacked · hover column to inspect</text>
 
-<!-- Dark toggle -->
 <g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
   <circle id="tthumb" cx="52" cy="0" r="10" class="t-thumb"/>
   <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Light</text>
 </g>
-
-<!-- Print toggle -->
 <g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
   <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
   <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
 </g>
 
-<!--
-  Chart area: x=68..850, y=100..508  (w=782, h=408)
-  Scale: 408/250 = 1.632 px per $M,  baseline y=508
-  Bar width=72 (half=36),  gap=22.9px,  margin=22.9px
-  Centers: 126.9, 221.8, 316.7, 411.6, 506.4, 601.3, 696.2, 791.1
-  All bars fully within x=68..850 (leftmost edge=90.9, rightmost edge=827.1)
--->
-
-<!-- Grid lines -->
 <line x1="68" y1="508" x2="850" y2="508" class="bl"/>
 <line x1="68" y1="426" x2="850" y2="426" class="gl"/>
 <line x1="68" y1="344" x2="850" y2="344" class="gl"/>
@@ -179,7 +140,6 @@
 <line x1="68" y1="100" x2="850" y2="100" class="gl"/>
 <line x1="68" y1="100" x2="68"  y2="508" class="bl"/>
 
-<!-- Y axis labels -->
 <text x="56" y="512" class="an" text-anchor="end">$0</text>
 <text x="56" y="430" class="an" text-anchor="end">$50M</text>
 <text x="56" y="348" class="an" text-anchor="end">$100M</text>
@@ -187,110 +147,88 @@
 <text x="56" y="185" class="an" text-anchor="end">$200M</text>
 <text x="56" y="104" class="an" text-anchor="end">$250M</text>
 
-<!-- X axis labels centered on each bar -->
-<text x="126.9" y="526" class="al" text-anchor="middle">Q1 &apos;22</text>
-<text x="221.8" y="526" class="al" text-anchor="middle">Q2 &apos;22</text>
-<text x="316.7" y="526" class="al" text-anchor="middle">Q3 &apos;22</text>
-<text x="411.6" y="526" class="al" text-anchor="middle">Q4 &apos;22</text>
-<text x="506.4" y="526" class="al" text-anchor="middle">Q1 &apos;23</text>
-<text x="601.3" y="526" class="al" text-anchor="middle">Q2 &apos;23</text>
-<text x="696.2" y="526" class="al" text-anchor="middle">Q3 &apos;23</text>
-<text x="791.1" y="526" class="al" text-anchor="middle">Q4 &apos;23</text>
+<text x="126.9" y="526" class="al" text-anchor="middle">Q1 '22</text>
+<text x="221.8" y="526" class="al" text-anchor="middle">Q2 '22</text>
+<text x="316.7" y="526" class="al" text-anchor="middle">Q3 '22</text>
+<text x="411.6" y="526" class="al" text-anchor="middle">Q4 '22</text>
+<text x="506.4" y="526" class="al" text-anchor="middle">Q1 '23</text>
+<text x="601.3" y="526" class="al" text-anchor="middle">Q2 '23</text>
+<text x="696.2" y="526" class="al" text-anchor="middle">Q3 '23</text>
+<text x="791.1" y="526" class="al" text-anchor="middle">Q4 '23</text>
 
-<!-- Year divider at midpoint between Q4'22 and Q1'23 -->
 <line x1="459" y1="100" x2="459" y2="518" stroke="#c0b8a8" stroke-width="1" stroke-dasharray="5,4" opacity="0.6"/>
 <text x="269.2" y="90" class="an" text-anchor="middle">2022</text>
 <text x="648.8" y="90" class="an" text-anchor="middle">2023</text>
 
-<!--
-  Stacked segments bottom→top: Slate(fc5) Amber(fc4) Emerald(fc3) Violet(fc2) Cyan(fc1)
-  Top segment gets rx=6; a square-cornered rect beneath it covers the rounded bottom seam.
--->
 <g class="chart-g" clip-path="url(#chartclip)">
 
-<!-- ── Q1 '22  cx=126.9  x=90.9 ── -->
-<g class="col-g" id="col0">
-  <rect class="seg bar-seg d0 fc5" x="90.9"  y="491.68" width="72" height="16.32"/>
-  <rect class="seg bar-seg d0 fc4" x="90.9"  y="473.73" width="72" height="17.95"/>
-  <rect class="seg bar-seg d0 fc3" x="90.9"  y="444.35" width="72" height="29.38"/>
-  <rect class="seg bar-seg d0 fc2" x="90.9"  y="392.13" width="72" height="52.22"/>
-  <rect class="seg bar-seg d0 fc1" x="90.9"  y="330.11" width="72" height="62.02" rx="6" ry="6"/>
-  <rect class="seg bar-seg d0 fc1" x="90.9"  y="336.11" width="72" height="56.02"/>
+<g class="col-g d0" id="col0">
+  <rect class="seg fc5" x="90.9"  y="491.68" width="72" height="16.32"/>
+  <rect class="seg fc4" x="90.9"  y="473.73" width="72" height="17.95"/>
+  <rect class="seg fc3" x="90.9"  y="444.35" width="72" height="29.38"/>
+  <rect class="seg fc2" x="90.9"  y="392.13" width="72" height="52.22"/>
+  <rect class="seg fc1" x="90.9"  y="330.11" width="72" height="62.02" rx="6" ry="6"/>
+  <rect class="seg fc1" x="90.9"  y="336.11" width="72" height="56.02"/>
+</g>
+<g class="col-g d1" id="col1">
+  <rect class="seg fc5" x="185.8" y="490.05" width="72" height="17.95"/>
+  <rect class="seg fc4" x="185.8" y="470.47" width="72" height="19.58"/>
+  <rect class="seg fc3" x="185.8" y="437.82" width="72" height="32.64"/>
+  <rect class="seg fc2" x="185.8" y="380.70" width="72" height="57.12"/>
+  <rect class="seg fc1" x="185.8" y="312.16" width="72" height="68.54" rx="6" ry="6"/>
+  <rect class="seg fc1" x="185.8" y="318.16" width="72" height="62.54"/>
+</g>
+<g class="col-g d2" id="col2">
+  <rect class="seg fc5" x="280.7" y="488.42" width="72" height="19.58"/>
+  <rect class="seg fc4" x="280.7" y="467.20" width="72" height="21.22"/>
+  <rect class="seg fc3" x="280.7" y="432.93" width="72" height="34.27"/>
+  <rect class="seg fc2" x="280.7" y="370.91" width="72" height="62.02"/>
+  <rect class="seg fc1" x="280.7" y="295.84" width="72" height="75.07" rx="6" ry="6"/>
+  <rect class="seg fc1" x="280.7" y="301.84" width="72" height="69.07"/>
+</g>
+<g class="col-g d3" id="col3">
+  <rect class="seg fc5" x="375.6" y="486.78" width="72" height="21.22"/>
+  <rect class="seg fc4" x="375.6" y="463.93" width="72" height="22.85"/>
+  <rect class="seg fc3" x="375.6" y="426.40" width="72" height="37.54"/>
+  <rect class="seg fc2" x="375.6" y="359.49" width="72" height="66.91"/>
+  <rect class="seg fc1" x="375.6" y="277.89" width="72" height="81.60" rx="6" ry="6"/>
+  <rect class="seg fc1" x="375.6" y="283.89" width="72" height="75.60"/>
+</g>
+<g class="col-g d4" id="col4">
+  <rect class="seg fc5" x="470.4" y="485.15" width="72" height="22.85"/>
+  <rect class="seg fc4" x="470.4" y="460.67" width="72" height="24.48"/>
+  <rect class="seg fc3" x="470.4" y="419.87" width="72" height="40.80"/>
+  <rect class="seg fc2" x="470.4" y="346.43" width="72" height="73.44"/>
+  <rect class="seg fc1" x="470.4" y="256.67" width="72" height="89.76" rx="6" ry="6"/>
+  <rect class="seg fc1" x="470.4" y="262.67" width="72" height="83.76"/>
+</g>
+<g class="col-g d5" id="col5">
+  <rect class="seg fc5" x="565.3" y="481.89" width="72" height="26.11"/>
+  <rect class="seg fc4" x="565.3" y="454.15" width="72" height="27.74"/>
+  <rect class="seg fc3" x="565.3" y="410.08" width="72" height="44.06"/>
+  <rect class="seg fc2" x="565.3" y="328.48" width="72" height="81.60"/>
+  <rect class="seg fc1" x="565.3" y="230.56" width="72" height="97.92" rx="6" ry="6"/>
+  <rect class="seg fc1" x="565.3" y="236.56" width="72" height="91.92"/>
+</g>
+<g class="col-g d6" id="col6">
+  <rect class="seg fc5" x="660.2" y="480.26" width="72" height="27.74"/>
+  <rect class="seg fc4" x="660.2" y="449.25" width="72" height="31.01"/>
+  <rect class="seg fc3" x="660.2" y="398.66" width="72" height="50.59"/>
+  <rect class="seg fc2" x="660.2" y="307.27" width="72" height="91.39"/>
+  <rect class="seg fc1" x="660.2" y="199.55" width="72" height="107.71" rx="6" ry="6"/>
+  <rect class="seg fc1" x="660.2" y="205.55" width="72" height="101.71"/>
+</g>
+<g class="col-g d7" id="col7">
+  <rect class="seg fc5" x="755.1" y="476.99" width="72" height="31.01"/>
+  <rect class="seg fc4" x="755.1" y="441.09" width="72" height="35.90"/>
+  <rect class="seg fc3" x="755.1" y="383.97" width="72" height="57.12"/>
+  <rect class="seg fc2" x="755.1" y="282.79" width="72" height="101.18"/>
+  <rect class="seg fc1" x="755.1" y="165.28" width="72" height="117.50" rx="6" ry="6"/>
+  <rect class="seg fc1" x="755.1" y="171.28" width="72" height="111.50"/>
 </g>
 
-<!-- ── Q2 '22  cx=221.8  x=185.8 ── -->
-<g class="col-g" id="col1">
-  <rect class="seg bar-seg d1 fc5" x="185.8" y="490.05" width="72" height="17.95"/>
-  <rect class="seg bar-seg d1 fc4" x="185.8" y="470.47" width="72" height="19.58"/>
-  <rect class="seg bar-seg d1 fc3" x="185.8" y="437.82" width="72" height="32.64"/>
-  <rect class="seg bar-seg d1 fc2" x="185.8" y="380.70" width="72" height="57.12"/>
-  <rect class="seg bar-seg d1 fc1" x="185.8" y="312.16" width="72" height="68.54" rx="6" ry="6"/>
-  <rect class="seg bar-seg d1 fc1" x="185.8" y="318.16" width="72" height="62.54"/>
 </g>
 
-<!-- ── Q3 '22  cx=316.7  x=280.7 ── -->
-<g class="col-g" id="col2">
-  <rect class="seg bar-seg d2 fc5" x="280.7" y="488.42" width="72" height="19.58"/>
-  <rect class="seg bar-seg d2 fc4" x="280.7" y="467.20" width="72" height="21.22"/>
-  <rect class="seg bar-seg d2 fc3" x="280.7" y="432.93" width="72" height="34.27"/>
-  <rect class="seg bar-seg d2 fc2" x="280.7" y="370.91" width="72" height="62.02"/>
-  <rect class="seg bar-seg d2 fc1" x="280.7" y="295.84" width="72" height="75.07" rx="6" ry="6"/>
-  <rect class="seg bar-seg d2 fc1" x="280.7" y="301.84" width="72" height="69.07"/>
-</g>
-
-<!-- ── Q4 '22  cx=411.6  x=375.6 ── -->
-<g class="col-g" id="col3">
-  <rect class="seg bar-seg d3 fc5" x="375.6" y="486.78" width="72" height="21.22"/>
-  <rect class="seg bar-seg d3 fc4" x="375.6" y="463.93" width="72" height="22.85"/>
-  <rect class="seg bar-seg d3 fc3" x="375.6" y="426.40" width="72" height="37.54"/>
-  <rect class="seg bar-seg d3 fc2" x="375.6" y="359.49" width="72" height="66.91"/>
-  <rect class="seg bar-seg d3 fc1" x="375.6" y="277.89" width="72" height="81.60" rx="6" ry="6"/>
-  <rect class="seg bar-seg d3 fc1" x="375.6" y="283.89" width="72" height="75.60"/>
-</g>
-
-<!-- ── Q1 '23  cx=506.4  x=470.4 ── -->
-<g class="col-g" id="col4">
-  <rect class="seg bar-seg d4 fc5" x="470.4" y="485.15" width="72" height="22.85"/>
-  <rect class="seg bar-seg d4 fc4" x="470.4" y="460.67" width="72" height="24.48"/>
-  <rect class="seg bar-seg d4 fc3" x="470.4" y="419.87" width="72" height="40.80"/>
-  <rect class="seg bar-seg d4 fc2" x="470.4" y="346.43" width="72" height="73.44"/>
-  <rect class="seg bar-seg d4 fc1" x="470.4" y="256.67" width="72" height="89.76" rx="6" ry="6"/>
-  <rect class="seg bar-seg d4 fc1" x="470.4" y="262.67" width="72" height="83.76"/>
-</g>
-
-<!-- ── Q2 '23  cx=601.3  x=565.3 ── -->
-<g class="col-g" id="col5">
-  <rect class="seg bar-seg d5 fc5" x="565.3" y="481.89" width="72" height="26.11"/>
-  <rect class="seg bar-seg d5 fc4" x="565.3" y="454.15" width="72" height="27.74"/>
-  <rect class="seg bar-seg d5 fc3" x="565.3" y="410.08" width="72" height="44.06"/>
-  <rect class="seg bar-seg d5 fc2" x="565.3" y="328.48" width="72" height="81.60"/>
-  <rect class="seg bar-seg d5 fc1" x="565.3" y="230.56" width="72" height="97.92" rx="6" ry="6"/>
-  <rect class="seg bar-seg d5 fc1" x="565.3" y="236.56" width="72" height="91.92"/>
-</g>
-
-<!-- ── Q3 '23  cx=696.2  x=660.2 ── -->
-<g class="col-g" id="col6">
-  <rect class="seg bar-seg d6 fc5" x="660.2" y="480.26" width="72" height="27.74"/>
-  <rect class="seg bar-seg d6 fc4" x="660.2" y="449.25" width="72" height="31.01"/>
-  <rect class="seg bar-seg d6 fc3" x="660.2" y="398.66" width="72" height="50.59"/>
-  <rect class="seg bar-seg d6 fc2" x="660.2" y="307.27" width="72" height="91.39"/>
-  <rect class="seg bar-seg d6 fc1" x="660.2" y="199.55" width="72" height="107.71" rx="6" ry="6"/>
-  <rect class="seg bar-seg d6 fc1" x="660.2" y="205.55" width="72" height="101.71"/>
-</g>
-
-<!-- ── Q4 '23  cx=791.1  x=755.1 ── -->
-<g class="col-g" id="col7">
-  <rect class="seg bar-seg d7 fc5" x="755.1" y="476.99" width="72" height="31.01"/>
-  <rect class="seg bar-seg d7 fc4" x="755.1" y="441.09" width="72" height="35.90"/>
-  <rect class="seg bar-seg d7 fc3" x="755.1" y="383.97" width="72" height="57.12"/>
-  <rect class="seg bar-seg d7 fc2" x="755.1" y="282.79" width="72" height="101.18"/>
-  <rect class="seg bar-seg d7 fc1" x="755.1" y="165.28" width="72" height="117.50" rx="6" ry="6"/>
-  <rect class="seg bar-seg d7 fc1" x="755.1" y="171.28" width="72" height="111.50"/>
-</g>
-
-</g><!-- end clip-path group -->
-
-<!-- Crosshairs centered on bars -->
 <g id="crosshairs">
   <line id="ch0" class="crosshair" x1="126.9" y1="100" x2="126.9" y2="508"/>
   <line id="ch1" class="crosshair" x1="221.8" y1="100" x2="221.8" y2="508"/>
@@ -302,56 +240,29 @@
   <line id="ch7" class="crosshair" x1="791.1" y1="100" x2="791.1" y2="508"/>
 </g>
 
-<!-- Hover hit zones + tooltip layer -->
 <g id="hit-layer"></g>
 <g id="tip-layer"></g>
 
-<!-- ── LEGEND ── -->
 <rect x="870" y="100" width="210" height="248" rx="14" class="lgd-bg" stroke-width="1"/>
 <text x="888" y="124" class="lgd-ttl">SERIES</text>
-
-<g transform="translate(888,140)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c1)"/>
-  <text x="22" y="11" class="lt">Cyan</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$72M</text>
-</g>
-<g transform="translate(888,170)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c2)"/>
-  <text x="22" y="11" class="lt">Violet</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$62M</text>
-</g>
-<g transform="translate(888,200)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c3)"/>
-  <text x="22" y="11" class="lt">Emerald</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$35M</text>
-</g>
-<g transform="translate(888,230)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c4)"/>
-  <text x="22" y="11" class="lt">Amber</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$22M</text>
-</g>
-<g transform="translate(888,260)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c5)"/>
-  <text x="22" y="11" class="lt">Slate</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$19M</text>
-</g>
-
+<g transform="translate(888,140)"><rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c1)"/><text x="22" y="11" class="lt">Cyan</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$72M</text></g>
+<g transform="translate(888,170)"><rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c2)"/><text x="22" y="11" class="lt">Violet</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$62M</text></g>
+<g transform="translate(888,200)"><rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c3)"/><text x="22" y="11" class="lt">Emerald</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$35M</text></g>
+<g transform="translate(888,230)"><rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c4)"/><text x="22" y="11" class="lt">Amber</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$22M</text></g>
+<g transform="translate(888,260)"><rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c5)"/><text x="22" y="11" class="lt">Slate</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$19M</text></g>
 <line x1="888" y1="290" x2="1062" y2="290" class="lgd-div"/>
 <text x="888" y="308" class="lt">Q4 2023 total</text>
 <text x="1062" y="308" class="lv lgd-val" text-anchor="end">$210M</text>
 <text x="888" y="328" class="lp">Hover columns to inspect</text>
 
-<!-- Footer -->
 <text x="68" y="600" class="footer">Revenue by Quarter · 5 series · stacked bar chart</text>
 
 <script type="text/javascript">
 //<![CDATA[
 (function() {
-  var svg    = document.getElementById('root');
-  var ns     = 'http://www.w3.org/2000/svg';
-  var isDark = true;
+  var svg = document.getElementById('root');
+  var ns  = 'http://www.w3.org/2000/svg';
 
-  /* ── Toggles ── */
   document.getElementById('dark-toggle').addEventListener('click', function() {
     setMode(!svg.classList.contains('dark'));
   });
@@ -361,11 +272,9 @@
     else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print';  }
   });
 
-  /* ── Data ── */
   var quarters = ["Q1 '22","Q2 '22","Q3 '22","Q4 '22","Q1 '23","Q2 '23","Q3 '23","Q4 '23"];
   var xs   = [126.9, 221.8, 316.7, 411.6, 506.4, 601.3, 696.2, 791.1];
-  var colW = 36; /* half-width of hit zone = half bar width */
-
+  var colW = 36;
   var series = [
     { label:'Cyan',    color:'#22D3EE', vals:[38,42,46,50,55,60,66,72] },
     { label:'Violet',  color:'#A78BFA', vals:[32,35,38,41,45,50,56,62] },
@@ -373,7 +282,6 @@
     { label:'Amber',   color:'#FBB724', vals:[11,12,13,14,15,17,19,22] },
     { label:'Slate',   color:'#94A3B8', vals:[10,11,12,13,14,16,17,19] },
   ];
-
   var totals = xs.map(function(_,qi){
     return series.reduce(function(s,sr){ return s + sr.vals[qi]; }, 0);
   });
@@ -381,6 +289,7 @@
   var hitLayer = document.getElementById('hit-layer');
   var tipLayer = document.getElementById('tip-layer');
   var allTips  = {};
+  var chartG   = document.querySelector('.chart-g');
 
   function el(tag, attrs) {
     var e = document.createElementNS(ns, tag);
@@ -388,97 +297,79 @@
     return e;
   }
 
-  /* ── Build hit zones + column tooltips ── */
   xs.forEach(function(x, qi) {
-    var bw  = 168;
-    var bh  = 146;
-    var hw  = bw / 2;
-    var bCx = x;
-    var bCy = 195;
-
-    if (bCx - hw < 72)  bCx = 72  + hw;
-    if (bCx + hw > 846) bCx = 846 - hw;
+    var bw=168, bh=146, hw=bw/2, bCx=x, bCy=195;
+    if (bCx-hw < 72)  bCx = 72+hw;
+    if (bCx+hw > 846) bCx = 846-hw;
 
     var tipG = el('g', { 'class':'tip', id:'tip_'+qi });
     tipLayer.appendChild(tipG);
     allTips[qi] = tipG;
 
-    tipG.appendChild(el('rect', { x:bCx-hw, y:bCy-12, width:bw, height:bh+12, rx:10,
-      'class':'bub-bg', filter:'url(#tipshadow)' }));
-    tipG.appendChild(el('rect', { x:bCx-hw, y:bCy-12, width:bw, height:bh+12, rx:10,
-      'class':'bub-bdr' }));
+    tipG.appendChild(el('rect', { x:bCx-hw, y:bCy-12, width:bw, height:bh+12, rx:10, 'class':'bub-bg', filter:'url(#tipshadow)' }));
+    tipG.appendChild(el('rect', { x:bCx-hw, y:bCy-12, width:bw, height:bh+12, rx:10, 'class':'bub-bdr' }));
 
-    var qLbl = el('text', { x:bCx, y:bCy+5, 'text-anchor':'middle',
-      'dominant-baseline':'central', 'class':'bub-lbl' });
+    var qLbl = el('text', { x:bCx, y:bCy+5, 'text-anchor':'middle', 'dominant-baseline':'central', 'class':'bub-lbl' });
     qLbl.textContent = quarters[qi];
     tipG.appendChild(qLbl);
-
-    tipG.appendChild(el('line', { x1:bCx-hw+8, y1:bCy+15, x2:bCx+hw-8, y2:bCy+15,
-      'class':'tip-div' }));
+    tipG.appendChild(el('line', { x1:bCx-hw+8, y1:bCy+15, x2:bCx+hw-8, y2:bCy+15, 'class':'tip-div' }));
 
     series.forEach(function(s, si) {
-      var rowY = bCy + 28 + si * 18;
+      var rowY = bCy+28+si*18;
       tipG.appendChild(el('circle', { cx:bCx-hw+14, cy:rowY, r:4, fill:s.color }));
-      var sLbl = el('text', { x:bCx-hw+24, y:rowY, 'dominant-baseline':'central',
-        'class':'bub-lbl' });
+      var sLbl = el('text', { x:bCx-hw+24, y:rowY, 'dominant-baseline':'central', 'class':'bub-lbl' });
       sLbl.textContent = s.label;
       tipG.appendChild(sLbl);
-      var sVal = el('text', { x:bCx+hw-8, y:rowY, 'text-anchor':'end',
-        'dominant-baseline':'central', 'class':'bub-val', 'font-size':'11' });
+      var sVal = el('text', { x:bCx+hw-8, y:rowY, 'text-anchor':'end', 'dominant-baseline':'central', 'class':'bub-val', 'font-size':'11' });
       sVal.textContent = '$'+s.vals[qi]+'M';
       tipG.appendChild(sVal);
     });
 
-    tipG.appendChild(el('line', { x1:bCx-hw+8, y1:bCy+118, x2:bCx+hw-8, y2:bCy+118,
-      'class':'tip-div' }));
-    var totLbl = el('text', { x:bCx-hw+8, y:bCy+130, 'dominant-baseline':'central',
-      'class':'bub-lbl' });
+    tipG.appendChild(el('line', { x1:bCx-hw+8, y1:bCy+118, x2:bCx+hw-8, y2:bCy+118, 'class':'tip-div' }));
+    var totLbl = el('text', { x:bCx-hw+8, y:bCy+130, 'dominant-baseline':'central', 'class':'bub-lbl' });
     totLbl.textContent = 'Total';
     tipG.appendChild(totLbl);
-    var totVal = el('text', { x:bCx+hw-8, y:bCy+130, 'text-anchor':'end',
-      'dominant-baseline':'central', 'class':'bub-val' });
+    var totVal = el('text', { x:bCx+hw-8, y:bCy+130, 'text-anchor':'end', 'dominant-baseline':'central', 'class':'bub-val' });
     totVal.textContent = '$'+totals[qi]+'M';
     tipG.appendChild(totVal);
 
-    /* Hit zone centered on bar */
-    var hit = el('rect', { x:x-colW, y:100, width:colW*2, height:408,
-      fill:'transparent', cursor:'crosshair' });
+    var hit = el('rect', { x:x-colW, y:100, width:colW*2, height:408, fill:'transparent', cursor:'crosshair' });
     hitLayer.appendChild(hit);
-
     var ch = document.getElementById('ch'+qi);
     hit.addEventListener('mouseenter', function() {
-      allTips[qi].style.opacity = '1';
-      if (ch) ch.style.opacity = '1';
+      allTips[qi].style.opacity='1';
+      if(ch) ch.style.opacity='1';
+      chartG.classList.add('hovering');
+      var colEl = document.getElementById('col'+qi);
+      if(colEl) colEl.classList.add('active');
     });
     hit.addEventListener('mouseleave', function() {
-      allTips[qi].style.opacity = '';
-      if (ch) ch.style.opacity = '';
+      allTips[qi].style.opacity='';
+      if(ch) ch.style.opacity='';
+      chartG.classList.remove('hovering');
+      var colEl = document.getElementById('col'+qi);
+      if(colEl) colEl.classList.remove('active');
     });
   });
 
-  /* ── setMode ── */
   function setMode(wantDark) {
     var currently = svg.classList.contains('dark');
     if (wantDark === currently) return;
-    var thumb = document.getElementById('tthumb');
-    var lbl   = document.getElementById('tlabel');
+    var thumb = document.getElementById('tthumb'), lbl = document.getElementById('tlabel');
     if (wantDark) {
-      svg.classList.add('dark'); isDark = true;
-      if (thumb) thumb.setAttribute('cx', '52');
-      if (lbl)   lbl.textContent = 'Light';
+      svg.classList.add('dark');
+      if(thumb) thumb.setAttribute('cx','52');
+      if(lbl) lbl.textContent='Light';
     } else {
-      svg.classList.remove('dark'); isDark = false;
-      if (thumb) thumb.setAttribute('cx', '16');
-      if (lbl)   lbl.textContent = 'Dark';
+      svg.classList.remove('dark');
+      if(thumb) thumb.setAttribute('cx','16');
+      if(lbl) lbl.textContent='Dark';
     }
   }
-
-  /* Portal API */
   window.setMode = setMode;
   window.addEventListener('message', function(e) {
-    if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
+    if (e.data && e.data.type==='setMode') setMode(e.data.dark);
   });
-
 })();
 //]]>
 </script>
