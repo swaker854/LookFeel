@@ -403,7 +403,7 @@
     }
     swapColors(wantDark);
   }
-
+  
   document.getElementById('dark-toggle').addEventListener('click', function() {
     setMode(!svg.classList.contains('dark'));
   });
