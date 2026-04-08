@@ -176,27 +176,29 @@
   }
   .tree-item.active svg { opacity: 0.9; }
 
-  /* Content grid */
+ /* Content grid - Fixed row behavior */
   .content {
-    flex: 1; overflow: hidden;
-    padding: 10px;
+    flex: 1;
+    overflow-y: auto; /* Enable vertical scrolling for the grid */
+    padding: 12px;    /* Add a little breathing room */
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 10px;
-    min-height: 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: max-content; /* Row height matches the card height */
+    gap: 12px;       /* Added a gap to prevent visual touching */
     background: var(--bg);
-    height: 100%;
   }
 
   .chart-card {
     position: relative;
-    border-radius: 18px;
+    border-radius: 12px; /* Slightly tighter radius for the portal look */
     overflow: hidden;
+    width: 100%;
+    aspect-ratio: 1100 / 620; /* This defines the height based on width */
+    background: var(--bg-surface); /* Helps visualize the card bounds */
+    border: 1px solid var(--border);
   }
 
   .chart-frame {
-    position: absolute; inset: 0;
     width: 100%; height: 100%;
     border: none; outline: none;
     background: transparent;
@@ -394,7 +396,7 @@
         <iframe class="chart-frame" src="radar_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
       </div>
      <div class="chart-card">
-        <iframe class="sunburst-frame" src="waterfall_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
+        <iframe class="chart-frame" src="waterfall_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
       </div>
     </div>
 
