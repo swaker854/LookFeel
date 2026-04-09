@@ -1,4 +1,5 @@
-<svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif" class="dark">
+
+<svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <clipPath id="chartclip">
     <rect x="68" y="96" width="782" height="412"/>
@@ -57,15 +58,12 @@
     svg.dark .fc4 { fill:#FBB724; }
     svg.dark .fc5 { fill:#94A3B8; }
 
-    /* ── fade only — no scale ── */
     @keyframes colFade {
       0%   { opacity:0;    }
       40%  { opacity:0.08; }
       100% { opacity:1;    }
     }
-    .col-g {
-      animation: colFade 0.9s ease-out both;
-    }
+    .col-g { animation: colFade 0.9s ease-out both; }
     .col-g.d0 { animation-delay:0.00s; }
     .col-g.d1 { animation-delay:0.12s; }
     .col-g.d2 { animation-delay:0.24s; }
@@ -161,7 +159,6 @@
 <text x="648.8" y="90" class="an" text-anchor="middle">2023</text>
 
 <g class="chart-g" clip-path="url(#chartclip)">
-
 <g class="col-g d0" id="col0">
   <rect class="seg fc5" x="90.9"  y="491.68" width="72" height="16.32"/>
   <rect class="seg fc4" x="90.9"  y="473.73" width="72" height="17.95"/>
@@ -226,7 +223,6 @@
   <rect class="seg fc1" x="755.1" y="165.28" width="72" height="117.50" rx="6" ry="6"/>
   <rect class="seg fc1" x="755.1" y="171.28" width="72" height="111.50"/>
 </g>
-
 </g>
 
 <g id="crosshairs">
@@ -257,8 +253,7 @@
 
 <text x="68" y="600" class="footer">Revenue by Quarter · 5 series · stacked bar chart</text>
 
-<script type="text/javascript">
-//<![CDATA[
+<script type="text/javascript"><![CDATA[
 (function() {
   var svg = document.getElementById('root');
   var ns  = 'http://www.w3.org/2000/svg';
@@ -366,11 +361,17 @@
       if(lbl) lbl.textContent='Dark';
     }
   }
+
   window.setMode = setMode;
   window.addEventListener('message', function(e) {
     if (e.data && e.data.type==='setMode') setMode(e.data.dark);
   });
+
+  /* ── URL param: ?theme=dark|light sets initial mode ── */
+  (function() {
+    setMode(window.location.href.indexOf('theme=dark') !== -1);
+  })();
+
 })();
-//]]>
-</script>
+]]></script>
 </svg>
