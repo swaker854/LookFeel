@@ -1,3 +1,4 @@
+
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
@@ -29,11 +30,11 @@
 
     .bw        { cursor:pointer; }
     .bubble    { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    .bw:hover .bubble { opacity:1; }
-    .ca:hover .bw .box-body  { opacity:0.55; }
-    .ca:hover .bw:hover .box-body { opacity:1; }
+    .bw.active .bubble { opacity:1; }
+    .ca.hovering .bw .box-body  { opacity:0.55; transition:opacity 0.15s; }
+    .ca.hovering .bw.active .box-body { opacity:1; }
     svg.print .bubble  { opacity:0 !important; }
-    svg.print .ca:hover .bw .box-body { opacity:1 !important; }
+    svg.print .ca.hovering .bw .box-body { opacity:1 !important; }
 
     .bub-bg    { fill:#FFFBFE; }
     .bub-bdr   { fill:none; stroke:#79747E; stroke-width:1; }
@@ -510,6 +511,19 @@
 <script type="text/javascript"><![CDATA[
 (function() {
   var svg = document.getElementById('root');
+
+  /* ── Hover: class-toggle pattern ── */
+  var caEl = document.querySelector('.ca');
+  document.querySelectorAll('.bw').forEach(function(bw) {
+    bw.addEventListener('mouseenter', function() {
+      if (caEl) caEl.classList.add('hovering');
+      bw.classList.add('active');
+    });
+    bw.addEventListener('mouseleave', function() {
+      bw.classList.remove('active');
+      if (caEl) caEl.classList.remove('hovering');
+    });
+  });
 
   /* ── Dark mode toggle ── */
   var isDark = false;
