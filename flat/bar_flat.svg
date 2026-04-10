@@ -1,142 +1,117 @@
 
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
-
-  <!-- Per-bar gradients — light mode -->
-  <linearGradient id="g1"><stop offset="0%" stop-color="#00D4E8"/></linearGradient>
-  <linearGradient id="g2"><stop offset="0%" stop-color="#00B87A"/></linearGradient>
-  <linearGradient id="g3"><stop offset="0%" stop-color="#F59E0B"/></linearGradient>
-  <linearGradient id="g4"><stop offset="0%" stop-color="#F43F5E"/></linearGradient>
-  <linearGradient id="g5"><stop offset="0%" stop-color="#8B5CF6"/></linearGradient>
-  <linearGradient id="g6"><stop offset="0%" stop-color="#3B82F6"/></linearGradient>
-  <linearGradient id="g7"><stop offset="0%" stop-color="#0D9488"/></linearGradient>
-  <linearGradient id="goth"><stop offset="0%" stop-color="#64748B"/></linearGradient>
-
-  <!-- Per-bar gradients — dark mode -->
-  <linearGradient id="g1d"><stop offset="0%" stop-color="#22D3EE"/></linearGradient>
-  <linearGradient id="g2d"><stop offset="0%" stop-color="#10B981"/></linearGradient>
-  <linearGradient id="g3d"><stop offset="0%" stop-color="#FBB724"/></linearGradient>
-  <linearGradient id="g4d"><stop offset="0%" stop-color="#FB6181"/></linearGradient>
-  <linearGradient id="g5d"><stop offset="0%" stop-color="#A78BFA"/></linearGradient>
-  <linearGradient id="g6d"><stop offset="0%" stop-color="#60A5FA"/></linearGradient>
-  <linearGradient id="g7d"><stop offset="0%" stop-color="#2DD4BF"/></linearGradient>
-  <linearGradient id="gothd"><stop offset="0%" stop-color="#94A3B8"/></linearGradient>
-
-  <!-- Legend swatch gradients — light mode canonical -->
-  <linearGradient id="c1"><stop offset="0%" stop-color="#00D4E8"/></linearGradient>
-  <linearGradient id="c2"><stop offset="0%" stop-color="#00B87A"/></linearGradient>
-  <linearGradient id="c3"><stop offset="0%" stop-color="#F59E0B"/></linearGradient>
-  <linearGradient id="c4"><stop offset="0%" stop-color="#F43F5E"/></linearGradient>
-  <linearGradient id="c5"><stop offset="0%" stop-color="#8B5CF6"/></linearGradient>
-  <linearGradient id="c6"><stop offset="0%" stop-color="#3B82F6"/></linearGradient>
-  <linearGradient id="c7"><stop offset="0%" stop-color="#0D9488"/></linearGradient>
-  <linearGradient id="coth"><stop offset="0%" stop-color="#64748B"/></linearGradient>
-
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
-    .bg-main   { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    .ct        { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .cs        { font-size:11px; fill:#79747E; font-weight:400; }
-    .an        { font-size:10px; fill:#79747E; font-weight:400; }
-    .al        { font-size:10px; fill:#79747E; font-weight:500; }
-    .lt        { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    .lv        { font-size:11px; fill:#1C1B1F; font-weight:500; }
-    .gl        { stroke:#E7E0EC; stroke-width:1; }
-    .bl        { stroke:#79747E; stroke-width:1.5; }
-    .lgd-bg    { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .lgd-div   { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .lgd-ttl   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-    .footer    { font-size:10px; fill:#79747E; font-weight:400; }
-    .t-wrap    { cursor:pointer; }
-    .t-track   { fill:#E7E0EC; }
-    .t-thumb   { fill:#ffffff; }
-    .t-label   { font-size:11px; font-weight:500; fill:#49454F; }
-    .pt-track  { fill:#E7E0EC; transition:fill 0.3s; }
-    .pt-thumb  { fill:#ffffff; }
-    .pt-label  { font-size:11px; font-weight:500; fill:#49454F; }
+    .bg-main  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    .ct       { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+    .cs       { font-size:11px; fill:#79747E; font-weight:400; }
+    .an       { font-size:10px; fill:#79747E; font-weight:400; }
+    .al       { font-size:10px; fill:#79747E; font-weight:500; }
+    .lt       { font-size:11px; fill:#1C1B1F; font-weight:400; }
+    .lv       { font-size:11px; fill:#1C1B1F; font-weight:500; }
+    .gl       { stroke:#E7E0EC; stroke-width:1; }
+    .bl       { stroke:#79747E; stroke-width:1.5; }
+    .lgd-bg   { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+    .lgd-div  { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+    .lgd-ttl  { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+    .footer   { font-size:10px; fill:#79747E; font-weight:400; }
+    .t-wrap   { cursor:pointer; }
+    .t-track  { fill:#E7E0EC; }
+    .t-thumb  { fill:#ffffff; }
+    .t-label  { font-size:11px; font-weight:500; fill:#49454F; }
+    .pt-track { fill:#E7E0EC; transition:fill 0.3s; }
+    .pt-thumb { fill:#ffffff; }
+    .pt-label { font-size:11px; font-weight:500; fill:#49454F; }
 
-    .lgd-val   { opacity:0; transition:opacity 0.2s; }
-    svg.print .lgd-val   { opacity:1; }
-    svg.print .pt-track  { fill:#d97316; }
+    .lgd-val  { opacity:0; transition:opacity 0.2s; }
+    svg.print .lgd-val  { opacity:1; }
+    svg.print .pt-track { fill:#d97316; }
 
-    .bw        { cursor:pointer; }
-    .bubble    { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
+    .bar-1 { fill:#00D4E8; } .bar-2 { fill:#00B87A; }
+    .bar-3 { fill:#F59E0B; } .bar-4 { fill:#F43F5E; }
+    .bar-5 { fill:#8B5CF6; } .bar-6 { fill:#3B82F6; }
+    .bar-7 { fill:#0D9488; } .bar-8 { fill:#64748B; }
+
+    svg.dark .bar-1 { fill:#22D3EE; } svg.dark .bar-2 { fill:#10B981; }
+    svg.dark .bar-3 { fill:#FBB724; } svg.dark .bar-4 { fill:#FB6181; }
+    svg.dark .bar-5 { fill:#A78BFA; } svg.dark .bar-6 { fill:#60A5FA; }
+    svg.dark .bar-7 { fill:#2DD4BF; } svg.dark .bar-8 { fill:#94A3B8; }
+
+    @keyframes barFadeIn { from { opacity:0; } to { opacity:1; } }
+    .bb { animation: barFadeIn 0.8s ease-out both; }
+    .b1 { animation-delay:0.00s; } .b2 { animation-delay:0.25s; }
+    .b3 { animation-delay:0.50s; } .b4 { animation-delay:0.75s; }
+    .b5 { animation-delay:1.00s; } .b6 { animation-delay:1.25s; }
+    .b7 { animation-delay:1.50s; } .b8 { animation-delay:1.75s; }
+
+    .bw       { cursor:pointer; }
+    .bubble   { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     .bw.active .bubble { opacity:1; }
-    .ca.hovering .bw .bb  { opacity:0.20; transition:opacity 0.15s; }
-    .ca.hovering .bw.active .bb { opacity:1; }
-    svg.print .bubble  { opacity:0 !important; }
-    svg.print .ca.hovering .bw .bb { opacity:1 !important; }
+    .ca.hovering .bw        { opacity:0.20; transition:opacity 0.15s; }
+    .ca.hovering .bw.active { opacity:1; }
+    svg.print .bubble { opacity:0 !important; }
+    svg.print .ca.hovering .bw { opacity:1 !important; }
 
-    .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    svg.print .tip { opacity:0 !important; }
-    .bub-bg    { fill:#FFFBFE; }
-    .bub-bdr   { fill:none; stroke:#79747E; stroke-width:1; }
-    .bub-tip   { fill:none; stroke:#79747E; stroke-width:1; }
-    .bub-val   { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .bub-lbl   { fill:#49454F; font-size:10px; font-weight:400; }
+    .bub-bg  { fill:#FFFBFE; }
+    .bub-bdr { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .bub-tip { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .bub-val { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .bub-lbl { fill:#49454F; font-size:10px; font-weight:400; }
 
-    svg.dark .bg-main   { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-    svg.dark .ct        { fill:#E6E0E9; }
-    svg.dark .cs        { fill:#938F99; }
-    svg.dark .an        { fill:#938F99; }
-    svg.dark .al        { fill:#938F99; }
-    svg.dark .lt        { fill:#E6E0E9; }
-    svg.dark .lv        { fill:#E6E0E9; }
-    svg.dark .lp        { fill:#938F99; }
-    svg.dark .gl        { stroke:#49454F; }
-    svg.dark .bl        { stroke:#938F99; }
-    svg.dark .lgd-bg    { fill:#49454F; stroke:#938F99; }
-    svg.dark .lgd-div   { stroke:#938F99; }
-    svg.dark .lgd-ttl   { fill:#938F99; }
-    svg.dark .footer    { fill:#938F99; }
-    svg.dark .t-track   { fill:#49454F; }
-    svg.dark .t-label   { fill:#CAC4D0; }
-    svg.dark .pt-track  { fill:#49454F; }
-    svg.dark .pt-label  { fill:#CAC4D0; }
+    svg.dark .bg-main  { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+    svg.dark .ct       { fill:#E6E0E9; }
+    svg.dark .cs       { fill:#938F99; }
+    svg.dark .an       { fill:#938F99; }
+    svg.dark .al       { fill:#938F99; }
+    svg.dark .lt       { fill:#E6E0E9; }
+    svg.dark .lv       { fill:#E6E0E9; }
+    svg.dark .gl       { stroke:#49454F; }
+    svg.dark .bl       { stroke:#938F99; }
+    svg.dark .lgd-bg   { fill:#49454F; stroke:#938F99; }
+    svg.dark .lgd-div  { stroke:#938F99; }
+    svg.dark .lgd-ttl  { fill:#938F99; }
+    svg.dark .footer   { fill:#938F99; }
+    svg.dark .t-track  { fill:#49454F; }
+    svg.dark .t-label  { fill:#CAC4D0; }
+    svg.dark .pt-track { fill:#49454F; }
+    svg.dark .pt-label { fill:#CAC4D0; }
     svg.dark.print .pt-track { fill:#d97316; }
-    svg.dark .bub-bg    { fill:#1C1B1F; }
-    svg.dark .bub-bdr   { fill:none; stroke:#938F99; stroke-width:1; }
-    svg.dark .bub-tip   { fill:none; stroke:#938F99; stroke-width:1; }
-    svg.dark .bub-val   { fill:#E6E0E9; }
-    svg.dark .bub-lbl   { fill:#CAC4D0; }
+    svg.dark .bub-bg   { fill:#1C1B1F; }
+    svg.dark .bub-bdr  { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
+    svg.dark .bub-tip  { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
+    svg.dark .bub-val  { fill:#E6E0E9; }
+    svg.dark .bub-lbl  { fill:#CAC4D0; }
 
-    .border-dark      { display:none; }
-    .border-light     { display:block; }
+    .border-dark  { display:none; }
+    .border-light { display:block; }
     svg.dark .border-dark  { display:block; }
     svg.dark .border-light { display:none; }
   </style>
 </defs>
 
-<!-- Background -->
 <rect class="bg-main" width="1100" height="620" rx="18"/>
 <g class="border-dark">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5"
-    fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
 </g>
 <g class="border-light">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5"
-    fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
 </g>
 
-<!-- Title -->
 <text x="68" y="50" class="ct">Revenue by Category</text>
 <text x="68" y="70" class="cs">7 series + Other · hover to inspect · print for values</text>
 
-<!-- Dark toggle -->
 <g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
-  <circle id="tthumb" cx="52" cy="0" r="10" class="t-thumb"/>
-  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Light</text>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
+  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
 </g>
-
-<!-- Print toggle -->
 <g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
   <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
   <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
 </g>
 
-<!-- Grid lines -->
 <line x1="68" y1="500" x2="850" y2="500" class="bl"/>
 <line x1="68" y1="400" x2="850" y2="400" class="gl"/>
 <line x1="68" y1="300" x2="850" y2="300" class="gl"/>
@@ -144,14 +119,12 @@
 <line x1="68" y1="100" x2="850" y2="100" class="gl"/>
 <line x1="68" y1="100" x2="68"  y2="500" class="bl"/>
 
-<!-- Y axis labels -->
 <text x="56" y="504" class="an" text-anchor="end">$0</text>
 <text x="56" y="404" class="an" text-anchor="end">$25M</text>
 <text x="56" y="304" class="an" text-anchor="end">$50M</text>
 <text x="56" y="204" class="an" text-anchor="end">$75M</text>
 <text x="56" y="104" class="an" text-anchor="end">$100M</text>
 
-<!-- X axis labels -->
 <text x="130" y="522" class="al" text-anchor="middle">Cyan</text>
 <text x="220" y="522" class="al" text-anchor="middle">Emerald</text>
 <text x="310" y="522" class="al" text-anchor="middle">Amber</text>
@@ -164,13 +137,9 @@
 <g class="ca">
 
 <!-- Cyan $72M h=288 -->
-<g class="bw" id="bw1">
-  <g class="bb">
-    <g id="bar-anim-1" transform="translate(130,500)" style="opacity:0; transform-origin:130px 500px">
-      <animateTransform attributeName="transform" type="scale" from="1,0" to="1,1" dur="1.20s" begin="0.00s" fill="freeze" calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"/>
-      <animate attributeName="opacity" from="0" to="1" dur="0.45s" begin="0.00s" fill="freeze"/>
-      <rect id="bar-1" x="-28" y="-288" width="56" height="288" rx="10" fill="url(#g1)"/>
-    </g>
+<g class="bw b1" id="bw1">
+  <g class="bb b1">
+    <rect class="bar-1" x="102" y="212" width="56" height="288" rx="10"/>
   </g>
   <g class="bubble" transform="translate(130,188)">
     <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
@@ -182,13 +151,9 @@
 </g>
 
 <!-- Emerald $68M h=272 -->
-<g class="bw" id="bw2">
-  <g class="bb">
-    <g id="bar-anim-2" transform="translate(220,500)" style="opacity:0; transform-origin:220px 500px">
-      <animateTransform attributeName="transform" type="scale" from="1,0" to="1,1" dur="1.20s" begin="0.12s" fill="freeze" calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"/>
-      <animate attributeName="opacity" from="0" to="1" dur="0.45s" begin="0.12s" fill="freeze"/>
-      <rect id="bar-2" x="-28" y="-272" width="56" height="272" rx="10" fill="url(#g2)"/>
-    </g>
+<g class="bw b2" id="bw2">
+  <g class="bb b2">
+    <rect class="bar-2" x="192" y="228" width="56" height="272" rx="10"/>
   </g>
   <g class="bubble" transform="translate(220,204)">
     <rect x="-44" y="-44" width="88" height="38" rx="9" class="bub-bg"/>
@@ -200,13 +165,9 @@
 </g>
 
 <!-- Amber $60M h=240 -->
-<g class="bw" id="bw3">
-  <g class="bb">
-    <g id="bar-anim-3" transform="translate(310,500)" style="opacity:0; transform-origin:310px 500px">
-      <animateTransform attributeName="transform" type="scale" from="1,0" to="1,1" dur="1.20s" begin="0.24s" fill="freeze" calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"/>
-      <animate attributeName="opacity" from="0" to="1" dur="0.45s" begin="0.24s" fill="freeze"/>
-      <rect id="bar-3" x="-28" y="-240" width="56" height="240" rx="10" fill="url(#g3)"/>
-    </g>
+<g class="bw b3" id="bw3">
+  <g class="bb b3">
+    <rect class="bar-3" x="282" y="260" width="56" height="240" rx="10"/>
   </g>
   <g class="bubble" transform="translate(310,236)">
     <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
@@ -218,13 +179,9 @@
 </g>
 
 <!-- Rose $55M h=220 -->
-<g class="bw" id="bw4">
-  <g class="bb">
-    <g id="bar-anim-4" transform="translate(400,500)" style="opacity:0; transform-origin:400px 500px">
-      <animateTransform attributeName="transform" type="scale" from="1,0" to="1,1" dur="1.20s" begin="0.36s" fill="freeze" calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"/>
-      <animate attributeName="opacity" from="0" to="1" dur="0.45s" begin="0.36s" fill="freeze"/>
-      <rect id="bar-4" x="-28" y="-220" width="56" height="220" rx="10" fill="url(#g4)"/>
-    </g>
+<g class="bw b4" id="bw4">
+  <g class="bb b4">
+    <rect class="bar-4" x="372" y="280" width="56" height="220" rx="10"/>
   </g>
   <g class="bubble" transform="translate(400,256)">
     <rect x="-36" y="-44" width="72" height="38" rx="9" class="bub-bg"/>
@@ -236,13 +193,9 @@
 </g>
 
 <!-- Violet $79M h=316 -->
-<g class="bw" id="bw5">
-  <g class="bb">
-    <g id="bar-anim-5" transform="translate(490,500)" style="opacity:0; transform-origin:490px 500px">
-      <animateTransform attributeName="transform" type="scale" from="1,0" to="1,1" dur="1.20s" begin="0.48s" fill="freeze" calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"/>
-      <animate attributeName="opacity" from="0" to="1" dur="0.45s" begin="0.48s" fill="freeze"/>
-      <rect id="bar-5" x="-28" y="-316" width="56" height="316" rx="10" fill="url(#g5)"/>
-    </g>
+<g class="bw b5" id="bw5">
+  <g class="bb b5">
+    <rect class="bar-5" x="462" y="184" width="56" height="316" rx="10"/>
   </g>
   <g class="bubble" transform="translate(490,160)">
     <rect x="-36" y="-44" width="72" height="38" rx="9" class="bub-bg"/>
@@ -254,13 +207,9 @@
 </g>
 
 <!-- Blue $64M h=256 -->
-<g class="bw" id="bw6">
-  <g class="bb">
-    <g id="bar-anim-6" transform="translate(580,500)" style="opacity:0; transform-origin:580px 500px">
-      <animateTransform attributeName="transform" type="scale" from="1,0" to="1,1" dur="1.20s" begin="0.60s" fill="freeze" calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"/>
-      <animate attributeName="opacity" from="0" to="1" dur="0.45s" begin="0.60s" fill="freeze"/>
-      <rect id="bar-6" x="-28" y="-256" width="56" height="256" rx="10" fill="url(#g6)"/>
-    </g>
+<g class="bw b6" id="bw6">
+  <g class="bb b6">
+    <rect class="bar-6" x="552" y="244" width="56" height="256" rx="10"/>
   </g>
   <g class="bubble" transform="translate(580,220)">
     <rect x="-36" y="-44" width="72" height="38" rx="9" class="bub-bg"/>
@@ -272,13 +221,9 @@
 </g>
 
 <!-- Teal $61M h=244 -->
-<g class="bw" id="bw7">
-  <g class="bb">
-    <g id="bar-anim-7" transform="translate(670,500)" style="opacity:0; transform-origin:670px 500px">
-      <animateTransform attributeName="transform" type="scale" from="1,0" to="1,1" dur="1.20s" begin="0.72s" fill="freeze" calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"/>
-      <animate attributeName="opacity" from="0" to="1" dur="0.45s" begin="0.72s" fill="freeze"/>
-      <rect id="bar-7" x="-28" y="-244" width="56" height="244" rx="10" fill="url(#g7)"/>
-    </g>
+<g class="bw b7" id="bw7">
+  <g class="bb b7">
+    <rect class="bar-7" x="642" y="256" width="56" height="244" rx="10"/>
   </g>
   <g class="bubble" transform="translate(670,232)">
     <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bg"/>
@@ -290,13 +235,9 @@
 </g>
 
 <!-- Other $48M h=192 -->
-<g class="bw" id="bw8">
-  <g class="bb">
-    <g id="bar-anim-8" transform="translate(760,500)" style="opacity:0; transform-origin:760px 500px">
-      <animateTransform attributeName="transform" type="scale" from="1,0" to="1,1" dur="1.20s" begin="0.84s" fill="freeze" calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"/>
-      <animate attributeName="opacity" from="0" to="1" dur="0.45s" begin="0.84s" fill="freeze"/>
-      <rect id="bar-8" x="-28" y="-192" width="56" height="192" rx="10" fill="url(#goth)"/>
-    </g>
+<g class="bw b8" id="bw8">
+  <g class="bb b8">
+    <rect class="bar-8" x="732" y="308" width="56" height="192" rx="10"/>
   </g>
   <g class="bubble" transform="translate(760,284)">
     <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
@@ -313,66 +254,54 @@
 <rect x="870" y="100" width="210" height="370" rx="14" class="lgd-bg" stroke-width="1"/>
 <text x="888" y="124" class="lgd-ttl">SERIES</text>
 <g transform="translate(888,140)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c1)"/>
+  <rect class="bar-1" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="lt">Cyan</text>
   <text x="188" y="11" class="lv lgd-val" text-anchor="end">$72M</text>
 </g>
 <g transform="translate(888,170)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c2)"/>
+  <rect class="bar-2" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="lt">Emerald</text>
   <text x="188" y="11" class="lv lgd-val" text-anchor="end">$68M</text>
 </g>
 <g transform="translate(888,200)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c3)"/>
+  <rect class="bar-3" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="lt">Amber</text>
   <text x="188" y="11" class="lv lgd-val" text-anchor="end">$60M</text>
 </g>
 <g transform="translate(888,230)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c4)"/>
+  <rect class="bar-4" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="lt">Rose</text>
   <text x="188" y="11" class="lv lgd-val" text-anchor="end">$55M</text>
 </g>
 <g transform="translate(888,260)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c5)"/>
+  <rect class="bar-5" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="lt">Violet</text>
   <text x="188" y="11" class="lv lgd-val" text-anchor="end">$79M</text>
 </g>
 <g transform="translate(888,290)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c6)"/>
+  <rect class="bar-6" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="lt">Blue</text>
   <text x="188" y="11" class="lv lgd-val" text-anchor="end">$64M</text>
 </g>
 <g transform="translate(888,320)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c7)"/>
+  <rect class="bar-7" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="lt">Teal</text>
   <text x="188" y="11" class="lv lgd-val" text-anchor="end">$61M</text>
 </g>
 <line x1="888" y1="352" x2="1062" y2="352" class="lgd-div"/>
 <g transform="translate(888,364)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#coth)"/>
+  <rect class="bar-8" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="lt">Other</text>
   <text x="188" y="11" class="lv lgd-val" text-anchor="end">$48M</text>
 </g>
 
-<text x="68" y="600" class="footer">Revenue by Category · 7 series + Other · liquid glass bars</text>
+<text x="68" y="600" class="footer">Revenue by Category · 7 series + Other · bar chart</text>
 
 <script type="text/javascript"><![CDATA[
 (function() {
   var svg = document.getElementById('root');
-
-  var bars = [
-    { id:1, light:'g1',   dark:'g1d'   },
-    { id:2, light:'g2',   dark:'g2d'   },
-    { id:3, light:'g3',   dark:'g3d'   },
-    { id:4, light:'g4',   dark:'g4d'   },
-    { id:5, light:'g5',   dark:'g5d'   },
-    { id:6, light:'g6',   dark:'g6d'   },
-    { id:7, light:'g7',   dark:'g7d'   },
-    { id:8, light:'goth', dark:'gothd' },
-  ];
-
-  /* ── Hover: class-toggle pattern ── */
   var caEl = document.querySelector('.ca');
+
   document.querySelectorAll('.bw').forEach(function(bw) {
     bw.addEventListener('mouseenter', function() {
       if (caEl) caEl.classList.add('hovering');
@@ -384,16 +313,10 @@
     });
   });
 
-  function swapColors(dark) {
-    bars.forEach(function(b) {
-      var bar = document.getElementById('bar-' + b.id);
-      if (bar) bar.setAttribute('fill', 'url(#' + (dark ? b.dark : b.light) + ')');
-    });
-  }
-
+  var isDark = false;
   function setMode(wantDark) {
-    var currently = svg.classList.contains('dark');
-    if (wantDark === currently) return;
+    if (wantDark === isDark) return;
+    isDark = wantDark;
     var thumb = document.getElementById('tthumb');
     var lbl   = document.getElementById('tlabel');
     if (wantDark) {
@@ -405,31 +328,20 @@
       if (thumb) thumb.setAttribute('cx', '16');
       if (lbl)   lbl.textContent = 'Dark';
     }
-    swapColors(wantDark);
   }
 
-  document.getElementById('dark-toggle').addEventListener('click', function() {
-    setMode(!svg.classList.contains('dark'));
-  });
+  document.getElementById('dark-toggle').addEventListener('click', function() { setMode(!isDark); });
   document.getElementById('print-toggle').addEventListener('click', function() {
     var thumb = document.getElementById('pthumb'), lbl = document.getElementById('plabel');
     if (svg.classList.toggle('print')) { thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
-    else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print';  }
+    else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print'; }
   });
-
-  /* theme param handled below */
 
   window.setMode = setMode;
   window.addEventListener('message', function(e) {
     if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
   });
-
-  /* ── URL param: ?theme=dark|light sets initial mode ── */
-  (function() {
-    var href = window.location.href;
-    setMode(href.indexOf('theme=dark') !== -1);
-  })();
-
+  setMode(window.location.href.indexOf('theme=dark') !== -1);
 })();
 ]]></script>
 </svg>

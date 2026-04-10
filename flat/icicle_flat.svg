@@ -1,429 +1,418 @@
 
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
-    .bg-main  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    .ct       { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .cs       { font-size:11px; fill:#79747E; font-weight:400; }
-    .footer   { font-size:10px; fill:#79747E; font-weight:400; }
-    .t-wrap   { cursor:pointer; }
-    .t-track  { fill:#E7E0EC; }
-    .t-thumb  { fill:#ffffff; }
-    .t-label  { font-size:11px; font-weight:500; fill:#49454F; }
-    .pt-track { fill:#E7E0EC; transition:fill 0.3s; }
-    .pt-thumb { fill:#ffffff; }
-    .pt-label { font-size:11px; font-weight:500; fill:#49454F; }
+<style>
+  .bg-main  { fill:#FFFBFE; }
+  .ct       { font-size:18px;font-weight:500;fill:#1C1B1F;letter-spacing:-.2px; }
+  .cs       { font-size:11px;fill:#79747E;font-weight:400; }
+  .an       { font-size:10px;fill:#79747E;font-weight:400; }
+  .lt       { font-size:11px;fill:#1C1B1F;font-weight:400; }
+  .lv       { font-size:11px;fill:#1C1B1F;font-weight:500; }
+  .lgd-bg   { fill:#E7E0EC;stroke:#79747E;stroke-width:.5; }
+  .lgd-div  { stroke:#79747E;stroke-width:.5;opacity:.3; }
+  .lgd-ttl  { font-size:10px;fill:#79747E;font-weight:500;letter-spacing:.4px; }
+  .footer   { font-size:10px;fill:#79747E;font-weight:400; }
+  .t-wrap   { cursor:pointer; }
+  .t-track  { fill:#E7E0EC; } .t-thumb { fill:#fff; }
+  .t-label  { font-size:11px;font-weight:500;fill:#49454F; }
+  .pt-track { fill:#E7E0EC;transition:fill .3s; } .pt-thumb { fill:#fff; }
+  .pt-label { font-size:11px;font-weight:500;fill:#49454F; }
+  .lgd-val  { opacity:0;transition:opacity .2s; }
+  #root.print .lgd-val  { opacity:1; }
+  #root.print .pt-track { fill:#d97316; }
 
-    /* icell base */
-    .icell { cursor:pointer; transition:opacity 0.2s ease; }
+  /* ── standard palette — light mode ── */
+  .bar-1 { fill:#00D4E8; } .bar-2 { fill:#00B87A; }
+  .bar-3 { fill:#F59E0B; } .bar-4 { fill:#F43F5E; }
+  .bar-5 { fill:#8B5CF6; } .bar-6 { fill:#3B82F6; }
+  .bar-7 { fill:#0D9488; } .bar-8 { fill:#64748B; }
 
-    /* dimming: when chart-area has .dimming, all cells go faint */
-    .ca.dimming .icell        { opacity:0.15 !important; transition:opacity 0.2s ease; }
-    /* hovered cell stays bright */
-    .ca.dimming .icell.hovered { opacity:1 !important; transition:opacity 0.2s ease; }
+  /* ── standard palette — dark mode ── */
+  #root.dark .bar-1 { fill:#22D3EE; } #root.dark .bar-2 { fill:#10B981; }
+  #root.dark .bar-3 { fill:#FBB724; } #root.dark .bar-4 { fill:#FB6181; }
+  #root.dark .bar-5 { fill:#A78BFA; } #root.dark .bar-6 { fill:#60A5FA; }
+  #root.dark .bar-7 { fill:#2DD4BF; } #root.dark .bar-8 { fill:#94A3B8; }
 
-    .bubble   { opacity:0; pointer-events:none; transition:opacity 0.12s ease; }
-    .bub-fill { fill:#FFFBFE; }
-    .bub-bdr  { fill:none; stroke:#79747E; stroke-width:1; }
-    .bub-name { fill:#1C1B1F; font-size:12px; font-weight:500; }
-    .bub-val  { fill:#49454F; font-size:10px; font-weight:400; }
-    .bub-pct  { fill:#79747E; font-size:10px; font-weight:400; }
+  /* ── depth blend ratios + bg targets ── */
+  #root {
+    --blend-d0:0.15; --blend-d1:0; --blend-d2:0.45; --blend-d3:0.62; --blend-d4:0.75;
+    --bg-light:#FFFBFE; --bg-dark:#2C2B30;
+  }
 
-    svg.dark .bg-main  { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.4)); }
-    svg.dark .ct       { fill:#E6E0E9; }
-    svg.dark .cs       { fill:#938F99; }
-    svg.dark .footer   { fill:#938F99; }
-    svg.dark .t-track  { fill:#49454F; }
-    svg.dark .t-label  { fill:#CAC4D0; }
-    svg.dark .pt-track { fill:#49454F; }
-    svg.dark .pt-label { fill:#CAC4D0; }
-    svg.dark .bub-fill { fill:#2C2B30; }
-    svg.dark .bub-bdr  { stroke:#938F99; }
-    svg.dark .bub-name { fill:#E6E0E9; }
-    svg.dark .bub-val  { fill:#CAC4D0; }
-    svg.dark .bub-pct  { fill:#938F99; }
+  /* ── Method A @keyframes — animationend adds .visible, no fill-mode conflict ── */
+  @keyframes cellFade { from{opacity:0} to{opacity:1} }
+  .icell         { opacity:0; cursor:pointer; transition:opacity .2s ease; }
+  .icell.visible { opacity:1; }
 
-    .lgd-bg   { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .lgd-div  { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .lgd-ttl  { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-    .lt       { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    .lv       { font-size:11px; fill:#1C1B1F; font-weight:500; }
-    .lgd-val  { opacity:0; transition:opacity 0.2s; }
-    svg.print .lgd-val  { opacity:1; }
-    svg.print .pt-track { fill:#d97316; }
-    svg.dark .lgd-bg   { fill:#49454F; stroke:#938F99; }
-    svg.dark .lgd-div  { stroke:#938F99; }
-    svg.dark .lgd-ttl  { fill:#938F99; }
-    svg.dark .lt       { fill:#E6E0E9; }
-    svg.dark .lv       { fill:#E6E0E9; }
-    .border-dark  { display:none; }
-    .border-light { display:block; }
-    svg.dark .border-dark  { display:block; }
-    svg.dark .border-light { display:none; }
-  </style>
-  <clipPath id="card-clip"><rect width="1100" height="620" rx="18"/></clipPath>
+  /* ── hover dimming gated on .ready ── */
+  .ca.ready.hovering .icell.visible         { opacity:0.20; }
+  .ca.ready.hovering .icell.visible.hovered { opacity:1; }
+
+  /* ── tooltip ── */
+  .tip          { opacity:0; pointer-events:none; transition:opacity .12s ease; }
+  #root.print .tip { opacity:0 !important; }
+  .bub-bg  { fill:#FFFBFE; }
+  .bub-bdr { fill:#FFFBFE;stroke:#79747E;stroke-width:1; }
+  .bub-tip { fill:#FFFBFE;stroke:#79747E;stroke-width:1; }
+  .bub-val { fill:#1C1B1F;font-size:13px;font-weight:500; }
+  .bub-lbl { fill:#49454F;font-size:10px;font-weight:400; }
+  .bub-pct { fill:#79747E;font-size:10px;font-weight:400; }
+
+  #root.dark .bg-main  { fill:#1C1B1F; }
+  #root.dark .ct       { fill:#E6E0E9; } #root.dark .cs  { fill:#938F99; }
+  #root.dark .an       { fill:#938F99; }
+  #root.dark .lt       { fill:#E6E0E9; } #root.dark .lv  { fill:#E6E0E9; }
+  #root.dark .lgd-bg   { fill:#49454F;stroke:#938F99; }
+  #root.dark .lgd-div  { stroke:#938F99; } #root.dark .lgd-ttl { fill:#938F99; }
+  #root.dark .footer   { fill:#938F99; }
+  #root.dark .t-track  { fill:#49454F; } #root.dark .t-label  { fill:#CAC4D0; }
+  #root.dark .pt-track { fill:#49454F; } #root.dark .pt-label { fill:#CAC4D0; }
+  #root.dark.print .pt-track { fill:#d97316; }
+  #root.dark .bub-bg   { fill:#1C1B1F; }
+  #root.dark .bub-bdr  { fill:#1C1B1F;stroke:#938F99; }
+  #root.dark .bub-tip  { fill:#1C1B1F;stroke:#938F99; }
+  #root.dark .bub-val  { fill:#E6E0E9; } #root.dark .bub-lbl { fill:#CAC4D0; }
+  #root.dark .bub-pct  { fill:#938F99; }
+  .border-dark  { display:none; } .border-light { display:block; }
+  #root.dark .border-dark  { display:block; } #root.dark .border-light { display:none; }
+</style>
+<clipPath id="chart-clip"><rect x="40" y="100" width="820" height="400"/></clipPath>
 </defs>
 
 <rect class="bg-main" width="1100" height="620" rx="18"/>
-<g class="border-light"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/></g>
-<g class="border-dark"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/></g>
+<g class="border-light"><rect x=".75" y=".75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,.10)" stroke-width="1.5"/></g>
+<g class="border-dark"><rect x=".75" y=".75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,.22)" stroke-width="1.5"/></g>
 
-<text x="40" y="38" class="ct">Flare Visualization Toolkit</text>
-<text x="40" y="56" class="cs">Icicle chart · 5 levels · area proportional to source lines · hover to inspect</text>
+<text x="68" y="50" class="ct">Flare Visualization Toolkit</text>
+<text x="68" y="70" class="cs">Icicle · 5 levels · area ∝ source lines of code · hover to inspect · depth-tinted per module</text>
 
-<g class="t-wrap" id="dark-toggle" transform="translate(800,40)">
+<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
-  <circle id="tthumb" cx="52" cy="0" r="10" class="t-thumb"/>
-  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Light</text>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
+  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
 </g>
-<g class="t-wrap" id="print-toggle" transform="translate(882,40)">
+<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
   <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
   <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
 </g>
 
-<g clip-path="url(#card-clip)">
-<!-- ca = chart area, used for dimming trigger -->
-<g class="ca" id="chart-area" transform="translate(40,100) scale(1, 0.6452)">
+<text x="120" y="92" class="an" text-anchor="middle">L0 · root</text>
+<text x="284" y="92" class="an" text-anchor="middle">L1 · module</text>
+<text x="448" y="92" class="an" text-anchor="middle">L2 · submodule</text>
+<text x="612" y="92" class="an" text-anchor="middle">L3 · class</text>
+<text x="776" y="92" class="an" text-anchor="middle">L4 · leaf</text>
 
-<!-- L0 -->
-<rect x="0" y="0" width="168" height="620" fill="#7FBCD2" stroke="white" stroke-width="1" class="icell d0" data-name="flare" data-val="819293"/>
-<text x="6" y="310" dominant-baseline="central" font-size="14" font-weight="500" fill="white" pointer-events="none">flare</text>
+<g class="ca" id="ca" clip-path="url(#chart-clip)"></g>
 
-<!-- L1 -->
-<rect x="171" y="0.5"   width="168" height="35.9"  fill="#1B6FAD" stroke="white" stroke-width="1" class="icell d1" data-name="analytics" data-val="48716"/>
-<text x="177" y="18.4"  dominant-baseline="central" font-size="11" font-weight="500" fill="white" pointer-events="none">analytics</text>
-<rect x="171" y="37.4"  width="168" height="69.6"  fill="#2D9E2D" stroke="white" stroke-width="1" class="icell d1" data-name="animate" data-val="93278"/>
-<text x="177" y="72.2"  dominant-baseline="central" font-size="11" font-weight="500" fill="white" pointer-events="none">animate</text>
-<rect x="171" y="108.0" width="168" height="21.9"  fill="#D9507A" stroke="white" stroke-width="1" class="icell d1" data-name="data" data-val="30284"/>
-<text x="177" y="119.0" dominant-baseline="central" font-size="11" font-weight="500" fill="white" pointer-events="none">data</text>
-<rect x="171" y="130.9" width="168" height="17.4"  fill="#1E9999" stroke="white" stroke-width="1" class="icell d1" data-name="display" data-val="24254"/>
-<text x="177" y="139.6" dominant-baseline="central" font-size="11" font-weight="400" fill="white" pointer-events="none">display</text>
-<rect x="171" y="149.2" width="168" height="2.7"   fill="#666666" stroke="white" stroke-width="1" class="icell d1" data-name="flex" data-val="4877"/>
-<rect x="171" y="152.9" width="168" height="21.7"  fill="#C85A10" stroke="white" stroke-width="1" class="icell d1" data-name="physics" data-val="29934"/>
-<text x="177" y="163.8" dominant-baseline="central" font-size="11" font-weight="500" fill="white" pointer-events="none">physics</text>
-<rect x="171" y="175.6" width="168" height="56.1"  fill="#7070C0" stroke="white" stroke-width="1" class="icell d1" data-name="query" data-val="75492"/>
-<text x="177" y="203.7" dominant-baseline="central" font-size="11" font-weight="500" fill="white" pointer-events="none">query</text>
-<rect x="171" y="232.7" width="168" height="22.7"  fill="#5C10A0" stroke="white" stroke-width="1" class="icell d1" data-name="scale" data-val="31294"/>
-<text x="177" y="244.0" dominant-baseline="central" font-size="11" font-weight="500" fill="white" pointer-events="none">scale</text>
-<rect x="171" y="256.4" width="168" height="68.2"  fill="#9AAA10" stroke="white" stroke-width="1" class="icell d1" data-name="util" data-val="91480"/>
-<text x="177" y="290.5" dominant-baseline="central" font-size="11" font-weight="500" fill="white" pointer-events="none">util</text>
-<rect x="171" y="325.6" width="168" height="293.9" fill="#8B3010" stroke="white" stroke-width="1" class="icell d1" data-name="vis" data-val="389684"/>
-<text x="177" y="472.6" dominant-baseline="central" font-size="11" font-weight="500" fill="white" pointer-events="none">vis</text>
+<rect x="870" y="100" width="210" height="340" rx="14" class="lgd-bg"/>
+<text x="888" y="124" class="lgd-ttl">MODULE</text>
+<g id="lgd-items"></g>
+<line x1="888" y1="330" x2="1066" y2="330" class="lgd-div"/>
+<g id="lgd-vis"></g>
 
-<!-- L2: analytics -->
-<rect x="342" y="1.0"   width="168" height="10.2" fill="#2196C9" stroke="white" stroke-width="1" class="icell d2" data-name="cluster" data-val="15207"/>
-<text x="347" y="6.1"   dominant-baseline="central" font-size="9" fill="white" pointer-events="none">cluster</text>
-<rect x="342" y="12.2"  width="168" height="18.5" fill="#2196C9" stroke="white" stroke-width="1" class="icell d2" data-name="graph" data-val="26435"/>
-<text x="347" y="21.4"  dominant-baseline="central" font-size="11" font-weight="400" fill="white" pointer-events="none">graph</text>
-<rect x="342" y="31.7"  width="168" height="4.2"  fill="#2196C9" stroke="white" stroke-width="1" class="icell d2" data-name="optimization" data-val="7074"/>
-<rect x="342" y="37.9"  width="168" height="11.7" fill="#4DC54D" stroke="white" stroke-width="1" class="icell d2" data-name="Easing" data-val="17010"/>
-<text x="347" y="43.8"  dominant-baseline="central" font-size="9" fill="white" pointer-events="none">Easing</text>
-<rect x="342" y="50.6"  width="168" height="3.4"  fill="#4DC54D" stroke="white" stroke-width="1" class="icell d2" data-name="FunctionSequence" data-val="5842"/>
-<rect x="342" y="54.9"  width="168" height="16.5" fill="#4DC54D" stroke="white" stroke-width="1" class="icell d2" data-name="interpolate" data-val="23457"/>
-<text x="347" y="63.1"  dominant-baseline="central" font-size="11" font-weight="400" fill="white" pointer-events="none">interpolate</text>
-<rect x="342" y="73.2"  width="168" height="2.9"  fill="#4DC54D" stroke="white" stroke-width="1" class="icell d2" data-name="Parallel" data-val="5176"/>
-<rect x="342" y="77.4"  width="168" height="3.2"  fill="#4DC54D" stroke="white" stroke-width="1" class="icell d2" data-name="Scheduler" data-val="5593"/>
-<rect x="342" y="81.6"  width="168" height="3.1"  fill="#4DC54D" stroke="white" stroke-width="1" class="icell d2" data-name="Sequence" data-val="5534"/>
-<rect x="342" y="85.7"  width="168" height="5.9"  fill="#4DC54D" stroke="white" stroke-width="1" class="icell d2" data-name="Transition" data-val="9201"/>
-<rect x="342" y="92.6"  width="168" height="13.9" fill="#4DC54D" stroke="white" stroke-width="1" class="icell d2" data-name="Transitioner" data-val="19975"/>
-<text x="347" y="99.5"  dominant-baseline="central" font-size="9" fill="white" pointer-events="none">Transitioner</text>
-<rect x="342" y="108.5" width="168" height="12.3" fill="#EC7FA0" stroke="white" stroke-width="1" class="icell d2" data-name="converters" data-val="18349"/>
-<text x="347" y="114.7" dominant-baseline="central" font-size="9" fill="white" pointer-events="none">converters</text>
-<rect x="342" y="121.7" width="168" height="0.3"  fill="#EC7FA0" stroke="white" stroke-width="1" class="icell d2" data-name="DataField" data-val="1759"/>
-<rect x="342" y="123.0" width="168" height="0.6"  fill="#EC7FA0" stroke="white" stroke-width="1" class="icell d2" data-name="DataSchema" data-val="2165"/>
-<rect x="342" y="125.0" width="168" height="1.4"  fill="#EC7FA0" stroke="white" stroke-width="1" class="icell d2" data-name="DataSource" data-val="3331"/>
-<rect x="342" y="128.0" width="168" height="1.4"  fill="#EC7FA0" stroke="white" stroke-width="1" class="icell d2" data-name="DataUtil" data-val="3322"/>
-<rect x="342" y="131.4" width="168" height="5.3"  fill="#2DBDBD" stroke="white" stroke-width="1" class="icell d2" data-name="DirtySprite" data-val="8833"/>
-<rect x="342" y="137.7" width="168" height="0.2"  fill="#2DBDBD" stroke="white" stroke-width="1" class="icell d2" data-name="LineSprite" data-val="1732"/>
-<rect x="342" y="138.9" width="168" height="1.6"  fill="#2DBDBD" stroke="white" stroke-width="1" class="icell d2" data-name="RectSprite" data-val="3623"/>
-<rect x="342" y="141.5" width="168" height="6.2"  fill="#2DBDBD" stroke="white" stroke-width="1" class="icell d2" data-name="TextSprite" data-val="10066"/>
-<rect x="342" y="149.7" width="168" height="1.7"  fill="#888888" stroke="white" stroke-width="1" class="icell d2" data-name="FlexSprite" data-val="4877"/>
-<rect x="342" y="155.4" width="168" height="6.6"  fill="#E07838" stroke="white" stroke-width="1" class="icell d2" data-name="NBodyForce" data-val="10498"/>
-<rect x="342" y="163.0" width="168" height="1.0"  fill="#E07838" stroke="white" stroke-width="1" class="icell d2" data-name="Particle" data-val="2822"/>
-<rect x="342" y="165.0" width="168" height="6.2"  fill="#E07838" stroke="white" stroke-width="1" class="icell d2" data-name="Simulation" data-val="9983"/>
-<rect x="342" y="172.3" width="168" height="0.6"  fill="#E07838" stroke="white" stroke-width="1" class="icell d2" data-name="Spring" data-val="2213"/>
-<rect x="342" y="173.9" width="168" height="0.2"  fill="#E07838" stroke="white" stroke-width="1" class="icell d2" data-name="SpringForce" data-val="1681"/>
-<rect x="342" y="176.1" width="168" height="0.2"  fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="AggregateExpression" data-val="1616"/>
-<rect x="342" y="178.0" width="168" height="1.9"  fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="Arithmetic" data-val="3891"/>
-<rect x="342" y="181.6" width="168" height="1.2"  fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="BinaryExpression" data-val="2893"/>
-<rect x="342" y="183.7" width="168" height="2.8"  fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="Comparison" data-val="5103"/>
-<rect x="342" y="187.5" width="168" height="1.7"  fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="CompositeExpression" data-val="3677"/>
-<rect x="342" y="190.8" width="168" height="2.1"  fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="DateUtil" data-val="4141"/>
-<rect x="342" y="194.6" width="168" height="2.8"  fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="Expression" data-val="5130"/>
-<rect x="342" y="198.4" width="168" height="1.7"  fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="ExpressionIterator" data-val="3617"/>
-<rect x="342" y="201.1" width="168" height="1.4"  fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="Fn" data-val="3240"/>
-<rect x="342" y="203.5" width="168" height="1.0"  fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="If" data-val="2732"/>
-<rect x="342" y="205.6" width="168" height="0.5"  fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="IsA" data-val="2039"/>
-<rect x="342" y="208.0" width="168" height="1.8"  fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="Match" data-val="3748"/>
-<rect x="342" y="212.0" width="168" height="0.2"  fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="Not" data-val="1554"/>
-<rect x="342" y="213.9" width="168" height="9.3"  fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="Query" data-val="13896"/>
-<text x="347" y="218.6" dominant-baseline="central" font-size="9" fill="white" pointer-events="none">Query</text>
-<rect x="342" y="224.2" width="168" height="0.2"  fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="Range" data-val="1594"/>
-<rect x="342" y="225.4" width="168" height="2.1"  fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="StringUtil" data-val="4130"/>
-<rect x="342" y="230.9" width="168" height="0.3"  fill="#9090D8" stroke="white" stroke-width="1" class="icell d2" data-name="Variance" data-val="1775"/>
-<rect x="342" y="233.2" width="168" height="0.5"  fill="#7C2EC8" stroke="white" stroke-width="1" class="icell d2" data-name="IScaleMap" data-val="2105"/>
-<rect x="342" y="235.7" width="168" height="1.3"  fill="#7C2EC8" stroke="white" stroke-width="1" class="icell d2" data-name="LogScale" data-val="3151"/>
-<rect x="342" y="238.0" width="168" height="1.7"  fill="#7C2EC8" stroke="white" stroke-width="1" class="icell d2" data-name="OrdinalScale" data-val="3770"/>
-<rect x="342" y="240.7" width="168" height="0.8"  fill="#7C2EC8" stroke="white" stroke-width="1" class="icell d2" data-name="QuantileScale" data-val="2435"/>
-<rect x="342" y="242.5" width="168" height="2.5"  fill="#7C2EC8" stroke="white" stroke-width="1" class="icell d2" data-name="QuantitativeScale" data-val="4839"/>
-<rect x="342" y="246.0" width="168" height="0.3"  fill="#7C2EC8" stroke="white" stroke-width="1" class="icell d2" data-name="RootScale" data-val="1756"/>
-<rect x="342" y="247.2" width="168" height="2.1"  fill="#7C2EC8" stroke="white" stroke-width="1" class="icell d2" data-name="Scale" data-val="4268"/>
-<rect x="342" y="250.3" width="168" height="0.3"  fill="#7C2EC8" stroke="white" stroke-width="1" class="icell d2" data-name="ScaleType" data-val="1821"/>
-<rect x="342" y="251.7" width="168" height="3.2"  fill="#7C2EC8" stroke="white" stroke-width="1" class="icell d2" data-name="TimeScale" data-val="5833"/>
-<rect x="342" y="256.9" width="168" height="5.2"  fill="#BED030" stroke="white" stroke-width="1" class="icell d2" data-name="Arrays" data-val="8258"/>
-<rect x="342" y="263.0" width="168" height="6.5"  fill="#BED030" stroke="white" stroke-width="1" class="icell d2" data-name="Colors" data-val="10001"/>
-<rect x="342" y="270.5" width="168" height="5.1"  fill="#BED030" stroke="white" stroke-width="1" class="icell d2" data-name="Dates" data-val="8217"/>
-<rect x="342" y="276.6" width="168" height="8.4"  fill="#BED030" stroke="white" stroke-width="1" class="icell d2" data-name="Displays" data-val="12555"/>
-<text x="347" y="280.8" dominant-baseline="central" font-size="9" fill="white" pointer-events="none">Displays</text>
-<rect x="342" y="286.0" width="168" height="0.7"  fill="#BED030" stroke="white" stroke-width="1" class="icell d2" data-name="Filter" data-val="2324"/>
-<rect x="342" y="287.7" width="168" height="7.2"  fill="#BED030" stroke="white" stroke-width="1" class="icell d2" data-name="Geometry" data-val="10993"/>
-<rect x="342" y="297.1" width="168" height="6.0"  fill="#BED030" stroke="white" stroke-width="1" class="icell d2" data-name="math" data-val="9346"/>
-<rect x="342" y="305.2" width="168" height="3.1"  fill="#BED030" stroke="white" stroke-width="1" class="icell d2" data-name="Property" data-val="5559"/>
-<rect x="342" y="309.3" width="168" height="0.5"  fill="#BED030" stroke="white" stroke-width="1" class="icell d2" data-name="Shapes" data-val="2023"/>
-<rect x="342" y="310.8" width="168" height="4.1"  fill="#BED030" stroke="white" stroke-width="1" class="icell d2" data-name="Sort" data-val="6887"/>
-<rect x="342" y="316.0" width="168" height="3.9"  fill="#BED030" stroke="white" stroke-width="1" class="icell d2" data-name="Stats" data-val="6557"/>
-<rect x="342" y="320.9" width="168" height="3.2"  fill="#BED030" stroke="white" stroke-width="1" class="icell d2" data-name="Strings" data-val="5682"/>
-<rect x="342" y="326.1" width="168" height="24.6" fill="#B04828" stroke="white" stroke-width="1" class="icell d2" data-name="axis" data-val="33886"/>
-<text x="347" y="338.4" dominant-baseline="central" font-size="11" font-weight="500" fill="white" pointer-events="none">axis</text>
-<rect x="342" y="351.7" width="168" height="39.0" fill="#B04828" stroke="white" stroke-width="1" class="icell d2" data-name="controls" data-val="53040"/>
-<text x="347" y="371.2" dominant-baseline="central" font-size="11" font-weight="500" fill="white" pointer-events="none">controls</text>
-<rect x="342" y="391.7" width="168" height="82.1" fill="#B04828" stroke="white" stroke-width="1" class="icell d2" data-name="data" data-val="110230"/>
-<text x="347" y="432.8" dominant-baseline="central" font-size="11" font-weight="500" fill="white" pointer-events="none">data</text>
-<rect x="342" y="474.8" width="168" height="26.2" fill="#B04828" stroke="white" stroke-width="1" class="icell d2" data-name="legend" data-val="36003"/>
-<text x="347" y="487.9" dominant-baseline="central" font-size="11" font-weight="500" fill="white" pointer-events="none">legend</text>
-<rect x="342" y="502.0" width="168" height="104.6" fill="#B04828" stroke="white" stroke-width="1" class="icell d2" data-name="operator" data-val="139985"/>
-<text x="347" y="554.3" dominant-baseline="central" font-size="11" font-weight="500" fill="white" pointer-events="none">operator</text>
-<rect x="342" y="607.5" width="168" height="11.5" fill="#B04828" stroke="white" stroke-width="1" class="icell d2" data-name="Visualization" data-val="16540"/>
-<text x="347" y="613.2" dominant-baseline="central" font-size="9" fill="white" pointer-events="none">Visualization</text>
+<rect x="870" y="454" width="210" height="110" rx="14" class="lgd-bg"/>
+<text x="888" y="478" class="lgd-ttl">DEPTH TINTING</text>
+<g id="lgd-depth"></g>
 
-<!-- L3 -->
-<rect x="513" y="1.5"   width="168" height="1.6"  fill="#78C8E6" stroke="white" stroke-width="1" class="icell d3" data-name="AgglomerativeCluster" data-val="3938"/>
-<rect x="513" y="4.1"   width="168" height="1.6"  fill="#78C8E6" stroke="white" stroke-width="1" class="icell d3" data-name="CommunityStructure" data-val="3812"/>
-<rect x="513" y="6.7"   width="168" height="3.5"  fill="#78C8E6" stroke="white" stroke-width="1" class="icell d3" data-name="HierarchicalCluster" data-val="6714"/>
-<rect x="513" y="12.7"  width="168" height="1.5"  fill="#78C8E6" stroke="white" stroke-width="1" class="icell d3" data-name="BetweennessCentrality" data-val="3534"/>
-<rect x="513" y="15.2"  width="168" height="3.0"  fill="#78C8E6" stroke="white" stroke-width="1" class="icell d3" data-name="LinkDistance" data-val="5731"/>
-<rect x="513" y="19.2"  width="168" height="4.5"  fill="#78C8E6" stroke="white" stroke-width="1" class="icell d3" data-name="MaxFlowMinCut" data-val="7840"/>
-<rect x="513" y="24.6"  width="168" height="3.1"  fill="#78C8E6" stroke="white" stroke-width="1" class="icell d3" data-name="ShortestPaths" data-val="5914"/>
-<rect x="513" y="28.8"  width="168" height="1.4"  fill="#78C8E6" stroke="white" stroke-width="1" class="icell d3" data-name="SpanningTree" data-val="3416"/>
-<rect x="513" y="32.2"  width="168" height="3.2"  fill="#78C8E6" stroke="white" stroke-width="1" class="icell d3" data-name="AspectRatioBanker" data-val="7074"/>
-<rect x="513" y="55.4"  width="168" height="0.4"  fill="#90E090" stroke="white" stroke-width="1" class="icell d3" data-name="ArrayInterpolator" data-val="1983"/>
-<rect x="513" y="56.8"  width="168" height="0.4"  fill="#90E090" stroke="white" stroke-width="1" class="icell d3" data-name="ColorInterpolator" data-val="2047"/>
-<rect x="513" y="59.2"  width="168" height="5.2"  fill="#90E090" stroke="white" stroke-width="1" class="icell d3" data-name="Interpolator" data-val="8746"/>
-<rect x="513" y="65.4"  width="168" height="0.5"  fill="#90E090" stroke="white" stroke-width="1" class="icell d3" data-name="MatrixInterpolator" data-val="2202"/>
-<rect x="513" y="67.9"  width="168" height="0.1"  fill="#90E090" stroke="white" stroke-width="1" class="icell d3" data-name="ObjectInterpolator" data-val="1629"/>
-<rect x="513" y="69.0"  width="168" height="0.2"  fill="#90E090" stroke="white" stroke-width="1" class="icell d3" data-name="PointInterpolator" data-val="1675"/>
-<rect x="513" y="70.2"  width="168" height="0.7"  fill="#90E090" stroke="white" stroke-width="1" class="icell d3" data-name="RectangleInterpolator" data-val="2418"/>
-<rect x="513" y="109.4" width="168" height="1.9"  fill="#F5B8CC" stroke="white" stroke-width="1" class="icell d3" data-name="DelimitedTextConverter" data-val="4294"/>
-<rect x="513" y="112.3" width="168" height="5.6"  fill="#F5B8CC" stroke="white" stroke-width="1" class="icell d3" data-name="GraphMLConverter" data-val="9800"/>
-<rect x="513" y="119.7" width="168" height="0.5"  fill="#F5B8CC" stroke="white" stroke-width="1" class="icell d3" data-name="JSONConverter" data-val="2220"/>
-<rect x="513" y="297.6" width="168" height="1.0"  fill="#D8E870" stroke="white" stroke-width="1" class="icell d3" data-name="DenseMatrix" data-val="3165"/>
-<rect x="513" y="299.6" width="168" height="0.8"  fill="#D8E870" stroke="white" stroke-width="1" class="icell d3" data-name="IMatrix" data-val="2815"/>
-<rect x="513" y="301.4" width="168" height="1.2"  fill="#D8E870" stroke="white" stroke-width="1" class="icell d3" data-name="SparseMatrix" data-val="3366"/>
-<rect x="513" y="327.6" width="168" height="16.8" fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="Axis" data-val="24593"/>
-<text x="517" y="336.0" dominant-baseline="central" font-size="8" fill="rgba(255,255,255,0.9)" pointer-events="none">Axis</text>
-<rect x="513" y="346.3" width="168" height="3.9"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="CartesianAxes" data-val="6703"/>
-<rect x="513" y="352.2" width="168" height="0.6"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="AnchorControl" data-val="2138"/>
-<rect x="513" y="353.7" width="168" height="1.8"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="ClickControl" data-val="3824"/>
-<rect x="513" y="357.5" width="168" height="2.4"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="ControlList" data-val="4665"/>
-<rect x="513" y="361.0" width="168" height="0.9"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="DragControl" data-val="2649"/>
-<rect x="513" y="362.9" width="168" height="1.1"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="ExpandControl" data-val="2832"/>
-<rect x="513" y="365.0" width="168" height="2.6"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="HoverControl" data-val="4896"/>
-<rect x="513" y="369.2" width="168" height="4.8"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="NavigationControl" data-val="7862"/>
-<rect x="513" y="374.9" width="168" height="3.2"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="PanZoomControl" data-val="5771"/>
-<rect x="513" y="379.2" width="168" height="4.8"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="SelectionControl" data-val="7852"/>
-<rect x="513" y="385.0" width="168" height="5.2"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="TooltipControl" data-val="8435"/>
-<rect x="513" y="392.2" width="168" height="14.3" fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="Data" data-val="20544"/>
-<text x="517" y="399.3" dominant-baseline="central" font-size="8" fill="rgba(255,255,255,0.9)" pointer-events="none">Data</text>
-<rect x="513" y="407.5" width="168" height="13.7" fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="DataList" data-val="19788"/>
-<text x="517" y="414.4" dominant-baseline="central" font-size="8" fill="rgba(255,255,255,0.9)" pointer-events="none">DataList</text>
-<rect x="513" y="422.2" width="168" height="6.7"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="DataSprite" data-val="10349"/>
-<rect x="513" y="429.9" width="168" height="1.5"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="EdgeSprite" data-val="3301"/>
-<rect x="513" y="432.4" width="168" height="13.4" fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="NodeSprite" data-val="19382"/>
-<text x="517" y="439.1" dominant-baseline="central" font-size="8" fill="rgba(255,255,255,0.9)" pointer-events="none">NodeSprite</text>
-<rect x="513" y="446.8" width="168" height="5.3"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="render" data-val="8514"/>
-<rect x="513" y="453.2" width="168" height="7.4"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="ScaleBinding" data-val="11275"/>
-<text x="517" y="456.9" dominant-baseline="central" font-size="8" fill="rgba(255,255,255,0.9)" pointer-events="none">ScaleBinding</text>
-<rect x="513" y="461.6" width="168" height="4.3"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="Tree" data-val="7147"/>
-<rect x="513" y="466.9" width="168" height="6.4"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="TreeBuilder" data-val="9930"/>
-<rect x="513" y="475.3" width="168" height="14.2" fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="Legend" data-val="20859"/>
-<text x="517" y="482.4" dominant-baseline="central" font-size="8" fill="rgba(255,255,255,0.9)" pointer-events="none">Legend</text>
-<rect x="513" y="490.5" width="168" height="2.4"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="LegendItem" data-val="4614"/>
-<rect x="513" y="493.8" width="168" height="6.6"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="LegendRange" data-val="10530"/>
-<rect x="513" y="502.5" width="168" height="9.6"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="distortion" data-val="14219"/>
-<text x="517" y="507.3" dominant-baseline="central" font-size="8" fill="rgba(255,255,255,0.9)" pointer-events="none">distortion</text>
-<rect x="513" y="513.1" width="168" height="7.0"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="encoder" data-val="10759"/>
-<text x="517" y="516.6" dominant-baseline="central" font-size="8" fill="rgba(255,255,255,0.9)" pointer-events="none">encoder</text>
-<rect x="513" y="521.1" width="168" height="7.9"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="filter" data-val="11893"/>
-<text x="517" y="525.1" dominant-baseline="central" font-size="8" fill="rgba(255,255,255,0.9)" pointer-events="none">filter</text>
-<rect x="513" y="531.3" width="168" height="11.7" fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="label" data-val="17057"/>
-<text x="517" y="537.1" dominant-baseline="central" font-size="8" fill="rgba(255,255,255,0.9)" pointer-events="none">label</text>
-<rect x="513" y="544.0" width="168" height="49.7" fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="layout" data-val="67804"/>
-<text x="517" y="568.9" dominant-baseline="central" font-size="8" fill="rgba(255,255,255,0.9)" pointer-events="none">layout</text>
-<rect x="513" y="596.5" width="168" height="2.9"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="OperatorList" data-val="5248"/>
-<rect x="513" y="600.5" width="168" height="2.1"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="OperatorSequence" data-val="4190"/>
-<rect x="513" y="603.6" width="168" height="0.9"  fill="#CD7850" stroke="white" stroke-width="1" class="icell d3" data-name="OperatorSwitch" data-val="2581"/>
-
-<!-- L4 -->
-<rect x="684" y="447.8" width="168" height="2.5"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="EdgeRenderer" data-val="5569"/>
-<rect x="684" y="451.3" width="168" height="0.4"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="ShapeRenderer" data-val="2247"/>
-<rect x="684" y="503.0" width="168" height="2.0"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="BifocalDistortion" data-val="4461"/>
-<rect x="684" y="506.0" width="168" height="3.3"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="Distortion" data-val="6314"/>
-<rect x="684" y="510.2" width="168" height="1.3"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="FisheyeDistortion" data-val="3444"/>
-<rect x="684" y="513.6" width="168" height="1.1"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="ColorEncoder" data-val="3179"/>
-<rect x="684" y="515.7" width="168" height="1.7"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="PropertyEncoder" data-val="4060"/>
-<rect x="684" y="521.6" width="168" height="2.5"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="FisheyeTreeFilter" data-val="5219"/>
-<rect x="684" y="525.1" width="168" height="1.1"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="GraphDistanceFilter" data-val="3165"/>
-<rect x="684" y="527.2" width="168" height="1.3"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="VisibilityFilter" data-val="3509"/>
-<rect x="684" y="531.8" width="168" height="5.9"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="Labeler" data-val="9956"/>
-<rect x="684" y="538.6" width="168" height="1.7"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="RadialLabeler" data-val="3899"/>
-<rect x="684" y="541.3" width="168" height="1.2"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="StackedAreaLabeler" data-val="3202"/>
-<rect x="684" y="544.5" width="168" height="3.9"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="AxisLayout" data-val="6702"/>
-<rect x="684" y="549.4" width="168" height="1.6"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="BundledEdgeRouter" data-val="3498"/>
-<rect x="684" y="552.0" width="168" height="3.1"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="CircleLayout" data-val="5618"/>
-<rect x="684" y="556.1" width="168" height="7.8"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="CirclePackingLayout" data-val="12003"/>
-<rect x="684" y="564.9" width="168" height="2.6"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="DendrogramLayout" data-val="4853"/>
-<rect x="684" y="568.5" width="168" height="5.2"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="ForceDirectedLayout" data-val="8411"/>
-<rect x="684" y="574.6" width="168" height="2.6"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="IcicleTreeLayout" data-val="4864"/>
-<rect x="684" y="578.2" width="168" height="1.3"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="IndentedTreeLayout" data-val="3174"/>
-<rect x="684" y="580.5" width="168" height="4.8"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="RadialTreeLayout" data-val="7982"/>
-<rect x="684" y="587.0" width="168" height="5.7"  fill="#E4AA88" stroke="white" stroke-width="1" class="icell d4" data-name="StackedAreaLayout" data-val="9121"/>
-
-</g>
+<g class="tip" id="tip">
+  <rect id="tip-bg"  class="bub-bg"  rx="10"/>
+  <rect id="tip-bdr" class="bub-bdr" rx="10"/>
+  <polygon id="tip-arr" class="bub-tip"/>
+  <text id="tip-name" class="bub-val" text-anchor="middle"/>
+  <text id="tip-val"  class="bub-lbl" text-anchor="middle"/>
+  <text id="tip-pct"  class="bub-pct" text-anchor="middle"/>
 </g>
 
-<!-- LEGEND: MODULE -->
-<rect x="900" y="68" width="162" height="402" rx="14" class="lgd-bg"/>
-<text x="918" y="92" class="lgd-ttl">MODULE</text>
-<g transform="translate(918,108)"><rect x="0" y="0" width="14" height="14" rx="3" fill="#1B6FAD"/><text x="22" y="11" class="lt">analytics</text><text x="140" y="11" class="lv lgd-val" text-anchor="end">48,716</text></g>
-<g transform="translate(918,132)"><rect x="0" y="0" width="14" height="14" rx="3" fill="#2D9E2D"/><text x="22" y="11" class="lt">animate</text><text x="140" y="11" class="lv lgd-val" text-anchor="end">93,278</text></g>
-<g transform="translate(918,156)"><rect x="0" y="0" width="14" height="14" rx="3" fill="#D9507A"/><text x="22" y="11" class="lt">data</text><text x="140" y="11" class="lv lgd-val" text-anchor="end">30,284</text></g>
-<g transform="translate(918,180)"><rect x="0" y="0" width="14" height="14" rx="3" fill="#1E9999"/><text x="22" y="11" class="lt">display</text><text x="140" y="11" class="lv lgd-val" text-anchor="end">24,254</text></g>
-<g transform="translate(918,204)"><rect x="0" y="0" width="14" height="14" rx="3" fill="#666666"/><text x="22" y="11" class="lt">flex</text><text x="140" y="11" class="lv lgd-val" text-anchor="end">4,877</text></g>
-<g transform="translate(918,228)"><rect x="0" y="0" width="14" height="14" rx="3" fill="#C85A10"/><text x="22" y="11" class="lt">physics</text><text x="140" y="11" class="lv lgd-val" text-anchor="end">29,934</text></g>
-<g transform="translate(918,252)"><rect x="0" y="0" width="14" height="14" rx="3" fill="#7070C0"/><text x="22" y="11" class="lt">query</text><text x="140" y="11" class="lv lgd-val" text-anchor="end">75,492</text></g>
-<g transform="translate(918,276)"><rect x="0" y="0" width="14" height="14" rx="3" fill="#5C10A0"/><text x="22" y="11" class="lt">scale</text><text x="140" y="11" class="lv lgd-val" text-anchor="end">31,294</text></g>
-<g transform="translate(918,300)"><rect x="0" y="0" width="14" height="14" rx="3" fill="#9AAA10"/><text x="22" y="11" class="lt">util</text><text x="140" y="11" class="lv lgd-val" text-anchor="end">91,480</text></g>
-<line x1="918" y1="328" x2="1048" y2="328" class="lgd-div"/>
-<g transform="translate(918,340)"><rect x="0" y="0" width="14" height="14" rx="3" fill="#8B3010"/><text x="22" y="11" class="lt">vis</text><text x="140" y="11" class="lv lgd-val" text-anchor="end">389,684</text></g>
-
-<!-- LEGEND: DEPTH -->
-<rect x="900" y="482" width="162" height="118" rx="14" class="lgd-bg"/>
-<text x="918" y="506" class="lgd-ttl">DEPTH</text>
-<g transform="translate(918,520)"><rect x="0" y="0" width="14" height="8" rx="2" fill="#7FBCD2"/><text x="22" y="7" class="lt" font-size="10">L0 · root</text></g>
-<g transform="translate(918,536)"><rect x="0" y="0" width="14" height="8" rx="2" fill="#1B6FAD"/><text x="22" y="7" class="lt" font-size="10">L1 · module</text></g>
-<g transform="translate(918,552)"><rect x="0" y="0" width="14" height="8" rx="2" fill="#2196C9"/><text x="22" y="7" class="lt" font-size="10">L2 · submodule</text></g>
-<g transform="translate(918,568)"><rect x="0" y="0" width="14" height="8" rx="2" fill="#78C8E6"/><text x="22" y="7" class="lt" font-size="10">L3 · class</text></g>
-<g transform="translate(918,584)"><rect x="0" y="0" width="14" height="8" rx="2" fill="#E4AA88"/><text x="22" y="7" class="lt" font-size="10">L4 · leaf</text></g>
-
-<!-- BUBBLE OVERLAY -->
-<g id="bubble-overlay">
-  <g class="bubble" id="tip">
-    <path id="tip-path" class="bub-fill" d="M0,0"/>
-    <path id="tip-bdr"  class="bub-bdr"  d="M0,0"/>
-    <text id="tip-name" x="0" y="0" class="bub-name"/>
-    <text id="tip-val"  x="0" y="0" class="bub-val"/>
-    <text id="tip-pct"  x="0" y="0" class="bub-pct"/>
-  </g>
-</g>
-
-<text x="40" y="600" class="footer">Flare Visualization Toolkit · 164 nodes · 5 levels · icicle / partition chart · area ∝ source lines of code</text>
+<text x="68" y="580" class="footer">Flare Visualization Toolkit · icicle · CSS palette + CSS blend ratios · JS tint math only</text>
 
 <script type="text/javascript"><![CDATA[
-(function() {
-  var svg        = document.getElementById('root');
-  var chartArea  = document.getElementById('chart-area');
-  var tip        = document.getElementById('tip');
-  var tipPath    = document.getElementById('tip-path');
-  var tipBdr     = document.getElementById('tip-bdr');
-  var tipName    = document.getElementById('tip-name');
-  var tipVal     = document.getElementById('tip-val');
-  var tipPct     = document.getElementById('tip-pct');
-  var TOTAL = 819293;
-  var W = 96, H = 52, TH = 10;
+(function(){
+  var svg    = document.getElementById('root');
+  var ca     = document.getElementById('ca');
+  var ns     = 'http://www.w3.org/2000/svg';
+  var isDark = false;
 
-  function bubPath(x, y, flip) {
-    if (!flip) {
-      return 'M'+(x-8)+','+y+' L'+(x-W/2+10)+','+y+' Q'+(x-W/2)+','+y+' '+(x-W/2)+','+(y-10)+
-             ' L'+(x-W/2)+','+(y-H-TH)+' Q'+(x-W/2)+','+(y-H-TH-10)+' '+(x-W/2+10)+','+(y-H-TH-10)+
-             ' L'+(x+W/2-10)+','+(y-H-TH-10)+' Q'+(x+W/2)+','+(y-H-TH-10)+' '+(x+W/2)+','+(y-H-TH)+
-             ' L'+(x+W/2)+','+(y-10)+' Q'+(x+W/2)+','+y+' '+(x+W/2-10)+','+y+
-             ' L'+(x+8)+','+y+' L'+x+','+(y+TH)+' Z';
-    } else {
-      return 'M'+(x-8)+','+y+' L'+(x-W/2+10)+','+y+' Q'+(x-W/2)+','+y+' '+(x-W/2)+','+(y+10)+
-             ' L'+(x-W/2)+','+(y+H+TH)+' Q'+(x-W/2)+','+(y+H+TH+10)+' '+(x-W/2+10)+','+(y+H+TH+10)+
-             ' L'+(x+W/2-10)+','+(y+H+TH+10)+' Q'+(x+W/2)+','+(y+H+TH+10)+' '+(x+W/2)+','+(y+H+TH)+
-             ' L'+(x+W/2)+','+(y+10)+' Q'+(x+W/2)+','+y+' '+(x+W/2-10)+','+y+
-             ' L'+(x+8)+','+y+' L'+x+','+(y-TH)+' Z';
+  var _probe = null;
+  function probeColor(cls) {
+    if (!_probe) {
+      _probe = document.createElementNS(ns, 'rect');
+      _probe.style.visibility = 'hidden';
+      _probe.style.position   = 'absolute';
+      svg.appendChild(_probe);
     }
+    _probe.setAttribute('class', cls);
+    var fill = window.getComputedStyle(_probe).fill;
+    var m = fill.match(/[\d.]+/g);
+    return m ? [+m[0],+m[1],+m[2]] : [0,0,0];
   }
 
-  function showTip(evt, name, val) {
-    var pt = svg.createSVGPoint();
-    pt.x = evt.clientX; pt.y = evt.clientY;
-    var sp = pt.matrixTransform(svg.getScreenCTM().inverse());
-    var tx = Math.max(W/2+4, Math.min(sp.x, 1100-W/2-4));
-    var ty = sp.y;
-    var flip = ty < H + TH + 20;
-    var p = bubPath(tx, ty, flip);
-    tipPath.setAttribute('d', p); tipBdr.setAttribute('d', p);
-    var textY = flip ? ty+TH+16 : ty-H-TH+16;
-    tipName.setAttribute('x', tx); tipName.setAttribute('y', textY); tipName.textContent = name;
-    tipVal.setAttribute('x', tx);  tipVal.setAttribute('y', textY+18); tipVal.textContent = val.toLocaleString()+' lines';
-    tipPct.setAttribute('x', tx);  tipPct.setAttribute('y', textY+32); tipPct.textContent = (val/TOTAL*100).toFixed(1)+'% of total';
-    tipName.setAttribute('text-anchor','middle');
-    tipVal.setAttribute('text-anchor','middle');
-    tipPct.setAttribute('text-anchor','middle');
-    tip.style.opacity = '1';
+  function cssVar(name) {
+    return window.getComputedStyle(svg).getPropertyValue(name).trim();
   }
 
-  var cells = svg.querySelectorAll('.icell');
-
-  cells.forEach(function(c) {
-    c.addEventListener('mouseenter', function(e) {
-      chartArea.classList.add('dimming');
-      c.classList.add('hovered');
-      showTip(e, c.getAttribute('data-name'), parseInt(c.getAttribute('data-val')));
-    });
-    c.addEventListener('mousemove', function(e) {
-      showTip(e, c.getAttribute('data-name'), parseInt(c.getAttribute('data-val')));
-    });
-    c.addEventListener('mouseleave', function() {
-      chartArea.classList.remove('dimming');
-      c.classList.remove('hovered');
-      tip.style.opacity = '0';
-    });
-  });
-
-  /* Staggered fade-in by depth level */
-  [0,1,2,3,4].forEach(function(d) {
-    svg.querySelectorAll('.d'+d).forEach(function(el, i) {
-      el.style.opacity = '0';
-      setTimeout(function() {
-        el.style.transition = 'opacity 1.2s ease';
-        el.style.opacity = '1';
-      }, d * 350 + i * 10);
-    });
-  });
-
-  function setMode(wantDark) {
-    if (wantDark === svg.classList.contains('dark')) return;
-    var thumb = document.getElementById('tthumb'), lbl = document.getElementById('tlabel');
-    if (wantDark) { svg.classList.add('dark'); thumb.setAttribute('cx','52'); lbl.textContent='Light'; }
-    else          { svg.classList.remove('dark'); thumb.setAttribute('cx','16'); lbl.textContent='Dark'; }
+  function hexToRgb(h) {
+    var n = parseInt(h.replace('#',''),16);
+    return [(n>>16)&255,(n>>8)&255,n&255];
   }
 
-  document.getElementById('dark-toggle').addEventListener('click', function() { setMode(!svg.classList.contains('dark')); });
-  document.getElementById('print-toggle').addEventListener('click', function() {
-    var thumb=document.getElementById('pthumb'), lbl=document.getElementById('plabel');
-    if (svg.classList.toggle('print')) { thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
-    else { thumb.setAttribute('cx','16'); lbl.textContent='Print'; }
-  });
+  function blendRgb(base, bgHex, t) {
+    var bg = hexToRgb(bgHex);
+    return 'rgb('+[0,1,2].map(function(i){
+      return Math.round(base[i]+(bg[i]-base[i])*t);
+    }).join(',')+')';
+  }
 
-  window.setMode = setMode;
-  window.addEventListener('message', function(e) { if (e.data && e.data.type==='setMode') setMode(e.data.dark); });
-  setMode(window.location.href.indexOf('theme=dark') !== -1);
+  function getTint(ci, depth) {
+    var base = probeColor('bar-'+ci);
+    var t    = parseFloat(cssVar('--blend-d'+Math.min(depth,4)));
+    var bg   = cssVar(isDark ? '--bg-dark' : '--bg-light');
+    return blendRgb(base, bg, t);
+  }
+
+  var TOTAL = 819293, S = 400/TOTAL;
+  var COL_W = 160, COL_GAP = 4;
+  var COL_DUR   = 0.5;
+  var COL_START = [0, 0.6, 1.3, 2.1, 2.9];
+  function colX(d){ return 40+d*(COL_W+COL_GAP); }
+
+  var nodes = [
+    ['flare',819293,0,1],
+    ['analytics',48716,1,1],['animate',93278,1,2],['data',30284,1,3],
+    ['display',24254,1,4],['flex',4877,1,5],['physics',29934,1,6],
+    ['query',75492,1,7],['scale',31294,1,8],['util',91480,1,2],['vis',389684,1,3],
+    ['cluster',15207,2,1],['graph',26435,2,1],['optimization',7074,2,1],
+    ['Easing',17010,2,2],['FunctionSequence',5842,2,2],['interpolate',23457,2,2],
+    ['Parallel',5176,2,2],['Scheduler',5593,2,2],['Sequence',5534,2,2],
+    ['Transition',9201,2,2],['Transitioner',19975,2,2],
+    ['converters',18349,2,3],['DataField',1759,2,3],['DataSchema',2165,2,3],
+    ['DataSource',3331,2,3],['DataUtil',3322,2,3],
+    ['DirtySprite',8833,2,4],['LineSprite',1732,2,4],['RectSprite',3623,2,4],['TextSprite',10066,2,4],
+    ['FlexSprite',4877,2,5],
+    ['NBodyForce',10498,2,6],['Particle',2822,2,6],['Simulation',9983,2,6],
+    ['Spring',2213,2,6],['SpringForce',1681,2,6],
+    ['AggregateExpression',1616,2,7],['Arithmetic',3891,2,7],['Comparison',5103,2,7],
+    ['DateUtil',4141,2,7],['Expression',5130,2,7],['Fn',3240,2,7],
+    ['Query',13896,2,7],['StringUtil',4130,2,7],
+    ['LogScale',3151,2,8],['OrdinalScale',3770,2,8],['QuantitativeScale',4839,2,8],
+    ['Scale',4268,2,8],['TimeScale',5833,2,8],
+    ['Arrays',8258,2,2],['Colors',10001,2,2],['Dates',8217,2,2],['Displays',12555,2,2],
+    ['Geometry',10993,2,2],['math',9346,2,2],['Property',5559,2,2],
+    ['Sort',6887,2,2],['Stats',6557,2,2],
+    ['axis',33886,2,3],['controls',53040,2,3],['vis_data',110230,2,3],
+    ['legend',36003,2,3],['operator',139985,2,3],
+    ['Axis',24593,3,3],['CartesianAxes',6703,3,3],
+    ['AnchorControl',2138,3,3],['ClickControl',3824,3,3],['ControlList',4665,3,3],
+    ['DragControl',2649,3,3],['HoverControl',4896,3,3],
+    ['NavigationControl',7862,3,3],['PanZoomControl',5771,3,3],
+    ['SelectionControl',7852,3,3],['TooltipControl',8435,3,3],
+    ['Data',20544,3,3],['DataList',19788,3,3],['DataSprite',10349,3,3],
+    ['NodeSprite',19382,3,3],['render',8514,3,3],['ScaleBinding',11275,3,3],['Tree',7147,3,3],
+    ['Legend',20859,3,3],['LegendItem',4614,3,3],['LegendRange',10530,3,3],
+    ['distortion',14219,3,3],['encoder',10759,3,3],['filter_op',11893,3,3],
+    ['label',17057,3,3],['layout',67804,3,3],
+    ['AxisLayout',6702,4,3],['CircleLayout',5618,4,3],['CirclePackingLayout',12003,4,3],
+    ['ForceDirectedLayout',8411,4,3],['IcicleTreeLayout',4864,4,3],
+    ['RadialTreeLayout',7982,4,3],['StackedAreaLayout',9121,4,3],
+    ['BifocalDistortion',4461,4,3],['Distortion',6314,4,3],['FisheyeDistortion',3444,4,3],
+  ];
+
+  var yPos = {
+    'flare':100,
+    'analytics':100,'animate':123.8,'data':169.5,'display':184.3,'flex':199.1,
+    'physics':201.1,'query':214.8,'scale':251.5,'util':265.2,'vis':310.3,
+    'cluster':100,'graph':107.4,'optimization':120.2,
+    'Easing':123.8,'FunctionSequence':132.0,'interpolate':134.8,
+    'Parallel':143.2,'Scheduler':145.7,'Sequence':147.9,'Transition':150.2,'Transitioner':153.9,
+    'converters':169.5,'DataField':178.5,'DataSchema':179.3,'DataSource':180.3,'DataUtil':181.9,
+    'DirtySprite':184.3,'LineSprite':188.6,'RectSprite':189.4,'TextSprite':190.8,
+    'FlexSprite':199.1,
+    'NBodyForce':201.1,'Particle':206.2,'Simulation':207.5,'Spring':212.3,'SpringForce':213.4,
+    'AggregateExpression':214.8,'Arithmetic':215.6,'Comparison':217.5,'DateUtil':221.2,
+    'Expression':223.5,'Fn':225.8,'Query':227.4,'StringUtil':234.0,
+    'LogScale':251.5,'OrdinalScale':252.9,'QuantitativeScale':254.4,'Scale':256.1,'TimeScale':257.6,
+    'Arrays':265.2,'Colors':268.6,'Dates':272.4,'Displays':275.8,'Geometry':281.6,
+    'math':286.4,'Property':290.2,'Sort':292.5,'Stats':295.1,
+    'axis':310.3,'controls':323.8,'vis_data':347.0,'legend':374.2,'operator':388.7,
+    'Axis':310.3,'CartesianAxes':322.2,
+    'AnchorControl':323.8,'ClickControl':324.8,'ControlList':326.5,'DragControl':329.0,
+    'HoverControl':330.2,'NavigationControl':332.6,'PanZoomControl':336.1,
+    'SelectionControl':338.7,'TooltipControl':342.2,
+    'Data':347.0,'DataList':355.0,'DataSprite':362.4,'NodeSprite':366.5,
+    'render':374.0,'ScaleBinding':377.4,'Tree':382.8,
+    'Legend':374.2,'LegendItem':383.3,'LegendRange':384.9,
+    'distortion':388.7,'encoder':394.5,'filter_op':399.0,'label':403.3,'layout':410.5,
+    'AxisLayout':410.5,'CircleLayout':413.4,'CirclePackingLayout':416.0,
+    'ForceDirectedLayout':420.8,'IcicleTreeLayout':424.5,
+    'RadialTreeLayout':426.8,'StackedAreaLayout':430.2,
+    'BifocalDistortion':388.7,'Distortion':390.6,'FisheyeDistortion':393.0,
+  };
+
+  function makeEl(tag,attrs){
+    var e=document.createElementNS(ns,tag);
+    Object.keys(attrs).forEach(function(k){ e.setAttribute(k,attrs[k]); });
+    return e;
+  }
+
+  var depthCount=[0,0,0,0,0];
+  var cellEls=[];
+
+  function buildCells(){
+    nodes.forEach(function(n){
+      var name=n[0],val=n[1],depth=n[2],ci=n[3];
+      var x=colX(depth),y=yPos[name]||100,h=Math.max(1.5,val*S);
+      var idx=depthCount[depth]++;
+      var delay=(COL_START[depth]+idx*0.04).toFixed(2);
+
+      var g=makeEl('g',{'class':'icell',
+        'data-name':name,'data-val':val,'data-ci':ci,'data-depth':depth});
+
+      // Method A: inline animation style — never opacity
+      // animationend clears animation and adds .visible so CSS hover can take over
+      g.style.animation='cellFade '+COL_DUR+'s ease-out '+delay+'s';
+      g.addEventListener('animationend',function(){
+        g.style.animation='none';
+        g.classList.add('visible');
+      },{once:true});
+
+      var r=makeEl('rect',{x:x,y:y,width:COL_W,height:h,
+        fill:getTint(ci,depth),stroke:'white','stroke-width':'1',rx:depth<2?3:2});
+      g.appendChild(r);
+
+      if(h>=13){
+        var t=makeEl('text',{x:x+6,y:y+h/2,'dominant-baseline':'central',
+          'font-size':depth<=1?10:9,'font-weight':depth<=1?'500':'400',
+          'fill':'white',
+          'fill-opacity':depth>=3?'0.85':'1',
+          'pointer-events':'none'});
+        var ml=Math.floor(COL_W/5.8);
+        t.textContent=name.length>ml?name.slice(0,ml-1)+'…':name;
+        g.appendChild(t);
+      }
+      ca.appendChild(g);
+      cellEls.push({r:r,ci:ci,depth:depth});
+    });
+    attachHover();
+  }
+
+  function recolor(){
+    cellEls.forEach(function(c){
+      c.r.setAttribute('fill',getTint(c.ci,c.depth));
+    });
+    buildLegend();
+    buildDepthLegend();
+  }
+
+  var MODULES=[
+    {name:'analytics',val:'48,716',ci:1},{name:'animate',val:'93,278',ci:2},
+    {name:'data',val:'30,284',ci:3},{name:'display',val:'24,254',ci:4},
+    {name:'flex',val:'4,877',ci:5},{name:'physics',val:'29,934',ci:6},
+    {name:'query',val:'75,492',ci:7},{name:'scale',val:'31,294',ci:8},
+    {name:'util',val:'91,480',ci:2},
+  ];
+
+  function buildLegend(){
+    var lg=document.getElementById('lgd-items');
+    lg.innerHTML='';
+    MODULES.forEach(function(m,i){
+      var g=makeEl('g',{transform:'translate(888,'+(140+i*22)+')'});
+      var r=makeEl('rect',{x:0,y:0,width:14,height:14,rx:3,fill:getTint(m.ci,1)});
+      var t=makeEl('text',{x:22,y:11,'class':'lt'}); t.textContent=m.name;
+      var v=makeEl('text',{x:188,y:11,'class':'lv lgd-val','text-anchor':'end'}); v.textContent=m.val;
+      g.appendChild(r);g.appendChild(t);g.appendChild(v);lg.appendChild(g);
+    });
+    var lv=document.getElementById('lgd-vis');
+    lv.innerHTML='';
+    var g=makeEl('g',{transform:'translate(888,342)'});
+    var r=makeEl('rect',{x:0,y:0,width:14,height:14,rx:3,fill:getTint(3,1)});
+    var t=makeEl('text',{x:22,y:11,'class':'lt'}); t.textContent='vis';
+    var v=makeEl('text',{x:188,y:11,'class':'lv lgd-val','text-anchor':'end'}); v.textContent='389,684';
+    g.appendChild(r);g.appendChild(t);g.appendChild(v);lv.appendChild(g);
+  }
+
+  function buildDepthLegend(){
+    var dg=document.getElementById('lgd-depth');
+    dg.innerHTML='';
+    ['L0 · root','L1 · module','L2 · submodule','L3 · class','L4 · leaf'].forEach(function(lbl,d){
+      var g=makeEl('g',{transform:'translate(888,'+(490+d*18)+')'});
+      var r=makeEl('rect',{x:0,y:0,width:14,height:8,rx:2,fill:getTint(3,d)});
+      var t=makeEl('text',{x:22,y:7,'class':'lt','font-size':'10'}); t.textContent=lbl;
+      g.appendChild(r);g.appendChild(t);dg.appendChild(g);
+    });
+  }
+
+  var tip=document.getElementById('tip'),
+      tipBg=document.getElementById('tip-bg'),tipBdr=document.getElementById('tip-bdr'),
+      tipArr=document.getElementById('tip-arr'),tipName=document.getElementById('tip-name'),
+      tipVal=document.getElementById('tip-val'),tipPct=document.getElementById('tip-pct');
+  var BW=132,BH=58,TAIL=10;
+
+  function posTip(mx,my,name,val){
+    var tx=Math.max(BW/2+8,Math.min(mx,1092-BW/2));
+    var flip=my<BH+TAIL+20,by=flip?my+TAIL:my-TAIL-BH;
+    [tipBg,tipBdr].forEach(function(e){
+      e.setAttribute('x',tx-BW/2);e.setAttribute('y',by);
+      e.setAttribute('width',BW);e.setAttribute('height',BH);
+    });
+    tipArr.setAttribute('points',!flip
+      ?(tx-8)+','+(by+BH)+' '+(tx+8)+','+(by+BH)+' '+tx+','+(by+BH+TAIL)
+      :(tx-8)+','+by+' '+(tx+8)+','+by+' '+tx+','+(by-TAIL));
+    tipName.setAttribute('x',tx);tipName.setAttribute('y',by+17);tipName.textContent=name;
+    tipVal.setAttribute('x',tx);tipVal.setAttribute('y',by+33);
+    tipVal.textContent=parseInt(val).toLocaleString()+' lines';
+    tipPct.setAttribute('x',tx);tipPct.setAttribute('y',by+48);
+    tipPct.textContent=(parseInt(val)/TOTAL*100).toFixed(1)+'% of total';
+  }
+
+  function attachHover(){
+    ca.querySelectorAll('.icell').forEach(function(c){
+      c.addEventListener('mouseenter',function(e){
+        ca.classList.add('hovering');
+        ca.querySelectorAll('.icell').forEach(function(x){ x.classList.remove('hovered'); });
+        c.classList.add('hovered');
+        var pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;
+        var sp=pt.matrixTransform(svg.getScreenCTM().inverse());
+        posTip(sp.x,sp.y,c.dataset.name,c.dataset.val);
+        tip.style.opacity='1';
+      });
+      c.addEventListener('mousemove',function(e){
+        var pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;
+        var sp=pt.matrixTransform(svg.getScreenCTM().inverse());
+        posTip(sp.x,sp.y,c.dataset.name,c.dataset.val);
+      });
+      c.addEventListener('mouseleave',function(){
+        ca.classList.remove('hovering');
+        c.classList.remove('hovered');
+        tip.style.opacity=''; // clear inline style
+      });
+    });
+  }
+
+  function setMode(wantDark){
+    if(wantDark===isDark) return;
+    isDark=wantDark;
+    var thumb=document.getElementById('tthumb'),lbl=document.getElementById('tlabel');
+    if(wantDark){svg.classList.add('dark');thumb.setAttribute('cx','52');lbl.textContent='Light';}
+    else{svg.classList.remove('dark');thumb.setAttribute('cx','16');lbl.textContent='Dark';}
+    recolor();
+  }
+
+  document.getElementById('dark-toggle').addEventListener('click',function(){setMode(!isDark);});
+  document.getElementById('print-toggle').addEventListener('click',function(){
+    var thumb=document.getElementById('pthumb'),lbl=document.getElementById('plabel');
+    if(svg.classList.toggle('print')){thumb.setAttribute('cx','52');lbl.textContent='Screen';}
+    else{thumb.setAttribute('cx','16');lbl.textContent='Print';}
+  });
+  window.setMode=setMode;
+  window.addEventListener('message',function(e){if(e.data&&e.data.type==='setMode')setMode(e.data.dark);});
+
+  buildCells();
+  // gate hover dimming after last cell's animationend fires
+  var lastDelay=COL_START[4]+(nodes.filter(function(n){return n[2]===4;}).length-1)*0.04;
+  setTimeout(function(){ca.classList.add('ready');},(lastDelay+COL_DUR)*1000+100);
+  buildLegend();
+  buildDepthLegend();
+  setMode(window.location.href.indexOf('theme=dark')!==-1);
 })();
 ]]></script>
 </svg>

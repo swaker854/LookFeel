@@ -21,6 +21,23 @@ svg.dark .bar-7 { fill:#2DD4BF; } svg.dark .bar-8 { fill:#94A3B8; }
 > **Pure SVG charts** (no outer HTML document) use `#root.dark .bar-N`
 > instead of `svg.dark .bar-N` — necessary divergence, same intent.
 
+### Semantic color extension
+
+For charts where color encodes meaning rather than category (e.g. bull/bear,
+positive/negative), define semantic classes whose values are aligned to the
+standard palette — never invent new hex values.
+
+```css
+/* Example: candle chart — aligned to bar-2 green and bar-4 rose */
+.c-bull { fill:#00B87A; }  /* = bar-2 light */
+.c-bear { fill:#F43F5E; }  /* = bar-4 light */
+svg.dark .c-bull { fill:#10B981; }  /* = bar-2 dark */
+svg.dark .c-bear { fill:#FB6181; }  /* = bar-4 dark */
+```
+
+The semantic class names describe meaning (`c-bull`, `c-bear`), not sequence.
+Dark mode overrides follow the same `svg.dark` pattern as `.bar-N`.
+
 ---
 
 ## 2. Dark Mode Toggle Pattern
@@ -52,9 +69,17 @@ is purely opacity-based or involves geometric transformation alongside opacity.
 
 Use when animation is opacity-only with no geometric transform.
 
-JS sets a per-element stagger delay as an inline `animation` property —
-never `opacity`. At `animationend`, JS clears the animation and adds
-`.visible`. CSS hover rules then take over cleanly.
+Two sub-cases depending on whether the animated element and the hover-dimmed
+element are the same or separate:
+
+---
+
+#### Method A1 — same element animated and hover-dimmed
+**Charts: icicle, treemap, flame graph**
+
+The same `<g>` is both animated on load and dimmed on hover. Must use
+`animationend` + `.visible` pattern — `both`/`forwards` fill-mode would
+lock an inline animation value that CSS hover rules cannot override.
 
 ```css
 @keyframes itemFade { from{opacity:0} to{opacity:1} }
@@ -67,31 +92,59 @@ never `opacity`. At `animationend`, JS clears the animation and adds
 ```
 
 ```js
+// no fill-mode — animationend clears animation and adds .visible
 el.style.animation = 'itemFade 0.5s ease-out ' + delay + 's';
-
 el.addEventListener('animationend', function() {
   el.style.animation = 'none';
   el.classList.add('visible');
 }, { once: true });
 
-// one setTimeout for the whole chart — gates .ready after last animation
+// one setTimeout gates .ready after last animation finishes
 var lastFinish = (lastDelay + duration) * 1000 + 100;
 setTimeout(function(){ container.classList.add('ready'); }, lastFinish);
 ```
 
-**Why not `fill-mode: both` or `forwards`?**
-Both hold an opacity value as an inline animation value — CSS class
-rules cannot override inline animation values. `animationend` + `.visible`
-is the only clean solution.
+---
+
+#### Method A2 — separate nested elements
+**Charts: bar, stacked bar, candle**
+
+The animated element (`.bb`) is a child `<g>` nested inside the
+hover-dimmed element (`.bw`/`.col-g`/`.cw`). `both` fill-mode only
+affects the inner `.bb` opacity — hover dimming targets the outer
+element which has no animation on it. No conflict, no `.ready` gate needed.
+
+```css
+/* both fill-mode safe — .bb and .bw are separate elements */
+@keyframes barFadeIn { from{opacity:0} to{opacity:1} }
+.bb { animation: barFadeIn 0.8s ease-out both; }
+.b1 { animation-delay:0.00s; } /* etc */
+
+/* no .ready gate needed — animation never touches outer element opacity */
+.ca.hovering .item        { opacity:0.20; transition:opacity .2s ease; }
+.ca.hovering .item.active { opacity:1; }
+```
+
+```html
+<!-- outer: hover target -->
+<g class="bw b1">
+  <!-- inner: animation target -->
+  <g class="bb b1">
+    <rect .../>
+  </g>
+  <!-- tooltip inside outer so CSS .bw.active .bubble works -->
+  <g class="bubble">...</g>
+</g>
+```
 
 ---
 
 ### Method B — JS `requestAnimationFrame`
-**Charts: donut, sunburst**
+**Charts: donut, sunburst, candle**
 
-Use when animation involves geometric transformation (rotation, scale)
-alongside opacity — CSS keyframes cannot drive both simultaneously
-with the required easing.
+Use when animation involves geometric transformation (rotation, scale) or
+per-element stagger with easing that CSS keyframes cannot drive cleanly —
+particularly when opacity must animate simultaneously with another property.
 
 **Rule: never set initial `opacity:0` in CSS for rAF-animated elements.**
 If CSS sets `opacity:0` and rAF clears it with `el.style.opacity = ''`
@@ -99,13 +152,13 @@ at the end, the CSS rule wins and the element disappears again. Initial
 hidden state must be set via inline style so `''` truly removes all
 opacity control.
 
-**Elements with hover dimming (e.g. slices):**
+**Elements with hover dimming (e.g. slices, candles):**
 Clear with `el.style.opacity = ''` at loop end — browser defaults to
 `opacity:1` with nothing left to fight CSS hover rules.
 
 ```js
 // before rAF — set initial state via inline style, not CSS
-sliceEls.forEach(function(g){ g.style.opacity = '0'; });
+items.forEach(function(el){ el.style.opacity = '0'; });
 
 // each rAF frame
 el.style.opacity = easedValue;
@@ -117,9 +170,9 @@ container.classList.add('ready');
 
 ```css
 /* no CSS default opacity — browser default opacity:1 takes over after clear */
-.slice-g { cursor:pointer; }
-#pie.ready.hovering .slice-g        { opacity:0.20; transition:opacity .2s ease; }
-#pie.ready.hovering .slice-g.active { opacity:1;    transition:opacity .2s ease; }
+.item { cursor:pointer; }
+.container.ready.hovering .item        { opacity:0.20; transition:opacity .2s ease; }
+.container.ready.hovering .item.active { opacity:1;    transition:opacity .2s ease; }
 ```
 
 **Elements without hover dimming (e.g. hole, decorative):**
@@ -127,24 +180,26 @@ Lock at `'1'` at loop end — leaving inline style in place is safe since
 no CSS rule needs to override it.
 
 ```js
-holeEl.style.opacity = '0';       // before rAF
+holeEl.style.opacity = '0';        // before rAF
 holeEl.style.opacity = easedValue; // each frame
-holeEl.style.opacity = '1';       // at loop end — stays as inline, no conflict
+holeEl.style.opacity = '1';        // at loop end — stays as inline, no conflict
 ```
 
 ---
 
 ### Method per chart type
 
-| Chart       | Method           | Reason |
-|-------------|------------------|--------|
-| Bar         | A — `@keyframes` | Opacity only |
-| Line        | A — `@keyframes` | Opacity + stroke-dashoffset (no conflict) |
-| Icicle      | A — `@keyframes` | Opacity only |
-| Treemap     | A — `@keyframes` | Opacity only |
-| Flame graph | A — `@keyframes` | Opacity only |
-| Donut       | B — rAF          | Rotation + opacity together |
-| Sunburst    | B — rAF          | Rotation + opacity together |
+| Chart       | Method            | Reason |
+|-------------|-------------------|--------|
+| Bar         | A2 — nested `@keyframes` | `.bb` inside `.bw`, no conflict |
+| Stacked bar | A2 — nested `@keyframes` | `.bb` inside `.col-g`, no conflict |
+| Candle      | A2 — nested `@keyframes` | `.bb` inside `.cw`, no conflict |
+| Line        | A1 — `@keyframes` + `.visible` | Opacity + stroke-dashoffset (no conflict on dashoffset, but same-element pattern used for consistency) |
+| Icicle      | A1 — `@keyframes` + `.visible` | Same element animated and hover-dimmed |
+| Treemap     | A1 — `@keyframes` + `.visible` | Same element animated and hover-dimmed |
+| Flame graph | A1 — `@keyframes` + `.visible` | Same element animated and hover-dimmed |
+| Donut       | B — rAF           | Rotation + opacity together |
+| Sunburst    | B — rAF           | Rotation + opacity together |
 
 ---
 
@@ -184,7 +239,7 @@ hideTooltip();
 
 ### Tooltip bubble classes
 
-Shared across both approaches — CSS only, no hex in JS:
+Shared across all charts — CSS only, no hex in JS:
 
 ```css
 .bub-bg  { fill:#FFFBFE; }
@@ -214,9 +269,9 @@ item group. No JS opacity needed — CSS parent→child selector handles
 show/hide.
 
 ```css
-.bubble        { opacity:0; pointer-events:none; transition:opacity .15s ease; }
+.bubble              { opacity:0; pointer-events:none; transition:opacity .15s ease; }
 .item.active .bubble { opacity:1; }
-svg.print .bubble { opacity:0 !important; }
+svg.print .bubble    { opacity:0 !important; }
 ```
 
 ```js
@@ -233,7 +288,7 @@ Limitations: tooltip position is fixed at build time. Does not suit
 small or densely packed elements where the fixed offset may overlap
 other content.
 
-**JS-driven (donut, icicle, line)**
+**JS-driven (donut, icicle, line, candle)**
 
 Use when elements are small, densely packed, or at variable positions
 where a fixed offset would be unreliable. The tooltip `<g>` lives in
@@ -264,20 +319,13 @@ Arrow flips above/below based on: `flip = my < BH + TAIL + 20`.
 | Line    | JS-driven       | Small dots at variable positions |
 | Donut   | JS-driven       | Small slices at variable angles |
 | Icicle  | JS-driven       | Small densely-packed cells |
-
-### Per chart-type reference
-
-| Chart  | Container | Item class | Animation method |
-|--------|-----------|------------|-----------------|
-| Bar    | `.ca`     | `.bw`      | A — `@keyframes` |
-| Line   | `svg`     | `.line-path`, `.dot-inner`, `.area-path` | A — `@keyframes` |
-| Donut  | `#pie`    | `.slice-g` | B — rAF |
-| Icicle | `.ca`     | `.icell`   | A — `@keyframes` |
+| Candle  | JS-driven (fixed) | Fixed position per candle, no repositioning needed |
 
 ### Print mode
 
 ```css
-svg.print .tip { opacity:0 !important; }
+svg.print .tip    { opacity:0 !important; }
+svg.print .bubble { opacity:0 !important; }
 ```
 
 ---
@@ -286,12 +334,12 @@ svg.print .tip { opacity:0 !important; }
 
 ### When to use
 
-| Chart type          | Use tinting? |
-|---------------------|-------------|
-| Bar, line, scatter  | No — flat `.bar-N` only |
-| Donut / pie         | No — flat `.bar-N` only |
-| Icicle, treemap     | **Yes** |
-| Sunburst, flame graph | **Yes** |
+| Chart type                  | Use tinting? |
+|-----------------------------|-------------|
+| Bar, line, scatter          | No — flat `.bar-N` only |
+| Donut / pie                 | No — flat `.bar-N` only |
+| Icicle, treemap             | **Yes** |
+| Sunburst, flame graph       | **Yes** |
 | Indented / collapsible tree | **Yes** |
 
 ### CSS additions (hierarchical charts only)
@@ -370,8 +418,8 @@ function recolor() {
 
 ### Text contrast on tinted cells
 
-| Depth | Fill opacity | Min size to show label |
-|-------|-------------|------------------------|
-| L0–L2 | white, 1.0  | 13px height            |
-| L3–L4 | white, 0.85 | 13px height            |
+| Depth | Fill opacity | Min size to show label      |
+|-------|-------------|-----------------------------|
+| L0–L2 | white, 1.0  | 13px height                 |
+| L3–L4 | white, 0.85 | 13px height                 |
 | Any   | suppress    | < 13px height or < 32px width |

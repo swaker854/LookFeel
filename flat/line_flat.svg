@@ -1,50 +1,6 @@
+
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
-  <linearGradient id="c1"><stop offset="0%" stop-color="#00D4E8"/></linearGradient>
-  <linearGradient id="c2"><stop offset="0%" stop-color="#8B5CF6"/></linearGradient>
-  <linearGradient id="c3"><stop offset="0%" stop-color="#00B87A"/></linearGradient>
-  <linearGradient id="c4"><stop offset="0%" stop-color="#F59E0B"/></linearGradient>
-  <linearGradient id="c5"><stop offset="0%" stop-color="#64748B"/></linearGradient>
-  <linearGradient id="a1" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%"   stop-color="#00D4E8" stop-opacity="0.18"/>
-    <stop offset="100%" stop-color="#00D4E8" stop-opacity="0.01"/>
-  </linearGradient>
-  <linearGradient id="a2" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%"   stop-color="#8B5CF6" stop-opacity="0.15"/>
-    <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0.01"/>
-  </linearGradient>
-  <linearGradient id="a3" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%"   stop-color="#00B87A" stop-opacity="0.12"/>
-    <stop offset="100%" stop-color="#00B87A" stop-opacity="0.01"/>
-  </linearGradient>
-  <linearGradient id="a4" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%"   stop-color="#F59E0B" stop-opacity="0.10"/>
-    <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.01"/>
-  </linearGradient>
-  <linearGradient id="a5" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%"   stop-color="#64748B" stop-opacity="0.07"/>
-    <stop offset="100%" stop-color="#64748B" stop-opacity="0.01"/>
-  </linearGradient>
-  <linearGradient id="a1d" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%"   stop-color="#22D3EE" stop-opacity="0.18"/>
-    <stop offset="100%" stop-color="#22D3EE" stop-opacity="0.01"/>
-  </linearGradient>
-  <linearGradient id="a2d" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%"   stop-color="#A78BFA" stop-opacity="0.15"/>
-    <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.01"/>
-  </linearGradient>
-  <linearGradient id="a3d" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%"   stop-color="#10B981" stop-opacity="0.12"/>
-    <stop offset="100%" stop-color="#10B981" stop-opacity="0.01"/>
-  </linearGradient>
-  <linearGradient id="a4d" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%"   stop-color="#FBB724" stop-opacity="0.10"/>
-    <stop offset="100%" stop-color="#FBB724" stop-opacity="0.01"/>
-  </linearGradient>
-  <linearGradient id="a5d" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%"   stop-color="#94A3B8" stop-opacity="0.07"/>
-    <stop offset="100%" stop-color="#94A3B8" stop-opacity="0.01"/>
-  </linearGradient>
   <style>
     .bg-main   { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
     .ct        { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
@@ -61,11 +17,9 @@
     .lgd-ttl   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
     .footer    { font-size:10px; fill:#79747E; font-weight:400; }
     .t-wrap    { cursor:pointer; }
-    .t-track   { fill:#E7E0EC; }
-    .t-thumb   { fill:#ffffff; }
+    .t-track   { fill:#E7E0EC; } .t-thumb { fill:#ffffff; }
     .t-label   { font-size:11px; font-weight:500; fill:#49454F; }
-    .pt-track  { fill:#E7E0EC; transition:fill 0.3s; }
-    .pt-thumb  { fill:#ffffff; }
+    .pt-track  { fill:#E7E0EC; transition:fill 0.3s; } .pt-thumb { fill:#ffffff; }
     .pt-label  { font-size:11px; font-weight:500; fill:#49454F; }
     .lgd-val   { opacity:0; transition:opacity 0.2s; }
     svg.print .lgd-val  { opacity:1; }
@@ -74,79 +28,76 @@
     .crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
     .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     svg.print .tip { opacity:0 !important; }
-    .bub-bg    { fill:#FFFBFE; }
-    .bub-bdr   { fill:none; stroke:#79747E; stroke-width:1; }
-    .bub-tip-p { fill:#FFFBFE; stroke:none; }
-    .bub-val   { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .bub-lbl   { fill:#49454F; font-size:10px; font-weight:400; }
+    .bub-bg  { fill:#FFFBFE; }
+    .bub-bdr { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .bub-tip { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .bub-val { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .bub-lbl { fill:#49454F; font-size:10px; font-weight:400; }
 
-    @keyframes drawLine { from { stroke-dashoffset: var(--len, 900); } to { stroke-dashoffset: 0; } }
-    .line-path { stroke-dasharray: var(--len, 900); stroke-dashoffset: var(--len, 900);
-                 animation: drawLine 1.2s cubic-bezier(0.4,0,0.2,1) both; }
-    .s1 { animation-delay:0.0s; }  .s2 { animation-delay:0.15s; }
-    .s3 { animation-delay:0.3s; }  .s4 { animation-delay:0.45s; } .s5 { animation-delay:0.6s; }
+    /* ── standard palette ── */
+    .bar-1 { fill:#00D4E8; stroke:#00D4E8; } .bar-2 { fill:#8B5CF6; stroke:#8B5CF6; }
+    .bar-3 { fill:#00B87A; stroke:#00B87A; } .bar-4 { fill:#F59E0B; stroke:#F59E0B; }
+    .bar-5 { fill:#64748B; stroke:#64748B; }
+    svg.dark .bar-1 { fill:#22D3EE; stroke:#22D3EE; } svg.dark .bar-2 { fill:#A78BFA; stroke:#A78BFA; }
+    svg.dark .bar-3 { fill:#10B981; stroke:#10B981; } svg.dark .bar-4 { fill:#FBB724; stroke:#FBB724; }
+    svg.dark .bar-5 { fill:#94A3B8; stroke:#94A3B8; }
 
-    @keyframes popDot { from { transform:scale(0); opacity:0; } to { transform:scale(1); opacity:1; } }
-    .dot-inner { animation: popDot 0.35s cubic-bezier(0.34,1.4,0.64,1) both; }
+    /* ── line draw animation — both safe: animates stroke-dashoffset not opacity ── */
+    @keyframes drawLine { from{stroke-dashoffset:var(--len,900)} to{stroke-dashoffset:0} }
+    .line-path { stroke-dasharray:var(--len,900); stroke-dashoffset:var(--len,900);
+                 animation:drawLine 1.2s cubic-bezier(0.4,0,0.2,1) both; }
+    .s1 { animation-delay:0.00s; } .s2 { animation-delay:0.25s; }
+    .s3 { animation-delay:0.50s; } .s4 { animation-delay:0.75s; } .s5 { animation-delay:1.00s; }
 
-    /* dimming — driven by JS adding .hovering to #root */
-    .line-path  { transition: opacity 0.15s; }
-    .area-path  { transition: opacity 0.15s; }
-    .dot-inner  { transition: opacity 0.15s; }
-    svg.hovering .line-path  { opacity: 0.12; }
-    svg.hovering .area-path  { opacity: 0.12; }
-    svg.hovering .dot-inner  { opacity: 0.12; }
-    svg.hovering .line-path.active  { opacity: 1; }
-    svg.hovering .area-path.active  { opacity: 1; }
-    svg.hovering .dot-inner.active  { opacity: 1; }
+    /* ── dot animation — Method A1: animationend adds .visible ── */
+    @keyframes popDot { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+    .dot-inner         { opacity:0; cursor:pointer; transition:opacity 0.2s ease; }
+    .dot-inner.visible { opacity:1; }
 
-    svg.dark .bg-main   { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-    svg.dark .ct        { fill:#E6E0E9; }
-    svg.dark .cs        { fill:#938F99; }
-    svg.dark .an        { fill:#938F99; }
-    svg.dark .al        { fill:#938F99; }
-    svg.dark .lt        { fill:#E6E0E9; }
-    svg.dark .lv        { fill:#E6E0E9; }
-    svg.dark .lp        { fill:#938F99; }
-    svg.dark .gl        { stroke:#49454F; }
-    svg.dark .bl        { stroke:#938F99; }
-    svg.dark .lgd-bg    { fill:#49454F; stroke:#938F99; }
-    svg.dark .lgd-div   { stroke:#938F99; }
-    svg.dark .lgd-ttl   { fill:#938F99; }
-    svg.dark .footer    { fill:#938F99; }
-    svg.dark .t-track   { fill:#49454F; }
-    svg.dark .t-label   { fill:#CAC4D0; }
-    svg.dark .pt-track  { fill:#49454F; }
-    svg.dark .pt-label  { fill:#CAC4D0; }
+    /* ── hover dimming — gated on .ca.ready ── */
+    .line-path { transition:opacity 0.2s ease; }
+    .area-path { transition:opacity 0.2s ease; }
+    .ca.ready.hovering .line-path              { opacity:0.20; }
+    .ca.ready.hovering .area-path              { opacity:0.20; }
+    .ca.ready.hovering .dot-inner.visible      { opacity:0.20; }
+    .ca.ready.hovering .line-path.active       { opacity:1; }
+    .ca.ready.hovering .area-path.active       { opacity:1; }
+    .ca.ready.hovering .dot-inner.visible.active { opacity:1; }
+
+    svg.dark .bg-main  { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+    svg.dark .ct       { fill:#E6E0E9; } svg.dark .cs { fill:#938F99; }
+    svg.dark .an       { fill:#938F99; } svg.dark .al { fill:#938F99; }
+    svg.dark .lt       { fill:#E6E0E9; } svg.dark .lv { fill:#E6E0E9; }
+    svg.dark .lp       { fill:#938F99; }
+    svg.dark .gl       { stroke:#49454F; } svg.dark .bl { stroke:#938F99; }
+    svg.dark .lgd-bg   { fill:#49454F; stroke:#938F99; }
+    svg.dark .lgd-div  { stroke:#938F99; } svg.dark .lgd-ttl { fill:#938F99; }
+    svg.dark .footer   { fill:#938F99; }
+    svg.dark .t-track  { fill:#49454F; } svg.dark .t-label  { fill:#CAC4D0; }
+    svg.dark .pt-track { fill:#49454F; } svg.dark .pt-label { fill:#CAC4D0; }
     svg.dark.print .pt-track { fill:#d97316; }
     svg.dark .crosshair { stroke:#938F99; }
-    svg.dark .bub-bg    { fill:#1C1B1F; }
-    svg.dark .bub-bdr   { fill:none; stroke:#938F99; stroke-width:1; }
-    svg.dark .bub-tip-p { fill:#1C1B1F; stroke:none; }
-    svg.dark .bub-val   { fill:#E6E0E9; }
-    svg.dark .bub-lbl   { fill:#CAC4D0; }
-    .border-dark  { display:none; }
-    .border-light { display:block; }
-    svg.dark .border-dark  { display:block; }
-    svg.dark .border-light { display:none; }
+    svg.dark .bub-bg   { fill:#1C1B1F; }
+    svg.dark .bub-bdr  { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .bub-tip  { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .bub-val  { fill:#E6E0E9; }
+    svg.dark .bub-lbl  { fill:#CAC4D0; }
+    .border-dark  { display:none; } .border-light { display:block; }
+    svg.dark .border-dark  { display:block; } svg.dark .border-light { display:none; }
   </style>
 </defs>
 
 <rect class="bg-main" width="1100" height="620" rx="18"/>
-<g class="border-dark">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
-</g>
-<g class="border-light">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
-</g>
+<g class="border-dark"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/></g>
+<g class="border-light"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/></g>
 
 <text x="68" y="50" class="ct">Revenue by Quarter</text>
 <text x="68" y="70" class="cs">5 product lines · hover data point to inspect</text>
 
 <g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
-  <circle id="tthumb" cx="52" cy="0" r="10" class="t-thumb"/>
-  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Light</text>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
+  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
 </g>
 <g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
@@ -180,247 +131,213 @@
 <text x="263" y="90" class="an" text-anchor="middle">2022</text>
 <text x="654" y="90" class="an" text-anchor="middle">2023</text>
 
-<!-- area fills — class="area-path" + data-series for dimming -->
-<path id="area-5" class="area-path" data-series="5" d="M68,500 L68,460 L180,448 L291,456 L403,440 L515,448 L627,432 L738,440 L850,424 L850,500 Z" fill="#64748B" fill-opacity="0.05"/>
-<path id="area-4" class="area-path" data-series="4" d="M68,500 L68,452 L180,440 L291,428 L403,444 L515,432 L627,420 L738,436 L850,412 L850,500 Z" fill="#F59E0B" fill-opacity="0.07"/>
-<path id="area-3" class="area-path" data-series="3" d="M68,500 L68,428 L180,412 L291,400 L403,384 L515,400 L627,388 L738,376 L850,360 L850,500 Z" fill="#00B87A" fill-opacity="0.09"/>
-<path id="area-2" class="area-path" data-series="2" d="M68,500 L68,388 L180,376 L291,360 L403,340 L515,324 L627,304 L738,280 L850,252 L850,500 Z" fill="#8B5CF6" fill-opacity="0.10"/>
-<path id="area-1" class="area-path" data-series="1" d="M68,500 L68,372 L180,348 L291,336 L403,308 L515,292 L627,256 L738,228 L850,212 L850,500 Z" fill="#00D4E8" fill-opacity="0.12"/>
+<!-- .ca wraps all chart elements so .ca.ready.hovering scopes correctly -->
+<g class="ca" id="ca">
+  <path id="area-5" class="area-path" data-series="5" d="M68,500 L68,460 L180,448 L291,456 L403,440 L515,448 L627,432 L738,440 L850,424 L850,500 Z" fill="url(#a5)"/>
+  <path id="area-4" class="area-path" data-series="4" d="M68,500 L68,452 L180,440 L291,428 L403,444 L515,432 L627,420 L738,436 L850,412 L850,500 Z" fill="url(#a4)"/>
+  <path id="area-3" class="area-path" data-series="3" d="M68,500 L68,428 L180,412 L291,400 L403,384 L515,400 L627,388 L738,376 L850,360 L850,500 Z" fill="url(#a3)"/>
+  <path id="area-2" class="area-path" data-series="2" d="M68,500 L68,388 L180,376 L291,360 L403,340 L515,324 L627,304 L738,280 L850,252 L850,500 Z" fill="url(#a2)"/>
+  <path id="area-1" class="area-path" data-series="1" d="M68,500 L68,372 L180,348 L291,336 L403,308 L515,292 L627,256 L738,228 L850,212 L850,500 Z" fill="url(#a1)"/>
 
-<!-- lines — class="line-path" + data-series for dimming -->
-<path id="line-5" class="line-path s5" data-series="5" style="--len:900" fill="none"
-  stroke="#64748B" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7,4"
-  d="M68,460 L180,448 L291,456 L403,440 L515,448 L627,432 L738,440 L850,424"/>
-<path id="line-4" class="line-path s4" data-series="4" style="--len:900" fill="none"
-  stroke="#F59E0B" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"
-  d="M68,452 L180,440 L291,428 L403,444 L515,432 L627,420 L738,436 L850,412"/>
-<path id="line-3" class="line-path s3" data-series="3" style="--len:900" fill="none"
-  stroke="#00B87A" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"
-  d="M68,428 L180,412 L291,400 L403,384 L515,400 L627,388 L738,376 L850,360"/>
-<path id="line-2" class="line-path s2" data-series="2" style="--len:900" fill="none"
-  stroke="#8B5CF6" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"
-  d="M68,388 L180,376 L291,360 L403,340 L515,324 L627,304 L738,280 L850,252"/>
-<path id="line-1" class="line-path s1" data-series="1" style="--len:900" fill="none"
-  stroke="#00D4E8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"
-  d="M68,372 L180,348 L291,336 L403,308 L515,292 L627,256 L738,228 L850,212"/>
+  <path id="line-5" class="line-path bar-5 s5" data-series="5" style="--len:900;fill:none" stroke-width="2"   stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7,4" d="M68,460 L180,448 L291,456 L403,440 L515,448 L627,432 L738,440 L850,424"/>
+  <path id="line-4" class="line-path bar-4 s4" data-series="4" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,452 L180,440 L291,428 L403,444 L515,432 L627,420 L738,436 L850,412"/>
+  <path id="line-3" class="line-path bar-3 s3" data-series="3" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,428 L180,412 L291,400 L403,384 L515,400 L627,388 L738,376 L850,360"/>
+  <path id="line-2" class="line-path bar-2 s2" data-series="2" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,388 L180,376 L291,360 L403,340 L515,324 L627,304 L738,280 L850,252"/>
+  <path id="line-1" class="line-path bar-1 s1" data-series="1" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,372 L180,348 L291,336 L403,308 L515,292 L627,256 L738,228 L850,212"/>
 
-<g id="crosshairs">
-  <line id="ch0" class="crosshair" x1="68"  y1="100" x2="68"  y2="500"/>
-  <line id="ch1" class="crosshair" x1="180" y1="100" x2="180" y2="500"/>
-  <line id="ch2" class="crosshair" x1="291" y1="100" x2="291" y2="500"/>
-  <line id="ch3" class="crosshair" x1="403" y1="100" x2="403" y2="500"/>
-  <line id="ch4" class="crosshair" x1="515" y1="100" x2="515" y2="500"/>
-  <line id="ch5" class="crosshair" x1="627" y1="100" x2="627" y2="500"/>
-  <line id="ch6" class="crosshair" x1="738" y1="100" x2="738" y2="500"/>
-  <line id="ch7" class="crosshair" x1="850" y1="100" x2="850" y2="500"/>
+  <g id="crosshairs">
+    <line id="ch0" class="crosshair" x1="68"  y1="100" x2="68"  y2="500"/>
+    <line id="ch1" class="crosshair" x1="180" y1="100" x2="180" y2="500"/>
+    <line id="ch2" class="crosshair" x1="291" y1="100" x2="291" y2="500"/>
+    <line id="ch3" class="crosshair" x1="403" y1="100" x2="403" y2="500"/>
+    <line id="ch4" class="crosshair" x1="515" y1="100" x2="515" y2="500"/>
+    <line id="ch5" class="crosshair" x1="627" y1="100" x2="627" y2="500"/>
+    <line id="ch6" class="crosshair" x1="738" y1="100" x2="738" y2="500"/>
+    <line id="ch7" class="crosshair" x1="850" y1="100" x2="850" y2="500"/>
+  </g>
+  <g id="dots-layer"></g>
 </g>
-<g id="dots-layer"></g>
+
 <g id="tip-layer"></g>
 
-<rect x="870" y="100" width="210" height="262" rx="14" class="lgd-bg" stroke-width="1"/>
+<rect x="870" y="100" width="210" height="262" rx="14" class="lgd-bg"/>
 <text x="888" y="124" class="lgd-ttl">SERIES</text>
-<g transform="translate(888,140)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c1)"/>
-  <text x="22" y="11" class="lt">Cyan</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$72M</text>
-</g>
-<g transform="translate(888,170)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c2)"/>
-  <text x="22" y="11" class="lt">Violet</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$62M</text>
-</g>
-<g transform="translate(888,200)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c3)"/>
-  <text x="22" y="11" class="lt">Emerald</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$35M</text>
-</g>
-<g transform="translate(888,230)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c4)"/>
-  <text x="22" y="11" class="lt">Amber</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$22M</text>
-</g>
-<g transform="translate(888,260)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c5)"/>
-  <text x="22" y="11" class="lt">Slate</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$19M</text>
-</g>
+<g transform="translate(888,140)"><rect class="bar-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Cyan</text>   <text x="188" y="11" class="lv lgd-val" text-anchor="end">$72M</text></g>
+<g transform="translate(888,170)"><rect class="bar-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Violet</text>  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$62M</text></g>
+<g transform="translate(888,200)"><rect class="bar-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Emerald</text> <text x="188" y="11" class="lv lgd-val" text-anchor="end">$35M</text></g>
+<g transform="translate(888,230)"><rect class="bar-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Amber</text>   <text x="188" y="11" class="lv lgd-val" text-anchor="end">$22M</text></g>
+<g transform="translate(888,260)"><rect class="bar-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Slate</text>    <text x="188" y="11" class="lv lgd-val" text-anchor="end">$19M</text></g>
 <line x1="888" y1="286" x2="1062" y2="286" class="lgd-div"/>
 <text x="888" y="306" class="lt">Q4 2023 values</text>
 <text x="888" y="324" class="lp">Hover dots to inspect</text>
 
-<text x="68" y="600" class="footer">Revenue by Quarter · 5 series · liquid glass line chart</text>
+<text x="68" y="600" class="footer">Revenue by Quarter · 5 series · line chart</text>
 
 <script type="text/javascript">
 //<![CDATA[
 (function() {
   var svg       = document.getElementById('root');
+  var ca        = document.getElementById('ca');
   var ns        = 'http://www.w3.org/2000/svg';
   var dotsLayer = document.getElementById('dots-layer');
   var tipLayer  = document.getElementById('tip-layer');
 
   var series = [
-    { id:1, label:'Cyan',    light:'#00D4E8', dark:'#22D3EE',
-      vals:[32,38,41,48,52,61,68,72], ys:[372,348,336,308,292,256,228,212] },
-    { id:2, label:'Violet',  light:'#8B5CF6', dark:'#A78BFA',
-      vals:[28,31,35,40,44,49,55,62], ys:[388,376,360,340,324,304,280,252] },
-    { id:3, label:'Emerald', light:'#00B87A', dark:'#10B981',
-      vals:[18,22,25,29,25,28,31,35], ys:[428,412,400,384,400,388,376,360] },
-    { id:4, label:'Amber',   light:'#F59E0B', dark:'#FBB724',
-      vals:[12,15,18,14,17,20,16,22], ys:[452,440,428,444,432,420,436,412] },
-    { id:5, label:'Slate',   light:'#64748B', dark:'#94A3B8',
-      vals:[10,13,11,15,13,17,15,19], ys:[460,448,456,440,448,432,440,424] },
+    { id:1, cls:'bar-1', label:'Cyan',    vals:[32,38,41,48,52,61,68,72], ys:[372,348,336,308,292,256,228,212] },
+    { id:2, cls:'bar-2', label:'Violet',  vals:[28,31,35,40,44,49,55,62], ys:[388,376,360,340,324,304,280,252] },
+    { id:3, cls:'bar-3', label:'Emerald', vals:[18,22,25,29,25,28,31,35], ys:[428,412,400,384,400,388,376,360] },
+    { id:4, cls:'bar-4', label:'Amber',   vals:[12,15,18,14,17,20,16,22], ys:[452,440,428,444,432,420,436,412] },
+    { id:5, cls:'bar-5', label:'Slate',   vals:[10,13,11,15,13,17,15,19], ys:[460,448,456,440,448,432,440,424] },
   ];
+
+  var aOpacity = [0.28, 0.24, 0.20, 0.18, 0.14];
+
+  var defs = svg.querySelector('defs');
+  series.forEach(function(s, i) {
+    var grad = document.createElementNS(ns, 'linearGradient');
+    grad.setAttribute('id', 'a'+s.id);
+    grad.setAttribute('x1','0'); grad.setAttribute('y1','0');
+    grad.setAttribute('x2','0'); grad.setAttribute('y2','1');
+    var s0 = document.createElementNS(ns, 'stop');
+    s0.setAttribute('id','a'+s.id+'s0'); s0.setAttribute('offset','0%');
+    s0.setAttribute('stop-opacity', aOpacity[i]);
+    var s1 = document.createElementNS(ns, 'stop');
+    s1.setAttribute('id','a'+s.id+'s1'); s1.setAttribute('offset','100%');
+    s1.setAttribute('stop-opacity','0.02');
+    grad.appendChild(s0); grad.appendChild(s1); defs.appendChild(grad);
+    var area = document.getElementById('area-'+s.id);
+    if (area) area.setAttribute('fill','url(#a'+s.id+')');
+  });
+
+  function syncGradients() {
+    var probe = document.createElementNS(ns, 'rect');
+    probe.style.visibility='hidden'; probe.style.position='absolute';
+    svg.appendChild(probe);
+    series.forEach(function(s) {
+      probe.setAttribute('class', s.cls);
+      var color = window.getComputedStyle(probe).fill;
+      var s0=document.getElementById('a'+s.id+'s0'), s1=document.getElementById('a'+s.id+'s1');
+      if (s0) s0.setAttribute('stop-color', color);
+      if (s1) s1.setAttribute('stop-color', color);
+      var area=document.getElementById('area-'+s.id);
+      if (area) area.setAttribute('fill','url(#a'+s.id+')');
+    });
+    svg.removeChild(probe);
+  }
 
   var quarters = ["Q1 '22","Q2 '22","Q3 '22","Q4 '22","Q1 '23","Q2 '23","Q3 '23","Q4 '23"];
   var xs = [68,180,291,403,515,627,738,850];
   var allTips = {};
 
-  /* all dimmable elements indexed by series id */
-  var dimmables = {}; /* sid -> [elements] */
-  series.forEach(function(s) {
-    dimmables[s.id] = [];
-    var line = document.getElementById('line-' + s.id);
-    var area = document.getElementById('area-' + s.id);
-    if (line) dimmables[s.id].push(line);
-    if (area) dimmables[s.id].push(area);
-  });
-
   function el(tag, attrs) {
     var e = document.createElementNS(ns, tag);
-    Object.keys(attrs).forEach(function(k) { e.setAttribute(k, attrs[k]); });
+    Object.keys(attrs).forEach(function(k){ e.setAttribute(k, attrs[k]); });
     return e;
   }
 
   function setHover(activeSid) {
-    svg.classList.add('hovering');
-    /* mark active class on lines, areas, dots */
+    ca.classList.add('hovering');
     series.forEach(function(s) {
       var isActive = (s.id === activeSid);
-      var line = document.getElementById('line-' + s.id);
-      var area = document.getElementById('area-' + s.id);
+      var line = document.getElementById('line-'+s.id);
+      var area = document.getElementById('area-'+s.id);
       if (line) line.classList.toggle('active', isActive);
       if (area) area.classList.toggle('active', isActive);
-      /* dots for this series */
       xs.forEach(function(_, qi) {
-        var inner = document.querySelector('#d' + s.id + '_' + qi + ' .dot-inner');
+        var inner = document.querySelector('#d'+s.id+'_'+qi+' .dot-inner');
         if (inner) inner.classList.toggle('active', isActive);
       });
     });
   }
 
   function clearHover() {
-    svg.classList.remove('hovering');
+    ca.classList.remove('hovering');
     series.forEach(function(s) {
-      var line = document.getElementById('line-' + s.id);
-      var area = document.getElementById('area-' + s.id);
+      var line=document.getElementById('line-'+s.id), area=document.getElementById('area-'+s.id);
       if (line) line.classList.remove('active');
       if (area) area.classList.remove('active');
       xs.forEach(function(_, qi) {
-        var inner = document.querySelector('#d' + s.id + '_' + qi + ' .dot-inner');
+        var inner=document.querySelector('#d'+s.id+'_'+qi+' .dot-inner');
         if (inner) inner.classList.remove('active');
       });
     });
   }
 
-  function swapColors(dark) {
-    series.forEach(function(s) {
-      var line = document.getElementById('line-' + s.id);
-      var area = document.getElementById('area-' + s.id);
-      if (line) line.setAttribute('stroke', dark ? s.dark : s.light);
-      if (area) area.setAttribute('fill',   dark ? s.dark : s.light);
-    });
-  }
-
   series.forEach(function(s) {
     xs.forEach(function(x, qi) {
-      var y   = s.ys[qi];
-      var key = s.id + '_' + qi;
-      var delay = ((s.id - 1) * 0.15 + qi * 0.06) + 's';
+      var y=s.ys[qi], key=s.id+'_'+qi;
+      var delay=((s.id-1)*0.25+qi*0.06)+'s';
 
-      var dg    = el('g', { 'class':'dot-g', id:'d'+key });
-      var inner = el('g', { 'class':'dot-inner',
-        style:'transform-origin:'+x+'px '+y+'px; animation-delay:'+delay });
-      var dot   = el('circle', { cx:x, cy:y, r:5, fill:s.dark });
-      inner.appendChild(dot);
-      dg.appendChild(inner);
-      dotsLayer.appendChild(dg);
+      var dg=el('g',{'class':'dot-g',id:'d'+key});
+      var inner=el('g',{'class':'dot-inner',style:'transform-origin:'+x+'px '+y+'px'});
+      inner.style.animation='popDot 0.35s cubic-bezier(0.34,1.4,0.64,1) '+delay;
+      inner.addEventListener('animationend',function(){
+        inner.style.animation='none';
+        inner.classList.add('visible');
+      },{once:true});
+      var dot=el('circle',{cx:x,cy:y,r:5,'class':s.cls,stroke:'none'});
+      inner.appendChild(dot); dg.appendChild(inner); dotsLayer.appendChild(dg);
 
-      var bw = Math.max(80, s.label.length * 7 + 40);
-      var bh = 48, hw = bw/2, hh = bh/2, TAIL = 14;
-      var bCx = x, bCy = y - hh - TAIL - 6;
-      var tailBaseY = bCy + hh;
+      var bw=Math.max(80,s.label.length*7+40), bh=48, hw=bw/2, hh=bh/2, TAIL=14;
+      var bCx=x, bCy=y-hh-TAIL-6, tailBaseY=bCy+hh;
 
-      var tipG = el('g', { 'class':'tip', id:'t'+key });
-      tipLayer.appendChild(tipG);
-      allTips[key] = tipG;
+      var tipG=el('g',{'class':'tip',id:'t'+key});
+      tipLayer.appendChild(tipG); allTips[key]=tipG;
 
-      tipG.appendChild(el('rect', { x:bCx-hw, y:bCy-hh, width:bw, height:bh, rx:8, 'class':'bub-bg' }));
-      tipG.appendChild(el('rect', { x:bCx-hw, y:bCy-hh, width:bw, height:bh, rx:8, 'class':'bub-bdr' }));
-      tipG.appendChild(el('polygon', {
+      tipG.appendChild(el('rect',{x:bCx-hw,y:bCy-hh,width:bw,height:bh,rx:8,'class':'bub-bg'}));
+      tipG.appendChild(el('rect',{x:bCx-hw,y:bCy-hh,width:bw,height:bh,rx:8,'class':'bub-bdr'}));
+      tipG.appendChild(el('polygon',{
         points:(bCx+10)+','+(tailBaseY-1)+' '+(bCx-10)+','+(tailBaseY-1)+' '+bCx+','+(tailBaseY+TAIL+3),
-        'class':'bub-tip-p' }));
-      tipG.appendChild(el('path', {
+        'class':'bub-tip'}));
+      tipG.appendChild(el('path',{
         d:'M'+(bCx+10)+','+(tailBaseY-1)+' '+bCx+','+(tailBaseY+TAIL+3)+' '+(bCx-10)+','+(tailBaseY-1),
-        'class':'bub-bdr', fill:'none', 'stroke-width':'1' }));
+        'class':'bub-bdr',fill:'none','stroke-width':'1'}));
 
-      var tv = el('text', { x:bCx, y:bCy-7, 'text-anchor':'middle',
-        'dominant-baseline':'central', 'class':'bub-val' });
-      tv.textContent = '$' + s.vals[qi] + 'M';
-      tipG.appendChild(tv);
-      var tl = el('text', { x:bCx, y:bCy+8, 'text-anchor':'middle',
-        'dominant-baseline':'central', 'class':'bub-lbl' });
-      tl.textContent = s.label + ' · ' + quarters[qi];
-      tipG.appendChild(tl);
+      var tv=el('text',{x:bCx,y:bCy-7,'text-anchor':'middle','dominant-baseline':'central','class':'bub-val'});
+      tv.textContent='$'+s.vals[qi]+'M'; tipG.appendChild(tv);
+      var tl=el('text',{x:bCx,y:bCy+8,'text-anchor':'middle','dominant-baseline':'central','class':'bub-lbl'});
+      tl.textContent=s.label+' · '+quarters[qi]; tipG.appendChild(tl);
 
-      var ch = document.getElementById('ch' + qi);
-      dg.addEventListener('mouseenter', function() {
-        allTips[key].style.opacity = '1';
-        if (ch) ch.style.opacity = '1';
-        dot.setAttribute('r', '7');
+      var ch=document.getElementById('ch'+qi);
+      dg.addEventListener('mouseenter',function(){
+        allTips[key].style.opacity='1';
+        if(ch) ch.style.opacity='1';
+        dot.setAttribute('r','7');
         setHover(s.id);
       });
-      dg.addEventListener('mouseleave', function() {
-        allTips[key].style.opacity = '';
-        if (ch) ch.style.opacity = '';
-        dot.setAttribute('r', '5');
+      dg.addEventListener('mouseleave',function(){
+        allTips[key].style.opacity='';
+        if(ch) ch.style.opacity='';
+        dot.setAttribute('r','5');
         clearHover();
       });
     });
   });
 
+  // gate hover on .ca.ready after last dot animation finishes
+  var lastDelay=(series.length-1)*0.25+(xs.length-1)*0.06;
+  setTimeout(function(){ ca.classList.add('ready'); },(lastDelay+0.35)*1000+100);
+
+  var isDark=false;
   function setMode(wantDark) {
-    if (wantDark === svg.classList.contains('dark')) return;
-    var thumb = document.getElementById('tthumb');
-    var lbl   = document.getElementById('tlabel');
-    if (wantDark) {
-      svg.classList.add('dark');
-      if (thumb) thumb.setAttribute('cx','52');
-      if (lbl)   lbl.textContent = 'Light';
-    } else {
-      svg.classList.remove('dark');
-      if (thumb) thumb.setAttribute('cx','16');
-      if (lbl)   lbl.textContent = 'Dark';
-    }
-    swapColors(wantDark);
+    if(wantDark===isDark) return;
+    isDark=wantDark;
+    var thumb=document.getElementById('tthumb'),lbl=document.getElementById('tlabel');
+    if(wantDark){svg.classList.add('dark');thumb.setAttribute('cx','52');lbl.textContent='Light';}
+    else{svg.classList.remove('dark');thumb.setAttribute('cx','16');lbl.textContent='Dark';}
+    syncGradients();
   }
-  
-  document.getElementById('dark-toggle').addEventListener('click', function() {
-    setMode(!svg.classList.contains('dark'));
-  });
-  document.getElementById('print-toggle').addEventListener('click', function() {
-    var thumb = document.getElementById('pthumb'), lbl = document.getElementById('plabel');
-    if (svg.classList.toggle('print')) { thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
-    else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print';  }
-  });
 
-  window.setMode = setMode;
-  window.addEventListener('message', function(e) {
-    if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
+  syncGradients();
+  document.getElementById('dark-toggle').addEventListener('click',function(){setMode(!isDark);});
+  document.getElementById('print-toggle').addEventListener('click',function(){
+    var thumb=document.getElementById('pthumb'),lbl=document.getElementById('plabel');
+    if(svg.classList.toggle('print')){thumb.setAttribute('cx','52');lbl.textContent='Screen';}
+    else{thumb.setAttribute('cx','16');lbl.textContent='Print';}
   });
-
-  (function() {
-    setMode(window.location.href.indexOf('theme=dark') !== -1);
-  })();
+  window.setMode=setMode;
+  window.addEventListener('message',function(e){if(e.data&&e.data.type==='setMode')setMode(e.data.dark);});
+  setMode(window.location.href.indexOf('theme=dark')!==-1);
 })();
 //]]>
 </script>

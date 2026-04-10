@@ -1,23 +1,10 @@
+
+
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <clipPath id="chartclip">
     <rect x="68" y="96" width="782" height="412"/>
   </clipPath>
-  <linearGradient id="a1"><stop offset="0%" stop-color="#00D4E8" stop-opacity="0.85"/></linearGradient>
-  <linearGradient id="a2"><stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.85"/></linearGradient>
-  <linearGradient id="a3"><stop offset="0%" stop-color="#00B87A" stop-opacity="0.85"/></linearGradient>
-  <linearGradient id="a4"><stop offset="0%" stop-color="#F59E0B" stop-opacity="0.85"/></linearGradient>
-  <linearGradient id="a5"><stop offset="0%" stop-color="#64748B" stop-opacity="0.85"/></linearGradient>
-  <linearGradient id="a1d"><stop offset="0%" stop-color="#22D3EE" stop-opacity="0.90"/></linearGradient>
-  <linearGradient id="a2d"><stop offset="0%" stop-color="#A78BFA" stop-opacity="0.90"/></linearGradient>
-  <linearGradient id="a3d"><stop offset="0%" stop-color="#10B981" stop-opacity="0.90"/></linearGradient>
-  <linearGradient id="a4d"><stop offset="0%" stop-color="#FBB724" stop-opacity="0.90"/></linearGradient>
-  <linearGradient id="a5d"><stop offset="0%" stop-color="#94A3B8" stop-opacity="0.90"/></linearGradient>
-  <linearGradient id="c1"><stop offset="0%" stop-color="#00D4E8"/></linearGradient>
-  <linearGradient id="c2"><stop offset="0%" stop-color="#8B5CF6"/></linearGradient>
-  <linearGradient id="c3"><stop offset="0%" stop-color="#00B87A"/></linearGradient>
-  <linearGradient id="c4"><stop offset="0%" stop-color="#F59E0B"/></linearGradient>
-  <linearGradient id="c5"><stop offset="0%" stop-color="#64748B"/></linearGradient>
   <style>
     .bg-main   { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
     .ct        { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
@@ -47,31 +34,43 @@
     .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     svg.print .tip { opacity:0 !important; }
     .bub-bg    { fill:#FFFBFE; }
-    .bub-bdr   { fill:none; stroke:#79747E; stroke-width:1; }
-    .bub-tip-p { fill:#FFFBFE; stroke:none; }
+    .bub-bdr   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .bub-tip   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
     .bub-val   { fill:#1C1B1F; font-size:13px; font-weight:500; }
     .bub-lbl   { fill:#49454F; font-size:10px; font-weight:400; }
     .bub-div   { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
 
+    /* Standard palette */
+    .bar-1 { fill:#00D4E8; stroke:#00D4E8; } .bar-2 { fill:#8B5CF6; stroke:#8B5CF6; }
+    .bar-3 { fill:#00B87A; stroke:#00B87A; } .bar-4 { fill:#F59E0B; stroke:#F59E0B; }
+    .bar-5 { fill:#64748B; stroke:#64748B; }
+
+    svg.dark .bar-1 { fill:#22D3EE; stroke:#22D3EE; } svg.dark .bar-2 { fill:#A78BFA; stroke:#A78BFA; }
+    svg.dark .bar-3 { fill:#10B981; stroke:#10B981; } svg.dark .bar-4 { fill:#FBB724; stroke:#FBB724; }
+    svg.dark .bar-5 { fill:#94A3B8; stroke:#94A3B8; }
+
+    /* wave edges — fill:none overridden in style attr to beat .bar-N fill */
     @keyframes drawWave { from{stroke-dashoffset:var(--len,900);} to{stroke-dashoffset:0;} }
     .wave-edge { stroke-dasharray:var(--len,900); stroke-dashoffset:var(--len,900);
-                 animation: drawWave 1.5s cubic-bezier(0.4,0,0.2,1) both;
-                 transition: opacity 0.2s; }
-    .w1{animation-delay:0.00s;} .w2{animation-delay:0.18s;}
-    .w3{animation-delay:0.34s;} .w4{animation-delay:0.50s;} .w5{animation-delay:0.66s;}
+                 animation: drawWave 1.2s cubic-bezier(0.4,0,0.2,1) both;
+                 transition: opacity 0.2s ease; }
+    .w1{animation-delay:0.00s;} .w2{animation-delay:0.25s;}
+    .w3{animation-delay:0.50s;} .w4{animation-delay:0.75s;} .w5{animation-delay:1.00s;}
 
-    @keyframes washIn { from{opacity:0;} to{opacity:1;} }
-    .area-fill { animation: washIn 1.2s cubic-bezier(0.4,0,0.2,1) both; }
-    .f1{animation-delay:0.00s;} .f2{animation-delay:0.18s;}
-    .f3{animation-delay:0.34s;} .f4{animation-delay:0.50s;} .f5{animation-delay:0.66s;}
+    @keyframes barFadeIn { from{opacity:0;} to{opacity:1;} }
+    .area-fill         { opacity:0; transition:opacity 0.2s ease; }
+    .area-fill.visible { opacity:1; }
+    .f1{animation-delay:0.00s;} .f2{animation-delay:0.25s;}
+    .f3{animation-delay:0.50s;} .f4{animation-delay:0.75s;} .f5{animation-delay:1.00s;}
 
-    /* ── wave edge dimming on column hover ── */
-    svg.hovering .wave-edge        { opacity: 0.10; }
-    svg.hovering .wave-edge.active { opacity: 1;    }
-
-    /* dot markers on the active column — hidden by default, shown on hover */
-    .col-dot { opacity:0; transition:opacity 0.15s; pointer-events:none; }
-    svg.hovering .col-dot.active { opacity:1; }
+    /* hover dimming — gated on .ready */
+    .wave-edge  { transition: opacity 0.2s ease; }
+    svg.ready.hovering .wave-edge              { opacity: 0.20; }
+    svg.ready.hovering .wave-edge.active       { opacity: 1; }
+    svg.ready.hovering .area-fill.visible      { opacity: 0.20; }
+    svg.ready.hovering .area-fill.visible.active { opacity: 1; }
+    .col-dot { opacity:0; transition:opacity 0.2s ease; pointer-events:none; }
+    svg.ready.hovering .col-dot.active { opacity:1; }
 
     svg.dark .bg-main   { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
     svg.dark .ct        { fill:#E6E0E9; }
@@ -94,8 +93,8 @@
     svg.dark.print .pt-track { fill:#d97316; }
     svg.dark .crosshair { stroke:#938F99; }
     svg.dark .bub-bg    { fill:#1C1B1F; }
-    svg.dark .bub-bdr   { fill:none; stroke:#938F99; stroke-width:1; }
-    svg.dark .bub-tip-p { fill:#1C1B1F; stroke:none; }
+    svg.dark .bub-bdr   { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
+    svg.dark .bub-tip   { fill:#1C1B1F; stroke:#938F99; }
     svg.dark .bub-val   { fill:#E6E0E9; }
     svg.dark .bub-lbl   { fill:#CAC4D0; }
     svg.dark .bub-div   { stroke:#938F99; }
@@ -119,8 +118,8 @@
 
 <g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
-  <circle id="tthumb" cx="52" cy="0" r="10" class="t-thumb"/>
-  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Light</text>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
+  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
 </g>
 <g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
@@ -157,32 +156,33 @@
 <text x="654" y="90" class="an" text-anchor="middle">2023</text>
 
 <g clip-path="url(#chartclip)">
-<path class="area-fill f5" fill="url(#a5)"
-  d="M68,504 L68,487.8 C124,487.8 124,483.0 180,483.0 C235,483.0 235,486.2 291,486.2 C347,486.2 347,480.2 403,480.2 C459,480.2 459,483.0 515,483.0 C571,483.0 571,477.5 627,477.5 C682,477.5 682,480.2 738,480.2 C794,480.2 794,473.3 850,473.3 L850,504 Z"/>
-<path class="area-fill f4" fill="url(#a4)"
-  d="M68,487.8 C124,487.8 124,483.0 180,483.0 C235,483.0 235,486.2 291,486.2 C347,486.2 347,480.2 403,480.2 C459,480.2 459,483.0 515,483.0 C571,483.0 571,477.5 627,477.5 C682,477.5 682,480.2 738,480.2 C794,480.2 794,473.3 850,473.3 L850,437.7 C794,437.7 794,453.9 738,453.9 C682,453.9 682,444.2 627,444.2 C571,444.2 571,455.5 515,455.5 C459,455.5 459,457.1 403,457.1 C347,457.1 347,457.1 291,457.1 C235,457.1 235,459.3 180,459.3 C124,459.3 124,468.3 68,468.3 Z"/>
-<path class="area-fill f3" fill="url(#a3)"
-  d="M68,468.3 C124,468.3 124,459.3 180,459.3 C235,459.3 235,457.1 291,457.1 C347,457.1 347,457.1 403,457.1 C459,457.1 459,455.5 515,455.5 C571,455.5 571,444.2 627,444.2 C682,444.2 682,453.9 738,453.9 C794,453.9 794,437.7 850,437.7 L850,381.6 C794,381.6 794,403.8 738,403.8 C682,403.8 682,399.6 627,399.6 C571,399.6 571,415.3 515,415.3 C459,415.3 459,410.5 403,410.5 C347,410.5 347,416.9 291,416.9 C235,416.9 235,423.2 180,423.2 C124,423.2 124,439.4 68,439.4 Z"/>
-<path class="area-fill f2" fill="url(#a2)"
-  d="M68,439.4 C124,439.4 124,423.2 180,423.2 C235,423.2 235,416.9 291,416.9 C347,416.9 347,410.5 403,410.5 C459,410.5 459,415.3 515,415.3 C571,415.3 571,399.6 627,399.6 C682,399.6 682,403.8 738,403.8 C794,403.8 794,381.6 850,381.6 L850,281.4 C794,281.4 794,315.6 738,315.6 C682,315.6 682,320.2 627,320.2 C571,320.2 571,344.2 515,344.2 C459,344.2 459,346.4 403,346.4 C347,346.4 347,360.8 291,360.8 C235,360.8 235,373.9 180,373.9 C124,373.9 124,394.1 68,394.1 Z"/>
-<path class="area-fill f1" fill="url(#a1)"
-  d="M68,394.1 C124,394.1 124,373.9 180,373.9 C235,373.9 235,360.8 291,360.8 C347,360.8 347,346.4 403,346.4 C459,346.4 459,344.2 515,344.2 C571,344.2 571,320.2 627,320.2 C682,320.2 682,315.6 738,315.6 C794,315.6 794,281.4 850,281.4 L850,165.6 C794,165.6 794,205.0 738,205.0 C682,205.0 682,221.8 627,221.8 C571,221.8 571,261.2 515,261.2 C459,261.2 459,268.1 403,268.1 C347,268.1 347,294.1 291,294.1 C235,294.1 235,311.7 180,311.7 C124,311.7 124,342.4 68,342.4 Z"/>
+  <path id="area-5" class="area-fill f5"
+    d="M68,504 L68,487.8 C124,487.8 124,483.0 180,483.0 C235,483.0 235,486.2 291,486.2 C347,486.2 347,480.2 403,480.2 C459,480.2 459,483.0 515,483.0 C571,483.0 571,477.5 627,477.5 C682,477.5 682,480.2 738,480.2 C794,480.2 794,473.3 850,473.3 L850,504 Z"/>
+  <path id="area-4" class="area-fill f4"
+    d="M68,487.8 C124,487.8 124,483.0 180,483.0 C235,483.0 235,486.2 291,486.2 C347,486.2 347,480.2 403,480.2 C459,480.2 459,483.0 515,483.0 C571,483.0 571,477.5 627,477.5 C682,477.5 682,480.2 738,480.2 C794,480.2 794,473.3 850,473.3 L850,437.7 C794,437.7 794,453.9 738,453.9 C682,453.9 682,444.2 627,444.2 C571,444.2 571,455.5 515,455.5 C459,455.5 459,457.1 403,457.1 C347,457.1 347,457.1 291,457.1 C235,457.1 235,459.3 180,459.3 C124,459.3 124,468.3 68,468.3 Z"/>
+  <path id="area-3" class="area-fill f3"
+    d="M68,468.3 C124,468.3 124,459.3 180,459.3 C235,459.3 235,457.1 291,457.1 C347,457.1 347,457.1 403,457.1 C459,457.1 459,455.5 515,455.5 C571,455.5 571,444.2 627,444.2 C682,444.2 682,453.9 738,453.9 C794,453.9 794,437.7 850,437.7 L850,381.6 C794,381.6 794,403.8 738,403.8 C682,403.8 682,399.6 627,399.6 C571,399.6 571,415.3 515,415.3 C459,415.3 459,410.5 403,410.5 C347,410.5 347,416.9 291,416.9 C235,416.9 235,423.2 180,423.2 C124,423.2 124,439.4 68,439.4 Z"/>
+  <path id="area-2" class="area-fill f2"
+    d="M68,439.4 C124,439.4 124,423.2 180,423.2 C235,423.2 235,416.9 291,416.9 C347,416.9 347,410.5 403,410.5 C459,410.5 459,415.3 515,415.3 C571,415.3 571,399.6 627,399.6 C682,399.6 682,403.8 738,403.8 C794,403.8 794,381.6 850,381.6 L850,281.4 C794,281.4 794,315.6 738,315.6 C682,315.6 682,320.2 627,320.2 C571,320.2 571,344.2 515,344.2 C459,344.2 459,346.4 403,346.4 C347,346.4 347,360.8 291,360.8 C235,360.8 235,373.9 180,373.9 C124,373.9 124,394.1 68,394.1 Z"/>
+  <path id="area-1" class="area-fill f1"
+    d="M68,394.1 C124,394.1 124,373.9 180,373.9 C235,373.9 235,360.8 291,360.8 C347,360.8 347,346.4 403,346.4 C459,346.4 459,344.2 515,344.2 C571,344.2 571,320.2 627,320.2 C682,320.2 682,315.6 738,315.6 C794,315.6 794,281.4 850,281.4 L850,165.6 C794,165.6 794,205.0 738,205.0 C682,205.0 682,221.8 627,221.8 C571,221.8 571,261.2 515,261.2 C459,261.2 459,268.1 403,268.1 C347,268.1 347,294.1 291,294.1 C235,294.1 235,311.7 180,311.7 C124,311.7 124,342.4 68,342.4 Z"/>
 
-<path id="we5" class="wave-edge w5" fill="none"
-  stroke="#64748B" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="7,4" opacity="0.55"
-  d="M68,487.8 C124,487.8 124,483.0 180,483.0 C235,483.0 235,486.2 291,486.2 C347,486.2 347,480.2 403,480.2 C459,480.2 459,483.0 515,483.0 C571,483.0 571,477.5 627,477.5 C682,477.5 682,480.2 738,480.2 C794,480.2 794,473.3 850,473.3"/>
-<path id="we4" class="wave-edge w4" fill="none"
-  stroke="#F59E0B" stroke-width="2" stroke-linecap="round" opacity="0.72"
-  d="M68,468.3 C124,468.3 124,459.3 180,459.3 C235,459.3 235,457.1 291,457.1 C347,457.1 347,457.1 403,457.1 C459,457.1 459,455.5 515,455.5 C571,455.5 571,444.2 627,444.2 C682,444.2 682,453.9 738,453.9 C794,453.9 794,437.7 850,437.7"/>
-<path id="we3" class="wave-edge w3" fill="none"
-  stroke="#00B87A" stroke-width="2.5" stroke-linecap="round" opacity="0.82"
-  d="M68,439.4 C124,439.4 124,423.2 180,423.2 C235,423.2 235,416.9 291,416.9 C347,416.9 347,410.5 403,410.5 C459,410.5 459,415.3 515,415.3 C571,415.3 571,399.6 627,399.6 C682,399.6 682,403.8 738,403.8 C794,403.8 794,381.6 850,381.6"/>
-<path id="we2" class="wave-edge w2" fill="none"
-  stroke="#8B5CF6" stroke-width="2.5" stroke-linecap="round" opacity="0.90"
-  d="M68,394.1 C124,394.1 124,373.9 180,373.9 C235,373.9 235,360.8 291,360.8 C347,360.8 347,346.4 403,346.4 C459,346.4 459,344.2 515,344.2 C571,344.2 571,320.2 627,320.2 C682,320.2 682,315.6 738,315.6 C794,315.6 794,281.4 850,281.4"/>
-<path id="we1" class="wave-edge w1" fill="none"
-  stroke="#00D4E8" stroke-width="3.5" stroke-linecap="round" opacity="1"
-  d="M68,342.4 C124,342.4 124,311.7 180,311.7 C235,311.7 235,294.1 291,294.1 C347,294.1 347,268.1 403,268.1 C459,268.1 459,261.2 515,261.2 C571,261.2 571,221.8 627,221.8 C682,221.8 682,205.0 738,205.0 C794,205.0 794,165.6 850,165.6"/>
+  <!-- style="fill:none" overrides .bar-N fill on stroke-only paths -->
+  <path id="we5" class="wave-edge bar-5 w5" style="fill:none"
+    stroke-width="1.5" stroke-linecap="round" stroke-dasharray="7,4" opacity="0.55"
+    d="M68,487.8 C124,487.8 124,483.0 180,483.0 C235,483.0 235,486.2 291,486.2 C347,486.2 347,480.2 403,480.2 C459,480.2 459,483.0 515,483.0 C571,483.0 571,477.5 627,477.5 C682,477.5 682,480.2 738,480.2 C794,480.2 794,473.3 850,473.3"/>
+  <path id="we4" class="wave-edge bar-4 w4" style="fill:none"
+    stroke-width="2" stroke-linecap="round" opacity="0.72"
+    d="M68,468.3 C124,468.3 124,459.3 180,459.3 C235,459.3 235,457.1 291,457.1 C347,457.1 347,457.1 403,457.1 C459,457.1 459,455.5 515,455.5 C571,455.5 571,444.2 627,444.2 C682,444.2 682,453.9 738,453.9 C794,453.9 794,437.7 850,437.7"/>
+  <path id="we3" class="wave-edge bar-3 w3" style="fill:none"
+    stroke-width="2.5" stroke-linecap="round" opacity="0.82"
+    d="M68,439.4 C124,439.4 124,423.2 180,423.2 C235,423.2 235,416.9 291,416.9 C347,416.9 347,410.5 403,410.5 C459,410.5 459,415.3 515,415.3 C571,415.3 571,399.6 627,399.6 C682,399.6 682,403.8 738,403.8 C794,403.8 794,381.6 850,381.6"/>
+  <path id="we2" class="wave-edge bar-2 w2" style="fill:none"
+    stroke-width="2.5" stroke-linecap="round" opacity="0.90"
+    d="M68,394.1 C124,394.1 124,373.9 180,373.9 C235,373.9 235,360.8 291,360.8 C347,360.8 347,346.4 403,346.4 C459,346.4 459,344.2 515,344.2 C571,344.2 571,320.2 627,320.2 C682,320.2 682,315.6 738,315.6 C794,315.6 794,281.4 850,281.4"/>
+  <path id="we1" class="wave-edge bar-1 w1" style="fill:none"
+    stroke-width="3.5" stroke-linecap="round" opacity="1"
+    d="M68,342.4 C124,342.4 124,311.7 180,311.7 C235,311.7 235,294.1 291,294.1 C347,294.1 347,268.1 403,268.1 C459,268.1 459,261.2 515,261.2 C571,261.2 571,221.8 627,221.8 C682,221.8 682,205.0 738,205.0 C794,205.0 794,165.6 850,165.6"/>
 </g>
 
 <g id="crosshairs">
@@ -201,15 +201,15 @@
 
 <rect x="870" y="100" width="210" height="310" rx="14" class="lgd-bg" stroke-width="1"/>
 <text x="888" y="124" class="lgd-ttl">SERIES</text>
-<g transform="translate(888,140)"><rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c1)"/><text x="22" y="11" class="lt">Cyan</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$72M</text></g>
-<g transform="translate(888,170)"><rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c2)"/><text x="22" y="11" class="lt">Violet</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$62M</text></g>
-<g transform="translate(888,200)"><rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c3)"/><text x="22" y="11" class="lt">Emerald</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$35M</text></g>
-<g transform="translate(888,230)"><rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c4)"/><text x="22" y="11" class="lt">Amber</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$22M</text></g>
-<g transform="translate(888,260)"><rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c5)"/><text x="22" y="11" class="lt">Slate</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$19M</text></g>
+<g transform="translate(888,140)"><rect class="bar-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Cyan</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$72M</text></g>
+<g transform="translate(888,170)"><rect class="bar-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Violet</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$62M</text></g>
+<g transform="translate(888,200)"><rect class="bar-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Emerald</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$35M</text></g>
+<g transform="translate(888,230)"><rect class="bar-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Amber</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$22M</text></g>
+<g transform="translate(888,260)"><rect class="bar-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Slate</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$19M</text></g>
 <line x1="888" y1="290" x2="1062" y2="290" class="lgd-div"/>
-<text x="888" y="352" class="lt">Q4 2023 total</text>
-<text x="888" y="370" class="lv lgd-val">$210M</text>
-<text x="888" y="388" class="lp">Hover columns to inspect</text>
+<text x="888" y="308" class="lt">Q4 2023 total</text>
+<text x="1062" y="308" class="lv lgd-val" text-anchor="end">$210M</text>
+<text x="888" y="328" class="lp">Hover columns to inspect</text>
 
 <text x="68" y="600" class="footer">Revenue by Quarter · 5 series · stacked area chart</text>
 
@@ -221,20 +221,22 @@
   var dotsL    = document.getElementById('dots-layer');
   var hitLayer = document.getElementById('hit-layer');
   var tipLayer = document.getElementById('tip-layer');
+  var defs     = svg.querySelector('defs');
 
   var series = [
-    { id:1, label:'Cyan',    light:'#00D4E8', dark:'#22D3EE', vals:[38,42,46,50,55,60,66,72],
-      ys:[342.4,311.7,294.1,268.1,261.2,221.8,205.0,165.6] },
-    { id:2, label:'Violet',  light:'#8B5CF6', dark:'#A78BFA', vals:[32,35,38,41,45,50,56,62],
-      ys:[394.1,373.9,360.8,346.4,344.2,320.2,315.6,281.4] },
-    { id:3, label:'Emerald', light:'#00B87A', dark:'#10B981', vals:[18,20,21,23,25,27,31,35],
-      ys:[439.4,423.2,416.9,410.5,415.3,399.6,403.8,381.6] },
-    { id:4, label:'Amber',   light:'#F59E0B', dark:'#FBB724', vals:[11,12,13,14,15,17,19,22],
-      ys:[468.3,459.3,457.1,457.1,455.5,444.2,453.9,437.7] },
-    { id:5, label:'Slate',   light:'#64748B', dark:'#94A3B8', vals:[10,11,12,13,14,16,17,19],
-      ys:[487.8,483.0,486.2,480.2,483.0,477.5,480.2,473.3] },
+    { id:1, cls:'bar-1', label:'Cyan',
+      vals:[38,42,46,50,55,60,66,72], ys:[342.4,311.7,294.1,268.1,261.2,221.8,205.0,165.6] },
+    { id:2, cls:'bar-2', label:'Violet',
+      vals:[32,35,38,41,45,50,56,62], ys:[394.1,373.9,360.8,346.4,344.2,320.2,315.6,281.4] },
+    { id:3, cls:'bar-3', label:'Emerald',
+      vals:[18,20,21,23,25,27,31,35], ys:[439.4,423.2,416.9,410.5,415.3,399.6,403.8,381.6] },
+    { id:4, cls:'bar-4', label:'Amber',
+      vals:[11,12,13,14,15,17,19,22], ys:[468.3,459.3,457.1,457.1,455.5,444.2,453.9,437.7] },
+    { id:5, cls:'bar-5', label:'Slate',
+      vals:[10,11,12,13,14,16,17,19], ys:[487.8,483.0,486.2,480.2,483.0,477.5,480.2,473.3] },
   ];
 
+  var aOpacity = [0.85, 0.75, 0.65, 0.55, 0.45];
   var quarters = ["Q1 '22","Q2 '22","Q3 '22","Q4 '22","Q1 '23","Q2 '23","Q3 '23","Q4 '23"];
   var xs   = [68,180,291,403,515,627,738,850];
   var colW = 56;
@@ -244,35 +246,49 @@
     return series.reduce(function(s,sr){ return s + sr.vals[qi]; }, 0);
   });
 
-  var allWaves = [
-    document.getElementById('we1'),
-    document.getElementById('we2'),
-    document.getElementById('we3'),
-    document.getElementById('we4'),
-    document.getElementById('we5'),
-  ];
-
   function el(tag, attrs) {
     var e = document.createElementNS(ns, tag);
     Object.keys(attrs).forEach(function(k){ e.setAttribute(k, attrs[k]); });
     return e;
   }
 
-  /* Build dots for each column — shown only on hover */
+  function buildGradients() {
+    var probe = document.createElementNS(ns, 'rect');
+    probe.style.visibility = 'hidden';
+    svg.appendChild(probe);
+    series.forEach(function(s, i) {
+      probe.setAttribute('class', s.cls);
+      var color = window.getComputedStyle(probe).fill;
+      var gradId = 'ag' + s.id;
+      var existing = document.getElementById(gradId);
+      if (existing) existing.parentNode.removeChild(existing);
+      var grad = document.createElementNS(ns, 'linearGradient');
+      grad.setAttribute('id', gradId);
+      var stop = document.createElementNS(ns, 'stop');
+      stop.setAttribute('offset', '0%');
+      stop.setAttribute('stop-color', color);
+      stop.setAttribute('stop-opacity', aOpacity[i]);
+      grad.appendChild(stop);
+      defs.appendChild(grad);
+      var area = document.getElementById('area-' + s.id);
+      if (area) area.setAttribute('fill', 'url(#' + gradId + ')');
+    });
+    svg.removeChild(probe);
+  }
+
   xs.forEach(function(x, qi) {
     series.forEach(function(s) {
       var dot = el('circle', {
-        cx: x, cy: s.ys[qi], r: 4,
-        fill: s.light, stroke: '#FFFBFE', 'stroke-width': 2,
-        'class': 'col-dot', 'data-col': qi
+        cx:x, cy:s.ys[qi], r:4,
+        'class':'col-dot ' + s.cls,
+        style:'stroke:none', 'data-col':qi
       });
       dotsL.appendChild(dot);
     });
   });
 
-  /* Build tooltips */
   xs.forEach(function(x, qi) {
-    var bw = 168, bh = 146, hw = bw / 2;
+    var bw = 168, bh = 146, hw = bw/2;
     var bCx = x, bCy = 200;
     if (bCx - hw < 68)  bCx = 68 + hw;
     if (bCx + hw > 850) bCx = 850 - hw;
@@ -291,7 +307,7 @@
 
     series.forEach(function(s, si) {
       var rowY = bCy + 28 + si * 18;
-      tipG.appendChild(el('circle', { cx:bCx-hw+14, cy:rowY, r:4, fill:s.light }));
+      tipG.appendChild(el('circle', { cx:bCx-hw+14, cy:rowY, r:4, 'class':s.cls, style:'stroke:none' }));
       var sLbl = el('text', { x:bCx-hw+24, y:rowY, 'dominant-baseline':'central', 'class':'bub-lbl' });
       sLbl.textContent = s.label;
       tipG.appendChild(sLbl);
@@ -308,7 +324,6 @@
     totVal.textContent = '$'+totals[qi]+'M';
     tipG.appendChild(totVal);
 
-    /* hit zone */
     var hx1 = Math.max(68,  x - colW);
     var hx2 = Math.min(850, x + colW);
     var hit = el('rect', { x:hx1, y:100, width:hx2-hx1, height:404,
@@ -319,9 +334,7 @@
     var colDots = dotsL.querySelectorAll('.col-dot[data-col="'+qi+'"]');
 
     hit.addEventListener('mouseenter', function() {
-      /* dim ALL waves — nothing gets .active, so all stay dim */
       svg.classList.add('hovering');
-      /* show dots for this column only */
       colDots.forEach(function(d) { d.classList.add('active'); });
       allTips[qi].style.opacity = '1';
       if (ch) ch.style.opacity = '1';
@@ -334,33 +347,11 @@
     });
   });
 
-  function swapAreaFills(dark) {
-    svg.querySelectorAll('path[fill]').forEach(function(p) {
-      var f = p.getAttribute('fill') || '';
-      var m = f.match(/url\(#(a[1-5])(d?)\)/);
-      if (!m) return;
-      p.setAttribute('fill', dark ? 'url(#' + m[1] + 'd)' : 'url(#' + m[1] + ')');
-    });
-  }
-
-  function swapEdgeStrokes(dark) {
-    [1,2,3,4,5].forEach(function(i) {
-      var e = document.getElementById('we' + i);
-      if (!e) return;
-      e.setAttribute('stroke', dark ? series[i-1].dark : series[i-1].light);
-    });
-    /* also update dot fills */
-    dotsL.querySelectorAll('.col-dot').forEach(function(d, i) {
-      var si = i % 5;
-      d.setAttribute('fill', dark ? series[si].dark : series[si].light);
-      d.setAttribute('stroke', dark ? '#1C1B1F' : '#FFFBFE');
-    });
-  }
-
+  var isDark = false;
   function setMode(wantDark) {
-    if (wantDark === svg.classList.contains('dark')) return;
-    var thumb = document.getElementById('tthumb');
-    var lbl   = document.getElementById('tlabel');
+    if (wantDark === isDark) return;
+    isDark = wantDark;
+    var thumb = document.getElementById('tthumb'), lbl = document.getElementById('tlabel');
     if (wantDark) {
       svg.classList.add('dark');
       if (thumb) thumb.setAttribute('cx','52');
@@ -370,17 +361,14 @@
       if (thumb) thumb.setAttribute('cx','16');
       if (lbl)   lbl.textContent = 'Dark';
     }
-    swapAreaFills(wantDark);
-    swapEdgeStrokes(wantDark);
+    buildGradients();
   }
 
-  document.getElementById('dark-toggle').addEventListener('click', function() {
-    setMode(!svg.classList.contains('dark'));
-  });
+  document.getElementById('dark-toggle').addEventListener('click', function() { setMode(!isDark); });
   document.getElementById('print-toggle').addEventListener('click', function() {
     var thumb = document.getElementById('pthumb'), lbl = document.getElementById('plabel');
     if (svg.classList.toggle('print')) { thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
-    else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print';  }
+    else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print'; }
   });
 
   window.setMode = setMode;
@@ -388,9 +376,23 @@
     if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
   });
 
-  (function() {
-    setMode(window.location.href.indexOf('theme=dark') !== -1);
-  })();
+  buildGradients();
+
+  /* wire animationend + .visible for each area-fill */
+  var areaEls = svg.querySelectorAll('.area-fill');
+  var areaDelays = [0, 0.25, 0.50, 0.75, 1.00]; /* f1–f5 */
+  areaEls.forEach(function(el, i) {
+    el.style.animation = 'barFadeIn 0.8s cubic-bezier(0.4,0,0.2,1) ' + areaDelays[areaEls.length - 1 - i] + 's';
+    el.addEventListener('animationend', function() {
+      el.style.animation = 'none';
+      el.classList.add('visible');
+    }, { once: true });
+  });
+
+  /* gate hover on .ready after last area animation finishes */
+  setTimeout(function() { svg.classList.add('ready'); }, (1.00 + 0.8) * 1000 + 100);
+
+  setMode(window.location.href.indexOf('theme=dark') !== -1);
 })();
 //]]>
 </script>

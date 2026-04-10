@@ -1,8 +1,8 @@
+
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter',Arial,sans-serif">
 <defs>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
-    .bg-main  { fill:#FFFBFE; }
+    .bg-main  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
     .ct       { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
     .cs       { font-size:11px; fill:#79747E; }
     .an       { font-size:10px; fill:#79747E; }
@@ -16,70 +16,73 @@
     .lgd-ttl  { font-size:10px; fill:#79747E; font-weight:500; }
     .footer   { font-size:10px; fill:#79747E; }
     .t-wrap   { cursor:pointer; }
-    .t-track  { fill:#E7E0EC; }
-    .t-thumb  { fill:#ffffff; }
+    .t-track  { fill:#E7E0EC; } .t-thumb { fill:#ffffff; }
     .t-label  { font-size:11px; font-weight:500; fill:#49454F; }
-    .pt-track { fill:#E7E0EC; transition:fill 0.3s; }
+    .pt-track { fill:#E7E0EC; transition:fill 0.3s; } .pt-thumb { fill:#ffffff; }
+    .pt-label { font-size:11px; font-weight:500; fill:#49454F; }
 
-    /* Candles: start invisible + desaturated, bloom into full color */
-    .cw {
-      opacity: 0;
-      filter: saturate(0) brightness(1.8);
-      transition: opacity 0.7s ease, filter 0.9s ease;
-      cursor: pointer;
-    }
-    .cw.visible {
-      opacity: 1;
-      filter: saturate(1) brightness(1);
-    }
+    /* candle colors — semantic, aligned to standard palette:
+       bull = bar-2 green, bear = bar-4 rose */
+    .c-bull { fill:#00B87A; }
+    .c-bear { fill:#F43F5E; }
+    .w-bull { stroke:#00B87A; stroke-width:1.5; fill:none; }
+    .w-bear { stroke:#F43F5E; stroke-width:1.5; fill:none; }
+    svg.dark .c-bull { fill:#10B981; }
+    svg.dark .c-bear { fill:#FB6181; }
+    svg.dark .w-bull { stroke:#10B981; }
+    svg.dark .w-bear { stroke:#FB6181; }
 
-    /* Dimming: when parent has .dimming, all candles go to 0.15 */
-    .ca.dimming .cw {
-      opacity: 0.15 !important;
-      transition: opacity 0.25s ease;
-    }
-    /* Hovered candle stays full opacity */
-    .ca.dimming .cw.hovered {
-      opacity: 1 !important;
-      transition: opacity 0.25s ease;
-    }
+    /* ── Method A @keyframes — opacity only, per-element stagger via delay ──
+       uses both fill-mode because .bb and .cw are separate nested elements:
+       both only affects .bb opacity, hover dimming targets .cw — no conflict */
+    @keyframes candleFade { from{opacity:0} to{opacity:1} }
+    .bb { animation:candleFade 0.8s ease-out both; }
+    .b1  { animation-delay:0.00s; } .b2  { animation-delay:0.16s; }
+    .b3  { animation-delay:0.32s; } .b4  { animation-delay:0.48s; }
+    .b5  { animation-delay:0.64s; } .b6  { animation-delay:0.80s; }
+    .b7  { animation-delay:0.96s; } .b8  { animation-delay:1.12s; }
+    .b9  { animation-delay:1.28s; } .b10 { animation-delay:1.44s; }
+    .b11 { animation-delay:1.60s; } .b12 { animation-delay:1.76s; }
 
-    .c-bull   { fill:#00B87A; }
-    .c-bear   { fill:#F43F5E; }
-    .w-bull   { stroke:#00B87A; stroke-width:1.5; fill:none; }
-    .w-bear   { stroke:#F43F5E; stroke-width:1.5; fill:none; }
+    /* ── hover — no .ready gate needed: .bb and .cw are separate elements,
+       animation never touches .cw opacity ── */
+    .cw { cursor:pointer; }
+    .ca.hovering .cw        { opacity:0.20; transition:opacity 0.2s ease; }
+    .ca.hovering .cw.active { opacity:1;    transition:opacity 0.2s ease; }
 
-    .bubble   { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    .bub-fill { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-lbl  { fill:#49454F; font-size:10px; text-anchor:middle; }
-    .bub-bull { fill:#008F5D; font-weight:600; }
-    .bub-bear { fill:#D9304F; font-weight:600; }
-    .bub-neu  { fill:#1C1B1F; font-weight:600; }
+    /* tooltip */
+    .bubble   { opacity:0; pointer-events:none; transition:opacity 0.2s ease; }
+    svg.print .bubble { opacity:0 !important; }
+    .bub-bg   { fill:#FFFBFE; }
+    .bub-bdr  { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .bub-tip  { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .bub-val  { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .bub-lbl  { fill:#49454F; font-size:10px; }
 
     .lgd-val { opacity:0; transition:opacity 0.3s; }
     svg.print .lgd-val  { opacity:1; }
     svg.print .pt-track { fill:#d97316; }
 
-    svg.dark .bg-main   { fill:#1C1B1F; }
+    svg.dark .bg-main   { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
     svg.dark .ct        { fill:#E6E0E9; }
     svg.dark .an, svg.dark .al, svg.dark .cs { fill:#938F99; }
     svg.dark .lt, svg.dark .lv { fill:#E6E0E9; }
     svg.dark .gl        { stroke:#49454F; }
+    svg.dark .bl        { stroke:#938F99; }
     svg.dark .lgd-bg    { fill:#49454F; stroke:#938F99; }
-    svg.dark .bub-fill  { fill:#2C2B30; stroke:#938F99; }
-    svg.dark .bub-lbl   { fill:#CAC4D0; }
-    svg.dark .bub-bull  { fill:#10B981; }
-    svg.dark .bub-bear  { fill:#FB6181; }
-    svg.dark .bub-neu   { fill:#E6E0E9; }
-    svg.dark .t-track, svg.dark .pt-track { fill:#49454F; }
-    svg.dark .t-label   { fill:#CAC4D0; }
+    svg.dark .lgd-div   { stroke:#938F99; }
     svg.dark .lgd-ttl   { fill:#938F99; }
     svg.dark .footer    { fill:#938F99; }
-
-    .border-dark  { display:none; }
-    .border-light { display:block; }
-    svg.dark .border-dark  { display:block; }
-    svg.dark .border-light { display:none; }
+    svg.dark .bub-bg    { fill:#1C1B1F; }
+    svg.dark .bub-bdr   { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .bub-tip   { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .bub-val   { fill:#E6E0E9; }
+    svg.dark .bub-lbl   { fill:#CAC4D0; }
+    svg.dark .t-track, svg.dark .pt-track { fill:#49454F; }
+    svg.dark .t-label,  svg.dark .pt-label { fill:#CAC4D0; }
+    svg.dark.print .pt-track { fill:#d97316; }
+    .border-dark  { display:none; } .border-light { display:block; }
+    svg.dark .border-dark  { display:block; } svg.dark .border-light { display:none; }
   </style>
 </defs>
 
@@ -90,11 +93,10 @@
 <text x="68" y="50" class="ct">OHLC Price Chart</text>
 <text x="68" y="70" class="cs">12 months · open / high / low / close · hover to inspect · print for values</text>
 
-<!-- Toggles -->
 <g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
-  <circle id="tthumb" cx="52" cy="0" r="10" class="t-thumb"/>
-  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Light</text>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
+  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
 </g>
 <g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
@@ -102,7 +104,6 @@
   <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
 </g>
 
-<!-- Grid -->
 <line x1="68" y1="500" x2="850" y2="500" class="bl"/>
 <line x1="68" y1="100" x2="68"  y2="500" class="bl"/>
 <line x1="68" y1="400" x2="850" y2="400" class="gl"/>
@@ -127,39 +128,136 @@
 <text x="730" y="522" class="al" text-anchor="middle">Aug</text>
 <text x="790" y="522" class="al" text-anchor="middle">Sep</text>
 
-<!-- Candles -->
 <g class="ca" id="chart-area">
-  <g class="cw" id="cw1"  data-bubble="b1" ><line x1="128" y1="228" x2="128" y2="320" class="w-bull"/><rect class="c-bull" x="110" y="244" width="36" height="48"  rx="3"/></g>
-  <g class="cw" id="cw2"  data-bubble="b2" ><line x1="188" y1="200" x2="188" y2="268" class="w-bear"/><rect class="c-bear" x="170" y="244" width="36" height="20"  rx="3"/></g>
-  <g class="cw" id="cw3"  data-bubble="b3" ><line x1="249" y1="252" x2="249" y2="348" class="w-bear"/><rect class="c-bear" x="231" y="264" width="36" height="68"  rx="3"/></g>
-  <g class="cw" id="cw4"  data-bubble="b4" ><line x1="309" y1="280" x2="309" y2="360" class="w-bull"/><rect class="c-bull" x="291" y="296" width="36" height="36"  rx="3"/></g>
-  <g class="cw" id="cw5"  data-bubble="b5" ><line x1="369" y1="220" x2="369" y2="308" class="w-bull"/><rect class="c-bull" x="351" y="228" width="36" height="68"  rx="3"/></g>
-  <g class="cw" id="cw6"  data-bubble="b6" ><line x1="429" y1="172" x2="429" y2="248" class="w-bull"/><rect class="c-bull" x="411" y="188" width="36" height="40"  rx="3"/></g>
-  <g class="cw" id="cw7"  data-bubble="b7" ><line x1="489" y1="160" x2="489" y2="244" class="w-bear"/><rect class="c-bear" x="471" y="188" width="36" height="44"  rx="3"/></g>
-  <g class="cw" id="cw8"  data-bubble="b8" ><line x1="549" y1="212" x2="549" y2="300" class="w-bear"/><rect class="c-bear" x="531" y="232" width="36" height="52"  rx="3"/></g>
-  <g class="cw" id="cw9"  data-bubble="b9" ><line x1="609" y1="224" x2="609" y2="304" class="w-bull"/><rect class="c-bull" x="591" y="236" width="36" height="48"  rx="3"/></g>
-  <g class="cw" id="cw10" data-bubble="b10"><line x1="670" y1="148" x2="670" y2="260" class="w-bull"/><rect class="c-bull" x="652" y="160" width="36" height="76"  rx="3"/></g>
-  <g class="cw" id="cw11" data-bubble="b11"><line x1="730" y1="132" x2="730" y2="216" class="w-bear"/><rect class="c-bear" x="712" y="160" width="36" height="40"  rx="3"/></g>
-  <g class="cw" id="cw12" data-bubble="b12"><line x1="790" y1="180" x2="790" y2="268" class="w-bear"/><rect class="c-bear" x="772" y="200" width="36" height="52"  rx="3"/></g>
+  <g class="cw" id="cw1"  data-bubble="b1" ><g class="bb b1" ><line x1="128" y1="228" x2="128" y2="320" class="w-bull"/><rect class="c-bull" x="110" y="244" width="36" height="48"/></g></g>
+  <g class="cw" id="cw2"  data-bubble="b2" ><g class="bb b2" ><line x1="188" y1="200" x2="188" y2="268" class="w-bear"/><rect class="c-bear" x="170" y="244" width="36" height="20"/></g></g>
+  <g class="cw" id="cw3"  data-bubble="b3" ><g class="bb b3" ><line x1="249" y1="252" x2="249" y2="348" class="w-bear"/><rect class="c-bear" x="231" y="264" width="36" height="68"/></g></g>
+  <g class="cw" id="cw4"  data-bubble="b4" ><g class="bb b4" ><line x1="309" y1="280" x2="309" y2="360" class="w-bull"/><rect class="c-bull" x="291" y="296" width="36" height="36"/></g></g>
+  <g class="cw" id="cw5"  data-bubble="b5" ><g class="bb b5" ><line x1="369" y1="220" x2="369" y2="308" class="w-bull"/><rect class="c-bull" x="351" y="228" width="36" height="68"/></g></g>
+  <g class="cw" id="cw6"  data-bubble="b6" ><g class="bb b6" ><line x1="429" y1="172" x2="429" y2="248" class="w-bull"/><rect class="c-bull" x="411" y="188" width="36" height="40"/></g></g>
+  <g class="cw" id="cw7"  data-bubble="b7" ><g class="bb b7" ><line x1="489" y1="160" x2="489" y2="244" class="w-bear"/><rect class="c-bear" x="471" y="188" width="36" height="44"/></g></g>
+  <g class="cw" id="cw8"  data-bubble="b8" ><g class="bb b8" ><line x1="549" y1="212" x2="549" y2="300" class="w-bear"/><rect class="c-bear" x="531" y="232" width="36" height="52"/></g></g>
+  <g class="cw" id="cw9"  data-bubble="b9" ><g class="bb b9" ><line x1="609" y1="224" x2="609" y2="304" class="w-bull"/><rect class="c-bull" x="591" y="236" width="36" height="48"/></g></g>
+  <g class="cw" id="cw10" data-bubble="b10"><g class="bb b10"><line x1="670" y1="148" x2="670" y2="260" class="w-bull"/><rect class="c-bull" x="652" y="160" width="36" height="76"/></g></g>
+  <g class="cw" id="cw11" data-bubble="b11"><g class="bb b11"><line x1="730" y1="132" x2="730" y2="216" class="w-bear"/><rect class="c-bear" x="712" y="160" width="36" height="40"/></g></g>
+  <g class="cw" id="cw12" data-bubble="b12"><g class="bb b12"><line x1="790" y1="180" x2="790" y2="268" class="w-bear"/><rect class="c-bear" x="772" y="200" width="36" height="52"/></g></g>
 </g>
 
-<!-- Tooltips -->
+<!-- tooltips — each bubble uses standard .bub-* classes.
+     bull/bear value colors use inline fill on tspan since they are
+     semantic (not categorical) and don't need dark mode class overrides
+     — they use the same green/rose as the candles themselves. -->
 <g id="bubble-overlay">
-  <g class="bubble" id="b1"  transform="translate(128,228)"><path class="bub-fill" d="M-8,-10 L-52,-10 Q-62,-10 -62,-20 L-62,-86 Q-62,-96 -52,-96 L52,-96 Q62,-96 62,-86 L62,-20 Q62,-10 52,-10 L8,-10 L0,0 Z"/><text x="0" y="-76" class="bub-lbl">Open <tspan class="bub-bull">$132</tspan> · High <tspan class="bub-neu">$148</tspan></text><text x="0" y="-58" class="bub-lbl">Low <tspan class="bub-neu">$125</tspan> · Close <tspan class="bub-bull">$144</tspan></text><text x="0" y="-28" class="bub-lbl" font-weight="600">Oct · Bullish</text></g>
-  <g class="bubble" id="b2"  transform="translate(188,200)"><path class="bub-fill" d="M-8,-10 L-52,-10 Q-62,-10 -62,-20 L-62,-86 Q-62,-96 -52,-96 L52,-96 Q62,-96 62,-86 L62,-20 Q62,-10 52,-10 L8,-10 L0,0 Z"/><text x="0" y="-76" class="bub-lbl">Open <tspan class="bub-bear">$144</tspan> · High <tspan class="bub-neu">$155</tspan></text><text x="0" y="-58" class="bub-lbl">Low <tspan class="bub-neu">$138</tspan> · Close <tspan class="bub-bear">$139</tspan></text><text x="0" y="-28" class="bub-lbl" font-weight="600">Nov · Bearish</text></g>
-  <g class="bubble" id="b3"  transform="translate(249,252)"><path class="bub-fill" d="M-8,-10 L-52,-10 Q-62,-10 -62,-20 L-62,-86 Q-62,-96 -52,-96 L52,-96 Q62,-96 62,-86 L62,-20 Q62,-10 52,-10 L8,-10 L0,0 Z"/><text x="0" y="-76" class="bub-lbl">Open <tspan class="bub-bear">$139</tspan> · High <tspan class="bub-neu">$142</tspan></text><text x="0" y="-58" class="bub-lbl">Low <tspan class="bub-neu">$118</tspan> · Close <tspan class="bub-bear">$122</tspan></text><text x="0" y="-28" class="bub-lbl" font-weight="600">Dec · Bearish</text></g>
-  <g class="bubble" id="b4"  transform="translate(309,280)"><path class="bub-fill" d="M-8,-10 L-52,-10 Q-62,-10 -62,-20 L-62,-86 Q-62,-96 -52,-96 L52,-96 Q62,-96 62,-86 L62,-20 Q62,-10 52,-10 L8,-10 L0,0 Z"/><text x="0" y="-76" class="bub-lbl">Open <tspan class="bub-bull">$122</tspan> · High <tspan class="bub-neu">$135</tspan></text><text x="0" y="-58" class="bub-lbl">Low <tspan class="bub-neu">$115</tspan> · Close <tspan class="bub-bull">$131</tspan></text><text x="0" y="-28" class="bub-lbl" font-weight="600">Jan · Bullish</text></g>
-  <g class="bubble" id="b5"  transform="translate(369,220)"><path class="bub-fill" d="M-8,-10 L-52,-10 Q-62,-10 -62,-20 L-62,-86 Q-62,-96 -52,-96 L52,-96 Q62,-96 62,-86 L62,-20 Q62,-10 52,-10 L8,-10 L0,0 Z"/><text x="0" y="-76" class="bub-lbl">Open <tspan class="bub-bull">$131</tspan> · High <tspan class="bub-neu">$150</tspan></text><text x="0" y="-58" class="bub-lbl">Low <tspan class="bub-neu">$128</tspan> · Close <tspan class="bub-bull">$148</tspan></text><text x="0" y="-28" class="bub-lbl" font-weight="600">Feb · Bullish</text></g>
-  <g class="bubble" id="b6"  transform="translate(429,172)"><path class="bub-fill" d="M-8,-10 L-52,-10 Q-62,-10 -62,-20 L-62,-86 Q-62,-96 -52,-96 L52,-96 Q62,-96 62,-86 L62,-20 Q62,-10 52,-10 L8,-10 L0,0 Z"/><text x="0" y="-76" class="bub-lbl">Open <tspan class="bub-bull">$148</tspan> · High <tspan class="bub-neu">$162</tspan></text><text x="0" y="-58" class="bub-lbl">Low <tspan class="bub-neu">$143</tspan> · Close <tspan class="bub-bull">$158</tspan></text><text x="0" y="-28" class="bub-lbl" font-weight="600">Mar · Bullish</text></g>
-  <g class="bubble" id="b7"  transform="translate(489,160)"><path class="bub-fill" d="M-8,-10 L-52,-10 Q-62,-10 -62,-20 L-62,-86 Q-62,-96 -52,-96 L52,-96 Q62,-96 62,-86 L62,-20 Q62,-10 52,-10 L8,-10 L0,0 Z"/><text x="0" y="-76" class="bub-lbl">Open <tspan class="bub-bear">$158</tspan> · High <tspan class="bub-neu">$165</tspan></text><text x="0" y="-58" class="bub-lbl">Low <tspan class="bub-neu">$144</tspan> · Close <tspan class="bub-bear">$147</tspan></text><text x="0" y="-28" class="bub-lbl" font-weight="600">Apr · Bearish</text></g>
-  <g class="bubble" id="b8"  transform="translate(549,212)"><path class="bub-fill" d="M-8,-10 L-52,-10 Q-62,-10 -62,-20 L-62,-86 Q-62,-96 -52,-96 L52,-96 Q62,-96 62,-86 L62,-20 Q62,-10 52,-10 L8,-10 L0,0 Z"/><text x="0" y="-76" class="bub-lbl">Open <tspan class="bub-bear">$147</tspan> · High <tspan class="bub-neu">$152</tspan></text><text x="0" y="-58" class="bub-lbl">Low <tspan class="bub-neu">$130</tspan> · Close <tspan class="bub-bear">$134</tspan></text><text x="0" y="-28" class="bub-lbl" font-weight="600">May · Bearish</text></g>
-  <g class="bubble" id="b9"  transform="translate(609,224)"><path class="bub-fill" d="M-8,-10 L-52,-10 Q-62,-10 -62,-20 L-62,-86 Q-62,-96 -52,-96 L52,-96 Q62,-96 62,-86 L62,-20 Q62,-10 52,-10 L8,-10 L0,0 Z"/><text x="0" y="-76" class="bub-lbl">Open <tspan class="bub-bull">$134</tspan> · High <tspan class="bub-neu">$149</tspan></text><text x="0" y="-58" class="bub-lbl">Low <tspan class="bub-neu">$129</tspan> · Close <tspan class="bub-bull">$146</tspan></text><text x="0" y="-28" class="bub-lbl" font-weight="600">Jun · Bullish</text></g>
-  <g class="bubble" id="b10" transform="translate(670,148)"><path class="bub-fill" d="M-8,-10 L-52,-10 Q-62,-10 -62,-20 L-62,-86 Q-62,-96 -52,-96 L52,-96 Q62,-96 62,-86 L62,-20 Q62,-10 52,-10 L8,-10 L0,0 Z"/><text x="0" y="-76" class="bub-lbl">Open <tspan class="bub-bull">$146</tspan> · High <tspan class="bub-neu">$168</tspan></text><text x="0" y="-58" class="bub-lbl">Low <tspan class="bub-neu">$140</tspan> · Close <tspan class="bub-bull">$165</tspan></text><text x="0" y="-28" class="bub-lbl" font-weight="600">Jul · Bullish</text></g>
-  <g class="bubble" id="b11" transform="translate(730,132)"><path class="bub-fill" d="M-8,-10 L-52,-10 Q-62,-10 -62,-20 L-62,-86 Q-62,-96 -52,-96 L52,-96 Q62,-96 62,-86 L62,-20 Q62,-10 52,-10 L8,-10 L0,0 Z"/><text x="0" y="-76" class="bub-lbl">Open <tspan class="bub-bear">$165</tspan> · High <tspan class="bub-neu">$172</tspan></text><text x="0" y="-58" class="bub-lbl">Low <tspan class="bub-neu">$151</tspan> · Close <tspan class="bub-bear">$155</tspan></text><text x="0" y="-28" class="bub-lbl" font-weight="600">Aug · Bearish</text></g>
-  <g class="bubble" id="b12" transform="translate(790,180)"><path class="bub-fill" d="M-8,-10 L-52,-10 Q-62,-10 -62,-20 L-62,-86 Q-62,-96 -52,-96 L52,-96 Q62,-96 62,-86 L62,-20 Q62,-10 52,-10 L8,-10 L0,0 Z"/><text x="0" y="-76" class="bub-lbl">Open <tspan class="bub-bear">$155</tspan> · High <tspan class="bub-neu">$160</tspan></text><text x="0" y="-58" class="bub-lbl">Low <tspan class="bub-neu">$138</tspan> · Close <tspan class="bub-bear">$142</tspan></text><text x="0" y="-28" class="bub-lbl" font-weight="600">Sep · Bearish</text></g>
+  <g class="bubble" id="b1"  transform="translate(128,228)">
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
+    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
+    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$132</tspan> · High <tspan class="bub-val">$148</tspan></text>
+    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$125</tspan> · Close <tspan class="bub-val">$144</tspan></text>
+    <text x="0" y="-28" text-anchor="middle" class="bub-val">Oct · Bullish</text>
+  </g>
+  <g class="bubble" id="b2"  transform="translate(188,200)">
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
+    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
+    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$144</tspan> · High <tspan class="bub-val">$155</tspan></text>
+    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$138</tspan> · Close <tspan class="bub-val">$139</tspan></text>
+    <text x="0" y="-28" text-anchor="middle" class="bub-val">Nov · Bearish</text>
+  </g>
+  <g class="bubble" id="b3"  transform="translate(249,252)">
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
+    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
+    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$139</tspan> · High <tspan class="bub-val">$142</tspan></text>
+    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$118</tspan> · Close <tspan class="bub-val">$122</tspan></text>
+    <text x="0" y="-28" text-anchor="middle" class="bub-val">Dec · Bearish</text>
+  </g>
+  <g class="bubble" id="b4"  transform="translate(309,280)">
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
+    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
+    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$122</tspan> · High <tspan class="bub-val">$135</tspan></text>
+    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$115</tspan> · Close <tspan class="bub-val">$131</tspan></text>
+    <text x="0" y="-28" text-anchor="middle" class="bub-val">Jan · Bullish</text>
+  </g>
+  <g class="bubble" id="b5"  transform="translate(369,220)">
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
+    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
+    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$131</tspan> · High <tspan class="bub-val">$150</tspan></text>
+    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$128</tspan> · Close <tspan class="bub-val">$148</tspan></text>
+    <text x="0" y="-28" text-anchor="middle" class="bub-val">Feb · Bullish</text>
+  </g>
+  <g class="bubble" id="b6"  transform="translate(429,172)">
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
+    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
+    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$148</tspan> · High <tspan class="bub-val">$162</tspan></text>
+    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$143</tspan> · Close <tspan class="bub-val">$158</tspan></text>
+    <text x="0" y="-28" text-anchor="middle" class="bub-val">Mar · Bullish</text>
+  </g>
+  <g class="bubble" id="b7"  transform="translate(489,160)">
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
+    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
+    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$158</tspan> · High <tspan class="bub-val">$165</tspan></text>
+    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$144</tspan> · Close <tspan class="bub-val">$147</tspan></text>
+    <text x="0" y="-28" text-anchor="middle" class="bub-val">Apr · Bearish</text>
+  </g>
+  <g class="bubble" id="b8"  transform="translate(549,212)">
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
+    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
+    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$147</tspan> · High <tspan class="bub-val">$152</tspan></text>
+    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$130</tspan> · Close <tspan class="bub-val">$134</tspan></text>
+    <text x="0" y="-28" text-anchor="middle" class="bub-val">May · Bearish</text>
+  </g>
+  <g class="bubble" id="b9"  transform="translate(609,224)">
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
+    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
+    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$134</tspan> · High <tspan class="bub-val">$149</tspan></text>
+    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$129</tspan> · Close <tspan class="bub-val">$146</tspan></text>
+    <text x="0" y="-28" text-anchor="middle" class="bub-val">Jun · Bullish</text>
+  </g>
+  <g class="bubble" id="b10" transform="translate(670,148)">
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
+    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
+    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$146</tspan> · High <tspan class="bub-val">$168</tspan></text>
+    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$140</tspan> · Close <tspan class="bub-val">$165</tspan></text>
+    <text x="0" y="-28" text-anchor="middle" class="bub-val">Jul · Bullish</text>
+  </g>
+  <g class="bubble" id="b11" transform="translate(730,132)">
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
+    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
+    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$165</tspan> · High <tspan class="bub-val">$172</tspan></text>
+    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$151</tspan> · Close <tspan class="bub-val">$155</tspan></text>
+    <text x="0" y="-28" text-anchor="middle" class="bub-val">Aug · Bearish</text>
+  </g>
+  <g class="bubble" id="b12" transform="translate(790,180)">
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
+    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
+    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
+    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$155</tspan> · High <tspan class="bub-val">$160</tspan></text>
+    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$138</tspan> · Close <tspan class="bub-val">$142</tspan></text>
+    <text x="0" y="-28" text-anchor="middle" class="bub-val">Sep · Bearish</text>
+  </g>
 </g>
 
-<!-- Legend -->
 <rect x="870" y="100" width="210" height="230" rx="14" class="lgd-bg"/>
 <text x="888" y="124" class="lgd-ttl">CANDLE</text>
 <g transform="translate(888,140)"><rect width="14" height="14" rx="3" class="c-bull"/><text x="22" y="11" class="lt">Bullish (close ≥ open)</text></g>
@@ -168,14 +266,13 @@
 <text x="888" y="218" class="lgd-ttl">STRUCTURE</text>
 <g transform="translate(888,232)">
   <line x1="7" y1="0" x2="7" y2="40" stroke="#79747E" stroke-width="1.5"/>
-  <rect x="0" y="8" width="14" height="22" rx="2" fill="#79747E" opacity="0.3"/>
+  <rect x="0" y="8" width="14" height="22" fill="#79747E" opacity="0.3"/>
   <text x="22" y="10" class="lt" font-size="10">High</text>
   <text x="22" y="22" class="lt" font-size="10">Open / Close</text>
   <text x="22" y="34" class="lt" font-size="10">Open / Close</text>
   <text x="22" y="46" class="lt" font-size="10">Low</text>
 </g>
 
-<!-- Year Range panel -->
 <rect x="870" y="348" width="210" height="120" rx="14" class="lgd-bg"/>
 <text x="888" y="372" class="lgd-ttl">RANGE</text>
 <g transform="translate(888,386)" class="lgd-val">
@@ -185,59 +282,51 @@
   <text y="60" class="lt">End Price  <tspan class="lv" dx="6">$142</tspan></text>
 </g>
 
-<text x="68" y="600" class="footer">OHLC Price Chart · 12 months · flat design · hover to inspect</text>
+<text x="68" y="600" class="footer">OHLC Price Chart · 12 months · hover to inspect · print for values</text>
 
 <script type="text/javascript"><![CDATA[
-(function () {
-  var svg = document.getElementById('root');
+(function() {
+  var svg       = document.getElementById('root');
   var chartArea = document.getElementById('chart-area');
-  var candles = svg.querySelectorAll('.cw');
+  var candles   = Array.prototype.slice.call(svg.querySelectorAll('.cw'));
 
-  // ANIMATION: slower staggered fade-in (200ms between each, 0.5s transition in CSS)
-  setTimeout(function() {
-    candles.forEach(function(cw, i) {
-      setTimeout(function() {
-        cw.classList.add('visible');
-      }, 300 + i * 150);
-    });
-  }, 100);
-
-  // INTERACTION: dimming + tooltip
+  /* ── hover dimming + tooltip ── */
   candles.forEach(function(cw) {
-    var bubId = cw.getAttribute('data-bubble');
-    var bub = bubId ? document.getElementById(bubId) : null;
-
+    var bub = document.getElementById(cw.getAttribute('data-bubble'));
     cw.addEventListener('mouseenter', function() {
-      chartArea.classList.add('dimming');
-      cw.classList.add('hovered');
+      candles.forEach(function(c){ c.classList.remove('active'); });
+      chartArea.classList.add('hovering');
+      cw.classList.add('active');
       if (bub) bub.style.opacity = '1';
     });
-
     cw.addEventListener('mouseleave', function() {
-      chartArea.classList.remove('dimming');
-      cw.classList.remove('hovered');
-      if (bub) bub.style.opacity = '0';
+      chartArea.classList.remove('hovering');
+      cw.classList.remove('active');
+      if (bub) bub.style.opacity = '';
     });
   });
 
-  // TOGGLES
+  /* ── dark mode ── */
+  var isDark = false;
   function setMode(wantDark) {
-    if (wantDark === svg.classList.contains('dark')) return;
+    if (wantDark === isDark) return;
+    isDark = wantDark;
     var thumb = document.getElementById('tthumb'), lbl = document.getElementById('tlabel');
-    if (wantDark) { svg.classList.add('dark'); thumb.setAttribute('cx','52'); lbl.textContent='Light'; }
-    else          { svg.classList.remove('dark'); thumb.setAttribute('cx','16'); lbl.textContent='Dark'; }
+    if (wantDark) { svg.classList.add('dark');   thumb.setAttribute('cx','52'); lbl.textContent='Light'; }
+    else          { svg.classList.remove('dark'); thumb.setAttribute('cx','16'); lbl.textContent='Dark';  }
   }
 
-  document.getElementById('dark-toggle').addEventListener('click', function() { setMode(!svg.classList.contains('dark')); });
-  document.getElementById('print-toggle').addEventListener('click', function() {
-    var thumb = document.getElementById('pthumb'), lbl = document.getElementById('plabel');
-    if (svg.classList.toggle('print')) { thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
-    else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print'; }
+  document.getElementById('dark-toggle').addEventListener('click', function(){ setMode(!isDark); });
+  document.getElementById('print-toggle').addEventListener('click', function(){
+    var thumb=document.getElementById('pthumb'), lbl=document.getElementById('plabel');
+    if (svg.classList.toggle('print')){ thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
+    else                              { thumb.setAttribute('cx','16'); lbl.textContent='Print';  }
   });
-
   window.setMode = setMode;
-  window.addEventListener('message', function(e) { if (e.data && e.data.type === 'setMode') setMode(e.data.dark); });
-  (function() { setMode(window.location.href.indexOf('theme=dark') !== -1); })();
+  window.addEventListener('message', function(e){
+    if (e.data && e.data.type==='setMode') setMode(e.data.dark);
+  });
+  setMode(window.location.href.indexOf('theme=dark')!==-1);
 })();
 ]]></script>
 </svg>
