@@ -1,7 +1,22 @@
+
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
+
+    /* §1 — Standard palette (CSS single source of truth, no fill attrs on bars) */
+    .bar-1 { fill:#00D4E8; } .bar-2 { fill:#00B87A; }
+    .bar-3 { fill:#F59E0B; } .bar-4 { fill:#F43F5E; }
+    .bar-5 { fill:#8B5CF6; } .bar-6 { fill:#3B82F6; }
+    .bar-7 { fill:#0D9488; } .bar-8 { fill:#64748B; }
+    svg.dark .bar-1 { fill:#22D3EE; } svg.dark .bar-2 { fill:#10B981; }
+    svg.dark .bar-3 { fill:#FBB724; } svg.dark .bar-4 { fill:#FB6181; }
+    svg.dark .bar-5 { fill:#A78BFA; } svg.dark .bar-6 { fill:#60A5FA; }
+    svg.dark .bar-7 { fill:#2DD4BF; } svg.dark .bar-8 { fill:#94A3B8; }
+    /* Total bar uses semantic class aligned to bar-6 (blue — summary/neutral) */
+    .bar-total { fill:#3B82F6; }
+    svg.dark .bar-total { fill:#60A5FA; }
+
     .bg-main   { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
     .ct        { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
     .cs        { font-size:11px; fill:#79747E; font-weight:400; }
@@ -24,23 +39,38 @@
     .pt-label  { font-size:11px; font-weight:500; fill:#49454F; }
 
     .lgd-val   { opacity:0; transition:opacity 0.2s; }
-    svg.print .lgd-val   { opacity:1; }
-    svg.print .pt-track  { fill:#d97316; }
+    svg.print .lgd-val  { opacity:1; }
+    svg.print .pt-track { fill:#d97316; }
 
+    /* §3 — Method A2: CSS @keyframes, no SMIL */
+    @keyframes barFadeIn { from { opacity:0; } to { opacity:1; } }
+    .bb { animation: barFadeIn 0.8s ease-out both; }
+    .b1 { animation-delay:0.00s; }
+    .b2 { animation-delay:0.12s; }
+    .b3 { animation-delay:0.24s; }
+    .b4 { animation-delay:0.36s; }
+    .b5 { animation-delay:0.48s; }
+    .b6 { animation-delay:0.60s; }
+    .b7 { animation-delay:0.72s; }
+    .b8 { animation-delay:0.84s; }
+    .b9 { animation-delay:1.00s; }
+
+    /* §4 — Hover: JS .hovering/.active classes, no :hover pseudo, opacity 0.20 */
     .bw        { cursor:pointer; }
     .bubble    { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    .bw:hover .bubble { opacity:1; }
-    .ca:hover .bw .bb  { opacity:0.45; }
-    .ca:hover .bw:hover .bb { opacity:1; }
-    svg.print .bubble  { opacity:0 !important; }
-    svg.print .ca:hover .bw .bb { opacity:1 !important; }
+    .bw.active .bubble { opacity:1; }
+    .ca.hovering .bw         { opacity:0.20; transition:opacity 0.2s ease; }
+    .ca.hovering .bw.active  { opacity:1; }
+    svg.print .bubble        { opacity:0 !important; }
+    svg.print .ca.hovering .bw { opacity:1 !important; }
 
     .conn      { stroke:#B0A8B9; stroke-width:1; stroke-dasharray:4 3; }
     svg.dark .conn { stroke:#49454F; }
 
+    /* §4 — Tooltip: .bub-tip and .bub-bdr must never be fill:none */
     .bub-bg    { fill:#FFFBFE; }
-    .bub-bdr   { fill:none; stroke:#79747E; stroke-width:1; }
-    .bub-tip   { fill:none; stroke:#79747E; stroke-width:1; }
+    .bub-bdr   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .bub-tip   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
     .bub-val   { fill:#1C1B1F; font-size:13px; font-weight:500; }
     .bub-lbl   { fill:#49454F; font-size:10px; font-weight:400; }
 
@@ -63,8 +93,8 @@
     svg.dark .pt-label  { fill:#CAC4D0; }
     svg.dark.print .pt-track { fill:#d97316; }
     svg.dark .bub-bg    { fill:#1C1B1F; }
-    svg.dark .bub-bdr   { fill:none; stroke:#938F99; stroke-width:1; }
-    svg.dark .bub-tip   { fill:none; stroke:#938F99; stroke-width:1; }
+    svg.dark .bub-bdr   { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
+    svg.dark .bub-tip   { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
     svg.dark .bub-val   { fill:#E6E0E9; }
     svg.dark .bub-lbl   { fill:#CAC4D0; }
 
@@ -90,11 +120,11 @@
 <text x="68" y="50" class="ct">Revenue Waterfall by Category</text>
 <text x="68" y="70" class="cs">Cumulative build · 7 series + Other · hover to inspect · print for values</text>
 
-<!-- Dark toggle -->
+<!-- §2 — Dark toggle: initialise in light mode (cx=16, label "Dark") -->
 <g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
-  <circle id="tthumb" cx="52" cy="0" r="10" class="t-thumb"/>
-  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Light</text>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
+  <text id="tlabel" x="24" y="4" class="t-label" text-anchor="middle">Dark</text>
 </g>
 
 <!-- Print toggle -->
@@ -103,40 +133,6 @@
   <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
   <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
 </g>
-
-<!--
-  Scale: baseline y=500, top y=100 → 400px = $507M total
-  Each $1M ≈ 400/507 ≈ 0.789px. Round to nice numbers:
-  Use scale: 400px = $500M → 0.8px per $1M
-
-  Waterfall segments (running total):
-  Start  : $0      → y=500, h=0   (anchor)
-  Cyan   : +$72M   → base=0,   top=72,   barY=500-57.6=442.4, h=57.6
-  Emerald: +$68M   → base=72,  top=140,  barY=500-112=388, h=54.4
-  Amber  : +$60M   → base=140, top=200,  barY=500-160=340, h=48
-  Rose   : +$55M   → base=200, top=255,  barY=500-204=296, h=44
-  Violet : +$79M   → base=255, top=334,  barY=500-267.2=232.8, h=63.2
-  Blue   : +$64M   → base=334, top=398,  barY=500-318.4=181.6, h=51.2
-  Teal   : +$61M   → base=398, top=459,  barY=500-367.2=132.8, h=48.8
-  Other  : +$48M   → base=459, top=507,  barY=500-405.6=94.4,  h=38.4
-  Total  : $507M   → full bar 0→507, barY=94.4, h=405.6
-
-  Pixel math (scale 0.8px/$1M, baseline=500):
-  yPx(val) = 500 - val*0.8
-
-  Cyan:    base=500,    top=442.4,  h=57.6
-  Emerald: base=442.4,  top=388,    h=54.4
-  Amber:   base=388,    top=340,    h=48
-  Rose:    base=340,    top=296,    h=44
-  Violet:  base=296,    top=232.8,  h=63.2
-  Blue:    base=232.8,  top=181.6,  h=51.2
-  Teal:    base=181.6,  top=132.8,  h=48.8
-  Other:   base=132.8,  top=94.4,   h=38.4
-  Total:   base=500,    top=94.4,   h=405.6
-
-  Bar x centers: 82,166,250,334,418,502,586,670,760
-  Bar width: 56, gap connector to right edge of bar
--->
 
 <!-- Grid lines -->
 <line x1="68" y1="500" x2="820" y2="500" class="bl"/>
@@ -147,7 +143,7 @@
 <line x1="68" y1="100" x2="820" y2="100" class="gl"/>
 <line x1="68" y1="100" x2="68"  y2="500" class="bl"/>
 
-<!-- Y axis labels ($0–$500M, steps $100M = 80px) -->
+<!-- Y axis labels -->
 <text x="56" y="504" class="an" text-anchor="end">$0</text>
 <text x="56" y="424" class="an" text-anchor="end">$100M</text>
 <text x="56" y="344" class="an" text-anchor="end">$200M</text>
@@ -166,34 +162,22 @@
 <text x="684" y="522" class="al" text-anchor="middle">Other</text>
 <text x="768" y="522" class="al" text-anchor="middle">Total</text>
 
-<!-- Connector dashed lines (drawn before bars so bars sit on top) -->
-<!-- Cyan→Emerald: y=442.4, x from 124 to 152 -->
+<!-- Connector dashed lines (drawn before bars) -->
 <line class="conn" x1="124" y1="442" x2="152" y2="442"/>
-<!-- Emerald→Amber: y=388, x from 208 to 236 -->
 <line class="conn" x1="208" y1="388" x2="236" y2="388"/>
-<!-- Amber→Rose: y=340, x from 292 to 320 -->
 <line class="conn" x1="292" y1="340" x2="320" y2="340"/>
-<!-- Rose→Violet: y=296, x from 376 to 404 -->
 <line class="conn" x1="376" y1="296" x2="404" y2="296"/>
-<!-- Violet→Blue: y=232.8, x from 460 to 488 -->
 <line class="conn" x1="460" y1="233" x2="488" y2="233"/>
-<!-- Blue→Teal: y=181.6, x from 544 to 572 -->
 <line class="conn" x1="544" y1="182" x2="572" y2="182"/>
-<!-- Teal→Other: y=132.8, x from 628 to 656 -->
 <line class="conn" x1="628" y1="133" x2="656" y2="133"/>
-<!-- Other→Total: y=94.4, x from 712 to 740 -->
-<line class="conn" x1="712" y1="94" x2="740" y2="94"/>
+<line class="conn" x1="712" y1="94"  x2="740" y2="94"/>
 
-<g class="ca">
+<g class="ca" id="ca">
 
-<!-- ══ Cyan +$72M ══ barX=68, center=96, top=442.4, h=57.6 -->
-<g class="bw" id="bw1">
-  <g class="bb">
-    <g id="bar-anim-1" transform="translate(96,500)" style="opacity:0; transform-origin:96px 500px">
-      <animateTransform attributeName="transform" type="scale" from="1,0" to="1,1" dur="1.10s" begin="0.00s" fill="freeze" calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"/>
-      <animate attributeName="opacity" from="0" to="1" dur="0.40s" begin="0.00s" fill="freeze"/>
-      <rect id="bar-1" x="-28" y="-57.6" width="56" height="57.6" rx="10" fill="#00D4E8"/>
-    </g>
+<!-- ══ Cyan +$72M ══ center=96, base=500, top=442.4, h=57.6 -->
+<g class="bw b1" id="bw1">
+  <g class="bb b1">
+    <rect x="68" y="442.4" width="56" height="57.6" rx="10" class="bar-1"/>
   </g>
   <g class="bubble" transform="translate(96,420)">
     <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
@@ -205,13 +189,9 @@
 </g>
 
 <!-- ══ Emerald +$68M ══ center=180, base=442.4, top=388, h=54.4 -->
-<g class="bw" id="bw2">
-  <g class="bb">
-    <g id="bar-anim-2" transform="translate(180,442)" style="opacity:0; transform-origin:180px 442px">
-      <animateTransform attributeName="transform" type="scale" from="1,0" to="1,1" dur="1.10s" begin="0.12s" fill="freeze" calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"/>
-      <animate attributeName="opacity" from="0" to="1" dur="0.40s" begin="0.12s" fill="freeze"/>
-      <rect id="bar-2" x="-28" y="-54.4" width="56" height="54.4" rx="10" fill="#00B87A"/>
-    </g>
+<g class="bw b2" id="bw2">
+  <g class="bb b2">
+    <rect x="152" y="388" width="56" height="54.4" rx="10" class="bar-2"/>
   </g>
   <g class="bubble" transform="translate(180,368)">
     <rect x="-42" y="-44" width="84" height="38" rx="9" class="bub-bg"/>
@@ -223,13 +203,9 @@
 </g>
 
 <!-- ══ Amber +$60M ══ center=264, base=388, top=340, h=48 -->
-<g class="bw" id="bw3">
-  <g class="bb">
-    <g id="bar-anim-3" transform="translate(264,388)" style="opacity:0; transform-origin:264px 388px">
-      <animateTransform attributeName="transform" type="scale" from="1,0" to="1,1" dur="1.10s" begin="0.24s" fill="freeze" calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"/>
-      <animate attributeName="opacity" from="0" to="1" dur="0.40s" begin="0.24s" fill="freeze"/>
-      <rect id="bar-3" x="-28" y="-48" width="56" height="48" rx="10" fill="#F59E0B"/>
-    </g>
+<g class="bw b3" id="bw3">
+  <g class="bb b3">
+    <rect x="236" y="340" width="56" height="48" rx="10" class="bar-3"/>
   </g>
   <g class="bubble" transform="translate(264,316)">
     <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
@@ -241,13 +217,9 @@
 </g>
 
 <!-- ══ Rose +$55M ══ center=348, base=340, top=296, h=44 -->
-<g class="bw" id="bw4">
-  <g class="bb">
-    <g id="bar-anim-4" transform="translate(348,340)" style="opacity:0; transform-origin:348px 340px">
-      <animateTransform attributeName="transform" type="scale" from="1,0" to="1,1" dur="1.10s" begin="0.36s" fill="freeze" calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"/>
-      <animate attributeName="opacity" from="0" to="1" dur="0.40s" begin="0.36s" fill="freeze"/>
-      <rect id="bar-4" x="-28" y="-44" width="56" height="44" rx="10" fill="#F43F5E"/>
-    </g>
+<g class="bw b4" id="bw4">
+  <g class="bb b4">
+    <rect x="320" y="296" width="56" height="44" rx="10" class="bar-4"/>
   </g>
   <g class="bubble" transform="translate(348,270)">
     <rect x="-36" y="-44" width="72" height="38" rx="9" class="bub-bg"/>
@@ -259,13 +231,9 @@
 </g>
 
 <!-- ══ Violet +$79M ══ center=432, base=296, top=232.8, h=63.2 -->
-<g class="bw" id="bw5">
-  <g class="bb">
-    <g id="bar-anim-5" transform="translate(432,296)" style="opacity:0; transform-origin:432px 296px">
-      <animateTransform attributeName="transform" type="scale" from="1,0" to="1,1" dur="1.10s" begin="0.48s" fill="freeze" calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"/>
-      <animate attributeName="opacity" from="0" to="1" dur="0.40s" begin="0.48s" fill="freeze"/>
-      <rect id="bar-5" x="-28" y="-63.2" width="56" height="63.2" rx="10" fill="#8B5CF6"/>
-    </g>
+<g class="bw b5" id="bw5">
+  <g class="bb b5">
+    <rect x="404" y="232.8" width="56" height="63.2" rx="10" class="bar-5"/>
   </g>
   <g class="bubble" transform="translate(432,210)">
     <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
@@ -277,13 +245,9 @@
 </g>
 
 <!-- ══ Blue +$64M ══ center=516, base=232.8, top=181.6, h=51.2 -->
-<g class="bw" id="bw6">
-  <g class="bb">
-    <g id="bar-anim-6" transform="translate(516,233)" style="opacity:0; transform-origin:516px 233px">
-      <animateTransform attributeName="transform" type="scale" from="1,0" to="1,1" dur="1.10s" begin="0.60s" fill="freeze" calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"/>
-      <animate attributeName="opacity" from="0" to="1" dur="0.40s" begin="0.60s" fill="freeze"/>
-      <rect id="bar-6" x="-28" y="-51.2" width="56" height="51.2" rx="10" fill="#3B82F6"/>
-    </g>
+<g class="bw b6" id="bw6">
+  <g class="bb b6">
+    <rect x="488" y="181.6" width="56" height="51.2" rx="10" class="bar-6"/>
   </g>
   <g class="bubble" transform="translate(516,158)">
     <rect x="-36" y="-44" width="72" height="38" rx="9" class="bub-bg"/>
@@ -295,13 +259,9 @@
 </g>
 
 <!-- ══ Teal +$61M ══ center=600, base=181.6, top=132.8, h=48.8 -->
-<g class="bw" id="bw7">
-  <g class="bb">
-    <g id="bar-anim-7" transform="translate(600,182)" style="opacity:0; transform-origin:600px 182px">
-      <animateTransform attributeName="transform" type="scale" from="1,0" to="1,1" dur="1.10s" begin="0.72s" fill="freeze" calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"/>
-      <animate attributeName="opacity" from="0" to="1" dur="0.40s" begin="0.72s" fill="freeze"/>
-      <rect id="bar-7" x="-28" y="-48.8" width="56" height="48.8" rx="10" fill="#0D9488"/>
-    </g>
+<g class="bw b7" id="bw7">
+  <g class="bb b7">
+    <rect x="572" y="132.8" width="56" height="48.8" rx="10" class="bar-7"/>
   </g>
   <g class="bubble" transform="translate(600,110)">
     <rect x="-36" y="-44" width="72" height="38" rx="9" class="bub-bg"/>
@@ -313,13 +273,9 @@
 </g>
 
 <!-- ══ Other +$48M ══ center=684, base=132.8, top=94.4, h=38.4 -->
-<g class="bw" id="bw8">
-  <g class="bb">
-    <g id="bar-anim-8" transform="translate(684,133)" style="opacity:0; transform-origin:684px 133px">
-      <animateTransform attributeName="transform" type="scale" from="1,0" to="1,1" dur="1.10s" begin="0.84s" fill="freeze" calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"/>
-      <animate attributeName="opacity" from="0" to="1" dur="0.40s" begin="0.84s" fill="freeze"/>
-      <rect id="bar-8" x="-28" y="-38.4" width="56" height="38.4" rx="10" fill="#64748B"/>
-    </g>
+<g class="bw b8" id="bw8">
+  <g class="bb b8">
+    <rect x="656" y="94.4" width="56" height="38.4" rx="10" class="bar-8"/>
   </g>
   <g class="bubble" transform="translate(684,112)">
     <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
@@ -330,14 +286,10 @@
   </g>
 </g>
 
-<!-- ══ Total $507M ══ center=768, full bar from baseline, top=94.4, h=405.6 -->
-<g class="bw" id="bw9">
-  <g class="bb">
-    <g id="bar-anim-9" transform="translate(768,500)" style="opacity:0; transform-origin:768px 500px">
-      <animateTransform attributeName="transform" type="scale" from="1,0" to="1,1" dur="1.20s" begin="1.00s" fill="freeze" calcMode="spline" keySplines="0.34,1.4,0.64,1" keyTimes="0;1"/>
-      <animate attributeName="opacity" from="0" to="1" dur="0.45s" begin="1.00s" fill="freeze"/>
-      <rect id="bar-9" x="-28" y="-405.6" width="56" height="405.6" rx="10" fill="#6366F1"/>
-    </g>
+<!-- ══ Total $507M ══ center=768, full bar base=500, top=94.4, h=405.6 -->
+<g class="bw b9" id="bw9">
+  <g class="bb b9">
+    <rect x="740" y="94.4" width="56" height="405.6" rx="10" class="bar-total"/>
   </g>
   <g class="bubble" transform="translate(768,270)">
     <rect x="-40" y="-44" width="80" height="38" rx="9" class="bub-bg"/>
@@ -354,49 +306,49 @@
 <rect x="870" y="100" width="210" height="370" rx="14" class="lgd-bg" stroke-width="1"/>
 <text x="888" y="124" class="lgd-ttl">SERIES</text>
 <g transform="translate(888,140)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="#00D4E8"/>
+  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-1"/>
   <text x="22" y="11" class="lt">Cyan</text>
   <text x="188" y="11" class="lv lgd-val" text-anchor="end">+$72M</text>
 </g>
 <g transform="translate(888,170)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="#00B87A"/>
+  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-2"/>
   <text x="22" y="11" class="lt">Emerald</text>
   <text x="188" y="11" class="lv lgd-val" text-anchor="end">+$68M</text>
 </g>
 <g transform="translate(888,200)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="#F59E0B"/>
+  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-3"/>
   <text x="22" y="11" class="lt">Amber</text>
   <text x="188" y="11" class="lv lgd-val" text-anchor="end">+$60M</text>
 </g>
 <g transform="translate(888,230)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="#F43F5E"/>
+  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-4"/>
   <text x="22" y="11" class="lt">Rose</text>
   <text x="188" y="11" class="lv lgd-val" text-anchor="end">+$55M</text>
 </g>
 <g transform="translate(888,260)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="#8B5CF6"/>
+  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-5"/>
   <text x="22" y="11" class="lt">Violet</text>
   <text x="188" y="11" class="lv lgd-val" text-anchor="end">+$79M</text>
 </g>
 <g transform="translate(888,290)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="#3B82F6"/>
+  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-6"/>
   <text x="22" y="11" class="lt">Blue</text>
   <text x="188" y="11" class="lv lgd-val" text-anchor="end">+$64M</text>
 </g>
 <g transform="translate(888,320)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="#0D9488"/>
+  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-7"/>
   <text x="22" y="11" class="lt">Teal</text>
   <text x="188" y="11" class="lv lgd-val" text-anchor="end">+$61M</text>
 </g>
 <line x1="888" y1="352" x2="1062" y2="352" class="lgd-div"/>
 <g transform="translate(888,364)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="#64748B"/>
+  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-8"/>
   <text x="22" y="11" class="lt">Other</text>
   <text x="188" y="11" class="lv lgd-val" text-anchor="end">+$48M</text>
 </g>
 <line x1="888" y1="390" x2="1062" y2="390" class="lgd-div"/>
 <g transform="translate(888,402)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="#6366F1"/>
+  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-total"/>
   <text x="22" y="11" class="lt" style="font-weight:600">Total</text>
   <text x="188" y="11" class="lv lgd-val" text-anchor="end" style="font-weight:600">$507M</text>
 </g>
@@ -405,33 +357,19 @@
 
 <script type="text/javascript"><![CDATA[
 (function() {
-  var svg = document.getElementById('root');
+  var svg   = document.getElementById('root');
+  var ca    = document.getElementById('ca');
+  var bws   = ca.querySelectorAll('.bw');
 
-  var bars = [
-    { id:1, light:'#00D4E8', dark:'#22D3EE' },
-    { id:2, light:'#00B87A', dark:'#10B981' },
-    { id:3, light:'#F59E0B', dark:'#FBB724' },
-    { id:4, light:'#F43F5E', dark:'#FB6181' },
-    { id:5, light:'#8B5CF6', dark:'#A78BFA' },
-    { id:6, light:'#3B82F6', dark:'#60A5FA' },
-    { id:7, light:'#0D9488', dark:'#2DD4BF' },
-    { id:8, light:'#64748B', dark:'#94A3B8' },
-    { id:9, light:'#6366F1', dark:'#818CF8' },
-  ];
-
-  function swapColors(dark) {
-    bars.forEach(function(b) {
-      var bar = document.getElementById('bar-' + b.id);
-      if (bar) bar.setAttribute('fill', dark ? b.dark : b.light);
-    });
-  }
+  /* §2 — isDark boolean guard; no swapColors(); dark mode is purely CSS */
+  var isDark = false;
 
   function setMode(wantDark) {
-    var currently = svg.classList.contains('dark');
-    if (wantDark === currently) return;
+    if (wantDark === isDark) return;
+    isDark = wantDark;
     var thumb = document.getElementById('tthumb');
     var lbl   = document.getElementById('tlabel');
-    if (wantDark) {
+    if (isDark) {
       svg.classList.add('dark');
       if (thumb) thumb.setAttribute('cx', '52');
       if (lbl)   lbl.textContent = 'Light';
@@ -440,16 +378,33 @@
       if (thumb) thumb.setAttribute('cx', '16');
       if (lbl)   lbl.textContent = 'Dark';
     }
-    swapColors(wantDark);
   }
 
   document.getElementById('dark-toggle').addEventListener('click', function() {
-    setMode(!svg.classList.contains('dark'));
+    setMode(!isDark);
   });
+
   document.getElementById('print-toggle').addEventListener('click', function() {
-    var thumb = document.getElementById('pthumb'), lbl = document.getElementById('plabel');
-    if (svg.classList.toggle('print')) { thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
-    else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print';  }
+    var thumb = document.getElementById('pthumb');
+    var lbl   = document.getElementById('plabel');
+    if (svg.classList.toggle('print')) {
+      thumb.setAttribute('cx', '52'); lbl.textContent = 'Screen';
+    } else {
+      thumb.setAttribute('cx', '16'); lbl.textContent = 'Print';
+    }
+  });
+
+  /* §4 — Hover: JS class toggling, no :hover pseudo-class */
+  bws.forEach(function(bw) {
+    bw.addEventListener('mouseenter', function() {
+      ca.classList.add('hovering');
+      bws.forEach(function(x) { x.classList.remove('active'); });
+      bw.classList.add('active');
+    });
+    bw.addEventListener('mouseleave', function() {
+      ca.classList.remove('hovering');
+      bw.classList.remove('active');
+    });
   });
 
   window.setMode = setMode;
@@ -457,8 +412,9 @@
     if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
   });
 
+  /* §2 — Initialise: light mode (isDark=false is already the default) */
   (function() {
-    setMode(window.location.href.indexOf('theme=dark') !== -1);
+    if (window.location.href.indexOf('theme=dark') !== -1) setMode(true);
   })();
 })();
 ]]></script>

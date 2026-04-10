@@ -1,0 +1,171 @@
+
+<svg id="root" viewBox="0 0 1100 630" width="100%" height="101.61" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
+<defs>
+
+</defs>
+
+<!-- Card -->
+<rect width="1100" height="620" rx="18" style="fill:rgb(255, 251, 254);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<g style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5" style="fill:none;stroke:rgba(0, 242, 255, 0.22);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+</g>
+<g style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5" style="fill:none;stroke:rgba(0, 0, 0, 0.1);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+</g>
+
+<text x="68" y="50" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:18px;font-weight:500;text-anchor:start;dominant-baseline:auto">Sales Conversion Funnel</text>
+<text x="68" y="70" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">Marketing → Revenue pipeline · Q1 2026</text>
+<text x="68" y="600" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">Source: CRM &amp; Analytics Platform · April 2026</text>
+
+<!-- Toggles -->
+<g id="dark-toggle" transform="translate(930,52)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+  <rect x="0" y="-13" width="68" height="26" rx="13" style="fill:rgb(231, 224, 236);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <circle id="tthumb" cx="16" cy="0" r="10" style="fill:rgb(255, 255, 255);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text id="tlabel" x="44" y="4" text-anchor="middle" style="fill:rgb(73, 69, 79);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:middle;dominant-baseline:auto">Dark</text>
+</g>
+<g id="print-toggle" transform="translate(1012,52)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+  <rect x="0" y="-13" width="68" height="26" rx="13" style="fill:rgb(231, 224, 236);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" style="fill:rgb(255, 255, 255);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text id="plabel" x="44" y="4" text-anchor="middle" style="fill:rgb(73, 69, 79);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:middle;dominant-baseline:auto">Print</text>
+</g>
+
+<!-- Legend: x=870, right edge=1080, top=100 -->
+<rect x="870" y="100" width="210" height="224" rx="14" style="fill:rgb(231, 224, 236);stroke:rgb(121, 116, 126);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<text x="888" y="124" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:500;text-anchor:start;dominant-baseline:auto">FUNNEL STAGES</text>
+<g transform="translate(888,140)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+  <rect x="0" y="0" width="14" height="14" rx="3" style="fill:rgb(0, 212, 232);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="22" y="11" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">Awareness</text>
+  <text x="188" y="11" text-anchor="end" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:end;dominant-baseline:auto">48,200</text>
+</g>
+<g transform="translate(888,170)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+  <rect x="0" y="0" width="14" height="14" rx="3" style="fill:rgb(0, 184, 122);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="22" y="11" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">Interest</text>
+  <text x="188" y="11" text-anchor="end" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:end;dominant-baseline:auto">28,900</text>
+</g>
+<g transform="translate(888,200)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+  <rect x="0" y="0" width="14" height="14" rx="3" style="fill:rgb(245, 158, 11);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="22" y="11" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">Consideration</text>
+  <text x="188" y="11" text-anchor="end" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:end;dominant-baseline:auto">14,600</text>
+</g>
+<g transform="translate(888,230)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+  <rect x="0" y="0" width="14" height="14" rx="3" style="fill:rgb(244, 63, 94);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="22" y="11" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">Intent</text>
+  <text x="188" y="11" text-anchor="end" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:end;dominant-baseline:auto">7,840</text>
+</g>
+<g transform="translate(888,260)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+  <rect x="0" y="0" width="14" height="14" rx="3" style="fill:rgb(139, 92, 246);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="22" y="11" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">Evaluation</text>
+  <text x="188" y="11" text-anchor="end" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:end;dominant-baseline:auto">3,920</text>
+</g>
+<g transform="translate(888,290)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+  <rect x="0" y="0" width="14" height="14" rx="3" style="fill:rgb(59, 130, 246);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="22" y="11" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">Purchase</text>
+  <text x="188" y="11" text-anchor="end" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:end;dominant-baseline:auto">1,960</text>
+</g>
+<line x1="888" y1="312" x2="1062" y2="312" style="fill:rgb(0, 0, 0);stroke:rgb(121, 116, 126);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.3;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<text x="888" y="332" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:500;text-anchor:start;dominant-baseline:auto">OVERALL CONVERSION</text>
+<g transform="translate(888,346)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+  <text x="0" y="11" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">Top → Purchase</text>
+  <text x="188" y="11" text-anchor="end" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:end;dominant-baseline:auto">4.1%</text>
+</g>
+
+<!--
+  Plot area: x=68..850, y=100..500  (matches bar chart layout)
+  Funnel centered horizontally in plot area center x=459
+  Max half-width = 350 (so full width 700, fits 68..768, leaving gap before legend at 870)
+  6 stages, each band height = 400/6 ≈ 66px, gap between bands = 6px
+  band height = 60px, gap = 6px → total = 6*60 + 5*6 = 390 → fits in 400px
+
+  Stage widths (half-widths, proportional to value, max hw=350):
+    base = 48200
+    fi0: hw = 350  (48200/48200 * 350)
+    fi1: hw = 350 * 28900/48200 = 210
+    fi2: hw = 350 * 14600/48200 = 106
+    fi3: hw = 350 * 7840/48200  =  57
+    fi4: hw = 350 * 3920/48200  =  28
+    fi5: hw = 350 * 1960/48200  =  14
+
+  cx = 459 (center of plot area 68..850)
+  Each band:  y_top = 100 + i*(60+6),  y_bot = y_top + 60
+  Trapezoid i: top-left=(cx-hw_i, y_top_i), top-right=(cx+hw_i, y_top_i)
+               bot-left=(cx-hw_{i+1}, y_bot_i), bot-right=(cx+hw_{i+1}, y_bot_i)
+  Last stage (i=5) bottom is just a rect (same hw top and bot, or taper to 14)
+
+  hw values:
+    0: 350
+    1: 210
+    2: 106
+    3: 57
+    4: 28
+    5: 14   (used as bottom of fi4 and both edges of fi5)
+
+  y_tops: 100, 166, 232, 298, 364, 430
+  y_bots: 160, 226, 292, 358, 424, 490
+-->
+
+<g id="ca" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+
+  <!-- fi0: Awareness  hw_top=350 hw_bot=210  y=100..160 -->
+  <g id="fi0" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <polygon points="109,100 809,100 669,160 249,160" style="fill:rgb(0, 212, 232);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="459" y="124" text-anchor="middle" font-size="13" font-weight="500" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:13px;font-weight:500;text-anchor:middle;dominant-baseline:auto">48,200</text>
+    <text x="459" y="140" text-anchor="middle" font-size="11" font-weight="400" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Awareness</text>
+  </g>
+
+  <!-- fi1: Interest  hw_top=210 hw_bot=106  y=166..226 -->
+  <g id="fi1" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <polygon points="249,166 669,166 565,226 353,226" style="fill:rgb(0, 184, 122);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="459" y="190" text-anchor="middle" font-size="13" font-weight="500" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:13px;font-weight:500;text-anchor:middle;dominant-baseline:auto">28,900</text>
+    <text x="459" y="206" text-anchor="middle" font-size="11" font-weight="400" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Interest</text>
+  </g>
+
+  <!-- fi2: Consideration  hw_top=106 hw_bot=57  y=232..292 -->
+  <g id="fi2" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <polygon points="353,232 565,232 516,292 402,292" style="fill:rgb(245, 158, 11);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="459" y="256" text-anchor="middle" font-size="13" font-weight="500" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:13px;font-weight:500;text-anchor:middle;dominant-baseline:auto">14,600</text>
+    <text x="459" y="272" text-anchor="middle" font-size="11" font-weight="400" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Consideration</text>
+  </g>
+
+  <!-- fi3: Intent  hw_top=57 hw_bot=28  y=298..358 -->
+  <g id="fi3" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <polygon points="402,298 516,298 487,358 431,358" style="fill:rgb(244, 63, 94);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="459" y="322" text-anchor="middle" font-size="12" font-weight="500" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:12px;font-weight:500;text-anchor:middle;dominant-baseline:auto">7,840</text>
+    <text x="459" y="337" text-anchor="middle" font-size="10" font-weight="400" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Intent</text>
+  </g>
+
+  <!-- fi4: Evaluation  hw_top=28 hw_bot=14  y=364..424 -->
+  <g id="fi4" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <polygon points="431,364 487,364 473,424 445,424" style="fill:rgb(139, 92, 246);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="459" y="390" text-anchor="middle" font-size="11" font-weight="500" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:middle;dominant-baseline:auto">3,920</text>
+    <text x="459" y="404" text-anchor="middle" font-size="9" font-weight="400" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:9px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Eval.</text>
+  </g>
+
+  <!-- fi5: Purchase  hw=14 rect  y=430..490 -->
+  <g id="fi5" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <polygon points="445,430 473,430 473,490 445,490" style="fill:rgb(59, 130, 246);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="459" y="456" text-anchor="middle" font-size="10" font-weight="500" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:500;text-anchor:middle;dominant-baseline:auto">1,960</text>
+    <text x="459" y="470" text-anchor="middle" font-size="9" font-weight="400" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:9px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Buy</text>
+  </g>
+
+</g>
+
+<!-- Drop-off labels on right side — anchored just outside right edge of each band -->
+<!-- Between fi0→fi1: right edge at x=809 top, 669 bot → label at x=815, mid y=133 -->
+<text x="820" y="137" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">↓ 40.1%</text>
+<text x="820" y="203" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">↓ 49.5%</text>
+<text x="820" y="269" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">↓ 46.3%</text>
+<text x="820" y="330" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">↓ 50.0%</text>
+<text x="820" y="396" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">↓ 50.0%</text>
+
+<!-- Tooltip layer (JS-driven) -->
+<g id="tip" style="opacity:0;pointer-events:none;transition:opacity .15s ease;fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+  <rect id="tip-bg" rx="9" style="fill:rgb(255, 251, 254);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <path id="tip-bdr" style="fill:rgb(255, 251, 254);stroke:rgb(121, 116, 126);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <path id="tip-arr" style="fill:rgb(255, 251, 254);stroke:rgb(121, 116, 126);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text id="tip-val" text-anchor="middle" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:13px;font-weight:500;text-anchor:middle;dominant-baseline:auto"/>
+  <text id="tip-lbl" text-anchor="middle" style="fill:rgb(73, 69, 79);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:400;text-anchor:middle;dominant-baseline:auto"/>
+  <text id="tip-pct" text-anchor="middle" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:400;text-anchor:middle;dominant-baseline:auto"/>
+</g>
+
+
+</svg>

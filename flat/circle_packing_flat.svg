@@ -1,0 +1,399 @@
+
+<svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
+<defs>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
+    .bg-main  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    .ct       { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+    .cs       { font-size:11px; fill:#79747E; font-weight:400; }
+    .lt       { font-size:11px; fill:#1C1B1F; font-weight:400; }
+    .lv       { font-size:11px; fill:#1C1B1F; font-weight:500; }
+    .lgd-bg   { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+    .lgd-div  { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+    .lgd-ttl  { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+    .footer   { font-size:10px; fill:#79747E; font-weight:400; }
+    .t-wrap   { cursor:pointer; }
+    .t-track  { fill:#E7E0EC; }
+    .t-thumb  { fill:#ffffff; }
+    .t-label  { font-size:11px; font-weight:500; fill:#49454F; }
+    .pt-track { fill:#E7E0EC; transition:fill 0.3s; }
+    .pt-thumb { fill:#ffffff; }
+    .pt-label { font-size:11px; font-weight:500; fill:#49454F; }
+
+    .lgd-val  { opacity:0; transition:opacity 0.2s; }
+    svg.print .lgd-val  { opacity:1; }
+    svg.print .pt-track { fill:#d97316; }
+
+    /* §1 Standard Palette */
+    .bar-1 { fill:#00D4E8; } .bar-2 { fill:#00B87A; }
+    .bar-3 { fill:#F59E0B; } .bar-4 { fill:#F43F5E; }
+    .bar-5 { fill:#8B5CF6; } .bar-6 { fill:#3B82F6; }
+    .bar-7 { fill:#0D9488; } .bar-8 { fill:#64748B; }
+    svg.dark .bar-1 { fill:#22D3EE; } svg.dark .bar-2 { fill:#10B981; }
+    svg.dark .bar-3 { fill:#FBB724; } svg.dark .bar-4 { fill:#FB6181; }
+    svg.dark .bar-5 { fill:#A78BFA; } svg.dark .bar-6 { fill:#60A5FA; }
+    svg.dark .bar-7 { fill:#2DD4BF; } svg.dark .bar-8 { fill:#94A3B8; }
+
+    /* §5 Depth-Tinting vars */
+    #root {
+      --blend-d0: 0.15; --blend-d1: 0; --blend-d2: 0.45;
+      --blend-d3: 0.62; --blend-d4: 0.75;
+      --bg-light: #FFFBFE; --bg-dark: #1C1B1F;
+    }
+
+    /* §3 Method A1 — same element animated and hover-dimmed */
+    @keyframes itemFade { from { opacity:0; } to { opacity:1; } }
+    .item         { opacity:0; cursor:pointer; transition:opacity 0.2s ease; }
+    .item.visible { opacity:1; }
+
+    /* §4 Hover — gated on .ready */
+    .ca.ready.hovering .item.visible         { opacity:0.20; transition:opacity 0.15s; }
+    .ca.ready.hovering .item.visible.hovered { opacity:1;    transition:opacity 0.15s; }
+
+    /* Outer boundary ring */
+    .outer-boundary { fill:none; stroke:#E7E0EC; stroke-width:1.5; }
+    svg.dark .outer-boundary { stroke:#49454F; }
+
+    /* §4 Tooltip bubble */
+    .bubble   { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
+    .bub-bg   { fill:#FFFBFE; }
+    .bub-bdr  { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .bub-tip  { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .bub-val  { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .bub-lbl  { fill:#49454F; font-size:10px; font-weight:400; }
+    svg.print .bubble { opacity:0 !important; }
+    svg.print .ca.ready.hovering .item { opacity:1 !important; }
+
+    /* Dark mode */
+    svg.dark .bg-main  { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+    svg.dark .ct       { fill:#E6E0E9; }
+    svg.dark .cs       { fill:#938F99; }
+    svg.dark .lt       { fill:#E6E0E9; }
+    svg.dark .lv       { fill:#E6E0E9; }
+    svg.dark .lgd-bg   { fill:#49454F; stroke:#938F99; }
+    svg.dark .lgd-div  { stroke:#938F99; }
+    svg.dark .lgd-ttl  { fill:#938F99; }
+    svg.dark .footer   { fill:#938F99; }
+    svg.dark .t-track  { fill:#49454F; }
+    svg.dark .t-label  { fill:#CAC4D0; }
+    svg.dark .pt-track { fill:#49454F; }
+    svg.dark .pt-label { fill:#CAC4D0; }
+    svg.dark.print .pt-track { fill:#d97316; }
+    svg.dark .bub-bg   { fill:#1C1B1F; }
+    svg.dark .bub-bdr  { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
+    svg.dark .bub-tip  { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
+    svg.dark .bub-val  { fill:#E6E0E9; }
+    svg.dark .bub-lbl  { fill:#CAC4D0; }
+
+    .border-dark  { display:none; }
+    .border-light { display:block; }
+    svg.dark .border-dark  { display:block; }
+    svg.dark .border-light { display:none; }
+  </style>
+</defs>
+
+<!-- Card background -->
+<rect class="bg-main" width="1100" height="620" rx="18"/>
+<g class="border-dark">
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
+</g>
+<g class="border-light">
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
+</g>
+
+<!-- Title & subtitle -->
+<text x="68" y="50" class="ct">Shipping Mode by Orders</text>
+<text x="68" y="70" class="cs">4 shipping classes · hover to inspect · print for values</text>
+
+<!-- Dark toggle -->
+<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
+  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
+</g>
+
+<!-- Print toggle -->
+<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
+  <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
+</g>
+
+<!--
+  Circle packing — fitted to bar chart plot area (x=68..850, y=100..500)
+  Outer: cx=459 cy=300 r=200
+  Standard: cx=382 cy=280 r=120
+  First:    cx=574 cy=249 r=75
+  Second:   cx=520 cy=412 r=72
+  Same Day: cx=612 cy=355 r=37
+-->
+
+<!-- Outer boundary -->
+<circle class="outer-boundary" cx="459" cy="300" r="200"/>
+
+<!-- §6 Paint order: items first, tip-layer last -->
+<g class="ca" id="container">
+
+  <!-- Standard Class: cx=382 cy=280 r=120 -->
+  <g class="item" id="item-std" data-ci="2" data-depth="1"
+     data-val="5,968" data-lbl="Standard Class" data-pct="54%">
+    <circle cx="382" cy="280" r="120"/>
+    <text x="382" y="275" text-anchor="middle" font-size="13" font-weight="500">Standard</text>
+    <text x="382" y="292" text-anchor="middle" font-size="13" font-weight="500">Class</text>
+  </g>
+
+  <!-- First Class: cx=574 cy=249 r=75 -->
+  <g class="item" id="item-fst" data-ci="6" data-depth="1"
+     data-val="1,992" data-lbl="First Class" data-pct="18%">
+    <circle cx="574" cy="249" r="75"/>
+    <text x="574" y="252" text-anchor="middle" font-size="12" font-weight="500">First Class</text>
+  </g>
+
+  <!-- Second Class: cx=520 cy=412 r=72 -->
+  <g class="item" id="item-sec" data-ci="5" data-depth="1"
+     data-val="1,945" data-lbl="Second Class" data-pct="18%">
+    <circle cx="520" cy="412" r="72"/>
+    <text x="520" y="415" text-anchor="middle" font-size="12" font-weight="500">Second Class</text>
+  </g>
+
+  <!-- Same Day: cx=612 cy=355 r=37 -->
+  <g class="item" id="item-sd" data-ci="3" data-depth="2"
+     data-val="543" data-lbl="Same Day" data-pct="5%">
+    <circle cx="612" cy="355" r="37"/>
+    <text x="612" y="358" text-anchor="middle" font-size="10" font-weight="500">Same Day</text>
+  </g>
+
+</g>
+
+<!-- §6 Tip layer — always painted last -->
+<g id="tip-layer">
+  <g class="bubble" id="tip">
+    <rect class="bub-bg" id="tip-bg-fill" x="-46" y="0" width="92" height="42" rx="9"/>
+    <path class="bub-bdr" id="tip-bdr"/>
+    <path class="bub-tip" id="tip-arr"/>
+    <text class="bub-val" id="tip-val" x="0" y="16" text-anchor="middle" dominant-baseline="central"/>
+    <text class="bub-lbl" id="tip-lbl" x="0" y="30" text-anchor="middle" dominant-baseline="central"/>
+  </g>
+</g>
+
+<!-- LEGEND — matches bar chart: x=870, width=210, y=100..470 -->
+<rect x="870" y="100" width="210" height="310" rx="14" class="lgd-bg"/>
+<text x="888" y="124" class="lgd-ttl">SHIPPING CLASS</text>
+<g transform="translate(888,140)">
+  <rect class="bar-2" x="0" y="0" width="14" height="14" rx="3"/>
+  <text x="22" y="11" class="lt">Standard Class</text>
+  <text x="188" y="11" class="lv lgd-val" text-anchor="end">5,968</text>
+</g>
+<g transform="translate(888,170)">
+  <rect class="bar-6" x="0" y="0" width="14" height="14" rx="3"/>
+  <text x="22" y="11" class="lt">First Class</text>
+  <text x="188" y="11" class="lv lgd-val" text-anchor="end">1,992</text>
+</g>
+<g transform="translate(888,200)">
+  <rect class="bar-5" x="0" y="0" width="14" height="14" rx="3"/>
+  <text x="22" y="11" class="lt">Second Class</text>
+  <text x="188" y="11" class="lv lgd-val" text-anchor="end">1,945</text>
+</g>
+<line x1="888" y1="232" x2="1062" y2="232" class="lgd-div"/>
+<g transform="translate(888,244)">
+  <rect class="bar-3" x="0" y="0" width="14" height="14" rx="3"/>
+  <text x="22" y="11" class="lt">Same Day</text>
+  <text x="188" y="11" class="lv lgd-val" text-anchor="end">543</text>
+</g>
+<line x1="888" y1="276" x2="1062" y2="276" class="lgd-div"/>
+<g transform="translate(888,288)">
+  <text x="0" y="11" class="lgd-ttl">TOTAL ORDERS</text>
+  <text x="188" y="11" class="lv lgd-val" text-anchor="end">10,447</text>
+</g>
+
+<!-- Footer -->
+<text x="68" y="600" class="footer">Shipping Mode by Orders · 4 classes · circle packing chart</text>
+
+<script type="text/javascript"><![CDATA[
+(function() {
+  var isDark = false; // §2 — declared before build
+  var svg    = document.getElementById('root');
+  var cont   = document.getElementById('container');
+  var items  = Array.prototype.slice.call(document.querySelectorAll('.item'));
+  var ns     = 'http://www.w3.org/2000/svg';
+
+  // §5 Depth-Tinting (verbatim from spec)
+  var _probe = null;
+  function probeColor(cls) {
+    if (!_probe) {
+      _probe = document.createElementNS(ns, 'rect');
+      _probe.style.visibility = 'hidden';
+      _probe.style.position   = 'absolute';
+      svg.appendChild(_probe);
+    }
+    _probe.setAttribute('class', cls);
+    var fill = window.getComputedStyle(_probe).fill;
+    var m = fill.match(/[\d.]+/g);
+    return m ? [+m[0], +m[1], +m[2]] : [0, 0, 0];
+  }
+  function blendRgb(base, bgHex, t) {
+    var bg = hexToRgb(bgHex);
+    return 'rgb(' + [0,1,2].map(function(i) {
+      return Math.round(base[i] + (bg[i] - base[i]) * t);
+    }).join(',') + ')';
+  }
+  function hexToRgb(h) {
+    var n = parseInt(h.replace('#',''), 16);
+    return [(n>>16)&255, (n>>8)&255, n&255];
+  }
+  function cssVar(name) {
+    return window.getComputedStyle(svg).getPropertyValue(name).trim();
+  }
+  function getTint(ci, depth) {
+    var base = probeColor('bar-' + ci);
+    var t    = parseFloat(cssVar('--blend-d' + Math.min(depth, 4)));
+    var bg   = cssVar(isDark ? '--bg-dark' : '--bg-light');
+    return blendRgb(base, bg, t);
+  }
+  function recolor() {
+    items.forEach(function(el) {
+      el.querySelector('circle').setAttribute('fill',
+        getTint(el.getAttribute('data-ci'), el.getAttribute('data-depth')));
+    });
+  }
+
+  // §3 Method A1 animation — stagger 0.25s, duration 0.8s (matches bar chart)
+  var lastDelay = (items.length - 1) * 0.25;
+  items.forEach(function(el, i) {
+    el.style.animation = 'itemFade 0.8s ease-out ' + (i * 0.25) + 's';
+    el.addEventListener('animationend', function() {
+      el.style.animation = 'none';
+      el.classList.add('visible');
+    }, { once: true });
+  });
+  setTimeout(function() { cont.classList.add('ready'); }, (lastDelay + 0.8 + 0.1) * 1000);
+
+  // §4 JS-driven tooltip
+  var tip    = document.getElementById('tip');
+  var tipVal = document.getElementById('tip-val');
+  var tipLbl = document.getElementById('tip-lbl');
+  var tipBdr = document.getElementById('tip-bdr');
+  var tipArr = document.getElementById('tip-arr');
+  var tipBgF = document.getElementById('tip-bg-fill');
+
+  function showTip(el) {
+    var circle = el.querySelector('circle');
+    var cx = parseFloat(circle.getAttribute('cx'));
+    var cy = parseFloat(circle.getAttribute('cy'));
+    var r  = parseFloat(circle.getAttribute('r'));
+
+    var val = el.getAttribute('data-val');
+    var lbl = el.getAttribute('data-lbl');
+    var pct = el.getAttribute('data-pct');
+
+    tipVal.textContent = val;
+    tipLbl.textContent = lbl + ' · ' + pct;
+
+    // Measure actual rendered text widths
+    var pad = 20, bh = 42, tail = 8, rx = 9;
+    var valW = tipVal.getBBox().width + pad;
+    var lblW = tipLbl.getBBox().width + pad;
+    var hw   = Math.max(valW, lblW, 60) / 2;
+
+    // Position: bubble sits above circle, arrow tip touches circle top
+    var tx = Math.max(hw + 8, Math.min(cx, 1100 - hw - 8));
+    var ty = cy - r - tail - bh - 4;
+    var flip = ty < 90;
+    if (flip) ty = cy + r + tail + 4;
+
+    // Background fill
+    tipBgF.setAttribute('x', -hw);
+    tipBgF.setAttribute('y', 0);
+    tipBgF.setAttribute('width',  hw * 2);
+    tipBgF.setAttribute('height', bh);
+
+    // Border + integrated tail arrow
+    var l = -hw, r2 = hw, t2 = 0, b2 = bh;
+    if (!flip) {
+      tipBdr.setAttribute('d',
+        'M'+(l+rx)+','+t2+' L'+(r2-rx)+','+t2+
+        ' Q'+r2+','+t2+' '+r2+','+(t2+rx)+
+        ' L'+r2+','+(b2-rx)+
+        ' Q'+r2+','+b2+' '+(r2-rx)+','+b2+
+        ' L8,'+b2+' L0,'+(b2+tail)+' L-8,'+b2+
+        ' L'+(l+rx)+','+b2+
+        ' Q'+l+','+b2+' '+l+','+(b2-rx)+
+        ' L'+l+','+(t2+rx)+
+        ' Q'+l+','+t2+' '+(l+rx)+','+t2+' Z'
+      );
+    } else {
+      tipBdr.setAttribute('d',
+        'M'+(l+rx)+','+t2+' L-8,'+t2+' L0,'+(t2-tail)+' L8,'+t2+
+        ' L'+(r2-rx)+','+t2+
+        ' Q'+r2+','+t2+' '+r2+','+(t2+rx)+
+        ' L'+r2+','+(b2-rx)+
+        ' Q'+r2+','+b2+' '+(r2-rx)+','+b2+
+        ' L'+(l+rx)+','+b2+
+        ' Q'+l+','+b2+' '+l+','+(b2-rx)+
+        ' L'+l+','+(t2+rx)+
+        ' Q'+l+','+t2+' '+(l+rx)+','+t2+' Z'
+      );
+    }
+    tipArr.setAttribute('d', '');
+
+    tipVal.setAttribute('x', 0);
+    tipVal.setAttribute('y', bh * 0.38);
+    tipLbl.setAttribute('x', 0);
+    tipLbl.setAttribute('y', bh * 0.72);
+
+    tip.setAttribute('transform', 'translate('+tx+','+ty+')');
+    tip.style.opacity = '1';
+  }
+
+  function hideTip() { tip.style.opacity = ''; }
+
+  // §4 Hover interaction
+  items.forEach(function(el) {
+    el.addEventListener('mouseenter', function() {
+      cont.classList.add('hovering');
+      items.forEach(function(x) { x.classList.remove('hovered'); });
+      el.classList.add('hovered');
+      showTip(el);
+    });
+    el.addEventListener('mouseleave', function() {
+      cont.classList.remove('hovering');
+      el.classList.remove('hovered');
+      hideTip();
+    });
+  });
+
+  // §2 Dark mode toggle
+  function setMode(wantDark) {
+    if (wantDark === isDark) return;
+    isDark = wantDark;
+    var thumb = document.getElementById('tthumb');
+    var lbl   = document.getElementById('tlabel');
+    if (wantDark) {
+      svg.classList.add('dark');
+      if (thumb) thumb.setAttribute('cx', '52');
+      if (lbl)   lbl.textContent = 'Light';
+    } else {
+      svg.classList.remove('dark');
+      if (thumb) thumb.setAttribute('cx', '16');
+      if (lbl)   lbl.textContent = 'Dark';
+    }
+    recolor();
+  }
+
+  document.getElementById('dark-toggle').addEventListener('click', function() { setMode(!isDark); });
+  document.getElementById('print-toggle').addEventListener('click', function() {
+    var thumb = document.getElementById('pthumb'), lbl = document.getElementById('plabel');
+    if (svg.classList.toggle('print')) { thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
+    else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print'; }
+  });
+
+  window.setMode = setMode;
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
+  });
+
+  recolor();
+  setMode(window.location.href.indexOf('theme=dark') !== -1);
+})();
+]]></script>
+</svg>

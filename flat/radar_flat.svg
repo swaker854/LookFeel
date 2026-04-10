@@ -1,33 +1,7 @@
+
+
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
-
-  <!-- Flat solid fills — light mode (single-stop, identical to bar chart) -->
-  <linearGradient id="g1"><stop offset="0%" stop-color="#00D4E8"/></linearGradient>
-  <linearGradient id="g2"><stop offset="0%" stop-color="#00B87A"/></linearGradient>
-  <linearGradient id="g3"><stop offset="0%" stop-color="#F59E0B"/></linearGradient>
-  <linearGradient id="g4"><stop offset="0%" stop-color="#F43F5E"/></linearGradient>
-  <linearGradient id="g5"><stop offset="0%" stop-color="#8B5CF6"/></linearGradient>
-  <linearGradient id="g6"><stop offset="0%" stop-color="#3B82F6"/></linearGradient>
-  <linearGradient id="g7"><stop offset="0%" stop-color="#0D9488"/></linearGradient>
-
-  <!-- Flat solid fills — dark mode -->
-  <linearGradient id="g1d"><stop offset="0%" stop-color="#22D3EE"/></linearGradient>
-  <linearGradient id="g2d"><stop offset="0%" stop-color="#10B981"/></linearGradient>
-  <linearGradient id="g3d"><stop offset="0%" stop-color="#FBB724"/></linearGradient>
-  <linearGradient id="g4d"><stop offset="0%" stop-color="#FB6181"/></linearGradient>
-  <linearGradient id="g5d"><stop offset="0%" stop-color="#A78BFA"/></linearGradient>
-  <linearGradient id="g6d"><stop offset="0%" stop-color="#60A5FA"/></linearGradient>
-  <linearGradient id="g7d"><stop offset="0%" stop-color="#2DD4BF"/></linearGradient>
-
-  <!-- Legend swatches -->
-  <linearGradient id="c1"><stop offset="0%" stop-color="#00D4E8"/></linearGradient>
-  <linearGradient id="c2"><stop offset="0%" stop-color="#00B87A"/></linearGradient>
-  <linearGradient id="c3"><stop offset="0%" stop-color="#F59E0B"/></linearGradient>
-  <linearGradient id="c4"><stop offset="0%" stop-color="#F43F5E"/></linearGradient>
-  <linearGradient id="c5"><stop offset="0%" stop-color="#8B5CF6"/></linearGradient>
-  <linearGradient id="c6"><stop offset="0%" stop-color="#3B82F6"/></linearGradient>
-  <linearGradient id="c7"><stop offset="0%" stop-color="#0D9488"/></linearGradient>
-
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
     .bg-main   { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
@@ -40,7 +14,7 @@
     .gl        { stroke:#E7E0EC; stroke-width:1; fill:none; }
     .bl        { stroke:#79747E; stroke-width:1.5; fill:none; }
     .rl        { stroke:#C4BECE; stroke-width:0.75; fill:none; }
-    .sp        { stroke:#79747E; stroke-width:1; opacity:0.25; }
+    .sp        { stroke:#79747E; stroke-width:1; opacity:0.25; fill:none; }
     .lgd-bg    { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
     .lgd-div   { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
     .lgd-ttl   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
@@ -52,34 +26,60 @@
     .pt-track  { fill:#E7E0EC; transition:fill 0.3s; }
     .pt-thumb  { fill:#ffffff; }
     .pt-label  { font-size:11px; font-weight:500; fill:#49454F; }
-
     .lgd-val   { opacity:0; transition:opacity 0.2s; }
     svg.print .lgd-val  { opacity:1; }
     svg.print .pt-track { fill:#d97316; }
 
-    /* series polygon hover — same .ca / .bw / .bb pattern */
-    .bw        { cursor:pointer; }
-    .bb        { transition:opacity 0.15s; }
-    .ca:hover .bw .bb      { opacity:0.15; }
-    .ca:hover .bw:hover .bb { opacity:1; }
+    /* §1 — Standard palette */
+    .bar-1 { fill:#00D4E8; } .bar-2 { fill:#00B87A; }
+    .bar-3 { fill:#F59E0B; } .bar-4 { fill:#F43F5E; }
+    .bar-5 { fill:#8B5CF6; } .bar-6 { fill:#3B82F6; }
+    .bar-7 { fill:#0D9488; } .bar-8 { fill:#64748B; }
+    svg.dark .bar-1 { fill:#22D3EE; } svg.dark .bar-2 { fill:#10B981; }
+    svg.dark .bar-3 { fill:#FBB724; } svg.dark .bar-4 { fill:#FB6181; }
+    svg.dark .bar-5 { fill:#A78BFA; } svg.dark .bar-6 { fill:#60A5FA; }
+    svg.dark .bar-7 { fill:#2DD4BF; } svg.dark .bar-8 { fill:#94A3B8; }
 
-    /* tooltip */
-    .bubble    { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    .bw:hover .bubble { opacity:1; }
-    .dw        { cursor:pointer; }
-    .dw .bubble { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    .dw:hover .bubble { opacity:1; }
+    /* §1 — Semantic: per-series polygon classes, aligned to palette */
+    /* sp1=Cyan(bar-1), sp2=Violet(bar-5), sp3=Emerald(bar-2) */
+    .sp1 { fill:#00D4E8; fill-opacity:0.18; stroke:#00D4E8; stroke-width:2; stroke-linejoin:round; }
+    .sp2 { fill:#8B5CF6; fill-opacity:0.18; stroke:#8B5CF6; stroke-width:2; stroke-linejoin:round; }
+    .sp3 { fill:#00B87A; fill-opacity:0.18; stroke:#00B87A; stroke-width:2; stroke-linejoin:round; }
+    svg.dark .sp1 { fill:#22D3EE; stroke:#22D3EE; }
+    svg.dark .sp2 { fill:#A78BFA; stroke:#A78BFA; }
+    svg.dark .sp3 { fill:#10B981; stroke:#10B981; }
+
+    /* §3 — Animation: CSS @keyframes scale+opacity (geometric, no rAF needed for scale) */
+    @keyframes radar-expand {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    .sa {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: radar-expand 1.10s cubic-bezier(0.34,1.4,0.64,1) both;
+    }
+    #series-anim-3 { animation-delay: 0.00s; }
+    #series-anim-2 { animation-delay: 0.20s; }
+    #series-anim-1 { animation-delay: 0.40s; }
+
+    /* §4 — Hover: JS-driven .hovering/.active, gated on .ready */
+    .bw { cursor:pointer; }
+    .ca.ready.hovering .bw        { opacity:0.20; transition:opacity 0.2s ease; }
+    .ca.ready.hovering .bw.active { opacity:1;    transition:opacity 0.2s ease; }
+    .dw  { cursor:pointer; }
+    /* Dot hit targets — invisible circles in a top-layer group, pointer-events only */
+    .dht { fill:transparent; cursor:pointer; }
+
+    /* §4 — Tooltip bubble */
+    .bubble  { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     svg.print .bubble { opacity:0 !important; }
-    svg.print .ca:hover .bw .bb { opacity:1 !important; }
-
-    .bub-bg    { fill:#FFFBFE; }
-    .bub-bdr   { fill:none; stroke:#79747E; stroke-width:1; }
-    .bub-tip   { fill:none; stroke:#79747E; stroke-width:1; }
-    .bub-val   { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .bub-lbl   { fill:#49454F; font-size:10px; font-weight:400; }
-
-    /* dot on each axis vertex */
-    .dot       { r:4; }
+    .bub-bg  { fill:#FFFBFE; }
+    .bub-bdr { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .bub-tip { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .bub-val { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .bub-lbl { fill:#49454F; font-size:10px; font-weight:400; }
+    .bub-pct { fill:#79747E; font-size:10px; font-weight:400; }
 
     svg.dark .bg-main   { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
     svg.dark .ct        { fill:#E6E0E9; }
@@ -102,257 +102,105 @@
     svg.dark .pt-label  { fill:#CAC4D0; }
     svg.dark.print .pt-track { fill:#d97316; }
     svg.dark .bub-bg    { fill:#1C1B1F; }
-    svg.dark .bub-bdr   { fill:none; stroke:#938F99; stroke-width:1; }
-    svg.dark .bub-tip   { fill:none; stroke:#938F99; stroke-width:1; }
+    svg.dark .bub-bdr   { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .bub-tip   { fill:#1C1B1F; stroke:#938F99; }
     svg.dark .bub-val   { fill:#E6E0E9; }
     svg.dark .bub-lbl   { fill:#CAC4D0; }
-
-    .border-dark      { display:none; }
-    .border-light     { display:block; }
+    svg.dark .bub-pct   { fill:#938F99; }
+    .border-dark  { display:none; }
+    .border-light { display:block; }
     svg.dark .border-dark  { display:block; }
     svg.dark .border-light { display:none; }
-
-    /* Radial expand — CSS keyframes with transform-box keeps gradient url() refs valid */
-    @keyframes radar-expand {
-      from { transform: scale(0); opacity: 0; }
-      to   { transform: scale(1); opacity: 1; }
-    }
-    .sa {
-      transform-box: fill-box;
-      transform-origin: center;
-      animation: radar-expand 1.10s cubic-bezier(0.34,1.4,0.64,1) both;
-    }
-    #series-anim-3 { animation-delay: 0.00s; }
-    #series-anim-2 { animation-delay: 0.20s; }
-    #series-anim-1 { animation-delay: 0.40s; }
   </style>
 </defs>
 
 <!--
-  ═══════════════════════════════════════════════════════
-  GEOMETRY
-  Centre: cx=430, cy=310   R(max)=220
-  7 axes, angle[i] = -90° + i*(360/7)° = -90 + i*51.4286°
-  In radians: start = -π/2, step = 2π/7
+  GEOMETRY: Centre cx=430, cy=305  R=200  7 axes
+  cy=305 (not 310) compensates for 7-polygon vertical asymmetry:
+  top vertex is R above cy, bottom vertices only R*sin(64.3°)=180px below —
+  shifting cy up by 5px visually centres the ring in its available space.
 
-  Axis angles (degrees from top, clockwise):
-    0: -90°        → top
-    1: -90+51.43   = -38.57°
-    2: -90+102.86  =  12.86°
-    3: -90+154.29  =  64.29°
-    4: -90+205.71  = 115.71°
-    5: -90+257.14  = 167.14°
-    6: -90+308.57  = 218.57°  (= -141.43°)
-
-  Unit vectors (cos θ, sin θ) where θ measured from +x axis:
-    a0: θ=-90°   cos=-0°=0,     sin=-1    → (0,      -1)
-    a1: θ=-38.57° cos=0.7818,  sin=-0.6235 → (0.7818, -0.6235)
-    a2: θ=12.86°  cos=0.9749,   sin=0.2225 → (0.9749,  0.2225)
-    a3: θ=64.29°  cos=0.4339,   sin=0.9010 → (0.4339,  0.9010)
-    a4: θ=115.71° cos=-0.4339,  sin=0.9010 → (-0.4339, 0.9010)
-    a5: θ=167.14° cos=-0.9749,  sin=0.2225 → (-0.9749, 0.2225)
-    a6: θ=218.57° cos=-0.7818, sin=-0.6235 → (-0.7818,-0.6235)
-
-  Axis tip coordinates at R=220 (cx=430, cy=310):
-    a0: (430+0*220,       310-1*220)      = (430,      90)
-    a1: (430+0.7818*220,  310-0.6235*220) = (430+172,  310-137) = (602, 173)
-    a2: (430+0.9749*220,  310+0.2225*220) = (430+214,  310+49)  = (644, 359)
-    a3: (430+0.4339*220,  310+0.9010*220) = (430+95,   310+198) = (525, 508)
-    a4: (430-0.4339*220,  310+0.9010*220) = (430-95,   310+198) = (335, 508)
-    a5: (430-0.9749*220,  310+0.2225*220) = (430-214,  310+49)  = (216, 359)
-    a6: (430-0.7818*220,  310-0.6235*220) = (430-172,  310-137) = (258, 173)
-
-  Ring radii: R*0.2=44, R*0.4=88, R*0.6=132, R*0.8=176, R*1.0=220
-  Ring polygon points = unit vec * ringR + centre
-
-  ═══════════════════════════════════════════════════════
-  DATA — Product Performance Scorecard (scale 0–100)
-  Axes: Revenue, Growth, Margin, Satisfaction, Retention, Innovation, Quality
-
-  Series A (Cyan)   : 72, 65, 58, 80, 74, 55, 68
-  Series B (Violet) : 55, 82, 70, 63, 58, 88, 72
-  Series C (Emerald): 64, 50, 85, 71, 82, 62, 90
-
-  Plotted point for axis i, value v (0-100):
-    r = (v/100) * 220
-    x = cx + cos[i]*r
-    y = cy + sin[i]*r  (note: sin negative because y inverted, already folded into unit vecs)
-
-  Series A point coords (r = v/100 * 220):
-    a0 Revenue      72 → r=158.4 → (430+0*158.4,        310-1*158.4)       = (430.0, 151.6)
-    a1 Growth       65 → r=143.0 → (430+0.7818*143.0,   310-0.6235*143.0)  = (430+111.8, 310-89.2) = (541.8, 220.8)
-    a2 Margin       58 → r=127.6 → (430+0.9749*127.6,   310+0.2225*127.6)  = (430+124.4, 310+28.4) = (554.4, 338.4)
-    a3 Satisfaction 80 → r=176.0 → (430+0.4339*176.0,   310+0.9010*176.0)  = (430+76.4,  310+158.6)= (506.4, 468.6)
-    a4 Retention    74 → r=162.8 → (430-0.4339*162.8,   310+0.9010*162.8)  = (430-70.6,  310+146.7)= (359.4, 456.7)
-    a5 Innovation   55 → r=121.0 → (430-0.9749*121.0,   310+0.2225*121.0)  = (430-117.9, 310+26.9) = (312.1, 336.9)
-    a6 Quality      68 → r=149.6 → (430-0.7818*149.6,   310-0.6235*149.6)  = (430-116.9, 310-93.3) = (313.1, 216.7)
-
-  Series B point coords:
-    a0 Revenue      55 → r=121.0 → (430, 189.0)
-    a1 Growth       82 → r=180.4 → (430+141.0, 310-112.5) = (571.0, 197.5)
-    a2 Margin       70 → r=154.0 → (430+150.1, 310+34.3)  = (580.1, 344.3)
-    a3 Satisfaction 63 → r=138.6 → (430+60.2,  310+124.9) = (490.2, 434.9)
-    a4 Retention    58 → r=127.6 → (430-55.4,  310+114.9) = (374.6, 424.9)
-    a5 Innovation   88 → r=193.6 → (430-188.7, 310+43.1)  = (241.3, 353.1)
-    a6 Quality      72 → r=158.4 → (430-123.9, 310-98.8)  = (306.1, 211.2)
-
-  Series C point coords:
-    a0 Revenue      64 → r=140.8 → (430, 169.2)
-    a1 Growth       50 → r=110.0 → (430+86.0,  310-68.6)  = (516.0, 241.4)
-    a2 Margin       85 → r=187.0 → (430+182.3, 310+41.6)  = (612.3, 351.6)
-    a3 Satisfaction 71 → r=156.2 → (430+67.8,  310+140.7) = (497.8, 450.7)
-    a4 Retention    82 → r=180.4 → (430-78.3,  310+162.5) = (351.7, 472.5)
-    a5 Innovation   62 → r=136.4 → (430-132.9, 310+30.3)  = (297.1, 340.3)
-    a6 Quality      90 → r=198.0 → (430-154.8, 310-123.4) = (275.2, 186.6)
+  Axis tip coords at R=200:
+    a0(Revenue):      (430,   105)
+    a1(Growth):       (586.4, 180.3)
+    a2(Margin):       (625,   349.5)
+    a3(Satisfaction): (516.8, 485.2)
+    a4(Retention):    (343.2, 485.2)
+    a5(Innovation):   (235,   349.5)
+    a6(Quality):      (273.6, 180.3)
 -->
 
-<!-- Background -->
 <rect class="bg-main" width="1100" height="620" rx="18"/>
 <g class="border-dark">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5"
-    fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
 </g>
 <g class="border-light">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5"
-    fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
 </g>
 
-<!-- Title -->
 <text x="68" y="50" class="ct">Product Performance Scorecard</text>
 <text x="68" y="70" class="cs">3 series · 7 axes · score 0–100 · hover to inspect · print for values</text>
 
-<!-- Dark toggle -->
 <g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
-  <circle id="tthumb" cx="52" cy="0" r="10" class="t-thumb"/>
-  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Light</text>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
+  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
 </g>
-
-<!-- Print toggle -->
 <g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
   <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
   <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
 </g>
 
-<!-- ── RADAR RINGS (concentric polygons at 20/40/60/80/100%) ── -->
-<!-- Ring 20%  r=44  points = unit[i]*44 + centre -->
-<polygon class="gl" points="
-  430,266
-  464.4,282.6
-  472.8,319.8
-  448.9,349.6
-  411.1,349.6
-  387.2,319.8
-  395.6,282.6"/>
+<!-- ── RADAR RINGS (cx=430, cy=305, R=200) ── -->
+<polygon class="gl" points="430.0,265.0 461.3,280.1 469.0,313.9 447.4,341.0 412.6,341.0 391.0,313.9 398.7,280.1"/>
+<polygon class="gl" points="430.0,225.0 492.5,255.1 508.0,322.8 464.7,377.1 395.3,377.1 352.0,322.8 367.5,255.1"/>
+<polygon class="gl" points="430.0,185.0 523.8,230.2 547.0,331.7 482.1,413.1 377.9,413.1 313.0,331.7 336.2,230.2"/>
+<polygon class="gl" points="430.0,145.0 555.1,205.2 586.0,340.6 499.4,449.2 360.6,449.2 274.0,340.6 304.9,205.2"/>
+<polygon class="rl" points="430.0,105.0 586.4,180.3 625.0,349.5 516.8,485.2 343.2,485.2 235.0,349.5 273.6,180.3"/>
 
-<!-- Ring 40%  r=88 -->
-<polygon class="gl" points="
-  430,222
-  498.8,255.1
-  515.7,329.6
-  468.2,389.3
-  391.8,389.3
-  344.3,329.6
-  361.2,255.1"/>
+<!-- ── SPOKES ── -->
+<line x1="430" y1="305" x2="430.0" y2="105.0" class="sp"/>
+<line x1="430" y1="305" x2="586.4" y2="180.3" class="sp"/>
+<line x1="430" y1="305" x2="625.0" y2="349.5" class="sp"/>
+<line x1="430" y1="305" x2="516.8" y2="485.2" class="sp"/>
+<line x1="430" y1="305" x2="343.2" y2="485.2" class="sp"/>
+<line x1="430" y1="305" x2="235.0" y2="349.5" class="sp"/>
+<line x1="430" y1="305" x2="273.6" y2="180.3" class="sp"/>
 
-<!-- Ring 60%  r=132 -->
-<polygon class="gl" points="
-  430,178
-  533.2,227.6
-  558.5,339.4
-  487.4,428.9
-  372.6,428.9
-  301.5,339.4
-  326.8,227.6"/>
-
-<!-- Ring 80%  r=176 -->
-<polygon class="rl" points="
-  430,134
-  567.6,200.2
-  601.4,349.2
-  506.6,468.5
-  353.4,468.5
-  258.6,349.2
-  292.4,200.2"/>
-
-<!-- Ring 100% r=220 (outermost) -->
-<polygon class="rl" points="
-  430,90
-  602,173
-  644,359
-  525,508
-  335,508
-  216,359
-  258,173"/>
-
-<!-- ── SPOKES (axis lines from centre to tip) ── -->
-<line x1="430" y1="310" x2="430" y2="90"   class="sp"/>
-<line x1="430" y1="310" x2="602" y2="173"  class="sp"/>
-<line x1="430" y1="310" x2="644" y2="359"  class="sp"/>
-<line x1="430" y1="310" x2="525" y2="508"  class="sp"/>
-<line x1="430" y1="310" x2="335" y2="508"  class="sp"/>
-<line x1="430" y1="310" x2="216" y2="359"  class="sp"/>
-<line x1="430" y1="310" x2="258" y2="173"  class="sp"/>
-
-<!-- ── RING VALUE LABELS (on axis 0 / top spoke) ── -->
-<text x="435" y="270" class="an">20</text>
-<text x="435" y="226" class="an">40</text>
-<text x="435" y="182" class="an">60</text>
-<text x="435" y="138" class="an">80</text>
-<text x="435" y="94"  class="an">100</text>
+<!-- ── RING VALUE LABELS ── -->
+<text x="435" y="265" class="an">20</text>
+<text x="435" y="225" class="an">40</text>
+<text x="435" y="185" class="an">60</text>
+<text x="435" y="145" class="an">80</text>
+<text x="435" y="109" class="an">100</text>
 
 <!-- ── AXIS LABELS ── -->
-<!-- a0 top -->
-<text x="430" y="76" class="al" text-anchor="middle">Revenue</text>
-<!-- a1 upper-right -->
-<text x="614" y="162" class="al" text-anchor="start">Growth</text>
-<!-- a2 lower-right -->
-<text x="654" y="368" class="al" text-anchor="start">Margin</text>
-<!-- a3 bottom-right -->
-<text x="530" y="526" class="al" text-anchor="middle">Satisfaction</text>
-<!-- a4 bottom-left -->
-<text x="330" y="526" class="al" text-anchor="middle">Retention</text>
-<!-- a5 lower-left -->
-<text x="204" y="368" class="al" text-anchor="end">Innovation</text>
-<!-- a6 upper-left -->
-<text x="246" y="162" class="al" text-anchor="end">Quality</text>
+<text x="430.0" y="91"  class="al" text-anchor="middle">Revenue</text>
+<text x="598.4" y="174" class="al" text-anchor="start">Growth</text>
+<text x="637.0" y="356" class="al" text-anchor="start">Margin</text>
+<text x="516.8" y="501" class="al" text-anchor="middle">Satisfaction</text>
+<text x="343.2" y="501" class="al" text-anchor="middle">Retention</text>
+<text x="223.0" y="356" class="al" text-anchor="end">Innovation</text>
+<text x="261.6" y="174" class="al" text-anchor="end">Quality</text>
 
 <!-- ══════════════════════════════════════
      SERIES — drawn back-to-front
-     Each is a filled polygon + stroke outline + hover dots
      ══════════════════════════════════════ -->
-<g class="ca">
+<g class="ca" id="ca">
 
 <!-- ── Series C: Emerald (back layer) ── -->
 <g class="bw" id="bw3">
   <g class="bb">
     <g id="series-anim-3" class="sa">
-      <polygon id="poly-3"
-        points="430,169.2 516,241.4 612.3,351.6 497.8,450.7 351.7,472.5 297.1,340.3 275.2,186.6"
-        fill="url(#g2)" fill-opacity="0.18" stroke="url(#g2)" stroke-width="2" stroke-linejoin="round"/>
-      <!-- dot + tooltip per vertex -->
-      <g class="dw"><circle cx="430"   cy="169.2" r="6" fill="url(#g2)"/>
-        <g class="bubble" transform="translate(430,169.2)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">64</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Revenue · Emerald</text></g>
-      </g>
-      <g class="dw"><circle cx="516"   cy="241.4" r="6" fill="url(#g2)"/>
-        <g class="bubble" transform="translate(516,241.4)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">50</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Growth · Emerald</text></g>
-      </g>
-      <g class="dw"><circle cx="612.3" cy="351.6" r="6" fill="url(#g2)"/>
-        <g class="bubble" transform="translate(612.3,351.6)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">85</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Margin · Emerald</text></g>
-      </g>
-      <g class="dw"><circle cx="497.8" cy="450.7" r="6" fill="url(#g2)"/>
-        <g class="bubble" transform="translate(497.8,450.7)"><rect x="-50" y="-52" width="100" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-41,-14 Q-50,-14 -50,-23 L-50,-43 Q-50,-52 -41,-52 L41,-52 Q50,-52 50,-43 L50,-23 Q50,-14 41,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">71</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Satisfaction · Emerald</text></g>
-      </g>
-      <g class="dw"><circle cx="351.7" cy="472.5" r="6" fill="url(#g2)"/>
-        <g class="bubble" transform="translate(351.7,472.5)"><rect x="-44" y="-52" width="88" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-35,-14 Q-44,-14 -44,-23 L-44,-43 Q-44,-52 -35,-52 L35,-52 Q44,-52 44,-43 L44,-23 Q44,-14 35,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">82</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Retention · Emerald</text></g>
-      </g>
-      <g class="dw"><circle cx="297.1" cy="340.3" r="6" fill="url(#g2)"/>
-        <g class="bubble" transform="translate(297.1,340.3)"><rect x="-48" y="-52" width="96" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-39,-14 Q-48,-14 -48,-23 L-48,-43 Q-48,-52 -39,-52 L39,-52 Q48,-52 48,-43 L48,-23 Q48,-14 39,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">62</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Innovation · Emerald</text></g>
-      </g>
-      <g class="dw"><circle cx="275.2" cy="186.6" r="6" fill="url(#g2)"/>
-        <g class="bubble" transform="translate(275.2,186.6)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">90</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Quality · Emerald</text></g>
-      </g>
+      <polygon class="sp3" points="430.0,177.0 508.2,242.7 595.7,342.8 491.6,432.9 358.8,452.8 309.1,332.6 289.3,192.8"/>
+      <circle cx="430.0" cy="177.0" r="6" class="bar-2"/>
+      <circle cx="508.2" cy="242.7" r="6" class="bar-2"/>
+      <circle cx="595.7" cy="342.8" r="6" class="bar-2"/>
+      <circle cx="491.6" cy="432.9" r="6" class="bar-2"/>
+      <circle cx="358.8" cy="452.8" r="6" class="bar-2"/>
+      <circle cx="309.1" cy="332.6" r="6" class="bar-2"/>
+      <circle cx="289.3" cy="192.8" r="6" class="bar-2"/>
     </g>
   </g>
 </g>
@@ -361,30 +209,14 @@
 <g class="bw" id="bw2">
   <g class="bb">
     <g id="series-anim-2" class="sa">
-      <polygon id="poly-2"
-        points="430,189 571,197.5 580.1,344.3 490.2,434.9 374.6,424.9 241.3,353.1 306.1,211.2"
-        fill="url(#g5)" fill-opacity="0.18" stroke="url(#g5)" stroke-width="2" stroke-linejoin="round"/>
-      <g class="dw"><circle cx="430"   cy="189"   r="6" fill="url(#g5)"/>
-        <g class="bubble" transform="translate(430,189)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">55</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Revenue · Violet</text></g>
-      </g>
-      <g class="dw"><circle cx="571"   cy="197.5" r="6" fill="url(#g5)"/>
-        <g class="bubble" transform="translate(571,197.5)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">82</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Growth · Violet</text></g>
-      </g>
-      <g class="dw"><circle cx="580.1" cy="344.3" r="6" fill="url(#g5)"/>
-        <g class="bubble" transform="translate(580.1,344.3)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">70</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Margin · Violet</text></g>
-      </g>
-      <g class="dw"><circle cx="490.2" cy="434.9" r="6" fill="url(#g5)"/>
-        <g class="bubble" transform="translate(490.2,434.9)"><rect x="-46" y="-52" width="92" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-37,-14 Q-46,-14 -46,-23 L-46,-43 Q-46,-52 -37,-52 L37,-52 Q46,-52 46,-43 L46,-23 Q46,-14 37,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">63</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Satisfaction · Violet</text></g>
-      </g>
-      <g class="dw"><circle cx="374.6" cy="424.9" r="6" fill="url(#g5)"/>
-        <g class="bubble" transform="translate(374.6,424.9)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">58</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Retention · Violet</text></g>
-      </g>
-      <g class="dw"><circle cx="241.3" cy="353.1" r="6" fill="url(#g5)"/>
-        <g class="bubble" transform="translate(241.3,353.1)"><rect x="-44" y="-52" width="88" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-35,-14 Q-44,-14 -44,-23 L-44,-43 Q-44,-52 -35,-52 L35,-52 Q44,-52 44,-43 L44,-23 Q44,-14 35,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">88</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Innovation · Violet</text></g>
-      </g>
-      <g class="dw"><circle cx="306.1" cy="211.2" r="6" fill="url(#g5)"/>
-        <g class="bubble" transform="translate(306.1,211.2)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">72</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Quality · Violet</text></g>
-      </g>
+      <polygon class="sp2" points="430.0,195.0 558.2,202.7 566.5,336.2 484.7,418.5 379.7,409.5 258.4,344.2 317.4,215.2"/>
+      <circle cx="430.0" cy="195.0" r="6" class="bar-5"/>
+      <circle cx="558.2" cy="202.7" r="6" class="bar-5"/>
+      <circle cx="566.5" cy="336.2" r="6" class="bar-5"/>
+      <circle cx="484.7" cy="418.5" r="6" class="bar-5"/>
+      <circle cx="379.7" cy="409.5" r="6" class="bar-5"/>
+      <circle cx="258.4" cy="344.2" r="6" class="bar-5"/>
+      <circle cx="317.4" cy="215.2" r="6" class="bar-5"/>
     </g>
   </g>
 </g>
@@ -393,56 +225,222 @@
 <g class="bw" id="bw1">
   <g class="bb">
     <g id="series-anim-1" class="sa">
-      <polygon id="poly-1"
-        points="430,151.6 541.8,220.8 554.4,338.4 506.4,468.6 359.4,456.7 312.1,336.9 313.1,216.7"
-        fill="url(#g1)" fill-opacity="0.18" stroke="url(#g1)" stroke-width="2" stroke-linejoin="round"/>
-      <g class="dw"><circle cx="430"   cy="151.6" r="6" fill="url(#g1)"/>
-        <g class="bubble" transform="translate(430,151.6)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">72</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Revenue · Cyan</text></g>
-      </g>
-      <g class="dw"><circle cx="541.8" cy="220.8" r="6" fill="url(#g1)"/>
-        <g class="bubble" transform="translate(541.8,220.8)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">65</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Growth · Cyan</text></g>
-      </g>
-      <g class="dw"><circle cx="554.4" cy="338.4" r="6" fill="url(#g1)"/>
-        <g class="bubble" transform="translate(554.4,338.4)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">58</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Margin · Cyan</text></g>
-      </g>
-      <g class="dw"><circle cx="506.4" cy="468.6" r="6" fill="url(#g1)"/>
-        <g class="bubble" transform="translate(506.4,468.6)"><rect x="-50" y="-52" width="100" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-41,-14 Q-50,-14 -50,-23 L-50,-43 Q-50,-52 -41,-52 L41,-52 Q50,-52 50,-43 L50,-23 Q50,-14 41,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">80</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Satisfaction · Cyan</text></g>
-      </g>
-      <g class="dw"><circle cx="359.4" cy="456.7" r="6" fill="url(#g1)"/>
-        <g class="bubble" transform="translate(359.4,456.7)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">74</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Retention · Cyan</text></g>
-      </g>
-      <g class="dw"><circle cx="312.1" cy="336.9" r="6" fill="url(#g1)"/>
-        <g class="bubble" transform="translate(312.1,336.9)"><rect x="-44" y="-52" width="88" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-35,-14 Q-44,-14 -44,-23 L-44,-43 Q-44,-52 -35,-52 L35,-52 Q44,-52 44,-43 L44,-23 Q44,-14 35,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">55</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Innovation · Cyan</text></g>
-      </g>
-      <g class="dw"><circle cx="313.1" cy="216.7" r="6" fill="url(#g1)"/>
-        <g class="bubble" transform="translate(313.1,216.7)"><rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/><path d="M-8,-14 L-31,-14 Q-40,-14 -40,-23 L-40,-43 Q-40,-52 -31,-52 L31,-52 Q40,-52 40,-43 L40,-23 Q40,-14 31,-14 L8,-14" class="bub-bdr"/><path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/><text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">68</text><text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Quality · Cyan</text></g>
-      </g>
+      <polygon class="sp1" points="430.0,161.0 531.6,223.9 543.1,330.8 499.4,449.2 365.8,438.3 322.8,329.5 323.7,220.2"/>
+      <circle cx="430.0" cy="161.0" r="6" class="bar-1"/>
+      <circle cx="531.6" cy="223.9" r="6" class="bar-1"/>
+      <circle cx="543.1" cy="330.8" r="6" class="bar-1"/>
+      <circle cx="499.4" cy="449.2" r="6" class="bar-1"/>
+      <circle cx="365.8" cy="438.3" r="6" class="bar-1"/>
+      <circle cx="322.8" cy="329.5" r="6" class="bar-1"/>
+      <circle cx="323.7" cy="220.2" r="6" class="bar-1"/>
     </g>
   </g>
 </g>
 
 </g><!-- /ca -->
 
+<!-- ── Bubble overlay — drawn above all series ── -->
+<g id="bubble-overlay">
+  <!-- Emerald bubbles (canonical positions = dot coords in .ca) -->
+  <g class="bubble" id="b3d1-bub" transform="translate(430.0,177.0)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">64</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Revenue · Emerald</text>
+  </g>
+  <g class="bubble" id="b3d2-bub" transform="translate(508.2,242.7)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">50</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Growth · Emerald</text>
+  </g>
+  <g class="bubble" id="b3d3-bub" transform="translate(595.7,342.8)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">85</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Margin · Emerald</text>
+  </g>
+  <g class="bubble" id="b3d4-bub" transform="translate(491.6,432.9)">
+    <rect x="-50" y="-52" width="100" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L41,-14 Q50,-14 50,-23 L50,-43 Q50,-52 41,-52 L-41,-52 Q-50,-52 -50,-43 L-50,-23 Q-50,-14 -41,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">71</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Satisfaction · Emerald</text>
+  </g>
+  <g class="bubble" id="b3d5-bub" transform="translate(358.8,452.8)">
+    <rect x="-44" y="-52" width="88" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L35,-14 Q44,-14 44,-23 L44,-43 Q44,-52 35,-52 L-35,-52 Q-44,-52 -44,-43 L-44,-23 Q-44,-14 -35,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">82</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Retention · Emerald</text>
+  </g>
+  <g class="bubble" id="b3d6-bub" transform="translate(309.1,332.6)">
+    <rect x="-48" y="-52" width="96" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L39,-14 Q48,-14 48,-23 L48,-43 Q48,-52 39,-52 L-39,-52 Q-48,-52 -48,-43 L-48,-23 Q-48,-14 -39,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">62</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Innovation · Emerald</text>
+  </g>
+  <g class="bubble" id="b3d7-bub" transform="translate(289.3,192.8)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">90</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Quality · Emerald</text>
+  </g>
+  <g class="bubble" id="b2d1-bub" transform="translate(430.0,195.0)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">55</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Revenue · Violet</text>
+  </g>
+  <g class="bubble" id="b2d2-bub" transform="translate(558.2,202.7)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">82</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Growth · Violet</text>
+  </g>
+  <g class="bubble" id="b2d3-bub" transform="translate(566.5,336.2)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">70</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Margin · Violet</text>
+  </g>
+  <g class="bubble" id="b2d4-bub" transform="translate(484.7,418.5)">
+    <rect x="-46" y="-52" width="92" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L37,-14 Q46,-14 46,-23 L46,-43 Q46,-52 37,-52 L-37,-52 Q-46,-52 -46,-43 L-46,-23 Q-46,-14 -37,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">63</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Satisfaction · Violet</text>
+  </g>
+  <g class="bubble" id="b2d5-bub" transform="translate(379.7,409.5)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">58</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Retention · Violet</text>
+  </g>
+  <g class="bubble" id="b2d6-bub" transform="translate(258.4,344.2)">
+    <rect x="-44" y="-52" width="88" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L35,-14 Q44,-14 44,-23 L44,-43 Q44,-52 35,-52 L-35,-52 Q-44,-52 -44,-43 L-44,-23 Q-44,-14 -35,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">88</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Innovation · Violet</text>
+  </g>
+  <g class="bubble" id="b2d7-bub" transform="translate(317.4,215.2)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">72</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Quality · Violet</text>
+  </g>
+  <g class="bubble" id="b1d1-bub" transform="translate(430.0,161.0)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">72</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Revenue · Cyan</text>
+  </g>
+  <g class="bubble" id="b1d2-bub" transform="translate(531.6,223.9)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">65</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Growth · Cyan</text>
+  </g>
+  <g class="bubble" id="b1d3-bub" transform="translate(543.1,330.8)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">58</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Margin · Cyan</text>
+  </g>
+  <g class="bubble" id="b1d4-bub" transform="translate(499.4,449.2)">
+    <rect x="-50" y="-52" width="100" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L41,-14 Q50,-14 50,-23 L50,-43 Q50,-52 41,-52 L-41,-52 Q-50,-52 -50,-43 L-50,-23 Q-50,-14 -41,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">80</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Satisfaction · Cyan</text>
+  </g>
+  <g class="bubble" id="b1d5-bub" transform="translate(365.8,438.3)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">74</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Retention · Cyan</text>
+  </g>
+  <g class="bubble" id="b1d6-bub" transform="translate(322.8,329.5)">
+    <rect x="-44" y="-52" width="88" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L35,-14 Q44,-14 44,-23 L44,-43 Q44,-52 35,-52 L-35,-52 Q-44,-52 -44,-43 L-44,-23 Q-44,-14 -35,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">55</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Innovation · Cyan</text>
+  </g>
+  <g class="bubble" id="b1d7-bub" transform="translate(323.7,220.2)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">68</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Quality · Cyan</text>
+  </g>
+</g><!-- /bubble-overlay -->
+
+<!-- ── Dot hit-target layer — painted last, above all polygons and bubbles ──
+     Invisible r=12 circles guarantee pointer events reach every dot regardless
+     of which series polygon is rendered on top. Order: back-to-front so that
+     when dots from different series are stacked, the frontmost series (Cyan)
+     wins the hit, matching visual expectation. -->
+<g id="dot-hit-layer">
+  <!-- Emerald hits (back) -->
+  <circle class="dht" id="b3d1" cx="430.0" cy="177.0" r="12"/>
+  <circle class="dht" id="b3d2" cx="508.2" cy="242.7" r="12"/>
+  <circle class="dht" id="b3d3" cx="595.7" cy="342.8" r="12"/>
+  <circle class="dht" id="b3d4" cx="491.6" cy="432.9" r="12"/>
+  <circle class="dht" id="b3d5" cx="358.8" cy="452.8" r="12"/>
+  <circle class="dht" id="b3d6" cx="309.1" cy="332.6" r="12"/>
+  <circle class="dht" id="b3d7" cx="289.3" cy="192.8" r="12"/>
+  <!-- Violet hits (middle) -->
+  <circle class="dht" id="b2d1" cx="430.0" cy="195.0" r="12"/>
+  <circle class="dht" id="b2d2" cx="558.2" cy="202.7" r="12"/>
+  <circle class="dht" id="b2d3" cx="566.5" cy="336.2" r="12"/>
+  <circle class="dht" id="b2d4" cx="484.7" cy="418.5" r="12"/>
+  <circle class="dht" id="b2d5" cx="379.7" cy="409.5" r="12"/>
+  <circle class="dht" id="b2d6" cx="258.4" cy="344.2" r="12"/>
+  <circle class="dht" id="b2d7" cx="317.4" cy="215.2" r="12"/>
+  <!-- Cyan hits (front — painted last so Cyan wins stacked positions) -->
+  <circle class="dht" id="b1d1" cx="430.0" cy="161.0" r="12"/>
+  <circle class="dht" id="b1d2" cx="531.6" cy="223.9" r="12"/>
+  <circle class="dht" id="b1d3" cx="543.1" cy="330.8" r="12"/>
+  <circle class="dht" id="b1d4" cx="499.4" cy="449.2" r="12"/>
+  <circle class="dht" id="b1d5" cx="365.8" cy="438.3" r="12"/>
+  <circle class="dht" id="b1d6" cx="322.8" cy="329.5" r="12"/>
+  <circle class="dht" id="b1d7" cx="323.7" cy="220.2" r="12"/>
+</g><!-- /dot-hit-layer -->
+
 <!-- ── LEGEND ── -->
 <rect x="870" y="100" width="200" height="240" rx="14" class="lgd-bg"/>
 <text x="888" y="124" class="lgd-ttl">SERIES</text>
-
 <g transform="translate(888,140)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c1)"/>
+  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-1"/>
   <text x="22" y="11" class="lt">Cyan</text>
   <text x="178" y="11" class="lv lgd-val" text-anchor="end">A</text>
 </g>
 <g transform="translate(888,170)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c5)"/>
+  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-5"/>
   <text x="22" y="11" class="lt">Violet</text>
   <text x="178" y="11" class="lv lgd-val" text-anchor="end">B</text>
 </g>
 <g transform="translate(888,200)">
-  <rect x="0" y="0" width="14" height="14" rx="3" fill="url(#c2)"/>
+  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-2"/>
   <text x="22" y="11" class="lt">Emerald</text>
   <text x="178" y="11" class="lv lgd-val" text-anchor="end">C</text>
 </g>
-
 <line x1="888" y1="226" x2="1052" y2="226" class="lgd-div"/>
 <text x="888" y="246" class="lgd-ttl">AXES (score 0–100)</text>
 <text x="888" y="264" class="an">Revenue · Growth · Margin</text>
@@ -453,15 +451,15 @@
 <rect x="870" y="356" width="200" height="200" rx="14" class="lgd-bg lgd-val"/>
 <text x="888" y="380" class="lgd-ttl lgd-val">VALUES (Rev·Grw·Mar·Sat·Ret·Inn·Qua)</text>
 <g transform="translate(888,396)">
-  <rect x="0" y="0" width="10" height="10" rx="2" fill="url(#c1)" class="lgd-val"/>
+  <rect x="0" y="0" width="10" height="10" rx="2" class="bar-1 lgd-val"/>
   <text x="16" y="9" class="an lgd-val">Cyan    72·65·58·80·74·55·68</text>
 </g>
 <g transform="translate(888,416)">
-  <rect x="0" y="0" width="10" height="10" rx="2" fill="url(#c5)" class="lgd-val"/>
+  <rect x="0" y="0" width="10" height="10" rx="2" class="bar-5 lgd-val"/>
   <text x="16" y="9" class="an lgd-val">Violet  55·82·70·63·58·88·72</text>
 </g>
 <g transform="translate(888,436)">
-  <rect x="0" y="0" width="10" height="10" rx="2" fill="url(#c2)" class="lgd-val"/>
+  <rect x="0" y="0" width="10" height="10" rx="2" class="bar-2 lgd-val"/>
   <text x="16" y="9" class="an lgd-val">Emerald 64·50·85·71·82·62·90</text>
 </g>
 
@@ -469,32 +467,45 @@
 
 <script type="text/javascript"><![CDATA[
 (function() {
-  var svg = document.getElementById('root');
+  var svg  = document.getElementById('root');
+  var ca   = document.getElementById('ca');
+  var isDark = false;
 
-  var series = [
-    { id:1, light:'g1', dark:'g1d' },
-    { id:2, light:'g5', dark:'g5d' },
-    { id:3, light:'g2', dark:'g2d' },
-  ];
+  /* §3 — .ready gate: last animation ends at (0.40 + 1.10)*1000 + 100 = 1600ms */
+  setTimeout(function() { ca.classList.add('ready'); }, 1600);
 
-  function swapColors(dark) {
-    series.forEach(function(s) {
-      var poly = document.getElementById('poly-' + s.id);
-      if (!poly) return;
-      var grad = 'url(#' + (dark ? s.dark : s.light) + ')';
-      poly.setAttribute('fill', grad);
-      poly.setAttribute('stroke', grad);
-      /* dots */
-      var g = document.getElementById('bw' + s.id);
-      if (!g) return;
-      var circles = g.querySelectorAll('circle');
-      circles.forEach(function(c) { c.setAttribute('fill', grad); });
+  /* §4 — Series hover: JS .hovering/.active on .bw */
+  var bws = Array.prototype.slice.call(ca.querySelectorAll('.bw'));
+  bws.forEach(function(bw) {
+    bw.addEventListener('mouseenter', function() {
+      ca.classList.add('hovering');
+      bw.classList.add('active');
     });
-  }
+    bw.addEventListener('mouseleave', function() {
+      bw.classList.remove('active');
+      ca.classList.remove('hovering');
+    });
+  });
 
+  /* §4 — Dot hover: hit targets are in #dot-hit-layer, painted above all polygons.
+     Each circle's id maps to a bubble via id + '-bub'. */
+  var hitLayer = document.getElementById('dot-hit-layer');
+  var dws = Array.prototype.slice.call(hitLayer.querySelectorAll('circle'));
+  dws.forEach(function(dw) {
+    var bubId = dw.id + '-bub';
+    var bub = document.getElementById(bubId);
+    dw.addEventListener('mouseenter', function() {
+      if (bub) bub.style.opacity = '1';
+    });
+    dw.addEventListener('mouseleave', function() {
+      if (bub) bub.style.opacity = '';
+    });
+  });
+
+  /* §2 — Dark mode: isDark boolean, CSS handles palette swap automatically */
   function setMode(wantDark) {
-    var currently = svg.classList.contains('dark');
-    if (wantDark === currently) return;
+    if (wantDark === isDark) return;
+    isDark = wantDark;
     var thumb = document.getElementById('tthumb');
     var lbl   = document.getElementById('tlabel');
     if (wantDark) {
@@ -506,11 +517,10 @@
       if (thumb) thumb.setAttribute('cx', '16');
       if (lbl)   lbl.textContent = 'Dark';
     }
-    swapColors(wantDark);
   }
 
   document.getElementById('dark-toggle').addEventListener('click', function() {
-    setMode(!svg.classList.contains('dark'));
+    setMode(!isDark);
   });
   document.getElementById('print-toggle').addEventListener('click', function() {
     var thumb = document.getElementById('pthumb'), lbl = document.getElementById('plabel');
@@ -522,10 +532,7 @@
   window.addEventListener('message', function(e) {
     if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
   });
-
-  (function() {
-    setMode(window.location.href.indexOf('theme=dark') !== -1);
-  })();
+  setMode(window.location.href.indexOf('theme=dark') !== -1);
 })();
 ]]></script>
 </svg>
