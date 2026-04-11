@@ -1,4 +1,5 @@
 
+
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%"
      preserveAspectRatio="xMidYMid meet"
      xmlns="http://www.w3.org/2000/svg"
@@ -67,18 +68,20 @@
     .row-stripe { fill:#79747E; opacity:0.04; }
     svg.dark .row-stripe { fill:#ffffff; opacity:0.04; }
 
+    /* §3 A2 — .bb child of .bw; both fill-mode safe, no hover conflict
+       Adaptive stagger: Math.min(0.25, 1.0/11) = 0.09s */
     @keyframes barFadeIn { from{opacity:0} to{opacity:1} }
     .bb  { animation: barFadeIn 0.8s ease-out both; }
-    .b1  { animation-delay:0.00s; } .b2  { animation-delay:0.25s; }
-    .b3  { animation-delay:0.50s; } .b4  { animation-delay:0.75s; }
-    .b5  { animation-delay:1.00s; } .b6  { animation-delay:1.25s; }
-    .b7  { animation-delay:1.50s; } .b8  { animation-delay:1.75s; }
-    .b9  { animation-delay:2.00s; } .b10 { animation-delay:2.25s; }
-    .b11 { animation-delay:2.50s; }
+    .b1  { animation-delay:0.00s; } .b2  { animation-delay:0.09s; }
+    .b3  { animation-delay:0.18s; } .b4  { animation-delay:0.27s; }
+    .b5  { animation-delay:0.36s; } .b6  { animation-delay:0.45s; }
+    .b7  { animation-delay:0.55s; } .b8  { animation-delay:0.64s; }
+    .b9  { animation-delay:0.73s; } .b10 { animation-delay:0.82s; }
+    .b11 { animation-delay:0.91s; }
 
     .bw { cursor:pointer; }
-    .ca.hovering .bw        { opacity:0.20; transition:opacity .2s ease; }
-    .ca.hovering .bw.active { opacity:1; }
+    .ca.ready.hovering .bw        { opacity:0.20; transition:opacity .2s ease; }
+    .ca.ready.hovering .bw.active { opacity:1; }
 
     /* Tooltip — three-layer construction matching reference:
        1. bub-bg  : filled rect, no stroke — paints interior
@@ -94,6 +97,9 @@
     svg.dark .bub-tip { fill:#1C1B1F; stroke:#938F99; }
     svg.dark .bub-val { fill:#E6E0E9; }
     svg.dark .bub-lbl { fill:#CAC4D0; }
+
+    .tip           { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
+    svg.print .tip { opacity:0 !important; }
 
     .today-line { stroke:#F43F5E; stroke-width:1.5; stroke-dasharray:4 3; opacity:0.7; }
     svg.dark .today-line { stroke:#FB6181; }
@@ -118,7 +124,7 @@
   <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
 </g>
 
-<text x="68" y="50" class="ct">Artemis Platform — Q2 / Q3 2026 Roadmap</text>
+<text x="68" y="50" class="ct">Artemis Platform — Q2 / Q3 2026 Roadmap - Gantt</text>
 <text x="68" y="70" class="cs">Apr 2026 – Sep 2026 · 6 teams · hover to inspect · print for durations</text>
 
 <g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
@@ -244,7 +250,7 @@
        tip-bg  : filled rect (no stroke) — solid interior
        tip-bdr : open-bottom rounded-rect path — border with gap at tail root
        tip-tip : tail triangle — plugs the gap seamlessly -->
-<g id="tip-layer" style="opacity:0; pointer-events:none;">
+<g id="tip-layer" class="tip">
   <rect  id="tip-bg"  class="bub-bg"/>
   <path  id="tip-bdr" class="bub-bdr"/>
   <path  id="tip-tip" class="bub-tip"/>
@@ -314,6 +320,9 @@
   var tipTip = document.getElementById('tip-tip');
   var tipVal = document.getElementById('tip-val');
   var tipLbl = document.getElementById('tip-lbl');
+
+  /* §2 — isDark hoisted before all build and animation code */
+  var isDark = false;
 
   var pad  = 20;   // horizontal padding each side
   var bh   = 52;   // bubble body height
@@ -421,9 +430,11 @@
     tip.style.opacity = '';
   }
 
-  document.querySelectorAll('.bw').forEach(function(bw) {
+  var bwEls = Array.prototype.slice.call(document.querySelectorAll('.bw'));
+  bwEls.forEach(function(bw) {
     bw.addEventListener('mouseenter', function() {
       if (caEl) caEl.classList.add('hovering');
+      bwEls.forEach(function(x) { x.classList.remove('active'); }); /* §4 clear stale */
       bw.classList.add('active');
       showTip(
         parseFloat(bw.getAttribute('data-cx')),
@@ -439,8 +450,15 @@
     });
   });
 
+  /* §3/§4 — gate hover on .ready after last bar animation completes */
+  var BAR_COUNT   = 11;
+  var BAR_STAGGER = Math.min(0.25, 1.0 / BAR_COUNT); /* adaptive: ~0.091s */
+  var BAR_DUR     = 0.8;
+  var lastBarDelay = (BAR_COUNT - 1) * BAR_STAGGER;
+  setTimeout(function() { if (caEl) caEl.classList.add('ready'); },
+    (lastBarDelay + BAR_DUR + 0.1) * 1000);
+
   /* Dark toggle */
-  var isDark = false;
   function setMode(wantDark) {
     if (wantDark === isDark) return;
     isDark = wantDark;

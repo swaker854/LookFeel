@@ -1,0 +1,478 @@
+
+
+
+<svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
+<defs>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
+
+    .bg-main { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    svg.dark .bg-main { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+
+    .ct     { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+    .cs     { font-size:11px; fill:#79747E; font-weight:400; }
+    .footer { font-size:10px; fill:#79747E; font-weight:400; }
+    svg.dark .ct     { fill:#E6E0E9; }
+    svg.dark .cs     { fill:#938F99; }
+    svg.dark .footer { fill:#938F99; }
+
+    /* §1 palette */
+    .bar-1 { fill:#00D4E8; } .bar-2 { fill:#00B87A; }
+    .bar-3 { fill:#F59E0B; } .bar-4 { fill:#F43F5E; }
+    .bar-5 { fill:#8B5CF6; } .bar-6 { fill:#3B82F6; }
+    svg.dark .bar-1 { fill:#22D3EE; } svg.dark .bar-2 { fill:#10B981; }
+    svg.dark .bar-3 { fill:#FBB724; } svg.dark .bar-4 { fill:#FB6181; }
+    svg.dark .bar-5 { fill:#A78BFA; } svg.dark .bar-6 { fill:#60A5FA; }
+
+    .stroke-1 { stroke:#00D4E8; } .stroke-2 { stroke:#00B87A; }
+    .stroke-3 { stroke:#F59E0B; } .stroke-4 { stroke:#F43F5E; }
+    .stroke-5 { stroke:#8B5CF6; } .stroke-6 { stroke:#3B82F6; }
+    svg.dark .stroke-1 { stroke:#22D3EE; } svg.dark .stroke-2 { stroke:#10B981; }
+    svg.dark .stroke-3 { stroke:#FBB724; } svg.dark .stroke-4 { stroke:#FB6181; }
+    svg.dark .stroke-5 { stroke:#A78BFA; } svg.dark .stroke-6 { stroke:#60A5FA; }
+
+    /* toggles */
+    .t-wrap  { cursor:pointer; }
+    .t-track { fill:#E7E0EC; }
+    .t-thumb { fill:#ffffff; }
+    .t-label { font-size:11px; font-weight:500; fill:#49454F; }
+    svg.dark .t-track { fill:#49454F; }
+    svg.dark .t-label { fill:#CAC4D0; }
+
+    .pt-track { fill:#E7E0EC; transition:fill 0.3s; }
+    .pt-thumb { fill:#ffffff; }
+    .pt-label { font-size:11px; font-weight:500; fill:#49454F; }
+    svg.dark .pt-track { fill:#49454F; }
+    svg.dark .pt-label { fill:#CAC4D0; }
+    svg.print .pt-track { fill:#d97316; }
+    svg.dark.print .pt-track { fill:#d97316; }
+    svg.print #tip-layer { display:none; }
+
+    /* borders */
+    .border-dark  { display:none; }
+    .border-light { display:block; }
+    svg.dark .border-dark  { display:block; }
+    svg.dark .border-light { display:none; }
+
+    /* legend */
+    .lgd-bg  { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+    .lgd-ttl { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+    .lt      { font-size:11px; fill:#1C1B1F; font-weight:400; }
+    svg.dark .lgd-bg  { fill:#49454F; stroke:#938F99; }
+    svg.dark .lgd-ttl { fill:#938F99; }
+    svg.dark .lt      { fill:#E6E0E9; }
+
+    /* §3 A1 — animationend per element clears animation + adds .visible; no both fill-mode */
+    @keyframes edgeFadeIn { from{opacity:0} to{opacity:1} }
+    .edge {
+      fill: none;
+      stroke-width: 1.5;
+      opacity: 0;
+      stroke: #CAC4D0;
+    }
+    .edge.visible { opacity:1; }
+    /* edge colours in dark mode handled by svg.dark .stroke-N rules above */
+
+    /* §3 A1 — node-g is the hover target */
+    @keyframes nodeFadeIn { from{opacity:0} to{opacity:1} }
+    .node-g { opacity:0; cursor:pointer; }
+    .node-g.visible { opacity:1; }
+
+    /* node circle */
+    .node-circle { stroke-width:2; }
+    /* node label */
+    .node-lbl { font-size:9.5px; font-weight:500; fill:#1C1B1F; pointer-events:none; }
+    svg.dark .node-lbl { fill:#E6E0E9; }
+
+    /* §4 hover — gated on .ready
+       Neighbourhood highlight: hovered node + connected nodes/edges stay full;
+       everything else dims to 0.20.                                          */
+    /* baseline after animation: .ca.ready re-establishes opacity:1 so clearing
+       inline style doesn't revert to the animation start state (opacity:0).
+       CSS hover rules below have higher specificity and override cleanly.   */
+    .ca.ready .node-g                       { opacity:1; }
+    .ca.ready .edge                         { opacity:1; }
+    .ca.ready.hovering .node-g              { opacity:0.20; transition:opacity 0.2s ease; }
+    .ca.ready.hovering .node-g.hovered      { opacity:1; }
+    .ca.ready.hovering .node-g.connected    { opacity:1; }
+
+    .ca.ready.hovering .edge                { opacity:0.08; transition:opacity 0.2s ease; }
+    .ca.ready.hovering .edge.connected      { opacity:1; }
+
+    /* §5 JS-driven tooltip */
+    .bub-bg  { fill:#FFFBFE; }
+    .bub-bdr { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .bub-tip { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .bub-val { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .bub-lbl { fill:#49454F; font-size:10px; font-weight:400; }
+    .tip           { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
+    svg.print .tip { opacity:0 !important; }
+    svg.dark .bub-bg  { fill:#1C1B1F; }
+    svg.dark .bub-bdr { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .bub-tip { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .bub-val { fill:#E6E0E9; }
+    svg.dark .bub-lbl { fill:#CAC4D0; }
+    #tip-layer { pointer-events:none; }
+  </style>
+</defs>
+
+<rect class="bg-main" width="1100" height="620" rx="18"/>
+<g class="border-light">
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
+</g>
+<g class="border-dark">
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
+</g>
+
+<text x="68" y="50" class="ct">Service Dependency Graph - Network</text>
+<text x="68" y="70" class="cs">16 nodes · 24 edges · hover to explore neighbourhood</text>
+
+<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
+  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
+</g>
+<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
+  <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
+</g>
+
+<!-- §7 DATA LAYER — built entirely by JS -->
+<g class="ca" id="ca">
+  <g id="edge-layer"></g>
+  <g id="node-layer"></g>
+</g>
+
+<!-- §7 tooltip always last -->
+<g id="tip-layer">
+  <g class="tip" id="tip">
+    <rect class="bub-bg"  id="tip-bg"  rx="9"/>
+    <path class="bub-bdr" id="tip-bdr"/>
+    <path class="bub-tip" id="tip-tip"/>
+    <text class="bub-val" id="tip-val" text-anchor="middle" dominant-baseline="central"/>
+    <text class="bub-lbl" id="tip-lbl" text-anchor="middle" dominant-baseline="central"/>
+  </g>
+</g>
+
+<!-- legend — right panel -->
+<rect x="870" y="100" width="210" height="190" rx="14" class="lgd-bg"/>
+<text x="888" y="124" class="lgd-ttl">CLUSTER</text>
+<g transform="translate(888,140)">
+  <circle class="bar-1" cx="7" cy="7" r="7"/>
+  <text x="22" y="11" class="lt">Frontend</text>
+</g>
+<g transform="translate(888,168)">
+  <circle class="bar-2" cx="7" cy="7" r="7"/>
+  <text x="22" y="11" class="lt">Backend</text>
+</g>
+<g transform="translate(888,196)">
+  <circle class="bar-3" cx="7" cy="7" r="7"/>
+  <text x="22" y="11" class="lt">Data</text>
+</g>
+<g transform="translate(888,224)">
+  <circle class="bar-4" cx="7" cy="7" r="7"/>
+  <text x="22" y="11" class="lt">Infra</text>
+</g>
+<g transform="translate(888,252)">
+  <circle class="bar-5" cx="7" cy="7" r="7"/>
+  <text x="22" y="11" class="lt">Auth</text>
+</g>
+
+<text x="68" y="600" class="footer">Service Dependency Graph · 16 nodes · 24 edges · network chart</text>
+
+<script type="text/javascript"><![CDATA[
+(function () {
+  var svg       = document.getElementById('root');
+  var ca        = document.getElementById('ca');
+  var edgeLayer = document.getElementById('edge-layer');
+  var nodeLayer = document.getElementById('node-layer');
+
+  /* §2 isDark before all build code */
+  var isDark = false;
+
+  /* ── DATA ─────────────────────────────────────────────────────────────
+     cluster: 1=Frontend 2=Backend 3=Data 4=Infra 5=Auth
+     x,y: hand-positioned within plot area (68–850 × 100–500)
+     r: node radius — encodes degree (connections), set after edges counted  */
+  var nodes = [
+    /* Frontend cluster — left-centre */
+    { id:'web-app',   label:'Web App',     cluster:1, x:148, y:220 },
+    { id:'mobile',    label:'Mobile',      cluster:1, x:148, y:360 },
+    { id:'cdn',       label:'CDN',         cluster:1, x:220, y:290 },
+
+    /* Backend cluster — centre */
+    { id:'api-gw',    label:'API GW',      cluster:2, x:360, y:210 },
+    { id:'user-svc',  label:'User Svc',    cluster:2, x:360, y:300 },
+    { id:'order-svc', label:'Order Svc',   cluster:2, x:360, y:390 },
+    { id:'notify',    label:'Notify',      cluster:2, x:460, y:450 },
+
+    /* Data cluster — right-centre */
+    { id:'postgres',  label:'Postgres',    cluster:3, x:530, y:290 },
+    { id:'redis',     label:'Redis',       cluster:3, x:530, y:390 },
+    { id:'kafka',     label:'Kafka',       cluster:3, x:610, y:200 },
+    { id:'analytics', label:'Analytics',   cluster:3, x:660, y:340 },
+
+    /* Infra cluster — far right */
+    { id:'k8s',       label:'K8s',         cluster:4, x:750, y:240 },
+    { id:'monitor',   label:'Monitor',     cluster:4, x:760, y:370 },
+    { id:'cicd',      label:'CI/CD',       cluster:4, x:810, y:160 },
+
+    /* Auth cluster — top-centre */
+    { id:'auth-svc',  label:'Auth Svc',    cluster:5, x:450, y:135 },
+    { id:'oauth',     label:'OAuth',       cluster:5, x:560, y:130 },
+  ];
+
+  var edges = [
+    /* Frontend → Backend */
+    { a:'web-app',   b:'cdn'       },
+    { a:'mobile',    b:'cdn'       },
+    { a:'cdn',       b:'api-gw'    },
+    { a:'web-app',   b:'api-gw'    },
+
+    /* Backend internal */
+    { a:'api-gw',    b:'user-svc'  },
+    { a:'api-gw',    b:'order-svc' },
+    { a:'order-svc', b:'notify'    },
+    { a:'user-svc',  b:'notify'    },
+
+    /* Backend → Data */
+    { a:'user-svc',  b:'postgres'  },
+    { a:'order-svc', b:'postgres'  },
+    { a:'user-svc',  b:'redis'     },
+    { a:'order-svc', b:'redis'     },
+    { a:'notify',    b:'kafka'     },
+    { a:'api-gw',    b:'kafka'     },
+    { a:'kafka',     b:'analytics' },
+    { a:'postgres',  b:'analytics' },
+
+    /* Auth */
+    { a:'auth-svc',  b:'api-gw'    },
+    { a:'auth-svc',  b:'oauth'     },
+    { a:'oauth',     b:'k8s'       },
+
+    /* Infra */
+    { a:'k8s',       b:'api-gw'    },
+    { a:'k8s',       b:'postgres'  },
+    { a:'k8s',       b:'monitor'   },
+    { a:'cicd',      b:'k8s'       },
+    { a:'monitor',   b:'analytics' },
+  ];
+
+  /* ── BUILD LOOKUP + DEGREE ──────────────────────────────────────────── */
+  var byId = {};
+  nodes.forEach(function(n) { byId[n.id] = n; n.neighbours = []; n.edgeEls = []; });
+
+  edges.forEach(function(e) {
+    byId[e.a].neighbours.push(e.b);
+    byId[e.b].neighbours.push(e.a);
+  });
+
+  /* radius encodes degree: r = 11 + clamp(degree-1, 0, 5) * 2.2 */
+  nodes.forEach(function(n) {
+    var deg = n.neighbours.length;
+    n.r = 11 + Math.min(deg - 1, 5) * 2.2;
+  });
+
+  /* ── PLOT BOUNDS ────────────────────────────────────────────────────── */
+  var plotL = 68, plotR = 850, plotT = 100, plotB = 500;
+
+  /* ── STAGGER ────────────────────────────────────────────────────────── */
+  var totalEls = edges.length + nodes.length;
+  var stagger  = Math.min(0.25, 1.0 / totalEls);
+  var lastDelay = (totalEls - 1) * stagger;
+  var readyDelay = (lastDelay + 0.8 + 0.1) * 1000;
+
+  /* ── BUILD EDGES ────────────────────────────────────────────────────── */
+  edges.forEach(function(e, i) {
+    var na = byId[e.a], nb = byId[e.b];
+    /* edge cluster = source cluster color for visual coherence */
+    var cls = 'edge stroke-' + na.cluster;
+
+    var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', na.x); line.setAttribute('y1', na.y);
+    line.setAttribute('x2', nb.x); line.setAttribute('y2', nb.y);
+    line.setAttribute('class', cls);
+    line.setAttribute('data-a', e.a);
+    line.setAttribute('data-b', e.b);
+    line.style.animationDelay = (i * stagger) + 's';
+    edgeLayer.appendChild(line);
+
+    /* back-reference from nodes for hover */
+    na.edgeEls.push(line);
+    nb.edgeEls.push(line);
+  });
+
+  /* ── BUILD NODES ────────────────────────────────────────────────────── */
+  nodes.forEach(function(n, i) {
+    var ng = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    ng.setAttribute('class', 'node-g');
+    ng.setAttribute('id', 'ng-' + n.id);
+    ng.style.animationDelay = (edges.length * stagger + i * stagger) + 's';
+
+    /* filled circle */
+    var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', n.x); circle.setAttribute('cy', n.y);
+    circle.setAttribute('r',  n.r);
+    circle.setAttribute('class', 'node-circle bar-' + n.cluster + ' stroke-' + n.cluster);
+
+    /* label: place below node if room, above if near bottom */
+    var labelY = (n.y + n.r + 13 <= plotB) ? n.y + n.r + 11 : n.y - n.r - 4;
+    var lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    lbl.setAttribute('x', n.x); lbl.setAttribute('y', labelY);
+    lbl.setAttribute('text-anchor', 'middle');
+    lbl.setAttribute('class', 'node-lbl');
+    lbl.textContent = n.label;
+
+    ng.appendChild(circle);
+    ng.appendChild(lbl);
+    nodeLayer.appendChild(ng);
+    n._ng = ng;
+  });
+
+  /* ── §3 A1 ANIMATION — animationend per element, .visible provides resting opacity ── */
+  Array.prototype.forEach.call(edgeLayer.querySelectorAll('.edge'), function(el) {
+    el.style.animation = 'edgeFadeIn 0.8s ease-out ' + el.style.animationDelay;
+    el.addEventListener('animationend', function() {
+      el.style.animation = 'none';
+      el.classList.add('visible');
+    }, { once: true });
+  });
+  Array.prototype.forEach.call(nodeLayer.querySelectorAll('.node-g'), function(el) {
+    el.style.animation = 'nodeFadeIn 0.8s ease-out ' + el.style.animationDelay;
+    el.addEventListener('animationend', function() {
+      el.style.animation = 'none';
+      el.classList.add('visible');
+    }, { once: true });
+  });
+
+  setTimeout(function() {
+    ca.classList.add('ready');
+  }, readyDelay);
+
+  /* ── §5 TOOLTIP ─────────────────────────────────────────────────────── */
+  var tip    = document.getElementById('tip');
+  var tipBg  = document.getElementById('tip-bg');
+  var tipBdr = document.getElementById('tip-bdr');
+  var tipTip = document.getElementById('tip-tip');
+  var tipVal = document.getElementById('tip-val');
+  var tipLbl = document.getElementById('tip-lbl');
+
+  function showTip(cx, cy, nodeR, valTxt, lblTxt) {
+    tipVal.textContent = valTxt;
+    tipLbl.textContent = lblTxt;
+    var pad = 20, bh = 38, rx = 9, tw = 8, tail = 10;
+    var hw  = Math.max(tipVal.getBBox().width, tipLbl.getBBox().width) / 2 + pad / 2;
+    var tx  = Math.max(hw + 8, Math.min(cx, plotR - hw - 8));
+    /* anchor at top of node circle */
+    var anchorY = cy - nodeR;
+    var above = (anchorY - tail - bh - 4) >= plotT;
+    var bT, bB;
+    if (above) { bB = anchorY - tail; bT = bB - bh; }
+    else        { bT = anchorY + tail + nodeR * 2; bB = bT + bh; }
+
+    tipBg.setAttribute('x', tx - hw); tipBg.setAttribute('y', bT);
+    tipBg.setAttribute('width', hw * 2); tipBg.setAttribute('height', bh);
+
+    var tipAnchorY = above ? anchorY : anchorY + nodeR * 2;
+    if (above) {
+      tipBdr.setAttribute('d',
+        'M'+(tx+tw)+','+bB+' L'+(tx+hw-rx)+','+bB+' Q'+(tx+hw)+','+bB+' '+(tx+hw)+','+(bB-rx)+
+        ' L'+(tx+hw)+','+(bT+rx)+' Q'+(tx+hw)+','+bT+' '+(tx+hw-rx)+','+bT+
+        ' L'+(tx-hw+rx)+','+bT+' Q'+(tx-hw)+','+bT+' '+(tx-hw)+','+(bT+rx)+
+        ' L'+(tx-hw)+','+(bB-rx)+' Q'+(tx-hw)+','+bB+' '+(tx-hw+rx)+','+bB+' L'+(tx-tw)+','+bB);
+      tipTip.setAttribute('d', 'M'+(tx-tw)+','+bB+' L'+tx+','+(tipAnchorY-2)+' L'+(tx+tw)+','+bB);
+    } else {
+      tipBdr.setAttribute('d',
+        'M'+(tx-tw)+','+bT+' L'+(tx-hw+rx)+','+bT+' Q'+(tx-hw)+','+bT+' '+(tx-hw)+','+(bT+rx)+
+        ' L'+(tx-hw)+','+(bB-rx)+' Q'+(tx-hw)+','+bB+' '+(tx-hw+rx)+','+bB+
+        ' L'+(tx+hw-rx)+','+bB+' Q'+(tx+hw)+','+bB+' '+(tx+hw)+','+(bB-rx)+
+        ' L'+(tx+hw)+','+(bT+rx)+' Q'+(tx+hw)+','+bT+' '+(tx+hw-rx)+','+bT+' L'+(tx+tw)+','+bT);
+      tipTip.setAttribute('d', 'M'+(tx+tw)+','+bT+' L'+tx+','+(tipAnchorY+2)+' L'+(tx-tw)+','+bT);
+    }
+
+    tipVal.setAttribute('x', tx); tipVal.setAttribute('y', bT + bh * 0.32);
+    tipLbl.setAttribute('x', tx); tipLbl.setAttribute('y', bT + bh * 0.72);
+    tip.style.opacity = '1';
+  }
+
+  function hideTip() {
+    tip.style.opacity = '';
+  }
+
+  /* ── §4 HOVER ────────────────────────────────────────────────────────
+     Nodes have clear gaps → element-level mouseleave.
+     On hover: highlight hovered node + all neighbours + connecting edges.
+     Everything else dims.                                                */
+  var allNodeGs = Array.prototype.slice.call(nodeLayer.querySelectorAll('.node-g'));
+  var allEdges  = Array.prototype.slice.call(edgeLayer.querySelectorAll('.edge'));
+  var clusterNames = ['','Frontend','Backend','Data','Infra','Auth'];
+
+  nodes.forEach(function(n) {
+    var ng = n._ng;
+    ng.addEventListener('mouseenter', function() {
+      if (!ca.classList.contains('ready')) return;
+
+      /* clear all stale classes */
+      allNodeGs.forEach(function(el) { el.classList.remove('hovered'); el.classList.remove('connected'); });
+      allEdges.forEach(function(el)  { el.classList.remove('connected'); });
+
+      ca.classList.add('hovering');
+      ng.classList.add('hovered');
+
+      /* mark neighbours */
+      n.neighbours.forEach(function(nid) {
+        var nng = document.getElementById('ng-' + nid);
+        if (nng) nng.classList.add('connected');
+      });
+
+      /* mark connecting edges */
+      n.edgeEls.forEach(function(el) { el.classList.add('connected'); });
+
+      var deg = n.neighbours.length;
+      showTip(n.x, n.y, n.r,
+        n.label,
+        clusterNames[n.cluster] + ' \u00b7 ' + deg + ' connection' + (deg !== 1 ? 's' : ''));
+    });
+
+    ng.addEventListener('mouseleave', function() {
+      allNodeGs.forEach(function(el) { el.classList.remove('hovered'); el.classList.remove('connected'); });
+      allEdges.forEach(function(el)  { el.classList.remove('connected'); });
+      ca.classList.remove('hovering');
+      hideTip();
+    });
+  });
+
+  /* ── PRINT TOGGLE ────────────────────────────────────────────────────── */
+  document.getElementById('print-toggle').addEventListener('click', function() {
+    var thumb = document.getElementById('pthumb'), lbl = document.getElementById('plabel');
+    if (svg.classList.toggle('print')) { thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
+    else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print'; }
+  });
+
+  /* ── §2 DARK MODE ────────────────────────────────────────────────────── */
+  function setMode(wantDark) {
+    if (wantDark === isDark) return;
+    isDark = wantDark;
+    var thumb = document.getElementById('tthumb');
+    var lbl   = document.getElementById('tlabel');
+    if (wantDark) {
+      svg.classList.add('dark');
+      if (thumb) thumb.setAttribute('cx','52');
+      if (lbl)   lbl.textContent = 'Light';
+    } else {
+      svg.classList.remove('dark');
+      if (thumb) thumb.setAttribute('cx','16');
+      if (lbl)   lbl.textContent = 'Dark';
+    }
+  }
+
+  document.getElementById('dark-toggle').addEventListener('click', function() { setMode(!isDark); });
+  window.setMode = setMode;
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
+  });
+  setMode(window.location.href.indexOf('theme=dark') !== -1);
+})();
+]]></script>
+</svg>

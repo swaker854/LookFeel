@@ -1,4 +1,5 @@
 
+
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
@@ -42,18 +43,19 @@
     svg.print .lgd-val  { opacity:1; }
     svg.print .pt-track { fill:#d97316; }
 
-    /* §3 — Method A2: CSS @keyframes, no SMIL */
+    /* §3 — Method A2: CSS @keyframes, no SMIL.
+       Stagger: min(0.25, 1.0/9) = 0.111s (adaptive formula, 9 bars). */
     @keyframes barFadeIn { from { opacity:0; } to { opacity:1; } }
     .bb { animation: barFadeIn 0.8s ease-out both; }
-    .b1 { animation-delay:0.00s; }
-    .b2 { animation-delay:0.12s; }
-    .b3 { animation-delay:0.24s; }
-    .b4 { animation-delay:0.36s; }
-    .b5 { animation-delay:0.48s; }
-    .b6 { animation-delay:0.60s; }
-    .b7 { animation-delay:0.72s; }
-    .b8 { animation-delay:0.84s; }
-    .b9 { animation-delay:1.00s; }
+    .b1 { animation-delay:0.000s; }
+    .b2 { animation-delay:0.111s; }
+    .b3 { animation-delay:0.222s; }
+    .b4 { animation-delay:0.333s; }
+    .b5 { animation-delay:0.444s; }
+    .b6 { animation-delay:0.556s; }
+    .b7 { animation-delay:0.667s; }
+    .b8 { animation-delay:0.778s; }
+    .b9 { animation-delay:0.889s; }
 
     /* §4 — Hover: JS .hovering/.active classes, no :hover pseudo, opacity 0.20 */
     .bw        { cursor:pointer; }
@@ -62,7 +64,6 @@
     .ca.hovering .bw         { opacity:0.20; transition:opacity 0.2s ease; }
     .ca.hovering .bw.active  { opacity:1; }
     svg.print .bubble        { opacity:0 !important; }
-    svg.print .ca.hovering .bw { opacity:1 !important; }
 
     .conn      { stroke:#B0A8B9; stroke-width:1; stroke-dasharray:4 3; }
     svg.dark .conn { stroke:#49454F; }
@@ -117,14 +118,14 @@
 </g>
 
 <!-- Title -->
-<text x="68" y="50" class="ct">Revenue Waterfall by Category</text>
+<text x="68" y="50" class="ct">Revenue Waterfall by Category - Waterfall</text>
 <text x="68" y="70" class="cs">Cumulative build · 7 series + Other · hover to inspect · print for values</text>
 
 <!-- §2 — Dark toggle: initialise in light mode (cx=16, label "Dark") -->
 <g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
   <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
-  <text id="tlabel" x="24" y="4" class="t-label" text-anchor="middle">Dark</text>
+  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
 </g>
 
 <!-- Print toggle -->
@@ -170,7 +171,7 @@
 <line class="conn" x1="460" y1="233" x2="488" y2="233"/>
 <line class="conn" x1="544" y1="182" x2="572" y2="182"/>
 <line class="conn" x1="628" y1="133" x2="656" y2="133"/>
-<line class="conn" x1="712" y1="94"  x2="740" y2="94"/>
+<line class="conn" x1="712" y1="100" x2="740" y2="100"/>
 
 <g class="ca" id="ca">
 
@@ -179,7 +180,7 @@
   <g class="bb b1">
     <rect x="68" y="442.4" width="56" height="57.6" rx="10" class="bar-1"/>
   </g>
-  <g class="bubble" transform="translate(96,420)">
+  <g class="bubble" transform="translate(96,434)">
     <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
     <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
     <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
@@ -193,7 +194,7 @@
   <g class="bb b2">
     <rect x="152" y="388" width="56" height="54.4" rx="10" class="bar-2"/>
   </g>
-  <g class="bubble" transform="translate(180,368)">
+  <g class="bubble" transform="translate(180,380)">
     <rect x="-42" y="-44" width="84" height="38" rx="9" class="bub-bg"/>
     <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="bub-bdr"/>
     <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
@@ -207,7 +208,7 @@
   <g class="bb b3">
     <rect x="236" y="340" width="56" height="48" rx="10" class="bar-3"/>
   </g>
-  <g class="bubble" transform="translate(264,316)">
+  <g class="bubble" transform="translate(264,332)">
     <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
     <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
     <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
@@ -221,7 +222,7 @@
   <g class="bb b4">
     <rect x="320" y="296" width="56" height="44" rx="10" class="bar-4"/>
   </g>
-  <g class="bubble" transform="translate(348,270)">
+  <g class="bubble" transform="translate(348,288)">
     <rect x="-36" y="-44" width="72" height="38" rx="9" class="bub-bg"/>
     <path d="M-8,-6 L-27,-6 Q-36,-6 -36,-15 L-36,-35 Q-36,-44 -27,-44 L27,-44 Q36,-44 36,-35 L36,-15 Q36,-6 27,-6 L8,-6" class="bub-bdr"/>
     <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
@@ -235,7 +236,7 @@
   <g class="bb b5">
     <rect x="404" y="232.8" width="56" height="63.2" rx="10" class="bar-5"/>
   </g>
-  <g class="bubble" transform="translate(432,210)">
+  <g class="bubble" transform="translate(432,225)">
     <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
     <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
     <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
@@ -249,7 +250,7 @@
   <g class="bb b6">
     <rect x="488" y="181.6" width="56" height="51.2" rx="10" class="bar-6"/>
   </g>
-  <g class="bubble" transform="translate(516,158)">
+  <g class="bubble" transform="translate(516,174)">
     <rect x="-36" y="-44" width="72" height="38" rx="9" class="bub-bg"/>
     <path d="M-8,-6 L-27,-6 Q-36,-6 -36,-15 L-36,-35 Q-36,-44 -27,-44 L27,-44 Q36,-44 36,-35 L36,-15 Q36,-6 27,-6 L8,-6" class="bub-bdr"/>
     <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
@@ -263,7 +264,7 @@
   <g class="bb b7">
     <rect x="572" y="132.8" width="56" height="48.8" rx="10" class="bar-7"/>
   </g>
-  <g class="bubble" transform="translate(600,110)">
+  <g class="bubble" transform="translate(600,125)">
     <rect x="-36" y="-44" width="72" height="38" rx="9" class="bub-bg"/>
     <path d="M-8,-6 L-27,-6 Q-36,-6 -36,-15 L-36,-35 Q-36,-44 -27,-44 L27,-44 Q36,-44 36,-35 L36,-15 Q36,-6 27,-6 L8,-6" class="bub-bdr"/>
     <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
@@ -277,12 +278,12 @@
   <g class="bb b8">
     <rect x="656" y="94.4" width="56" height="38.4" rx="10" class="bar-8"/>
   </g>
-  <g class="bubble" transform="translate(684,112)">
-    <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
-    <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
-    <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-    <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">+$48M</text>
-    <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Other</text>
+  <g class="bubble" transform="translate(684,141)">
+    <rect x="-38" y="6" width="76" height="38" rx="9" class="bub-bg"/>
+    <path d="M8,6 L29,6 Q38,6 38,15 L38,35 Q38,44 29,44 L-29,44 Q-38,44 -38,35 L-38,15 Q-38,6 -29,6 L-8,6" class="bub-bdr"/>
+    <path d="M-8,6 L0,-8 L8,6" class="bub-tip"/>
+    <text x="0" y="18" text-anchor="middle" dominant-baseline="central" class="bub-val">+$48M</text>
+    <text x="0" y="34" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Other</text>
   </g>
 </g>
 
@@ -397,8 +398,9 @@
   /* §4 — Hover: JS class toggling, no :hover pseudo-class */
   bws.forEach(function(bw) {
     bw.addEventListener('mouseenter', function() {
-      ca.classList.add('hovering');
+      /* stale-clear first, then add hovering + active atomically */
       bws.forEach(function(x) { x.classList.remove('active'); });
+      ca.classList.add('hovering');
       bw.classList.add('active');
     });
     bw.addEventListener('mouseleave', function() {

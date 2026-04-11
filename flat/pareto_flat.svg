@@ -46,15 +46,15 @@
     svg.dark .c-pareto        { fill:#A78BFA; stroke:#A78BFA; }
     svg.dark .c-pareto-stroke { stroke:#A78BFA; }
 
-    /* §3 — Method A2: .bb nested inside .bw, CSS @keyframes, both fill-mode */
-    @keyframes barFadeIn { from { opacity:0; } to { opacity:1; } }
+    /* §3 — A2: .bb is child of .bw; both fill-mode safe, no hover conflict */
+    @keyframes barFadeIn { from{opacity:0} to{opacity:1} }
     .bb { animation: barFadeIn 0.8s ease-out both; }
     .b1 { animation-delay:0.00s; } .b2 { animation-delay:0.12s; }
-    .b3 { animation-delay:0.24s; } .b4 { animation-delay:0.36s; }
-    .b5 { animation-delay:0.48s; } .b6 { animation-delay:0.60s; }
-    .b7 { animation-delay:0.72s; } .b8 { animation-delay:0.84s; }
+    .b3 { animation-delay:0.25s; } .b4 { animation-delay:0.37s; }
+    .b5 { animation-delay:0.50s; } .b6 { animation-delay:0.62s; }
+    .b7 { animation-delay:0.75s; } .b8 { animation-delay:0.87s; }
 
-    /* §4 — Hover: CSS-driven (bar chart pattern, large fixed bars) */
+    /* §4 — Hover: CSS-driven dim on .bw; overlay bubbles shown via JS inline style */
     .bw       { cursor:pointer; }
     .bubble   { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     .ca.hovering .bw         { opacity:0.20; transition:opacity 0.2s ease; }
@@ -62,8 +62,12 @@
     svg.print .bubble        { opacity:0 !important; }
     svg.print .ca.hovering .bw { opacity:1 !important; }
 
-    /* Pareto line elements */
-    .pareto-line { fill:none; stroke-width:2.5; stroke-linejoin:round; stroke-linecap:round; }
+    /* §3 — Pareto line + dots: @keyframes + animationend + .visible (no fill-mode, no inline opacity left in place) */
+    @keyframes paretoFade { from{opacity:0} to{opacity:1} }
+    .pareto-line         { opacity:0; fill:none; stroke-width:2.5; stroke-linejoin:round; stroke-linecap:round; }
+    .pareto-line.visible { opacity:1; transition:none; }
+    .pareto-dot          { opacity:0; }
+    .pareto-dot.visible  { opacity:1; transition:none; }
     .p80-line    { stroke-width:1.2; stroke-dasharray:5 4; opacity:0.55; }
 
     /* §4 — Tooltip bubble classes */
@@ -116,7 +120,7 @@
   <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
 </g>
 
-<text x="68" y="50" class="ct">Revenue Pareto by Category</text>
+<text x="68" y="50" class="ct">Revenue Pareto by Category - Pareto</text>
 <text x="68" y="70" class="cs">Sorted descending · cumulative % line · hover to inspect · print for values</text>
 
 <g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
@@ -133,7 +137,7 @@
 <!--
   Plot: x=68..820 y=100..500  Left axis $0-$100M  Right axis 0-100%
   Bar centers: 130 220 310 400 490 580 670 760  Bar width:56
-  Cumulative dots at bar centers (not right edges)
+  Cumulative dots at bar right edges: 158 248 338 428 518 608 698 788
 -->
 
 <!-- Left axis -->
@@ -150,7 +154,6 @@
 <line x1="68" y1="180" x2="820" y2="180" class="gl-r"/>
 <!-- 80% reference line -->
 <line x1="68" y1="180" x2="820" y2="180" class="p80-line c-pareto-stroke"/>
-<text x="824" y="183" class="an-r" dominant-baseline="middle">80%</text>
 
 <!-- Left Y axis labels -->
 <text x="56" y="504" class="an" text-anchor="end">$0</text>
@@ -234,85 +237,78 @@
   </g>
 </g>
 
+<!-- Pareto cumulative % line — inside #ca, after bars, so it paints above them -->
+<polyline id="pareto-line" class="pareto-line c-pareto-stroke"
+  points="158,438 248,381 338,327 428,277 518,229 608,181 698,138 788,100"/>
+<circle id="pd1" class="pareto-dot c-pareto" cx="158" cy="438" r="5"/>
+<circle id="pd2" class="pareto-dot c-pareto" cx="248" cy="381" r="5"/>
+<circle id="pd3" class="pareto-dot c-pareto" cx="338" cy="327" r="5"/>
+<circle id="pd4" class="pareto-dot c-pareto" cx="428" cy="277" r="5"/>
+<circle id="pd5" class="pareto-dot c-pareto" cx="518" cy="229" r="5"/>
+<circle id="pd6" class="pareto-dot c-pareto" cx="608" cy="181" r="5"/>
+<circle id="pd7" class="pareto-dot c-pareto" cx="698" cy="138" r="5"/>
+<circle id="pd8" class="pareto-dot c-pareto" cx="788" cy="100" r="5"/>
+
 </g><!-- end .ca -->
 
-<!-- Pareto cumulative % line — drawn after bars, before bubbles -->
-<polyline id="pareto-line" class="pareto-line c-pareto-stroke" style="opacity:0"
-  points="130,438 220,381 310,327 400,277 490,229 580,181 670,138 760,100"/>
-<circle id="pd1" class="pareto-dot c-pareto" cx="130" cy="438" r="5" style="opacity:0"/>
-<circle id="pd2" class="pareto-dot c-pareto" cx="220" cy="381" r="5" style="opacity:0"/>
-<circle id="pd3" class="pareto-dot c-pareto" cx="310" cy="327" r="5" style="opacity:0"/>
-<circle id="pd4" class="pareto-dot c-pareto" cx="400" cy="277" r="5" style="opacity:0"/>
-<circle id="pd5" class="pareto-dot c-pareto" cx="490" cy="229" r="5" style="opacity:0"/>
-<circle id="pd6" class="pareto-dot c-pareto" cx="580" cy="181" r="5" style="opacity:0"/>
-<circle id="pd7" class="pareto-dot c-pareto" cx="670" cy="138" r="5" style="opacity:0"/>
-<circle id="pd8" class="pareto-dot c-pareto" cx="760" cy="100" r="5" style="opacity:0"/>
-
 <!-- Bubble overlay — drawn last so bubbles appear above line -->
+<!-- Geometry (widths, paths, positions) set by initBubbles() via getBBox() -->
 <g id="bubble-overlay">
-  <g class="bubble" id="bub1" transform="translate(130,160)">
-    <rect x="-42" y="-74" width="84" height="68" rx="9" class="bub-bg"/>
-    <path d="M8,-6 L33,-6 Q42,-6 42,-15 L42,-65 Q42,-74 33,-74 L-33,-74 Q-42,-74 -42,-65 L-42,-15 Q-42,-6 -33,-6 L-8,-6" class="bub-bdr"/>
-    <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-    <text x="0" y="-60" text-anchor="middle" dominant-baseline="central" class="bub-val">$79M</text>
-    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Violet · 15.6%</text>
-    <text x="0" y="-28" text-anchor="middle" dominant-baseline="central" class="bub-pct">cum. 15.6%</text>
+  <g class="bubble" id="bub1" data-bar-cx="130" data-bar-top="184">
+    <rect class="bub-bg" rx="9"/>
+    <path class="bub-bdr"/><path class="bub-tip"/>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-val">$79M</text>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-lbl">Violet · 15.6%</text>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-pct">cum. 15.6%</text>
   </g>
-  <g class="bubble" id="bub2" transform="translate(220,188)">
-    <rect x="-40" y="-74" width="80" height="68" rx="9" class="bub-bg"/>
-    <path d="M8,-6 L31,-6 Q40,-6 40,-15 L40,-65 Q40,-74 31,-74 L-31,-74 Q-40,-74 -40,-65 L-40,-15 Q-40,-6 -31,-6 L-8,-6" class="bub-bdr"/>
-    <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-    <text x="0" y="-60" text-anchor="middle" dominant-baseline="central" class="bub-val">$72M</text>
-    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Cyan · 14.2%</text>
-    <text x="0" y="-28" text-anchor="middle" dominant-baseline="central" class="bub-pct">cum. 29.8%</text>
+  <g class="bubble" id="bub2" data-bar-cx="220" data-bar-top="212">
+    <rect class="bub-bg" rx="9"/>
+    <path class="bub-bdr"/><path class="bub-tip"/>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-val">$72M</text>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-lbl">Cyan · 14.2%</text>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-pct">cum. 29.8%</text>
   </g>
-  <g class="bubble" id="bub3" transform="translate(310,204)">
-    <rect x="-44" y="-74" width="88" height="68" rx="9" class="bub-bg"/>
-    <path d="M8,-6 L35,-6 Q44,-6 44,-15 L44,-65 Q44,-74 35,-74 L-35,-74 Q-44,-74 -44,-65 L-44,-15 Q-44,-6 -35,-6 L-8,-6" class="bub-bdr"/>
-    <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-    <text x="0" y="-60" text-anchor="middle" dominant-baseline="central" class="bub-val">$68M</text>
-    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Emerald · 13.4%</text>
-    <text x="0" y="-28" text-anchor="middle" dominant-baseline="central" class="bub-pct">cum. 43.2%</text>
+  <g class="bubble" id="bub3" data-bar-cx="310" data-bar-top="228">
+    <rect class="bub-bg" rx="9"/>
+    <path class="bub-bdr"/><path class="bub-tip"/>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-val">$68M</text>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-lbl">Emerald · 13.4%</text>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-pct">cum. 43.2%</text>
   </g>
-  <g class="bubble" id="bub4" transform="translate(400,220)">
-    <rect x="-40" y="-74" width="80" height="68" rx="9" class="bub-bg"/>
-    <path d="M8,-6 L31,-6 Q40,-6 40,-15 L40,-65 Q40,-74 31,-74 L-31,-74 Q-40,-74 -40,-65 L-40,-15 Q-40,-6 -31,-6 L-8,-6" class="bub-bdr"/>
-    <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-    <text x="0" y="-60" text-anchor="middle" dominant-baseline="central" class="bub-val">$64M</text>
-    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Blue · 12.6%</text>
-    <text x="0" y="-28" text-anchor="middle" dominant-baseline="central" class="bub-pct">cum. 55.8%</text>
+  <g class="bubble" id="bub4" data-bar-cx="400" data-bar-top="244">
+    <rect class="bub-bg" rx="9"/>
+    <path class="bub-bdr"/><path class="bub-tip"/>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-val">$64M</text>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-lbl">Blue · 12.6%</text>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-pct">cum. 55.8%</text>
   </g>
-  <g class="bubble" id="bub5" transform="translate(490,232)">
-    <rect x="-40" y="-74" width="80" height="68" rx="9" class="bub-bg"/>
-    <path d="M8,-6 L31,-6 Q40,-6 40,-15 L40,-65 Q40,-74 31,-74 L-31,-74 Q-40,-74 -40,-65 L-40,-15 Q-40,-6 -31,-6 L-8,-6" class="bub-bdr"/>
-    <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-    <text x="0" y="-60" text-anchor="middle" dominant-baseline="central" class="bub-val">$61M</text>
-    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Teal · 12.0%</text>
-    <text x="0" y="-28" text-anchor="middle" dominant-baseline="central" class="bub-pct">cum. 67.9%</text>
+  <g class="bubble" id="bub5" data-bar-cx="490" data-bar-top="256">
+    <rect class="bub-bg" rx="9"/>
+    <path class="bub-bdr"/><path class="bub-tip"/>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-val">$61M</text>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-lbl">Teal · 12.0%</text>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-pct">cum. 67.9%</text>
   </g>
-  <g class="bubble" id="bub6" transform="translate(580,236)">
-    <rect x="-40" y="-74" width="80" height="68" rx="9" class="bub-bg"/>
-    <path d="M8,-6 L31,-6 Q40,-6 40,-15 L40,-65 Q40,-74 31,-74 L-31,-74 Q-40,-74 -40,-65 L-40,-15 Q-40,-6 -31,-6 L-8,-6" class="bub-bdr"/>
-    <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-    <text x="0" y="-60" text-anchor="middle" dominant-baseline="central" class="bub-val">$60M</text>
-    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Amber · 11.8%</text>
-    <text x="0" y="-28" text-anchor="middle" dominant-baseline="central" class="bub-pct">cum. 79.7%</text>
+  <g class="bubble" id="bub6" data-bar-cx="580" data-bar-top="260">
+    <rect class="bub-bg" rx="9"/>
+    <path class="bub-bdr"/><path class="bub-tip"/>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-val">$60M</text>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-lbl">Amber · 11.8%</text>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-pct">cum. 79.7%</text>
   </g>
-  <g class="bubble" id="bub7" transform="translate(670,256)">
-    <rect x="-40" y="-74" width="80" height="68" rx="9" class="bub-bg"/>
-    <path d="M8,-6 L31,-6 Q40,-6 40,-15 L40,-65 Q40,-74 31,-74 L-31,-74 Q-40,-74 -40,-65 L-40,-15 Q-40,-6 -31,-6 L-8,-6" class="bub-bdr"/>
-    <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-    <text x="0" y="-60" text-anchor="middle" dominant-baseline="central" class="bub-val">$55M</text>
-    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Rose · 10.8%</text>
-    <text x="0" y="-28" text-anchor="middle" dominant-baseline="central" class="bub-pct">cum. 90.5%</text>
+  <g class="bubble" id="bub7" data-bar-cx="670" data-bar-top="280">
+    <rect class="bub-bg" rx="9"/>
+    <path class="bub-bdr"/><path class="bub-tip"/>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-val">$55M</text>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-lbl">Rose · 10.8%</text>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-pct">cum. 90.5%</text>
   </g>
-  <g class="bubble" id="bub8" transform="translate(760,284)">
-    <rect x="-40" y="-74" width="80" height="68" rx="9" class="bub-bg"/>
-    <path d="M8,-6 L31,-6 Q40,-6 40,-15 L40,-65 Q40,-74 31,-74 L-31,-74 Q-40,-74 -40,-65 L-40,-15 Q-40,-6 -31,-6 L-8,-6" class="bub-bdr"/>
-    <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-    <text x="0" y="-60" text-anchor="middle" dominant-baseline="central" class="bub-val">$48M</text>
-    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Other · 9.5%</text>
-    <text x="0" y="-28" text-anchor="middle" dominant-baseline="central" class="bub-pct">cum. 100%</text>
+  <g class="bubble" id="bub8" data-bar-cx="760" data-bar-top="308">
+    <rect class="bub-bg" rx="9"/>
+    <path class="bub-bdr"/><path class="bub-tip"/>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-val">$48M</text>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-lbl">Other · 9.5%</text>
+    <text text-anchor="middle" dominant-baseline="central" class="bub-pct">cum. 100%</text>
   </g>
 </g>
 
@@ -364,7 +360,7 @@
 <g transform="translate(888,406)">
   <line x1="0" y1="7" x2="14" y2="7" class="c-pareto-stroke" stroke-width="2.5" stroke-linecap="round"/>
   <circle cx="7" cy="7" r="3.5" class="c-pareto"/>
-  <text x="22" y="11" class="lt bub-pct">Cumulative %</text>
+  <text x="22" y="11" class="lt c-pareto">Cumulative %</text>
 </g>
 <line x1="888" y1="432" x2="1062" y2="432" class="lgd-div"/>
 <text x="888" y="449" class="lgd-ttl">PARETO INSIGHT</text>
@@ -377,38 +373,118 @@
 (function() {
   var svg  = document.getElementById('root');
   var caEl = document.querySelector('.ca');
+
+  /* §2 — isDark hoisted before all animation and build code */
   var isDark = false;
 
-  /* §4 — Hover: JS-driven .hovering + .active (bar chart CSS-driven tooltip pattern) */
-  document.querySelectorAll('.bw').forEach(function(bw) {
+  /* §3 — A2 CSS @keyframes drives bar entrance; no JS needed for bars */
+  /* §3 — Pareto line + dots fade in after last bar completes */
+  var BAR_COUNT    = 8;
+  var BAR_STAGGER  = Math.min(0.25, 1.0 / BAR_COUNT); // 0.125s adaptive
+  var BAR_DURATION = 0.8;
+  var lastBarDelay = (BAR_COUNT - 1) * BAR_STAGGER;
+  var lastBarEnd   = (lastBarDelay + BAR_DURATION + 0.1) * 1000;
+
+  /* §3 — Pareto line + dots fade in after last bar completes, using @keyframes + animationend + .visible */
+  setTimeout(function() {
+    var line = document.getElementById('pareto-line');
+    if (line) {
+      line.style.animation = 'paretoFade 0.5s ease-out 0s';
+      line.addEventListener('animationend', function() {
+        line.style.animation = '';
+        line.classList.add('visible');
+      }, { once: true });
+    }
+    for (var i = 1; i <= 8; i++) {
+      (function(idx) {
+        var dot = document.getElementById('pd' + idx);
+        if (dot) {
+          dot.style.animation = 'paretoFade 0.25s ease-out ' + ((idx - 1) * 0.06).toFixed(2) + 's';
+          dot.addEventListener('animationend', function() {
+            dot.style.animation = '';
+            dot.classList.add('visible');
+          }, { once: true });
+        }
+      })(i);
+    }
+  }, lastBarEnd);
+
+  /* §4 — Hover: .active on .bw for dim; JS inline style on overlay bubble */
+  var bwEls  = Array.prototype.slice.call(document.querySelectorAll('.bw'));
+  var activeBub = null;
+  bwEls.forEach(function(bw) {
     var bubId = bw.getAttribute('data-bubble');
-    var bub = bubId ? document.getElementById(bubId) : null;
+    var bub   = bubId ? document.getElementById(bubId) : null;
     bw.addEventListener('mouseenter', function() {
       if (caEl) caEl.classList.add('hovering');
+      bwEls.forEach(function(x) { x.classList.remove('active'); }); // clear stale
+      if (activeBub) { activeBub.style.opacity = ''; }
       bw.classList.add('active');
-      if (bub) bub.style.opacity = '1';
+      if (bub) { bub.style.opacity = '1'; activeBub = bub; }
     });
     bw.addEventListener('mouseleave', function() {
       bw.classList.remove('active');
       if (caEl) caEl.classList.remove('hovering');
-      if (bub) bub.style.opacity = '';
+      if (bub) { bub.style.opacity = ''; }
+      activeBub = null;
     });
   });
+  function initBubbles() {
+    var pad = 20, bh = 68, rx = 9, tw = 8, tail = 8;
+    Array.prototype.slice.call(document.querySelectorAll('#bubble-overlay .bubble')).forEach(function(g) {
+      var barCx  = parseFloat(g.getAttribute('data-bar-cx'));
+      var barTop = parseFloat(g.getAttribute('data-bar-top'));
+      var texts  = g.querySelectorAll('text');
+      var bgRect = g.querySelector('rect');
+      var paths  = g.querySelectorAll('path');
+      var bdrPath = paths[0], tipPath = paths[1];
 
-  /* Pareto line + dots fade in after last bar animation finishes */
-  /* Last bar: delay=0.84s + duration=0.8s = 1.64s → 1740ms */
-  setTimeout(function() {
-    var line = document.getElementById('pareto-line');
-    if (line) { line.style.transition = 'opacity 0.5s ease'; line.style.opacity = '1'; }
-    for (var i = 1; i <= 8; i++) {
-      (function(idx) {
-        setTimeout(function() {
-          var dot = document.getElementById('pd' + idx);
-          if (dot) { dot.style.transition = 'opacity 0.25s ease'; dot.style.opacity = '1'; }
-        }, idx * 80);
-      })(i);
-    }
-  }, 1740);
+      /* place text at a known position so getBBox() returns real font metrics
+         even though parent .bubble has opacity:0 */
+      Array.prototype.forEach.call(texts, function(t) {
+        t.setAttribute('x', '0'); t.setAttribute('y', '0');
+      });
+
+      var hw = Math.max(
+        texts[0].getBBox().width + pad,
+        texts[1].getBBox().width + pad,
+        texts[2].getBBox().width + pad,
+        60
+      ) / 2;
+
+      /* clamp tx within card */
+      var tx = Math.max(hw + 8, Math.min(barCx, 1092 - hw - 8));
+      /* bubble sits above bar top, tail points down to barTop */
+      var bT = barTop - tail - bh;
+      var bB = barTop - tail;
+      var bL = tx - hw, bR = tx + hw;
+
+      /* background rect */
+      bgRect.setAttribute('x', bL); bgRect.setAttribute('y', bT);
+      bgRect.setAttribute('width', hw * 2); bgRect.setAttribute('height', bh);
+
+      /* open-path border — gap of ±tw at bottom centre */
+      bdrPath.setAttribute('d',
+        'M'+(tx+tw)+','+bB+
+        ' L'+(bR-rx)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-rx)+
+        ' L'+bR+','+(bT+rx)+' Q'+bR+','+bT+' '+(bR-rx)+','+bT+
+        ' L'+(bL+rx)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+rx)+
+        ' L'+bL+','+(bB-rx)+' Q'+bL+','+bB+' '+(bL+rx)+','+bB+
+        ' L'+(tx-tw)+','+bB
+      );
+
+      /* tail — root at bB, tip at barTop */
+      tipPath.setAttribute('d',
+        'M'+(tx-tw)+','+bB+' L'+tx+','+barTop+' L'+(tx+tw)+','+bB
+      );
+
+      /* text positions — evenly distributed in bubble */
+      texts[0].setAttribute('x', tx); texts[0].setAttribute('y', bT + bh * 0.25);
+      texts[1].setAttribute('x', tx); texts[1].setAttribute('y', bT + bh * 0.52);
+      texts[2].setAttribute('x', tx); texts[2].setAttribute('y', bT + bh * 0.78);
+    });
+  }
+  initBubbles();
 
   /* §2 — Dark mode: isDark boolean, CSS handles palette swap automatically */
   function setMode(wantDark) {

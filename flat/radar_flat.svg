@@ -1,5 +1,6 @@
 
 
+
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
@@ -14,7 +15,7 @@
     .gl        { stroke:#E7E0EC; stroke-width:1; fill:none; }
     .bl        { stroke:#79747E; stroke-width:1.5; fill:none; }
     .rl        { stroke:#C4BECE; stroke-width:0.75; fill:none; }
-    .sp        { stroke:#79747E; stroke-width:1; opacity:0.25; fill:none; }
+    .spk       { stroke:#79747E; stroke-width:1; opacity:0.25; fill:none; }
     .lgd-bg    { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
     .lgd-div   { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
     .lgd-ttl   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
@@ -40,28 +41,21 @@
     svg.dark .bar-5 { fill:#A78BFA; } svg.dark .bar-6 { fill:#60A5FA; }
     svg.dark .bar-7 { fill:#2DD4BF; } svg.dark .bar-8 { fill:#94A3B8; }
 
-    /* §1 — Semantic: per-series polygon classes, aligned to palette */
-    /* sp1=Cyan(bar-1), sp2=Violet(bar-5), sp3=Emerald(bar-2) */
-    .sp1 { fill:#00D4E8; fill-opacity:0.18; stroke:#00D4E8; stroke-width:2; stroke-linejoin:round; }
-    .sp2 { fill:#8B5CF6; fill-opacity:0.18; stroke:#8B5CF6; stroke-width:2; stroke-linejoin:round; }
-    .sp3 { fill:#00B87A; fill-opacity:0.18; stroke:#00B87A; stroke-width:2; stroke-linejoin:round; }
-    svg.dark .sp1 { fill:#22D3EE; stroke:#22D3EE; }
-    svg.dark .sp2 { fill:#A78BFA; stroke:#A78BFA; }
-    svg.dark .sp3 { fill:#10B981; stroke:#10B981; }
+    /* §1 — Semantic: polygon uses currentColor so fill/stroke inherit from .bar-N on the same element */
+    /* §1 — radar polygon: one element per series. .bar-N provides fill color.
+       .sp-poly adds fill-opacity + stroke-width. .sp-poly-N maps stroke to palette. */
+    .sp-poly   { fill-opacity:0.18; stroke-width:2; stroke-linejoin:round; }
+    .sp-poly-1 { stroke:#00D4E8; } svg.dark .sp-poly-1 { stroke:#22D3EE; }
+    .sp-poly-2 { stroke:#00B87A; } svg.dark .sp-poly-2 { stroke:#10B981; }
+    .sp-poly-5 { stroke:#8B5CF6; } svg.dark .sp-poly-5 { stroke:#A78BFA; }
 
-    /* §3 — Animation: CSS @keyframes scale+opacity (geometric, no rAF needed for scale) */
-    @keyframes radar-expand {
-      from { transform: scale(0); opacity: 0; }
-      to   { transform: scale(1); opacity: 1; }
-    }
+    /* §3 — Animation: geometry + opacity → rAF method.
+       Initial state set via JS inline style (opacity:0, scale). CSS class .sa
+       provides transform-box/origin only — no animation declaration here. */
     .sa {
       transform-box: fill-box;
       transform-origin: center;
-      animation: radar-expand 1.10s cubic-bezier(0.34,1.4,0.64,1) both;
     }
-    #series-anim-3 { animation-delay: 0.00s; }
-    #series-anim-2 { animation-delay: 0.20s; }
-    #series-anim-1 { animation-delay: 0.40s; }
 
     /* §4 — Hover: JS-driven .hovering/.active, gated on .ready */
     .bw { cursor:pointer; }
@@ -91,7 +85,7 @@
     svg.dark .gl        { stroke:#49454F; }
     svg.dark .bl        { stroke:#938F99; }
     svg.dark .rl        { stroke:#6B6572; }
-    svg.dark .sp        { stroke:#938F99; }
+    svg.dark .spk       { stroke:#938F99; }
     svg.dark .lgd-bg    { fill:#49454F; stroke:#938F99; }
     svg.dark .lgd-div   { stroke:#938F99; }
     svg.dark .lgd-ttl   { fill:#938F99; }
@@ -138,7 +132,7 @@
   <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
 </g>
 
-<text x="68" y="50" class="ct">Product Performance Scorecard</text>
+<text x="68" y="50" class="ct">Product Performance Scorecard - Radar</text>
 <text x="68" y="70" class="cs">3 series · 7 axes · score 0–100 · hover to inspect · print for values</text>
 
 <g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
@@ -160,13 +154,13 @@
 <polygon class="rl" points="430.0,105.0 586.4,180.3 625.0,349.5 516.8,485.2 343.2,485.2 235.0,349.5 273.6,180.3"/>
 
 <!-- ── SPOKES ── -->
-<line x1="430" y1="305" x2="430.0" y2="105.0" class="sp"/>
-<line x1="430" y1="305" x2="586.4" y2="180.3" class="sp"/>
-<line x1="430" y1="305" x2="625.0" y2="349.5" class="sp"/>
-<line x1="430" y1="305" x2="516.8" y2="485.2" class="sp"/>
-<line x1="430" y1="305" x2="343.2" y2="485.2" class="sp"/>
-<line x1="430" y1="305" x2="235.0" y2="349.5" class="sp"/>
-<line x1="430" y1="305" x2="273.6" y2="180.3" class="sp"/>
+<line x1="430" y1="305" x2="430.0" y2="105.0" class="spk"/>
+<line x1="430" y1="305" x2="586.4" y2="180.3" class="spk"/>
+<line x1="430" y1="305" x2="625.0" y2="349.5" class="spk"/>
+<line x1="430" y1="305" x2="516.8" y2="485.2" class="spk"/>
+<line x1="430" y1="305" x2="343.2" y2="485.2" class="spk"/>
+<line x1="430" y1="305" x2="235.0" y2="349.5" class="spk"/>
+<line x1="430" y1="305" x2="273.6" y2="180.3" class="spk"/>
 
 <!-- ── RING VALUE LABELS ── -->
 <text x="435" y="265" class="an">20</text>
@@ -193,7 +187,7 @@
 <g class="bw" id="bw3">
   <g class="bb">
     <g id="series-anim-3" class="sa">
-      <polygon class="sp3" points="430.0,177.0 508.2,242.7 595.7,342.8 491.6,432.9 358.8,452.8 309.1,332.6 289.3,192.8"/>
+      <polygon class="bar-2 sp-poly sp-poly-2" points="430.0,177.0 508.2,242.7 595.7,342.8 491.6,432.9 358.8,452.8 309.1,332.6 289.3,192.8"/>
       <circle cx="430.0" cy="177.0" r="6" class="bar-2"/>
       <circle cx="508.2" cy="242.7" r="6" class="bar-2"/>
       <circle cx="595.7" cy="342.8" r="6" class="bar-2"/>
@@ -209,7 +203,7 @@
 <g class="bw" id="bw2">
   <g class="bb">
     <g id="series-anim-2" class="sa">
-      <polygon class="sp2" points="430.0,195.0 558.2,202.7 566.5,336.2 484.7,418.5 379.7,409.5 258.4,344.2 317.4,215.2"/>
+      <polygon class="bar-5 sp-poly sp-poly-5" points="430.0,195.0 558.2,202.7 566.5,336.2 484.7,418.5 379.7,409.5 258.4,344.2 317.4,215.2"/>
       <circle cx="430.0" cy="195.0" r="6" class="bar-5"/>
       <circle cx="558.2" cy="202.7" r="6" class="bar-5"/>
       <circle cx="566.5" cy="336.2" r="6" class="bar-5"/>
@@ -225,7 +219,7 @@
 <g class="bw" id="bw1">
   <g class="bb">
     <g id="series-anim-1" class="sa">
-      <polygon class="sp1" points="430.0,161.0 531.6,223.9 543.1,330.8 499.4,449.2 365.8,438.3 322.8,329.5 323.7,220.2"/>
+      <polygon class="bar-1 sp-poly sp-poly-1" points="430.0,161.0 531.6,223.9 543.1,330.8 499.4,449.2 365.8,438.3 322.8,329.5 323.7,220.2"/>
       <circle cx="430.0" cy="161.0" r="6" class="bar-1"/>
       <circle cx="531.6" cy="223.9" r="6" class="bar-1"/>
       <circle cx="543.1" cy="330.8" r="6" class="bar-1"/>
@@ -463,7 +457,7 @@
   <text x="16" y="9" class="an lgd-val">Emerald 64·50·85·71·82·62·90</text>
 </g>
 
-<text x="68" y="590" class="footer">Product Performance Scorecard · 3 series · 7 axes · score 0–100</text>
+<text x="68" y="600" class="footer">Product Performance Scorecard · 3 series · 7 axes · score 0–100</text>
 
 <script type="text/javascript"><![CDATA[
 (function() {
@@ -471,20 +465,61 @@
   var ca   = document.getElementById('ca');
   var isDark = false;
 
-  /* §3 — .ready gate: last animation ends at (0.40 + 1.10)*1000 + 100 = 1600ms */
-  setTimeout(function() { ca.classList.add('ready'); }, 1600);
+  /* §3 — rAF animation: geometry (scale) + opacity together → rAF method required.
+     Duration: 0.8s (fixed). Easing: ease-out (fixed). Stagger: 0.20s (<=0.25 max).
+     Hover-dimmed elements: clear inline style on completion so CSS hover takes over. */
+  var animDuration = 0.8;
+  var animDelays   = { 'series-anim-3': 0.00, 'series-anim-2': 0.20, 'series-anim-1': 0.40 };
+  var lastDelay    = 0.40;
+  var readyDelay   = (lastDelay + animDuration + 0.1) * 1000; /* 1300ms */
 
-  /* §4 — Series hover: JS .hovering/.active on .bw */
+  Object.keys(animDelays).forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.style.opacity   = '0';
+    el.style.transform = 'scale(0)';
+
+    var delay = animDelays[id] * 1000;
+    setTimeout(function() {
+      var start = null;
+      var dur   = animDuration * 1000;
+      function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+      function step(ts) {
+        if (!start) start = ts;
+        var p = Math.min((ts - start) / dur, 1);
+        var e = easeOut(p);
+        el.style.opacity   = e;
+        el.style.transform = 'scale(' + e + ')';
+        if (p < 1) { requestAnimationFrame(step); }
+        else {
+          /* hover-dimmed element: clear inline style so CSS .hovering rule takes over */
+          el.style.opacity   = '';
+          el.style.transform = '';
+        }
+      }
+      requestAnimationFrame(step);
+    }, delay);
+  });
+
+  /* §3 — .ready gate fires after last animation completes + 100ms buffer */
+  setTimeout(function() { ca.classList.add('ready'); }, readyDelay);
+
+  /* §4 — Series hover: container-level mouseleave (adjacent/overlapping polygon targets).
+     Stale-clear on every mouseenter is not optional. */
   var bws = Array.prototype.slice.call(ca.querySelectorAll('.bw'));
   bws.forEach(function(bw) {
     bw.addEventListener('mouseenter', function() {
+      /* clear all stale .active before setting new one */
+      bws.forEach(function(el) { el.classList.remove('active'); });
       ca.classList.add('hovering');
       bw.classList.add('active');
     });
-    bw.addEventListener('mouseleave', function() {
-      bw.classList.remove('active');
-      ca.classList.remove('hovering');
-    });
+  });
+  /* container-level mouseleave: adjacent polygons fire element mouseleave before
+     next mouseenter, causing flicker — container removal prevents this */
+  ca.addEventListener('mouseleave', function() {
+    bws.forEach(function(el) { el.classList.remove('active'); });
+    ca.classList.remove('hovering');
   });
 
   /* §4 — Dot hover: hit targets are in #dot-hit-layer, painted above all polygons.

@@ -1,0 +1,485 @@
+
+<svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
+<defs>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
+
+    .bg-main  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    svg.dark .bg-main { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+
+    .ct     { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+    .cs     { font-size:11px; fill:#79747E; font-weight:400; }
+    .an     { font-size:10px; fill:#79747E; font-weight:400; }
+    .al     { font-size:10px; fill:#79747E; font-weight:500; }
+    .lt     { font-size:11px; fill:#1C1B1F; font-weight:400; }
+    .lv     { font-size:11px; fill:#1C1B1F; font-weight:500; }
+    .footer { font-size:10px; fill:#79747E; font-weight:400; }
+    svg.dark .ct     { fill:#E6E0E9; }
+    svg.dark .cs     { fill:#938F99; }
+    svg.dark .an     { fill:#938F99; }
+    svg.dark .al     { fill:#938F99; }
+    svg.dark .lt     { fill:#E6E0E9; }
+    svg.dark .lv     { fill:#E6E0E9; }
+    svg.dark .footer { fill:#938F99; }
+
+    .gl { stroke:#E7E0EC; stroke-width:1; }
+    .bl { stroke:#79747E; stroke-width:1.5; }
+    svg.dark .gl { stroke:#49454F; }
+    svg.dark .bl { stroke:#938F99; }
+
+    /* §1 palette — bar-N for fills, line-N for strokes */
+    .bar-1 { fill:#00D4E8; } .bar-2 { fill:#00B87A; } .bar-3 { fill:#F59E0B; }
+    .bar-4 { fill:#F43F5E; } .bar-5 { fill:#8B5CF6; } .bar-6 { fill:#3B82F6; }
+    svg.dark .bar-1 { fill:#22D3EE; } svg.dark .bar-2 { fill:#10B981; }
+    svg.dark .bar-3 { fill:#FBB724; } svg.dark .bar-4 { fill:#FB6181; }
+    svg.dark .bar-5 { fill:#A78BFA; } svg.dark .bar-6 { fill:#60A5FA; }
+
+    .line-1 { stroke:#00D4E8; } .line-2 { stroke:#00B87A; } .line-3 { stroke:#F59E0B; }
+    .line-4 { stroke:#F43F5E; } .line-5 { stroke:#8B5CF6; } .line-6 { stroke:#3B82F6; }
+    svg.dark .line-1 { stroke:#22D3EE; } svg.dark .line-2 { stroke:#10B981; }
+    svg.dark .line-3 { stroke:#FBB724; } svg.dark .line-4 { stroke:#FB6181; }
+    svg.dark .line-5 { stroke:#A78BFA; } svg.dark .line-6 { stroke:#60A5FA; }
+
+    /* legend */
+    .lgd-bg  { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+    .lgd-div { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+    .lgd-ttl { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+    svg.dark .lgd-bg  { fill:#49454F; stroke:#938F99; }
+    svg.dark .lgd-div { stroke:#938F99; }
+    svg.dark .lgd-ttl { fill:#938F99; }
+
+    /* toggles */
+    .t-wrap  { cursor:pointer; }
+    .t-track { fill:#E7E0EC; }
+    .t-thumb { fill:#ffffff; }
+    .t-label { font-size:11px; font-weight:500; fill:#49454F; }
+    svg.dark .t-track { fill:#49454F; }
+    svg.dark .t-label { fill:#CAC4D0; }
+
+    .pt-track { fill:#E7E0EC; transition:fill 0.3s; }
+    .pt-thumb { fill:#ffffff; }
+    .pt-label { font-size:11px; font-weight:500; fill:#49454F; }
+    svg.dark .pt-track { fill:#49454F; }
+    svg.dark .pt-label { fill:#CAC4D0; }
+    svg.print .pt-track { fill:#d97316; }
+    svg.dark.print .pt-track { fill:#d97316; }
+
+    .lgd-val { opacity:0; transition:opacity 0.2s; }
+    svg.print .lgd-val  { opacity:1; }
+    svg.print #tip-layer { display:none; }
+
+    /* borders */
+    .border-dark  { display:none; }
+    .border-light { display:block; }
+    svg.dark .border-dark  { display:block; }
+    svg.dark .border-light { display:none; }
+
+    /* §3 A1 animation — area+stroke path is the hover target; use A1 */
+    @keyframes areaFadeIn { from{opacity:0} to{opacity:1} }
+
+    /* area fill paths */
+    .area-fill { opacity:0; }
+    .area-fill.visible { animation: areaFadeIn 0.8s ease-out both; }
+
+    /* top stroke paths */
+    .area-stroke { opacity:0; }
+    .area-stroke.visible { animation: areaFadeIn 0.8s ease-out both; }
+
+    /* dots */
+    .dot-g { opacity:0; }
+    .dot-g.visible { animation: areaFadeIn 0.8s ease-out both; }
+
+    /* §4 hover: dim non-hovered series */
+    .ca.hovering .sg          { opacity:0.20; transition:opacity 0.2s ease; }
+    .ca.hovering .sg.hovered  { opacity:1; }
+
+    /* dot dimming within hovered series */
+    .sg.hovered .dot-g          { opacity:0.30; transition:opacity 0.15s ease; }
+    .sg.hovered .dot-g.hovered  { opacity:1 !important; }
+
+    /* fills and strokes are visual only — hit layer handles pointer events */
+    .area-fill   { pointer-events:none; }
+    .area-stroke { pointer-events:none; }
+
+    /* dot styling */
+    .dot-circle { stroke-width:2; fill:#FFFBFE; }
+    svg.dark .dot-circle { fill:#1C1B1F; }
+
+    /* §5 tooltip */
+    .bub-bg  { fill:#FFFBFE; }
+    .bub-bdr { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .bub-tip { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .bub-val { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .bub-lbl { fill:#49454F; font-size:10px; font-weight:400; }
+    svg.dark .bub-bg  { fill:#1C1B1F; }
+    svg.dark .bub-bdr { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .bub-tip { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .bub-val { fill:#E6E0E9; }
+    svg.dark .bub-lbl { fill:#CAC4D0; }
+    #tip-layer { pointer-events:none; }
+  </style>
+</defs>
+
+<!-- §9 card shell -->
+<rect class="bg-main" width="1100" height="620" rx="18"/>
+<g class="border-light">
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
+</g>
+<g class="border-dark">
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
+</g>
+
+<text x="68" y="50" class="ct">Cloud Spend by Department - Step Area</text>
+<text x="68" y="70" class="cs">4 series · monthly · hover to inspect · print for values</text>
+
+<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
+  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
+</g>
+<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
+  <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
+</g>
+
+<!-- §9 grid — plot area: left=68 right=850 top=100 bottom=500 -->
+<line x1="68" y1="500" x2="850" y2="500" class="bl"/>
+<line x1="68" y1="100" x2="68"  y2="500" class="bl"/>
+<line x1="68" y1="400" x2="850" y2="400" class="gl"/>
+<line x1="68" y1="300" x2="850" y2="300" class="gl"/>
+<line x1="68" y1="200" x2="850" y2="200" class="gl"/>
+<line x1="68" y1="100" x2="850" y2="100" class="gl"/>
+
+<!-- y-axis labels -->
+<text x="56" y="504" class="an" text-anchor="end">$0</text>
+<text x="56" y="404" class="an" text-anchor="end">$50k</text>
+<text x="56" y="304" class="an" text-anchor="end">$100k</text>
+<text x="56" y="204" class="an" text-anchor="end">$150k</text>
+<text x="56" y="104" class="an" text-anchor="end">$200k</text>
+
+<!-- x-axis labels: 10 months Jan–Oct -->
+<text x="134" y="522" class="al" text-anchor="middle">Jan</text>
+<text x="212" y="522" class="al" text-anchor="middle">Feb</text>
+<text x="290" y="522" class="al" text-anchor="middle">Mar</text>
+<text x="368" y="522" class="al" text-anchor="middle">Apr</text>
+<text x="446" y="522" class="al" text-anchor="middle">May</text>
+<text x="524" y="522" class="al" text-anchor="middle">Jun</text>
+<text x="602" y="522" class="al" text-anchor="middle">Jul</text>
+<text x="680" y="522" class="al" text-anchor="middle">Aug</text>
+<text x="758" y="522" class="al" text-anchor="middle">Sep</text>
+<text x="836" y="522" class="al" text-anchor="middle">Oct</text>
+
+<!-- §7 DATA LAYER — built by JS -->
+<g class="ca" id="ca"></g>
+
+<!-- §7 tooltip always last -->
+<g id="tip-layer">
+  <rect class="bub-bg"  id="tip-bg"  rx="9" opacity="0"/>
+  <path class="bub-bdr" id="tip-bdr" opacity="0"/>
+  <path class="bub-tip" id="tip-tip" opacity="0"/>
+  <text class="bub-val" id="tip-val" opacity="0" text-anchor="middle" dominant-baseline="central"/>
+  <text class="bub-lbl" id="tip-lbl" opacity="0" text-anchor="middle" dominant-baseline="central"/>
+</g>
+
+<!-- legend -->
+<rect x="870" y="100" width="210" height="180" rx="14" class="lgd-bg"/>
+<text x="888" y="124" class="lgd-ttl">DEPARTMENT</text>
+<g transform="translate(888,140)">
+  <rect class="bar-1" x="0" y="0" width="14" height="14" rx="3"/>
+  <text x="22" y="11" class="lt">Engineering</text>
+  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$182k</text>
+</g>
+<g transform="translate(888,170)">
+  <rect class="bar-2" x="0" y="0" width="14" height="14" rx="3"/>
+  <text x="22" y="11" class="lt">Data &amp; ML</text>
+  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$143k</text>
+</g>
+<g transform="translate(888,200)">
+  <rect class="bar-3" x="0" y="0" width="14" height="14" rx="3"/>
+  <text x="22" y="11" class="lt">Product</text>
+  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$67k</text>
+</g>
+<g transform="translate(888,230)">
+  <rect class="bar-4" x="0" y="0" width="14" height="14" rx="3"/>
+  <text x="22" y="11" class="lt">Marketing</text>
+  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$44k</text>
+</g>
+
+<text x="68" y="600" class="footer">Cloud Spend by Department · 4 series · step area chart</text>
+
+<script type="text/javascript"><![CDATA[
+(function() {
+  var svg = document.getElementById('root');
+  var ca  = document.getElementById('ca');
+
+  /* §2 isDark hoisted before all build code */
+  var isDark = false;
+
+  /* DATA */
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct'];
+  var series = [
+    { name:'Engineering', cls:'1', values:[95, 95, 110, 110, 128, 128, 155, 155, 182, 182] },
+    { name:'Data & ML',   cls:'2', values:[60, 72, 72,  88,  88,  105, 105, 120, 143, 143] },
+    { name:'Product',     cls:'3', values:[38, 38, 45,  45,  52,  52,  60,  60,  67,  67 ] },
+    { name:'Marketing',   cls:'4', values:[28, 28, 32,  32,  38,  38,  40,  44,  44,  44 ] }
+  ];
+
+  /* LAYOUT */
+  var plotL = 68, plotR = 850, plotT = 100, plotB = 500;
+  var n     = months.length;
+  var step  = (plotR - plotL) / (n - 1);
+  var yMin  = 0, yMax = 200;
+
+  function xAt(i) { return plotL + i * step; }
+  function yAt(v) { return plotB - (v - yMin) / (yMax - yMin) * (plotB - plotT); }
+
+  /* step-after area path: top edge H then V, closed down to baseline */
+  function areaPath(values) {
+    /* top edge: step-after (H then V) */
+    var d = 'M' + xAt(0) + ',' + yAt(values[0]);
+    for (var i = 1; i < values.length; i++) {
+      d += ' H' + xAt(i) + ' V' + yAt(values[i]);
+    }
+    /* close: down to baseline, back left, up to start */
+    d += ' V' + plotB + ' H' + xAt(0) + ' Z';
+    return d;
+  }
+
+  /* top stroke only (no close) — drawn on top of fill for crisp edge */
+  function strokePath(values) {
+    var d = 'M' + xAt(0) + ',' + yAt(values[0]);
+    for (var i = 1; i < values.length; i++) {
+      d += ' H' + xAt(i) + ' V' + yAt(values[i]);
+    }
+    return d;
+  }
+
+  /* §3 STAGGER — 4 series; dots per series */
+  var seriesStagger = 0.20;
+  var dotStagger    = Math.min(0.25, 1.0 / n);
+  var lastDelay     = (series.length - 1) * seriesStagger + (n - 1) * dotStagger;
+  var readyDelay    = (lastDelay + 0.8 + 0.1) * 1000;
+
+  /* BUILD DOM
+     Paint back-to-front so foreground series sit on top.
+     Series 0 has the highest values and is painted last (on top). */
+  var sgEls = [];
+
+  for (var si = series.length - 1; si >= 0; si--) {
+    (function(si) {
+      var s  = series[si];
+      var sg = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      sg.setAttribute('class', 'sg');
+      sg.setAttribute('id', 'sg' + si);
+
+      /* area fill */
+      var fill = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      fill.setAttribute('class', 'area-fill bar-' + s.cls);
+      fill.setAttribute('d', areaPath(s.values));
+      fill.setAttribute('fill-opacity', '0.18');
+      fill.setAttribute('stroke', 'none');
+      fill.style.animationDelay = (si * seriesStagger) + 's';
+      sg.appendChild(fill);
+
+      /* top stroke */
+      var stroke = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      stroke.setAttribute('class', 'area-stroke line-' + s.cls);
+      stroke.setAttribute('d', strokePath(s.values));
+      stroke.setAttribute('fill', 'none');
+      stroke.setAttribute('stroke-width', '2.5');
+      stroke.setAttribute('stroke-linejoin', 'round');
+      stroke.style.animationDelay = (si * seriesStagger) + 's';
+      sg.appendChild(stroke);
+
+      /* dots at each step */
+      s.values.forEach(function(v, i) {
+        var dg = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        dg.setAttribute('class', 'dot-g');
+        dg.style.animationDelay = (si * seriesStagger + i * dotStagger) + 's';
+
+        var dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        dot.setAttribute('cx', xAt(i)); dot.setAttribute('cy', yAt(v)); dot.setAttribute('r', '4');
+        dot.setAttribute('class', 'dot-circle bar-' + s.cls);
+
+        var ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        ring.setAttribute('cx', xAt(i)); ring.setAttribute('cy', yAt(v)); ring.setAttribute('r', '4');
+        ring.setAttribute('fill', 'none');
+        ring.setAttribute('class', 'line-' + s.cls);
+        ring.setAttribute('stroke-width', '2');
+
+        dg.appendChild(dot);
+        dg.appendChild(ring);
+        sg.appendChild(dg);
+      });
+
+      ca.appendChild(sg);
+      sgEls.unshift(sg); /* restore original order for hover index lookup */
+
+      /* A1: double rAF then add .visible */
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          fill.classList.add('visible');
+          stroke.classList.add('visible');
+          Array.prototype.forEach.call(sg.querySelectorAll('.dot-g'), function(dg) {
+            dg.classList.add('visible');
+          });
+        });
+      });
+    })(si);
+  }
+
+  /* A1 ready gate */
+  setTimeout(function() {
+    ca.classList.add('ready');
+    Array.prototype.forEach.call(ca.querySelectorAll('.area-fill'),   function(el) { el.style.opacity = ''; });
+    Array.prototype.forEach.call(ca.querySelectorAll('.area-stroke'), function(el) { el.style.opacity = ''; });
+    Array.prototype.forEach.call(ca.querySelectorAll('.dot-g'),       function(el) { el.style.opacity = ''; });
+  }, readyDelay);
+
+  /* TOOLTIP */
+  var tipBg  = document.getElementById('tip-bg');
+  var tipBdr = document.getElementById('tip-bdr');
+  var tipTip = document.getElementById('tip-tip');
+  var tipVal = document.getElementById('tip-val');
+  var tipLbl = document.getElementById('tip-lbl');
+
+  function showTip(cx, cy, valTxt, lblTxt) {
+    tipVal.textContent = valTxt;
+    tipLbl.textContent = lblTxt;
+    var pad = 20, bh = 38, rx = 9, tw = 8, tail = 10;
+    var hw  = Math.max(tipVal.getBBox().width, tipLbl.getBBox().width) / 2 + pad / 2;
+    var tx  = Math.max(hw + 8, Math.min(cx, plotR - hw - 8));
+    var above = (cy - tail - bh - 4) >= plotT;
+    var bT, bB;
+    if (above) { bB = cy - tail; bT = bB - bh; }
+    else        { bT = cy + tail; bB = bT + bh; }
+
+    tipBg.setAttribute('x', tx - hw); tipBg.setAttribute('y', bT);
+    tipBg.setAttribute('width', hw * 2); tipBg.setAttribute('height', bh);
+
+    if (above) {
+      tipBdr.setAttribute('d',
+        'M'+(tx+tw)+','+bB+' L'+(tx+hw-rx)+','+bB+' Q'+(tx+hw)+','+bB+' '+(tx+hw)+','+(bB-rx)+
+        ' L'+(tx+hw)+','+(bT+rx)+' Q'+(tx+hw)+','+bT+' '+(tx+hw-rx)+','+bT+
+        ' L'+(tx-hw+rx)+','+bT+' Q'+(tx-hw)+','+bT+' '+(tx-hw)+','+(bT+rx)+
+        ' L'+(tx-hw)+','+(bB-rx)+' Q'+(tx-hw)+','+bB+' '+(tx-hw+rx)+','+bB+' L'+(tx-tw)+','+bB);
+      tipTip.setAttribute('d', 'M'+(tx-tw)+','+bB+' L'+tx+','+(cy-2)+' L'+(tx+tw)+','+bB);
+    } else {
+      tipBdr.setAttribute('d',
+        'M'+(tx-tw)+','+bT+' L'+(tx-hw+rx)+','+bT+' Q'+(tx-hw)+','+bT+' '+(tx-hw)+','+(bT+rx)+
+        ' L'+(tx-hw)+','+(bB-rx)+' Q'+(tx-hw)+','+bB+' '+(tx-hw+rx)+','+bB+
+        ' L'+(tx+hw-rx)+','+bB+' Q'+(tx+hw)+','+bB+' '+(tx+hw)+','+(bB-rx)+
+        ' L'+(tx+hw)+','+(bT+rx)+' Q'+(tx+hw)+','+bT+' '+(tx+hw-rx)+','+bT+' L'+(tx+tw)+','+bT);
+      tipTip.setAttribute('d', 'M'+(tx+tw)+','+bT+' L'+tx+','+(cy+2)+' L'+(tx-tw)+','+bT);
+    }
+
+    tipVal.setAttribute('x', tx); tipVal.setAttribute('y', bT + bh * 0.32);
+    tipLbl.setAttribute('x', tx); tipLbl.setAttribute('y', bT + bh * 0.72);
+    [tipBg, tipBdr, tipTip, tipVal, tipLbl].forEach(function(el) { el.setAttribute('opacity', '1'); });
+  }
+
+  function hideTip() {
+    [tipBg, tipBdr, tipTip, tipVal, tipLbl].forEach(function(el) { el.setAttribute('opacity', '0'); });
+  }
+
+  /* §4 HOVER — area fills are large adjacent targets → container-level mouseleave */
+  function svgMouseX(e) {
+    var pt = svg.createSVGPoint();
+    pt.x = e.clientX; pt.y = e.clientY;
+    return pt.matrixTransform(svg.getScreenCTM().inverse()).x;
+  }
+
+  function nearestIdx(mx) {
+    return Math.max(0, Math.min(n - 1, Math.round((mx - plotL) / step)));
+  }
+
+  /* HIT LAYER — built after all series, painted on top.
+     Smallest series (highest index) appended last = topmost in SVG = wins hit-test.
+     Each hit path uses the top-stroke geometry with a wide transparent stroke.
+     This way hovering near any series' step edge is always reachable regardless
+     of which fill area sits on top visually. */
+  var hitLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  hitLayer.setAttribute('id', 'hit-layer');
+  ca.appendChild(hitLayer);
+
+  /* append hit paths largest-first so smallest ends up on top */
+  for (var hi = 0; hi < series.length; hi++) {
+    (function(hi) {
+      var hp = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      hp.setAttribute('d', strokePath(series[hi].values));
+      hp.setAttribute('fill', 'none');
+      hp.setAttribute('stroke', 'transparent');
+      hp.setAttribute('stroke-width', '20');
+      hp.setAttribute('stroke-linejoin', 'round');
+      hp.setAttribute('style', 'cursor:pointer');
+      hp.setAttribute('data-si', hi);
+      hitLayer.appendChild(hp);
+    })(hi);
+  }
+
+  /* attach events to hit paths */
+  var hitPaths = Array.prototype.slice.call(hitLayer.querySelectorAll('path'));
+  /* reverse so iteration order matches series[] index */
+  hitPaths.forEach(function(hp) {
+    var si = parseInt(hp.getAttribute('data-si'));
+    var s  = series[si];
+    var sgEl = document.getElementById('sg' + si);
+
+    function onMove(e) {
+      if (!ca.classList.contains('ready')) return;
+      sgEls.forEach(function(el) { el.classList.remove('hovered'); });
+      Array.prototype.forEach.call(ca.querySelectorAll('.dot-g'), function(el) { el.classList.remove('hovered'); });
+      ca.classList.add('hovering');
+      sgEl.classList.add('hovered');
+      var idx   = nearestIdx(svgMouseX(e));
+      var dotGs = sgEl.querySelectorAll('.dot-g');
+      if (dotGs[idx]) dotGs[idx].classList.add('hovered');
+      showTip(xAt(idx), yAt(s.values[idx]),
+              '$' + s.values[idx] + 'k',
+              s.name + ' \u00b7 ' + months[idx]);
+    }
+    hp.addEventListener('mouseenter', onMove);
+    hp.addEventListener('mousemove',  onMove);
+  });
+
+  ca.addEventListener('mouseleave', function() {
+    sgEls.forEach(function(el) { el.classList.remove('hovered'); });
+    Array.prototype.forEach.call(ca.querySelectorAll('.dot-g'), function(el) { el.classList.remove('hovered'); });
+    ca.classList.remove('hovering');
+    hideTip();
+  });
+
+  /* PRINT TOGGLE */
+  document.getElementById('print-toggle').addEventListener('click', function() {
+    var thumb = document.getElementById('pthumb'), lbl = document.getElementById('plabel');
+    if (svg.classList.toggle('print')) { thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
+    else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print'; }
+  });
+
+  /* §2 DARK MODE */
+  function setMode(wantDark) {
+    if (wantDark === isDark) return;
+    isDark = wantDark;
+    var thumb = document.getElementById('tthumb');
+    var lbl   = document.getElementById('tlabel');
+    if (wantDark) {
+      svg.classList.add('dark');
+      if (thumb) thumb.setAttribute('cx', '52');
+      if (lbl)   lbl.textContent = 'Light';
+    } else {
+      svg.classList.remove('dark');
+      if (thumb) thumb.setAttribute('cx', '16');
+      if (lbl)   lbl.textContent = 'Dark';
+    }
+  }
+
+  document.getElementById('dark-toggle').addEventListener('click', function() { setMode(!isDark); });
+  window.setMode = setMode;
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
+  });
+  setMode(window.location.href.indexOf('theme=dark') !== -1);
+})();
+]]></script>
+</svg>

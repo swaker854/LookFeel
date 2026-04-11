@@ -1,10 +1,12 @@
 
+
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <clipPath id="chartclip">
     <rect x="68" y="96" width="782" height="412"/>
   </clipPath>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
     .bg-main   { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
     .ct        { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
     .cs        { font-size:11px; fill:#79747E; font-weight:400; }
@@ -88,7 +90,7 @@
 <g class="border-dark"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/></g>
 <g class="border-light"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/></g>
 
-<text x="68" y="50" class="ct">Revenue by Quarter</text>
+<text x="68" y="50" class="ct">Revenue by Quarter - Bar Stacked</text>
 <text x="68" y="70" class="cs">5 product lines · stacked · hover column to inspect</text>
 
 <g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
@@ -257,6 +259,9 @@
   var chartG  = document.querySelector('.ca');
   var colEls  = document.querySelectorAll('.col-g');
 
+  /* §2 — isDark hoisted before all build and animation code */
+  var isDark = false;
+
   var quarters = ["Q1 '22","Q2 '22","Q3 '22","Q4 '22","Q1 '23","Q2 '23","Q3 '23","Q4 '23"];
   var xs   = [126.9, 221.8, 316.7, 411.6, 506.4, 601.3, 696.2, 791.1];
   var colW = 36;
@@ -282,40 +287,91 @@
   }
 
   xs.forEach(function(x, qi) {
-    var bw=168, bh=146, hw=bw/2, bCx=x, bCy=195;
-    if (bCx-hw < 72)  bCx = 72+hw;
-    if (bCx+hw > 846) bCx = 846-hw;
+    var PAD = 16, DOT_R = 4, DOT_X = 14, LBL_X = 24;
+    var rowH = 18, hdrH = 22, divH = 8, totH = 20;
+    var bh = hdrH + divH + series.length * rowH + divH + totH + PAD;
+    var rx = 10;
 
     var tipG = el('g', {'class':'tip', id:'tip_'+qi});
     tipLayer.appendChild(tipG);
     allTips[qi] = tipG;
 
-    tipG.appendChild(el('rect', {x:bCx-hw, y:bCy-12, width:bw, height:bh+12, rx:10, 'class':'bub-bg'}));
-    tipG.appendChild(el('rect', {x:bCx-hw, y:bCy-12, width:bw, height:bh+12, rx:10, 'class':'bub-bdr'}));
-
-    var qLbl = el('text', {x:bCx, y:bCy+5, 'text-anchor':'middle', 'dominant-baseline':'central', 'class':'bub-lbl'});
+    /* ── build text nodes at x=0 first so getBBox() measures real widths ── */
+    var qLbl = el('text', {x:0, y:0, 'text-anchor':'middle',
+      'dominant-baseline':'central', 'class':'bub-lbl'});
     qLbl.textContent = quarters[qi];
     tipG.appendChild(qLbl);
-    tipG.appendChild(el('line', {x1:bCx-hw+8, y1:bCy+15, x2:bCx+hw-8, y2:bCy+15, 'class':'tip-div'}));
 
+    var rowEls = [];
     series.forEach(function(s, si) {
-      var rowY = bCy+28+si*18;
-      tipG.appendChild(el('circle', {cx:bCx-hw+14, cy:rowY, r:4, 'class':s.cls}));
-      var sLbl = el('text', {x:bCx-hw+24, y:rowY, 'dominant-baseline':'central', 'class':'bub-lbl'});
+      var rowY = hdrH + divH + si * rowH + rowH / 2;
+      var dot  = el('circle', {cx:0, cy:rowY, r:DOT_R, 'class':s.cls});
+      var sLbl = el('text', {x:LBL_X, y:rowY, 'dominant-baseline':'central', 'class':'bub-lbl'});
       sLbl.textContent = s.label;
-      tipG.appendChild(sLbl);
-      var sVal = el('text', {x:bCx+hw-8, y:rowY, 'text-anchor':'end', 'dominant-baseline':'central', 'class':'bub-val', 'font-size':'11'});
-      sVal.textContent = '$'+s.vals[qi]+'M';
-      tipG.appendChild(sVal);
+      var sVal = el('text', {x:0, y:rowY, 'text-anchor':'end',
+        'dominant-baseline':'central', 'class':'bub-val', 'font-size':'11'});
+      sVal.textContent = '$' + s.vals[qi] + 'M';
+      tipG.appendChild(dot); tipG.appendChild(sLbl); tipG.appendChild(sVal);
+      rowEls.push({dot:dot, sLbl:sLbl, sVal:sVal});
     });
 
-    tipG.appendChild(el('line', {x1:bCx-hw+8, y1:bCy+118, x2:bCx+hw-8, y2:bCy+118, 'class':'tip-div'}));
-    var totLbl = el('text', {x:bCx-hw+8, y:bCy+130, 'dominant-baseline':'central', 'class':'bub-lbl'});
+    var totY = hdrH + divH + series.length * rowH + divH + totH / 2;
+    var totLbl = el('text', {x:LBL_X, y:totY, 'dominant-baseline':'central', 'class':'bub-lbl'});
     totLbl.textContent = 'Total';
-    tipG.appendChild(totLbl);
-    var totVal = el('text', {x:bCx+hw-8, y:bCy+130, 'text-anchor':'end', 'dominant-baseline':'central', 'class':'bub-val'});
-    totVal.textContent = '$'+totals[qi]+'M';
-    tipG.appendChild(totVal);
+    var totVal = el('text', {x:0, y:totY, 'text-anchor':'end',
+      'dominant-baseline':'central', 'class':'bub-val'});
+    totVal.textContent = '$' + totals[qi] + 'M';
+    tipG.appendChild(totLbl); tipG.appendChild(totVal);
+
+    /* ── measure with getBBox() to derive hw ── */
+    var maxLblW = 0;
+    rowEls.forEach(function(r) { maxLblW = Math.max(maxLblW, LBL_X + r.sLbl.getBBox().width + 8); });
+    maxLblW = Math.max(maxLblW, LBL_X + totLbl.getBBox().width + 8);
+    var maxValW = 0;
+    rowEls.forEach(function(r) { maxValW = Math.max(maxValW, r.sVal.getBBox().width); });
+    maxValW = Math.max(maxValW, totVal.getBBox().width);
+    var hw = Math.max((maxLblW + maxValW) / 2 + PAD, 80);
+
+    /* ── clamp centre-x to card bounds ── */
+    var bCx = Math.max(hw + 8, Math.min(x, 1092 - hw));
+    var bCy = 195;
+    var bT = bCy - PAD / 2, bB = bT + bh;
+    var bL = bCx - hw, bR = bCx + hw;
+
+    /* ── reposition all elements relative to bCx ── */
+    qLbl.setAttribute('x', String(bCx));
+    qLbl.setAttribute('y', String(bT + hdrH / 2));
+    rowEls.forEach(function(r) {
+      r.dot.setAttribute('cx', String(bL + DOT_X));
+      r.sLbl.setAttribute('x', String(bL + LBL_X));
+      r.sVal.setAttribute('x', String(bR - 8));
+      var rowY = bT + hdrH + divH + rowEls.indexOf(r) * rowH + rowH / 2;
+      r.dot.setAttribute('cy', String(rowY));
+      r.sLbl.setAttribute('y', String(rowY));
+      r.sVal.setAttribute('y', String(rowY));
+    });
+    var absTotY = bT + hdrH + divH + series.length * rowH + divH + totH / 2;
+    totLbl.setAttribute('x', String(bL + LBL_X));
+    totLbl.setAttribute('y', String(absTotY));
+    totVal.setAttribute('x', String(bR - 8));
+    totVal.setAttribute('y', String(absTotY));
+
+    /* ── divider lines ── */
+    var div1Y = bT + hdrH + divH / 2;
+    var div2Y = bT + hdrH + divH + series.length * rowH + divH / 2;
+    tipG.insertBefore(el('line', {x1:bL+8, y1:div1Y, x2:bR-8, y2:div1Y, 'class':'tip-div'}), qLbl.nextSibling);
+    tipG.appendChild(el('line', {x1:bL+8, y1:div2Y, x2:bR-8, y2:div2Y, 'class':'tip-div'}));
+
+    /* ── §5 bub-bg rect (fill only, no stroke) ── */
+    tipG.insertBefore(el('rect', {x:bL, y:bT, width:hw*2, height:bh, rx:rx, 'class':'bub-bg'}), tipG.firstChild);
+
+    /* ── §5 bub-bdr: <path> not <rect> — closed rounded-rect, no tail on panel tooltip ── */
+    var bdrD = 'M'+(bL+rx)+','+bT
+      +' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)
+      +' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB
+      +' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)
+      +' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+' Z';
+    tipG.insertBefore(el('path', {d:bdrD, 'class':'bub-bdr'}), tipG.children[1]);
 
     var hit = el('rect', {x:x-colW, y:100, width:colW*2, height:408, fill:'transparent', cursor:'crosshair'});
     hitLayer.appendChild(hit);
@@ -339,7 +395,6 @@
     });
   });
 
-  var isDark = false;
   function setMode(wantDark) {
     if (wantDark === isDark) return;
     isDark = wantDark;

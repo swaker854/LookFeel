@@ -1,7 +1,9 @@
 
+
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter',Arial,sans-serif">
 <defs>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
     .bg-main  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
     .ct       { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
     .cs       { font-size:11px; fill:#79747E; }
@@ -90,7 +92,7 @@
 <g class="border-light"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/></g>
 <g class="border-dark"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.2)" stroke-width="1.5"/></g>
 
-<text x="68" y="50" class="ct">OHLC Price Chart</text>
+<text x="68" y="50" class="ct">OHLC Price Chart - Candlestick</text>
 <text x="68" y="70" class="cs">12 months · open / high / low / close · hover to inspect · print for values</text>
 
 <g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
@@ -149,112 +151,100 @@
      — they use the same green/rose as the candles themselves. -->
 <g id="bubble-overlay">
   <g class="bubble" id="b1"  transform="translate(128,228)">
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
-    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
-    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
-    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$132</tspan> · High <tspan class="bub-val">$148</tspan></text>
-    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$125</tspan> · Close <tspan class="bub-val">$144</tspan></text>
-    <text x="0" y="-28" text-anchor="middle" class="bub-val">Oct · Bullish</text>
+    <rect x="-74" y="-106" width="148" height="96" rx="10" class="bub-bg"/>
+    <path d="M8,-10 L65,-10 Q74,-10 74,-20 L74,-96 Q74,-106 65,-106 L-65,-106 Q-74,-106 -74,-96 L-74,-20 Q-74,-10 -65,-10 L-8,-10" class="bub-bdr"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip"/>
+    <text x="0" y="-88" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$132</tspan> · High <tspan class="bub-val">$148</tspan></text>
+    <text x="0" y="-66" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$125</tspan> · Close <tspan class="bub-val">$144</tspan></text>
+    <text x="0" y="-26" text-anchor="middle" class="bub-val">Oct · Bullish</text>
   </g>
   <g class="bubble" id="b2"  transform="translate(188,200)">
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
-    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
-    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
-    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$144</tspan> · High <tspan class="bub-val">$155</tspan></text>
-    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$138</tspan> · Close <tspan class="bub-val">$139</tspan></text>
-    <text x="0" y="-28" text-anchor="middle" class="bub-val">Nov · Bearish</text>
+    <rect x="-74" y="-106" width="148" height="96" rx="10" class="bub-bg"/>
+    <path d="M8,-10 L65,-10 Q74,-10 74,-20 L74,-96 Q74,-106 65,-106 L-65,-106 Q-74,-106 -74,-96 L-74,-20 Q-74,-10 -65,-10 L-8,-10" class="bub-bdr"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip"/>
+    <text x="0" y="-88" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$144</tspan> · High <tspan class="bub-val">$155</tspan></text>
+    <text x="0" y="-66" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$138</tspan> · Close <tspan class="bub-val">$139</tspan></text>
+    <text x="0" y="-26" text-anchor="middle" class="bub-val">Nov · Bearish</text>
   </g>
   <g class="bubble" id="b3"  transform="translate(249,252)">
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
-    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
-    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
-    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$139</tspan> · High <tspan class="bub-val">$142</tspan></text>
-    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$118</tspan> · Close <tspan class="bub-val">$122</tspan></text>
-    <text x="0" y="-28" text-anchor="middle" class="bub-val">Dec · Bearish</text>
+    <rect x="-74" y="-106" width="148" height="96" rx="10" class="bub-bg"/>
+    <path d="M8,-10 L65,-10 Q74,-10 74,-20 L74,-96 Q74,-106 65,-106 L-65,-106 Q-74,-106 -74,-96 L-74,-20 Q-74,-10 -65,-10 L-8,-10" class="bub-bdr"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip"/>
+    <text x="0" y="-88" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$139</tspan> · High <tspan class="bub-val">$142</tspan></text>
+    <text x="0" y="-66" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$118</tspan> · Close <tspan class="bub-val">$122</tspan></text>
+    <text x="0" y="-26" text-anchor="middle" class="bub-val">Dec · Bearish</text>
   </g>
   <g class="bubble" id="b4"  transform="translate(309,280)">
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
-    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
-    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
-    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$122</tspan> · High <tspan class="bub-val">$135</tspan></text>
-    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$115</tspan> · Close <tspan class="bub-val">$131</tspan></text>
-    <text x="0" y="-28" text-anchor="middle" class="bub-val">Jan · Bullish</text>
+    <rect x="-74" y="-106" width="148" height="96" rx="10" class="bub-bg"/>
+    <path d="M8,-10 L65,-10 Q74,-10 74,-20 L74,-96 Q74,-106 65,-106 L-65,-106 Q-74,-106 -74,-96 L-74,-20 Q-74,-10 -65,-10 L-8,-10" class="bub-bdr"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip"/>
+    <text x="0" y="-88" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$122</tspan> · High <tspan class="bub-val">$135</tspan></text>
+    <text x="0" y="-66" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$115</tspan> · Close <tspan class="bub-val">$131</tspan></text>
+    <text x="0" y="-26" text-anchor="middle" class="bub-val">Jan · Bullish</text>
   </g>
   <g class="bubble" id="b5"  transform="translate(369,220)">
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
-    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
-    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
-    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$131</tspan> · High <tspan class="bub-val">$150</tspan></text>
-    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$128</tspan> · Close <tspan class="bub-val">$148</tspan></text>
-    <text x="0" y="-28" text-anchor="middle" class="bub-val">Feb · Bullish</text>
+    <rect x="-74" y="-106" width="148" height="96" rx="10" class="bub-bg"/>
+    <path d="M8,-10 L65,-10 Q74,-10 74,-20 L74,-96 Q74,-106 65,-106 L-65,-106 Q-74,-106 -74,-96 L-74,-20 Q-74,-10 -65,-10 L-8,-10" class="bub-bdr"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip"/>
+    <text x="0" y="-88" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$131</tspan> · High <tspan class="bub-val">$150</tspan></text>
+    <text x="0" y="-66" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$128</tspan> · Close <tspan class="bub-val">$148</tspan></text>
+    <text x="0" y="-26" text-anchor="middle" class="bub-val">Feb · Bullish</text>
   </g>
   <g class="bubble" id="b6"  transform="translate(429,172)">
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
-    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
-    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
-    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$148</tspan> · High <tspan class="bub-val">$162</tspan></text>
-    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$143</tspan> · Close <tspan class="bub-val">$158</tspan></text>
-    <text x="0" y="-28" text-anchor="middle" class="bub-val">Mar · Bullish</text>
+    <rect x="-74" y="-106" width="148" height="96" rx="10" class="bub-bg"/>
+    <path d="M8,-10 L65,-10 Q74,-10 74,-20 L74,-96 Q74,-106 65,-106 L-65,-106 Q-74,-106 -74,-96 L-74,-20 Q-74,-10 -65,-10 L-8,-10" class="bub-bdr"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip"/>
+    <text x="0" y="-88" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$148</tspan> · High <tspan class="bub-val">$162</tspan></text>
+    <text x="0" y="-66" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$143</tspan> · Close <tspan class="bub-val">$158</tspan></text>
+    <text x="0" y="-26" text-anchor="middle" class="bub-val">Mar · Bullish</text>
   </g>
   <g class="bubble" id="b7"  transform="translate(489,160)">
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
-    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
-    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
-    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$158</tspan> · High <tspan class="bub-val">$165</tspan></text>
-    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$144</tspan> · Close <tspan class="bub-val">$147</tspan></text>
-    <text x="0" y="-28" text-anchor="middle" class="bub-val">Apr · Bearish</text>
+    <rect x="-74" y="-106" width="148" height="96" rx="10" class="bub-bg"/>
+    <path d="M8,-10 L65,-10 Q74,-10 74,-20 L74,-96 Q74,-106 65,-106 L-65,-106 Q-74,-106 -74,-96 L-74,-20 Q-74,-10 -65,-10 L-8,-10" class="bub-bdr"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip"/>
+    <text x="0" y="-88" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$158</tspan> · High <tspan class="bub-val">$165</tspan></text>
+    <text x="0" y="-66" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$144</tspan> · Close <tspan class="bub-val">$147</tspan></text>
+    <text x="0" y="-26" text-anchor="middle" class="bub-val">Apr · Bearish</text>
   </g>
   <g class="bubble" id="b8"  transform="translate(549,212)">
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
-    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
-    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
-    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$147</tspan> · High <tspan class="bub-val">$152</tspan></text>
-    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$130</tspan> · Close <tspan class="bub-val">$134</tspan></text>
-    <text x="0" y="-28" text-anchor="middle" class="bub-val">May · Bearish</text>
+    <rect x="-74" y="-106" width="148" height="96" rx="10" class="bub-bg"/>
+    <path d="M8,-10 L65,-10 Q74,-10 74,-20 L74,-96 Q74,-106 65,-106 L-65,-106 Q-74,-106 -74,-96 L-74,-20 Q-74,-10 -65,-10 L-8,-10" class="bub-bdr"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip"/>
+    <text x="0" y="-88" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$147</tspan> · High <tspan class="bub-val">$152</tspan></text>
+    <text x="0" y="-66" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$130</tspan> · Close <tspan class="bub-val">$134</tspan></text>
+    <text x="0" y="-26" text-anchor="middle" class="bub-val">May · Bearish</text>
   </g>
   <g class="bubble" id="b9"  transform="translate(609,224)">
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
-    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
-    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
-    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$134</tspan> · High <tspan class="bub-val">$149</tspan></text>
-    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$129</tspan> · Close <tspan class="bub-val">$146</tspan></text>
-    <text x="0" y="-28" text-anchor="middle" class="bub-val">Jun · Bullish</text>
+    <rect x="-74" y="-106" width="148" height="96" rx="10" class="bub-bg"/>
+    <path d="M8,-10 L65,-10 Q74,-10 74,-20 L74,-96 Q74,-106 65,-106 L-65,-106 Q-74,-106 -74,-96 L-74,-20 Q-74,-10 -65,-10 L-8,-10" class="bub-bdr"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip"/>
+    <text x="0" y="-88" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$134</tspan> · High <tspan class="bub-val">$149</tspan></text>
+    <text x="0" y="-66" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$129</tspan> · Close <tspan class="bub-val">$146</tspan></text>
+    <text x="0" y="-26" text-anchor="middle" class="bub-val">Jun · Bullish</text>
   </g>
   <g class="bubble" id="b10" transform="translate(670,148)">
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
-    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
-    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
-    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$146</tspan> · High <tspan class="bub-val">$168</tspan></text>
-    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$140</tspan> · Close <tspan class="bub-val">$165</tspan></text>
-    <text x="0" y="-28" text-anchor="middle" class="bub-val">Jul · Bullish</text>
+    <rect x="-74" y="-106" width="148" height="96" rx="10" class="bub-bg"/>
+    <path d="M8,-10 L65,-10 Q74,-10 74,-20 L74,-96 Q74,-106 65,-106 L-65,-106 Q-74,-106 -74,-96 L-74,-20 Q-74,-10 -65,-10 L-8,-10" class="bub-bdr"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip"/>
+    <text x="0" y="-88" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$146</tspan> · High <tspan class="bub-val">$168</tspan></text>
+    <text x="0" y="-66" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$140</tspan> · Close <tspan class="bub-val">$165</tspan></text>
+    <text x="0" y="-26" text-anchor="middle" class="bub-val">Jul · Bullish</text>
   </g>
   <g class="bubble" id="b11" transform="translate(730,132)">
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
-    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
-    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
-    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$165</tspan> · High <tspan class="bub-val">$172</tspan></text>
-    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$151</tspan> · Close <tspan class="bub-val">$155</tspan></text>
-    <text x="0" y="-28" text-anchor="middle" class="bub-val">Aug · Bearish</text>
+    <rect x="-74" y="-106" width="148" height="96" rx="10" class="bub-bg"/>
+    <path d="M8,-10 L65,-10 Q74,-10 74,-20 L74,-96 Q74,-106 65,-106 L-65,-106 Q-74,-106 -74,-96 L-74,-20 Q-74,-10 -65,-10 L-8,-10" class="bub-bdr"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip"/>
+    <text x="0" y="-88" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$165</tspan> · High <tspan class="bub-val">$172</tspan></text>
+    <text x="0" y="-66" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$151</tspan> · Close <tspan class="bub-val">$155</tspan></text>
+    <text x="0" y="-26" text-anchor="middle" class="bub-val">Aug · Bearish</text>
   </g>
   <g class="bubble" id="b12" transform="translate(790,180)">
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bg"/>
-    <rect x="-62" y="-96" width="124" height="86" rx="10" class="bub-bdr"/>
-    <polygon points="-8,-10 0,0 8,-10" class="bub-bg"/>
-    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip" fill="none"/>
-    <text x="0" y="-76" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$155</tspan> · High <tspan class="bub-val">$160</tspan></text>
-    <text x="0" y="-58" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$138</tspan> · Close <tspan class="bub-val">$142</tspan></text>
-    <text x="0" y="-28" text-anchor="middle" class="bub-val">Sep · Bearish</text>
+    <rect x="-74" y="-106" width="148" height="96" rx="10" class="bub-bg"/>
+    <path d="M8,-10 L65,-10 Q74,-10 74,-20 L74,-96 Q74,-106 65,-106 L-65,-106 Q-74,-106 -74,-96 L-74,-20 Q-74,-10 -65,-10 L-8,-10" class="bub-bdr"/>
+    <path d="M-8,-10 L0,0 L8,-10" class="bub-tip"/>
+    <text x="0" y="-88" text-anchor="middle" class="bub-lbl">Open <tspan class="bub-val">$155</tspan> · High <tspan class="bub-val">$160</tspan></text>
+    <text x="0" y="-66" text-anchor="middle" class="bub-lbl">Low <tspan class="bub-val">$138</tspan> · Close <tspan class="bub-val">$142</tspan></text>
+    <text x="0" y="-26" text-anchor="middle" class="bub-val">Sep · Bearish</text>
   </g>
 </g>
 
@@ -290,6 +280,9 @@
   var chartArea = document.getElementById('chart-area');
   var candles   = Array.prototype.slice.call(svg.querySelectorAll('.cw'));
 
+  /* §2 — isDark hoisted before all build and animation code */
+  var isDark = false;
+
   /* ── hover dimming + tooltip ── */
   candles.forEach(function(cw) {
     var bub = document.getElementById(cw.getAttribute('data-bubble'));
@@ -307,7 +300,6 @@
   });
 
   /* ── dark mode ── */
-  var isDark = false;
   function setMode(wantDark) {
     if (wantDark === isDark) return;
     isDark = wantDark;

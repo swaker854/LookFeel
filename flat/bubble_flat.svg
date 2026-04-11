@@ -1,8 +1,10 @@
 
 
+
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
     .bg-main   { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
     .ct        { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
     .cs        { font-size:11px; fill:#79747E; }
@@ -49,7 +51,7 @@
 
     .bub-bg    { fill:#FFFBFE; }
     .bub-bdr   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-tip   { fill:#FFFBFE; stroke:none; }
+    .bub-tip   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
     .bub-val   { fill:#1C1B1F; font-size:13px; font-weight:600; }
     .bub-lbl   { fill:#49454F; font-size:10px; }
 
@@ -65,7 +67,7 @@
     svg.dark .footer       { fill:#938F99; }
     svg.dark .bub-bg       { fill:#1C1B1F; }
     svg.dark .bub-bdr      { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .bub-tip      { fill:#1C1B1F; stroke:none; }
+    svg.dark .bub-tip      { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
     svg.dark .bub-val      { fill:#E6E0E9; }
     svg.dark .bub-lbl      { fill:#CAC4D0; }
     svg.dark .t-track, svg.dark .pt-track { fill:#49454F; }
@@ -81,7 +83,7 @@
 <g class="border-light"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/></g>
 <g class="border-dark"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.2)" stroke-width="1.5"/></g>
 
-<text x="68" y="50" class="ct">Revenue vs Growth by Category</text>
+<text x="68" y="50" class="ct">Revenue vs Growth by Category - Bubble/Point</text>
 <text x="68" y="70" class="cs">Bubble size ∝ market share · hover to inspect</text>
 
 <g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
@@ -115,8 +117,9 @@
       <circle class="bar-1" cx="609" cy="196" r="28" style="stroke:none"/>
     </g>
     <g class="bubble" transform="translate(609,156)">
-      <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bdr"/>
-      <path d="M-8,-6 L0,8 L8,-6 Z" class="bub-tip"/>
+      <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bg"/>
+      <path d="M8,-6 L25,-6 Q34,-6 34,-15 L34,-44 Q34,-53 25,-53 L-25,-53 Q-34,-53 -34,-44 L-34,-15 Q-34,-6 -25,-6 L-8,-6" class="bub-bdr"/>
+      <path d="M-8,-6 L0,8 L8,-6" class="bub-tip"/>
       <text x="0" y="-32" text-anchor="middle" class="bub-val">$72M</text>
       <text x="0" y="-16" text-anchor="middle" class="bub-lbl">Cyan · 38%</text>
     </g>
@@ -127,8 +130,9 @@
       <circle class="bar-2" cx="579" cy="324" r="26" style="stroke:none"/>
     </g>
     <g class="bubble" transform="translate(579,284)">
-      <rect x="-40" y="-44" width="80" height="38" rx="9" class="bub-bdr"/>
-      <path d="M-8,-6 L0,8 L8,-6 Z" class="bub-tip"/>
+      <rect x="-40" y="-44" width="80" height="38" rx="9" class="bub-bg"/>
+      <path d="M8,-6 L31,-6 Q40,-6 40,-15 L40,-44 Q40,-53 31,-53 L-31,-53 Q-40,-53 -40,-44 L-40,-15 Q-40,-6 -31,-6 L-8,-6" class="bub-bdr"/>
+      <path d="M-8,-6 L0,8 L8,-6" class="bub-tip"/>
       <text x="0" y="-32" text-anchor="middle" class="bub-val">$68M</text>
       <text x="0" y="-16" text-anchor="middle" class="bub-lbl">Emerald · 22%</text>
     </g>
@@ -139,8 +143,9 @@
       <circle class="bar-3" cx="519" cy="148" r="24" style="stroke:none"/>
     </g>
     <g class="bubble" transform="translate(519,112)">
-      <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bdr"/>
-      <path d="M-8,-6 L0,8 L8,-6 Z" class="bub-tip"/>
+      <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bg"/>
+      <path d="M8,-6 L25,-6 Q34,-6 34,-15 L34,-44 Q34,-53 25,-53 L-25,-53 Q-34,-53 -34,-44 L-34,-15 Q-34,-6 -25,-6 L-8,-6" class="bub-bdr"/>
+      <path d="M-8,-6 L0,8 L8,-6" class="bub-tip"/>
       <text x="0" y="-32" text-anchor="middle" class="bub-val">$60M</text>
       <text x="0" y="-16" text-anchor="middle" class="bub-lbl">Amber · 44%</text>
     </g>
@@ -151,8 +156,9 @@
       <circle class="bar-4" cx="482" cy="380" r="22" style="stroke:none"/>
     </g>
     <g class="bubble" transform="translate(482,346)">
-      <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bdr"/>
-      <path d="M-8,-6 L0,8 L8,-6 Z" class="bub-tip"/>
+      <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bg"/>
+      <path d="M8,-6 L25,-6 Q34,-6 34,-15 L34,-44 Q34,-53 25,-53 L-25,-53 Q-34,-53 -34,-44 L-34,-15 Q-34,-6 -25,-6 L-8,-6" class="bub-bdr"/>
+      <path d="M-8,-6 L0,8 L8,-6" class="bub-tip"/>
       <text x="0" y="-32" text-anchor="middle" class="bub-val">$55M</text>
       <text x="0" y="-16" text-anchor="middle" class="bub-lbl">Rose · 15%</text>
     </g>
@@ -163,8 +169,9 @@
       <circle class="bar-5" cx="661" cy="252" r="32" style="stroke:none"/>
     </g>
     <g class="bubble" transform="translate(661,208)">
-      <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bdr"/>
-      <path d="M-8,-6 L0,8 L8,-6 Z" class="bub-tip"/>
+      <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bg"/>
+      <path d="M8,-6 L25,-6 Q34,-6 34,-15 L34,-44 Q34,-53 25,-53 L-25,-53 Q-34,-53 -34,-44 L-34,-15 Q-34,-6 -25,-6 L-8,-6" class="bub-bdr"/>
+      <path d="M-8,-6 L0,8 L8,-6" class="bub-tip"/>
       <text x="0" y="-32" text-anchor="middle" class="bub-val">$79M</text>
       <text x="0" y="-16" text-anchor="middle" class="bub-lbl">Violet · 31%</text>
     </g>
@@ -175,8 +182,9 @@
       <circle class="bar-6" cx="549" cy="284" r="25" style="stroke:none"/>
     </g>
     <g class="bubble" transform="translate(549,247)">
-      <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bdr"/>
-      <path d="M-8,-6 L0,8 L8,-6 Z" class="bub-tip"/>
+      <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bg"/>
+      <path d="M8,-6 L25,-6 Q34,-6 34,-15 L34,-44 Q34,-53 25,-53 L-25,-53 Q-34,-53 -34,-44 L-34,-15 Q-34,-6 -25,-6 L-8,-6" class="bub-bdr"/>
+      <path d="M-8,-6 L0,8 L8,-6" class="bub-tip"/>
       <text x="0" y="-32" text-anchor="middle" class="bub-val">$64M</text>
       <text x="0" y="-16" text-anchor="middle" class="bub-lbl">Blue · 27%</text>
     </g>
@@ -187,8 +195,9 @@
       <circle class="bar-7" cx="527" cy="164" r="24" style="stroke:none"/>
     </g>
     <g class="bubble" transform="translate(527,128)">
-      <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bdr"/>
-      <path d="M-8,-6 L0,8 L8,-6 Z" class="bub-tip"/>
+      <rect x="-34" y="-44" width="68" height="38" rx="9" class="bub-bg"/>
+      <path d="M8,-6 L25,-6 Q34,-6 34,-15 L34,-44 Q34,-53 25,-53 L-25,-53 Q-34,-53 -34,-44 L-34,-15 Q-34,-6 -25,-6 L-8,-6" class="bub-bdr"/>
+      <path d="M-8,-6 L0,8 L8,-6" class="bub-tip"/>
       <text x="0" y="-32" text-anchor="middle" class="bub-val">$61M</text>
       <text x="0" y="-16" text-anchor="middle" class="bub-lbl">Teal · 42%</text>
     </g>
@@ -199,8 +208,9 @@
       <circle class="bar-8" cx="429" cy="404" r="19" style="stroke:none"/>
     </g>
     <g class="bubble" transform="translate(429,373)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bdr"/>
-      <path d="M-8,-6 L0,8 L8,-6 Z" class="bub-tip"/>
+      <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
+      <path d="M8,-6 L29,-6 Q38,-6 38,-15 L38,-44 Q38,-53 29,-53 L-29,-53 Q-38,-53 -38,-44 L-38,-15 Q-38,-6 -29,-6 L-8,-6" class="bub-bdr"/>
+      <path d="M-8,-6 L0,8 L8,-6" class="bub-tip"/>
       <text x="0" y="-32" text-anchor="middle" class="bub-val">$48M</text>
       <text x="0" y="-16" text-anchor="middle" class="bub-lbl">Other · 12%</text>
     </g>
@@ -227,6 +237,9 @@
 (function() {
   var svg       = document.getElementById('root');
   var chartArea = document.getElementById('chart-area');
+
+  /* §2 — isDark hoisted before all build and animation code */
+  var isDark = false;
 
   /* ── rAF bubble fade-in — standard 0.8s, 0.25s stagger ── */
   var FADE_DUR = 800;
@@ -256,9 +269,11 @@
   requestAnimationFrame(animBubbles);
 
   /* ── hover dimming ── */
-  svg.querySelectorAll('.bw').forEach(function(bw) {
+  var bwEls = Array.prototype.slice.call(svg.querySelectorAll('.bw'));
+  bwEls.forEach(function(bw) {
     bw.addEventListener('mouseenter', function() {
       chartArea.classList.add('hovering');
+      bwEls.forEach(function(x) { x.classList.remove('active'); }); /* §4 clear stale */
       bw.classList.add('active');
     });
     bw.addEventListener('mouseleave', function() {
@@ -268,7 +283,6 @@
   });
 
   /* ── dark mode — pure CSS, no JS color swap needed ── */
-  var isDark = false;
   function setMode(wantDark) {
     if (wantDark === isDark) return;
     isDark = wantDark;

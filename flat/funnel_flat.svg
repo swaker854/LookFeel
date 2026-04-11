@@ -1,171 +1,393 @@
 
-<svg id="root" viewBox="0 0 1100 630" width="100%" height="101.61" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
+<svg id="root" viewBox="0 0 1100 620" width="100%" height="100%"
+     preserveAspectRatio="xMidYMid meet"
+     xmlns="http://www.w3.org/2000/svg"
+     font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
 
+    /* §9 — Card shell */
+    .bg-main  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    .ct       { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+    .cs       { font-size:11px; fill:#79747E; font-weight:400; }
+    .lt       { font-size:11px; fill:#1C1B1F; font-weight:400; }
+    .lv       { font-size:11px; fill:#1C1B1F; font-weight:500; }
+    .an       { font-size:10px; fill:#79747E; font-weight:400; }
+    .lgd-bg   { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+    .lgd-div  { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+    .lgd-ttl  { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+    .footer   { font-size:10px; fill:#79747E; font-weight:400; }
+    .t-wrap   { cursor:pointer; }
+    .t-track  { fill:#E7E0EC; }
+    .t-thumb  { fill:#ffffff; }
+    .t-label  { font-size:11px; font-weight:500; fill:#49454F; }
+    .pt-track { fill:#E7E0EC; transition:fill 0.3s; }
+    .pt-thumb { fill:#ffffff; }
+    .pt-label { font-size:11px; font-weight:500; fill:#49454F; }
+    .lgd-val  { opacity:0; transition:opacity 0.2s; }
+    svg.print .lgd-val  { opacity:1; }
+    svg.print .pt-track { fill:#d97316; }
+
+    /* §1 — Standard palette */
+    .bar-1 { fill:#00D4E8; } .bar-2 { fill:#00B87A; }
+    .bar-3 { fill:#F59E0B; } .bar-4 { fill:#F43F5E; }
+    .bar-5 { fill:#8B5CF6; } .bar-6 { fill:#3B82F6; }
+    .bar-7 { fill:#0D9488; } .bar-8 { fill:#64748B; }
+    svg.dark .bar-1 { fill:#22D3EE; } svg.dark .bar-2 { fill:#10B981; }
+    svg.dark .bar-3 { fill:#FBB724; } svg.dark .bar-4 { fill:#FB6181; }
+    svg.dark .bar-5 { fill:#A78BFA; } svg.dark .bar-6 { fill:#60A5FA; }
+    svg.dark .bar-7 { fill:#2DD4BF; } svg.dark .bar-8 { fill:#94A3B8; }
+
+    /* §3 — Method A1: animationend + .visible, .ready gates hover */
+    @keyframes stageFade { from{opacity:0} to{opacity:1} }
+    .fstage         { opacity:0; cursor:pointer; transition:opacity .2s ease; }
+    .fstage.visible { opacity:1; }
+    .ca.ready.hovering .fstage.visible         { opacity:0.20; transition:opacity .2s ease; }
+    .ca.ready.hovering .fstage.visible.hovered { opacity:1;    transition:opacity .2s ease; }
+
+    /* §5 — Tooltip bubble classes */
+    .bub-bg  { fill:#FFFBFE; }
+    .bub-bdr { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .bub-tip { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .bub-val { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .bub-lbl { fill:#49454F; font-size:10px; font-weight:400; }
+    .bub-pct { fill:#79747E; font-size:10px; font-weight:400; }
+    .tip           { opacity:0; pointer-events:none; transition:opacity .15s ease; }
+    svg.print .tip { opacity:0 !important; }
+
+    /* §9 — Border rings */
+    .border-dark  { display:none; }
+    .border-light { display:block; }
+
+    /* §9 — Dark mode overrides */
+    svg.dark .bg-main  { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+    svg.dark .ct       { fill:#E6E0E9; }
+    svg.dark .cs       { fill:#938F99; }
+    svg.dark .lt       { fill:#E6E0E9; }
+    svg.dark .lv       { fill:#E6E0E9; }
+    svg.dark .an       { fill:#938F99; }
+    svg.dark .lgd-bg   { fill:#49454F; stroke:#938F99; }
+    svg.dark .lgd-div  { stroke:#938F99; }
+    svg.dark .lgd-ttl  { fill:#938F99; }
+    svg.dark .footer   { fill:#938F99; }
+    svg.dark .t-track  { fill:#49454F; }
+    svg.dark .t-label  { fill:#CAC4D0; }
+    svg.dark .pt-track { fill:#49454F; }
+    svg.dark .pt-label { fill:#CAC4D0; }
+    svg.dark.print .pt-track { fill:#d97316; }
+    svg.dark .bub-bg   { fill:#1C1B1F; }
+    svg.dark .bub-bdr  { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .bub-tip  { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .bub-val  { fill:#E6E0E9; }
+    svg.dark .bub-lbl  { fill:#CAC4D0; }
+    svg.dark .bub-pct  { fill:#938F99; }
+    svg.dark .border-dark  { display:block; }
+    svg.dark .border-light { display:none; }
+  </style>
 </defs>
 
-<!-- Card -->
-<rect width="1100" height="620" rx="18" style="fill:rgb(255, 251, 254);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<g style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5" style="fill:none;stroke:rgba(0, 242, 255, 0.22);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<!-- §9 — Card shell -->
+<rect class="bg-main" width="1100" height="620" rx="18"/>
+<g class="border-light">
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
 </g>
-<g style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5" style="fill:none;stroke:rgba(0, 0, 0, 0.1);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-</g>
-
-<text x="68" y="50" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:18px;font-weight:500;text-anchor:start;dominant-baseline:auto">Sales Conversion Funnel</text>
-<text x="68" y="70" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">Marketing → Revenue pipeline · Q1 2026</text>
-<text x="68" y="600" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">Source: CRM &amp; Analytics Platform · April 2026</text>
-
-<!-- Toggles -->
-<g id="dark-toggle" transform="translate(930,52)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-  <rect x="0" y="-13" width="68" height="26" rx="13" style="fill:rgb(231, 224, 236);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" style="fill:rgb(255, 255, 255);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <text id="tlabel" x="44" y="4" text-anchor="middle" style="fill:rgb(73, 69, 79);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:middle;dominant-baseline:auto">Dark</text>
-</g>
-<g id="print-toggle" transform="translate(1012,52)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-  <rect x="0" y="-13" width="68" height="26" rx="13" style="fill:rgb(231, 224, 236);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" style="fill:rgb(255, 255, 255);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <text id="plabel" x="44" y="4" text-anchor="middle" style="fill:rgb(73, 69, 79);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:middle;dominant-baseline:auto">Print</text>
+<g class="border-dark">
+  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
 </g>
 
-<!-- Legend: x=870, right edge=1080, top=100 -->
-<rect x="870" y="100" width="210" height="224" rx="14" style="fill:rgb(231, 224, 236);stroke:rgb(121, 116, 126);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<text x="888" y="124" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:500;text-anchor:start;dominant-baseline:auto">FUNNEL STAGES</text>
-<g transform="translate(888,140)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-  <rect x="0" y="0" width="14" height="14" rx="3" style="fill:rgb(0, 212, 232);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <text x="22" y="11" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">Awareness</text>
-  <text x="188" y="11" text-anchor="end" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:end;dominant-baseline:auto">48,200</text>
+<!-- §9 — Typography -->
+<text x="68" y="50" class="ct">Sales Conversion Funnel - Funnel</text>
+<text x="68" y="70" class="cs">Marketing → Revenue pipeline · Q1 2026</text>
+<text x="68" y="600" class="footer">Source: CRM &amp; Analytics Platform · April 2026</text>
+
+<!-- §9 — Toggles -->
+<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
+  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
 </g>
-<g transform="translate(888,170)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-  <rect x="0" y="0" width="14" height="14" rx="3" style="fill:rgb(0, 184, 122);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <text x="22" y="11" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">Interest</text>
-  <text x="188" y="11" text-anchor="end" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:end;dominant-baseline:auto">28,900</text>
-</g>
-<g transform="translate(888,200)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-  <rect x="0" y="0" width="14" height="14" rx="3" style="fill:rgb(245, 158, 11);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <text x="22" y="11" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">Consideration</text>
-  <text x="188" y="11" text-anchor="end" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:end;dominant-baseline:auto">14,600</text>
-</g>
-<g transform="translate(888,230)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-  <rect x="0" y="0" width="14" height="14" rx="3" style="fill:rgb(244, 63, 94);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <text x="22" y="11" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">Intent</text>
-  <text x="188" y="11" text-anchor="end" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:end;dominant-baseline:auto">7,840</text>
-</g>
-<g transform="translate(888,260)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-  <rect x="0" y="0" width="14" height="14" rx="3" style="fill:rgb(139, 92, 246);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <text x="22" y="11" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">Evaluation</text>
-  <text x="188" y="11" text-anchor="end" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:end;dominant-baseline:auto">3,920</text>
-</g>
-<g transform="translate(888,290)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-  <rect x="0" y="0" width="14" height="14" rx="3" style="fill:rgb(59, 130, 246);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <text x="22" y="11" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">Purchase</text>
-  <text x="188" y="11" text-anchor="end" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:end;dominant-baseline:auto">1,960</text>
-</g>
-<line x1="888" y1="312" x2="1062" y2="312" style="fill:rgb(0, 0, 0);stroke:rgb(121, 116, 126);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.3;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<text x="888" y="332" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:500;text-anchor:start;dominant-baseline:auto">OVERALL CONVERSION</text>
-<g transform="translate(888,346)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-  <text x="0" y="11" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:start;dominant-baseline:auto">Top → Purchase</text>
-  <text x="188" y="11" text-anchor="end" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:end;dominant-baseline:auto">4.1%</text>
+<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
+  <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
 </g>
 
 <!--
-  Plot area: x=68..850, y=100..500  (matches bar chart layout)
-  Funnel centered horizontally in plot area center x=459
-  Max half-width = 350 (so full width 700, fits 68..768, leaving gap before legend at 870)
-  6 stages, each band height = 400/6 ≈ 66px, gap between bands = 6px
-  band height = 60px, gap = 6px → total = 6*60 + 5*6 = 390 → fits in 400px
-
-  Stage widths (half-widths, proportional to value, max hw=350):
-    base = 48200
-    fi0: hw = 350  (48200/48200 * 350)
-    fi1: hw = 350 * 28900/48200 = 210
-    fi2: hw = 350 * 14600/48200 = 106
-    fi3: hw = 350 * 7840/48200  =  57
-    fi4: hw = 350 * 3920/48200  =  28
-    fi5: hw = 350 * 1960/48200  =  14
-
-  cx = 459 (center of plot area 68..850)
-  Each band:  y_top = 100 + i*(60+6),  y_bot = y_top + 60
-  Trapezoid i: top-left=(cx-hw_i, y_top_i), top-right=(cx+hw_i, y_top_i)
-               bot-left=(cx-hw_{i+1}, y_bot_i), bot-right=(cx+hw_{i+1}, y_bot_i)
-  Last stage (i=5) bottom is just a rect (same hw top and bot, or taper to 14)
-
-  hw values:
-    0: 350
-    1: 210
-    2: 106
-    3: 57
-    4: 28
-    5: 14   (used as bottom of fi4 and both edges of fi5)
-
-  y_tops: 100, 166, 232, 298, 364, 430
-  y_bots: 160, 226, 292, 358, 424, 490
+  Plot area: x=68..850 y=100..500
+  cx=459, band h=60, gap=6, 6 stages
+  hw: 350, 210, 106, 57, 28, 14
+  y_tops: 100,166,232,298,364,430  y_bots: 160,226,292,358,424,490
 -->
 
-<g id="ca" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+<!-- §7 Layer 2 — Data (.ca) -->
+<g class="ca" id="ca">
 
   <!-- fi0: Awareness  hw_top=350 hw_bot=210  y=100..160 -->
-  <g id="fi0" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <polygon points="109,100 809,100 669,160 249,160" style="fill:rgb(0, 212, 232);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="459" y="124" text-anchor="middle" font-size="13" font-weight="500" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:13px;font-weight:500;text-anchor:middle;dominant-baseline:auto">48,200</text>
-    <text x="459" y="140" text-anchor="middle" font-size="11" font-weight="400" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Awareness</text>
+  <g class="fstage" id="fi0"
+     data-name="Awareness" data-val="48,200" data-pct="100%" data-dropoff=""
+     data-cx="459" data-cy="130" data-delay="0.00">
+    <polygon class="bar-1" points="109,100 809,100 669,160 249,160"/>
+    <text x="459" y="124" text-anchor="middle" class="bub-val" font-size="13" pointer-events="none">48,200</text>
+    <text x="459" y="140" text-anchor="middle" class="lt" font-size="11" pointer-events="none">Awareness</text>
   </g>
 
   <!-- fi1: Interest  hw_top=210 hw_bot=106  y=166..226 -->
-  <g id="fi1" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <polygon points="249,166 669,166 565,226 353,226" style="fill:rgb(0, 184, 122);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="459" y="190" text-anchor="middle" font-size="13" font-weight="500" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:13px;font-weight:500;text-anchor:middle;dominant-baseline:auto">28,900</text>
-    <text x="459" y="206" text-anchor="middle" font-size="11" font-weight="400" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Interest</text>
+  <g class="fstage" id="fi1"
+     data-name="Interest" data-val="28,900" data-pct="59.9%" data-dropoff="↓ 40.1%"
+     data-cx="459" data-cy="196" data-delay="0.13">
+    <polygon class="bar-2" points="249,166 669,166 565,226 353,226"/>
+    <text x="459" y="190" text-anchor="middle" class="bub-val" font-size="13" pointer-events="none">28,900</text>
+    <text x="459" y="206" text-anchor="middle" class="lt" font-size="11" pointer-events="none">Interest</text>
   </g>
 
   <!-- fi2: Consideration  hw_top=106 hw_bot=57  y=232..292 -->
-  <g id="fi2" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <polygon points="353,232 565,232 516,292 402,292" style="fill:rgb(245, 158, 11);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="459" y="256" text-anchor="middle" font-size="13" font-weight="500" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:13px;font-weight:500;text-anchor:middle;dominant-baseline:auto">14,600</text>
-    <text x="459" y="272" text-anchor="middle" font-size="11" font-weight="400" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Consideration</text>
+  <g class="fstage" id="fi2"
+     data-name="Consideration" data-val="14,600" data-pct="30.3%" data-dropoff="↓ 49.5%"
+     data-cx="459" data-cy="262" data-delay="0.25">
+    <polygon class="bar-3" points="353,232 565,232 516,292 402,292"/>
+    <text x="459" y="256" text-anchor="middle" class="bub-val" font-size="13" pointer-events="none">14,600</text>
+    <text x="459" y="272" text-anchor="middle" class="lt" font-size="11" pointer-events="none">Consideration</text>
   </g>
 
   <!-- fi3: Intent  hw_top=57 hw_bot=28  y=298..358 -->
-  <g id="fi3" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <polygon points="402,298 516,298 487,358 431,358" style="fill:rgb(244, 63, 94);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="459" y="322" text-anchor="middle" font-size="12" font-weight="500" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:12px;font-weight:500;text-anchor:middle;dominant-baseline:auto">7,840</text>
-    <text x="459" y="337" text-anchor="middle" font-size="10" font-weight="400" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Intent</text>
+  <g class="fstage" id="fi3"
+     data-name="Intent" data-val="7,840" data-pct="16.3%" data-dropoff="↓ 46.3%"
+     data-cx="459" data-cy="328" data-delay="0.38">
+    <polygon class="bar-4" points="402,298 516,298 487,358 431,358"/>
+    <text x="459" y="322" text-anchor="middle" class="bub-val" font-size="12" pointer-events="none">7,840</text>
+    <text x="459" y="337" text-anchor="middle" class="lt" font-size="10" pointer-events="none">Intent</text>
   </g>
 
   <!-- fi4: Evaluation  hw_top=28 hw_bot=14  y=364..424 -->
-  <g id="fi4" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <polygon points="431,364 487,364 473,424 445,424" style="fill:rgb(139, 92, 246);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="459" y="390" text-anchor="middle" font-size="11" font-weight="500" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:11px;font-weight:500;text-anchor:middle;dominant-baseline:auto">3,920</text>
-    <text x="459" y="404" text-anchor="middle" font-size="9" font-weight="400" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:9px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Eval.</text>
+  <g class="fstage" id="fi4"
+     data-name="Evaluation" data-val="3,920" data-pct="8.1%" data-dropoff="↓ 50.0%"
+     data-cx="459" data-cy="394" data-delay="0.50">
+    <polygon class="bar-5" points="431,364 487,364 473,424 445,424"/>
+    <text x="459" y="390" text-anchor="middle" class="bub-val" font-size="11" pointer-events="none">3,920</text>
+    <text x="459" y="404" text-anchor="middle" class="lt" font-size="9" pointer-events="none">Eval.</text>
   </g>
 
   <!-- fi5: Purchase  hw=14 rect  y=430..490 -->
-  <g id="fi5" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-    <polygon points="445,430 473,430 473,490 445,490" style="fill:rgb(59, 130, 246);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <text x="459" y="456" text-anchor="middle" font-size="10" font-weight="500" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:500;text-anchor:middle;dominant-baseline:auto">1,960</text>
-    <text x="459" y="470" text-anchor="middle" font-size="9" font-weight="400" fill="#1C1B1F" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:9px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Buy</text>
+  <g class="fstage" id="fi5"
+     data-name="Purchase" data-val="1,960" data-pct="4.1%" data-dropoff="↓ 50.0%"
+     data-cx="459" data-cy="460" data-delay="0.63">
+    <polygon class="bar-6" points="445,430 473,430 473,490 445,490"/>
+    <text x="459" y="456" text-anchor="middle" class="bub-val" font-size="10" pointer-events="none">1,960</text>
+    <text x="459" y="470" text-anchor="middle" class="lt" font-size="9" pointer-events="none">Purchase</text>
   </g>
 
+</g><!-- end .ca -->
+
+<!-- §7 Layer 3 — Drop-off labels (structural overlay, paints above funnel) -->
+<g id="dropoff-labels">
+  <text x="820" y="137" class="an">↓ 40.1%</text>
+  <text x="820" y="203" class="an">↓ 49.5%</text>
+  <text x="820" y="269" class="an">↓ 46.3%</text>
+  <text x="820" y="330" class="an">↓ 50.0%</text>
+  <text x="820" y="396" class="an">↓ 50.0%</text>
 </g>
 
-<!-- Drop-off labels on right side — anchored just outside right edge of each band -->
-<!-- Between fi0→fi1: right edge at x=809 top, 669 bot → label at x=815, mid y=133 -->
-<text x="820" y="137" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">↓ 40.1%</text>
-<text x="820" y="203" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">↓ 49.5%</text>
-<text x="820" y="269" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">↓ 46.3%</text>
-<text x="820" y="330" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">↓ 50.0%</text>
-<text x="820" y="396" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">↓ 50.0%</text>
-
-<!-- Tooltip layer (JS-driven) -->
-<g id="tip" style="opacity:0;pointer-events:none;transition:opacity .15s ease;fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-  <rect id="tip-bg" rx="9" style="fill:rgb(255, 251, 254);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <path id="tip-bdr" style="fill:rgb(255, 251, 254);stroke:rgb(121, 116, 126);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <path id="tip-arr" style="fill:rgb(255, 251, 254);stroke:rgb(121, 116, 126);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-  <text id="tip-val" text-anchor="middle" style="fill:rgb(28, 27, 31);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:13px;font-weight:500;text-anchor:middle;dominant-baseline:auto"/>
-  <text id="tip-lbl" text-anchor="middle" style="fill:rgb(73, 69, 79);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:400;text-anchor:middle;dominant-baseline:auto"/>
-  <text id="tip-pct" text-anchor="middle" style="fill:rgb(121, 116, 126);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Inter, &quot;Helvetica Neue&quot;, Arial, sans-serif;font-size:10px;font-weight:400;text-anchor:middle;dominant-baseline:auto"/>
+<!-- §9 — Legend -->
+<rect x="870" y="100" width="210" height="248" rx="14" class="lgd-bg"/>
+<text x="888" y="124" class="lgd-ttl">FUNNEL STAGES</text>
+<g transform="translate(888,140)">
+  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-1"/>
+  <text x="22" y="11" class="lt">Awareness</text>
+  <text x="188" y="11" class="lv lgd-val" text-anchor="end">48,200</text>
+</g>
+<g transform="translate(888,170)">
+  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-2"/>
+  <text x="22" y="11" class="lt">Interest</text>
+  <text x="188" y="11" class="lv lgd-val" text-anchor="end">28,900</text>
+</g>
+<g transform="translate(888,200)">
+  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-3"/>
+  <text x="22" y="11" class="lt">Consideration</text>
+  <text x="188" y="11" class="lv lgd-val" text-anchor="end">14,600</text>
+</g>
+<g transform="translate(888,230)">
+  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-4"/>
+  <text x="22" y="11" class="lt">Intent</text>
+  <text x="188" y="11" class="lv lgd-val" text-anchor="end">7,840</text>
+</g>
+<g transform="translate(888,260)">
+  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-5"/>
+  <text x="22" y="11" class="lt">Evaluation</text>
+  <text x="188" y="11" class="lv lgd-val" text-anchor="end">3,920</text>
+</g>
+<line x1="888" y1="288" x2="1062" y2="288" class="lgd-div"/>
+<g transform="translate(888,300)">
+  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-6"/>
+  <text x="22" y="11" class="lt">Purchase</text>
+  <text x="188" y="11" class="lv lgd-val" text-anchor="end">1,960</text>
 </g>
 
+<rect x="870" y="362" width="210" height="46" rx="14" class="lgd-bg"/>
+<text x="888" y="382" class="lgd-ttl">OVERALL CONVERSION</text>
+<text x="888" y="398" class="lt">Top → Purchase <tspan class="lv">4.1%</tspan></text>
 
+<!-- §7 Layer 4 — Tooltip (JS-driven, always last) -->
+<g class="tip" id="tip">
+  <rect id="tip-bg"  class="bub-bg" rx="9"/>
+  <path id="tip-bdr" class="bub-bdr"/>
+  <path id="tip-arr" class="bub-tip"/>
+  <text id="tip-val" class="bub-val" text-anchor="middle"/>
+  <text id="tip-lbl" class="bub-lbl" text-anchor="middle"/>
+  <text id="tip-pct" class="bub-pct" text-anchor="middle"/>
+</g>
+
+<script type="text/javascript"><![CDATA[
+(function() {
+  var svg   = document.getElementById('root');
+  var ca    = document.getElementById('ca');
+  var stages = Array.prototype.slice.call(ca.querySelectorAll('.fstage'));
+
+  /* §2 — isDark declared before all other code */
+  var isDark = false;
+
+  /* §3 — Method A1: animationend + .visible, adaptive stagger, .ready gate */
+  var duration = 0.8;
+  var stagger  = Math.min(0.25, 1.0 / stages.length);
+  var lastDelay = 0;
+
+  stages.forEach(function(g, i) {
+    var delay = (i * stagger).toFixed(2);
+    if (parseFloat(delay) > lastDelay) lastDelay = parseFloat(delay);
+    g.style.animation = 'stageFade ' + duration + 's ease-out ' + delay + 's';
+    g.addEventListener('animationend', function() {
+      g.style.animation = '';
+      g.classList.add('visible');
+    }, { once: true });
+  });
+
+  setTimeout(function() {
+    ca.classList.add('ready');
+  }, (lastDelay + duration + 0.1) * 1000);
+
+  /* §5 — JS-driven tooltip */
+  var tip    = document.getElementById('tip');
+  var tipBg  = document.getElementById('tip-bg');
+  var tipBdr = document.getElementById('tip-bdr');
+  var tipArr = document.getElementById('tip-arr');
+  var tipVal = document.getElementById('tip-val');
+  var tipLbl = document.getElementById('tip-lbl');
+  var tipPct = document.getElementById('tip-pct');
+  var BH = 62, TAIL = 10, RX = 9, TW = 8;
+
+  function posTip(cx, cy, name, val, pct, dropoff) {
+    /* 1 — set text first so getBBox measures real widths */
+    tipVal.textContent = val;
+    tipLbl.textContent = name;
+    tipPct.textContent = pct + (dropoff ? '  ·  ' + dropoff : '');
+
+    /* 2 — measure, derive hw */
+    var pad = 20;
+    var hw = Math.max(
+      tipVal.getBBox().width + pad,
+      tipLbl.getBBox().width + pad,
+      tipPct.getBBox().width + pad,
+      60
+    ) / 2;
+
+    /* 3 — clamp tx */
+    var tx = Math.max(hw + 8, Math.min(cx, 1100 - hw - 8));
+
+    /* 4 — flip: bubble below when near top */
+    var flip = cy < BH + TAIL + 20;
+    var bT = flip ? cy + TAIL      : cy - TAIL - BH;
+    var bB = flip ? cy + TAIL + BH : cy - TAIL;
+    if (bT < 8)   { bT = 8;   bB = bT + BH; }
+    if (bB > 610) { bB = 610; bT = bB - BH; }
+    var bL = tx - hw, bR = tx + hw;
+
+    /* 5 — background rect */
+    tipBg.setAttribute('x', bL);      tipBg.setAttribute('y', bT);
+    tipBg.setAttribute('width', hw*2); tipBg.setAttribute('height', BH);
+
+    /* 6 — open border path + tail */
+    var openD, tailD;
+    if (!flip) {
+      openD = 'M'+(tx+TW)+','+bB+
+        ' L'+(bR-RX)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-RX)+
+        ' L'+bR+','+(bT+RX)+' Q'+bR+','+bT+' '+(bR-RX)+','+bT+
+        ' L'+(bL+RX)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+RX)+
+        ' L'+bL+','+(bB-RX)+' Q'+bL+','+bB+' '+(bL+RX)+','+bB+
+        ' L'+(tx-TW)+','+bB;
+      tailD = 'M'+(tx-TW)+','+bB+' L'+tx+','+(bB+TAIL)+' L'+(tx+TW)+','+bB;
+    } else {
+      openD = 'M'+(tx-TW)+','+bT+
+        ' L'+(bL+RX)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+RX)+
+        ' L'+bL+','+(bB-RX)+' Q'+bL+','+bB+' '+(bL+RX)+','+bB+
+        ' L'+(bR-RX)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-RX)+
+        ' L'+bR+','+(bT+RX)+' Q'+bR+','+bT+' '+(bR-RX)+','+bT+
+        ' L'+(tx+TW)+','+bT;
+      tailD = 'M'+(tx+TW)+','+bT+' L'+tx+','+(bT-TAIL)+' L'+(tx-TW)+','+bT;
+    }
+    tipBdr.setAttribute('d', openD);
+    tipArr.setAttribute('d', tailD);
+
+    /* 7 — text positions */
+    tipVal.setAttribute('x', tx); tipVal.setAttribute('y', bT + BH * 0.26);
+    tipLbl.setAttribute('x', tx); tipLbl.setAttribute('y', bT + BH * 0.52);
+    tipPct.setAttribute('x', tx); tipPct.setAttribute('y', bT + BH * 0.78);
+  }
+
+  /* §4 — Hover: A1 pattern, container mouseleave (adjacent trapezoids) */
+  stages.forEach(function(g) {
+    g.addEventListener('mouseenter', function() {
+      ca.classList.add('hovering');
+      stages.forEach(function(s) { s.classList.remove('hovered'); });
+      g.classList.add('hovered');
+      tip.style.opacity = '1';
+      var cx      = parseFloat(g.getAttribute('data-cx'));
+      var cy      = parseFloat(g.getAttribute('data-cy'));
+      var name    = g.getAttribute('data-name');
+      var val     = g.getAttribute('data-val');
+      var pct     = g.getAttribute('data-pct');
+      var dropoff = g.getAttribute('data-dropoff');
+      posTip(cx, cy, name, val, pct, dropoff);
+    });
+    g.addEventListener('mouseleave', function() {
+      g.classList.remove('hovered');
+      tip.style.opacity = '';
+    });
+  });
+
+  /* container mouseleave for .hovering — prevents flicker between adjacent trapezoids */
+  ca.addEventListener('mouseleave', function() {
+    ca.classList.remove('hovering');
+  });
+
+  /* §2 — Dark mode toggle */
+  function setMode(wantDark) {
+    if (wantDark === isDark) return;
+    isDark = wantDark;
+    var thumb = document.getElementById('tthumb');
+    var lbl   = document.getElementById('tlabel');
+    if (wantDark) {
+      svg.classList.add('dark');
+      if (thumb) thumb.setAttribute('cx', '52');
+      if (lbl)   lbl.textContent = 'Light';
+    } else {
+      svg.classList.remove('dark');
+      if (thumb) thumb.setAttribute('cx', '16');
+      if (lbl)   lbl.textContent = 'Dark';
+    }
+  }
+
+  document.getElementById('dark-toggle').addEventListener('click', function() { setMode(!isDark); });
+  document.getElementById('print-toggle').addEventListener('click', function() {
+    var thumb = document.getElementById('pthumb'), lbl = document.getElementById('plabel');
+    if (svg.classList.toggle('print')) { thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
+    else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print';  }
+  });
+
+  window.setMode = setMode;
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
+  });
+  setMode(window.location.href.indexOf('theme=dark') !== -1);
+})();
+]]></script>
 </svg>

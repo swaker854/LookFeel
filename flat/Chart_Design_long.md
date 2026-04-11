@@ -20,8 +20,12 @@ svg.dark .bar-7 { fill:#2DD4BF; } svg.dark .bar-8 { fill:#94A3B8; }
 
 > **Pure SVG charts** (no outer HTML document) use `svg.dark .bar-N`
 > when the root element is `<svg id="root">` — `svg.dark` matches the
-> element itself. Use `#root.dark .bar-N` only when the SVG is inlined
-> inside an HTML document where `svg` as a selector might be ambiguous.
+> element itself because the selector targets `<svg>` elements that also
+> have the `dark` class. Use `#root.dark .bar-N` only when the SVG is
+> inlined inside an HTML document where `svg` as a selector might match
+> outer SVG elements unexpectedly. All card shell dark overrides follow
+> the same `svg.dark` pattern — never mix `#root.dark` and `svg.dark`
+> in the same chart.
 
 ### Semantic color extension
 
@@ -270,8 +274,8 @@ Method A2 (separate nested elements — bar, pareto, etc.):
 
 ```js
 // mouseenter
-container.classList.add('hovering');
 items.forEach(function(x){ x.classList.remove('hovered'); }); // clear stale — never omit
+container.classList.add('hovering');
 item.classList.add('hovered');
 showTooltip(x, y, data);
 
@@ -280,6 +284,16 @@ container.classList.remove('hovering');
 item.classList.remove('hovered');
 hideTooltip();
 ```
+
+**`mouseleave` placement — element-level vs container-level.** Where `.hovering` is removed depends on whether hit targets have gaps between them:
+
+- **Element-level `mouseleave`** (default): correct when hit targets have clear gaps. Moving between elements always fires `mouseleave` on the departing element before `mouseenter` on the next, so element-level removal is safe and immediate.
+- **Container-level `mouseleave`**: required when hit targets are adjacent or overlapping. Moving between adjacent elements fires the element's `mouseleave` before the next `mouseenter`, momentarily leaving `.hovering` set with no `.active` element — all items flash to `opacity:0.20` simultaneously. Container-level removal prevents this.
+
+| Chart | `mouseleave` on |
+|---|---|
+| Bar, Pareto, Candle, Line, Tree | Individual element — hit targets have clear gaps |
+| Donut, Sunburst, Treemap, Marimekko, Icicle, Radar | Container — adjacent or overlapping hit targets |
 
 ### Tooltip bubble classes
 
@@ -736,7 +750,9 @@ The plot area is bounded by:
 | Bottom | y = 500 |
 
 This gives 782 × 400 px. All data elements must fit within this box.
-For charts without a y-axis (circle packing, donut, etc.) the full box is still the layout constraint — no element edge should cross these bounds.
+For charts without a y-axis (circle packing, donut, etc.) the full box is still the layout constraint — no element edge should cross these bounds. Center circular charts at the plot area midpoint (`x ≈ 459, y ≈ 300`).
+
+**`x=850` is an outer boundary, not a fill target.** The data area may end before `x=850` when layout requires it — for example, a dual-axis chart may run gridlines and bars only to `x=820`, reserving the `x=820–850` corridor for the secondary axis line and its labels. All elements including those labels must still stay within `x=850`. Secondary axis labels in that corridor are correct, not a violation.
 
 ### Legend
 
@@ -902,17 +918,21 @@ var tx = Math.max(hw + 8, Math.min(cx, 1100 - hw - 8));
 
 ## 10. Animation Timing Reference
 
-All charts share the same timing constants. Do not invent new values.
+Duration and easing are fixed for all charts. Stagger has a maximum of `0.25s` but must scale down when element count is large.
 
 | Parameter      | Value  | Notes                                      |
 |----------------|--------|--------------------------------------------|
-| Duration       | `0.8s` | `itemFade` / `barFadeIn` duration          |
-| Stagger        | `0.25s`| Delay increment per element                |
-| Easing         | `ease-out` | Consistent across all charts           |
+| Duration       | `0.8s` | Fixed — `itemFade` / `barFadeIn` duration  |
+| Stagger        | `min(0.25, 1.0 / count)` | 0.25s max; scale down for large counts |
+| Easing         | `ease-out` | Fixed — consistent across all charts   |
 | `.ready` delay | `(lastDelay + duration + 0.1) * 1000` ms | 100ms buffer after last animation |
 
+### Standard case — small element count
+
+For charts with few elements (e.g. 8-bar chart), the full `0.25s` stagger applies and produces the intended cadence (1.75s total spread):
+
 ```js
-// Correct timing — matches bar chart
+// Standard — small count, full stagger
 var duration  = 0.8;
 var stagger   = 0.25;
 var lastDelay = (items.length - 1) * stagger;
@@ -930,4 +950,43 @@ setTimeout(function() {
 }, (lastDelay + duration + 0.1) * 1000);
 ```
 
-**Do not shorten stagger or duration** to make the animation "snappier" — the 0.8s / 0.25s cadence is a deliberate design choice that matches across all chart types so dashboards feel consistent.
+### Adaptive case — large element count
+
+When element count is large (e.g. a 30-bar chart, or a dense icicle column with 50+ cells), a fixed `0.25s` stagger produces an unacceptably long animation — 50 elements × 0.25s = 12.5s before the last element appears. Cap the total spread at ~1s by scaling the stagger down:
+
+```js
+// Adaptive — large count, stagger scales to fit ~1s window
+var duration  = 0.8;
+var WINDOW    = 1.0;  // max spread duration in seconds
+var stagger   = Math.min(0.25, WINDOW / items.length);
+var lastDelay = (items.length - 1) * stagger;
+
+items.forEach(function(el, i) {
+  el.style.animation = 'itemFade ' + duration + 's ease-out ' + (i * stagger).toFixed(2) + 's';
+  el.addEventListener('animationend', function() {
+    el.style.animation = 'none';
+    el.classList.add('visible');
+  }, { once: true });
+});
+
+setTimeout(function() {
+  container.classList.add('ready');
+}, (lastDelay + duration + 0.1) * 1000);
+```
+
+This formula is self-correcting: for 8 elements `min(0.25, 1.0/8) = 0.125` — still fast and comfortable. For 50 elements `min(0.25, 1.0/50) = 0.02` — the full column spreads in 1s. Duration and easing never change.
+
+**Do not shorten duration** — only stagger adapts. The 0.8s per-element fade is a deliberate design choice that remains consistent regardless of element count.
+
+---
+
+## 11. Guiding Principles
+
+These apply across every section and every chart type.
+
+* **CSS owns styling; JS owns behavior.** If JS is mutating colors, fills, or opacities outside of the animation loop, that is a signal that something belongs in CSS instead.
+* **Never duplicate state between DOM and JS.** `isDark` is the source of truth for dark mode — never re-read it from `classList`. The DOM reflects state; it does not define it.
+* **Prefer structure over mutation.** The A1 animation pattern (`.visible` class + CSS state) is cleaner than mutating inline styles after the fact. The depth-tinting `recolor()` pattern mutates only fill attributes — it never rebuilds the DOM.
+* **Protect hover consistency at all times.** The stale-clear on `mouseenter` is never optional. Two elements highlighted simultaneously is always a bug, and it always comes from a missing stale-clear or a wrong `mouseleave` placement.
+* **Always support both light and dark mode from the start.** Dark mode added as an afterthought produces `swapColors()`-style JS hacks. Built-in from the start, it is purely a CSS class toggle with zero JS color logic.
+* **Layout spacing is as important as visual correctness.** A chart that renders correctly but clips into the title zone, misplaces the footer, or expands into the legend area fails the standard even if the data rendering is perfect.

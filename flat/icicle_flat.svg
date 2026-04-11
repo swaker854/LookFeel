@@ -1,8 +1,8 @@
-
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
 <style>
-  .bg-main  { fill:#FFFBFE; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
+  .bg-main  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
   .ct       { font-size:18px;font-weight:500;fill:#1C1B1F;letter-spacing:-.2px; }
   .cs       { font-size:11px;fill:#79747E;font-weight:400; }
   .an       { font-size:10px;fill:#79747E;font-weight:400; }
@@ -18,8 +18,8 @@
   .pt-track { fill:#E7E0EC;transition:fill .3s; } .pt-thumb { fill:#fff; }
   .pt-label { font-size:11px;font-weight:500;fill:#49454F; }
   .lgd-val  { opacity:0;transition:opacity .2s; }
-  #root.print .lgd-val  { opacity:1; }
-  #root.print .pt-track { fill:#d97316; }
+  svg.print .lgd-val  { opacity:1; }
+  svg.print .pt-track { fill:#d97316; }
 
   /* ── standard palette — light mode ── */
   .bar-1 { fill:#00D4E8; } .bar-2 { fill:#00B87A; }
@@ -28,10 +28,10 @@
   .bar-7 { fill:#0D9488; } .bar-8 { fill:#64748B; }
 
   /* ── standard palette — dark mode ── */
-  #root.dark .bar-1 { fill:#22D3EE; } #root.dark .bar-2 { fill:#10B981; }
-  #root.dark .bar-3 { fill:#FBB724; } #root.dark .bar-4 { fill:#FB6181; }
-  #root.dark .bar-5 { fill:#A78BFA; } #root.dark .bar-6 { fill:#60A5FA; }
-  #root.dark .bar-7 { fill:#2DD4BF; } #root.dark .bar-8 { fill:#94A3B8; }
+  svg.dark .bar-1 { fill:#22D3EE; } svg.dark .bar-2 { fill:#10B981; }
+  svg.dark .bar-3 { fill:#FBB724; } svg.dark .bar-4 { fill:#FB6181; }
+  svg.dark .bar-5 { fill:#A78BFA; } svg.dark .bar-6 { fill:#60A5FA; }
+  svg.dark .bar-7 { fill:#2DD4BF; } svg.dark .bar-8 { fill:#94A3B8; }
 
   /* ── depth blend ratios + bg targets ── */
   #root {
@@ -41,7 +41,7 @@
 
   /* ── Method A @keyframes — animationend adds .visible, no fill-mode conflict ── */
   @keyframes cellFade { from{opacity:0} to{opacity:1} }
-  .icell         { opacity:0; cursor:pointer; transition:opacity .2s ease; }
+  .icell         { cursor:pointer; transition:opacity .2s ease; }
   .icell.visible { opacity:1; }
 
   /* ── hover dimming gated on .ready ── */
@@ -50,7 +50,7 @@
 
   /* ── tooltip ── */
   .tip          { opacity:0; pointer-events:none; transition:opacity .12s ease; }
-  #root.print .tip { opacity:0 !important; }
+  svg.print .tip { opacity:0 !important; }
   .bub-bg  { fill:#FFFBFE; }
   .bub-bdr { fill:#FFFBFE;stroke:#79747E;stroke-width:1; }
   .bub-tip { fill:#FFFBFE;stroke:#79747E;stroke-width:1; }
@@ -58,32 +58,32 @@
   .bub-lbl { fill:#49454F;font-size:10px;font-weight:400; }
   .bub-pct { fill:#79747E;font-size:10px;font-weight:400; }
 
-  #root.dark .bg-main  { fill:#1C1B1F; }
-  #root.dark .ct       { fill:#E6E0E9; } #root.dark .cs  { fill:#938F99; }
-  #root.dark .an       { fill:#938F99; }
-  #root.dark .lt       { fill:#E6E0E9; } #root.dark .lv  { fill:#E6E0E9; }
-  #root.dark .lgd-bg   { fill:#49454F;stroke:#938F99; }
-  #root.dark .lgd-div  { stroke:#938F99; } #root.dark .lgd-ttl { fill:#938F99; }
-  #root.dark .footer   { fill:#938F99; }
-  #root.dark .t-track  { fill:#49454F; } #root.dark .t-label  { fill:#CAC4D0; }
-  #root.dark .pt-track { fill:#49454F; } #root.dark .pt-label { fill:#CAC4D0; }
-  #root.dark.print .pt-track { fill:#d97316; }
-  #root.dark .bub-bg   { fill:#1C1B1F; }
-  #root.dark .bub-bdr  { fill:#1C1B1F;stroke:#938F99; }
-  #root.dark .bub-tip  { fill:#1C1B1F;stroke:#938F99; }
-  #root.dark .bub-val  { fill:#E6E0E9; } #root.dark .bub-lbl { fill:#CAC4D0; }
-  #root.dark .bub-pct  { fill:#938F99; }
+  svg.dark .bg-main  { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+  svg.dark .ct       { fill:#E6E0E9; } svg.dark .cs  { fill:#938F99; }
+  svg.dark .an       { fill:#938F99; }
+  svg.dark .lt       { fill:#E6E0E9; } svg.dark .lv  { fill:#E6E0E9; }
+  svg.dark .lgd-bg   { fill:#49454F;stroke:#938F99; }
+  svg.dark .lgd-div  { stroke:#938F99; } svg.dark .lgd-ttl { fill:#938F99; }
+  svg.dark .footer   { fill:#938F99; }
+  svg.dark .t-track  { fill:#49454F; } svg.dark .t-label  { fill:#CAC4D0; }
+  svg.dark .pt-track { fill:#49454F; } svg.dark .pt-label { fill:#CAC4D0; }
+  svg.dark.print .pt-track { fill:#d97316; }
+  svg.dark .bub-bg   { fill:#1C1B1F; }
+  svg.dark .bub-bdr  { fill:#1C1B1F;stroke:#938F99; }
+  svg.dark .bub-tip  { fill:#1C1B1F;stroke:#938F99; }
+  svg.dark .bub-val  { fill:#E6E0E9; } svg.dark .bub-lbl { fill:#CAC4D0; }
+  svg.dark .bub-pct  { fill:#938F99; }
   .border-dark  { display:none; } .border-light { display:block; }
-  #root.dark .border-dark  { display:block; } #root.dark .border-light { display:none; }
+  svg.dark .border-dark  { display:block; } svg.dark .border-light { display:none; }
 </style>
-<clipPath id="chart-clip"><rect x="40" y="100" width="820" height="400"/></clipPath>
+<clipPath id="chart-clip"><rect x="68" y="100" width="782" height="400"/></clipPath>
 </defs>
 
 <rect class="bg-main" width="1100" height="620" rx="18"/>
 <g class="border-light"><rect x=".75" y=".75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,.10)" stroke-width="1.5"/></g>
 <g class="border-dark"><rect x=".75" y=".75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,.22)" stroke-width="1.5"/></g>
 
-<text x="68" y="50" class="ct">Flare Visualization Toolkit</text>
+<text x="68" y="50" class="ct">Flare Visualization Toolkit - Icicle</text>
 <text x="68" y="70" class="cs">Icicle · 5 levels · area ∝ source lines of code · hover to inspect · depth-tinted per module</text>
 
 <g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
@@ -97,11 +97,11 @@
   <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
 </g>
 
-<text x="120" y="92" class="an" text-anchor="middle">L0 · root</text>
-<text x="284" y="92" class="an" text-anchor="middle">L1 · module</text>
-<text x="448" y="92" class="an" text-anchor="middle">L2 · submodule</text>
-<text x="612" y="92" class="an" text-anchor="middle">L3 · class</text>
-<text x="776" y="92" class="an" text-anchor="middle">L4 · leaf</text>
+<text x="148" y="92" class="an" text-anchor="middle">L0 · root</text>
+<text x="312" y="92" class="an" text-anchor="middle">L1 · module</text>
+<text x="476" y="92" class="an" text-anchor="middle">L2 · submodule</text>
+<text x="640" y="92" class="an" text-anchor="middle">L3 · class</text>
+<text x="804" y="92" class="an" text-anchor="middle">L4 · leaf</text>
 
 <g class="ca" id="ca" clip-path="url(#chart-clip)"></g>
 
@@ -116,15 +116,15 @@
 <g id="lgd-depth"></g>
 
 <g class="tip" id="tip">
-  <rect id="tip-bg"  class="bub-bg"  rx="10"/>
-  <rect id="tip-bdr" class="bub-bdr" rx="10"/>
-  <polygon id="tip-arr" class="bub-tip"/>
+  <rect id="tip-bg"  class="bub-bg"  rx="9"/>
+  <path id="tip-bdr" class="bub-bdr"/>
+  <path id="tip-arr" class="bub-tip"/>
   <text id="tip-name" class="bub-val" text-anchor="middle"/>
   <text id="tip-val"  class="bub-lbl" text-anchor="middle"/>
   <text id="tip-pct"  class="bub-pct" text-anchor="middle"/>
 </g>
 
-<text x="68" y="580" class="footer">Flare Visualization Toolkit · icicle · CSS palette + CSS blend ratios · JS tint math only</text>
+<text x="68" y="600" class="footer">Flare Visualization Toolkit · icicle · CSS palette + CSS blend ratios · JS tint math only</text>
 
 <script type="text/javascript"><![CDATA[
 (function(){
@@ -172,9 +172,12 @@
 
   var TOTAL = 819293, S = 400/TOTAL;
   var COL_W = 160, COL_GAP = 4;
-  var COL_DUR   = 0.5;
-  var COL_START = [0, 0.6, 1.3, 2.1, 2.9];
-  function colX(d){ return 40+d*(COL_W+COL_GAP); }
+  var COL_DUR   = 0.8;
+  var COL_START = [0, 0.25, 0.50, 0.75, 1.00];
+  /* per-column stagger: cap at 0.25s but scale down so each column
+     spreads within ~1s regardless of cell count */
+  var COL_ANIM_WINDOW = 1.0;
+  function colX(d){ return 68+d*(COL_W+COL_GAP); }
 
   var nodes = [
     ['flare',819293,0,1],
@@ -254,6 +257,10 @@
     return e;
   }
 
+  /* pre-count cells per depth so colStagger() has totals before buildCells runs */
+  var depthTotal=[0,0,0,0,0];
+  nodes.forEach(function(n){ depthTotal[n[2]]++; });
+
   var depthCount=[0,0,0,0,0];
   var cellEls=[];
 
@@ -262,16 +269,19 @@
       var name=n[0],val=n[1],depth=n[2],ci=n[3];
       var x=colX(depth),y=yPos[name]||100,h=Math.max(1.5,val*S);
       var idx=depthCount[depth]++;
-      var delay=(COL_START[depth]+idx*0.04).toFixed(2);
+      var stagger=Math.min(0.25, COL_ANIM_WINDOW / Math.max(depthTotal[depth], 1));
+      var delay=(COL_START[depth]+idx*stagger).toFixed(2);
 
       var g=makeEl('g',{'class':'icell',
         'data-name':name,'data-val':val,'data-ci':ci,'data-depth':depth});
 
-      // Method A: inline animation style — never opacity
-      // animationend clears animation and adds .visible so CSS hover can take over
-      g.style.animation='cellFade '+COL_DUR+'s ease-out '+delay+'s';
+      // §3 fix: inline opacity:0 before animation so CSS has no base value to snap back to.
+      // animationend clears both animation and inline opacity, then adds .visible.
+      g.style.opacity   = '0';
+      g.style.animation = 'cellFade '+COL_DUR+'s ease-out '+delay+'s';
       g.addEventListener('animationend',function(){
-        g.style.animation='none';
+        g.style.animation = 'none';
+        g.style.opacity   = '';
         g.classList.add('visible');
       },{once:true});
 
@@ -345,23 +355,65 @@
       tipBg=document.getElementById('tip-bg'),tipBdr=document.getElementById('tip-bdr'),
       tipArr=document.getElementById('tip-arr'),tipName=document.getElementById('tip-name'),
       tipVal=document.getElementById('tip-val'),tipPct=document.getElementById('tip-pct');
-  var BW=132,BH=58,TAIL=10;
+  var BH=58,TAIL=10;
 
   function posTip(mx,my,name,val){
-    var tx=Math.max(BW/2+8,Math.min(mx,1092-BW/2));
-    var flip=my<BH+TAIL+20,by=flip?my+TAIL:my-TAIL-BH;
-    [tipBg,tipBdr].forEach(function(e){
-      e.setAttribute('x',tx-BW/2);e.setAttribute('y',by);
-      e.setAttribute('width',BW);e.setAttribute('height',BH);
-    });
-    tipArr.setAttribute('points',!flip
-      ?(tx-8)+','+(by+BH)+' '+(tx+8)+','+(by+BH)+' '+tx+','+(by+BH+TAIL)
-      :(tx-8)+','+by+' '+(tx+8)+','+by+' '+tx+','+(by-TAIL));
-    tipName.setAttribute('x',tx);tipName.setAttribute('y',by+17);tipName.textContent=name;
-    tipVal.setAttribute('x',tx);tipVal.setAttribute('y',by+33);
+    /* set text first so getBBox measures real rendered width */
+    tipName.textContent=name;
     tipVal.textContent=parseInt(val).toLocaleString()+' lines';
-    tipPct.setAttribute('x',tx);tipPct.setAttribute('y',by+48);
     tipPct.textContent=(parseInt(val)/TOTAL*100).toFixed(1)+'% of total';
+
+    /* measure actual widths, derive hw */
+    var pad=20;
+    var hw=Math.max(
+      tipName.getBBox().width+pad,
+      tipVal.getBBox().width+pad,
+      tipPct.getBBox().width+pad,
+      60
+    )/2;
+
+    var rx9=9, tw=8;
+    var tx=Math.max(hw+8,Math.min(mx,1092-hw));
+    var flip=my<BH+TAIL+20;
+    var bT,bB;
+    if(!flip){ bT=my-TAIL-BH; bB=my-TAIL; }
+    else     { bT=my+TAIL;    bB=my+TAIL+BH; }
+    // clamp vertically
+    if(bT<8)   { bT=8;   bB=bT+BH; }
+    if(bB>610) { bB=610; bT=bB-BH; }
+    var bL=tx-hw, bR=tx+hw;
+
+    // background rect
+    tipBg.setAttribute('x',bL); tipBg.setAttribute('y',bT);
+    tipBg.setAttribute('width',hw*2); tipBg.setAttribute('height',BH);
+
+    // open-path border — gap of ±tw at the tail side, no Z
+    var openPath, tailPath;
+    if(!flip){
+      // tail below: gap at bottom centre
+      openPath='M'+(tx+tw)+','+bB+
+        ' L'+(bR-rx9)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-rx9)+
+        ' L'+bR+','+(bT+rx9)+' Q'+bR+','+bT+' '+(bR-rx9)+','+bT+
+        ' L'+(bL+rx9)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+rx9)+
+        ' L'+bL+','+(bB-rx9)+' Q'+bL+','+bB+' '+(bL+rx9)+','+bB+
+        ' L'+(tx-tw)+','+bB;
+      tailPath='M'+(tx-tw)+','+bB+' L'+tx+','+(my)+' L'+(tx+tw)+','+bB;
+    } else {
+      // tail above: gap at top centre
+      openPath='M'+(tx-tw)+','+bT+
+        ' L'+(bL+rx9)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+rx9)+
+        ' L'+bL+','+(bB-rx9)+' Q'+bL+','+bB+' '+(bL+rx9)+','+bB+
+        ' L'+(bR-rx9)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-rx9)+
+        ' L'+bR+','+(bT+rx9)+' Q'+bR+','+bT+' '+(bR-rx9)+','+bT+
+        ' L'+(tx+tw)+','+bT;
+      tailPath='M'+(tx+tw)+','+bT+' L'+tx+','+my+' L'+(tx-tw)+','+bT;
+    }
+    tipBdr.setAttribute('d',openPath);
+    tipArr.setAttribute('d',tailPath);
+
+    tipName.setAttribute('x',tx);tipName.setAttribute('y',bT+BH*0.28);
+    tipVal.setAttribute('x',tx); tipVal.setAttribute('y',bT+BH*0.54);
+    tipPct.setAttribute('x',tx); tipPct.setAttribute('y',bT+BH*0.78);
   }
 
   function attachHover(){
@@ -381,10 +433,13 @@
         posTip(sp.x,sp.y,c.dataset.name,c.dataset.val);
       });
       c.addEventListener('mouseleave',function(){
-        ca.classList.remove('hovering');
         c.classList.remove('hovered');
-        tip.style.opacity=''; // clear inline style
+        tip.style.opacity='';
       });
+    });
+    /* hovering managed on container — prevents flicker when moving between adjacent cells */
+    ca.addEventListener('mouseleave',function(){
+      ca.classList.remove('hovering');
     });
   }
 
@@ -408,8 +463,9 @@
 
   buildCells();
   // gate hover dimming after last cell's animationend fires
-  var lastDelay=COL_START[4]+(nodes.filter(function(n){return n[2]===4;}).length-1)*0.04;
-  setTimeout(function(){ca.classList.add('ready');},(lastDelay+COL_DUR)*1000+100);
+  var d4stagger=Math.min(0.25, COL_ANIM_WINDOW / Math.max(depthTotal[4], 1));
+  var lastDelay=COL_START[4]+(depthTotal[4]-1)*d4stagger;
+  setTimeout(function(){ca.classList.add('ready');},(lastDelay+COL_DUR+0.1)*1000);
   buildLegend();
   buildDepthLegend();
   setMode(window.location.href.indexOf('theme=dark')!==-1);

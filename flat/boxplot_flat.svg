@@ -1,5 +1,6 @@
 
 
+
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
@@ -100,7 +101,7 @@
   <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
 </g>
 
-<text x="68" y="50" class="ct">Revenue Distribution by Category</text>
+<text x="68" y="50" class="ct">Revenue Distribution by Category - Boxplot</text>
 <text x="68" y="70" class="cs">7 series + Other · box plot · hover to inspect · print for values</text>
 
 <g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
@@ -402,9 +403,15 @@
 (function() {
   var svg = document.getElementById('root');
   var caEl = document.querySelector('.ca');
-  document.querySelectorAll('.bw').forEach(function(bw) {
+
+  /* §2 — isDark hoisted before all build and animation code */
+  var isDark = false;
+
+  var bwEls = Array.prototype.slice.call(document.querySelectorAll('.bw'));
+  bwEls.forEach(function(bw) {
     bw.addEventListener('mouseenter', function() {
       if (caEl) caEl.classList.add('hovering');
+      bwEls.forEach(function(x) { x.classList.remove('active'); }); /* §4 clear stale */
       bw.classList.add('active');
     });
     bw.addEventListener('mouseleave', function() {
@@ -412,7 +419,6 @@
       if (caEl) caEl.classList.remove('hovering');
     });
   });
-  var isDark = false;
   var bbDelays = [0, 0.25, 0.50, 0.75, 1.00, 1.25, 1.50, 1.75];
   document.querySelectorAll('.bb').forEach(function(bb, i) {
     bb.style.animation = 'barFadeIn 0.8s ease-out ' + bbDelays[i] + 's';

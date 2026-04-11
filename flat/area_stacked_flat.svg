@@ -2,11 +2,10 @@
 
 
 
-
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <clipPath id="chartclip">
-    <rect x="68" y="100" width="782" height="400"/>
+    <rect x="68" y="96" width="782" height="412"/>
   </clipPath>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
@@ -57,10 +56,14 @@
     /* §3 A1: opacity:0 initial; animationend clears animation + adds .visible; no both fill-mode */
     @keyframes drawWave { from{stroke-dashoffset:var(--len,900);} to{stroke-dashoffset:0;} }
     .wave-edge         { stroke-dasharray:var(--len,900); stroke-dashoffset:var(--len,900);
-                         opacity:0; transition: opacity 0.2s ease; }
-    .wave-edge.visible { opacity:1; stroke-dashoffset:0; }
-    .w1{animation-delay:0.00s;} .w2{animation-delay:0.25s;}
-    .w3{animation-delay:0.50s;} .w4{animation-delay:0.75s;} .w5{animation-delay:1.00s;}
+                         opacity:0; transition:opacity 0.2s ease; }
+    .wave-edge.visible { stroke-dashoffset:0; }
+    /* per-layer visual weights applied via .visible so hover can override cleanly */
+    .we-w1.visible { opacity:1.00; }
+    .we-w2.visible { opacity:0.90; }
+    .we-w3.visible { opacity:0.82; }
+    .we-w4.visible { opacity:0.72; }
+    .we-w5.visible { opacity:0.55; }
 
     @keyframes barFadeIn { from{opacity:0;} to{opacity:1;} }
     .area-fill         { opacity:0; transition:opacity 0.2s ease; }
@@ -68,12 +71,15 @@
     .f1{animation-delay:0.00s;} .f2{animation-delay:0.25s;}
     .f3{animation-delay:0.50s;} .f4{animation-delay:0.75s;} .f5{animation-delay:1.00s;}
 
-    /* hover — gated on .ready; non-hovered series dim to 0.20 per design guide */
-    .area-fill  { pointer-events: none; }
-    .ca.ready.hovering .wave-edge.visible                 { opacity: 0.20; }
-    .ca.ready.hovering .wave-edge.visible.active          { opacity: 1; }
-    .ca.ready.hovering .area-fill.visible                 { opacity: 0.20; }
-    .ca.ready.hovering .area-fill.visible.active          { opacity: 1; }
+    /* hover dimming — gated on .ready; active restores natural per-layer weight via .we-wN.visible */
+    .ca.ready.hovering .wave-edge.visible              { opacity: 0.20; }
+    .ca.ready.hovering .wave-edge.visible.active       { opacity: 1; }
+    .ca.ready.hovering .wave-edge.visible.we-w2.active { opacity: 0.90; }
+    .ca.ready.hovering .wave-edge.visible.we-w3.active { opacity: 0.82; }
+    .ca.ready.hovering .wave-edge.visible.we-w4.active { opacity: 0.72; }
+    .ca.ready.hovering .wave-edge.visible.we-w5.active { opacity: 0.55; }
+    .ca.ready.hovering .area-fill.visible              { opacity: 0.20; }
+    .ca.ready.hovering .area-fill.visible.active       { opacity: 1; }
     .col-dot { opacity:0; transition:opacity 0.2s ease; pointer-events:none; }
     .ca.ready.hovering .col-dot.active { opacity:1; }
 
@@ -118,8 +124,8 @@
   <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
 </g>
 
-<text x="68" y="50" class="ct">Revenue by Quarter - Area</text>
-<text x="68" y="70" class="cs">5 product lines · area chart · hover to inspect</text>
+<text x="68" y="50" class="ct">Revenue by Quarter - Area Stacked</text>
+<text x="68" y="70" class="cs">5 product lines · stacked · wave edges</text>
 
 <g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
@@ -132,18 +138,20 @@
   <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
 </g>
 
-<line x1="68" y1="500" x2="850" y2="500" class="bl"/>
-<line x1="68" y1="403" x2="850" y2="403" class="gl"/>
-<line x1="68" y1="302" x2="850" y2="302" class="gl"/>
-<line x1="68" y1="201" x2="850" y2="201" class="gl"/>
+<line x1="68" y1="504" x2="850" y2="504" class="bl"/>
+<line x1="68" y1="423" x2="850" y2="423" class="gl"/>
+<line x1="68" y1="342" x2="850" y2="342" class="gl"/>
+<line x1="68" y1="261" x2="850" y2="261" class="gl"/>
+<line x1="68" y1="180" x2="850" y2="180" class="gl"/>
 <line x1="68" y1="100" x2="850" y2="100" class="gl"/>
-<line x1="68" y1="100" x2="68"  y2="500" class="bl"/>
+<line x1="68" y1="100" x2="68"  y2="504" class="bl"/>
 
 <text x="56" y="508" class="an" text-anchor="end">$0</text>
-<text x="56" y="407" class="an" text-anchor="end">$25M</text>
-<text x="56" y="306" class="an" text-anchor="end">$50M</text>
-<text x="56" y="205" class="an" text-anchor="end">$75M</text>
-<text x="56" y="104" class="an" text-anchor="end">$100M</text>
+<text x="56" y="427" class="an" text-anchor="end">$50M</text>
+<text x="56" y="346" class="an" text-anchor="end">$100M</text>
+<text x="56" y="265" class="an" text-anchor="end">$150M</text>
+<text x="56" y="184" class="an" text-anchor="end">$200M</text>
+<text x="56" y="104" class="an" text-anchor="end">$250M</text>
 
 <text x="68"  y="522" class="al" text-anchor="middle">Q1 '22</text>
 <text x="180" y="522" class="al" text-anchor="middle">Q2 '22</text>
@@ -154,69 +162,69 @@
 <text x="738" y="522" class="al" text-anchor="middle">Q3 '23</text>
 <text x="850" y="522" class="al" text-anchor="middle">Q4 '23</text>
 
-<line x1="459" y1="100" x2="459" y2="500" stroke="#c0b8a8" stroke-width="1" stroke-dasharray="5,4" opacity="0.6"/>
+<line x1="459" y1="100" x2="459" y2="504" stroke="#c0b8a8" stroke-width="1" stroke-dasharray="5,4" opacity="0.6"/>
 <text x="263" y="90" class="an" text-anchor="middle">2022</text>
 <text x="654" y="90" class="an" text-anchor="middle">2023</text>
 
 <g class="ca" id="ca">
 <g clip-path="url(#chartclip)">
-  <!-- Areas: Cyan starts Q3'22, Emerald ends Q3'23, others full range -->
-  <path id="area-1" class="area-fill bar-1 f1" data-series="1" fill-opacity="0.20" stroke="none"
-    d="M291,504 L291,504.0 C347,504.0 347,281.8 403,281.8 C459,281.8 459,180.8 515,180.8 C571,180.8 571,221.2 627,221.2 C682,221.2 682,302.0 738,302.0 C794,302.0 794,241.4 850,241.4 L850,504 Z"/>
-  <path id="area-2" class="area-fill bar-2 f2" data-series="2" fill-opacity="0.20" stroke="none"
-    d="M68,504 L68,423.2 C124,423.2 124,322.2 180,322.2 C235,322.2 235,221.2 291,221.2 C347,221.2 347,281.8 403,281.8 C459,281.8 459,362.6 515,362.6 C571,362.6 571,201.0 627,201.0 C682,201.0 682,160.6 738,160.6 C794,160.6 794,213.1 850,213.1 L850,504 Z"/>
-  <path id="area-3" class="area-fill bar-3 f3" data-series="3" fill-opacity="0.20" stroke="none"
-    d="M68,504 L68,504.0 C124,504.0 124,382.8 180,382.8 C235,382.8 235,281.8 291,281.8 C347,281.8 347,180.8 403,180.8 C459,180.8 459,261.6 515,261.6 C571,261.6 571,342.4 627,342.4 C682,342.4 682,504.0 738,504.0 L738,504 Z"/>
-  <path id="area-4" class="area-fill bar-4 f4" data-series="4" fill-opacity="0.20" stroke="none"
-    d="M68,504 L68,443.4 C124,443.4 124,302.0 180,302.0 C235,302.0 235,431.3 291,431.3 C347,431.3 347,403.0 403,403.0 C459,403.0 459,281.8 515,281.8 C571,281.8 571,382.8 627,382.8 C682,382.8 682,322.2 738,322.2 C794,322.2 794,261.6 850,261.6 L850,504 Z"/>
-  <path id="area-5" class="area-fill bar-5 f5" data-series="5" fill-opacity="0.20" stroke="none"
-    d="M68,504 L68,281.8 C124,281.8 124,403.0 180,403.0 C235,403.0 235,411.1 291,411.1 C347,411.1 347,399.0 403,399.0 C459,399.0 459,407.0 515,407.0 C571,407.0 571,394.9 627,394.9 C682,394.9 682,415.1 738,415.1 C794,415.1 794,403.0 850,403.0 L850,504 Z"/>
+  <path id="area-5" class="area-fill f5"
+    d="M68,504 L68,487.8 C124,487.8 124,483.0 180,483.0 C235,483.0 235,486.2 291,486.2 C347,486.2 347,480.2 403,480.2 C459,480.2 459,483.0 515,483.0 C571,483.0 571,477.5 627,477.5 C682,477.5 682,480.2 738,480.2 C794,480.2 794,473.3 850,473.3 L850,504 Z"/>
+  <path id="area-4" class="area-fill f4"
+    d="M68,487.8 C124,487.8 124,483.0 180,483.0 C235,483.0 235,486.2 291,486.2 C347,486.2 347,480.2 403,480.2 C459,480.2 459,483.0 515,483.0 C571,483.0 571,477.5 627,477.5 C682,477.5 682,480.2 738,480.2 C794,480.2 794,473.3 850,473.3 L850,437.7 C794,437.7 794,453.9 738,453.9 C682,453.9 682,444.2 627,444.2 C571,444.2 571,455.5 515,455.5 C459,455.5 459,457.1 403,457.1 C347,457.1 347,457.1 291,457.1 C235,457.1 235,459.3 180,459.3 C124,459.3 124,468.3 68,468.3 Z"/>
+  <path id="area-3" class="area-fill f3"
+    d="M68,468.3 C124,468.3 124,459.3 180,459.3 C235,459.3 235,457.1 291,457.1 C347,457.1 347,457.1 403,457.1 C459,457.1 459,455.5 515,455.5 C571,455.5 571,444.2 627,444.2 C682,444.2 682,453.9 738,453.9 C794,453.9 794,437.7 850,437.7 L850,381.6 C794,381.6 794,403.8 738,403.8 C682,403.8 682,399.6 627,399.6 C571,399.6 571,415.3 515,415.3 C459,415.3 459,410.5 403,410.5 C347,410.5 347,416.9 291,416.9 C235,416.9 235,423.2 180,423.2 C124,423.2 124,439.4 68,439.4 Z"/>
+  <path id="area-2" class="area-fill f2"
+    d="M68,439.4 C124,439.4 124,423.2 180,423.2 C235,423.2 235,416.9 291,416.9 C347,416.9 347,410.5 403,410.5 C459,410.5 459,415.3 515,415.3 C571,415.3 571,399.6 627,399.6 C682,399.6 682,403.8 738,403.8 C794,403.8 794,381.6 850,381.6 L850,281.4 C794,281.4 794,315.6 738,315.6 C682,315.6 682,320.2 627,320.2 C571,320.2 571,344.2 515,344.2 C459,344.2 459,346.4 403,346.4 C347,346.4 347,360.8 291,360.8 C235,360.8 235,373.9 180,373.9 C124,373.9 124,394.1 68,394.1 Z"/>
+  <path id="area-1" class="area-fill f1"
+    d="M68,394.1 C124,394.1 124,373.9 180,373.9 C235,373.9 235,360.8 291,360.8 C347,360.8 347,346.4 403,346.4 C459,346.4 459,344.2 515,344.2 C571,344.2 571,320.2 627,320.2 C682,320.2 682,315.6 738,315.6 C794,315.6 794,281.4 850,281.4 L850,165.6 C794,165.6 794,205.0 738,205.0 C682,205.0 682,221.8 627,221.8 C571,221.8 571,261.2 515,261.2 C459,261.2 459,268.1 403,268.1 C347,268.1 347,294.1 291,294.1 C235,294.1 235,311.7 180,311.7 C124,311.7 124,342.4 68,342.4 Z"/>
 
-  <!-- Wave edges — all stroke-width 2 for consistency -->
-  <path id="we1" class="wave-edge bar-1 w1" data-series="1" style="fill:none"
+  <!-- style="fill:none" overrides .bar-N fill on stroke-only paths -->
+  <path id="we5" class="wave-edge we-w5 bar-5 w5" style="fill:none"
+    stroke-width="1.5" stroke-linecap="round" stroke-dasharray="7,4"
+    d="M68,487.8 C124,487.8 124,483.0 180,483.0 C235,483.0 235,486.2 291,486.2 C347,486.2 347,480.2 403,480.2 C459,480.2 459,483.0 515,483.0 C571,483.0 571,477.5 627,477.5 C682,477.5 682,480.2 738,480.2 C794,480.2 794,473.3 850,473.3"/>
+  <path id="we4" class="wave-edge we-w4 bar-4 w4" style="fill:none"
     stroke-width="2" stroke-linecap="round"
-    d="M403,281.8 C459,281.8 459,180.8 515,180.8 C571,180.8 571,221.2 627,221.2 C682,221.2 682,302.0 738,302.0 C794,302.0 794,241.4 850,241.4"/>
-  <path id="we2" class="wave-edge bar-2 w2" data-series="2" style="fill:none"
-    stroke-width="2" stroke-linecap="round"
-    d="M68,423.2 C124,423.2 124,322.2 180,322.2 C235,322.2 235,221.2 291,221.2 C347,221.2 347,281.8 403,281.8 C459,281.8 459,362.6 515,362.6 C571,362.6 571,201.0 627,201.0 C682,201.0 682,160.6 738,160.6 C794,160.6 794,213.1 850,213.1"/>
-  <path id="we3" class="wave-edge bar-3 w3" data-series="3" style="fill:none"
-    stroke-width="2" stroke-linecap="round"
-    d="M180,382.8 C235,382.8 235,281.8 291,281.8 C347,281.8 347,180.8 403,180.8 C459,180.8 459,261.6 515,261.6 C571,261.6 571,342.4 627,342.4 C682,342.4 682,504.0 738,504.0"/>
-  <path id="we4" class="wave-edge bar-4 w4" data-series="4" style="fill:none"
-    stroke-width="2" stroke-linecap="round"
-    d="M68,443.4 C124,443.4 124,302.0 180,302.0 C235,302.0 235,431.3 291,431.3 C347,431.3 347,403.0 403,403.0 C459,403.0 459,281.8 515,281.8 C571,281.8 571,382.8 627,382.8 C682,382.8 682,322.2 738,322.2 C794,322.2 794,261.6 850,261.6"/>
-  <path id="we5" class="wave-edge bar-5 w5" data-series="5" style="fill:none"
-    stroke-width="2" stroke-linecap="round" stroke-dasharray="7,4"
-    d="M68,281.8 C124,281.8 124,403.0 180,403.0 C235,403.0 235,411.1 291,411.1 C347,411.1 347,399.0 403,399.0 C459,399.0 459,407.0 515,407.0 C571,407.0 571,394.9 627,394.9 C682,394.9 682,415.1 738,415.1 C794,415.1 794,403.0 850,403.0"/>
+    d="M68,468.3 C124,468.3 124,459.3 180,459.3 C235,459.3 235,457.1 291,457.1 C347,457.1 347,457.1 403,457.1 C459,457.1 459,455.5 515,455.5 C571,455.5 571,444.2 627,444.2 C682,444.2 682,453.9 738,453.9 C794,453.9 794,437.7 850,437.7"/>
+  <path id="we3" class="wave-edge we-w3 bar-3 w3" style="fill:none"
+    stroke-width="2.5" stroke-linecap="round"
+    d="M68,439.4 C124,439.4 124,423.2 180,423.2 C235,423.2 235,416.9 291,416.9 C347,416.9 347,410.5 403,410.5 C459,410.5 459,415.3 515,415.3 C571,415.3 571,399.6 627,399.6 C682,399.6 682,403.8 738,403.8 C794,403.8 794,381.6 850,381.6"/>
+  <path id="we2" class="wave-edge we-w2 bar-2 w2" style="fill:none"
+    stroke-width="2.5" stroke-linecap="round"
+    d="M68,394.1 C124,394.1 124,373.9 180,373.9 C235,373.9 235,360.8 291,360.8 C347,360.8 347,346.4 403,346.4 C459,346.4 459,344.2 515,344.2 C571,344.2 571,320.2 627,320.2 C682,320.2 682,315.6 738,315.6 C794,315.6 794,281.4 850,281.4"/>
+  <path id="we1" class="wave-edge we-w1 bar-1 w1" style="fill:none"
+    stroke-width="3.5" stroke-linecap="round"
+    d="M68,342.4 C124,342.4 124,311.7 180,311.7 C235,311.7 235,294.1 291,294.1 C347,294.1 347,268.1 403,268.1 C459,268.1 459,261.2 515,261.2 C571,261.2 571,221.8 627,221.8 C682,221.8 682,205.0 738,205.0 C794,205.0 794,165.6 850,165.6"/>
 </g>
 
 <g id="crosshairs">
-  <line id="ch0" class="crosshair" x1="68"  y1="100" x2="68"  y2="500"/>
-  <line id="ch1" class="crosshair" x1="180" y1="100" x2="180" y2="500"/>
-  <line id="ch2" class="crosshair" x1="291" y1="100" x2="291" y2="500"/>
-  <line id="ch3" class="crosshair" x1="403" y1="100" x2="403" y2="500"/>
-  <line id="ch4" class="crosshair" x1="515" y1="100" x2="515" y2="500"/>
-  <line id="ch5" class="crosshair" x1="627" y1="100" x2="627" y2="500"/>
-  <line id="ch6" class="crosshair" x1="738" y1="100" x2="738" y2="500"/>
-  <line id="ch7" class="crosshair" x1="850" y1="100" x2="850" y2="500"/>
+  <line id="ch0" class="crosshair" x1="68"  y1="100" x2="68"  y2="504"/>
+  <line id="ch1" class="crosshair" x1="180" y1="100" x2="180" y2="504"/>
+  <line id="ch2" class="crosshair" x1="291" y1="100" x2="291" y2="504"/>
+  <line id="ch3" class="crosshair" x1="403" y1="100" x2="403" y2="504"/>
+  <line id="ch4" class="crosshair" x1="515" y1="100" x2="515" y2="504"/>
+  <line id="ch5" class="crosshair" x1="627" y1="100" x2="627" y2="504"/>
+  <line id="ch6" class="crosshair" x1="738" y1="100" x2="738" y2="504"/>
+  <line id="ch7" class="crosshair" x1="850" y1="100" x2="850" y2="504"/>
 </g>
 <g id="dots-layer"></g>
 <g id="hit-layer"></g>
 <g id="tip-layer"></g>
 </g>
 
-<rect x="870" y="100" width="210" height="262" rx="14" class="lgd-bg" stroke-width="1"/>
+<rect x="870" y="100" width="210" height="310" rx="14" class="lgd-bg" stroke-width="1"/>
 <text x="888" y="124" class="lgd-ttl">SERIES</text>
-<g transform="translate(888,140)"><rect class="bar-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Cyan</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$65M</text></g>
-<g transform="translate(888,170)"><rect class="bar-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Violet</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$72M</text></g>
-<g transform="translate(888,200)"><rect class="bar-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Emerald</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$50M</text></g>
-<g transform="translate(888,230)"><rect class="bar-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Amber</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$60M</text></g>
-<g transform="translate(888,260)"><rect class="bar-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Slate</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$25M</text></g>
-<line x1="888" y1="286" x2="1062" y2="286" class="lgd-div"/>
-<text x="888" y="306" class="lt">Q4 2023 values</text>
-<text x="888" y="324" class="lp">Hover columns to inspect</text>
+<g transform="translate(888,140)"><rect class="bar-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Cyan</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$72M</text></g>
+<g transform="translate(888,170)"><rect class="bar-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Violet</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$62M</text></g>
+<g transform="translate(888,200)"><rect class="bar-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Emerald</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$35M</text></g>
+<g transform="translate(888,230)"><rect class="bar-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Amber</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$22M</text></g>
+<g transform="translate(888,260)"><rect class="bar-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Slate</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$19M</text></g>
+<line x1="888" y1="290" x2="1062" y2="290" class="lgd-div"/>
+<text x="888" y="308" class="lt">Q4 2023 total</text>
+<text x="1062" y="308" class="lv lgd-val" text-anchor="end">$210M</text>
+<text x="888" y="328" class="lp">Hover columns to inspect</text>
 
-<text x="68" y="600" class="footer">Revenue by Quarter · 5 series · area chart</text>
+<text x="68" y="600" class="footer">Revenue by Quarter · 5 series · stacked area chart</text>
 
 <script type="text/javascript">
 //<![CDATA[
@@ -227,29 +235,30 @@
   var dotsL    = document.getElementById('dots-layer');
   var hitLayer = document.getElementById('hit-layer');
   var tipLayer = document.getElementById('tip-layer');
+  var defs     = svg.querySelector('defs');
 
   /* §2 — isDark hoisted before all build and animation code */
   var isDark = false;
 
   var series = [
     { id:1, cls:'bar-1', label:'Cyan',
-      vals:[0,0,0,55,80,70,50,65], ys:[504.0,504.0,504.0,281.8,180.8,221.2,302.0,241.4] },
+      vals:[38,42,46,50,55,60,66,72], ys:[342.4,311.7,294.1,268.1,261.2,221.8,205.0,165.6] },
     { id:2, cls:'bar-2', label:'Violet',
-      vals:[20,45,70,55,35,75,85,72], ys:[423.2,322.2,221.2,281.8,362.6,201.0,160.6,213.1] },
+      vals:[32,35,38,41,45,50,56,62], ys:[394.1,373.9,360.8,346.4,344.2,320.2,315.6,281.4] },
     { id:3, cls:'bar-3', label:'Emerald',
-      vals:[0,30,55,80,60,40,0,0], ys:[504.0,382.8,281.8,180.8,261.6,342.4,504.0,504.0] },
+      vals:[18,20,21,23,25,27,31,35], ys:[439.4,423.2,416.9,410.5,415.3,399.6,403.8,381.6] },
     { id:4, cls:'bar-4', label:'Amber',
-      vals:[15,50,18,25,55,30,45,60], ys:[443.4,302.0,431.3,403.0,281.8,382.8,322.2,261.6] },
+      vals:[11,12,13,14,15,17,19,22], ys:[468.3,459.3,457.1,457.1,455.5,444.2,453.9,437.7] },
     { id:5, cls:'bar-5', label:'Slate',
-      vals:[55,25,23,26,24,27,22,25], ys:[281.8,403.0,411.1,399.0,407.0,394.9,415.1,403.0] },
+      vals:[10,11,12,13,14,16,17,19], ys:[487.8,483.0,486.2,480.2,483.0,477.5,480.2,473.3] },
   ];
 
+  var aOpacity = [0.85, 0.75, 0.65, 0.55, 0.45];
   var quarters = ["Q1 '22","Q2 '22","Q3 '22","Q4 '22","Q1 '23","Q2 '23","Q3 '23","Q4 '23"];
   var xs   = [68,180,291,403,515,627,738,850];
   var colW = 56;
   var allTips = {};
 
-  // For column tooltip: still useful to show all series values on hover
   var totals = xs.map(function(_,qi){
     return series.reduce(function(s,sr){ return s + sr.vals[qi]; }, 0);
   });
@@ -260,26 +269,28 @@
     return e;
   }
 
-  // Mark only the series closest to mouseY active; dim the rest
-  function setSeriesActive(qi, mouseY) {
-    // stale-clear all
-    svg.querySelectorAll('.wave-edge, .area-fill').forEach(function(e) { e.classList.remove('active'); });
-    // find closest series to mouseY at this column
-    var bestSid = series[0].id, bestDist = Infinity;
-    series.forEach(function(s) {
-      var dist = Math.abs(s.ys[qi] - mouseY);
-      if (dist < bestDist) { bestDist = dist; bestSid = s.id; }
+  function buildGradients() {
+    var probe = document.createElementNS(ns, 'rect');
+    probe.style.visibility = 'hidden';
+    svg.appendChild(probe);
+    series.forEach(function(s, i) {
+      probe.setAttribute('class', s.cls);
+      var color = window.getComputedStyle(probe).fill;
+      var gradId = 'ag' + s.id;
+      var existing = document.getElementById(gradId);
+      if (existing) existing.parentNode.removeChild(existing);
+      var grad = document.createElementNS(ns, 'linearGradient');
+      grad.setAttribute('id', gradId);
+      var stop = document.createElementNS(ns, 'stop');
+      stop.setAttribute('offset', '0%');
+      stop.setAttribute('stop-color', color);
+      stop.setAttribute('stop-opacity', aOpacity[i]);
+      grad.appendChild(stop);
+      defs.appendChild(grad);
+      var area = document.getElementById('area-' + s.id);
+      if (area) area.setAttribute('fill', 'url(#' + gradId + ')');
     });
-    // activate matching wave-edge and area-fill
-    var we = svg.querySelector('.wave-edge[data-series="'+bestSid+'"]');
-    var af = svg.querySelector('.area-fill[data-series="'+bestSid+'"]');
-    if (we) we.classList.add('active');
-    if (af) af.classList.add('active');
-    // also mark col-dots for the hovered column
-    dotsL.querySelectorAll('.col-dot[data-col="'+qi+'"]').forEach(function(d) { d.classList.add('active'); });
-  }
-  function clearSeriesActive() {
-    svg.querySelectorAll('.wave-edge, .area-fill').forEach(function(e) { e.classList.remove('active'); });
+    svg.removeChild(probe);
   }
 
   xs.forEach(function(x, qi) {
@@ -371,31 +382,23 @@
 
     var hx1 = Math.max(68,  x - colW);
     var hx2 = Math.min(850, x + colW);
-    var hit = el('rect', { x:hx1, y:100, width:hx2-hx1, height:400,
+    var hit = el('rect', { x:hx1, y:100, width:hx2-hx1, height:404,
       fill:'transparent', cursor:'crosshair', id:'hit'+qi });
     hitLayer.appendChild(hit);
 
     var ch = document.getElementById('ch' + qi);
     var colDots = dotsL.querySelectorAll('.col-dot[data-col="'+qi+'"]');
 
-    hit.addEventListener('mouseenter', function(e) {
-      var pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
-      var sp = pt.matrixTransform(svg.getScreenCTM().inverse());
+    hit.addEventListener('mouseenter', function() {
       ca.classList.add('hovering');
       dotsL.querySelectorAll('.col-dot').forEach(function(d) { d.classList.remove('active'); });
-      setSeriesActive(qi, sp.y);
+      colDots.forEach(function(d) { d.classList.add('active'); });
       allTips[qi].style.opacity = '1';
       if (ch) ch.style.opacity = '1';
-    });
-    hit.addEventListener('mousemove', function(e) {
-      var pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
-      var sp = pt.matrixTransform(svg.getScreenCTM().inverse());
-      setSeriesActive(qi, sp.y);
     });
     hit.addEventListener('mouseleave', function() {
       ca.classList.remove('hovering');
       colDots.forEach(function(d) { d.classList.remove('active'); });
-      clearSeriesActive();
       allTips[qi].style.opacity = '';
       if (ch) ch.style.opacity = '';
     });
@@ -414,6 +417,7 @@
       if (thumb) thumb.setAttribute('cx','16');
       if (lbl)   lbl.textContent = 'Dark';
     }
+    buildGradients();
   }
 
   document.getElementById('dark-toggle').addEventListener('click', function() { setMode(!isDark); });
@@ -428,11 +432,15 @@
     if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
   });
 
-  /* §3 A1 — wire animationend + .visible for wave-edges (draw animation, no both fill-mode) */
-  var waveEls = svg.querySelectorAll('.wave-edge');
-  var waveDelays = [0, 0.25, 0.50, 0.75, 1.00]; /* w1–w5 */
+  buildGradients();
+
+  /* §3 A1 — wire animationend + .visible for wave-edges (clears both fill-mode conflict) */
+  var waveEls    = svg.querySelectorAll('.wave-edge');
+  var waveDelays = [0, 0.25, 0.50, 0.75, 1.00]; /* w1–w5, index matches order in markup (we5..we1) */
+  /* wave-edges are ordered we5,we4,we3,we2,we1 in markup — stagger bottom-to-top */
   waveEls.forEach(function(el, i) {
-    el.style.animation = 'drawWave 1.2s cubic-bezier(0.4,0,0.2,1) ' + waveDelays[i] + 's';
+    var delay = waveDelays[waveEls.length - 1 - i]; /* reverse: we1 gets 0s, we5 gets 1.0s */
+    el.style.animation = 'drawWave 1.2s cubic-bezier(0.4,0,0.2,1) ' + delay.toFixed(2) + 's';
     el.addEventListener('animationend', function() {
       el.style.animation = 'none';
       el.classList.add('visible');
@@ -450,7 +458,7 @@
     }, { once: true });
   });
 
-  /* gate hover on .ready after last area animation finishes */
+  /* gate hover on .ready after last animation finishes */
   setTimeout(function() { ca.classList.add('ready'); }, (1.00 + 0.8) * 1000 + 100);
 
   setMode(window.location.href.indexOf('theme=dark') !== -1);

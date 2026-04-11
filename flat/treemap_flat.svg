@@ -1,5 +1,6 @@
 
 
+
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
 <style>
@@ -35,10 +36,13 @@
   .tm-sub { font-size:10px;font-weight:400;fill:rgba(255,255,255,0.80);pointer-events:none; }
 
   @keyframes tileFade { from{opacity:0} to{opacity:1} }
-  .tm-tile         { opacity:0;cursor:pointer;transition:opacity .2s ease; }
-  .tm-tile.visible { opacity:1; }
-  .ca.ready.hovering .tm-tile.visible         { opacity:0.20;transition:opacity .2s ease; }
-  .ca.ready.hovering .tm-tile.visible.hovered { opacity:1;   transition:opacity .2s ease; }
+  /* §3 A1 canonical: opacity:0 base; animation fired via inline style.animation (no fill-mode).
+     animationend sets style.animation='none' then adds .visible; CSS .tm-tile.visible owns opacity:1.
+     Hover rules gate on .ready and target .tm-tile.visible — no conflict, no !important needed. */
+  .tm-tile                              { opacity:0; cursor:pointer; }
+  .tm-tile.visible                      { opacity:1; }
+  .ca.ready.hovering .tm-tile.visible         { opacity:0.20; transition:opacity .2s ease; }
+  .ca.ready.hovering .tm-tile.visible.hovered { opacity:1;    transition:opacity .2s ease; }
 
   .bubble    { opacity:0;pointer-events:none;transition:opacity 0.15s ease; }
   svg.print .bubble { opacity:0 !important; }
@@ -73,8 +77,8 @@
 <g class="border-light"><rect x=".75" y=".75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,.10)" stroke-width="1.5"/></g>
 <g class="border-dark"><rect x=".75" y=".75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,.22)" stroke-width="1.5"/></g>
 
-<text x="68" y="46" class="ct">Revenue by Category</text>
-<text x="68" y="66" class="cs">8 segments · area ∝ revenue · hover to inspect</text>
+<text x="68" y="50" class="ct">Revenue by Category - Treemap</text>
+<text x="68" y="70" class="cs">8 segments · area ∝ revenue · hover to inspect</text>
 
 <g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
@@ -99,55 +103,55 @@
 
 <g class="ca" id="ca">
   <g class="tm-tile" id="tg1" data-bubble="bub1">
-    <rect class="bar-5" x="40"  y="100" width="488" height="207" rx="0"/>
-    <text x="284" y="194" text-anchor="middle" class="tm-lbl">Violet</text>
-    <text x="284" y="212" text-anchor="middle" class="tm-sub">$320M · 31.2%</text>
+    <rect class="bar-5" x="68"  y="100" width="471" height="207" rx="0"/>
+    <text x="303" y="194" text-anchor="middle" class="tm-lbl">Violet</text>
+    <text x="303" y="212" text-anchor="middle" class="tm-sub">$320M · 31.2%</text>
   </g>
   <g class="tm-tile" id="tg2" data-bubble="bub2">
-    <rect class="bar-1" x="528" y="100" width="322" height="207" rx="0"/>
-    <text x="689" y="194" text-anchor="middle" class="tm-lbl">Cyan</text>
-    <text x="689" y="212" text-anchor="middle" class="tm-sub">$210M · 20.5%</text>
+    <rect class="bar-1" x="539" y="100" width="311" height="207" rx="0"/>
+    <text x="694" y="194" text-anchor="middle" class="tm-lbl">Cyan</text>
+    <text x="694" y="212" text-anchor="middle" class="tm-sub">$210M · 20.5%</text>
   </g>
   <g class="tm-tile" id="tg3" data-bubble="bub3">
-    <rect class="bar-2" x="40"  y="307" width="450" height="106" rx="0"/>
-    <text x="265" y="351" text-anchor="middle" class="tm-lbl">Emerald</text>
-    <text x="265" y="369" text-anchor="middle" class="tm-sub">$150M · 14.6%</text>
+    <rect class="bar-2" x="68"  y="307" width="434" height="106" rx="0"/>
+    <text x="285" y="351" text-anchor="middle" class="tm-lbl">Emerald</text>
+    <text x="285" y="369" text-anchor="middle" class="tm-sub">$150M · 14.6%</text>
   </g>
   <g class="tm-tile" id="tg4" data-bubble="bub4">
-    <rect class="bar-3" x="490" y="307" width="360" height="106" rx="0"/>
-    <text x="670" y="351" text-anchor="middle" class="tm-lbl">Amber</text>
-    <text x="670" y="369" text-anchor="middle" class="tm-sub">$120M · 11.7%</text>
+    <rect class="bar-3" x="502" y="307" width="348" height="106" rx="0"/>
+    <text x="676" y="351" text-anchor="middle" class="tm-lbl">Amber</text>
+    <text x="676" y="369" text-anchor="middle" class="tm-sub">$120M · 11.7%</text>
   </g>
   <g class="tm-tile" id="tg5" data-bubble="bub5">
-    <rect class="bar-6" x="40"  y="413" width="306" height="87" rx="0"/>
-    <text x="193" y="447" text-anchor="middle" class="tm-lbl">Blue</text>
-    <text x="193" y="465" text-anchor="middle" class="tm-sub">$85M · 8.3%</text>
+    <rect class="bar-6" x="68"  y="413" width="295" height="87" rx="0"/>
+    <text x="215" y="447" text-anchor="middle" class="tm-lbl">Blue</text>
+    <text x="215" y="465" text-anchor="middle" class="tm-sub">$85M · 8.3%</text>
   </g>
   <g class="tm-tile" id="tg6" data-bubble="bub6">
-    <rect class="bar-7" x="346" y="413" width="234" height="87" rx="0"/>
-    <text x="463" y="447" text-anchor="middle" class="tm-lbl">Teal</text>
-    <text x="463" y="465" text-anchor="middle" class="tm-sub">$65M · 6.3%</text>
+    <rect class="bar-7" x="363" y="413" width="226" height="87" rx="0"/>
+    <text x="476" y="447" text-anchor="middle" class="tm-lbl">Teal</text>
+    <text x="476" y="465" text-anchor="middle" class="tm-sub">$65M · 6.3%</text>
   </g>
   <g class="tm-tile" id="tg7" data-bubble="bub7">
-    <rect class="bar-4" x="580" y="413" width="162" height="87" rx="0"/>
-    <text x="661" y="447" text-anchor="middle" class="tm-lbl">Rose</text>
-    <text x="661" y="465" text-anchor="middle" class="tm-sub">$45M · 4.4%</text>
+    <rect class="bar-4" x="589" y="413" width="156" height="87" rx="0"/>
+    <text x="667" y="447" text-anchor="middle" class="tm-lbl">Rose</text>
+    <text x="667" y="465" text-anchor="middle" class="tm-sub">$45M · 4.4%</text>
   </g>
   <g class="tm-tile" id="tg8" data-bubble="bub8">
-    <rect class="bar-8" x="742" y="413" width="108" height="87" rx="0"/>
-    <text x="796" y="447" text-anchor="middle" class="tm-lbl">Other</text>
-    <text x="796" y="465" text-anchor="middle" class="tm-sub">$30M</text>
+    <rect class="bar-8" x="745" y="413" width="105" height="87" rx="0"/>
+    <text x="797" y="447" text-anchor="middle" class="tm-lbl">Other</text>
+    <text x="797" y="465" text-anchor="middle" class="tm-sub">$30M</text>
   </g>
 </g>
 
 <g stroke="white" stroke-width="2" fill="none">
-  <line x1="40"  y1="307" x2="850" y2="307"/>
-  <line x1="40"  y1="413" x2="850" y2="413"/>
-  <line x1="528" y1="100" x2="528" y2="307"/>
-  <line x1="490" y1="307" x2="490" y2="413"/>
-  <line x1="346" y1="413" x2="346" y2="500"/>
-  <line x1="580" y1="413" x2="580" y2="500"/>
-  <line x1="742" y1="413" x2="742" y2="500"/>
+  <line x1="68"  y1="307" x2="850" y2="307"/>
+  <line x1="68"  y1="413" x2="850" y2="413"/>
+  <line x1="539" y1="100" x2="539" y2="307"/>
+  <line x1="502" y1="307" x2="502" y2="413"/>
+  <line x1="363" y1="413" x2="363" y2="500"/>
+  <line x1="589" y1="413" x2="589" y2="500"/>
+  <line x1="745" y1="413" x2="745" y2="500"/>
 </g>
 
 <rect x="870" y="100" width="210" height="340" rx="14" class="lgd-bg"/>
@@ -171,7 +175,7 @@
 <g id="bubble-overlay">
 
   <!-- Violet $320M — anchor (284,100) -->
-  <g class="bubble" id="bub1" transform="translate(284,100)">
+  <g class="bubble" id="bub1" transform="translate(303,100)">
     <rect class="bub-bg"  x="-44" y="-62" width="88" height="53" rx="8"/>
     <path class="bub-bdr" d="M8,-9 L36,-9 Q44,-9 44,-17 L44,-54 Q44,-62 36,-62 L-36,-62 Q-44,-62 -44,-54 L-44,-17 Q-44,-9 -36,-9 L-8,-9"/>
     <path class="bub-tip" d="M8,-9 L0,0 L-8,-9"/>
@@ -180,7 +184,7 @@
   </g>
 
   <!-- Cyan $210M — anchor (689,100) -->
-  <g class="bubble" id="bub2" transform="translate(689,100)">
+  <g class="bubble" id="bub2" transform="translate(694,100)">
     <rect class="bub-bg"  x="-40" y="-62" width="80" height="53" rx="8"/>
     <path class="bub-bdr" d="M8,-9 L32,-9 Q40,-9 40,-17 L40,-54 Q40,-62 32,-62 L-32,-62 Q-40,-62 -40,-54 L-40,-17 Q-40,-9 -32,-9 L-8,-9"/>
     <path class="bub-tip" d="M8,-9 L0,0 L-8,-9"/>
@@ -189,7 +193,7 @@
   </g>
 
   <!-- Emerald $150M — anchor (265,307) -->
-  <g class="bubble" id="bub3" transform="translate(265,307)">
+  <g class="bubble" id="bub3" transform="translate(285,307)">
     <rect class="bub-bg"  x="-46" y="-62" width="92" height="53" rx="8"/>
     <path class="bub-bdr" d="M8,-9 L38,-9 Q46,-9 46,-17 L46,-54 Q46,-62 38,-62 L-38,-62 Q-46,-62 -46,-54 L-46,-17 Q-46,-9 -38,-9 L-8,-9"/>
     <path class="bub-tip" d="M8,-9 L0,0 L-8,-9"/>
@@ -198,7 +202,7 @@
   </g>
 
   <!-- Amber $120M — anchor (670,307) -->
-  <g class="bubble" id="bub4" transform="translate(670,307)">
+  <g class="bubble" id="bub4" transform="translate(676,307)">
     <rect class="bub-bg"  x="-42" y="-62" width="84" height="53" rx="8"/>
     <path class="bub-bdr" d="M8,-9 L34,-9 Q42,-9 42,-17 L42,-54 Q42,-62 34,-62 L-34,-62 Q-42,-62 -42,-54 L-42,-17 Q-42,-9 -34,-9 L-8,-9"/>
     <path class="bub-tip" d="M8,-9 L0,0 L-8,-9"/>
@@ -207,7 +211,7 @@
   </g>
 
   <!-- Blue $85M — anchor (193,413) -->
-  <g class="bubble" id="bub5" transform="translate(193,413)">
+  <g class="bubble" id="bub5" transform="translate(215,413)">
     <rect class="bub-bg"  x="-36" y="-62" width="72" height="53" rx="8"/>
     <path class="bub-bdr" d="M8,-9 L28,-9 Q36,-9 36,-17 L36,-54 Q36,-62 28,-62 L-28,-62 Q-36,-62 -36,-54 L-36,-17 Q-36,-9 -28,-9 L-8,-9"/>
     <path class="bub-tip" d="M8,-9 L0,0 L-8,-9"/>
@@ -216,7 +220,7 @@
   </g>
 
   <!-- Teal $65M — anchor (463,413) -->
-  <g class="bubble" id="bub6" transform="translate(463,413)">
+  <g class="bubble" id="bub6" transform="translate(476,413)">
     <rect class="bub-bg"  x="-36" y="-62" width="72" height="53" rx="8"/>
     <path class="bub-bdr" d="M8,-9 L28,-9 Q36,-9 36,-17 L36,-54 Q36,-62 28,-62 L-28,-62 Q-36,-62 -36,-54 L-36,-17 Q-36,-9 -28,-9 L-8,-9"/>
     <path class="bub-tip" d="M8,-9 L0,0 L-8,-9"/>
@@ -225,7 +229,7 @@
   </g>
 
   <!-- Rose $45M — anchor (661,413) -->
-  <g class="bubble" id="bub7" transform="translate(661,413)">
+  <g class="bubble" id="bub7" transform="translate(667,413)">
     <rect class="bub-bg"  x="-36" y="-62" width="72" height="53" rx="8"/>
     <path class="bub-bdr" d="M8,-9 L28,-9 Q36,-9 36,-17 L36,-54 Q36,-62 28,-62 L-28,-62 Q-36,-62 -36,-54 L-36,-17 Q-36,-9 -28,-9 L-8,-9"/>
     <path class="bub-tip" d="M8,-9 L0,0 L-8,-9"/>
@@ -234,7 +238,7 @@
   </g>
 
   <!-- Other $30M — anchor (796,413) -->
-  <g class="bubble" id="bub8" transform="translate(796,413)">
+  <g class="bubble" id="bub8" transform="translate(797,413)">
     <rect class="bub-bg"  x="-36" y="-62" width="72" height="53" rx="8"/>
     <path class="bub-bdr" d="M8,-9 L28,-9 Q36,-9 36,-17 L36,-54 Q36,-62 28,-62 L-28,-62 Q-36,-62 -36,-54 L-36,-17 Q-36,-9 -28,-9 L-8,-9"/>
     <path class="bub-tip" d="M8,-9 L0,0 L-8,-9"/>
@@ -250,32 +254,54 @@
 (function() {
   var svg   = document.getElementById('root');
   var ca    = document.getElementById('ca');
-  var tiles = Array.prototype.slice.call(ca.querySelectorAll('.tm-tile'));
+
+  /* §2 isDark before all build/animation code */
   var isDark = false;
 
+  var tiles = Array.prototype.slice.call(ca.querySelectorAll('.tm-tile'));
+
+  /* §3 A1 canonical — animation fired via inline style.animation (no fill-mode).
+     animationend clears style.animation and adds .visible; CSS .tm-tile.visible { opacity:1 }
+     owns the stable state. Hover gates on .ready. No .tm-pre class, no !important.
+     Duration: 0.8s (fixed). Stagger: min(0.25, 1/count). Easing: ease-out. */
+  var count      = tiles.length;
+  var stagger    = Math.min(0.25, 1.0 / count);
+  var lastDelay  = (count - 1) * stagger;
+  var readyDelay = (lastDelay + 0.8 + 0.1) * 1000;
+
   tiles.forEach(function(tile, i) {
-    tile.style.animation = 'tileFade 0.6s ease-out ' + (i*0.12).toFixed(2) + 's';
-    tile.addEventListener('animationend', function() {
+    tile.style.animation = 'tileFade 0.8s ease-out ' + (i * stagger).toFixed(3) + 's';
+    tile.addEventListener('animationend', function handler() {
+      tile.removeEventListener('animationend', handler);
       tile.style.animation = 'none';
       tile.classList.add('visible');
     }, { once: true });
   });
 
-  setTimeout(function(){ ca.classList.add('ready'); }, (tiles.length-1)*120 + 700);
+  setTimeout(function() { ca.classList.add('ready'); }, readyDelay);
 
+  /* §4 hover — adjacent tiles: container-level mouseleave prevents flicker.
+     Stale-clear on every mouseenter. */
   tiles.forEach(function(tile) {
     var bub = document.getElementById(tile.getAttribute('data-bubble'));
     tile.addEventListener('mouseenter', function() {
-      tiles.forEach(function(t){ t.classList.remove('hovered'); });
+      tiles.forEach(function(t) {
+        t.classList.remove('hovered');
+        var b = document.getElementById(t.getAttribute('data-bubble'));
+        if (b) b.style.opacity = '';
+      });
       ca.classList.add('hovering');
       tile.classList.add('hovered');
       if (bub) bub.style.opacity = '1';
     });
-    tile.addEventListener('mouseleave', function() {
-      ca.classList.remove('hovering');
-      tile.classList.remove('hovered');
-      if (bub) bub.style.opacity = '';
+  });
+  ca.addEventListener('mouseleave', function() {
+    tiles.forEach(function(t) {
+      t.classList.remove('hovered');
+      var b = document.getElementById(t.getAttribute('data-bubble'));
+      if (b) b.style.opacity = '';
     });
+    ca.classList.remove('hovering');
   });
 
   function setMode(wantDark) {

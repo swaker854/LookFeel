@@ -1,5 +1,3 @@
-
-
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
@@ -102,17 +100,17 @@
 <g class="border-light"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/></g>
 <g class="border-dark"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/></g>
 
-<text x="68" y="42" class="ct">Sales by Product &amp; Country</text>
+<text x="68" y="50" class="ct">Sales by Product &amp; Country - Marimekko</text>
 <text x="68" y="62" class="cs">Marimekko chart · column width ∝ product share · segment height ∝ country share · hover to inspect</text>
 
 <text x="459" y="84" class="atot" text-anchor="middle">Total = 1,366</text>
 
-<g class="t-wrap" id="dark-toggle" transform="translate(800,50)">
+<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
   <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
   <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
 </g>
-<g class="t-wrap" id="print-toggle" transform="translate(882,50)">
+<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
   <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
   <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
   <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
@@ -233,16 +231,20 @@
 
 </g><!-- end .ca -->
 
-<!-- Column dividers -->
-<line x1="266.1" y1="92" x2="266.1" y2="512" class="cdiv"/>
-<line x1="512.2" y1="92" x2="512.2" y2="512" class="cdiv"/>
-<line x1="661.7" y1="92" x2="661.7" y2="512" class="cdiv"/>
-
-<!-- Chart border -->
-<line x1="68" y1="92"  x2="850" y2="92"  class="bl"/>
-<line x1="68" y1="512" x2="850" y2="512" class="bl"/>
-<line x1="68" y1="92"  x2="68"  y2="512" class="bl"/>
-<line x1="850" y1="92" x2="850" y2="512" class="bl"/>
+<!-- §6 Layer 3 — structural overlays (column dividers + chart border)
+     Intentionally after .ca so white cdiv lines paint over tile fills.
+     Placed before #bubble-overlay so tooltips always appear on top. -->
+<g id="structural-overlay">
+  <!-- Column dividers -->
+  <line x1="266.1" y1="92" x2="266.1" y2="512" class="cdiv"/>
+  <line x1="512.2" y1="92" x2="512.2" y2="512" class="cdiv"/>
+  <line x1="661.7" y1="92" x2="661.7" y2="512" class="cdiv"/>
+  <!-- Chart border -->
+  <line x1="68" y1="92"  x2="850" y2="92"  class="bl"/>
+  <line x1="68" y1="512" x2="850" y2="512" class="bl"/>
+  <line x1="68" y1="92"  x2="68"  y2="512" class="bl"/>
+  <line x1="850" y1="92" x2="850" y2="512" class="bl"/>
+</g>
 
 <!-- X-axis labels -->
 <text x="167.0" y="530" class="al" text-anchor="middle">Product A</text>
@@ -262,45 +264,45 @@
 <text x="756.9" y="562" class="as" text-anchor="middle">24%</text>
 
 <!-- Legend -->
-<rect x="868" y="92" width="208" height="310" rx="14" class="lgd-bg"/>
-<text x="886" y="116" class="lgd-ttl">COUNTRY</text>
-<g transform="translate(886,132)">
+<rect x="870" y="92" width="210" height="310" rx="14" class="lgd-bg"/>
+<text x="888" y="116" class="lgd-ttl">COUNTRY</text>
+<g transform="translate(888,140)">
   <rect class="bar-1" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="lt">USA</text>
   <text x="186" y="11" class="lv lgd-val" text-anchor="end">300 (22%)</text>
 </g>
-<g transform="translate(886,160)">
+<g transform="translate(888,170)">
   <rect class="bar-2" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="lt">China</text>
   <text x="186" y="11" class="lv lgd-val" text-anchor="end">187 (14%)</text>
 </g>
-<g transform="translate(886,188)">
+<g transform="translate(888,200)">
   <rect class="bar-3" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="lt">UK</text>
   <text x="186" y="11" class="lv lgd-val" text-anchor="end">214 (16%)</text>
 </g>
-<g transform="translate(886,216)">
+<g transform="translate(888,230)">
   <rect class="bar-4" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="lt">Germany</text>
   <text x="186" y="11" class="lv lgd-val" text-anchor="end">271 (20%)</text>
 </g>
-<g transform="translate(886,244)">
+<g transform="translate(888,260)">
   <rect class="bar-5" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="lt">France</text>
   <text x="186" y="11" class="lv lgd-val" text-anchor="end">126 (9%)</text>
 </g>
-<line x1="886" y1="272" x2="1058" y2="272" class="lgd-div"/>
-<g transform="translate(886,284)">
+<line x1="888" y1="288" x2="1062" y2="288" class="lgd-div"/>
+<g transform="translate(888,300)">
   <rect class="bar-6" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="lt">India</text>
   <text x="186" y="11" class="lv lgd-val" text-anchor="end">268 (20%)</text>
 </g>
 
-<rect x="868" y="416" width="208" height="80" rx="14" class="lgd-bg"/>
-<text x="886" y="440" class="lgd-ttl">AXES</text>
-<text x="886" y="458" class="lt" font-size="10">Column width = product share</text>
-<text x="886" y="474" class="lt" font-size="10">Segment height = country share</text>
-<text x="886" y="490" class="lt" font-size="10">within each product</text>
+<rect x="870" y="416" width="210" height="80" rx="14" class="lgd-bg"/>
+<text x="888" y="440" class="lgd-ttl">AXES</text>
+<text x="888" y="458" class="lt" font-size="10">Column width = product share</text>
+<text x="888" y="474" class="lt" font-size="10">Segment height = country share</text>
+<text x="888" y="490" class="lt" font-size="10">within each product</text>
 
 <text x="68" y="604" class="footer">Sales by Product &amp; Country · 4 products × 6 countries · Marimekko / Mekko chart · Total = 1,366</text>
 
@@ -327,18 +329,21 @@
   var isDark = false;
 
   /* §3 — Method A1: animationend + .visible, setTimeout gates .ready */
+  var duration = 0.8;
+  var lastDelay = 0;
   cells.forEach(function(cell) {
     var delay = parseFloat(cell.getAttribute('data-delay') || '0');
-    cell.style.animation = 'cellFade 0.4s ease-out ' + delay.toFixed(2) + 's';
+    if (delay > lastDelay) lastDelay = delay;
+    cell.style.animation = 'cellFade ' + duration + 's ease-out ' + delay.toFixed(2) + 's';
     cell.addEventListener('animationend', function() {
       cell.style.animation = 'none';
       cell.classList.add('visible');
     }, { once: true });
   });
-  setTimeout(function() { ca.classList.add('ready'); }, 990);
+  setTimeout(function() { ca.classList.add('ready'); }, (lastDelay + duration + 0.1) * 1000);
 
   /* §4 — Tooltip (JS-driven, 3-element bub-bg + bub-bdr + bub-tip) */
-  var BW = 120, BH = 58, TH = 10, RX = 8, G = 8;
+  var BH = 58, TH = 10, RX = 8, TW = 8;
   var tip    = document.getElementById('tip');
   var tipBg  = document.getElementById('tip-bg');
   var tipBdr = document.getElementById('tip-bdr');
@@ -348,55 +353,66 @@
   var tipPct = document.getElementById('tip-pct');
 
   function positionTip(mx, my, name, val, pct) {
-    /* clamp x so bubble stays inside viewBox */
-    var tx = Math.max(BW/2 + 8, Math.min(mx, 1100 - BW/2 - 8));
-    /* flip: show below cursor when near top */
+    /* 1 — set text content first so getBBox() measures real rendered width */
+    var parts = name.split(' · ');
+    tipVal.textContent = parts[0];
+    tipLbl.textContent = parts[1] || '';
+    tipPct.textContent = 'Value: ' + val + '  ·  ' + pct + ' of product';
+
+    /* 2 — measure widest line, derive hw (half-width), minimum 60px total */
+    var pad = 20;
+    var hw = Math.max(
+      tipVal.getBBox().width + pad,
+      tipLbl.getBBox().width + pad,
+      tipPct.getBBox().width + pad,
+      60
+    ) / 2;
+    var BW = hw * 2;
+
+    /* 3 — clamp tx so bubble stays inside viewBox */
+    var tx = Math.max(hw + 8, Math.min(mx, 1100 - hw - 8));
+
+    /* 4 — flip: show below cursor when near top */
     var flip = my < BH + TH + 20;
-    var hw = BW / 2;
     var boxY = flip ? my + TH : my - TH - BH;
+    var L = tx - hw, R = tx + hw, T = boxY, B = boxY + BH;
 
     /* bub-bg rect */
-    tipBg.setAttribute('x',      tx - hw);
-    tipBg.setAttribute('y',      boxY);
+    tipBg.setAttribute('x',      L);
+    tipBg.setAttribute('y',      T);
     tipBg.setAttribute('width',  BW);
     tipBg.setAttribute('height', BH);
 
-    /* bub-bdr open path — same geometry as doc spec */
-    var bot = flip ? my + TH      : my - TH;       /* base of tail (box bottom or top) */
-    var top = flip ? my + TH + BH : my - TH - BH;  /* far edge of box */
-    var bdrD;
+    /* bub-bdr open path — all absolute, 1px inset at tail root to close seam */
+    var openD, tailD;
     if (!flip) {
-      /* tail points down: box above cursor, gap in bottom edge */
-      bdrD = 'M'+G+','+bot+
-             ' L'+(hw-RX)+','+bot+' Q'+hw+','+bot+' '+hw+','+(bot-RX)+
-             ' L'+hw+','+(top+RX)+' Q'+hw+','+top+' '+(hw-RX)+','+top+
-             ' L'+(-hw+RX)+','+top+' Q'+(-hw)+','+top+' '+(-hw)+','+(top+RX)+
-             ' L'+(-hw)+','+(bot-RX)+' Q'+(-hw)+','+bot+' '+(-hw+RX)+','+bot+
-             ' L'+(-G)+','+bot;
-      tipBdr.setAttribute('transform', 'translate('+tx+',0)');
-      tipTip.setAttribute('d', 'M'+(tx+G)+','+bot+' L'+tx+','+my+' L'+(tx-G)+','+bot);
+      /* tail points down: gap in bottom edge */
+      openD = 'M'+(tx+TW)+','+B+
+              ' L'+(R-RX)+','+B+' Q'+R+','+B+' '+R+','+(B-RX)+
+              ' L'+R+','+(T+RX)+' Q'+R+','+T+' '+(R-RX)+','+T+
+              ' L'+(L+RX)+','+T+' Q'+L+','+T+' '+L+','+(T+RX)+
+              ' L'+L+','+(B-RX)+' Q'+L+','+B+' '+(L+RX)+','+B+
+              ' L'+(tx-TW)+','+B;
+      tailD = 'M'+(tx-TW)+','+B+' L'+tx+','+(B+TH)+' L'+(tx+TW)+','+B;
     } else {
-      /* tail points up: box below cursor, gap in top edge */
-      bdrD = 'M'+(-G)+','+bot+
-             ' L'+(-hw+RX)+','+bot+' Q'+(-hw)+','+bot+' '+(-hw)+','+(bot+RX)+
-             ' L'+(-hw)+','+(top-RX)+' Q'+(-hw)+','+top+' '+(-hw+RX)+','+top+
-             ' L'+(hw-RX)+','+top+' Q'+hw+','+top+' '+hw+','+(top-RX)+
-             ' L'+hw+','+(bot+RX)+' Q'+hw+','+bot+' '+(hw-RX)+','+bot+
-             ' L'+G+','+bot;
-      tipBdr.setAttribute('transform', 'translate('+tx+',0)');
-      tipTip.setAttribute('d', 'M'+(tx-G)+','+bot+' L'+tx+','+my+' L'+(tx+G)+','+bot);
+      /* tail points up: gap in top edge */
+      openD = 'M'+(tx-TW)+','+T+
+              ' L'+(L+RX)+','+T+' Q'+L+','+T+' '+L+','+(T+RX)+
+              ' L'+L+','+(B-RX)+' Q'+L+','+B+' '+(L+RX)+','+B+
+              ' L'+(R-RX)+','+B+' Q'+R+','+B+' '+R+','+(B-RX)+
+              ' L'+R+','+(T+RX)+' Q'+R+','+T+' '+(R-RX)+','+T+
+              ' L'+(tx+TW)+','+T;
+      tailD = 'M'+(tx+TW)+','+T+' L'+tx+','+(T-TH)+' L'+(tx-TW)+','+T;
     }
-    tipBdr.setAttribute('d', bdrD);
+    tipBdr.removeAttribute('transform');
+    tipBdr.setAttribute('d', openD);
+    tipTip.setAttribute('d', tailD);
 
-    /* text */
-    var parts = name.split(' · ');
+    /* text positions */
     var textY = boxY + 14;
     tipVal.setAttribute('x', tx); tipVal.setAttribute('y', textY);
-    tipVal.textContent = parts[0];
     tipLbl.setAttribute('x', tx); tipLbl.setAttribute('y', textY + 18);
-    tipLbl.textContent = parts[1] || '';
     tipPct.setAttribute('x', tx); tipPct.setAttribute('y', textY + 34);
-    tipPct.textContent = 'Value: ' + val + '  ·  ' + pct + ' of product';
   }
 
   /* §4 — Hover: .hovering on container, .hovered on item */
