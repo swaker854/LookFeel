@@ -5,44 +5,43 @@
 <defs>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
-    .bg-main   { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    .ct        { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .cs        { font-size:11px; fill:#79747E; font-weight:400; }
-    .an        { font-size:10px; fill:#79747E; font-weight:400; }
-    .al        { font-size:11px; fill:#1C1B1F; font-weight:500; }
-    .lt        { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    .lv        { font-size:11px; fill:#1C1B1F; font-weight:500; }
-    .gl        { stroke:#E7E0EC; stroke-width:1; fill:none; }
-    .bl        { stroke:#79747E; stroke-width:1.5; fill:none; }
+    .card-bg    { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    .card-title { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+    .card-subtitle { font-size:11px; fill:#79747E; font-weight:400; }
+    .tick-label { font-size:10px; fill:#79747E; font-weight:400; }
+    .category-label { font-size:11px; fill:#1C1B1F; font-weight:500; }
+    .legend-label { font-size:11px; fill:#1C1B1F; font-weight:400; }
+    .legend-value { font-size:11px; fill:#1C1B1F; font-weight:500; opacity:0; transition:opacity 0.2s; }
+    .grid-line  { stroke:#E7E0EC; stroke-width:1; fill:none; }
+    .axis-line  { stroke:#79747E; stroke-width:1.5; fill:none; }
     .rl        { stroke:#C4BECE; stroke-width:0.75; fill:none; }
     .spk       { stroke:#79747E; stroke-width:1; opacity:0.25; fill:none; }
-    .lgd-bg    { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .lgd-div   { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .lgd-ttl   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+    .legend-bg  { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+    .legend-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+    .legend-title { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
     .footer    { font-size:10px; fill:#79747E; font-weight:400; }
-    .t-wrap    { cursor:pointer; }
-    .t-track   { fill:#E7E0EC; }
-    .t-thumb   { fill:#ffffff; }
-    .t-label   { font-size:11px; font-weight:500; fill:#49454F; }
-    .pt-track  { fill:#E7E0EC; transition:fill 0.3s; }
-    .pt-thumb  { fill:#ffffff; }
-    .pt-label  { font-size:11px; font-weight:500; fill:#49454F; }
-    .lgd-val   { opacity:0; transition:opacity 0.2s; }
-    svg.print .lgd-val  { opacity:1; }
-    svg.print .pt-track { fill:#d97316; }
+    .toggle-wrap  { cursor:pointer; }
+    .toggle-track { fill:#E7E0EC; }
+    .toggle-thumb { fill:#ffffff; }
+    .toggle-label { font-size:11px; font-weight:500; fill:#49454F; }
+    .print-track  { fill:#E7E0EC; transition:fill 0.3s; }
+    .print-thumb  { fill:#ffffff; }
+    .print-label  { font-size:11px; font-weight:500; fill:#49454F; }
+    svg.print .legend-value { opacity:1; }
+    svg.print .print-track { fill:#d97316; }
 
     /* §1 — Standard palette */
-    .bar-1 { fill:#00D4E8; } .bar-2 { fill:#00B87A; }
-    .bar-3 { fill:#F59E0B; } .bar-4 { fill:#F43F5E; }
-    .bar-5 { fill:#8B5CF6; } .bar-6 { fill:#3B82F6; }
-    .bar-7 { fill:#0D9488; } .bar-8 { fill:#64748B; }
-    svg.dark .bar-1 { fill:#22D3EE; } svg.dark .bar-2 { fill:#10B981; }
-    svg.dark .bar-3 { fill:#FBB724; } svg.dark .bar-4 { fill:#FB6181; }
-    svg.dark .bar-5 { fill:#A78BFA; } svg.dark .bar-6 { fill:#60A5FA; }
-    svg.dark .bar-7 { fill:#2DD4BF; } svg.dark .bar-8 { fill:#94A3B8; }
+    .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
+    .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
+    .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
+    .series-7 { fill:#0D9488; } .series-8 { fill:#64748B; }
+    svg.dark .series-1 { fill:#22D3EE; } svg.dark .series-2 { fill:#10B981; }
+    svg.dark .series-3 { fill:#FBB724; } svg.dark .series-4 { fill:#FB6181; }
+    svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
+    svg.dark .series-7 { fill:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; }
 
-    /* §1 — Semantic: polygon uses currentColor so fill/stroke inherit from .bar-N on the same element */
-    /* §1 — radar polygon: one element per series. .bar-N provides fill color.
+    /* §1 — Semantic: polygon uses currentColor so fill/stroke inherit from .series-N on the same element */
+    /* §1 — radar polygon: one element per series. .series-N provides fill color.
        .sp-poly adds fill-opacity + stroke-width. .sp-poly-N maps stroke to palette. */
     .sp-poly   { fill-opacity:0.18; stroke-width:2; stroke-linejoin:round; }
     .sp-poly-1 { stroke:#00D4E8; } svg.dark .sp-poly-1 { stroke:#22D3EE; }
@@ -58,49 +57,49 @@
     }
 
     /* §4 — Hover: JS-driven .hovering/.active, gated on .ready */
-    .bw { cursor:pointer; }
-    .ca.ready.hovering .bw        { opacity:0.20; transition:opacity 0.2s ease; }
-    .ca.ready.hovering .bw.active { opacity:1;    transition:opacity 0.2s ease; }
+    .data-item { cursor:pointer; }
+    .data-layer.ready.hovering .data-item        { opacity:0.20; transition:opacity 0.2s ease; }
+    .data-layer.ready.hovering .data-item.active { opacity:1;    transition:opacity 0.2s ease; }
     .dw  { cursor:pointer; }
     /* Dot hit targets — invisible circles in a top-layer group, pointer-events only */
     .dht { fill:transparent; cursor:pointer; }
 
     /* §4 — Tooltip bubble */
-    .bubble  { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    svg.print .bubble { opacity:0 !important; }
-    .bub-bg  { fill:#FFFBFE; }
-    .bub-bdr { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-tip { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-val { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .bub-lbl { fill:#49454F; font-size:10px; font-weight:400; }
-    .bub-pct { fill:#79747E; font-size:10px; font-weight:400; }
+    .data-tip  { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
+    svg.print .data-tip { opacity:0 !important; }
+    .tip-bg     { fill:#FFFBFE; }
+    .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
+    .tip-pct    { fill:#79747E; font-size:10px; font-weight:400; }
 
-    svg.dark .bg-main   { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-    svg.dark .ct        { fill:#E6E0E9; }
-    svg.dark .cs        { fill:#938F99; }
-    svg.dark .an        { fill:#938F99; }
-    svg.dark .al        { fill:#E6E0E9; }
-    svg.dark .lt        { fill:#E6E0E9; }
-    svg.dark .lv        { fill:#E6E0E9; }
-    svg.dark .gl        { stroke:#49454F; }
-    svg.dark .bl        { stroke:#938F99; }
+    svg.dark .card-bg    { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+    svg.dark .card-title { fill:#E6E0E9; }
+    svg.dark .card-subtitle { fill:#938F99; }
+    svg.dark .tick-label { fill:#938F99; }
+    svg.dark .category-label { fill:#E6E0E9; }
+    svg.dark .legend-label { fill:#E6E0E9; }
+    svg.dark .legend-value { fill:#E6E0E9; }
+    svg.dark .grid-line  { stroke:#49454F; }
+    svg.dark .axis-line  { stroke:#938F99; }
     svg.dark .rl        { stroke:#6B6572; }
     svg.dark .spk       { stroke:#938F99; }
-    svg.dark .lgd-bg    { fill:#49454F; stroke:#938F99; }
-    svg.dark .lgd-div   { stroke:#938F99; }
-    svg.dark .lgd-ttl   { fill:#938F99; }
+    svg.dark .legend-bg  { fill:#49454F; stroke:#938F99; }
+    svg.dark .legend-divider { stroke:#938F99; }
+    svg.dark .legend-title { fill:#938F99; }
     svg.dark .footer    { fill:#938F99; }
-    svg.dark .t-track   { fill:#49454F; }
-    svg.dark .t-label   { fill:#CAC4D0; }
-    svg.dark .pt-track  { fill:#49454F; }
-    svg.dark .pt-label  { fill:#CAC4D0; }
-    svg.dark.print .pt-track { fill:#d97316; }
-    svg.dark .bub-bg    { fill:#1C1B1F; }
-    svg.dark .bub-bdr   { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .bub-tip   { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .bub-val   { fill:#E6E0E9; }
-    svg.dark .bub-lbl   { fill:#CAC4D0; }
-    svg.dark .bub-pct   { fill:#938F99; }
+    svg.dark .toggle-track { fill:#49454F; }
+    svg.dark .toggle-label { fill:#CAC4D0; }
+    svg.dark .print-track  { fill:#49454F; }
+    svg.dark .print-label  { fill:#CAC4D0; }
+    svg.dark.print .print-track { fill:#d97316; }
+    svg.dark .tip-bg    { fill:#1C1B1F; }
+    svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .tip-tail  { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .tip-value { fill:#E6E0E9; }
+    svg.dark .tip-label { fill:#CAC4D0; }
+    svg.dark .tip-pct   { fill:#938F99; }
     .border-dark  { display:none; }
     .border-light { display:block; }
     svg.dark .border-dark  { display:block; }
@@ -124,7 +123,7 @@
     a6(Quality):      (273.6, 180.3)
 -->
 
-<rect class="bg-main" width="1100" height="620" rx="18"/>
+<rect class="card-bg" width="1100" height="620" rx="18"/>
 <g class="border-dark">
   <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
 </g>
@@ -132,25 +131,25 @@
   <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
 </g>
 
-<text x="68" y="50" class="ct">Product Performance Scorecard - Radar</text>
-<text x="68" y="70" class="cs">3 series · 7 axes · score 0–100 · hover to inspect · print for values</text>
+<text x="68" y="50" class="card-title">Product Performance Scorecard - Radar</text>
+<text x="68" y="70" class="card-subtitle">3 series · 7 axes · score 0–100 · hover to inspect · print for values</text>
 
-<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
-  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
+<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
+  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
 </g>
-<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
-  <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
+<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
+  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
 </g>
 
 <!-- ── RADAR RINGS (cx=430, cy=305, R=200) ── -->
-<polygon class="gl" points="430.0,265.0 461.3,280.1 469.0,313.9 447.4,341.0 412.6,341.0 391.0,313.9 398.7,280.1"/>
-<polygon class="gl" points="430.0,225.0 492.5,255.1 508.0,322.8 464.7,377.1 395.3,377.1 352.0,322.8 367.5,255.1"/>
-<polygon class="gl" points="430.0,185.0 523.8,230.2 547.0,331.7 482.1,413.1 377.9,413.1 313.0,331.7 336.2,230.2"/>
-<polygon class="gl" points="430.0,145.0 555.1,205.2 586.0,340.6 499.4,449.2 360.6,449.2 274.0,340.6 304.9,205.2"/>
+<polygon class="grid-line" points="430.0,265.0 461.3,280.1 469.0,313.9 447.4,341.0 412.6,341.0 391.0,313.9 398.7,280.1"/>
+<polygon class="grid-line" points="430.0,225.0 492.5,255.1 508.0,322.8 464.7,377.1 395.3,377.1 352.0,322.8 367.5,255.1"/>
+<polygon class="grid-line" points="430.0,185.0 523.8,230.2 547.0,331.7 482.1,413.1 377.9,413.1 313.0,331.7 336.2,230.2"/>
+<polygon class="grid-line" points="430.0,145.0 555.1,205.2 586.0,340.6 499.4,449.2 360.6,449.2 274.0,340.6 304.9,205.2"/>
 <polygon class="rl" points="430.0,105.0 586.4,180.3 625.0,349.5 516.8,485.2 343.2,485.2 235.0,349.5 273.6,180.3"/>
 
 <!-- ── SPOKES ── -->
@@ -163,225 +162,225 @@
 <line x1="430" y1="305" x2="273.6" y2="180.3" class="spk"/>
 
 <!-- ── RING VALUE LABELS ── -->
-<text x="435" y="265" class="an">20</text>
-<text x="435" y="225" class="an">40</text>
-<text x="435" y="185" class="an">60</text>
-<text x="435" y="145" class="an">80</text>
-<text x="435" y="109" class="an">100</text>
+<text x="435" y="265" class="tick-label">20</text>
+<text x="435" y="225" class="tick-label">40</text>
+<text x="435" y="185" class="tick-label">60</text>
+<text x="435" y="145" class="tick-label">80</text>
+<text x="435" y="109" class="tick-label">100</text>
 
 <!-- ── AXIS LABELS ── -->
-<text x="430.0" y="91"  class="al" text-anchor="middle">Revenue</text>
-<text x="598.4" y="174" class="al" text-anchor="start">Growth</text>
-<text x="637.0" y="356" class="al" text-anchor="start">Margin</text>
-<text x="516.8" y="501" class="al" text-anchor="middle">Satisfaction</text>
-<text x="343.2" y="501" class="al" text-anchor="middle">Retention</text>
-<text x="223.0" y="356" class="al" text-anchor="end">Innovation</text>
-<text x="261.6" y="174" class="al" text-anchor="end">Quality</text>
+<text x="430.0" y="91"  class="category-label" text-anchor="middle">Revenue</text>
+<text x="598.4" y="174" class="category-label" text-anchor="start">Growth</text>
+<text x="637.0" y="356" class="category-label" text-anchor="start">Margin</text>
+<text x="516.8" y="501" class="category-label" text-anchor="middle">Satisfaction</text>
+<text x="343.2" y="501" class="category-label" text-anchor="middle">Retention</text>
+<text x="223.0" y="356" class="category-label" text-anchor="end">Innovation</text>
+<text x="261.6" y="174" class="category-label" text-anchor="end">Quality</text>
 
 <!-- ══════════════════════════════════════
      SERIES — drawn back-to-front
      ══════════════════════════════════════ -->
-<g class="ca" id="ca">
+<g class="data-layer" id="data-layer">
 
 <!-- ── Series C: Emerald (back layer) ── -->
-<g class="bw" id="bw3">
-  <g class="bb">
+<g class="data-item" id="bw3">
+  <g class="data-body">
     <g id="series-anim-3" class="sa">
-      <polygon class="bar-2 sp-poly sp-poly-2" points="430.0,177.0 508.2,242.7 595.7,342.8 491.6,432.9 358.8,452.8 309.1,332.6 289.3,192.8"/>
-      <circle cx="430.0" cy="177.0" r="6" class="bar-2"/>
-      <circle cx="508.2" cy="242.7" r="6" class="bar-2"/>
-      <circle cx="595.7" cy="342.8" r="6" class="bar-2"/>
-      <circle cx="491.6" cy="432.9" r="6" class="bar-2"/>
-      <circle cx="358.8" cy="452.8" r="6" class="bar-2"/>
-      <circle cx="309.1" cy="332.6" r="6" class="bar-2"/>
-      <circle cx="289.3" cy="192.8" r="6" class="bar-2"/>
+      <polygon class="series-2 sp-poly sp-poly-2" points="430.0,177.0 508.2,242.7 595.7,342.8 491.6,432.9 358.8,452.8 309.1,332.6 289.3,192.8"/>
+      <circle cx="430.0" cy="177.0" r="6" class="series-2"/>
+      <circle cx="508.2" cy="242.7" r="6" class="series-2"/>
+      <circle cx="595.7" cy="342.8" r="6" class="series-2"/>
+      <circle cx="491.6" cy="432.9" r="6" class="series-2"/>
+      <circle cx="358.8" cy="452.8" r="6" class="series-2"/>
+      <circle cx="309.1" cy="332.6" r="6" class="series-2"/>
+      <circle cx="289.3" cy="192.8" r="6" class="series-2"/>
     </g>
   </g>
 </g>
 
 <!-- ── Series B: Violet (middle layer) ── -->
-<g class="bw" id="bw2">
-  <g class="bb">
+<g class="data-item" id="bw2">
+  <g class="data-body">
     <g id="series-anim-2" class="sa">
-      <polygon class="bar-5 sp-poly sp-poly-5" points="430.0,195.0 558.2,202.7 566.5,336.2 484.7,418.5 379.7,409.5 258.4,344.2 317.4,215.2"/>
-      <circle cx="430.0" cy="195.0" r="6" class="bar-5"/>
-      <circle cx="558.2" cy="202.7" r="6" class="bar-5"/>
-      <circle cx="566.5" cy="336.2" r="6" class="bar-5"/>
-      <circle cx="484.7" cy="418.5" r="6" class="bar-5"/>
-      <circle cx="379.7" cy="409.5" r="6" class="bar-5"/>
-      <circle cx="258.4" cy="344.2" r="6" class="bar-5"/>
-      <circle cx="317.4" cy="215.2" r="6" class="bar-5"/>
+      <polygon class="series-5 sp-poly sp-poly-5" points="430.0,195.0 558.2,202.7 566.5,336.2 484.7,418.5 379.7,409.5 258.4,344.2 317.4,215.2"/>
+      <circle cx="430.0" cy="195.0" r="6" class="series-5"/>
+      <circle cx="558.2" cy="202.7" r="6" class="series-5"/>
+      <circle cx="566.5" cy="336.2" r="6" class="series-5"/>
+      <circle cx="484.7" cy="418.5" r="6" class="series-5"/>
+      <circle cx="379.7" cy="409.5" r="6" class="series-5"/>
+      <circle cx="258.4" cy="344.2" r="6" class="series-5"/>
+      <circle cx="317.4" cy="215.2" r="6" class="series-5"/>
     </g>
   </g>
 </g>
 
 <!-- ── Series A: Cyan (front layer) ── -->
-<g class="bw" id="bw1">
-  <g class="bb">
+<g class="data-item" id="bw1">
+  <g class="data-body">
     <g id="series-anim-1" class="sa">
-      <polygon class="bar-1 sp-poly sp-poly-1" points="430.0,161.0 531.6,223.9 543.1,330.8 499.4,449.2 365.8,438.3 322.8,329.5 323.7,220.2"/>
-      <circle cx="430.0" cy="161.0" r="6" class="bar-1"/>
-      <circle cx="531.6" cy="223.9" r="6" class="bar-1"/>
-      <circle cx="543.1" cy="330.8" r="6" class="bar-1"/>
-      <circle cx="499.4" cy="449.2" r="6" class="bar-1"/>
-      <circle cx="365.8" cy="438.3" r="6" class="bar-1"/>
-      <circle cx="322.8" cy="329.5" r="6" class="bar-1"/>
-      <circle cx="323.7" cy="220.2" r="6" class="bar-1"/>
+      <polygon class="series-1 sp-poly sp-poly-1" points="430.0,161.0 531.6,223.9 543.1,330.8 499.4,449.2 365.8,438.3 322.8,329.5 323.7,220.2"/>
+      <circle cx="430.0" cy="161.0" r="6" class="series-1"/>
+      <circle cx="531.6" cy="223.9" r="6" class="series-1"/>
+      <circle cx="543.1" cy="330.8" r="6" class="series-1"/>
+      <circle cx="499.4" cy="449.2" r="6" class="series-1"/>
+      <circle cx="365.8" cy="438.3" r="6" class="series-1"/>
+      <circle cx="322.8" cy="329.5" r="6" class="series-1"/>
+      <circle cx="323.7" cy="220.2" r="6" class="series-1"/>
     </g>
   </g>
 </g>
 
-</g><!-- /ca -->
+</g><!-- /data-layer -->
 
 <!-- ── Bubble overlay — drawn above all series ── -->
 <g id="bubble-overlay">
-  <!-- Emerald bubbles (canonical positions = dot coords in .ca) -->
-  <g class="bubble" id="b3d1-bub" transform="translate(430.0,177.0)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">64</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Revenue · Emerald</text>
+  <!-- Emerald bubbles (canonical positions = dot coords in .data-layer) -->
+  <g class="data-tip" id="b3d1-bub" transform="translate(430.0,177.0)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">64</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Revenue · Emerald</text>
   </g>
-  <g class="bubble" id="b3d2-bub" transform="translate(508.2,242.7)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">50</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Growth · Emerald</text>
+  <g class="data-tip" id="b3d2-bub" transform="translate(508.2,242.7)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">50</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Growth · Emerald</text>
   </g>
-  <g class="bubble" id="b3d3-bub" transform="translate(595.7,342.8)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">85</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Margin · Emerald</text>
+  <g class="data-tip" id="b3d3-bub" transform="translate(595.7,342.8)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">85</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Margin · Emerald</text>
   </g>
-  <g class="bubble" id="b3d4-bub" transform="translate(491.6,432.9)">
-    <rect x="-50" y="-52" width="100" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L41,-14 Q50,-14 50,-23 L50,-43 Q50,-52 41,-52 L-41,-52 Q-50,-52 -50,-43 L-50,-23 Q-50,-14 -41,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">71</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Satisfaction · Emerald</text>
+  <g class="data-tip" id="b3d4-bub" transform="translate(491.6,432.9)">
+    <rect x="-50" y="-52" width="100" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L41,-14 Q50,-14 50,-23 L50,-43 Q50,-52 41,-52 L-41,-52 Q-50,-52 -50,-43 L-50,-23 Q-50,-14 -41,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">71</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Satisfaction · Emerald</text>
   </g>
-  <g class="bubble" id="b3d5-bub" transform="translate(358.8,452.8)">
-    <rect x="-44" y="-52" width="88" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L35,-14 Q44,-14 44,-23 L44,-43 Q44,-52 35,-52 L-35,-52 Q-44,-52 -44,-43 L-44,-23 Q-44,-14 -35,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">82</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Retention · Emerald</text>
+  <g class="data-tip" id="b3d5-bub" transform="translate(358.8,452.8)">
+    <rect x="-44" y="-52" width="88" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L35,-14 Q44,-14 44,-23 L44,-43 Q44,-52 35,-52 L-35,-52 Q-44,-52 -44,-43 L-44,-23 Q-44,-14 -35,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">82</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Retention · Emerald</text>
   </g>
-  <g class="bubble" id="b3d6-bub" transform="translate(309.1,332.6)">
-    <rect x="-48" y="-52" width="96" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L39,-14 Q48,-14 48,-23 L48,-43 Q48,-52 39,-52 L-39,-52 Q-48,-52 -48,-43 L-48,-23 Q-48,-14 -39,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">62</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Innovation · Emerald</text>
+  <g class="data-tip" id="b3d6-bub" transform="translate(309.1,332.6)">
+    <rect x="-48" y="-52" width="96" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L39,-14 Q48,-14 48,-23 L48,-43 Q48,-52 39,-52 L-39,-52 Q-48,-52 -48,-43 L-48,-23 Q-48,-14 -39,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">62</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Innovation · Emerald</text>
   </g>
-  <g class="bubble" id="b3d7-bub" transform="translate(289.3,192.8)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">90</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Quality · Emerald</text>
+  <g class="data-tip" id="b3d7-bub" transform="translate(289.3,192.8)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">90</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Quality · Emerald</text>
   </g>
-  <g class="bubble" id="b2d1-bub" transform="translate(430.0,195.0)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">55</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Revenue · Violet</text>
+  <g class="data-tip" id="b2d1-bub" transform="translate(430.0,195.0)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">55</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Revenue · Violet</text>
   </g>
-  <g class="bubble" id="b2d2-bub" transform="translate(558.2,202.7)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">82</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Growth · Violet</text>
+  <g class="data-tip" id="b2d2-bub" transform="translate(558.2,202.7)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">82</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Growth · Violet</text>
   </g>
-  <g class="bubble" id="b2d3-bub" transform="translate(566.5,336.2)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">70</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Margin · Violet</text>
+  <g class="data-tip" id="b2d3-bub" transform="translate(566.5,336.2)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">70</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Margin · Violet</text>
   </g>
-  <g class="bubble" id="b2d4-bub" transform="translate(484.7,418.5)">
-    <rect x="-46" y="-52" width="92" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L37,-14 Q46,-14 46,-23 L46,-43 Q46,-52 37,-52 L-37,-52 Q-46,-52 -46,-43 L-46,-23 Q-46,-14 -37,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">63</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Satisfaction · Violet</text>
+  <g class="data-tip" id="b2d4-bub" transform="translate(484.7,418.5)">
+    <rect x="-46" y="-52" width="92" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L37,-14 Q46,-14 46,-23 L46,-43 Q46,-52 37,-52 L-37,-52 Q-46,-52 -46,-43 L-46,-23 Q-46,-14 -37,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">63</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Satisfaction · Violet</text>
   </g>
-  <g class="bubble" id="b2d5-bub" transform="translate(379.7,409.5)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">58</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Retention · Violet</text>
+  <g class="data-tip" id="b2d5-bub" transform="translate(379.7,409.5)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">58</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Retention · Violet</text>
   </g>
-  <g class="bubble" id="b2d6-bub" transform="translate(258.4,344.2)">
-    <rect x="-44" y="-52" width="88" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L35,-14 Q44,-14 44,-23 L44,-43 Q44,-52 35,-52 L-35,-52 Q-44,-52 -44,-43 L-44,-23 Q-44,-14 -35,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">88</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Innovation · Violet</text>
+  <g class="data-tip" id="b2d6-bub" transform="translate(258.4,344.2)">
+    <rect x="-44" y="-52" width="88" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L35,-14 Q44,-14 44,-23 L44,-43 Q44,-52 35,-52 L-35,-52 Q-44,-52 -44,-43 L-44,-23 Q-44,-14 -35,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">88</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Innovation · Violet</text>
   </g>
-  <g class="bubble" id="b2d7-bub" transform="translate(317.4,215.2)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">72</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Quality · Violet</text>
+  <g class="data-tip" id="b2d7-bub" transform="translate(317.4,215.2)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">72</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Quality · Violet</text>
   </g>
-  <g class="bubble" id="b1d1-bub" transform="translate(430.0,161.0)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">72</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Revenue · Cyan</text>
+  <g class="data-tip" id="b1d1-bub" transform="translate(430.0,161.0)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">72</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Revenue · Cyan</text>
   </g>
-  <g class="bubble" id="b1d2-bub" transform="translate(531.6,223.9)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">65</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Growth · Cyan</text>
+  <g class="data-tip" id="b1d2-bub" transform="translate(531.6,223.9)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">65</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Growth · Cyan</text>
   </g>
-  <g class="bubble" id="b1d3-bub" transform="translate(543.1,330.8)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">58</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Margin · Cyan</text>
+  <g class="data-tip" id="b1d3-bub" transform="translate(543.1,330.8)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">58</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Margin · Cyan</text>
   </g>
-  <g class="bubble" id="b1d4-bub" transform="translate(499.4,449.2)">
-    <rect x="-50" y="-52" width="100" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L41,-14 Q50,-14 50,-23 L50,-43 Q50,-52 41,-52 L-41,-52 Q-50,-52 -50,-43 L-50,-23 Q-50,-14 -41,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">80</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Satisfaction · Cyan</text>
+  <g class="data-tip" id="b1d4-bub" transform="translate(499.4,449.2)">
+    <rect x="-50" y="-52" width="100" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L41,-14 Q50,-14 50,-23 L50,-43 Q50,-52 41,-52 L-41,-52 Q-50,-52 -50,-43 L-50,-23 Q-50,-14 -41,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">80</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Satisfaction · Cyan</text>
   </g>
-  <g class="bubble" id="b1d5-bub" transform="translate(365.8,438.3)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">74</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Retention · Cyan</text>
+  <g class="data-tip" id="b1d5-bub" transform="translate(365.8,438.3)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">74</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Retention · Cyan</text>
   </g>
-  <g class="bubble" id="b1d6-bub" transform="translate(322.8,329.5)">
-    <rect x="-44" y="-52" width="88" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L35,-14 Q44,-14 44,-23 L44,-43 Q44,-52 35,-52 L-35,-52 Q-44,-52 -44,-43 L-44,-23 Q-44,-14 -35,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">55</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Innovation · Cyan</text>
+  <g class="data-tip" id="b1d6-bub" transform="translate(322.8,329.5)">
+    <rect x="-44" y="-52" width="88" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L35,-14 Q44,-14 44,-23 L44,-43 Q44,-52 35,-52 L-35,-52 Q-44,-52 -44,-43 L-44,-23 Q-44,-14 -35,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">55</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Innovation · Cyan</text>
   </g>
-  <g class="bubble" id="b1d7-bub" transform="translate(323.7,220.2)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="bub-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="bub-bdr"/>
-    <path d="M8,-14 L0,0 L-8,-14" class="bub-tip"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="bub-val">68</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="bub-lbl">Quality · Cyan</text>
+  <g class="data-tip" id="b1d7-bub" transform="translate(323.7,220.2)">
+    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
+    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
+    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">68</text>
+    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Quality · Cyan</text>
   </g>
 </g><!-- /bubble-overlay -->
 
@@ -418,43 +417,43 @@
 </g><!-- /dot-hit-layer -->
 
 <!-- ── LEGEND ── -->
-<rect x="870" y="100" width="200" height="240" rx="14" class="lgd-bg"/>
-<text x="888" y="124" class="lgd-ttl">SERIES</text>
+<rect x="870" y="100" width="200" height="240" rx="14" class="legend-bg"/>
+<text x="888" y="124" class="legend-title">SERIES</text>
 <g transform="translate(888,140)">
-  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-1"/>
-  <text x="22" y="11" class="lt">Cyan</text>
-  <text x="178" y="11" class="lv lgd-val" text-anchor="end">A</text>
+  <rect x="0" y="0" width="14" height="14" rx="3" class="series-1"/>
+  <text x="22" y="11" class="legend-label">Cyan</text>
+  <text x="178" y="11" class="legend-value" text-anchor="end">A</text>
 </g>
 <g transform="translate(888,170)">
-  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-5"/>
-  <text x="22" y="11" class="lt">Violet</text>
-  <text x="178" y="11" class="lv lgd-val" text-anchor="end">B</text>
+  <rect x="0" y="0" width="14" height="14" rx="3" class="series-5"/>
+  <text x="22" y="11" class="legend-label">Violet</text>
+  <text x="178" y="11" class="legend-value" text-anchor="end">B</text>
 </g>
 <g transform="translate(888,200)">
-  <rect x="0" y="0" width="14" height="14" rx="3" class="bar-2"/>
-  <text x="22" y="11" class="lt">Emerald</text>
-  <text x="178" y="11" class="lv lgd-val" text-anchor="end">C</text>
+  <rect x="0" y="0" width="14" height="14" rx="3" class="series-2"/>
+  <text x="22" y="11" class="legend-label">Emerald</text>
+  <text x="178" y="11" class="legend-value" text-anchor="end">C</text>
 </g>
-<line x1="888" y1="226" x2="1052" y2="226" class="lgd-div"/>
-<text x="888" y="246" class="lgd-ttl">AXES (score 0–100)</text>
-<text x="888" y="264" class="an">Revenue · Growth · Margin</text>
-<text x="888" y="280" class="an">Satisfaction · Retention</text>
-<text x="888" y="296" class="an">Innovation · Quality</text>
+<line x1="888" y1="226" x2="1052" y2="226" class="legend-divider"/>
+<text x="888" y="246" class="legend-title">AXES (score 0–100)</text>
+<text x="888" y="264" class="tick-label">Revenue · Growth · Margin</text>
+<text x="888" y="280" class="tick-label">Satisfaction · Retention</text>
+<text x="888" y="296" class="tick-label">Innovation · Quality</text>
 
 <!-- Values table (visible in print mode) -->
-<rect x="870" y="356" width="200" height="200" rx="14" class="lgd-bg lgd-val"/>
-<text x="888" y="380" class="lgd-ttl lgd-val">VALUES (Rev·Grw·Mar·Sat·Ret·Inn·Qua)</text>
+<rect x="870" y="356" width="200" height="200" rx="14" class="legend-bg legend-value"/>
+<text x="888" y="380" class="legend-title legend-value">VALUES (Rev·Grw·Mar·Sat·Ret·Inn·Qua)</text>
 <g transform="translate(888,396)">
-  <rect x="0" y="0" width="10" height="10" rx="2" class="bar-1 lgd-val"/>
-  <text x="16" y="9" class="an lgd-val">Cyan    72·65·58·80·74·55·68</text>
+  <rect x="0" y="0" width="10" height="10" rx="2" class="series-1 legend-value"/>
+  <text x="16" y="9" class="tick-label legend-value">Cyan    72·65·58·80·74·55·68</text>
 </g>
 <g transform="translate(888,416)">
-  <rect x="0" y="0" width="10" height="10" rx="2" class="bar-5 lgd-val"/>
-  <text x="16" y="9" class="an lgd-val">Violet  55·82·70·63·58·88·72</text>
+  <rect x="0" y="0" width="10" height="10" rx="2" class="series-5 legend-value"/>
+  <text x="16" y="9" class="tick-label legend-value">Violet  55·82·70·63·58·88·72</text>
 </g>
 <g transform="translate(888,436)">
-  <rect x="0" y="0" width="10" height="10" rx="2" class="bar-2 lgd-val"/>
-  <text x="16" y="9" class="an lgd-val">Emerald 64·50·85·71·82·62·90</text>
+  <rect x="0" y="0" width="10" height="10" rx="2" class="series-2 legend-value"/>
+  <text x="16" y="9" class="tick-label legend-value">Emerald 64·50·85·71·82·62·90</text>
 </g>
 
 <text x="68" y="600" class="footer">Product Performance Scorecard · 3 series · 7 axes · score 0–100</text>
@@ -462,7 +461,7 @@
 <script type="text/javascript"><![CDATA[
 (function() {
   var svg  = document.getElementById('root');
-  var ca   = document.getElementById('ca');
+  var dataLayerEl = document.getElementById('data-layer');
   var isDark = false;
 
   /* §3 — rAF animation: geometry (scale) + opacity together → rAF method required.
@@ -502,24 +501,24 @@
   });
 
   /* §3 — .ready gate fires after last animation completes + 100ms buffer */
-  setTimeout(function() { ca.classList.add('ready'); }, readyDelay);
+  setTimeout(function() { dataLayerEl.classList.add('ready'); }, readyDelay);
 
   /* §4 — Series hover: container-level mouseleave (adjacent/overlapping polygon targets).
      Stale-clear on every mouseenter is not optional. */
-  var bws = Array.prototype.slice.call(ca.querySelectorAll('.bw'));
-  bws.forEach(function(bw) {
-    bw.addEventListener('mouseenter', function() {
+  var dataItemEls = Array.prototype.slice.call(dataLayerEl.querySelectorAll('.data-item'));
+  dataItemEls.forEach(function(itemEl) {
+    itemEl.addEventListener('mouseenter', function() {
       /* clear all stale .active before setting new one */
-      bws.forEach(function(el) { el.classList.remove('active'); });
-      ca.classList.add('hovering');
-      bw.classList.add('active');
+      dataItemEls.forEach(function(el) { el.classList.remove('active'); });
+      dataLayerEl.classList.add('hovering');
+      itemEl.classList.add('active');
     });
   });
   /* container-level mouseleave: adjacent polygons fire element mouseleave before
      next mouseenter, causing flicker — container removal prevents this */
-  ca.addEventListener('mouseleave', function() {
-    bws.forEach(function(el) { el.classList.remove('active'); });
-    ca.classList.remove('hovering');
+  dataLayerEl.addEventListener('mouseleave', function() {
+    dataItemEls.forEach(function(el) { el.classList.remove('active'); });
+    dataLayerEl.classList.remove('hovering');
   });
 
   /* §4 — Dot hover: hit targets are in #dot-hit-layer, painted above all polygons.

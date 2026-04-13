@@ -4,44 +4,43 @@
 <defs>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
-    .bg-main  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    .ct       { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .cs       { font-size:11px; fill:#79747E; font-weight:400; }
-    .an       { font-size:10px; fill:#79747E; font-weight:400; }
-    .al       { font-size:10px; fill:#79747E; font-weight:500; }
-    .lt       { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    .lv       { font-size:11px; fill:#1C1B1F; font-weight:500; }
-    .gl       { stroke:#E7E0EC; stroke-width:1; }
-    .bl       { stroke:#79747E; stroke-width:1.5; }
-    .lgd-bg   { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .lgd-div  { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .lgd-ttl  { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-    .footer   { font-size:10px; fill:#79747E; font-weight:400; }
-    .t-wrap   { cursor:pointer; }
-    .t-track  { fill:#E7E0EC; }
-    .t-thumb  { fill:#ffffff; }
-    .t-label  { font-size:11px; font-weight:500; fill:#49454F; }
-    .pt-track { fill:#E7E0EC; transition:fill 0.3s; }
-    .pt-thumb { fill:#ffffff; }
-    .pt-label { font-size:11px; font-weight:500; fill:#49454F; }
+    .card-bg    { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    .card-title { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+    .card-subtitle { font-size:11px; fill:#79747E; font-weight:400; }
+    .tick-label    { font-size:10px; fill:#79747E; font-weight:400; }
+    .category-label { font-size:10px; fill:#79747E; font-weight:500; }
+    .legend-label  { font-size:11px; fill:#1C1B1F; font-weight:400; }
+    .legend-value  { font-size:11px; fill:#1C1B1F; font-weight:500; opacity:0; transition:opacity 0.2s; }
+    .grid-line  { stroke:#E7E0EC; stroke-width:1; }
+    .axis-line  { stroke:#79747E; stroke-width:1.5; }
+    .legend-bg  { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+    .legend-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+    .legend-title   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+    .footer    { font-size:10px; fill:#79747E; font-weight:400; }
+    .toggle-wrap  { cursor:pointer; }
+    .toggle-track { fill:#E7E0EC; }
+    .toggle-thumb { fill:#ffffff; }
+    .toggle-label { font-size:11px; font-weight:500; fill:#49454F; }
+    .print-track  { fill:#E7E0EC; transition:fill 0.3s; }
+    .print-thumb  { fill:#ffffff; }
+    .print-label  { font-size:11px; font-weight:500; fill:#49454F; }
 
-    .lgd-val  { opacity:0; transition:opacity 0.2s; }
-    svg.print .lgd-val  { opacity:1; }
-    svg.print .pt-track { fill:#d97316; }
+    svg.print .legend-value { opacity:1; }
+    svg.print .print-track  { fill:#d97316; }
 
-    .bar-1 { fill:#00D4E8; } .bar-2 { fill:#00B87A; }
-    .bar-3 { fill:#F59E0B; } .bar-4 { fill:#F43F5E; }
-    .bar-5 { fill:#8B5CF6; } .bar-6 { fill:#3B82F6; }
-    .bar-7 { fill:#0D9488; } .bar-8 { fill:#64748B; }
+    .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
+    .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
+    .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
+    .series-7 { fill:#0D9488; } .series-8 { fill:#64748B; }
 
     .line-1 { stroke:#00D4E8; } .line-2 { stroke:#00B87A; }
     .line-3 { stroke:#F59E0B; } .line-4 { stroke:#F43F5E; }
     .line-5 { stroke:#8B5CF6; } .line-6 { stroke:#3B82F6; }
 
-    svg.dark .bar-1 { fill:#22D3EE; } svg.dark .bar-2 { fill:#10B981; }
-    svg.dark .bar-3 { fill:#FBB724; } svg.dark .bar-4 { fill:#FB6181; }
-    svg.dark .bar-5 { fill:#A78BFA; } svg.dark .bar-6 { fill:#60A5FA; }
-    svg.dark .bar-7 { fill:#2DD4BF; } svg.dark .bar-8 { fill:#94A3B8; }
+    svg.dark .series-1 { fill:#22D3EE; } svg.dark .series-2 { fill:#10B981; }
+    svg.dark .series-3 { fill:#FBB724; } svg.dark .series-4 { fill:#FB6181; }
+    svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
+    svg.dark .series-7 { fill:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; }
 
     svg.dark .line-1 { stroke:#22D3EE; } svg.dark .line-2 { stroke:#10B981; }
     svg.dark .line-3 { stroke:#FBB724; } svg.dark .line-4 { stroke:#FB6181; }
@@ -61,48 +60,48 @@
     .dot-hit { cursor:pointer; fill:transparent; }
 
     /* Bubble tooltip */
-    .bubble   { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    .dw.active .bubble { opacity:1; }
+    .data-tip          { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
+    .dw.active .data-tip { opacity:1; }
 
     /* §3/§4 hover: gated on .ready so dimming never fires during animation.
        Dimmed opacity: 0.20 (fixed). Transition: 0.2s ease (fixed). */
-    .ca.ready.hovering .sline        { opacity:0.20; transition:opacity 0.2s ease; }
-    .ca.ready.hovering .dot-visible  { opacity:0.20; transition:opacity 0.2s ease; }
-    .ca.ready.hovering .sg.active .sline       { opacity:1; }
-    .ca.ready.hovering .sg.active .dot-visible { opacity:1; }
+    .data-layer.ready.hovering .sline        { opacity:0.20; transition:opacity 0.2s ease; }
+    .data-layer.ready.hovering .dot-visible  { opacity:0.20; transition:opacity 0.2s ease; }
+    .data-layer.ready.hovering .sg.active .sline       { opacity:1; }
+    .data-layer.ready.hovering .sg.active .dot-visible { opacity:1; }
 
     /* Dot visible markers */
     .dot-visible { pointer-events:none; transition:opacity 0.15s; }
 
-    .bub-bg  { fill:#FFFBFE; }
-    .bub-bdr { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-tip { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-val { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .bub-lbl { fill:#49454F; font-size:10px; font-weight:400; }
+    .tip-bg     { fill:#FFFBFE; }
+    .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
 
-    svg.dark .bg-main  { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-    svg.dark .ct       { fill:#E6E0E9; }
-    svg.dark .cs       { fill:#938F99; }
-    svg.dark .an       { fill:#938F99; }
-    svg.dark .al       { fill:#938F99; }
-    svg.dark .lt       { fill:#E6E0E9; }
-    svg.dark .lv       { fill:#E6E0E9; }
-    svg.dark .gl       { stroke:#49454F; }
-    svg.dark .bl       { stroke:#938F99; }
-    svg.dark .lgd-bg   { fill:#49454F; stroke:#938F99; }
-    svg.dark .lgd-div  { stroke:#938F99; }
-    svg.dark .lgd-ttl  { fill:#938F99; }
-    svg.dark .footer   { fill:#938F99; }
-    svg.dark .t-track  { fill:#49454F; }
-    svg.dark .t-label  { fill:#CAC4D0; }
-    svg.dark .pt-track { fill:#49454F; }
-    svg.dark .pt-label { fill:#CAC4D0; }
-    svg.dark.print .pt-track { fill:#d97316; }
-    svg.dark .bub-bg   { fill:#1C1B1F; }
-    svg.dark .bub-bdr  { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
-    svg.dark .bub-tip  { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
-    svg.dark .bub-val  { fill:#E6E0E9; }
-    svg.dark .bub-lbl  { fill:#CAC4D0; }
+    svg.dark .card-bg    { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+    svg.dark .card-title { fill:#E6E0E9; }
+    svg.dark .card-subtitle  { fill:#938F99; }
+    svg.dark .tick-label     { fill:#938F99; }
+    svg.dark .category-label { fill:#938F99; }
+    svg.dark .legend-label   { fill:#E6E0E9; }
+    svg.dark .legend-value   { fill:#E6E0E9; }
+    svg.dark .grid-line  { stroke:#49454F; }
+    svg.dark .axis-line  { stroke:#938F99; }
+    svg.dark .legend-bg  { fill:#49454F; stroke:#938F99; }
+    svg.dark .legend-divider { stroke:#938F99; }
+    svg.dark .legend-title   { fill:#938F99; }
+    svg.dark .footer    { fill:#938F99; }
+    svg.dark .toggle-track { fill:#49454F; }
+    svg.dark .toggle-label { fill:#CAC4D0; }
+    svg.dark .print-track  { fill:#49454F; }
+    svg.dark .print-label  { fill:#CAC4D0; }
+    svg.dark.print .print-track { fill:#d97316; }
+    svg.dark .tip-bg     { fill:#1C1B1F; }
+    svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
+    svg.dark .tip-tail   { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
+    svg.dark .tip-value  { fill:#E6E0E9; }
+    svg.dark .tip-label  { fill:#CAC4D0; }
 
     .border-dark  { display:none; }
     .border-light { display:block; }
@@ -112,7 +111,7 @@
 </defs>
 
 <!-- Card shell -->
-<rect class="bg-main" width="1100" height="620" rx="18"/>
+<rect class="card-bg" width="1100" height="620" rx="18"/>
 <g class="border-dark">
   <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
 </g>
@@ -121,46 +120,46 @@
 </g>
 
 <!-- Title -->
-<text x="68" y="50" class="ct">Federal Funds Rate — Historical Steps - Step Line</text>
-<text x="68" y="70" class="cs">6 rate cycles · step line · hover to inspect</text>
+<text x="68" y="50" class="card-title">Federal Funds Rate — Historical Steps - Step Line</text>
+<text x="68" y="70" class="card-subtitle">6 rate cycles · step line · hover to inspect</text>
 
 <!-- Dark / Print toggles -->
-<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
-  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
+<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
+  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
 </g>
-<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
-  <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
+<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
+  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
 </g>
 
 <!-- Grid & axes — plot area L:68 R:850 T:100 B:500 -->
-<line x1="68" y1="500" x2="850" y2="500" class="bl"/>
-<line x1="68" y1="420" x2="850" y2="420" class="gl"/>
-<line x1="68" y1="340" x2="850" y2="340" class="gl"/>
-<line x1="68" y1="260" x2="850" y2="260" class="gl"/>
-<line x1="68" y1="180" x2="850" y2="180" class="gl"/>
-<line x1="68" y1="100" x2="850" y2="100" class="gl"/>
-<line x1="68" y1="100" x2="68"  y2="500" class="bl"/>
+<line x1="68" y1="500" x2="850" y2="500" class="axis-line"/>
+<line x1="68" y1="420" x2="850" y2="420" class="grid-line"/>
+<line x1="68" y1="340" x2="850" y2="340" class="grid-line"/>
+<line x1="68" y1="260" x2="850" y2="260" class="grid-line"/>
+<line x1="68" y1="180" x2="850" y2="180" class="grid-line"/>
+<line x1="68" y1="100" x2="850" y2="100" class="grid-line"/>
+<line x1="68" y1="100" x2="68"  y2="500" class="axis-line"/>
 
 <!-- Y-axis labels  (0–10%, 80px per 2%) -->
-<text x="56" y="504" class="an" text-anchor="end">0%</text>
-<text x="56" y="424" class="an" text-anchor="end">2%</text>
-<text x="56" y="344" class="an" text-anchor="end">4%</text>
-<text x="56" y="264" class="an" text-anchor="end">6%</text>
-<text x="56" y="184" class="an" text-anchor="end">8%</text>
-<text x="56" y="104" class="an" text-anchor="end">10%</text>
+<text x="56" y="504" class="tick-label" text-anchor="end">0%</text>
+<text x="56" y="424" class="tick-label" text-anchor="end">2%</text>
+<text x="56" y="344" class="tick-label" text-anchor="end">4%</text>
+<text x="56" y="264" class="tick-label" text-anchor="end">6%</text>
+<text x="56" y="184" class="tick-label" text-anchor="end">8%</text>
+<text x="56" y="104" class="tick-label" text-anchor="end">10%</text>
 
 <!-- X-axis labels (years, 7 ticks spanning 68→850, step=130.33) -->
-<text x="68"  y="522" class="al" text-anchor="middle">1994</text>
-<text x="198" y="522" class="al" text-anchor="middle">1997</text>
-<text x="328" y="522" class="al" text-anchor="middle">2001</text>
-<text x="459" y="522" class="al" text-anchor="middle">2004</text>
-<text x="589" y="522" class="al" text-anchor="middle">2007</text>
-<text x="719" y="522" class="al" text-anchor="middle">2015</text>
-<text x="850" y="522" class="al" text-anchor="middle">2023</text>
+<text x="68"  y="522" class="category-label" text-anchor="middle">1994</text>
+<text x="198" y="522" class="category-label" text-anchor="middle">1997</text>
+<text x="328" y="522" class="category-label" text-anchor="middle">2001</text>
+<text x="459" y="522" class="category-label" text-anchor="middle">2004</text>
+<text x="589" y="522" class="category-label" text-anchor="middle">2007</text>
+<text x="719" y="522" class="category-label" text-anchor="middle">2015</text>
+<text x="850" y="522" class="category-label" text-anchor="middle">2023</text>
 
 <!--
   DATA — 6 Fed rate tightening/easing cycles
@@ -180,15 +179,15 @@
     2009→476 2015→638 2016→665  2017→692  2018→719  2019→746  2020→773
     2022→800 2023→827
 
-  Cycle 1 (bar-1 Cyan): 1994 tightening 3%→6%, 1995 cut →5.5%, 1998 cut →4.75%, 1999 hike →5.5%  
-  Cycle 2 (bar-2 Emerald): 2000–2003 easing 6.5%→1%
-  Cycle 3 (bar-3 Amber): 2004–2006 tightening 1%→5.25%
-  Cycle 4 (bar-4 Rose): 2007–2009 cutting 5.25%→0%
-  Cycle 5 (bar-5 Violet): 2015–2019 hike 0%→2.5%, 2020 cut →0%
-  Cycle 6 (bar-6 Blue): 2022–2023 hike 0%→5.25%
+  Cycle 1 (series-1 Cyan): 1994 tightening 3%→6%, 1995 cut →5.5%, 1998 cut →4.75%, 1999 hike →5.5%
+  Cycle 2 (series-2 Emerald): 2000–2003 easing 6.5%→1%
+  Cycle 3 (series-3 Amber): 2004–2006 tightening 1%→5.25%
+  Cycle 4 (series-4 Rose): 2007–2009 cutting 5.25%→0%
+  Cycle 5 (series-5 Violet): 2015–2019 hike 0%→2.5%, 2020 cut →0%
+  Cycle 6 (series-6 Blue): 2022–2023 hike 0%→5.25%
 -->
 
-<g class="ca">
+<g class="data-layer">
 
 <!-- ═══════════════════════════════════════════════════
      SERIES 1 — 1994–1999 Tightening/Easing (Cyan)
@@ -199,60 +198,60 @@
   <path class="sline line-1"
         d="M68,380 H179 V260 H206 V280 H287 V320 H314 V280"/>
   <!-- dot-visible markers at each data point -->
-  <circle class="dot-visible bar-1" cx="68"  cy="380" r="4"/>
-  <circle class="dot-visible bar-1" cx="179" cy="260" r="4"/>
-  <circle class="dot-visible bar-1" cx="206" cy="280" r="4"/>
-  <circle class="dot-visible bar-1" cx="287" cy="320" r="4"/>
-  <circle class="dot-visible bar-1" cx="314" cy="280" r="4"/>
+  <circle class="dot-visible series-1" cx="68"  cy="380" r="4"/>
+  <circle class="dot-visible series-1" cx="179" cy="260" r="4"/>
+  <circle class="dot-visible series-1" cx="206" cy="280" r="4"/>
+  <circle class="dot-visible series-1" cx="287" cy="320" r="4"/>
+  <circle class="dot-visible series-1" cx="314" cy="280" r="4"/>
   <!-- Hover hit areas with tooltips -->
   <g class="dw" data-val="3.0%" data-lbl="1994 · Cycle 1">
     <circle class="dot-hit" cx="68" cy="380" r="12"/>
-    <g class="bubble" transform="translate(68,356)">
-      <rect x="-40" y="-44" width="80" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-31,-6 Q-40,-6 -40,-15 L-40,-35 Q-40,-44 -31,-44 L31,-44 Q40,-44 40,-35 L40,-15 Q40,-6 31,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">3.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">1994 · Start</text>
+    <g class="data-tip" transform="translate(68,356)">
+      <rect x="-40" y="-44" width="80" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-31,-6 Q-40,-6 -40,-15 L-40,-35 Q-40,-44 -31,-44 L31,-44 Q40,-44 40,-35 L40,-15 Q40,-6 31,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">3.0%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1994 · Start</text>
     </g>
   </g>
   <g class="dw" data-val="6.0%" data-lbl="1995 · Peak">
     <circle class="dot-hit" cx="179" cy="260" r="12"/>
-    <g class="bubble" transform="translate(179,236)">
-      <rect x="-40" y="-44" width="80" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-31,-6 Q-40,-6 -40,-15 L-40,-35 Q-40,-44 -31,-44 L31,-44 Q40,-44 40,-35 L40,-15 Q40,-6 31,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">6.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">1995 · Peak</text>
+    <g class="data-tip" transform="translate(179,236)">
+      <rect x="-40" y="-44" width="80" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-31,-6 Q-40,-6 -40,-15 L-40,-35 Q-40,-44 -31,-44 L31,-44 Q40,-44 40,-35 L40,-15 Q40,-6 31,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">6.0%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1995 · Peak</text>
     </g>
   </g>
   <g class="dw" data-val="5.5%" data-lbl="1996 · Cut">
     <circle class="dot-hit" cx="206" cy="280" r="12"/>
-    <g class="bubble" transform="translate(206,256)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">5.5%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">1996 · Cut</text>
+    <g class="data-tip" transform="translate(206,256)">
+      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">5.5%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1996 · Cut</text>
     </g>
   </g>
   <g class="dw" data-val="4.75%" data-lbl="1998 · Easing">
     <circle class="dot-hit" cx="287" cy="320" r="12"/>
-    <g class="bubble" transform="translate(287,296)">
-      <rect x="-42" y="-44" width="84" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">4.75%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">1998 · Easing</text>
+    <g class="data-tip" transform="translate(287,296)">
+      <rect x="-42" y="-44" width="84" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">4.75%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1998 · Easing</text>
     </g>
   </g>
   <g class="dw" data-val="5.5%" data-lbl="1999 · Rehike">
     <circle class="dot-hit" cx="314" cy="280" r="12"/>
-    <g class="bubble" transform="translate(314,256)">
-      <rect x="-40" y="-44" width="80" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-31,-6 Q-40,-6 -40,-15 L-40,-35 Q-40,-44 -31,-44 L31,-44 Q40,-44 40,-35 L40,-15 Q40,-6 31,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">5.5%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">1999 · Rehike</text>
+    <g class="data-tip" transform="translate(314,256)">
+      <rect x="-40" y="-44" width="80" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-31,-6 Q-40,-6 -40,-15 L-40,-35 Q-40,-44 -31,-44 L31,-44 Q40,-44 40,-35 L40,-15 Q40,-6 31,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">5.5%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1999 · Rehike</text>
     </g>
   </g>
 </g>
@@ -267,48 +266,48 @@
 <g class="sg sl-2" id="sg2">
   <path class="sline line-2"
         d="M314,240 H368 V340 H395 V420 H422 V460"/>
-  <circle class="dot-visible bar-2" cx="314" cy="240" r="4"/>
-  <circle class="dot-visible bar-2" cx="368" cy="340" r="4"/>
-  <circle class="dot-visible bar-2" cx="395" cy="420" r="4"/>
-  <circle class="dot-visible bar-2" cx="422" cy="460" r="4"/>
+  <circle class="dot-visible series-2" cx="314" cy="240" r="4"/>
+  <circle class="dot-visible series-2" cx="368" cy="340" r="4"/>
+  <circle class="dot-visible series-2" cx="395" cy="420" r="4"/>
+  <circle class="dot-visible series-2" cx="422" cy="460" r="4"/>
   <g class="dw">
     <circle class="dot-hit" cx="314" cy="240" r="12"/>
-    <g class="bubble" transform="translate(314,216)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">6.5%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2000 · Peak</text>
+    <g class="data-tip" transform="translate(314,216)">
+      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">6.5%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2000 · Peak</text>
     </g>
   </g>
   <g class="dw">
     <circle class="dot-hit" cx="368" cy="340" r="12"/>
-    <g class="bubble" transform="translate(368,316)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">4.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2001 · Cutting</text>
+    <g class="data-tip" transform="translate(368,316)">
+      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">4.0%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2001 · Cutting</text>
     </g>
   </g>
   <g class="dw">
     <circle class="dot-hit" cx="395" cy="420" r="12"/>
-    <g class="bubble" transform="translate(395,396)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">2.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2002 · Easing</text>
+    <g class="data-tip" transform="translate(395,396)">
+      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">2.0%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2002 · Easing</text>
     </g>
   </g>
   <g class="dw">
     <circle class="dot-hit" cx="422" cy="460" r="12"/>
-    <g class="bubble" transform="translate(422,436)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">1.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2003 · Low</text>
+    <g class="data-tip" transform="translate(422,436)">
+      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">1.0%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2003 · Low</text>
     </g>
   </g>
 </g>
@@ -321,48 +320,48 @@
 <g class="sg sl-3" id="sg3">
   <path class="sline line-3"
         d="M426,460 H449 V420 H476 V340 H503 V300 H530 V292"/>
-  <circle class="dot-visible bar-3" cx="449" cy="420" r="4"/>
-  <circle class="dot-visible bar-3" cx="476" cy="340" r="4"/>
-  <circle class="dot-visible bar-3" cx="503" cy="300" r="4"/>
-  <circle class="dot-visible bar-3" cx="530" cy="292" r="4"/>
+  <circle class="dot-visible series-3" cx="449" cy="420" r="4"/>
+  <circle class="dot-visible series-3" cx="476" cy="340" r="4"/>
+  <circle class="dot-visible series-3" cx="503" cy="300" r="4"/>
+  <circle class="dot-visible series-3" cx="530" cy="292" r="4"/>
   <g class="dw">
     <circle class="dot-hit" cx="449" cy="420" r="12"/>
-    <g class="bubble" transform="translate(449,396)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">2.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2004 · Hiking</text>
+    <g class="data-tip" transform="translate(449,396)">
+      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">2.0%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2004 · Hiking</text>
     </g>
   </g>
   <g class="dw">
     <circle class="dot-hit" cx="476" cy="340" r="12"/>
-    <g class="bubble" transform="translate(476,316)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">4.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2005 · Hiking</text>
+    <g class="data-tip" transform="translate(476,316)">
+      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">4.0%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2005 · Hiking</text>
     </g>
   </g>
   <g class="dw">
     <circle class="dot-hit" cx="503" cy="300" r="12"/>
-    <g class="bubble" transform="translate(503,276)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">5.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2006 · Hiking</text>
+    <g class="data-tip" transform="translate(503,276)">
+      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">5.0%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2006 · Hiking</text>
     </g>
   </g>
   <g class="dw">
     <circle class="dot-hit" cx="530" cy="292" r="12"/>
-    <g class="bubble" transform="translate(530,268)">
-      <rect x="-42" y="-44" width="84" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">5.25%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2006 · Peak</text>
+    <g class="data-tip" transform="translate(530,268)">
+      <rect x="-42" y="-44" width="84" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">5.25%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2006 · Peak</text>
     </g>
   </g>
 </g>
@@ -375,48 +374,48 @@
 <g class="sg sl-4" id="sg4">
   <path class="sline line-4"
         d="M534,292 H557 V340 H584 V420 H611 V480 H638 V490"/>
-  <circle class="dot-visible bar-4" cx="557" cy="340" r="4"/>
-  <circle class="dot-visible bar-4" cx="584" cy="420" r="4"/>
-  <circle class="dot-visible bar-4" cx="611" cy="480" r="4"/>
-  <circle class="dot-visible bar-4" cx="638" cy="490" r="4"/>
+  <circle class="dot-visible series-4" cx="557" cy="340" r="4"/>
+  <circle class="dot-visible series-4" cx="584" cy="420" r="4"/>
+  <circle class="dot-visible series-4" cx="611" cy="480" r="4"/>
+  <circle class="dot-visible series-4" cx="638" cy="490" r="4"/>
   <g class="dw">
     <circle class="dot-hit" cx="557" cy="340" r="12"/>
-    <g class="bubble" transform="translate(557,316)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">4.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2007 · Cutting</text>
+    <g class="data-tip" transform="translate(557,316)">
+      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">4.0%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2007 · Cutting</text>
     </g>
   </g>
   <g class="dw">
     <circle class="dot-hit" cx="584" cy="420" r="12"/>
-    <g class="bubble" transform="translate(584,396)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">2.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2008 · GFC</text>
+    <g class="data-tip" transform="translate(584,396)">
+      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">2.0%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2008 · GFC</text>
     </g>
   </g>
   <g class="dw">
     <circle class="dot-hit" cx="611" cy="480" r="12"/>
-    <g class="bubble" transform="translate(611,456)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">0.5%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2008 · Crisis</text>
+    <g class="data-tip" transform="translate(611,456)">
+      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">0.5%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2008 · Crisis</text>
     </g>
   </g>
   <g class="dw">
     <circle class="dot-hit" cx="638" cy="490" r="12"/>
-    <g class="bubble" transform="translate(638,466)">
-      <rect x="-42" y="-44" width="84" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">0.25%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2009 · Floor</text>
+    <g class="data-tip" transform="translate(638,466)">
+      <rect x="-42" y="-44" width="84" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">0.25%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2009 · Floor</text>
     </g>
   </g>
 </g>
@@ -429,48 +428,48 @@
 <g class="sg sl-5" id="sg5">
   <path class="sline line-5"
         d="M642,490 H665 V460 H692 V430 H719 V400 H746 V490"/>
-  <circle class="dot-visible bar-5" cx="665" cy="460" r="4"/>
-  <circle class="dot-visible bar-5" cx="692" cy="430" r="4"/>
-  <circle class="dot-visible bar-5" cx="719" cy="400" r="4"/>
-  <circle class="dot-visible bar-5" cx="746" cy="490" r="4"/>
+  <circle class="dot-visible series-5" cx="665" cy="460" r="4"/>
+  <circle class="dot-visible series-5" cx="692" cy="430" r="4"/>
+  <circle class="dot-visible series-5" cx="719" cy="400" r="4"/>
+  <circle class="dot-visible series-5" cx="746" cy="490" r="4"/>
   <g class="dw">
     <circle class="dot-hit" cx="665" cy="460" r="12"/>
-    <g class="bubble" transform="translate(665,436)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">1.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2016 · Liftoff</text>
+    <g class="data-tip" transform="translate(665,436)">
+      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">1.0%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2016 · Liftoff</text>
     </g>
   </g>
   <g class="dw">
     <circle class="dot-hit" cx="692" cy="430" r="12"/>
-    <g class="bubble" transform="translate(692,406)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">1.75%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2017 · Hiking</text>
+    <g class="data-tip" transform="translate(692,406)">
+      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">1.75%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2017 · Hiking</text>
     </g>
   </g>
   <g class="dw">
     <circle class="dot-hit" cx="719" cy="400" r="12"/>
-    <g class="bubble" transform="translate(719,376)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">2.5%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2018 · Peak</text>
+    <g class="data-tip" transform="translate(719,376)">
+      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">2.5%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2018 · Peak</text>
     </g>
   </g>
   <g class="dw">
     <circle class="dot-hit" cx="746" cy="490" r="12"/>
-    <g class="bubble" transform="translate(746,466)">
-      <rect x="-42" y="-44" width="84" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">0.25%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2020 · COVID</text>
+    <g class="data-tip" transform="translate(746,466)">
+      <rect x="-42" y="-44" width="84" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">0.25%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2020 · COVID</text>
     </g>
   </g>
 </g>
@@ -483,87 +482,87 @@
 <g class="sg sl-6" id="sg6">
   <path class="sline line-6"
         d="M750,490 H773 V440 H800 V340 H827 V292 H850"/>
-  <circle class="dot-visible bar-6" cx="773" cy="440" r="4"/>
-  <circle class="dot-visible bar-6" cx="800" cy="340" r="4"/>
-  <circle class="dot-visible bar-6" cx="827" cy="292" r="4"/>
-  <circle class="dot-visible bar-6" cx="850" cy="292" r="4"/>
+  <circle class="dot-visible series-6" cx="773" cy="440" r="4"/>
+  <circle class="dot-visible series-6" cx="800" cy="340" r="4"/>
+  <circle class="dot-visible series-6" cx="827" cy="292" r="4"/>
+  <circle class="dot-visible series-6" cx="850" cy="292" r="4"/>
   <g class="dw">
     <circle class="dot-hit" cx="773" cy="440" r="12"/>
-    <g class="bubble" transform="translate(773,416)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">1.5%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2022 · Hiking</text>
+    <g class="data-tip" transform="translate(773,416)">
+      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">1.5%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2022 · Hiking</text>
     </g>
   </g>
   <g class="dw">
     <circle class="dot-hit" cx="800" cy="340" r="12"/>
-    <g class="bubble" transform="translate(800,316)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">4.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2022 · Hiking</text>
+    <g class="data-tip" transform="translate(800,316)">
+      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">4.0%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2022 · Hiking</text>
     </g>
   </g>
   <g class="dw">
     <circle class="dot-hit" cx="827" cy="292" r="12"/>
-    <g class="bubble" transform="translate(827,268)">
-      <rect x="-42" y="-44" width="84" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">5.25%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2023 · Peak</text>
+    <g class="data-tip" transform="translate(827,268)">
+      <rect x="-42" y="-44" width="84" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">5.25%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2023 · Peak</text>
     </g>
   </g>
   <!-- Right-edge tooltip flips left -->
   <g class="dw">
     <circle class="dot-hit" cx="850" cy="292" r="12"/>
-    <g class="bubble" transform="translate(820,268)">
-      <rect x="-42" y="-44" width="84" height="38" rx="9" class="bub-bg"/>
-      <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="bub-bdr"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="bub-tip"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="bub-val">5.25%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="bub-lbl">2023 · Hold</text>
+    <g class="data-tip" transform="translate(820,268)">
+      <rect x="-42" y="-44" width="84" height="38" rx="9" class="tip-bg"/>
+      <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
+      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
+      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">5.25%</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2023 · Hold</text>
     </g>
   </g>
 </g>
 
-</g><!-- end .ca -->
+</g><!-- end .data-layer -->
 
 <!-- LEGEND -->
-<rect x="870" y="100" width="210" height="220" rx="14" class="lgd-bg"/>
-<text x="888" y="124" class="lgd-ttl">CYCLE</text>
+<rect x="870" y="100" width="210" height="220" rx="14" class="legend-bg"/>
+<text x="888" y="124" class="legend-title">CYCLE</text>
 <g transform="translate(888,140)">
   <line x1="0" y1="7" x2="14" y2="7" class="line-1" stroke-width="2.5"/>
-  <circle cx="7" cy="7" r="3" class="bar-1"/>
-  <text x="22" y="11" class="lt">1994–99 Cycle</text>
+  <circle cx="7" cy="7" r="3" class="series-1"/>
+  <text x="22" y="11" class="legend-label">1994–99 Cycle</text>
 </g>
 <g transform="translate(888,168)">
   <line x1="0" y1="7" x2="14" y2="7" class="line-2" stroke-width="2.5"/>
-  <circle cx="7" cy="7" r="3" class="bar-2"/>
-  <text x="22" y="11" class="lt">2000–03 Easing</text>
+  <circle cx="7" cy="7" r="3" class="series-2"/>
+  <text x="22" y="11" class="legend-label">2000–03 Easing</text>
 </g>
 <g transform="translate(888,196)">
   <line x1="0" y1="7" x2="14" y2="7" class="line-3" stroke-width="2.5"/>
-  <circle cx="7" cy="7" r="3" class="bar-3"/>
-  <text x="22" y="11" class="lt">2004–06 Hiking</text>
+  <circle cx="7" cy="7" r="3" class="series-3"/>
+  <text x="22" y="11" class="legend-label">2004–06 Hiking</text>
 </g>
 <g transform="translate(888,224)">
   <line x1="0" y1="7" x2="14" y2="7" class="line-4" stroke-width="2.5"/>
-  <circle cx="7" cy="7" r="3" class="bar-4"/>
-  <text x="22" y="11" class="lt">2007–09 GFC Cut</text>
+  <circle cx="7" cy="7" r="3" class="series-4"/>
+  <text x="22" y="11" class="legend-label">2007–09 GFC Cut</text>
 </g>
 <g transform="translate(888,252)">
   <line x1="0" y1="7" x2="14" y2="7" class="line-5" stroke-width="2.5"/>
-  <circle cx="7" cy="7" r="3" class="bar-5"/>
-  <text x="22" y="11" class="lt">2015–20 Cycle</text>
+  <circle cx="7" cy="7" r="3" class="series-5"/>
+  <text x="22" y="11" class="legend-label">2015–20 Cycle</text>
 </g>
 <g transform="translate(888,280)">
   <line x1="0" y1="7" x2="14" y2="7" class="line-6" stroke-width="2.5"/>
-  <circle cx="7" cy="7" r="3" class="bar-6"/>
-  <text x="22" y="11" class="lt">2022–23 Inflation</text>
+  <circle cx="7" cy="7" r="3" class="series-6"/>
+  <text x="22" y="11" class="legend-label">2022–23 Inflation</text>
 </g>
 
 <!-- Footer -->
@@ -572,7 +571,7 @@
 <script type="text/javascript"><![CDATA[
 (function() {
   var svg   = document.getElementById('root');
-  var caEl  = document.querySelector('.ca');
+  var caEl  = document.querySelector('.data-layer');
 
   /* §2 — isDark hoisted before all build/animation code */
   var isDark = false;

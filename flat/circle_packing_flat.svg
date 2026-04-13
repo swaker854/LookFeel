@@ -1,40 +1,36 @@
-
-
-
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
-    .bg-main  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    .ct       { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .cs       { font-size:11px; fill:#79747E; font-weight:400; }
-    .lt       { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    .lv       { font-size:11px; fill:#1C1B1F; font-weight:500; }
-    .lgd-bg   { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .lgd-div  { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .lgd-ttl  { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-    .footer   { font-size:10px; fill:#79747E; font-weight:400; }
-    .t-wrap   { cursor:pointer; }
-    .t-track  { fill:#E7E0EC; }
-    .t-thumb  { fill:#ffffff; }
-    .t-label  { font-size:11px; font-weight:500; fill:#49454F; }
-    .pt-track { fill:#E7E0EC; transition:fill 0.3s; }
-    .pt-thumb { fill:#ffffff; }
-    .pt-label { font-size:11px; font-weight:500; fill:#49454F; }
+    .card-bg        { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    .card-title     { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+    .card-subtitle  { font-size:11px; fill:#79747E; font-weight:400; }
+    .legend-label   { font-size:11px; fill:#1C1B1F; font-weight:400; }
+    .legend-bg      { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+    .legend-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+    .legend-title   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+    .footer         { font-size:10px; fill:#79747E; font-weight:400; }
+    .toggle-wrap    { cursor:pointer; }
+    .toggle-track   { fill:#E7E0EC; }
+    .toggle-thumb   { fill:#ffffff; }
+    .toggle-label   { font-size:11px; font-weight:500; fill:#49454F; }
+    .print-track    { fill:#E7E0EC; transition:fill 0.3s; }
+    .print-thumb    { fill:#ffffff; }
+    .print-label    { font-size:11px; font-weight:500; fill:#49454F; }
 
-    .lgd-val  { opacity:0; transition:opacity 0.2s; }
-    svg.print .lgd-val  { opacity:1; }
-    svg.print .pt-track { fill:#d97316; }
+    .legend-value   { font-size:11px; fill:#1C1B1F; font-weight:500; opacity:0; transition:opacity 0.2s; }
+    svg.print .legend-value  { opacity:1; }
+    svg.print .print-track   { fill:#d97316; }
 
     /* §1 Standard Palette */
-    .bar-1 { fill:#00D4E8; } .bar-2 { fill:#00B87A; }
-    .bar-3 { fill:#F59E0B; } .bar-4 { fill:#F43F5E; }
-    .bar-5 { fill:#8B5CF6; } .bar-6 { fill:#3B82F6; }
-    .bar-7 { fill:#0D9488; } .bar-8 { fill:#64748B; }
-    svg.dark .bar-1 { fill:#22D3EE; } svg.dark .bar-2 { fill:#10B981; }
-    svg.dark .bar-3 { fill:#FBB724; } svg.dark .bar-4 { fill:#FB6181; }
-    svg.dark .bar-5 { fill:#A78BFA; } svg.dark .bar-6 { fill:#60A5FA; }
-    svg.dark .bar-7 { fill:#2DD4BF; } svg.dark .bar-8 { fill:#94A3B8; }
+    .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
+    .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
+    .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
+    .series-7 { fill:#0D9488; } .series-8 { fill:#64748B; }
+    svg.dark .series-1 { fill:#22D3EE; } svg.dark .series-2 { fill:#10B981; }
+    svg.dark .series-3 { fill:#FBB724; } svg.dark .series-4 { fill:#FB6181; }
+    svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
+    svg.dark .series-7 { fill:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; }
 
     /* §5 Depth-Tinting vars */
     #root {
@@ -49,43 +45,43 @@
     .item.visible { opacity:1; }
 
     /* §4 Hover — gated on .ready */
-    .ca.ready.hovering .item.visible         { opacity:0.20; transition:opacity 0.15s; }
-    .ca.ready.hovering .item.visible.hovered { opacity:1;    transition:opacity 0.15s; }
+    .data-layer.ready.hovering .item.visible         { opacity:0.20; transition:opacity 0.15s; }
+    .data-layer.ready.hovering .item.visible.hovered { opacity:1;    transition:opacity 0.15s; }
 
     /* Outer boundary ring */
     .outer-boundary { fill:none; stroke:#E7E0EC; stroke-width:1.5; }
     svg.dark .outer-boundary { stroke:#49454F; }
 
     /* §4 Tooltip bubble */
-    .bubble   { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    .bub-bg   { fill:#FFFBFE; }
-    .bub-bdr  { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-tip  { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-val  { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .bub-lbl  { fill:#49454F; font-size:10px; font-weight:400; }
-    svg.print .bubble { opacity:0 !important; }
-    svg.print .ca.ready.hovering .item { opacity:1 !important; }
+    .data-tip   { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
+    .tip-bg     { fill:#FFFBFE; }
+    .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
+    svg.print .data-tip { opacity:0 !important; }
+    svg.print .data-layer.ready.hovering .item { opacity:1 !important; }
 
     /* Dark mode */
-    svg.dark .bg-main  { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-    svg.dark .ct       { fill:#E6E0E9; }
-    svg.dark .cs       { fill:#938F99; }
-    svg.dark .lt       { fill:#E6E0E9; }
-    svg.dark .lv       { fill:#E6E0E9; }
-    svg.dark .lgd-bg   { fill:#49454F; stroke:#938F99; }
-    svg.dark .lgd-div  { stroke:#938F99; }
-    svg.dark .lgd-ttl  { fill:#938F99; }
-    svg.dark .footer   { fill:#938F99; }
-    svg.dark .t-track  { fill:#49454F; }
-    svg.dark .t-label  { fill:#CAC4D0; }
-    svg.dark .pt-track { fill:#49454F; }
-    svg.dark .pt-label { fill:#CAC4D0; }
-    svg.dark.print .pt-track { fill:#d97316; }
-    svg.dark .bub-bg   { fill:#1C1B1F; }
-    svg.dark .bub-bdr  { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
-    svg.dark .bub-tip  { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
-    svg.dark .bub-val  { fill:#E6E0E9; }
-    svg.dark .bub-lbl  { fill:#CAC4D0; }
+    svg.dark .card-bg        { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+    svg.dark .card-title     { fill:#E6E0E9; }
+    svg.dark .card-subtitle  { fill:#938F99; }
+    svg.dark .legend-label   { fill:#E6E0E9; }
+    svg.dark .legend-value   { fill:#E6E0E9; }
+    svg.dark .legend-bg      { fill:#49454F; stroke:#938F99; }
+    svg.dark .legend-divider { stroke:#938F99; }
+    svg.dark .legend-title   { fill:#938F99; }
+    svg.dark .footer         { fill:#938F99; }
+    svg.dark .toggle-track   { fill:#49454F; }
+    svg.dark .toggle-label   { fill:#CAC4D0; }
+    svg.dark .print-track    { fill:#49454F; }
+    svg.dark .print-label    { fill:#CAC4D0; }
+    svg.dark.print .print-track { fill:#d97316; }
+    svg.dark .tip-bg         { fill:#1C1B1F; }
+    svg.dark .tip-border     { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
+    svg.dark .tip-tail       { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
+    svg.dark .tip-value      { fill:#E6E0E9; }
+    svg.dark .tip-label      { fill:#CAC4D0; }
 
     .border-dark  { display:none; }
     .border-light { display:block; }
@@ -95,7 +91,7 @@
 </defs>
 
 <!-- Card background -->
-<rect class="bg-main" width="1100" height="620" rx="18"/>
+<rect class="card-bg" width="1100" height="620" rx="18"/>
 <g class="border-dark">
   <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
 </g>
@@ -104,21 +100,21 @@
 </g>
 
 <!-- Title & subtitle -->
-<text x="68" y="50" class="ct">Shipping Mode by Orders- Circle Packing</text>
-<text x="68" y="70" class="cs">4 shipping classes · hover to inspect · print for values</text>
+<text x="68" y="50" class="card-title">Shipping Mode by Orders- Circle Packing</text>
+<text x="68" y="70" class="card-subtitle">4 shipping classes · hover to inspect · print for values</text>
 
 <!-- Dark toggle -->
-<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
-  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
+<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
+  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
 </g>
 
 <!-- Print toggle -->
-<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
-  <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
+<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
+  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
 </g>
 
 <!--
@@ -134,7 +130,7 @@
 <circle class="outer-boundary" cx="459" cy="300" r="200"/>
 
 <!-- §6 Paint order: items first, tip-layer last -->
-<g class="ca" id="container">
+<g class="data-layer" id="container">
 
   <!-- Standard Class: cx=382 cy=280 r=120 -->
   <g class="item" id="item-std" data-ci="2" data-depth="1"
@@ -169,43 +165,43 @@
 
 <!-- §6 Tip layer — always painted last -->
 <g id="tip-layer">
-  <g class="bubble" id="tip">
-    <rect class="bub-bg" id="tip-bg-fill" x="0" y="0" width="0" height="0" rx="9"/>
-    <path class="bub-bdr" id="tip-bdr"/>
-    <path class="bub-tip" id="tip-arr"/>
-    <text class="bub-val" id="tip-val" x="0" y="16" text-anchor="middle" dominant-baseline="central"/>
-    <text class="bub-lbl" id="tip-lbl" x="0" y="30" text-anchor="middle" dominant-baseline="central"/>
+  <g class="data-tip" id="tip">
+    <rect class="tip-bg" id="tip-bg-fill" x="0" y="0" width="0" height="0" rx="9"/>
+    <path class="tip-border" id="tip-bdr"/>
+    <path class="tip-tail" id="tip-arr"/>
+    <text class="tip-value" id="tip-val" x="0" y="16" text-anchor="middle" dominant-baseline="central"/>
+    <text class="tip-label" id="tip-lbl" x="0" y="30" text-anchor="middle" dominant-baseline="central"/>
   </g>
 </g>
 
 <!-- LEGEND — matches bar chart: x=870, width=210, y=100..470 -->
-<rect x="870" y="100" width="210" height="310" rx="14" class="lgd-bg"/>
-<text x="888" y="124" class="lgd-ttl">SHIPPING CLASS</text>
+<rect x="870" y="100" width="210" height="310" rx="14" class="legend-bg"/>
+<text x="888" y="124" class="legend-title">SHIPPING CLASS</text>
 <g transform="translate(888,140)">
-  <rect class="bar-2" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="lt">Standard Class</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">5,968</text>
+  <rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/>
+  <text x="22" y="11" class="legend-label">Standard Class</text>
+  <text x="188" y="11" class="legend-value" text-anchor="end">5,968</text>
 </g>
 <g transform="translate(888,170)">
-  <rect class="bar-6" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="lt">First Class</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">1,992</text>
+  <rect class="series-6" x="0" y="0" width="14" height="14" rx="3"/>
+  <text x="22" y="11" class="legend-label">First Class</text>
+  <text x="188" y="11" class="legend-value" text-anchor="end">1,992</text>
 </g>
 <g transform="translate(888,200)">
-  <rect class="bar-5" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="lt">Second Class</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">1,945</text>
+  <rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/>
+  <text x="22" y="11" class="legend-label">Second Class</text>
+  <text x="188" y="11" class="legend-value" text-anchor="end">1,945</text>
 </g>
-<line x1="888" y1="232" x2="1062" y2="232" class="lgd-div"/>
+<line x1="888" y1="232" x2="1062" y2="232" class="legend-divider"/>
 <g transform="translate(888,244)">
-  <rect class="bar-3" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="lt">Same Day</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">543</text>
+  <rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/>
+  <text x="22" y="11" class="legend-label">Same Day</text>
+  <text x="188" y="11" class="legend-value" text-anchor="end">543</text>
 </g>
-<line x1="888" y1="276" x2="1062" y2="276" class="lgd-div"/>
+<line x1="888" y1="276" x2="1062" y2="276" class="legend-divider"/>
 <g transform="translate(888,288)">
-  <text x="0" y="11" class="lgd-ttl">TOTAL ORDERS</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">10,447</text>
+  <text x="0" y="11" class="legend-title">TOTAL ORDERS</text>
+  <text x="188" y="11" class="legend-value" text-anchor="end">10,447</text>
 </g>
 
 <!-- Footer -->
@@ -247,7 +243,7 @@
     return window.getComputedStyle(svg).getPropertyValue(name).trim();
   }
   function getTint(ci, depth) {
-    var base = probeColor('bar-' + ci);
+    var base = probeColor('series-' + ci);
     var t    = parseFloat(cssVar('--blend-d' + Math.min(depth, 4)));
     var bg   = cssVar(isDark ? '--bg-dark' : '--bg-light');
     return blendRgb(base, bg, t);

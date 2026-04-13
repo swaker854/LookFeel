@@ -6,22 +6,22 @@ Defined as CSS classes on every chart. Single source of truth — JS never store
 
 ```css
 /* Light mode */
-.bar-1 { fill:#00D4E8; } .bar-2 { fill:#00B87A; }
-.bar-3 { fill:#F59E0B; } .bar-4 { fill:#F43F5E; }
-.bar-5 { fill:#8B5CF6; } .bar-6 { fill:#3B82F6; }
-.bar-7 { fill:#0D9488; } .bar-8 { fill:#64748B; }
+.series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
+.series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
+.series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
+.series-7 { fill:#0D9488; } .series-8 { fill:#64748B; }
 
 /* Dark mode */
-svg.dark .bar-1 { fill:#22D3EE; } svg.dark .bar-2 { fill:#10B981; }
-svg.dark .bar-3 { fill:#FBB724; } svg.dark .bar-4 { fill:#FB6181; }
-svg.dark .bar-5 { fill:#A78BFA; } svg.dark .bar-6 { fill:#60A5FA; }
-svg.dark .bar-7 { fill:#2DD4BF; } svg.dark .bar-8 { fill:#94A3B8; }
+svg.dark .series-1 { fill:#22D3EE; } svg.dark .series-2 { fill:#10B981; }
+svg.dark .series-3 { fill:#FBB724; } svg.dark .series-4 { fill:#FB6181; }
+svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
+svg.dark .series-7 { fill:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; }
 ```
 
-> **Pure SVG charts** (no outer HTML document) use `svg.dark .bar-N`
+> **Pure SVG charts** (no outer HTML document) use `svg.dark .series-N`
 > when the root element is `<svg id="root">` — `svg.dark` matches the
 > element itself because the selector targets `<svg>` elements that also
-> have the `dark` class. Use `#root.dark .bar-N` only when the SVG is
+> have the `dark` class. Use `#root.dark .series-N` only when the SVG is
 > inlined inside an HTML document where `svg` as a selector might match
 > outer SVG elements unexpectedly. All card shell dark overrides follow
 > the same `svg.dark` pattern — never mix `#root.dark` and `svg.dark`
@@ -34,15 +34,15 @@ positive/negative), define semantic classes whose values are aligned to the
 standard palette — never invent new hex values.
 
 ```css
-/* Example: candle chart — aligned to bar-2 green and bar-4 rose */
-.c-bull { fill:#00B87A; }  /* = bar-2 light */
-.c-bear { fill:#F43F5E; }  /* = bar-4 light */
-svg.dark .c-bull { fill:#10B981; }  /* = bar-2 dark */
-svg.dark .c-bear { fill:#FB6181; }  /* = bar-4 dark */
+/* Example: candle chart — aligned to series-2 green and series-4 rose */
+.c-bull { fill:#00B87A; }  /* = series-2 light */
+.c-bear { fill:#F43F5E; }  /* = series-4 light */
+svg.dark .c-bull { fill:#10B981; }  /* = series-2 dark */
+svg.dark .c-bear { fill:#FB6181; }  /* = series-4 dark */
 ```
 
 The semantic class names describe meaning (`c-bull`, `c-bear`), not sequence.
-Dark mode overrides follow the same `svg.dark` pattern as `.bar-N`.
+Dark mode overrides follow the same `svg.dark` pattern as `.series-N`.
 
 ---
 
@@ -60,7 +60,7 @@ label `"Dark"`. Never initialise in dark state.
 
 **No `swapColors()` JS function.** If a `swapColors` or `swapCellColors`
 function exists in JS, that is a sign that element colors are stored as
-hardcoded `fill="#hex"` attributes rather than `bar-N` CSS classes, which
+hardcoded `fill="#hex"` attributes rather than `series-N` CSS classes, which
 violates §1. The fix is to use CSS classes — then dark mode is automatic.
 
 ```js
@@ -122,8 +122,8 @@ lock an inline animation value that CSS hover rules cannot override.
 .item.visible { opacity:1; }
 
 /* hover dimming gated on .ready */
-.ca.ready.hovering .item.visible         { opacity:0.20; }
-.ca.ready.hovering .item.visible.hovered { opacity:1; }
+.data-layer.ready.hovering .item.visible         { opacity:0.20; }
+.data-layer.ready.hovering .item.visible.hovered { opacity:1; }
 ```
 
 ```js
@@ -144,31 +144,31 @@ setTimeout(function(){ container.classList.add('ready'); }, lastFinish);
 #### Method A2 — separate nested elements
 **Charts: bar, stacked bar, candle**
 
-The animated element (`.bb`) is a child `<g>` nested inside the
-hover-dimmed element (`.bw`/`.col-g`/`.cw`). `both` fill-mode only
-affects the inner `.bb` opacity — hover dimming targets the outer
+The animated element (`.data-body`) is a child `<g>` nested inside the
+hover-dimmed element (`.data-item`/`.col-g`/`.cw`). `both` fill-mode only
+affects the inner `.data-body` opacity — hover dimming targets the outer
 element which has no animation on it. No conflict, no `.ready` gate needed.
 
 ```css
-/* both fill-mode safe — .bb and .bw are separate elements */
-@keyframes barFadeIn { from{opacity:0} to{opacity:1} }
-.bb { animation: barFadeIn 0.8s ease-out both; }
-.b1 { animation-delay:0.00s; } /* etc */
+/* both fill-mode safe — .data-body and .data-item are separate elements */
+@keyframes dataFadeIn { from{opacity:0} to{opacity:1} }
+.data-body { animation: dataFadeIn 0.8s ease-out both; }
+.stagger-1 { animation-delay:0.00s; } /* etc */
 
 /* no .ready gate needed — animation never touches outer element opacity */
-.ca.hovering .item        { opacity:0.20; transition:opacity .2s ease; }
-.ca.hovering .item.active { opacity:1; }
+.data-layer.hovering .item        { opacity:0.20; transition:opacity .2s ease; }
+.data-layer.hovering .item.active { opacity:1; }
 ```
 
 ```html
 <!-- outer: hover target -->
-<g class="bw b1">
+<g class="data-item stagger-1">
   <!-- inner: animation target -->
-  <g class="bb b1">
+  <g class="data-body stagger-1">
     <rect .../>
   </g>
-  <!-- tooltip inside outer so CSS .bw.active .bubble works -->
-  <g class="bubble">...</g>
+  <!-- tooltip inside outer so CSS .data-item.active .data-tip works -->
+  <g class="data-tip">...</g>
 </g>
 ```
 
@@ -224,20 +224,36 @@ holeEl.style.opacity = '1';        // at loop end — stays as inline, no confli
 
 ### Method per chart type
 
-| Chart       | Method            | Reason |
-|-------------|-------------------|--------|
-| Bar         | A2 — nested `@keyframes` | `.bb` inside `.bw`, no conflict |
-| Stacked bar | A2 — nested `@keyframes` | `.bb` inside `.col-g`, no conflict |
-| Pareto      | A2 — nested `@keyframes` | `.bb` inside `.bw`, same as bar |
-| Marimekko   | A1 — `@keyframes` + `.visible` | Same element animated and hover-dimmed |
-| Candle      | A2 — nested `@keyframes` | `.bb` inside `.cw`, no conflict |
-| Line        | A1 — `@keyframes` + `.visible` | Opacity + stroke-dashoffset (no conflict on dashoffset, but same-element pattern used for consistency) |
-| Icicle      | A1 — `@keyframes` + `.visible` | Same element animated and hover-dimmed |
-| Treemap     | A1 — `@keyframes` + `.visible` | Same element animated and hover-dimmed |
-| Flame graph | A1 — `@keyframes` + `.visible` | Same element animated and hover-dimmed |
-| Donut       | B — rAF           | Rotation + opacity together |
-| Sunburst    | B — rAF           | Rotation + opacity together |
-| Circle packing | A1 — `@keyframes` + `.visible` | Same element animated and hover-dimmed |
+| Chart           | Method                          | Reason |
+|-----------------|---------------------------------|--------|
+| Bar             | A2 — nested `@keyframes`        | `.data-body` inside `.data-item`, no conflict |
+| Stacked bar     | A2 — nested `@keyframes`        | `.data-body` inside `.col-g`, no conflict |
+| Waterfall       | A2 — nested `@keyframes`        | `.data-body` inside `.data-item`, same as bar |
+| Gantt           | A2 — nested `@keyframes`        | `.data-body` inside bar group, same as bar |
+| Pareto          | A2 — nested `@keyframes`        | `.data-body` inside `.data-item`, same as bar |
+| Candle          | A2 — nested `@keyframes`        | `.data-body` inside `.cw`, no conflict |
+| Boxplot         | A2 — nested `@keyframes`        | `.data-body` inside box group, same pattern as bar |
+| Line            | A1 — `@keyframes` + `.visible`  | Opacity + stroke-dashoffset (no conflict on dashoffset, but same-element pattern used for consistency) |
+| Stacked line    | A1 — `@keyframes` + `.visible`  | Same as line |
+| Area            | A1 — `@keyframes` + `.visible`  | Path + dots are the same elements as hover targets |
+| Stacked area    | A1 — `@keyframes` + `.visible`  | Same as area |
+| Stepline        | A1 — `@keyframes` + `.visible`  | Step segments + dots animate in; `.ready` gate on hover |
+| Steparea        | A1 — `@keyframes` + `.visible`  | Step area paths animate in; no `.ready` gate (hover immediate) |
+| Jumpline        | A1 — `@keyframes` + `.visible`  | Jump segments fade in |
+| Marimekko       | A1 — `@keyframes` + `.visible`  | Same element animated and hover-dimmed |
+| Funnel          | A1 — `@keyframes` + `.visible`  | Funnel stages animate in |
+| Icicle          | A1 — `@keyframes` + `.visible`  | Same element animated and hover-dimmed |
+| Treemap         | A1 — `@keyframes` + `.visible`  | Same element animated and hover-dimmed |
+| Flame graph     | A1 — `@keyframes` + `.visible`  | Same element animated and hover-dimmed |
+| Network         | A1 — `@keyframes` + `.visible`  | Node groups fade in |
+| Circular network | A1 — `@keyframes` + `.visible` | Same as network |
+| Tree            | A1 — `@keyframes` + `.visible`  | Nodes and edges use `nodeFadeIn`; same-element pattern |
+| Circle packing  | A1 — `@keyframes` + `.visible`  | Same element animated and hover-dimmed |
+| Donut           | B — rAF                         | Rotation + opacity together |
+| Sunburst        | B — rAF                         | Rotation + opacity together |
+| Pie             | B — rAF                         | Arc rotation + opacity together |
+| Radar           | B — rAF                         | Polygon draw animation; `.ready` set after rAF completes |
+| Bubble          | B — rAF                         | Bubbles scale/fade in; `.ready` set after rAF completes |
 
 ---
 
@@ -257,9 +273,9 @@ Method A1 (same element animated and hover-dimmed — treemap, marimekko, etc.):
 
 Method A2 (separate nested elements — bar, pareto, etc.):
 ```css
-/* no .ready gate needed — animation is on inner .bb, not outer .bw */
-.ca.hovering .bw        { opacity:0.20; transition:opacity .2s ease; }
-.ca.hovering .bw.active { opacity:1; }
+/* no .ready gate needed — animation is on inner .data-body, not outer .data-item */
+.data-layer.hovering .data-item        { opacity:0.20; transition:opacity .2s ease; }
+.data-layer.hovering .data-item.active { opacity:1; }
 ```
 
 | Token          | Value       | Notes                          |
@@ -300,34 +316,34 @@ hideTooltip();
 Shared across all charts — CSS only, no hex in JS:
 
 ```css
-.bub-bg  { fill:#FFFBFE; }
-.bub-bdr { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-.bub-tip { fill:#FFFBFE; stroke:#79747E; stroke-width:1; } /* arrow — path or polygon */
-.bub-val { fill:#1C1B1F; font-size:13px; font-weight:500; }
-.bub-lbl { fill:#49454F; font-size:10px; font-weight:400; }
-.bub-pct { fill:#79747E; font-size:10px; font-weight:400; } /* omit only if chart has no pct data at all */
+.tip-bg  { fill:#FFFBFE; }
+.tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+.tip-tail { fill:#FFFBFE; stroke:#79747E; stroke-width:1; } /* arrow — path or polygon */
+.tip-value { fill:#1C1B1F; font-size:13px; font-weight:500; }
+.tip-label { fill:#49454F; font-size:10px; font-weight:400; }
+.tip-pct { fill:#79747E; font-size:10px; font-weight:400; } /* omit only if chart has no pct data at all */
 
-svg.dark .bub-bg  { fill:#1C1B1F; }
-svg.dark .bub-bdr { fill:#1C1B1F; stroke:#938F99; }
-svg.dark .bub-tip { fill:#1C1B1F; stroke:#938F99; }
-svg.dark .bub-val { fill:#E6E0E9; }
-svg.dark .bub-lbl { fill:#CAC4D0; }
-svg.dark .bub-pct { fill:#938F99; }
+svg.dark .tip-bg  { fill:#1C1B1F; }
+svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; }
+svg.dark .tip-tail { fill:#1C1B1F; stroke:#938F99; }
+svg.dark .tip-value { fill:#E6E0E9; }
+svg.dark .tip-label { fill:#CAC4D0; }
+svg.dark .tip-pct { fill:#938F99; }
 ```
 
-**`.bub-tip` must never have `fill:none`.** The tail triangle interior must
-be filled with the same colour as `.bub-bg` so it appears solid. `fill:none`
+**`.tip-tail` must never have `fill:none`.** The tail triangle interior must
+be filled with the same colour as `.tip-bg` so it appears solid. `fill:none`
 leaves the tail transparent, exposing whatever is behind it.
 
-**`.bub-bdr` must be a `<path>`, never a `<rect>`.** A `<rect>` draws a closed border on all four sides, including across the bottom where the tail root connects. This produces a visible stroke line separating the bubble body from the tail, breaking the seamless silhouette.
+**`.tip-border` must be a `<path>`, never a `<rect>`.** A `<rect>` draws a closed border on all four sides, including across the bottom where the tail root connects. This produces a visible stroke line separating the bubble body from the tail, breaking the seamless silhouette.
 
 The correct construction uses three layers:
 
 | Element | Class | Purpose |
 |---|---|---|
-| `<rect>` | `.bub-bg` | Fills the interior — **no stroke**, just `fill` |
-| `<path>` | `.bub-bdr` | Traces the rounded-rect outline **with a gap** at the tail root — stroked but intentionally **not closed** (`Z` omitted) |
-| `<path>` | `.bub-tip` | The tail triangle — its two root points match exactly where `.bub-bdr` stopped, so the stroke joins seamlessly |
+| `<rect>` | `.tip-bg` | Fills the interior — **no stroke**, just `fill` |
+| `<path>` | `.tip-border` | Traces the rounded-rect outline **with a gap** at the tail root — stroked but intentionally **not closed** (`Z` omitted) |
+| `<path>` | `.tip-tail` | The tail triangle — its two root points match exactly where `.tip-border` stopped, so the stroke joins seamlessly |
 
 The border path must start at one side of the tail opening, traverse the full perimeter (top, sides, rounded corners), and end at the other side of the tail opening — leaving the bottom centre open. The tail path plugs that gap. No `Z`, no crossing stroke.
 
@@ -358,14 +374,14 @@ When the bubble is flipped above the bar (not enough headroom), the gap moves to
 
 When `getBBox()` changes `hw`, both the border path and the tail path must be regenerated in JS — the gap endpoints `±tw` are fixed constants, but the rest of the border path scales with `hw`.
 
-**Semantic `.bub-pct` colour.** When `.bub-pct` is used for a semantically
+**Semantic `.tip-pct` colour.** When `.tip-pct` is used for a semantically
 meaningful value (e.g. a cumulative % on a pareto line), override its fill
 to match the semantic colour class rather than the default muted grey:
 
 ```css
 /* Example: pareto chart — cumulative % coloured to match the pareto line */
-.bub-pct         { fill:#8B5CF6; font-size:10px; font-weight:500; } /* = bar-5 */
-svg.dark .bub-pct { fill:#A78BFA; }                                  /* = bar-5 dark */
+.tip-pct         { fill:#8B5CF6; font-size:10px; font-weight:500; } /* = series-5 */
+svg.dark .tip-pct { fill:#A78BFA; }                                  /* = series-5 dark */
 ```
 
 ### Tooltip approaches
@@ -379,9 +395,9 @@ placed at a predictable offset. No JS opacity needed for simple cases —
 CSS parent→child selector handles show/hide.
 
 ```css
-.bubble              { opacity:0; pointer-events:none; transition:opacity .15s ease; }
-.item.active .bubble { opacity:1; }
-svg.print .bubble    { opacity:0 !important; }
+.data-tip              { opacity:0; pointer-events:none; transition:opacity .15s ease; }
+.item.active .data-tip { opacity:1; }
+svg.print .data-tip    { opacity:0 !important; }
 ```
 
 ```js
@@ -400,21 +416,21 @@ pareto cumulative % line), the CSS-driven approach breaks: the bubbles live
 inside the bar group and paint before the line, so the line renders on top
 of the bubbles.
 
-Fix: extract all `.bubble` groups from their parent `.item` groups into a
+Fix: extract all `.data-tip` groups from their parent `.item` groups into a
 dedicated `#bubble-overlay` group placed last in the SVG (after all data
 layers). Switch show/hide from CSS to JS inline style:
 
 ```html
 <!-- Paint order: bars → line/dots → bubble overlay -->
-<g class="ca">
-  <g class="bw" id="bw1" data-bubble="bub1">
-    <g class="bb b1"><rect .../></g>
+<g class="data-layer">
+  <g class="data-item" id="bw1" data-bubble="bub1">
+    <g class="data-body stagger-1"><rect .../></g>
     <!-- no bubble here -->
   </g>
 </g>
 <polyline .../>  <!-- line layer -->
 <g id="bubble-overlay">
-  <g class="bubble" id="bub1" transform="...">...</g>
+  <g class="data-tip" id="bub1" transform="...">...</g>
 </g>
 ```
 
@@ -457,25 +473,41 @@ Arrow flips above/below based on: `flip = my < BH + TAIL + 20`.
 
 **Which approach per chart type**
 
-| Chart      | Tooltip approach          | Reason |
-|------------|--------------------------|--------|
-| Bar        | CSS-driven               | Large fixed bars, predictable offset, no layers above bars |
-| Pareto     | CSS-driven + overlay     | Large fixed bars, but pareto line renders above bars — needs `#bubble-overlay` |
-| Marimekko  | JS-driven (fixed anchor) | Bubble anchored to tile top-center, shown/hidden via inline style |
-| Treemap    | JS-driven (fixed anchor) | Bubble anchored to tile top-center, shown/hidden via inline style |
-| Line       | JS-driven                | Small dots at variable positions |
-| Donut      | JS-driven                | Small slices at variable angles |
-| Sunburst   | JS-driven                | Small slices at variable angles — same reason as donut |
-| Icicle     | JS-driven                | Small densely-packed cells |
-| Candle     | JS-driven (fixed)        | Fixed position per candle, no repositioning needed |
-| Radar      | JS-driven (dot anchored) | One bubble per dot; hit targets in separate `#dot-hit-layer` painted last |
-| Circle packing | JS-driven (circle anchored) | Circles at variable positions; bubble anchored above each circle's top edge |
+| Chart            | Tooltip approach              | Reason |
+|------------------|-------------------------------|--------|
+| Bar              | CSS-driven                    | Large fixed bars, predictable offset, no layers above bars |
+| Waterfall        | CSS-driven                    | Fixed bar positions; `.data-item.active .data-tip` suffices |
+| Boxplot          | CSS-driven                    | Fixed box positions, same as bar |
+| Stacked area     | CSS-driven                    | Series paths fixed per render; CSS show/hide sufficient |
+| Stepline         | CSS-driven (via `.dw.active`) | Pre-positioned per dot; CSS show/hide via dot-wrapper class |
+| Bubble           | CSS-driven                    | Fixed bubble positions; `.data-item.active .data-tip` suffices |
+| Pareto           | CSS-driven + overlay          | Large fixed bars, but pareto line renders above bars — needs `#bubble-overlay` |
+| Marimekko        | JS-driven (fixed anchor)      | Bubble anchored to tile top-center, shown/hidden via inline style |
+| Treemap          | JS-driven (fixed anchor)      | Bubble anchored to tile top-center, shown/hidden via inline style |
+| Candle           | JS-driven (fixed)             | Fixed position per candle, no repositioning needed |
+| Radar            | JS-driven (dot anchored)      | One bubble per dot; hit targets in separate `#dot-hit-layer` painted last |
+| Circle packing   | JS-driven (circle anchored)   | Circles at variable positions; bubble anchored above each circle's top edge |
+| Line             | JS-driven                     | Small dots at variable positions |
+| Stacked line     | JS-driven                     | Points at variable positions across stacked series |
+| Area             | JS-driven                     | Points at variable positions along path |
+| Steparea         | JS-driven                     | Step hover anchors at variable positions |
+| Jumpline         | JS-driven                     | Jump segment endpoints at variable positions |
+| Gantt            | JS-driven                     | Bar positions vary by time range |
+| Funnel           | JS-driven                     | Stage positions computed by layout |
+| Network          | JS-driven                     | Node positions computed by force layout |
+| Circular network | JS-driven                     | Node positions computed by layout |
+| Tree             | JS-driven                     | Node positions computed by tree layout |
+| Stacked bar      | JS-driven                     | Segment tops at variable heights per stack |
+| Donut            | JS-driven                     | Small slices at variable angles |
+| Sunburst         | JS-driven                     | Small slices at variable angles — same reason as donut |
+| Pie              | JS-driven (slice anchored)    | Tip positioned at slice midpoint angle |
+| Icicle           | JS-driven                     | Small densely-packed cells |
 
 ### Print mode
 
 ```css
 svg.print .tip    { opacity:0 !important; }
-svg.print .bubble { opacity:0 !important; }
+svg.print .data-tip { opacity:0 !important; }
 ```
 
 ---
@@ -484,14 +516,19 @@ svg.print .bubble { opacity:0 !important; }
 
 ### When to use
 
-| Chart type                  | Use tinting? |
-|-----------------------------|-------------|
-| Bar, line, scatter          | No — flat `.bar-N` only |
-| Donut / pie                 | No — flat `.bar-N` only |
-| Icicle, treemap             | **Yes** |
-| Sunburst, flame graph       | **Yes** |
-| Indented / collapsible tree | **Yes** |
-| Circle packing              | **Yes** — depth encodes hierarchy level within the packing |
+| Chart type                                              | Use tinting? |
+|---------------------------------------------------------|-------------|
+| Bar, stacked bar, waterfall, gantt, pareto              | No — flat `.series-N` only |
+| Line, stacked line, area, stacked area                  | No — flat `.series-N` only |
+| Stepline, steparea, jumpline                            | No — flat `.series-N` only |
+| Candle, boxplot, bubble, radar                          | No — flat `.series-N` only |
+| Donut, pie, sunburst                                    | No — flat `.series-N` only (sunburst: **Yes** for depth) |
+| Marimekko, funnel                                       | No — proportional encoding, no hierarchy |
+| Network, circular network                               | No — unless encoding hop depth from a root node (opt-in) |
+| Icicle, treemap, flame graph                            | **Yes** — depth level drives lightness |
+| Sunburst                                                | **Yes** — each ring level is a depth tier |
+| Indented / collapsible tree                             | **Yes** |
+| Circle packing                                          | **Yes** — depth encodes hierarchy level within the packing |
 
 ### CSS additions (hierarchical charts only)
 
@@ -605,22 +642,22 @@ The required layer stack from bottom to top is:
 | Layer | Contents | Notes |
 |-------|----------|-------|
 | 1 | Grid lines, axes, labels | Always behind data |
-| 2 | `.ca` — bars / cells / segments | Hover dimming targets this group |
+| 2 | `.data-layer` — bars / cells / segments | Hover dimming targets this group |
 | 3 | Data overlays | Lines, cumulative % curves, reference marks drawn on top of bars |
 | 4 | `#bubble-overlay` | Tooltips always painted last — above everything |
 
 **Rule: bubble groups must always be the last layer painted.**
 
-When no data overlay exists above `.ca`, bubbles may live inside their
-`.bw` parent (Method A2 Variant A — CSS-driven show/hide). When any
-element is drawn after `.ca` in document order (e.g. a pareto line),
+When no data overlay exists above `.data-layer`, bubbles may live inside their
+`.data-item` parent (Method A2 Variant A — CSS-driven show/hide). When any
+element is drawn after `.data-layer` in document order (e.g. a pareto line),
 bubbles must be extracted into a separate `#bubble-overlay` group placed
 after that element, and shown/hidden via JS inline style instead:
 
 ```html
 <!-- correct order when a data overlay exists -->
-<g class="ca" id="ca">
-  <!-- bars — .bw groups with .bb animation children, no .bubble inside -->
+<g class="data-layer" id="data-layer">
+  <!-- bars — .data-item groups with .data-body animation children, no .data-tip inside -->
 </g>
 
 <!-- data overlay — drawn on top of bars -->
@@ -629,22 +666,22 @@ after that element, and shown/hidden via JS inline style instead:
 
 <!-- bubble overlay — drawn last, always in front -->
 <g id="bubble-overlay">
-  <g class="bubble" id="bub1">...</g>
+  <g class="data-tip" id="bub1">...</g>
 </g>
 ```
 
-**For JS-built charts (sunburst, donut), `#ca` must wrap both the slice group and the tooltip layer.** The `.ca.ready.hovering .slice` CSS selectors only fire if `.slice` elements are descendants of `#ca`. If the tooltip layer is outside `#ca`, its `.bubble` elements are also outside the hover container — they will not respond to any `.ca`-scoped CSS rules. Both groups must be children of `#ca`:
+**For JS-built charts (sunburst, donut), `#data-layer` must wrap both the slice group and the tooltip layer.** The `.data-layer.ready.hovering .slice` CSS selectors only fire if `.slice` elements are descendants of `#data-layer`. If the tooltip layer is outside `#data-layer`, its `.data-tip` elements are also outside the hover container — they will not respond to any `.data-layer`-scoped CSS rules. Both groups must be children of `#data-layer`:
 
 ```html
 <!-- correct structure for JS-built charts -->
-<g class="ca" id="ca">
+<g class="data-layer" id="data-layer">
   <g id="sunburst" transform="translate(390,336)"/>        <!-- slices built here by JS -->
   <g id="tooltip-layer" transform="translate(390,336)"
      pointer-events="none"/>                               <!-- bubbles built here by JS -->
 </g>
 ```
 
-Placing `#tooltip-layer` outside `#ca` is the most common structural error in dynamically-built charts, and it silently breaks the entire hover architecture.
+Placing `#tooltip-layer` outside `#data-layer` is the most common structural error in dynamically-built charts, and it silently breaks the entire hover architecture.
 
 ---
 
@@ -688,7 +725,7 @@ Every chart uses an identical card shell and layout grid. Copy verbatim — neve
 ### Card background + border rings
 
 ```svg
-<rect class="bg-main" width="1100" height="620" rx="18"/>
+<rect class="card-bg" width="1100" height="620" rx="18"/>
 <g class="border-dark">
   <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5"
         fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
@@ -712,8 +749,8 @@ svg.dark .border-light { display:none; }
 
 | Element      | x   | y   | Class  | Notes                        |
 |--------------|-----|-----|--------|------------------------------|
-| Title        | 68  | 50  | `.ct`  | 18px / 500 / −0.2px tracking |
-| Subtitle     | 68  | 70  | `.cs`  | 11px / 400 / muted           |
+| Title        | 68  | 50  | `.card-title`  | 18px / 500 / −0.2px tracking |
+| Subtitle     | 68  | 70  | `.card-subtitle`  | 11px / 400 / muted           |
 | Footer       | 68  | 600 | `.footer` | 10px / 400 / muted        |
 
 ### Toggle positions
@@ -723,18 +760,18 @@ svg.dark .border-light { display:none; }
 | Dark    | translate(930, 52) | `dark-toggle` |
 | Print   | translate(1012, 52)| `print-toggle`|
 
-Each toggle is a `<g class="t-wrap">` containing a track rect, thumb circle, and label. Dark uses `.t-track`/`.t-thumb`/`.t-label`. Print uses `.pt-track`/`.pt-thumb`/`.pt-label`.
+Each toggle is a `<g class="toggle-wrap">` containing a track rect, thumb circle, and label. Dark uses `.toggle-track`/`.toggle-thumb`/`.toggle-label`. Print uses `.print-track`/`.print-thumb`/`.print-label`.
 
 ```svg
-<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
-  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
+<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
+  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
 </g>
-<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
-  <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
+<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
+  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
 </g>
 ```
 
@@ -763,9 +800,9 @@ The legend panel always sits at x = 870, right edge at x = 1080 (20 px from card
 <text x="888" y="124" class="lgd-ttl">SERIES TITLE</text>
 <!-- first row at y=140, then +30 per row -->
 <g transform="translate(888,140)">
-  <rect class="bar-N" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="lt">Label</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">Value</text>
+  <rect class="series-N" x="0" y="0" width="14" height="14" rx="3"/>
+  <text x="22" y="11" class="legend-label">Label</text>
+  <text x="188" y="11" class="legend-value" text-anchor="end">Value</text>
 </g>
 ```
 
@@ -779,41 +816,41 @@ Divider lines between legend sections:
 ### CSS for card shell classes
 
 ```css
-.bg-main  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-.ct       { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-.cs       { font-size:11px; fill:#79747E; font-weight:400; }
-.lt       { font-size:11px; fill:#1C1B1F; font-weight:400; }
-.lv       { font-size:11px; fill:#1C1B1F; font-weight:500; }
-.lgd-bg   { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-.lgd-div  { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-.lgd-ttl  { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+.card-bg  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+.card-title       { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+.card-subtitle       { font-size:11px; fill:#79747E; font-weight:400; }
+.legend-label       { font-size:11px; fill:#1C1B1F; font-weight:400; }
+.legend-value       { font-size:11px; fill:#1C1B1F; font-weight:500; }
+.legend-bg   { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+.legend-divider  { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+.legend-title  { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
 .footer   { font-size:10px; fill:#79747E; font-weight:400; }
-.t-wrap   { cursor:pointer; }
-.t-track  { fill:#E7E0EC; }
-.t-thumb  { fill:#ffffff; }
-.t-label  { font-size:11px; font-weight:500; fill:#49454F; }
-.pt-track { fill:#E7E0EC; transition:fill 0.3s; }
-.pt-thumb { fill:#ffffff; }
-.pt-label { font-size:11px; font-weight:500; fill:#49454F; }
-.lgd-val  { opacity:0; transition:opacity 0.2s; }
-svg.print .lgd-val  { opacity:1; }
-svg.print .pt-track { fill:#d97316; }
+.toggle-wrap   { cursor:pointer; }
+.toggle-track  { fill:#E7E0EC; }
+.toggle-thumb  { fill:#ffffff; }
+.toggle-label  { font-size:11px; font-weight:500; fill:#49454F; }
+.print-track { fill:#E7E0EC; transition:fill 0.3s; }
+.print-thumb { fill:#ffffff; }
+.print-label { font-size:11px; font-weight:500; fill:#49454F; }
+.legend-value  { opacity:0; transition:opacity 0.2s; }
+svg.print .legend-value  { opacity:1; }
+svg.print .print-track { fill:#d97316; }
 
 /* Dark overrides for card shell */
-svg.dark .bg-main  { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-svg.dark .ct       { fill:#E6E0E9; }
-svg.dark .cs       { fill:#938F99; }
-svg.dark .lt       { fill:#E6E0E9; }
-svg.dark .lv       { fill:#E6E0E9; }
-svg.dark .lgd-bg   { fill:#49454F; stroke:#938F99; }
-svg.dark .lgd-div  { stroke:#938F99; }
-svg.dark .lgd-ttl  { fill:#938F99; }
+svg.dark .card-bg  { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+svg.dark .card-title       { fill:#E6E0E9; }
+svg.dark .card-subtitle       { fill:#938F99; }
+svg.dark .legend-label       { fill:#E6E0E9; }
+svg.dark .legend-value       { fill:#E6E0E9; }
+svg.dark .legend-bg   { fill:#49454F; stroke:#938F99; }
+svg.dark .legend-divider  { stroke:#938F99; }
+svg.dark .legend-title  { fill:#938F99; }
 svg.dark .footer   { fill:#938F99; }
-svg.dark .t-track  { fill:#49454F; }
-svg.dark .t-label  { fill:#CAC4D0; }
-svg.dark .pt-track { fill:#49454F; }
-svg.dark .pt-label { fill:#CAC4D0; }
-svg.dark.print .pt-track { fill:#d97316; }
+svg.dark .toggle-track  { fill:#49454F; }
+svg.dark .toggle-label  { fill:#CAC4D0; }
+svg.dark .print-track { fill:#49454F; }
+svg.dark .print-label { fill:#CAC4D0; }
+svg.dark.print .print-track { fill:#d97316; }
 ```
 
 ### Full JS toggle pattern (both toggles)
@@ -922,7 +959,7 @@ Duration and easing are fixed for all charts. Stagger has a maximum of `0.25s` b
 
 | Parameter      | Value  | Notes                                      |
 |----------------|--------|--------------------------------------------|
-| Duration       | `0.8s` | Fixed — `itemFade` / `barFadeIn` duration  |
+| Duration       | `0.8s` | Fixed — `itemFade` / `dataFadeIn` duration  |
 | Stagger        | `min(0.25, 1.0 / count)` | 0.25s max; scale down for large counts |
 | Easing         | `ease-out` | Fixed — consistent across all charts   |
 | `.ready` delay | `(lastDelay + duration + 0.1) * 1000` ms | 100ms buffer after last animation |

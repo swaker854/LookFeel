@@ -1,28 +1,29 @@
 
 
 
+
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
 
-    .bg-main { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    svg.dark .bg-main { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+    .card-bg { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    svg.dark .card-bg { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
 
-    .ct     { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .cs     { font-size:11px; fill:#79747E; font-weight:400; }
-    .footer { font-size:10px; fill:#79747E; font-weight:400; }
-    svg.dark .ct     { fill:#E6E0E9; }
-    svg.dark .cs     { fill:#938F99; }
-    svg.dark .footer { fill:#938F99; }
+    .card-title    { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+    .card-subtitle { font-size:11px; fill:#79747E; font-weight:400; }
+    .footer        { font-size:10px; fill:#79747E; font-weight:400; }
+    svg.dark .card-title    { fill:#E6E0E9; }
+    svg.dark .card-subtitle { fill:#938F99; }
+    svg.dark .footer        { fill:#938F99; }
 
     /* §1 palette */
-    .bar-1 { fill:#00D4E8; } .bar-2 { fill:#00B87A; }
-    .bar-3 { fill:#F59E0B; } .bar-4 { fill:#F43F5E; }
-    .bar-5 { fill:#8B5CF6; } .bar-6 { fill:#3B82F6; }
-    svg.dark .bar-1 { fill:#22D3EE; } svg.dark .bar-2 { fill:#10B981; }
-    svg.dark .bar-3 { fill:#FBB724; } svg.dark .bar-4 { fill:#FB6181; }
-    svg.dark .bar-5 { fill:#A78BFA; } svg.dark .bar-6 { fill:#60A5FA; }
+    .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
+    .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
+    .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
+    svg.dark .series-1 { fill:#22D3EE; } svg.dark .series-2 { fill:#10B981; }
+    svg.dark .series-3 { fill:#FBB724; } svg.dark .series-4 { fill:#FB6181; }
+    svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
 
     /* §6 depth-tinting CSS variables — blend ratios per depth */
     :root {
@@ -33,20 +34,20 @@
     }
 
     /* toggles */
-    .t-wrap  { cursor:pointer; }
-    .t-track { fill:#E7E0EC; }
-    .t-thumb { fill:#ffffff; }
-    .t-label { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.dark .t-track { fill:#49454F; }
-    svg.dark .t-label { fill:#CAC4D0; }
+    .toggle-wrap  { cursor:pointer; }
+    .toggle-track { fill:#E7E0EC; }
+    .toggle-thumb { fill:#ffffff; }
+    .toggle-label { font-size:11px; font-weight:500; fill:#49454F; }
+    svg.dark .toggle-track { fill:#49454F; }
+    svg.dark .toggle-label { fill:#CAC4D0; }
 
-    .pt-track { fill:#E7E0EC; transition:fill 0.3s; }
-    .pt-thumb { fill:#ffffff; }
-    .pt-label { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.dark .pt-track { fill:#49454F; }
-    svg.dark .pt-label { fill:#CAC4D0; }
-    svg.print .pt-track { fill:#d97316; }
-    svg.dark.print .pt-track { fill:#d97316; }
+    .print-track { fill:#E7E0EC; transition:fill 0.3s; }
+    .print-thumb { fill:#ffffff; }
+    .print-label { font-size:11px; font-weight:500; fill:#49454F; }
+    svg.dark .print-track { fill:#49454F; }
+    svg.dark .print-label { fill:#CAC4D0; }
+    svg.print .print-track { fill:#d97316; }
+    svg.dark.print .print-track { fill:#d97316; }
     svg.print #tip-layer { display:none; }
 
     /* borders */
@@ -84,29 +85,29 @@
 
     /* §4 hover — A1 chart, gated on .ready */
     /* establish opacity:1 baseline after animation so clearing inline style doesn't revert to start state */
-    .ca.ready .node-g                   { opacity:1; }
-    .ca.ready .edge                     { opacity:1; }
-    .ca.ready.hovering .node-g          { opacity:0.20; transition:opacity 0.2s ease; }
-    .ca.ready.hovering .node-g.hovered  { opacity:1; }
-    .ca.ready.hovering .edge            { opacity:0.06; transition:opacity 0.2s ease; }
-    .ca.ready.hovering .edge.hovered    { opacity:1; }
+    .data-layer.ready .node-g                   { opacity:1; }
+    .data-layer.ready .edge                     { opacity:1; }
+    .data-layer.ready.hovering .node-g          { opacity:0.20; transition:opacity 0.2s ease; }
+    .data-layer.ready.hovering .node-g.hovered  { opacity:1; }
+    .data-layer.ready.hovering .edge            { opacity:0.06; transition:opacity 0.2s ease; }
+    .data-layer.ready.hovering .edge.hovered    { opacity:1; }
 
     /* §5 JS-driven tooltip */
-    .bub-bg  { fill:#FFFBFE; }
-    .bub-bdr { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-tip { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-val { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .bub-lbl { fill:#49454F; font-size:10px; font-weight:400; }
-    svg.dark .bub-bg  { fill:#1C1B1F; }
-    svg.dark .bub-bdr { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .bub-tip { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .bub-val { fill:#E6E0E9; }
-    svg.dark .bub-lbl { fill:#CAC4D0; }
+    .tip-bg     { fill:#FFFBFE; }
+    .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
+    svg.dark .tip-bg     { fill:#1C1B1F; }
+    svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .tip-tail   { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .tip-value  { fill:#E6E0E9; }
+    svg.dark .tip-label  { fill:#CAC4D0; }
     #tip-layer { pointer-events:none; }
   </style>
 </defs>
 
-<rect class="bg-main" width="1100" height="620" rx="18"/>
+<rect class="card-bg" width="1100" height="620" rx="18"/>
 <g class="border-light">
   <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
 </g>
@@ -114,33 +115,33 @@
   <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
 </g>
 
-<text x="68" y="50" class="ct">Product Organisation - Tree</text>
-<text x="68" y="70" class="cs">14 nodes · 4 depths · hover to inspect · print to export</text>
+<text x="68" y="50" class="card-title">Product Organisation - Tree</text>
+<text x="68" y="70" class="card-subtitle">14 nodes · 4 depths · hover to inspect · print to export</text>
 
-<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
-  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
+<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
+  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
 </g>
-<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
-  <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
+<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
+  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
 </g>
 
 <!-- §7 DATA LAYER — edges then nodes, both built by JS -->
-<g class="ca" id="ca">
+<g class="data-layer" id="data-layer">
   <g id="edge-layer"></g>
   <g id="node-layer"></g>
 </g>
 
 <!-- §7 tooltip last -->
 <g id="tip-layer">
-  <rect class="bub-bg"  id="tip-bg"  rx="9" opacity="0"/>
-  <path class="bub-bdr" id="tip-bdr" opacity="0"/>
-  <path class="bub-tip" id="tip-tip" opacity="0"/>
-  <text class="bub-val" id="tip-val" opacity="0" text-anchor="middle" dominant-baseline="central"/>
-  <text class="bub-lbl" id="tip-lbl" opacity="0" text-anchor="middle" dominant-baseline="central"/>
+  <rect class="tip-bg"     id="tip-bg"  rx="9" opacity="0"/>
+  <path class="tip-border" id="tip-bdr" opacity="0"/>
+  <path class="tip-tail"   id="tip-tip" opacity="0"/>
+  <text class="tip-value"  id="tip-val" opacity="0" text-anchor="middle" dominant-baseline="central"/>
+  <text class="tip-label"  id="tip-lbl" opacity="0" text-anchor="middle" dominant-baseline="central"/>
 </g>
 
 <text x="68" y="600" class="footer">Product Organisation · org tree · 14 nodes</text>
@@ -148,7 +149,7 @@
 <script type="text/javascript"><![CDATA[
 (function () {
   var svg       = document.getElementById('root');
-  var ca        = document.getElementById('ca');
+  var dataLayerEl = document.getElementById('data-layer');
   var edgeLayer = document.getElementById('edge-layer');
   var nodeLayer = document.getElementById('node-layer');
 
@@ -157,7 +158,7 @@
 
   /* ── TREE DATA ──────────────────────────────────────────────────────────
      Each node: id, label, sublabel, parentId, colorBranch (palette index 1-6)
-     colorBranch propagates down from depth-1 nodes; root uses bar-1.
+     colorBranch propagates down from depth-1 nodes; root uses series-1.
      depth computed automatically during layout.                           */
   var nodes = [
     { id:'ceo',  label:'Chief Product',  sub:'Officer',         parent:null,  branch:1 },
@@ -232,7 +233,7 @@
      §6: tint computed from palette base colour + background, never hardcoded.
      We store the base hex per branch and blend toward bg at each depth.     */
 
-  /* §6 depth-tinting: probe live computed fill from .bar-N via getComputedStyle —
+  /* §6 depth-tinting: probe live computed fill from .series-N via getComputedStyle —
      never hardcode hex. This way palette updates and dark-mode swaps propagate
      automatically without maintaining duplicate color maps.                    */
   var bgLight = '#FFFBFE';
@@ -269,7 +270,7 @@
   }
 
   function getColors(branch, depth) {
-    var base  = probeColor('bar-' + branch);
+    var base  = probeColor('series-' + branch);
     var bg    = isDark ? bgDark : bgLight;
     var ratio = tintRatio[depth] !== undefined ? tintRatio[depth] : tintRatio[tintRatio.length-1];
     return {
@@ -376,9 +377,9 @@
   });
 
   setTimeout(function() {
-    ca.classList.add('ready');
+    dataLayerEl.classList.add('ready');
     /* Kill the animation so fill-mode:both no longer locks opacity:1 above the CSS cascade.
-       .ca.ready .node-g / .edge then owns the baseline opacity:1. */
+       .data-layer.ready .node-g / .edge then owns the baseline opacity:1. */
     Array.prototype.forEach.call(edgeLayer.querySelectorAll('.edge'),   function(el) { el.style.animation = 'none'; el.style.opacity = ''; });
     Array.prototype.forEach.call(nodeLayer.querySelectorAll('.node-g'), function(el) { el.style.animation = 'none'; el.style.opacity = ''; });
   }, readyDelay);
@@ -440,12 +441,12 @@
   nodes.forEach(function(n) {
     var ng = n._ng;
     ng.addEventListener('mouseenter', function() {
-      if (!ca.classList.contains('ready')) return;
+      if (!dataLayerEl.classList.contains('ready')) return;
 
       /* clear stale */
       allNodeGs.forEach(function(el) { el.classList.remove('hovered'); });
       allEdges.forEach(function(el)  { el.classList.remove('hovered'); });
-      ca.classList.add('hovering');
+      dataLayerEl.classList.add('hovering');
 
       /* build connected set: self + parent + children */
       ng.classList.add('hovered');
@@ -462,7 +463,7 @@
     ng.addEventListener('mouseleave', function() {
       allNodeGs.forEach(function(el) { el.classList.remove('hovered'); });
       allEdges.forEach(function(el)  { el.classList.remove('hovered'); });
-      ca.classList.remove('hovering');
+      dataLayerEl.classList.remove('hovering');
       hideTip();
     });
   });

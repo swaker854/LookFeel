@@ -4,68 +4,62 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
 
-    .bg-main  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    svg.dark .bg-main { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+    .card-bg  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    svg.dark .card-bg { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
 
-    .ct     { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .cs     { font-size:11px; fill:#79747E; font-weight:400; }
-    .an     { font-size:10px; fill:#79747E; font-weight:400; }
-    .al     { font-size:10px; fill:#79747E; font-weight:500; }
-    .lt     { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    .lv     { font-size:11px; fill:#1C1B1F; font-weight:500; }
+    .card-title     { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+    .card-subtitle     { font-size:11px; fill:#79747E; font-weight:400; }
+    .tick-label     { font-size:10px; fill:#79747E; font-weight:400; }
+    .category-label     { font-size:10px; fill:#79747E; font-weight:500; }
+    .legend-label     { font-size:11px; fill:#1C1B1F; font-weight:400; }
+    .legend-value     { font-size:11px; fill:#1C1B1F; font-weight:500; opacity:0; transition:opacity 0.2s; }
     .footer { font-size:10px; fill:#79747E; font-weight:400; }
-    svg.dark .ct     { fill:#E6E0E9; }
-    svg.dark .cs     { fill:#938F99; }
-    svg.dark .an     { fill:#938F99; }
-    svg.dark .al     { fill:#938F99; }
-    svg.dark .lt     { fill:#E6E0E9; }
-    svg.dark .lv     { fill:#E6E0E9; }
+    svg.dark .card-title     { fill:#E6E0E9; }
+    svg.dark .card-subtitle     { fill:#938F99; }
+    svg.dark .tick-label     { fill:#938F99; }
+    svg.dark .category-label     { fill:#938F99; }
+    svg.dark .legend-label     { fill:#E6E0E9; }
+    svg.dark .legend-value     { fill:#E6E0E9; }
     svg.dark .footer { fill:#938F99; }
 
-    .gl { stroke:#E7E0EC; stroke-width:1; }
-    .bl { stroke:#79747E; stroke-width:1.5; }
-    svg.dark .gl { stroke:#49454F; }
-    svg.dark .bl { stroke:#938F99; }
+    .grid-line { stroke:#E7E0EC; stroke-width:1; }
+    .axis-line { stroke:#79747E; stroke-width:1.5; }
+    svg.dark .grid-line { stroke:#49454F; }
+    svg.dark .axis-line { stroke:#938F99; }
 
-    /* §1 palette — bar-N for fills, line-N for strokes */
-    .bar-1 { fill:#00D4E8; } .bar-2 { fill:#00B87A; } .bar-3 { fill:#F59E0B; }
-    .bar-4 { fill:#F43F5E; } .bar-5 { fill:#8B5CF6; } .bar-6 { fill:#3B82F6; }
-    svg.dark .bar-1 { fill:#22D3EE; } svg.dark .bar-2 { fill:#10B981; }
-    svg.dark .bar-3 { fill:#FBB724; } svg.dark .bar-4 { fill:#FB6181; }
-    svg.dark .bar-5 { fill:#A78BFA; } svg.dark .bar-6 { fill:#60A5FA; }
-
-    .line-1 { stroke:#00D4E8; } .line-2 { stroke:#00B87A; } .line-3 { stroke:#F59E0B; }
-    .line-4 { stroke:#F43F5E; } .line-5 { stroke:#8B5CF6; } .line-6 { stroke:#3B82F6; }
-    svg.dark .line-1 { stroke:#22D3EE; } svg.dark .line-2 { stroke:#10B981; }
-    svg.dark .line-3 { stroke:#FBB724; } svg.dark .line-4 { stroke:#FB6181; }
-    svg.dark .line-5 { stroke:#A78BFA; } svg.dark .line-6 { stroke:#60A5FA; }
+    /* §1 palette — series-N for fills and strokes */
+    .series-1 { fill:#00D4E8; stroke:#00D4E8; } .series-2 { fill:#00B87A; stroke:#00B87A; }
+    .series-3 { fill:#F59E0B; stroke:#F59E0B; } .series-4 { fill:#F43F5E; stroke:#F43F5E; }
+    .series-5 { fill:#8B5CF6; stroke:#8B5CF6; } .series-6 { fill:#3B82F6; stroke:#3B82F6; }
+    svg.dark .series-1 { fill:#22D3EE; stroke:#22D3EE; } svg.dark .series-2 { fill:#10B981; stroke:#10B981; }
+    svg.dark .series-3 { fill:#FBB724; stroke:#FBB724; } svg.dark .series-4 { fill:#FB6181; stroke:#FB6181; }
+    svg.dark .series-5 { fill:#A78BFA; stroke:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; stroke:#60A5FA; }
 
     /* legend */
-    .lgd-bg  { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .lgd-div { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .lgd-ttl { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-    svg.dark .lgd-bg  { fill:#49454F; stroke:#938F99; }
-    svg.dark .lgd-div { stroke:#938F99; }
-    svg.dark .lgd-ttl { fill:#938F99; }
+    .legend-bg  { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+    .legend-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+    .legend-title { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+    svg.dark .legend-bg  { fill:#49454F; stroke:#938F99; }
+    svg.dark .legend-divider { stroke:#938F99; }
+    svg.dark .legend-title { fill:#938F99; }
 
     /* toggles */
-    .t-wrap  { cursor:pointer; }
-    .t-track { fill:#E7E0EC; }
-    .t-thumb { fill:#ffffff; }
-    .t-label { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.dark .t-track { fill:#49454F; }
-    svg.dark .t-label { fill:#CAC4D0; }
+    .toggle-wrap  { cursor:pointer; }
+    .toggle-track { fill:#E7E0EC; }
+    .toggle-thumb { fill:#ffffff; }
+    .toggle-label { font-size:11px; font-weight:500; fill:#49454F; }
+    svg.dark .toggle-track { fill:#49454F; }
+    svg.dark .toggle-label { fill:#CAC4D0; }
 
-    .pt-track { fill:#E7E0EC; transition:fill 0.3s; }
-    .pt-thumb { fill:#ffffff; }
-    .pt-label { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.dark .pt-track { fill:#49454F; }
-    svg.dark .pt-label { fill:#CAC4D0; }
-    svg.print .pt-track { fill:#d97316; }
-    svg.dark.print .pt-track { fill:#d97316; }
+    .print-track { fill:#E7E0EC; transition:fill 0.3s; }
+    .print-thumb { fill:#ffffff; }
+    .print-label { font-size:11px; font-weight:500; fill:#49454F; }
+    svg.dark .print-track { fill:#49454F; }
+    svg.dark .print-label { fill:#CAC4D0; }
+    svg.print .print-track { fill:#d97316; }
+    svg.dark.print .print-track { fill:#d97316; }
 
-    .lgd-val { opacity:0; transition:opacity 0.2s; }
-    svg.print .lgd-val  { opacity:1; }
+    svg.print .legend-value  { opacity:1; }
     svg.print #tip-layer { display:none; }
 
     /* borders */
@@ -90,8 +84,8 @@
     .dot-g.visible { animation: areaFadeIn 0.8s ease-out both; }
 
     /* §4 hover: dim non-hovered series */
-    .ca.hovering .sg          { opacity:0.20; transition:opacity 0.2s ease; }
-    .ca.hovering .sg.hovered  { opacity:1; }
+    .data-layer.hovering .sg          { opacity:0.20; transition:opacity 0.2s ease; }
+    .data-layer.hovering .sg.hovered  { opacity:1; }
 
     /* dot dimming within hovered series */
     .sg.hovered .dot-g          { opacity:0.30; transition:opacity 0.15s ease; }
@@ -101,27 +95,27 @@
     .area-fill   { pointer-events:none; }
     .area-stroke { pointer-events:none; }
 
-    /* dot styling */
+    /* dot styling — declared after series-N so white fill overrides series fill on dots */
     .dot-circle { stroke-width:2; fill:#FFFBFE; }
     svg.dark .dot-circle { fill:#1C1B1F; }
 
     /* §5 tooltip */
-    .bub-bg  { fill:#FFFBFE; }
-    .bub-bdr { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-tip { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-val { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .bub-lbl { fill:#49454F; font-size:10px; font-weight:400; }
-    svg.dark .bub-bg  { fill:#1C1B1F; }
-    svg.dark .bub-bdr { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .bub-tip { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .bub-val { fill:#E6E0E9; }
-    svg.dark .bub-lbl { fill:#CAC4D0; }
+    .tip-bg     { fill:#FFFBFE; }
+    .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
+    svg.dark .tip-bg     { fill:#1C1B1F; }
+    svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .tip-tail   { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .tip-value  { fill:#E6E0E9; }
+    svg.dark .tip-label  { fill:#CAC4D0; }
     #tip-layer { pointer-events:none; }
   </style>
 </defs>
 
 <!-- §9 card shell -->
-<rect class="bg-main" width="1100" height="620" rx="18"/>
+<rect class="card-bg" width="1100" height="620" rx="18"/>
 <g class="border-light">
   <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
 </g>
@@ -129,89 +123,89 @@
   <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
 </g>
 
-<text x="68" y="50" class="ct">Cloud Spend by Department - Step Area</text>
-<text x="68" y="70" class="cs">4 series · monthly · hover to inspect · print for values</text>
+<text x="68" y="50" class="card-title">Cloud Spend by Department - Step Area</text>
+<text x="68" y="70" class="card-subtitle">4 series · monthly · hover to inspect · print for values</text>
 
-<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
-  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
+<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
+  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
 </g>
-<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
-  <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
+<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
+  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
 </g>
 
 <!-- §9 grid — plot area: left=68 right=850 top=100 bottom=500 -->
-<line x1="68" y1="500" x2="850" y2="500" class="bl"/>
-<line x1="68" y1="100" x2="68"  y2="500" class="bl"/>
-<line x1="68" y1="400" x2="850" y2="400" class="gl"/>
-<line x1="68" y1="300" x2="850" y2="300" class="gl"/>
-<line x1="68" y1="200" x2="850" y2="200" class="gl"/>
-<line x1="68" y1="100" x2="850" y2="100" class="gl"/>
+<line x1="68" y1="500" x2="850" y2="500" class="axis-line"/>
+<line x1="68" y1="100" x2="68"  y2="500" class="axis-line"/>
+<line x1="68" y1="400" x2="850" y2="400" class="grid-line"/>
+<line x1="68" y1="300" x2="850" y2="300" class="grid-line"/>
+<line x1="68" y1="200" x2="850" y2="200" class="grid-line"/>
+<line x1="68" y1="100" x2="850" y2="100" class="grid-line"/>
 
 <!-- y-axis labels -->
-<text x="56" y="504" class="an" text-anchor="end">$0</text>
-<text x="56" y="404" class="an" text-anchor="end">$50k</text>
-<text x="56" y="304" class="an" text-anchor="end">$100k</text>
-<text x="56" y="204" class="an" text-anchor="end">$150k</text>
-<text x="56" y="104" class="an" text-anchor="end">$200k</text>
+<text x="56" y="504" class="tick-label" text-anchor="end">$0</text>
+<text x="56" y="404" class="tick-label" text-anchor="end">$50k</text>
+<text x="56" y="304" class="tick-label" text-anchor="end">$100k</text>
+<text x="56" y="204" class="tick-label" text-anchor="end">$150k</text>
+<text x="56" y="104" class="tick-label" text-anchor="end">$200k</text>
 
 <!-- x-axis labels: 10 months Jan–Oct -->
-<text x="134" y="522" class="al" text-anchor="middle">Jan</text>
-<text x="212" y="522" class="al" text-anchor="middle">Feb</text>
-<text x="290" y="522" class="al" text-anchor="middle">Mar</text>
-<text x="368" y="522" class="al" text-anchor="middle">Apr</text>
-<text x="446" y="522" class="al" text-anchor="middle">May</text>
-<text x="524" y="522" class="al" text-anchor="middle">Jun</text>
-<text x="602" y="522" class="al" text-anchor="middle">Jul</text>
-<text x="680" y="522" class="al" text-anchor="middle">Aug</text>
-<text x="758" y="522" class="al" text-anchor="middle">Sep</text>
-<text x="836" y="522" class="al" text-anchor="middle">Oct</text>
+<text x="134" y="522" class="category-label" text-anchor="middle">Jan</text>
+<text x="212" y="522" class="category-label" text-anchor="middle">Feb</text>
+<text x="290" y="522" class="category-label" text-anchor="middle">Mar</text>
+<text x="368" y="522" class="category-label" text-anchor="middle">Apr</text>
+<text x="446" y="522" class="category-label" text-anchor="middle">May</text>
+<text x="524" y="522" class="category-label" text-anchor="middle">Jun</text>
+<text x="602" y="522" class="category-label" text-anchor="middle">Jul</text>
+<text x="680" y="522" class="category-label" text-anchor="middle">Aug</text>
+<text x="758" y="522" class="category-label" text-anchor="middle">Sep</text>
+<text x="836" y="522" class="category-label" text-anchor="middle">Oct</text>
 
 <!-- §7 DATA LAYER — built by JS -->
-<g class="ca" id="ca"></g>
+<g class="data-layer" id="data-layer"></g>
 
 <!-- §7 tooltip always last -->
 <g id="tip-layer">
-  <rect class="bub-bg"  id="tip-bg"  rx="9" opacity="0"/>
-  <path class="bub-bdr" id="tip-bdr" opacity="0"/>
-  <path class="bub-tip" id="tip-tip" opacity="0"/>
-  <text class="bub-val" id="tip-val" opacity="0" text-anchor="middle" dominant-baseline="central"/>
-  <text class="bub-lbl" id="tip-lbl" opacity="0" text-anchor="middle" dominant-baseline="central"/>
+  <rect class="tip-bg"     id="tip-bg"  rx="9" opacity="0"/>
+  <path class="tip-border" id="tip-bdr" opacity="0"/>
+  <path class="tip-tail"   id="tip-tip" opacity="0"/>
+  <text class="tip-value"  id="tip-val" opacity="0" text-anchor="middle" dominant-baseline="central"/>
+  <text class="tip-label"  id="tip-lbl" opacity="0" text-anchor="middle" dominant-baseline="central"/>
 </g>
 
 <!-- legend -->
-<rect x="870" y="100" width="210" height="180" rx="14" class="lgd-bg"/>
-<text x="888" y="124" class="lgd-ttl">DEPARTMENT</text>
+<rect x="870" y="100" width="210" height="180" rx="14" class="legend-bg"/>
+<text x="888" y="124" class="legend-title">DEPARTMENT</text>
 <g transform="translate(888,140)">
-  <rect class="bar-1" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="lt">Engineering</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$182k</text>
+  <rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/>
+  <text x="22" y="11" class="legend-label">Engineering</text>
+  <text x="188" y="11" class="legend-value" text-anchor="end">$182k</text>
 </g>
 <g transform="translate(888,170)">
-  <rect class="bar-2" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="lt">Data &amp; ML</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$143k</text>
+  <rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/>
+  <text x="22" y="11" class="legend-label">Data &amp; ML</text>
+  <text x="188" y="11" class="legend-value" text-anchor="end">$143k</text>
 </g>
 <g transform="translate(888,200)">
-  <rect class="bar-3" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="lt">Product</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$67k</text>
+  <rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/>
+  <text x="22" y="11" class="legend-label">Product</text>
+  <text x="188" y="11" class="legend-value" text-anchor="end">$67k</text>
 </g>
 <g transform="translate(888,230)">
-  <rect class="bar-4" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="lt">Marketing</text>
-  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$44k</text>
+  <rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/>
+  <text x="22" y="11" class="legend-label">Marketing</text>
+  <text x="188" y="11" class="legend-value" text-anchor="end">$44k</text>
 </g>
 
 <text x="68" y="600" class="footer">Cloud Spend by Department · 4 series · step area chart</text>
 
 <script type="text/javascript"><![CDATA[
 (function() {
-  var svg = document.getElementById('root');
-  var ca  = document.getElementById('ca');
+  var svg         = document.getElementById('root');
+  var dataLayerEl = document.getElementById('data-layer');
 
   /* §2 isDark hoisted before all build code */
   var isDark = false;
@@ -275,7 +269,7 @@
 
       /* area fill */
       var fill = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      fill.setAttribute('class', 'area-fill bar-' + s.cls);
+      fill.setAttribute('class', 'area-fill series-' + s.cls);
       fill.setAttribute('d', areaPath(s.values));
       fill.setAttribute('fill-opacity', '0.18');
       fill.setAttribute('stroke', 'none');
@@ -284,9 +278,9 @@
 
       /* top stroke */
       var stroke = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      stroke.setAttribute('class', 'area-stroke line-' + s.cls);
+      stroke.setAttribute('class', 'area-stroke series-' + s.cls);
       stroke.setAttribute('d', strokePath(s.values));
-      stroke.setAttribute('fill', 'none');
+      stroke.style.fill = 'none';
       stroke.setAttribute('stroke-width', '2.5');
       stroke.setAttribute('stroke-linejoin', 'round');
       stroke.style.animationDelay = (si * seriesStagger) + 's';
@@ -300,12 +294,12 @@
 
         var dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
         dot.setAttribute('cx', xAt(i)); dot.setAttribute('cy', yAt(v)); dot.setAttribute('r', '4');
-        dot.setAttribute('class', 'dot-circle bar-' + s.cls);
+        dot.setAttribute('class', 'dot-circle series-' + s.cls);
 
         var ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
         ring.setAttribute('cx', xAt(i)); ring.setAttribute('cy', yAt(v)); ring.setAttribute('r', '4');
-        ring.setAttribute('fill', 'none');
-        ring.setAttribute('class', 'line-' + s.cls);
+        ring.style.fill = 'none';
+        ring.setAttribute('class', 'series-' + s.cls);
         ring.setAttribute('stroke-width', '2');
 
         dg.appendChild(dot);
@@ -313,7 +307,7 @@
         sg.appendChild(dg);
       });
 
-      ca.appendChild(sg);
+      dataLayerEl.appendChild(sg);
       sgEls.unshift(sg); /* restore original order for hover index lookup */
 
       /* A1: double rAF then add .visible */
@@ -331,10 +325,10 @@
 
   /* A1 ready gate */
   setTimeout(function() {
-    ca.classList.add('ready');
-    Array.prototype.forEach.call(ca.querySelectorAll('.area-fill'),   function(el) { el.style.opacity = ''; });
-    Array.prototype.forEach.call(ca.querySelectorAll('.area-stroke'), function(el) { el.style.opacity = ''; });
-    Array.prototype.forEach.call(ca.querySelectorAll('.dot-g'),       function(el) { el.style.opacity = ''; });
+    dataLayerEl.classList.add('ready');
+    Array.prototype.forEach.call(dataLayerEl.querySelectorAll('.area-fill'),   function(el) { el.style.opacity = ''; });
+    Array.prototype.forEach.call(dataLayerEl.querySelectorAll('.area-stroke'), function(el) { el.style.opacity = ''; });
+    Array.prototype.forEach.call(dataLayerEl.querySelectorAll('.dot-g'),       function(el) { el.style.opacity = ''; });
   }, readyDelay);
 
   /* TOOLTIP */
@@ -401,7 +395,7 @@
      of which fill area sits on top visually. */
   var hitLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
   hitLayer.setAttribute('id', 'hit-layer');
-  ca.appendChild(hitLayer);
+  dataLayerEl.appendChild(hitLayer);
 
   /* append hit paths largest-first so smallest ends up on top */
   for (var hi = 0; hi < series.length; hi++) {
@@ -427,10 +421,10 @@
     var sgEl = document.getElementById('sg' + si);
 
     function onMove(e) {
-      if (!ca.classList.contains('ready')) return;
+      if (!dataLayerEl.classList.contains('ready')) return;
       sgEls.forEach(function(el) { el.classList.remove('hovered'); });
-      Array.prototype.forEach.call(ca.querySelectorAll('.dot-g'), function(el) { el.classList.remove('hovered'); });
-      ca.classList.add('hovering');
+      Array.prototype.forEach.call(dataLayerEl.querySelectorAll('.dot-g'), function(el) { el.classList.remove('hovered'); });
+      dataLayerEl.classList.add('hovering');
       sgEl.classList.add('hovered');
       var idx   = nearestIdx(svgMouseX(e));
       var dotGs = sgEl.querySelectorAll('.dot-g');
@@ -443,10 +437,10 @@
     hp.addEventListener('mousemove',  onMove);
   });
 
-  ca.addEventListener('mouseleave', function() {
+  dataLayerEl.addEventListener('mouseleave', function() {
     sgEls.forEach(function(el) { el.classList.remove('hovered'); });
-    Array.prototype.forEach.call(ca.querySelectorAll('.dot-g'), function(el) { el.classList.remove('hovered'); });
-    ca.classList.remove('hovering');
+    Array.prototype.forEach.call(dataLayerEl.querySelectorAll('.dot-g'), function(el) { el.classList.remove('hovered'); });
+    dataLayerEl.classList.remove('hovering');
     hideTip();
   });
 

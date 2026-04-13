@@ -1,28 +1,29 @@
 
 
 
+
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
 
-    .bg-main { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    svg.dark .bg-main { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+    .card-bg { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    svg.dark .card-bg { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
 
-    .ct     { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .cs     { font-size:11px; fill:#79747E; font-weight:400; }
+    .card-title   { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+    .card-subtitle { font-size:11px; fill:#79747E; font-weight:400; }
     .footer { font-size:10px; fill:#79747E; font-weight:400; }
-    svg.dark .ct     { fill:#E6E0E9; }
-    svg.dark .cs     { fill:#938F99; }
+    svg.dark .card-title   { fill:#E6E0E9; }
+    svg.dark .card-subtitle{ fill:#938F99; }
     svg.dark .footer { fill:#938F99; }
 
     /* §1 palette */
-    .bar-1 { fill:#00D4E8; } .bar-2 { fill:#00B87A; }
-    .bar-3 { fill:#F59E0B; } .bar-4 { fill:#F43F5E; }
-    .bar-5 { fill:#8B5CF6; } .bar-6 { fill:#3B82F6; }
-    svg.dark .bar-1 { fill:#22D3EE; } svg.dark .bar-2 { fill:#10B981; }
-    svg.dark .bar-3 { fill:#FBB724; } svg.dark .bar-4 { fill:#FB6181; }
-    svg.dark .bar-5 { fill:#A78BFA; } svg.dark .bar-6 { fill:#60A5FA; }
+    .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
+    .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
+    .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
+    svg.dark .series-1 { fill:#22D3EE; } svg.dark .series-2 { fill:#10B981; }
+    svg.dark .series-3 { fill:#FBB724; } svg.dark .series-4 { fill:#FB6181; }
+    svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
 
     .stroke-1 { stroke:#00D4E8; } .stroke-2 { stroke:#00B87A; }
     .stroke-3 { stroke:#F59E0B; } .stroke-4 { stroke:#F43F5E; }
@@ -32,20 +33,20 @@
     svg.dark .stroke-5 { stroke:#A78BFA; } svg.dark .stroke-6 { stroke:#60A5FA; }
 
     /* toggles */
-    .t-wrap  { cursor:pointer; }
-    .t-track { fill:#E7E0EC; }
-    .t-thumb { fill:#ffffff; }
-    .t-label { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.dark .t-track { fill:#49454F; }
-    svg.dark .t-label { fill:#CAC4D0; }
+    .toggle-wrap  { cursor:pointer; }
+    .toggle-track { fill:#E7E0EC; }
+    .toggle-thumb { fill:#ffffff; }
+    .toggle-label { font-size:11px; font-weight:500; fill:#49454F; }
+    svg.dark .toggle-track { fill:#49454F; }
+    svg.dark .toggle-label { fill:#CAC4D0; }
 
-    .pt-track { fill:#E7E0EC; transition:fill 0.3s; }
-    .pt-thumb { fill:#ffffff; }
-    .pt-label { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.dark .pt-track { fill:#49454F; }
-    svg.dark .pt-label { fill:#CAC4D0; }
-    svg.print .pt-track { fill:#d97316; }
-    svg.dark.print .pt-track { fill:#d97316; }
+    .print-track { fill:#E7E0EC; transition:fill 0.3s; }
+    .print-thumb { fill:#ffffff; }
+    .print-label { font-size:11px; font-weight:500; fill:#49454F; }
+    svg.dark .print-track { fill:#49454F; }
+    svg.dark .print-label { fill:#CAC4D0; }
+    svg.print .print-track { fill:#d97316; }
+    svg.dark.print .print-track { fill:#d97316; }
     svg.print #tip-layer { display:none; }
 
     /* borders */
@@ -55,12 +56,12 @@
     svg.dark .border-light { display:none; }
 
     /* legend */
-    .lgd-bg  { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .lgd-ttl { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-    .lt      { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    svg.dark .lgd-bg  { fill:#49454F; stroke:#938F99; }
-    svg.dark .lgd-ttl { fill:#938F99; }
-    svg.dark .lt      { fill:#E6E0E9; }
+    .legend-bg  { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+    .legend-title { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+    .legend-label { font-size:11px; fill:#1C1B1F; font-weight:400; }
+    svg.dark .legend-bg  { fill:#49454F; stroke:#938F99; }
+    svg.dark .legend-title { fill:#938F99; }
+    svg.dark .legend-label { fill:#E6E0E9; }
 
     /* §3 A1 — animationend per element clears animation + adds .visible; no both fill-mode */
     @keyframes edgeFadeIn { from{opacity:0} to{opacity:1} }
@@ -87,36 +88,36 @@
     /* §4 hover — gated on .ready
        Neighbourhood highlight: hovered node + connected nodes/edges stay full;
        everything else dims to 0.20.                                          */
-    /* baseline after animation: .ca.ready re-establishes opacity:1 so clearing
+    /* baseline after animation: .data-layer.ready re-establishes opacity:1 so clearing
        inline style doesn't revert to the animation start state (opacity:0).
        CSS hover rules below have higher specificity and override cleanly.   */
-    .ca.ready .node-g                       { opacity:1; }
-    .ca.ready .edge                         { opacity:1; }
-    .ca.ready.hovering .node-g              { opacity:0.20; transition:opacity 0.2s ease; }
-    .ca.ready.hovering .node-g.hovered      { opacity:1; }
-    .ca.ready.hovering .node-g.connected    { opacity:1; }
+    .data-layer.ready .node-g                       { opacity:1; }
+    .data-layer.ready .edge                         { opacity:1; }
+    .data-layer.ready.hovering .node-g              { opacity:0.20; transition:opacity 0.2s ease; }
+    .data-layer.ready.hovering .node-g.hovered      { opacity:1; }
+    .data-layer.ready.hovering .node-g.connected    { opacity:1; }
 
-    .ca.ready.hovering .edge                { opacity:0.08; transition:opacity 0.2s ease; }
-    .ca.ready.hovering .edge.connected      { opacity:1; }
+    .data-layer.ready.hovering .edge                { opacity:0.08; transition:opacity 0.2s ease; }
+    .data-layer.ready.hovering .edge.connected      { opacity:1; }
 
     /* §5 JS-driven tooltip */
-    .bub-bg  { fill:#FFFBFE; }
-    .bub-bdr { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-tip { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-val { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .bub-lbl { fill:#49454F; font-size:10px; font-weight:400; }
+    .tip-bg    { fill:#FFFBFE; }
+    .tip-border{ fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .tip-tail  { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .tip-value { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .tip-label { fill:#49454F; font-size:10px; font-weight:400; }
     .tip           { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     svg.print .tip { opacity:0 !important; }
-    svg.dark .bub-bg  { fill:#1C1B1F; }
-    svg.dark .bub-bdr { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .bub-tip { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .bub-val { fill:#E6E0E9; }
-    svg.dark .bub-lbl { fill:#CAC4D0; }
+    svg.dark .tip-bg    { fill:#1C1B1F; }
+    svg.dark .tip-border{ fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .tip-tail  { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .tip-value { fill:#E6E0E9; }
+    svg.dark .tip-label { fill:#CAC4D0; }
     #tip-layer { pointer-events:none; }
   </style>
 </defs>
 
-<rect class="bg-main" width="1100" height="620" rx="18"/>
+<rect class="card-bg" width="1100" height="620" rx="18"/>
 <g class="border-light">
   <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
 </g>
@@ -124,22 +125,22 @@
   <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
 </g>
 
-<text x="68" y="50" class="ct">Service Dependency Graph - Network</text>
-<text x="68" y="70" class="cs">16 nodes · 24 edges · hover to explore neighbourhood</text>
+<text x="68" y="50" class="card-title">Service Dependency Graph - Network</text>
+<text x="68" y="70" class="card-subtitle">16 nodes · 24 edges · hover to explore neighbourhood</text>
 
-<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
-  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
+<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
+  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
 </g>
-<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
-  <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
+<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
+  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
 </g>
 
 <!-- §7 DATA LAYER — built entirely by JS -->
-<g class="ca" id="ca">
+<g class="data-layer" id="data-layer">
   <g id="edge-layer"></g>
   <g id="node-layer"></g>
 </g>
@@ -147,36 +148,36 @@
 <!-- §7 tooltip always last -->
 <g id="tip-layer">
   <g class="tip" id="tip">
-    <rect class="bub-bg"  id="tip-bg"  rx="9"/>
-    <path class="bub-bdr" id="tip-bdr"/>
-    <path class="bub-tip" id="tip-tip"/>
-    <text class="bub-val" id="tip-val" text-anchor="middle" dominant-baseline="central"/>
-    <text class="bub-lbl" id="tip-lbl" text-anchor="middle" dominant-baseline="central"/>
+    <rect class="tip-bg"     id="tip-bg"  rx="9"/>
+    <path class="tip-border" id="tip-bdr"/>
+    <path class="tip-tail"   id="tip-tip"/>
+    <text class="tip-value"  id="tip-val" text-anchor="middle" dominant-baseline="central"/>
+    <text class="tip-label"  id="tip-lbl" text-anchor="middle" dominant-baseline="central"/>
   </g>
 </g>
 
 <!-- legend — right panel -->
-<rect x="870" y="100" width="210" height="190" rx="14" class="lgd-bg"/>
-<text x="888" y="124" class="lgd-ttl">CLUSTER</text>
+<rect x="870" y="100" width="210" height="190" rx="14" class="legend-bg"/>
+<text x="888" y="124" class="legend-title">CLUSTER</text>
 <g transform="translate(888,140)">
-  <circle class="bar-1" cx="7" cy="7" r="7"/>
-  <text x="22" y="11" class="lt">Frontend</text>
+  <circle class="series-1" cx="7" cy="7" r="7"/>
+  <text x="22" y="11" class="legend-label">Frontend</text>
 </g>
 <g transform="translate(888,168)">
-  <circle class="bar-2" cx="7" cy="7" r="7"/>
-  <text x="22" y="11" class="lt">Backend</text>
+  <circle class="series-2" cx="7" cy="7" r="7"/>
+  <text x="22" y="11" class="legend-label">Backend</text>
 </g>
 <g transform="translate(888,196)">
-  <circle class="bar-3" cx="7" cy="7" r="7"/>
-  <text x="22" y="11" class="lt">Data</text>
+  <circle class="series-3" cx="7" cy="7" r="7"/>
+  <text x="22" y="11" class="legend-label">Data</text>
 </g>
 <g transform="translate(888,224)">
-  <circle class="bar-4" cx="7" cy="7" r="7"/>
-  <text x="22" y="11" class="lt">Infra</text>
+  <circle class="series-4" cx="7" cy="7" r="7"/>
+  <text x="22" y="11" class="legend-label">Infra</text>
 </g>
 <g transform="translate(888,252)">
-  <circle class="bar-5" cx="7" cy="7" r="7"/>
-  <text x="22" y="11" class="lt">Auth</text>
+  <circle class="series-5" cx="7" cy="7" r="7"/>
+  <text x="22" y="11" class="legend-label">Auth</text>
 </g>
 
 <text x="68" y="600" class="footer">Service Dependency Graph · 16 nodes · 24 edges · network chart</text>
@@ -184,7 +185,7 @@
 <script type="text/javascript"><![CDATA[
 (function () {
   var svg       = document.getElementById('root');
-  var ca        = document.getElementById('ca');
+  var dataLayerEl = document.getElementById('data-layer');
   var edgeLayer = document.getElementById('edge-layer');
   var nodeLayer = document.getElementById('node-layer');
 
@@ -314,7 +315,7 @@
     var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     circle.setAttribute('cx', n.x); circle.setAttribute('cy', n.y);
     circle.setAttribute('r',  n.r);
-    circle.setAttribute('class', 'node-circle bar-' + n.cluster + ' stroke-' + n.cluster);
+    circle.setAttribute('class', 'node-circle series-' + n.cluster + ' stroke-' + n.cluster);
 
     /* label: place below node if room, above if near bottom */
     var labelY = (n.y + n.r + 13 <= plotB) ? n.y + n.r + 11 : n.y - n.r - 4;
@@ -347,7 +348,7 @@
   });
 
   setTimeout(function() {
-    ca.classList.add('ready');
+    dataLayerEl.classList.add('ready');
   }, readyDelay);
 
   /* ── §5 TOOLTIP ─────────────────────────────────────────────────────── */
@@ -411,13 +412,13 @@
   nodes.forEach(function(n) {
     var ng = n._ng;
     ng.addEventListener('mouseenter', function() {
-      if (!ca.classList.contains('ready')) return;
+      if (!dataLayerEl.classList.contains('ready')) return;
 
       /* clear all stale classes */
       allNodeGs.forEach(function(el) { el.classList.remove('hovered'); el.classList.remove('connected'); });
       allEdges.forEach(function(el)  { el.classList.remove('connected'); });
 
-      ca.classList.add('hovering');
+      dataLayerEl.classList.add('hovering');
       ng.classList.add('hovered');
 
       /* mark neighbours */
@@ -438,7 +439,7 @@
     ng.addEventListener('mouseleave', function() {
       allNodeGs.forEach(function(el) { el.classList.remove('hovered'); el.classList.remove('connected'); });
       allEdges.forEach(function(el)  { el.classList.remove('connected'); });
-      ca.classList.remove('hovering');
+      dataLayerEl.classList.remove('hovering');
       hideTip();
     });
   });

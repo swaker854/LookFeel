@@ -7,219 +7,218 @@
   </clipPath>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
-    .bg-main   { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    .ct        { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .cs        { font-size:11px; fill:#79747E; font-weight:400; }
-    .an        { font-size:10px; fill:#79747E; font-weight:400; }
-    .al        { font-size:10px; fill:#79747E; font-weight:500; }
-    .lt        { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    .lv        { font-size:11px; fill:#1C1B1F; font-weight:500; }
-    .lp        { font-size:10px; fill:#79747E; font-weight:400; }
-    .gl        { stroke:#E7E0EC; stroke-width:1; }
-    .bl        { stroke:#79747E; stroke-width:1.5; }
-    .lgd-bg    { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .lgd-div   { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .lgd-ttl   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-    .footer    { font-size:10px; fill:#79747E; font-weight:400; }
-    .t-wrap    { cursor:pointer; }
-    .t-track   { fill:#E7E0EC; } .t-thumb { fill:#ffffff; }
-    .t-label   { font-size:11px; font-weight:500; fill:#49454F; }
-    .pt-track  { fill:#E7E0EC; transition:fill 0.3s; } .pt-thumb { fill:#ffffff; }
-    .pt-label  { font-size:11px; font-weight:500; fill:#49454F; }
-    .lgd-val   { opacity:0; transition:opacity 0.2s; }
-    svg.print .lgd-val  { opacity:1; }
-    svg.print .pt-track { fill:#d97316; }
+    .card-bg        { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    .card-title     { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+    .card-subtitle  { font-size:11px; fill:#79747E; font-weight:400; }
+    .tick-label     { font-size:10px; fill:#79747E; font-weight:400; }
+    .category-label { font-size:10px; fill:#79747E; font-weight:500; }
+    .legend-label   { font-size:11px; fill:#1C1B1F; font-weight:400; }
+    .legend-value   { font-size:11px; fill:#1C1B1F; font-weight:500; opacity:0; transition:opacity 0.2s; }
+    .legend-note    { font-size:10px; fill:#79747E; font-weight:400; }
+    .grid-line      { stroke:#E7E0EC; stroke-width:1; }
+    .axis-line      { stroke:#79747E; stroke-width:1.5; }
+    .legend-bg      { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+    .legend-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+    .legend-title   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+    .footer         { font-size:10px; fill:#79747E; font-weight:400; }
+    .toggle-wrap    { cursor:pointer; }
+    .toggle-track   { fill:#E7E0EC; } .toggle-thumb { fill:#ffffff; }
+    .toggle-label   { font-size:11px; font-weight:500; fill:#49454F; }
+    .print-track    { fill:#E7E0EC; transition:fill 0.3s; } .print-thumb { fill:#ffffff; }
+    .print-label    { font-size:11px; font-weight:500; fill:#49454F; }
+    svg.print .legend-value  { opacity:1; }
+    svg.print .print-track   { fill:#d97316; }
     .tip-div   { stroke:#CAC4D0; stroke-width:1; }
     svg.dark .tip-div { stroke:#49454F; }
     .crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
     .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     svg.print .tip { opacity:0 !important; }
-    .bub-bg    { fill:#FFFBFE; }
-    .bub-bdr   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-val   { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .bub-lbl   { fill:#49454F; font-size:10px; font-weight:400; }
+    .tip-bg    { fill:#FFFBFE; }
+    .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
 
     /* ── standard palette ── */
-    .bar-1 { fill:#00D4E8; stroke:#00D4E8; } .bar-2 { fill:#8B5CF6; stroke:#8B5CF6; }
-    .bar-3 { fill:#00B87A; stroke:#00B87A; } .bar-4 { fill:#F59E0B; stroke:#F59E0B; }
-    .bar-5 { fill:#64748B; stroke:#64748B; }
-    svg.dark .bar-1 { fill:#22D3EE; stroke:#22D3EE; } svg.dark .bar-2 { fill:#A78BFA; stroke:#A78BFA; }
-    svg.dark .bar-3 { fill:#10B981; stroke:#10B981; } svg.dark .bar-4 { fill:#FBB724; stroke:#FBB724; }
-    svg.dark .bar-5 { fill:#94A3B8; stroke:#94A3B8; }
+    .series-1 { fill:#00D4E8; stroke:#00D4E8; } .series-2 { fill:#8B5CF6; stroke:#8B5CF6; }
+    .series-3 { fill:#00B87A; stroke:#00B87A; } .series-4 { fill:#F59E0B; stroke:#F59E0B; }
+    .series-5 { fill:#64748B; stroke:#64748B; }
+    svg.dark .series-1 { fill:#22D3EE; stroke:#22D3EE; } svg.dark .series-2 { fill:#A78BFA; stroke:#A78BFA; }
+    svg.dark .series-3 { fill:#10B981; stroke:#10B981; } svg.dark .series-4 { fill:#FBB724; stroke:#FBB724; }
+    svg.dark .series-5 { fill:#94A3B8; stroke:#94A3B8; }
 
-    /* ── onload animation — uses both because .bb and .col-g are separate
-       nested elements: both fill-mode only affects .bb opacity,
-       hover dimming targets .col-g — no conflict ── */
-    @keyframes barFadeIn { from{opacity:0} to{opacity:1} }
-    .bb { animation:barFadeIn 0.8s ease-out both; }
-    .b1 { animation-delay:0.00s; } .b2 { animation-delay:0.25s; }
-    .b3 { animation-delay:0.50s; } .b4 { animation-delay:0.75s; }
-    .b5 { animation-delay:1.00s; } .b6 { animation-delay:1.25s; }
-    .b7 { animation-delay:1.50s; } .b8 { animation-delay:1.75s; }
+    /* ── onload animation — .data-body is on the same element as .data-item;
+       animation fades the column group, hover dimming targets .data-item .seg
+       (children) — no conflict ── */
+    @keyframes dataFadeIn { from{opacity:0} to{opacity:1} }
+    .data-body { animation:dataFadeIn 0.8s ease-out both; }
+    .stagger-1 { animation-delay:0.00s; } .stagger-2 { animation-delay:0.25s; }
+    .stagger-3 { animation-delay:0.50s; } .stagger-4 { animation-delay:0.75s; }
+    .stagger-5 { animation-delay:1.00s; } .stagger-6 { animation-delay:1.25s; }
+    .stagger-7 { animation-delay:1.50s; } .stagger-8 { animation-delay:1.75s; }
 
-    /* ── hover — no .ready gate needed: .bb and .col-g are separate elements,
-       animation never touches .col-g opacity ── */
-    .col-g .seg { transition:opacity 0.2s ease; }
-    .chart-g.hovering .col-g .seg        { opacity:0.20; }
-    .chart-g.hovering .col-g.active .seg { opacity:1; }
-    svg.print .chart-g.hovering .col-g .seg { opacity:1 !important; }
+    /* ── hover — no .ready gate needed: animation targets the column group,
+       dimming targets .seg children — no conflict ── */
+    .data-item .seg { transition:opacity 0.2s ease; }
+    .chart-container.hovering .data-item .seg        { opacity:0.20; }
+    .chart-container.hovering .data-item.active .seg { opacity:1; }
+    svg.print .chart-container.hovering .data-item .seg { opacity:1 !important; }
 
-    svg.dark .bg-main   { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-    svg.dark .ct        { fill:#E6E0E9; } svg.dark .cs  { fill:#938F99; }
-    svg.dark .an        { fill:#938F99; } svg.dark .al  { fill:#938F99; }
-    svg.dark .lt        { fill:#E6E0E9; } svg.dark .lv  { fill:#E6E0E9; }
-    svg.dark .lp        { fill:#938F99; }
-    svg.dark .gl        { stroke:#49454F; } svg.dark .bl { stroke:#938F99; }
-    svg.dark .lgd-bg    { fill:#49454F; stroke:#938F99; }
-    svg.dark .lgd-div   { stroke:#938F99; } svg.dark .lgd-ttl { fill:#938F99; }
-    svg.dark .footer    { fill:#938F99; }
-    svg.dark .t-track   { fill:#49454F; } svg.dark .t-label  { fill:#CAC4D0; }
-    svg.dark .pt-track  { fill:#49454F; } svg.dark .pt-label { fill:#CAC4D0; }
-    svg.dark.print .pt-track { fill:#d97316; }
+    svg.dark .card-bg        { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+    svg.dark .card-title     { fill:#E6E0E9; } svg.dark .card-subtitle  { fill:#938F99; }
+    svg.dark .tick-label     { fill:#938F99; } svg.dark .category-label { fill:#938F99; }
+    svg.dark .legend-label   { fill:#E6E0E9; } svg.dark .legend-value   { fill:#E6E0E9; }
+    svg.dark .legend-note    { fill:#938F99; }
+    svg.dark .grid-line      { stroke:#49454F; } svg.dark .axis-line { stroke:#938F99; }
+    svg.dark .legend-bg      { fill:#49454F; stroke:#938F99; }
+    svg.dark .legend-divider { stroke:#938F99; } svg.dark .legend-title { fill:#938F99; }
+    svg.dark .footer         { fill:#938F99; }
+    svg.dark .toggle-track   { fill:#49454F; } svg.dark .toggle-label  { fill:#CAC4D0; }
+    svg.dark .print-track    { fill:#49454F; } svg.dark .print-label   { fill:#CAC4D0; }
+    svg.dark.print .print-track { fill:#d97316; }
     svg.dark .crosshair { stroke:#938F99; }
-    svg.dark .bub-bg    { fill:#1C1B1F; }
-    svg.dark .bub-bdr   { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .bub-val   { fill:#E6E0E9; }
-    svg.dark .bub-lbl   { fill:#CAC4D0; }
+    svg.dark .tip-bg     { fill:#1C1B1F; }
+    svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .tip-value  { fill:#E6E0E9; }
+    svg.dark .tip-label  { fill:#CAC4D0; }
     .border-dark  { display:none; } .border-light { display:block; }
     svg.dark .border-dark  { display:block; } svg.dark .border-light { display:none; }
   </style>
 </defs>
 
-<rect class="bg-main" width="1100" height="620" rx="18"/>
+<rect class="card-bg" width="1100" height="620" rx="18"/>
 <g class="border-dark"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/></g>
 <g class="border-light"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/></g>
 
-<text x="68" y="50" class="ct">Revenue by Quarter - Bar Stacked</text>
-<text x="68" y="70" class="cs">5 product lines · stacked · hover column to inspect</text>
+<text x="68" y="50" class="card-title">Revenue by Quarter - Bar Stacked</text>
+<text x="68" y="70" class="card-subtitle">5 product lines · stacked · hover column to inspect</text>
 
-<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
-  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
+<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
+  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
 </g>
-<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
-  <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
+<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
+  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
 </g>
 
-<line x1="68" y1="508" x2="850" y2="508" class="bl"/>
-<line x1="68" y1="426" x2="850" y2="426" class="gl"/>
-<line x1="68" y1="344" x2="850" y2="344" class="gl"/>
-<line x1="68" y1="262" x2="850" y2="262" class="gl"/>
-<line x1="68" y1="181" x2="850" y2="181" class="gl"/>
-<line x1="68" y1="100" x2="850" y2="100" class="gl"/>
-<line x1="68" y1="100" x2="68"  y2="508" class="bl"/>
+<line x1="68" y1="508" x2="850" y2="508" class="axis-line"/>
+<line x1="68" y1="426" x2="850" y2="426" class="grid-line"/>
+<line x1="68" y1="344" x2="850" y2="344" class="grid-line"/>
+<line x1="68" y1="262" x2="850" y2="262" class="grid-line"/>
+<line x1="68" y1="181" x2="850" y2="181" class="grid-line"/>
+<line x1="68" y1="100" x2="850" y2="100" class="grid-line"/>
+<line x1="68" y1="100" x2="68"  y2="508" class="axis-line"/>
 
-<text x="56" y="512" class="an" text-anchor="end">$0</text>
-<text x="56" y="430" class="an" text-anchor="end">$50M</text>
-<text x="56" y="348" class="an" text-anchor="end">$100M</text>
-<text x="56" y="266" class="an" text-anchor="end">$150M</text>
-<text x="56" y="185" class="an" text-anchor="end">$200M</text>
-<text x="56" y="104" class="an" text-anchor="end">$250M</text>
+<text x="56" y="512" class="tick-label" text-anchor="end">$0</text>
+<text x="56" y="430" class="tick-label" text-anchor="end">$50M</text>
+<text x="56" y="348" class="tick-label" text-anchor="end">$100M</text>
+<text x="56" y="266" class="tick-label" text-anchor="end">$150M</text>
+<text x="56" y="185" class="tick-label" text-anchor="end">$200M</text>
+<text x="56" y="104" class="tick-label" text-anchor="end">$250M</text>
 
-<text x="126.9" y="526" class="al" text-anchor="middle">Q1 '22</text>
-<text x="221.8" y="526" class="al" text-anchor="middle">Q2 '22</text>
-<text x="316.7" y="526" class="al" text-anchor="middle">Q3 '22</text>
-<text x="411.6" y="526" class="al" text-anchor="middle">Q4 '22</text>
-<text x="506.4" y="526" class="al" text-anchor="middle">Q1 '23</text>
-<text x="601.3" y="526" class="al" text-anchor="middle">Q2 '23</text>
-<text x="696.2" y="526" class="al" text-anchor="middle">Q3 '23</text>
-<text x="791.1" y="526" class="al" text-anchor="middle">Q4 '23</text>
+<text x="126.9" y="526" class="category-label" text-anchor="middle">Q1 '22</text>
+<text x="221.8" y="526" class="category-label" text-anchor="middle">Q2 '22</text>
+<text x="316.7" y="526" class="category-label" text-anchor="middle">Q3 '22</text>
+<text x="411.6" y="526" class="category-label" text-anchor="middle">Q4 '22</text>
+<text x="506.4" y="526" class="category-label" text-anchor="middle">Q1 '23</text>
+<text x="601.3" y="526" class="category-label" text-anchor="middle">Q2 '23</text>
+<text x="696.2" y="526" class="category-label" text-anchor="middle">Q3 '23</text>
+<text x="791.1" y="526" class="category-label" text-anchor="middle">Q4 '23</text>
 
 <line x1="459" y1="100" x2="459" y2="518" stroke="#c0b8a8" stroke-width="1" stroke-dasharray="5,4" opacity="0.6"/>
-<text x="269.2" y="90" class="an" text-anchor="middle">2022</text>
-<text x="648.8" y="90" class="an" text-anchor="middle">2023</text>
+<text x="269.2" y="90" class="tick-label" text-anchor="middle">2022</text>
+<text x="648.8" y="90" class="tick-label" text-anchor="middle">2023</text>
 
-<g class="ca chart-g" clip-path="url(#chartclip)">
+<g class="data-layer chart-container" clip-path="url(#chartclip)">
 
 <!-- Q1 '22 -->
-<g class="col-g bb b1" id="col0">
-  <rect class="seg bar-5" x="90.9" y="491.68" width="72" height="16.32" rx="6"/>
-  <rect class="seg bar-5" x="90.9" y="491.68" width="72" height="10"/>
-  <rect class="seg bar-4" x="90.9" y="473.73" width="72" height="17.95"/>
-  <rect class="seg bar-3" x="90.9" y="444.35" width="72" height="29.38"/>
-  <rect class="seg bar-2" x="90.9" y="392.13" width="72" height="52.22"/>
-  <rect class="seg bar-1" x="90.9" y="330.11" width="72" height="62.02" rx="6"/>
-  <rect class="seg bar-1" x="90.9" y="336.11" width="72" height="56.02"/>
+<g class="data-item data-body stagger-1" id="data-item-0">
+  <rect class="seg series-5" x="90.9" y="491.68" width="72" height="16.32" rx="6"/>
+  <rect class="seg series-5" x="90.9" y="491.68" width="72" height="10"/>
+  <rect class="seg series-4" x="90.9" y="473.73" width="72" height="17.95"/>
+  <rect class="seg series-3" x="90.9" y="444.35" width="72" height="29.38"/>
+  <rect class="seg series-2" x="90.9" y="392.13" width="72" height="52.22"/>
+  <rect class="seg series-1" x="90.9" y="330.11" width="72" height="62.02" rx="6"/>
+  <rect class="seg series-1" x="90.9" y="336.11" width="72" height="56.02"/>
 </g>
 
 <!-- Q2 '22 -->
-<g class="col-g bb b2" id="col1">
-  <rect class="seg bar-5" x="185.8" y="490.05" width="72" height="17.95" rx="6"/>
-  <rect class="seg bar-5" x="185.8" y="490.05" width="72" height="10"/>
-  <rect class="seg bar-4" x="185.8" y="470.47" width="72" height="19.58"/>
-  <rect class="seg bar-3" x="185.8" y="437.82" width="72" height="32.64"/>
-  <rect class="seg bar-2" x="185.8" y="380.70" width="72" height="57.12"/>
-  <rect class="seg bar-1" x="185.8" y="312.16" width="72" height="68.54" rx="6"/>
-  <rect class="seg bar-1" x="185.8" y="318.16" width="72" height="62.54"/>
+<g class="data-item data-body stagger-2" id="data-item-1">
+  <rect class="seg series-5" x="185.8" y="490.05" width="72" height="17.95" rx="6"/>
+  <rect class="seg series-5" x="185.8" y="490.05" width="72" height="10"/>
+  <rect class="seg series-4" x="185.8" y="470.47" width="72" height="19.58"/>
+  <rect class="seg series-3" x="185.8" y="437.82" width="72" height="32.64"/>
+  <rect class="seg series-2" x="185.8" y="380.70" width="72" height="57.12"/>
+  <rect class="seg series-1" x="185.8" y="312.16" width="72" height="68.54" rx="6"/>
+  <rect class="seg series-1" x="185.8" y="318.16" width="72" height="62.54"/>
 </g>
 
 <!-- Q3 '22 -->
-<g class="col-g bb b3" id="col2">
-  <rect class="seg bar-5" x="280.7" y="488.42" width="72" height="19.58" rx="6"/>
-  <rect class="seg bar-5" x="280.7" y="488.42" width="72" height="10"/>
-  <rect class="seg bar-4" x="280.7" y="467.20" width="72" height="21.22"/>
-  <rect class="seg bar-3" x="280.7" y="432.93" width="72" height="34.27"/>
-  <rect class="seg bar-2" x="280.7" y="370.91" width="72" height="62.02"/>
-  <rect class="seg bar-1" x="280.7" y="295.84" width="72" height="75.07" rx="6"/>
-  <rect class="seg bar-1" x="280.7" y="301.84" width="72" height="69.07"/>
+<g class="data-item data-body stagger-3" id="data-item-2">
+  <rect class="seg series-5" x="280.7" y="488.42" width="72" height="19.58" rx="6"/>
+  <rect class="seg series-5" x="280.7" y="488.42" width="72" height="10"/>
+  <rect class="seg series-4" x="280.7" y="467.20" width="72" height="21.22"/>
+  <rect class="seg series-3" x="280.7" y="432.93" width="72" height="34.27"/>
+  <rect class="seg series-2" x="280.7" y="370.91" width="72" height="62.02"/>
+  <rect class="seg series-1" x="280.7" y="295.84" width="72" height="75.07" rx="6"/>
+  <rect class="seg series-1" x="280.7" y="301.84" width="72" height="69.07"/>
 </g>
 
 <!-- Q4 '22 -->
-<g class="col-g bb b4" id="col3">
-  <rect class="seg bar-5" x="375.6" y="486.78" width="72" height="21.22" rx="6"/>
-  <rect class="seg bar-5" x="375.6" y="486.78" width="72" height="10"/>
-  <rect class="seg bar-4" x="375.6" y="463.93" width="72" height="22.85"/>
-  <rect class="seg bar-3" x="375.6" y="426.40" width="72" height="37.54"/>
-  <rect class="seg bar-2" x="375.6" y="359.49" width="72" height="66.91"/>
-  <rect class="seg bar-1" x="375.6" y="277.89" width="72" height="81.60" rx="6"/>
-  <rect class="seg bar-1" x="375.6" y="283.89" width="72" height="75.60"/>
+<g class="data-item data-body stagger-4" id="data-item-3">
+  <rect class="seg series-5" x="375.6" y="486.78" width="72" height="21.22" rx="6"/>
+  <rect class="seg series-5" x="375.6" y="486.78" width="72" height="10"/>
+  <rect class="seg series-4" x="375.6" y="463.93" width="72" height="22.85"/>
+  <rect class="seg series-3" x="375.6" y="426.40" width="72" height="37.54"/>
+  <rect class="seg series-2" x="375.6" y="359.49" width="72" height="66.91"/>
+  <rect class="seg series-1" x="375.6" y="277.89" width="72" height="81.60" rx="6"/>
+  <rect class="seg series-1" x="375.6" y="283.89" width="72" height="75.60"/>
 </g>
 
 <!-- Q1 '23 -->
-<g class="col-g bb b5" id="col4">
-  <rect class="seg bar-5" x="470.4" y="485.15" width="72" height="22.85" rx="6"/>
-  <rect class="seg bar-5" x="470.4" y="485.15" width="72" height="10"/>
-  <rect class="seg bar-4" x="470.4" y="460.67" width="72" height="24.48"/>
-  <rect class="seg bar-3" x="470.4" y="419.87" width="72" height="40.80"/>
-  <rect class="seg bar-2" x="470.4" y="346.43" width="72" height="73.44"/>
-  <rect class="seg bar-1" x="470.4" y="256.67" width="72" height="89.76" rx="6"/>
-  <rect class="seg bar-1" x="470.4" y="262.67" width="72" height="83.76"/>
+<g class="data-item data-body stagger-5" id="data-item-4">
+  <rect class="seg series-5" x="470.4" y="485.15" width="72" height="22.85" rx="6"/>
+  <rect class="seg series-5" x="470.4" y="485.15" width="72" height="10"/>
+  <rect class="seg series-4" x="470.4" y="460.67" width="72" height="24.48"/>
+  <rect class="seg series-3" x="470.4" y="419.87" width="72" height="40.80"/>
+  <rect class="seg series-2" x="470.4" y="346.43" width="72" height="73.44"/>
+  <rect class="seg series-1" x="470.4" y="256.67" width="72" height="89.76" rx="6"/>
+  <rect class="seg series-1" x="470.4" y="262.67" width="72" height="83.76"/>
 </g>
 
 <!-- Q2 '23 -->
-<g class="col-g bb b6" id="col5">
-  <rect class="seg bar-5" x="565.3" y="481.89" width="72" height="26.11" rx="6"/>
-  <rect class="seg bar-5" x="565.3" y="481.89" width="72" height="10"/>
-  <rect class="seg bar-4" x="565.3" y="454.15" width="72" height="27.74"/>
-  <rect class="seg bar-3" x="565.3" y="410.08" width="72" height="44.06"/>
-  <rect class="seg bar-2" x="565.3" y="328.48" width="72" height="81.60"/>
-  <rect class="seg bar-1" x="565.3" y="230.56" width="72" height="97.92" rx="6"/>
-  <rect class="seg bar-1" x="565.3" y="236.56" width="72" height="91.92"/>
+<g class="data-item data-body stagger-6" id="data-item-5">
+  <rect class="seg series-5" x="565.3" y="481.89" width="72" height="26.11" rx="6"/>
+  <rect class="seg series-5" x="565.3" y="481.89" width="72" height="10"/>
+  <rect class="seg series-4" x="565.3" y="454.15" width="72" height="27.74"/>
+  <rect class="seg series-3" x="565.3" y="410.08" width="72" height="44.06"/>
+  <rect class="seg series-2" x="565.3" y="328.48" width="72" height="81.60"/>
+  <rect class="seg series-1" x="565.3" y="230.56" width="72" height="97.92" rx="6"/>
+  <rect class="seg series-1" x="565.3" y="236.56" width="72" height="91.92"/>
 </g>
 
 <!-- Q3 '23 -->
-<g class="col-g bb b7" id="col6">
-  <rect class="seg bar-5" x="660.2" y="480.26" width="72" height="27.74" rx="6"/>
-  <rect class="seg bar-5" x="660.2" y="480.26" width="72" height="10"/>
-  <rect class="seg bar-4" x="660.2" y="449.25" width="72" height="31.01"/>
-  <rect class="seg bar-3" x="660.2" y="398.66" width="72" height="50.59"/>
-  <rect class="seg bar-2" x="660.2" y="307.27" width="72" height="91.39"/>
-  <rect class="seg bar-1" x="660.2" y="199.55" width="72" height="107.71" rx="6"/>
-  <rect class="seg bar-1" x="660.2" y="205.55" width="72" height="101.71"/>
+<g class="data-item data-body stagger-7" id="data-item-6">
+  <rect class="seg series-5" x="660.2" y="480.26" width="72" height="27.74" rx="6"/>
+  <rect class="seg series-5" x="660.2" y="480.26" width="72" height="10"/>
+  <rect class="seg series-4" x="660.2" y="449.25" width="72" height="31.01"/>
+  <rect class="seg series-3" x="660.2" y="398.66" width="72" height="50.59"/>
+  <rect class="seg series-2" x="660.2" y="307.27" width="72" height="91.39"/>
+  <rect class="seg series-1" x="660.2" y="199.55" width="72" height="107.71" rx="6"/>
+  <rect class="seg series-1" x="660.2" y="205.55" width="72" height="101.71"/>
 </g>
 
 <!-- Q4 '23 -->
-<g class="col-g bb b8" id="col7">
-  <rect class="seg bar-5" x="755.1" y="476.99" width="72" height="31.01" rx="6"/>
-  <rect class="seg bar-5" x="755.1" y="476.99" width="72" height="10"/>
-  <rect class="seg bar-4" x="755.1" y="441.09" width="72" height="35.90"/>
-  <rect class="seg bar-3" x="755.1" y="383.97" width="72" height="57.12"/>
-  <rect class="seg bar-2" x="755.1" y="282.79" width="72" height="101.18"/>
-  <rect class="seg bar-1" x="755.1" y="165.28" width="72" height="117.50" rx="6"/>
-  <rect class="seg bar-1" x="755.1" y="171.28" width="72" height="111.50"/>
+<g class="data-item data-body stagger-8" id="data-item-7">
+  <rect class="seg series-5" x="755.1" y="476.99" width="72" height="31.01" rx="6"/>
+  <rect class="seg series-5" x="755.1" y="476.99" width="72" height="10"/>
+  <rect class="seg series-4" x="755.1" y="441.09" width="72" height="35.90"/>
+  <rect class="seg series-3" x="755.1" y="383.97" width="72" height="57.12"/>
+  <rect class="seg series-2" x="755.1" y="282.79" width="72" height="101.18"/>
+  <rect class="seg series-1" x="755.1" y="165.28" width="72" height="117.50" rx="6"/>
+  <rect class="seg series-1" x="755.1" y="171.28" width="72" height="111.50"/>
 </g>
 
 </g>
@@ -238,26 +237,26 @@
 <g id="hit-layer"></g>
 <g id="tip-layer"></g>
 
-<rect x="870" y="100" width="210" height="248" rx="14" class="lgd-bg"/>
-<text x="888" y="124" class="lgd-ttl">SERIES</text>
-<g transform="translate(888,140)"><rect class="bar-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Cyan</text>   <text x="188" y="11" class="lv lgd-val" text-anchor="end">$72M</text></g>
-<g transform="translate(888,170)"><rect class="bar-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Violet</text>  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$62M</text></g>
-<g transform="translate(888,200)"><rect class="bar-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Emerald</text> <text x="188" y="11" class="lv lgd-val" text-anchor="end">$35M</text></g>
-<g transform="translate(888,230)"><rect class="bar-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Amber</text>   <text x="188" y="11" class="lv lgd-val" text-anchor="end">$22M</text></g>
-<g transform="translate(888,260)"><rect class="bar-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Slate</text>    <text x="188" y="11" class="lv lgd-val" text-anchor="end">$19M</text></g>
-<line x1="888" y1="290" x2="1062" y2="290" class="lgd-div"/>
-<text x="888" y="308" class="lt">Q4 2023 total</text>
-<text x="1062" y="308" class="lv lgd-val" text-anchor="end">$210M</text>
-<text x="888" y="328" class="lp">Hover columns to inspect</text>
+<rect x="870" y="100" width="210" height="248" rx="14" class="legend-bg"/>
+<text x="888" y="124" class="legend-title">SERIES</text>
+<g transform="translate(888,140)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Cyan</text>   <text x="188" y="11" class="legend-value" text-anchor="end">$72M</text></g>
+<g transform="translate(888,170)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Violet</text>  <text x="188" y="11" class="legend-value" text-anchor="end">$62M</text></g>
+<g transform="translate(888,200)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Emerald</text> <text x="188" y="11" class="legend-value" text-anchor="end">$35M</text></g>
+<g transform="translate(888,230)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Amber</text>   <text x="188" y="11" class="legend-value" text-anchor="end">$22M</text></g>
+<g transform="translate(888,260)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Slate</text>    <text x="188" y="11" class="legend-value" text-anchor="end">$19M</text></g>
+<line x1="888" y1="290" x2="1062" y2="290" class="legend-divider"/>
+<text x="888" y="308" class="legend-label">Q4 2023 total</text>
+<text x="1062" y="308" class="legend-value" text-anchor="end">$210M</text>
+<text x="888" y="328" class="legend-note">Hover columns to inspect</text>
 
 <text x="68" y="600" class="footer">Revenue by Quarter · 5 series · stacked bar chart</text>
 
 <script type="text/javascript"><![CDATA[
 (function() {
-  var svg     = document.getElementById('root');
-  var ns      = 'http://www.w3.org/2000/svg';
-  var chartG  = document.querySelector('.ca');
-  var colEls  = document.querySelectorAll('.col-g');
+  var svg         = document.getElementById('root');
+  var ns          = 'http://www.w3.org/2000/svg';
+  var dataLayerEl = document.querySelector('.data-layer');
+  var dataItemEls = document.querySelectorAll('.data-item');
 
   /* §2 — isDark hoisted before all build and animation code */
   var isDark = false;
@@ -266,11 +265,11 @@
   var xs   = [126.9, 221.8, 316.7, 411.6, 506.4, 601.3, 696.2, 791.1];
   var colW = 36;
   var series = [
-    { label:'Cyan',    cls:'bar-1', vals:[38,42,46,50,55,60,66,72] },
-    { label:'Violet',  cls:'bar-2', vals:[32,35,38,41,45,50,56,62] },
-    { label:'Emerald', cls:'bar-3', vals:[18,20,21,23,25,27,31,35] },
-    { label:'Amber',   cls:'bar-4', vals:[11,12,13,14,15,17,19,22] },
-    { label:'Slate',   cls:'bar-5', vals:[10,11,12,13,14,16,17,19] },
+    { label:'Cyan',    cls:'series-1', vals:[38,42,46,50,55,60,66,72] },
+    { label:'Violet',  cls:'series-2', vals:[32,35,38,41,45,50,56,62] },
+    { label:'Emerald', cls:'series-3', vals:[18,20,21,23,25,27,31,35] },
+    { label:'Amber',   cls:'series-4', vals:[11,12,13,14,15,17,19,22] },
+    { label:'Slate',   cls:'series-5', vals:[10,11,12,13,14,16,17,19] },
   ];
   var totals = xs.map(function(_,qi){
     return series.reduce(function(s,sr){ return s+sr.vals[qi]; }, 0);
@@ -298,7 +297,7 @@
 
     /* ── build text nodes at x=0 first so getBBox() measures real widths ── */
     var qLbl = el('text', {x:0, y:0, 'text-anchor':'middle',
-      'dominant-baseline':'central', 'class':'bub-lbl'});
+      'dominant-baseline':'central', 'class':'tip-label'});
     qLbl.textContent = quarters[qi];
     tipG.appendChild(qLbl);
 
@@ -306,20 +305,20 @@
     series.forEach(function(s, si) {
       var rowY = hdrH + divH + si * rowH + rowH / 2;
       var dot  = el('circle', {cx:0, cy:rowY, r:DOT_R, 'class':s.cls});
-      var sLbl = el('text', {x:LBL_X, y:rowY, 'dominant-baseline':'central', 'class':'bub-lbl'});
+      var sLbl = el('text', {x:LBL_X, y:rowY, 'dominant-baseline':'central', 'class':'tip-label'});
       sLbl.textContent = s.label;
       var sVal = el('text', {x:0, y:rowY, 'text-anchor':'end',
-        'dominant-baseline':'central', 'class':'bub-val', 'font-size':'11'});
+        'dominant-baseline':'central', 'class':'tip-value', 'font-size':'11'});
       sVal.textContent = '$' + s.vals[qi] + 'M';
       tipG.appendChild(dot); tipG.appendChild(sLbl); tipG.appendChild(sVal);
       rowEls.push({dot:dot, sLbl:sLbl, sVal:sVal});
     });
 
     var totY = hdrH + divH + series.length * rowH + divH + totH / 2;
-    var totLbl = el('text', {x:LBL_X, y:totY, 'dominant-baseline':'central', 'class':'bub-lbl'});
+    var totLbl = el('text', {x:LBL_X, y:totY, 'dominant-baseline':'central', 'class':'tip-label'});
     totLbl.textContent = 'Total';
     var totVal = el('text', {x:0, y:totY, 'text-anchor':'end',
-      'dominant-baseline':'central', 'class':'bub-val'});
+      'dominant-baseline':'central', 'class':'tip-value'});
     totVal.textContent = '$' + totals[qi] + 'M';
     tipG.appendChild(totLbl); tipG.appendChild(totVal);
 
@@ -362,16 +361,16 @@
     tipG.insertBefore(el('line', {x1:bL+8, y1:div1Y, x2:bR-8, y2:div1Y, 'class':'tip-div'}), qLbl.nextSibling);
     tipG.appendChild(el('line', {x1:bL+8, y1:div2Y, x2:bR-8, y2:div2Y, 'class':'tip-div'}));
 
-    /* ── §5 bub-bg rect (fill only, no stroke) ── */
-    tipG.insertBefore(el('rect', {x:bL, y:bT, width:hw*2, height:bh, rx:rx, 'class':'bub-bg'}), tipG.firstChild);
+    /* ── §5 tip-bg rect (fill only, no stroke) ── */
+    tipG.insertBefore(el('rect', {x:bL, y:bT, width:hw*2, height:bh, rx:rx, 'class':'tip-bg'}), tipG.firstChild);
 
-    /* ── §5 bub-bdr: <path> not <rect> — closed rounded-rect, no tail on panel tooltip ── */
-    var bdrD = 'M'+(bL+rx)+','+bT
+    /* ── §5 tip-border: <path> not <rect> — closed rounded-rect, no tail on panel tooltip ── */
+    var borderPath = 'M'+(bL+rx)+','+bT
       +' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)
       +' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB
       +' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)
       +' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+' Z';
-    tipG.insertBefore(el('path', {d:bdrD, 'class':'bub-bdr'}), tipG.children[1]);
+    tipG.insertBefore(el('path', {d:borderPath, 'class':'tip-border'}), tipG.children[1]);
 
     var hit = el('rect', {x:x-colW, y:100, width:colW*2, height:408, fill:'transparent', cursor:'crosshair'});
     hitLayer.appendChild(hit);
@@ -379,19 +378,19 @@
 
     hit.addEventListener('mouseenter', function() {
       // clear stale active before setting new one
-      colEls.forEach(function(c){ c.classList.remove('active'); });
+      dataItemEls.forEach(function(c){ c.classList.remove('active'); });
       allTips[qi].style.opacity = '1';
       if (ch) ch.style.opacity = '1';
-      chartG.classList.add('hovering');
-      var colEl = document.getElementById('col'+qi);
-      if (colEl) colEl.classList.add('active');
+      dataLayerEl.classList.add('hovering');
+      var itemEl = document.getElementById('data-item-'+qi);
+      if (itemEl) itemEl.classList.add('active');
     });
     hit.addEventListener('mouseleave', function() {
       allTips[qi].style.opacity = '';
       if (ch) ch.style.opacity = '';
-      chartG.classList.remove('hovering');
-      var colEl = document.getElementById('col'+qi);
-      if (colEl) colEl.classList.remove('active');
+      dataLayerEl.classList.remove('hovering');
+      var itemEl = document.getElementById('data-item-'+qi);
+      if (itemEl) itemEl.classList.remove('active');
     });
   });
 

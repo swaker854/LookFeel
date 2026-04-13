@@ -12,8 +12,8 @@ A single source of truth for all chart colors using CSS classes.
 
 ### Core rules (non-negotiable)
 
-* Use `.bar-N` classes for all categorical colors — never inline hex
-* Use `svg.dark .bar-N` overrides for dark mode — **not** `#root.dark .bar-N`. For a pure SVG file (`<svg id="root">`), `svg.dark` matches the element itself and is the correct selector. `#root.dark` is only correct when the SVG is inlined inside an HTML document. All card shell dark overrides follow the same `svg.dark` pattern.
+* Use `.series-N` classes for all categorical colors — never inline hex
+* Use `svg.dark .series-N` overrides for dark mode — **not** `#root.dark .series-N`. For a pure SVG file (`<svg id="root">`), `svg.dark` matches the element itself and is the correct selector. `#root.dark` is only correct when the SVG is inlined inside an HTML document. All card shell dark overrides follow the same `svg.dark` pattern.
 * Semantic colors (e.g. bull/bear) must map to existing palette values, not invent new hex
 
 ### What to avoid (anti-patterns)
@@ -65,7 +65,7 @@ The method depends on **what is animated** and **whether the animated element is
 
 ### Core rules (non-negotiable)
 
-* **A2:** Animated `.bb` is a child `<g>` inside the hover-dimmed `.bw`. `both` fill-mode is safe because animation never touches the outer element.
+* **A2:** Animated `.data-body` is a child `<g>` inside the hover-dimmed `.data-item`. `both` fill-mode is safe because animation never touches the outer element.
 * **A1:** Trigger the animation via **inline `style.animation`** (no fill-mode). On `animationend`, set `style.animation = 'none'` and add `.visible` — `.item.visible { opacity:1 }` in CSS then owns the stable state. Gate hover with `.ready` added after the last animation completes (last delay + duration + 100ms buffer). Never put the `animation:` declaration on `.visible` itself — that reintroduces fill-mode conflict.
 * **rAF:** Set initial `opacity:0` as **inline style** (not CSS). At loop end, two cases apply:
   * **Hover-dimmed elements** (e.g. slices): clear with `el.style.opacity = ''` so CSS hover rules take over cleanly. Add `.ready` after clearing.
@@ -145,31 +145,31 @@ Readable data display anchored to data point, always visible within the card.
 
 | Situation | Approach | Charts |
 |---|---|---|
-| Large fixed elements, no layers painted above them | **CSS-driven** — bubble lives inside `.bw`; `.bw.active .bubble { opacity:1 }` | Bar |
+| Large fixed elements, no layers painted above them | **CSS-driven** — bubble lives inside `.data-item`; `.data-item.active .data-tip { opacity:1 }` | Bar |
 | Fixed elements but a data layer (line, markers) paints above | **CSS-driven + overlay** — extract bubbles to `#bubble-overlay` group at end of SVG; toggle via JS inline style | Pareto |
 | Small/dense/variable-position elements | **JS-driven** — single `#tip-layer` at end of SVG; JS positions and shows/hides | Donut, Sunburst, Icicle, Candle, Line, Radar, Treemap, Marimekko, Circle packing |
 
-> **Bar chart specifically uses CSS-driven.** Bubbles live inside `.bw`. Only move to an overlay when another data layer would paint on top.
+> **Bar chart specifically uses CSS-driven.** Bubbles live inside `.data-item`. Only move to an overlay when another data layer would paint on top.
 
 ### Core rules (non-negotiable)
 
-* Tooltips always render in the **last painted layer** — either as a child of their `.bw` (CSS-driven) or in a dedicated `#tip-layer` / `#bubble-overlay` group placed last in the SVG
-* **For JS-built charts (donut, sunburst):** `#ca` must wrap both the slice group **and** the tooltip layer. CSS hover selectors only fire if slice elements are descendants of `#ca`. Placing `#tip-layer` outside `#ca` is the most common structural error in JS-built charts — hover architecture silently breaks even though JS inline-style show/hide may appear to work.
+* Tooltips always render in the **last painted layer** — either as a child of their `.data-item` (CSS-driven) or in a dedicated `#tip-layer` / `#bubble-overlay` group placed last in the SVG
+* **For JS-built charts (donut, sunburst):** `#data-layer` must wrap both the slice group **and** the tooltip layer. CSS hover selectors only fire if slice elements are descendants of `#data-layer`. Placing `#tip-layer` outside `#data-layer` is the most common structural error in JS-built charts — hover architecture silently breaks even though JS inline-style show/hide may appear to work.
 * Always clamp `tx` horizontally so the bubble never exits the card edges
 * Always flip vertically (above/below element) when near the top of the plot area
 * Measure bubble width with `getBBox()` after setting text — never use any fixed or estimated width (fixed pixel constants and character-count heuristics both fail silently across different labels and zoom levels)
-* **3-part construction** — all three elements required; `.bub-pct` is a fourth optional element, omit only if the chart has no percentage data at all:
-  * `.bub-bg` — `<rect>` with fill only, **no stroke**
-  * `.bub-bdr` — `<path>` tracing the rounded-rect outline with a **gap at the tail root**, **no `Z`**; fill must match `.bub-bg` (not `none`)
-  * `.bub-tip` — `<path>` for the tail triangle; root points align exactly to the `.bub-bdr` gap endpoints; fill must match `.bub-bg` (not `none`)
-  * `.bub-pct` *(optional)* — secondary text line for percentage or contextual value
+* **3-part construction** — all three elements required; `.tip-pct` is a fourth optional element, omit only if the chart has no percentage data at all:
+  * `.tip-bg` — `<rect>` with fill only, **no stroke**
+  * `.tip-border` — `<path>` tracing the rounded-rect outline with a **gap at the tail root**, **no `Z`**; fill must match `.tip-bg` (not `none`)
+  * `.tip-tail` — `<path>` for the tail triangle; root points align exactly to the `.tip-border` gap endpoints; fill must match `.tip-bg` (not `none`)
+  * `.tip-pct` *(optional)* — secondary text line for percentage or contextual value
 
 ### What to avoid (anti-patterns)
 
 * ❌ CSS-driven bubbles when another layer paints above the bar group — the line/overlay will render on top of the bubble
-* ❌ Using `<rect>` for `.bub-bdr` — draws a closed border across the tail root, breaking the seamless silhouette
-* ❌ `fill:none` on `.bub-bdr` or `.bub-tip` — leaves the interior transparent, exposing content behind the bubble
-* ❌ Closing `.bub-bdr` path with `Z` — produces a visible stroke line across the tail opening
+* ❌ Using `<rect>` for `.tip-border` — draws a closed border across the tail root, breaking the seamless silhouette
+* ❌ `fill:none` on `.tip-border` or `.tip-tail` — leaves the interior transparent, exposing content behind the bubble
+* ❌ Closing `.tip-border` path with `Z` — produces a visible stroke line across the tail opening
 * ❌ Not clamping or flipping — bubble can exit card bounds
 
 ### Reference implementation
@@ -187,7 +187,7 @@ Visual encoding of hierarchy depth while preserving palette consistency.
 ### Core rules (non-negotiable)
 
 * Tint is computed from base color + background — never hardcoded
-* Base color must be **probed live from `.bar-N` via `getComputedStyle`** — never stored as a hex constant in JS. The canonical utility is `probeColor(cls)`: create a hidden `<rect>`, stamp the class, read `getComputedStyle().fill`. This way palette updates and dark-mode swaps propagate automatically.
+* Base color must be **probed live from `.series-N` via `getComputedStyle`** — never stored as a hex constant in JS. The canonical utility is `probeColor(cls)`: create a hidden `<rect>`, stamp the class, read `getComputedStyle().fill`. This way palette updates and dark-mode swaps propagate automatically.
 * Use CSS variables for blend levels (`--blend-d0` … `--blend-d4`, `--bg-light`, `--bg-dark`)
 * Call `recolor()` on dark mode toggle to recompute from updated background — **never call `build()` to recolor**, as that re-triggers animation and discards hover state
 * Never rebuild the DOM to change colors
@@ -212,7 +212,7 @@ Rendering order in SVG (no z-index support — later elements paint on top).
 ### Core rules (non-negotiable)
 
 1. Grid / axes
-2. Data layer (`.ca`)
+2. Data layer (`.data-layer`)
 3. Overlays (lines, markers)
 4. Tooltips / tip layer (always last)
 
@@ -220,7 +220,7 @@ Rendering order in SVG (no z-index support — later elements paint on top).
 
 * ❌ Rendering tooltips before overlays — overlays will paint on top of bubbles
 * ❌ Placing `#tip-layer` or `#bubble-overlay` before data layers
-* ❌ For JS-built charts: placing `#tip-layer` outside `#ca` — CSS hover selectors scoped to `#ca` will not reach it
+* ❌ For JS-built charts: placing `#tip-layer` outside `#data-layer` — CSS hover selectors scoped to `#data-layer` will not reach it
 
 ---
 
@@ -251,18 +251,18 @@ Standard layout boundaries and spacing system.
 
 | Element | x | y | Class |
 |---|---|---|---|
-| Title | 68 | 50 | `.ct` |
-| Subtitle | 68 | 70 | `.cs` |
+| Title | 68 | 50 | `.card-title` |
+| Subtitle | 68 | 70 | `.card-subtitle` |
 | Footer | 68 | **600** | `.footer` |
 
 ### Card shell CSS values (required — must match exactly)
 
 ```css
-.bg-main { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-svg.dark .bg-main { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+.card-bg { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+svg.dark .card-bg { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
 ```
 
-The `drop-shadow` filter is required on `.bg-main` in both modes. Omitting it removes the card's elevation entirely.
+The `drop-shadow` filter is required on `.card-bg` in both modes. Omitting it removes the card's elevation entirely.
 
 ### Core rules (non-negotiable)
 

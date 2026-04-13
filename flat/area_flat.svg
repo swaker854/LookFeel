@@ -2,7 +2,6 @@
 
 
 
-
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <clipPath id="chartclip">
@@ -10,50 +9,49 @@
   </clipPath>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
-    .bg-main   { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    .ct        { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .cs        { font-size:11px; fill:#79747E; font-weight:400; }
-    .an        { font-size:10px; fill:#79747E; font-weight:400; }
-    .al        { font-size:10px; fill:#79747E; font-weight:500; }
-    .lt        { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    .lv        { font-size:11px; fill:#1C1B1F; font-weight:500; }
-    .lp        { font-size:10px; fill:#79747E; font-weight:400; }
-    .gl        { stroke:#E7E0EC; stroke-width:1; }
-    .bl        { stroke:#79747E; stroke-width:1.5; }
-    .lgd-bg    { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .lgd-div   { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .lgd-ttl   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-    .footer    { font-size:10px; fill:#79747E; font-weight:400; }
-    .t-wrap    { cursor:pointer; }
-    .t-track   { fill:#E7E0EC; }
-    .t-thumb   { fill:#ffffff; }
-    .t-label   { font-size:11px; font-weight:500; fill:#49454F; }
-    .pt-track  { fill:#E7E0EC; transition:fill 0.3s; }
-    .pt-thumb  { fill:#ffffff; }
-    .pt-label  { font-size:11px; font-weight:500; fill:#49454F; }
-    .lgd-val   { opacity:0; transition:opacity 0.2s; }
-    svg.print .lgd-val  { opacity:1; }
-    svg.print .pt-track { fill:#d97316; }
+    .card-bg        { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    .card-title     { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+    .card-subtitle  { font-size:11px; fill:#79747E; font-weight:400; }
+    .tick-label     { font-size:10px; fill:#79747E; font-weight:400; }
+    .category-label { font-size:10px; fill:#79747E; font-weight:500; }
+    .legend-label   { font-size:11px; fill:#1C1B1F; font-weight:400; }
+    .legend-value   { font-size:11px; fill:#1C1B1F; font-weight:500; opacity:0; transition:opacity 0.2s; }
+    .legend-note    { font-size:10px; fill:#79747E; font-weight:400; }
+    .grid-line      { stroke:#E7E0EC; stroke-width:1; }
+    .axis-line      { stroke:#79747E; stroke-width:1.5; }
+    .legend-bg      { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+    .legend-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+    .legend-title   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+    .footer         { font-size:10px; fill:#79747E; font-weight:400; }
+    .toggle-wrap    { cursor:pointer; }
+    .toggle-track   { fill:#E7E0EC; }
+    .toggle-thumb   { fill:#ffffff; }
+    .toggle-label   { font-size:11px; font-weight:500; fill:#49454F; }
+    .print-track    { fill:#E7E0EC; transition:fill 0.3s; }
+    .print-thumb    { fill:#ffffff; }
+    .print-label    { font-size:11px; font-weight:500; fill:#49454F; }
+    .legend-value   { opacity:0; transition:opacity 0.2s; }
+    svg.print .legend-value { opacity:1; }
+    svg.print .print-track  { fill:#d97316; }
     .crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
     .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     svg.print .tip { opacity:0 !important; }
-    .bub-bg    { fill:#FFFBFE; }
-    .bub-bdr   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-tip   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-val   { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .bub-lbl   { fill:#49454F; font-size:10px; font-weight:400; }
-    .bub-div   { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+    .tip-bg       { fill:#FFFBFE; }
+    .tip-border   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .tip-value    { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .tip-label    { fill:#49454F; font-size:10px; font-weight:400; }
+    .tip-divider  { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
 
     /* Standard palette */
-    .bar-1 { fill:#00D4E8; stroke:#00D4E8; } .bar-2 { fill:#8B5CF6; stroke:#8B5CF6; }
-    .bar-3 { fill:#00B87A; stroke:#00B87A; } .bar-4 { fill:#F59E0B; stroke:#F59E0B; }
-    .bar-5 { fill:#64748B; stroke:#64748B; }
+    .series-1 { fill:#00D4E8; stroke:#00D4E8; } .series-2 { fill:#8B5CF6; stroke:#8B5CF6; }
+    .series-3 { fill:#00B87A; stroke:#00B87A; } .series-4 { fill:#F59E0B; stroke:#F59E0B; }
+    .series-5 { fill:#64748B; stroke:#64748B; }
 
-    svg.dark .bar-1 { fill:#22D3EE; stroke:#22D3EE; } svg.dark .bar-2 { fill:#A78BFA; stroke:#A78BFA; }
-    svg.dark .bar-3 { fill:#10B981; stroke:#10B981; } svg.dark .bar-4 { fill:#FBB724; stroke:#FBB724; }
-    svg.dark .bar-5 { fill:#94A3B8; stroke:#94A3B8; }
+    svg.dark .series-1 { fill:#22D3EE; stroke:#22D3EE; } svg.dark .series-2 { fill:#A78BFA; stroke:#A78BFA; }
+    svg.dark .series-3 { fill:#10B981; stroke:#10B981; } svg.dark .series-4 { fill:#FBB724; stroke:#FBB724; }
+    svg.dark .series-5 { fill:#94A3B8; stroke:#94A3B8; }
 
-    /* wave edges — fill:none overridden in style attr to beat .bar-N fill */
+    /* wave edges — fill:none overridden in style attr to beat .series-N fill */
     /* §3 A1: opacity:0 initial; animationend clears animation + adds .visible; no both fill-mode */
     @keyframes drawWave { from{stroke-dashoffset:var(--len,900);} to{stroke-dashoffset:0;} }
     .wave-edge         { stroke-dasharray:var(--len,900); stroke-dashoffset:var(--len,900);
@@ -62,7 +60,7 @@
     .w1{animation-delay:0.00s;} .w2{animation-delay:0.25s;}
     .w3{animation-delay:0.50s;} .w4{animation-delay:0.75s;} .w5{animation-delay:1.00s;}
 
-    @keyframes barFadeIn { from{opacity:0;} to{opacity:1;} }
+    @keyframes dataFadeIn { from{opacity:0;} to{opacity:1;} }
     .area-fill         { opacity:0; transition:opacity 0.2s ease; }
     .area-fill.visible { opacity:1; }
     .f1{animation-delay:0.00s;} .f2{animation-delay:0.25s;}
@@ -70,39 +68,38 @@
 
     /* hover — gated on .ready; non-hovered series dim to 0.20 per design guide */
     .area-fill  { pointer-events: none; }
-    .ca.ready.hovering .wave-edge.visible                 { opacity: 0.20; }
-    .ca.ready.hovering .wave-edge.visible.active          { opacity: 1; }
-    .ca.ready.hovering .area-fill.visible                 { opacity: 0.20; }
-    .ca.ready.hovering .area-fill.visible.active          { opacity: 1; }
+    .data-layer.ready.hovering .wave-edge.visible                 { opacity: 0.20; }
+    .data-layer.ready.hovering .wave-edge.visible.active          { opacity: 1; }
+    .data-layer.ready.hovering .area-fill.visible                 { opacity: 0.20; }
+    .data-layer.ready.hovering .area-fill.visible.active          { opacity: 1; }
     .col-dot { opacity:0; transition:opacity 0.2s ease; pointer-events:none; }
-    .ca.ready.hovering .col-dot.active { opacity:1; }
+    .data-layer.ready.hovering .col-dot.active { opacity:1; }
 
-    svg.dark .bg-main   { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-    svg.dark .ct        { fill:#E6E0E9; }
-    svg.dark .cs        { fill:#938F99; }
-    svg.dark .an        { fill:#938F99; }
-    svg.dark .al        { fill:#938F99; }
-    svg.dark .lt        { fill:#E6E0E9; }
-    svg.dark .lv        { fill:#E6E0E9; }
-    svg.dark .lp        { fill:#938F99; }
-    svg.dark .gl        { stroke:#49454F; }
-    svg.dark .bl        { stroke:#938F99; }
-    svg.dark .lgd-bg    { fill:#49454F; stroke:#938F99; }
-    svg.dark .lgd-div   { stroke:#938F99; }
-    svg.dark .lgd-ttl   { fill:#938F99; }
-    svg.dark .footer    { fill:#938F99; }
-    svg.dark .t-track   { fill:#49454F; }
-    svg.dark .t-label   { fill:#CAC4D0; }
-    svg.dark .pt-track  { fill:#49454F; }
-    svg.dark .pt-label  { fill:#CAC4D0; }
-    svg.dark.print .pt-track { fill:#d97316; }
-    svg.dark .crosshair { stroke:#938F99; }
-    svg.dark .bub-bg    { fill:#1C1B1F; }
-    svg.dark .bub-bdr   { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
-    svg.dark .bub-tip   { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .bub-val   { fill:#E6E0E9; }
-    svg.dark .bub-lbl   { fill:#CAC4D0; }
-    svg.dark .bub-div   { stroke:#938F99; }
+    svg.dark .card-bg        { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+    svg.dark .card-title     { fill:#E6E0E9; }
+    svg.dark .card-subtitle  { fill:#938F99; }
+    svg.dark .tick-label     { fill:#938F99; }
+    svg.dark .category-label { fill:#938F99; }
+    svg.dark .legend-label   { fill:#E6E0E9; }
+    svg.dark .legend-value   { fill:#E6E0E9; }
+    svg.dark .legend-note    { fill:#938F99; }
+    svg.dark .grid-line      { stroke:#49454F; }
+    svg.dark .axis-line      { stroke:#938F99; }
+    svg.dark .legend-bg      { fill:#49454F; stroke:#938F99; }
+    svg.dark .legend-divider { stroke:#938F99; }
+    svg.dark .legend-title   { fill:#938F99; }
+    svg.dark .footer         { fill:#938F99; }
+    svg.dark .toggle-track   { fill:#49454F; }
+    svg.dark .toggle-label   { fill:#CAC4D0; }
+    svg.dark .print-track    { fill:#49454F; }
+    svg.dark .print-label    { fill:#CAC4D0; }
+    svg.dark.print .print-track { fill:#d97316; }
+    svg.dark .crosshair      { stroke:#938F99; }
+    svg.dark .tip-bg         { fill:#1C1B1F; }
+    svg.dark .tip-border     { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
+    svg.dark .tip-value      { fill:#E6E0E9; }
+    svg.dark .tip-label      { fill:#CAC4D0; }
+    svg.dark .tip-divider    { stroke:#938F99; }
     .border-dark  { display:none; }
     .border-light { display:block; }
     svg.dark .border-dark  { display:block; }
@@ -110,7 +107,7 @@
   </style>
 </defs>
 
-<rect class="bg-main" width="1100" height="620" rx="18"/>
+<rect class="card-bg" width="1100" height="620" rx="18"/>
 <g class="border-dark">
   <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
 </g>
@@ -118,74 +115,74 @@
   <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
 </g>
 
-<text x="68" y="50" class="ct">Revenue by Quarter - Area</text>
-<text x="68" y="70" class="cs">5 product lines · area chart · hover to inspect</text>
+<text x="68" y="50" class="card-title">Revenue by Quarter - Area</text>
+<text x="68" y="70" class="card-subtitle">5 product lines · area chart · hover to inspect</text>
 
-<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
-  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
+<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
+  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
 </g>
-<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
-  <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
+<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
+  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
 </g>
 
-<line x1="68" y1="500" x2="850" y2="500" class="bl"/>
-<line x1="68" y1="403" x2="850" y2="403" class="gl"/>
-<line x1="68" y1="302" x2="850" y2="302" class="gl"/>
-<line x1="68" y1="201" x2="850" y2="201" class="gl"/>
-<line x1="68" y1="100" x2="850" y2="100" class="gl"/>
-<line x1="68" y1="100" x2="68"  y2="500" class="bl"/>
+<line x1="68" y1="500" x2="850" y2="500" class="axis-line"/>
+<line x1="68" y1="403" x2="850" y2="403" class="grid-line"/>
+<line x1="68" y1="302" x2="850" y2="302" class="grid-line"/>
+<line x1="68" y1="201" x2="850" y2="201" class="grid-line"/>
+<line x1="68" y1="100" x2="850" y2="100" class="grid-line"/>
+<line x1="68" y1="100" x2="68"  y2="500" class="axis-line"/>
 
-<text x="56" y="508" class="an" text-anchor="end">$0</text>
-<text x="56" y="407" class="an" text-anchor="end">$25M</text>
-<text x="56" y="306" class="an" text-anchor="end">$50M</text>
-<text x="56" y="205" class="an" text-anchor="end">$75M</text>
-<text x="56" y="104" class="an" text-anchor="end">$100M</text>
+<text x="56" y="508" class="tick-label" text-anchor="end">$0</text>
+<text x="56" y="407" class="tick-label" text-anchor="end">$25M</text>
+<text x="56" y="306" class="tick-label" text-anchor="end">$50M</text>
+<text x="56" y="205" class="tick-label" text-anchor="end">$75M</text>
+<text x="56" y="104" class="tick-label" text-anchor="end">$100M</text>
 
-<text x="68"  y="522" class="al" text-anchor="middle">Q1 '22</text>
-<text x="180" y="522" class="al" text-anchor="middle">Q2 '22</text>
-<text x="291" y="522" class="al" text-anchor="middle">Q3 '22</text>
-<text x="403" y="522" class="al" text-anchor="middle">Q4 '22</text>
-<text x="515" y="522" class="al" text-anchor="middle">Q1 '23</text>
-<text x="627" y="522" class="al" text-anchor="middle">Q2 '23</text>
-<text x="738" y="522" class="al" text-anchor="middle">Q3 '23</text>
-<text x="850" y="522" class="al" text-anchor="middle">Q4 '23</text>
+<text x="68"  y="522" class="category-label" text-anchor="middle">Q1 '22</text>
+<text x="180" y="522" class="category-label" text-anchor="middle">Q2 '22</text>
+<text x="291" y="522" class="category-label" text-anchor="middle">Q3 '22</text>
+<text x="403" y="522" class="category-label" text-anchor="middle">Q4 '22</text>
+<text x="515" y="522" class="category-label" text-anchor="middle">Q1 '23</text>
+<text x="627" y="522" class="category-label" text-anchor="middle">Q2 '23</text>
+<text x="738" y="522" class="category-label" text-anchor="middle">Q3 '23</text>
+<text x="850" y="522" class="category-label" text-anchor="middle">Q4 '23</text>
 
 <line x1="459" y1="100" x2="459" y2="500" stroke="#c0b8a8" stroke-width="1" stroke-dasharray="5,4" opacity="0.6"/>
-<text x="263" y="90" class="an" text-anchor="middle">2022</text>
-<text x="654" y="90" class="an" text-anchor="middle">2023</text>
+<text x="263" y="90" class="tick-label" text-anchor="middle">2022</text>
+<text x="654" y="90" class="tick-label" text-anchor="middle">2023</text>
 
-<g class="ca" id="ca">
+<g class="data-layer" id="data-layer">
 <g clip-path="url(#chartclip)">
   <!-- Areas: Cyan starts Q3'22, Emerald ends Q3'23, others full range -->
-  <path id="area-1" class="area-fill bar-1 f1" data-series="1" fill-opacity="0.20" stroke="none"
+  <path id="area-1" class="area-fill series-1 f1" data-series="1" fill-opacity="0.20" stroke="none"
     d="M291,504 L291,504.0 C347,504.0 347,281.8 403,281.8 C459,281.8 459,180.8 515,180.8 C571,180.8 571,221.2 627,221.2 C682,221.2 682,302.0 738,302.0 C794,302.0 794,241.4 850,241.4 L850,504 Z"/>
-  <path id="area-2" class="area-fill bar-2 f2" data-series="2" fill-opacity="0.20" stroke="none"
+  <path id="area-2" class="area-fill series-2 f2" data-series="2" fill-opacity="0.20" stroke="none"
     d="M68,504 L68,423.2 C124,423.2 124,322.2 180,322.2 C235,322.2 235,221.2 291,221.2 C347,221.2 347,281.8 403,281.8 C459,281.8 459,362.6 515,362.6 C571,362.6 571,201.0 627,201.0 C682,201.0 682,160.6 738,160.6 C794,160.6 794,213.1 850,213.1 L850,504 Z"/>
-  <path id="area-3" class="area-fill bar-3 f3" data-series="3" fill-opacity="0.20" stroke="none"
+  <path id="area-3" class="area-fill series-3 f3" data-series="3" fill-opacity="0.20" stroke="none"
     d="M68,504 L68,504.0 C124,504.0 124,382.8 180,382.8 C235,382.8 235,281.8 291,281.8 C347,281.8 347,180.8 403,180.8 C459,180.8 459,261.6 515,261.6 C571,261.6 571,342.4 627,342.4 C682,342.4 682,504.0 738,504.0 L738,504 Z"/>
-  <path id="area-4" class="area-fill bar-4 f4" data-series="4" fill-opacity="0.20" stroke="none"
+  <path id="area-4" class="area-fill series-4 f4" data-series="4" fill-opacity="0.20" stroke="none"
     d="M68,504 L68,443.4 C124,443.4 124,302.0 180,302.0 C235,302.0 235,431.3 291,431.3 C347,431.3 347,403.0 403,403.0 C459,403.0 459,281.8 515,281.8 C571,281.8 571,382.8 627,382.8 C682,382.8 682,322.2 738,322.2 C794,322.2 794,261.6 850,261.6 L850,504 Z"/>
-  <path id="area-5" class="area-fill bar-5 f5" data-series="5" fill-opacity="0.20" stroke="none"
+  <path id="area-5" class="area-fill series-5 f5" data-series="5" fill-opacity="0.20" stroke="none"
     d="M68,504 L68,281.8 C124,281.8 124,403.0 180,403.0 C235,403.0 235,411.1 291,411.1 C347,411.1 347,399.0 403,399.0 C459,399.0 459,407.0 515,407.0 C571,407.0 571,394.9 627,394.9 C682,394.9 682,415.1 738,415.1 C794,415.1 794,403.0 850,403.0 L850,504 Z"/>
 
   <!-- Wave edges — all stroke-width 2 for consistency -->
-  <path id="we1" class="wave-edge bar-1 w1" data-series="1" style="fill:none"
+  <path id="we1" class="wave-edge series-1 w1" data-series="1" style="fill:none"
     stroke-width="2" stroke-linecap="round"
     d="M403,281.8 C459,281.8 459,180.8 515,180.8 C571,180.8 571,221.2 627,221.2 C682,221.2 682,302.0 738,302.0 C794,302.0 794,241.4 850,241.4"/>
-  <path id="we2" class="wave-edge bar-2 w2" data-series="2" style="fill:none"
+  <path id="we2" class="wave-edge series-2 w2" data-series="2" style="fill:none"
     stroke-width="2" stroke-linecap="round"
     d="M68,423.2 C124,423.2 124,322.2 180,322.2 C235,322.2 235,221.2 291,221.2 C347,221.2 347,281.8 403,281.8 C459,281.8 459,362.6 515,362.6 C571,362.6 571,201.0 627,201.0 C682,201.0 682,160.6 738,160.6 C794,160.6 794,213.1 850,213.1"/>
-  <path id="we3" class="wave-edge bar-3 w3" data-series="3" style="fill:none"
+  <path id="we3" class="wave-edge series-3 w3" data-series="3" style="fill:none"
     stroke-width="2" stroke-linecap="round"
     d="M180,382.8 C235,382.8 235,281.8 291,281.8 C347,281.8 347,180.8 403,180.8 C459,180.8 459,261.6 515,261.6 C571,261.6 571,342.4 627,342.4 C682,342.4 682,504.0 738,504.0"/>
-  <path id="we4" class="wave-edge bar-4 w4" data-series="4" style="fill:none"
+  <path id="we4" class="wave-edge series-4 w4" data-series="4" style="fill:none"
     stroke-width="2" stroke-linecap="round"
     d="M68,443.4 C124,443.4 124,302.0 180,302.0 C235,302.0 235,431.3 291,431.3 C347,431.3 347,403.0 403,403.0 C459,403.0 459,281.8 515,281.8 C571,281.8 571,382.8 627,382.8 C682,382.8 682,322.2 738,322.2 C794,322.2 794,261.6 850,261.6"/>
-  <path id="we5" class="wave-edge bar-5 w5" data-series="5" style="fill:none"
+  <path id="we5" class="wave-edge series-5 w5" data-series="5" style="fill:none"
     stroke-width="2" stroke-linecap="round" stroke-dasharray="7,4"
     d="M68,281.8 C124,281.8 124,403.0 180,403.0 C235,403.0 235,411.1 291,411.1 C347,411.1 347,399.0 403,399.0 C459,399.0 459,407.0 515,407.0 C571,407.0 571,394.9 627,394.9 C682,394.9 682,415.1 738,415.1 C794,415.1 794,403.0 850,403.0"/>
 </g>
@@ -205,42 +202,42 @@
 <g id="tip-layer"></g>
 </g>
 
-<rect x="870" y="100" width="210" height="262" rx="14" class="lgd-bg" stroke-width="1"/>
-<text x="888" y="124" class="lgd-ttl">SERIES</text>
-<g transform="translate(888,140)"><rect class="bar-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Cyan</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$65M</text></g>
-<g transform="translate(888,170)"><rect class="bar-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Violet</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$72M</text></g>
-<g transform="translate(888,200)"><rect class="bar-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Emerald</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$50M</text></g>
-<g transform="translate(888,230)"><rect class="bar-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Amber</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$60M</text></g>
-<g transform="translate(888,260)"><rect class="bar-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Slate</text><text x="188" y="11" class="lv lgd-val" text-anchor="end">$25M</text></g>
-<line x1="888" y1="286" x2="1062" y2="286" class="lgd-div"/>
-<text x="888" y="306" class="lt">Q4 2023 values</text>
-<text x="888" y="324" class="lp">Hover columns to inspect</text>
+<rect x="870" y="100" width="210" height="262" rx="14" class="legend-bg" stroke-width="1"/>
+<text x="888" y="124" class="legend-title">SERIES</text>
+<g transform="translate(888,140)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Cyan</text><text x="188" y="11" class="legend-value" text-anchor="end">$65M</text></g>
+<g transform="translate(888,170)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Violet</text><text x="188" y="11" class="legend-value" text-anchor="end">$72M</text></g>
+<g transform="translate(888,200)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Emerald</text><text x="188" y="11" class="legend-value" text-anchor="end">$50M</text></g>
+<g transform="translate(888,230)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Amber</text><text x="188" y="11" class="legend-value" text-anchor="end">$60M</text></g>
+<g transform="translate(888,260)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Slate</text><text x="188" y="11" class="legend-value" text-anchor="end">$25M</text></g>
+<line x1="888" y1="286" x2="1062" y2="286" class="legend-divider"/>
+<text x="888" y="306" class="legend-label">Q4 2023 values</text>
+<text x="888" y="324" class="legend-note">Hover columns to inspect</text>
 
 <text x="68" y="600" class="footer">Revenue by Quarter · 5 series · area chart</text>
 
 <script type="text/javascript">
 //<![CDATA[
 (function() {
-  var svg      = document.getElementById('root');
-  var ns       = 'http://www.w3.org/2000/svg';
-  var ca       = document.getElementById('ca');
-  var dotsL    = document.getElementById('dots-layer');
-  var hitLayer = document.getElementById('hit-layer');
-  var tipLayer = document.getElementById('tip-layer');
+  var svg         = document.getElementById('root');
+  var ns          = 'http://www.w3.org/2000/svg';
+  var dataLayerEl = document.getElementById('data-layer');
+  var dotsL       = document.getElementById('dots-layer');
+  var hitLayer    = document.getElementById('hit-layer');
+  var tipLayer    = document.getElementById('tip-layer');
 
   /* §2 — isDark hoisted before all build and animation code */
   var isDark = false;
 
   var series = [
-    { id:1, cls:'bar-1', label:'Cyan',
+    { id:1, cls:'series-1', label:'Cyan',
       vals:[0,0,0,55,80,70,50,65], ys:[504.0,504.0,504.0,281.8,180.8,221.2,302.0,241.4] },
-    { id:2, cls:'bar-2', label:'Violet',
+    { id:2, cls:'series-2', label:'Violet',
       vals:[20,45,70,55,35,75,85,72], ys:[423.2,322.2,221.2,281.8,362.6,201.0,160.6,213.1] },
-    { id:3, cls:'bar-3', label:'Emerald',
+    { id:3, cls:'series-3', label:'Emerald',
       vals:[0,30,55,80,60,40,0,0], ys:[504.0,382.8,281.8,180.8,261.6,342.4,504.0,504.0] },
-    { id:4, cls:'bar-4', label:'Amber',
+    { id:4, cls:'series-4', label:'Amber',
       vals:[15,50,18,25,55,30,45,60], ys:[443.4,302.0,431.3,403.0,281.8,382.8,322.2,261.6] },
-    { id:5, cls:'bar-5', label:'Slate',
+    { id:5, cls:'series-5', label:'Slate',
       vals:[55,25,23,26,24,27,22,25], ys:[281.8,403.0,411.1,399.0,407.0,394.9,415.1,403.0] },
   ];
 
@@ -304,7 +301,7 @@
 
     // ── build text nodes first (local coords, x=0) so getBBox() measures real widths ──
     var qLbl = el('text', { x:0, y:bCy + hdrH/2,
-      'text-anchor':'middle', 'dominant-baseline':'central', 'class':'bub-lbl' });
+      'text-anchor':'middle', 'dominant-baseline':'central', 'class':'tip-label' });
     qLbl.textContent = quarters[qi];
     tipG.appendChild(qLbl);
 
@@ -312,19 +309,19 @@
     series.forEach(function(s, si) {
       var rowY = bCy + hdrH + divH + si * rowH + rowH/2;
       var dot  = el('circle', { cx:0, cy:rowY, r:DOT_R, 'class':s.cls, style:'stroke:none' });
-      var sLbl = el('text', { x:LBL_X, y:rowY, 'dominant-baseline':'central', 'class':'bub-lbl' });
+      var sLbl = el('text', { x:LBL_X, y:rowY, 'dominant-baseline':'central', 'class':'tip-label' });
       sLbl.textContent = s.label;
       var sVal = el('text', { x:0, y:rowY, 'text-anchor':'end', 'dominant-baseline':'central',
-        'class':'bub-val', 'font-size':'11' });
+        'class':'tip-value', 'font-size':'11' });
       sVal.textContent = '$'+s.vals[qi]+'M';
       tipG.appendChild(dot); tipG.appendChild(sLbl); tipG.appendChild(sVal);
       rowEls.push({ dot:dot, sLbl:sLbl, sVal:sVal });
     });
 
     var totY = bCy + hdrH + divH + series.length * rowH + divH + totH/2;
-    var totLbl = el('text', { x:LBL_X, y:totY, 'dominant-baseline':'central', 'class':'bub-lbl' });
+    var totLbl = el('text', { x:LBL_X, y:totY, 'dominant-baseline':'central', 'class':'tip-label' });
     totLbl.textContent = 'Total';
-    var totVal = el('text', { x:0, y:totY, 'text-anchor':'end', 'dominant-baseline':'central', 'class':'bub-val' });
+    var totVal = el('text', { x:0, y:totY, 'text-anchor':'end', 'dominant-baseline':'central', 'class':'tip-value' });
     totVal.textContent = '$'+totals[qi]+'M';
     tipG.appendChild(totLbl); tipG.appendChild(totVal);
 
@@ -354,20 +351,20 @@
     // divider lines
     var div1Y = bCy + hdrH + divH/2;
     var div2Y = bCy + hdrH + divH + series.length * rowH + divH/2;
-    tipG.insertBefore(el('line', { x1:-hw+8, y1:div1Y, x2:hw-8, y2:div1Y, 'class':'bub-div' }), qLbl.nextSibling);
-    tipG.appendChild(el('line',  { x1:-hw+8, y1:div2Y, x2:hw-8, y2:div2Y, 'class':'bub-div' }));
+    tipG.insertBefore(el('line', { x1:-hw+8, y1:div1Y, x2:hw-8, y2:div1Y, 'class':'tip-divider' }), qLbl.nextSibling);
+    tipG.appendChild(el('line',  { x1:-hw+8, y1:div2Y, x2:hw-8, y2:div2Y, 'class':'tip-divider' }));
 
-    // ── bub-bg rect (fill only, no stroke) ──
+    // ── tip-bg rect (fill only, no stroke) ──
     var ty = bCy - PAD/2, by = ty + bh;
-    tipG.insertBefore(el('rect', { x:-hw, y:ty, width:hw*2, height:bh, rx:rxB, 'class':'bub-bg' }), tipG.firstChild);
+    tipG.insertBefore(el('rect', { x:-hw, y:ty, width:hw*2, height:bh, rx:rxB, 'class':'tip-bg' }), tipG.firstChild);
 
-    // ── bub-bdr: <path> not <rect> — closed rounded-rect (no tail on panel tooltip) ──
-    var bdrD = 'M'+(-(hw-rxB))+','+ty
+    // ── tip-border: <path> not <rect> — closed rounded-rect (no tail on panel tooltip) ──
+    var borderPath = 'M'+(-(hw-rxB))+','+ty
       +' L'+(hw-rxB)+','+ty+' Q'+hw+','+ty+' '+hw+','+(ty+rxB)
       +' L'+hw+','+(by-rxB)+' Q'+hw+','+by+' '+(hw-rxB)+','+by
       +' L'+(-(hw-rxB))+','+by+' Q'+(-hw)+','+by+' '+(-hw)+','+(by-rxB)
       +' L'+(-hw)+','+(ty+rxB)+' Q'+(-hw)+','+ty+' '+(-(hw-rxB))+','+ty+' Z';
-    tipG.insertBefore(el('path', { d:bdrD, 'class':'bub-bdr' }), tipG.children[1]);
+    tipG.insertBefore(el('path', { d:borderPath, 'class':'tip-border' }), tipG.children[1]);
 
     var hx1 = Math.max(68,  x - colW);
     var hx2 = Math.min(850, x + colW);
@@ -381,7 +378,7 @@
     hit.addEventListener('mouseenter', function(e) {
       var pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
       var sp = pt.matrixTransform(svg.getScreenCTM().inverse());
-      ca.classList.add('hovering');
+      dataLayerEl.classList.add('hovering');
       dotsL.querySelectorAll('.col-dot').forEach(function(d) { d.classList.remove('active'); });
       setSeriesActive(qi, sp.y);
       allTips[qi].style.opacity = '1';
@@ -393,7 +390,7 @@
       setSeriesActive(qi, sp.y);
     });
     hit.addEventListener('mouseleave', function() {
-      ca.classList.remove('hovering');
+      dataLayerEl.classList.remove('hovering');
       colDots.forEach(function(d) { d.classList.remove('active'); });
       clearSeriesActive();
       allTips[qi].style.opacity = '';
@@ -443,7 +440,7 @@
   var areaEls = svg.querySelectorAll('.area-fill');
   var areaDelays = [0, 0.25, 0.50, 0.75, 1.00]; /* f1–f5 */
   areaEls.forEach(function(el, i) {
-    el.style.animation = 'barFadeIn 0.8s cubic-bezier(0.4,0,0.2,1) ' + areaDelays[areaEls.length - 1 - i] + 's';
+    el.style.animation = 'dataFadeIn 0.8s cubic-bezier(0.4,0,0.2,1) ' + areaDelays[areaEls.length - 1 - i] + 's';
     el.addEventListener('animationend', function() {
       el.style.animation = 'none';
       el.classList.add('visible');
@@ -451,7 +448,7 @@
   });
 
   /* gate hover on .ready after last area animation finishes */
-  setTimeout(function() { ca.classList.add('ready'); }, (1.00 + 0.8) * 1000 + 100);
+  setTimeout(function() { dataLayerEl.classList.add('ready'); }, (1.00 + 0.8) * 1000 + 100);
 
   setMode(window.location.href.indexOf('theme=dark') !== -1);
 })();

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs grep:*)",
+      "Bash(xargs basename:*)",
+      "Bash(grep -E \"\\\\.\\(scss|ts|css\\)$\")",
+      "Bash(grep -n \"DEFAULT_COLOR\\\\|StaticColorFrame\" /e/home/dev/github/stylebi-visual_BI_tool/stylebi/core/src/main/java/inetsoft/graph/aesthetic/*.java)",
+      "Bash(grep -l \"<style>\" /e/home/dev/github/lookfeel/flat/*_flat.svg)"
+    ]
+  }
+}

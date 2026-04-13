@@ -5,148 +5,147 @@
 <defs>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
-    .bg-main   { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    .ct        { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .cs        { font-size:11px; fill:#79747E; font-weight:400; }
-    .an        { font-size:10px; fill:#79747E; font-weight:400; }
-    .al        { font-size:10px; fill:#79747E; font-weight:500; }
-    .lt        { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    .lv        { font-size:11px; fill:#1C1B1F; font-weight:500; }
-    .lp        { font-size:10px; fill:#79747E; font-weight:400; }
-    .gl        { stroke:#E7E0EC; stroke-width:1; }
-    .bl        { stroke:#79747E; stroke-width:1.5; }
-    .lgd-bg    { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .lgd-div   { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .lgd-ttl   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-    .footer    { font-size:10px; fill:#79747E; font-weight:400; }
-    .t-wrap    { cursor:pointer; }
-    .t-track   { fill:#E7E0EC; } .t-thumb { fill:#ffffff; }
-    .t-label   { font-size:11px; font-weight:500; fill:#49454F; }
-    .pt-track  { fill:#E7E0EC; transition:fill 0.3s; } .pt-thumb { fill:#ffffff; }
-    .pt-label  { font-size:11px; font-weight:500; fill:#49454F; }
-    .lgd-val   { opacity:0; transition:opacity 0.2s; }
-    svg.print .lgd-val  { opacity:1; }
-    svg.print .pt-track { fill:#d97316; }
+    .card-bg        { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+    .card-title     { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+    .card-subtitle  { font-size:11px; fill:#79747E; font-weight:400; }
+    .tick-label     { font-size:10px; fill:#79747E; font-weight:400; }
+    .category-label { font-size:10px; fill:#79747E; font-weight:500; }
+    .legend-label   { font-size:11px; fill:#1C1B1F; font-weight:400; }
+    .legend-value   { font-size:11px; fill:#1C1B1F; font-weight:500; opacity:0; transition:opacity 0.2s; }
+    .legend-note    { font-size:10px; fill:#79747E; font-weight:400; }
+    .grid-line      { stroke:#E7E0EC; stroke-width:1; }
+    .axis-line      { stroke:#79747E; stroke-width:1.5; }
+    .legend-bg      { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+    .legend-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+    .legend-title   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+    .footer         { font-size:10px; fill:#79747E; font-weight:400; }
+    .toggle-wrap    { cursor:pointer; }
+    .toggle-track   { fill:#E7E0EC; } .toggle-thumb { fill:#ffffff; }
+    .toggle-label   { font-size:11px; font-weight:500; fill:#49454F; }
+    .print-track    { fill:#E7E0EC; transition:fill 0.3s; } .print-thumb { fill:#ffffff; }
+    .print-label    { font-size:11px; font-weight:500; fill:#49454F; }
+    svg.print .legend-value { opacity:1; }
+    svg.print .print-track  { fill:#d97316; }
     .dot-g     { cursor:pointer; }
     .crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
     .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     svg.print .tip { opacity:0 !important; }
-    .bub-bg  { fill:#FFFBFE; }
-    .bub-bdr { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-tip { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .bub-val { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .bub-lbl { fill:#49454F; font-size:10px; font-weight:400; }
+    .tip-bg     { fill:#FFFBFE; }
+    .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
+    .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
 
     /* ── standard palette ── */
-    .bar-1 { fill:#00D4E8; stroke:#00D4E8; } .bar-2 { fill:#8B5CF6; stroke:#8B5CF6; }
-    .bar-3 { fill:#00B87A; stroke:#00B87A; } .bar-4 { fill:#F59E0B; stroke:#F59E0B; }
-    .bar-5 { fill:#64748B; stroke:#64748B; }
-    svg.dark .bar-1 { fill:#22D3EE; stroke:#22D3EE; } svg.dark .bar-2 { fill:#A78BFA; stroke:#A78BFA; }
-    svg.dark .bar-3 { fill:#10B981; stroke:#10B981; } svg.dark .bar-4 { fill:#FBB724; stroke:#FBB724; }
-    svg.dark .bar-5 { fill:#94A3B8; stroke:#94A3B8; }
+    .series-1 { fill:#00D4E8; stroke:#00D4E8; } .series-2 { fill:#8B5CF6; stroke:#8B5CF6; }
+    .series-3 { fill:#00B87A; stroke:#00B87A; } .series-4 { fill:#F59E0B; stroke:#F59E0B; }
+    .series-5 { fill:#64748B; stroke:#64748B; }
+    svg.dark .series-1 { fill:#22D3EE; stroke:#22D3EE; } svg.dark .series-2 { fill:#A78BFA; stroke:#A78BFA; }
+    svg.dark .series-3 { fill:#10B981; stroke:#10B981; } svg.dark .series-4 { fill:#FBB724; stroke:#FBB724; }
+    svg.dark .series-5 { fill:#94A3B8; stroke:#94A3B8; }
 
     /* ── line draw animation — both safe: animates stroke-dashoffset not opacity ── */
     @keyframes drawLine { from{stroke-dashoffset:var(--len,900)} to{stroke-dashoffset:0} }
     .line-path { stroke-dasharray:var(--len,900); stroke-dashoffset:var(--len,900);
                  animation:drawLine 1.2s cubic-bezier(0.4,0,0.2,1) both; }
-    .s1 { animation-delay:0.00s; } .s2 { animation-delay:0.25s; }
-    .s3 { animation-delay:0.50s; } .s4 { animation-delay:0.75s; } .s5 { animation-delay:1.00s; }
+    .stagger-1 { animation-delay:0.00s; } .stagger-2 { animation-delay:0.25s; }
+    .stagger-3 { animation-delay:0.50s; } .stagger-4 { animation-delay:0.75s; } .stagger-5 { animation-delay:1.00s; }
 
     /* ── dot animation — Method A1: animationend adds .visible ── */
     @keyframes popDot { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
     .dot-inner         { opacity:0; cursor:pointer; transition:opacity 0.2s ease; }
     .dot-inner.visible { opacity:1; }
 
-    /* ── hover dimming — gated on .ca.ready ── */
+    /* ── hover dimming — gated on .data-layer.ready ── */
     .line-path { transition:opacity 0.2s ease; }
     .area-path { transition:opacity 0.2s ease; }
-    .ca.ready.hovering .line-path              { opacity:0.20; }
-    .ca.ready.hovering .area-path              { opacity:0.20; }
-    .ca.ready.hovering .dot-inner.visible      { opacity:0.20; }
-    .ca.ready.hovering .line-path.active       { opacity:1; }
-    .ca.ready.hovering .area-path.active       { opacity:1; }
-    .ca.ready.hovering .dot-inner.visible.active { opacity:1; }
+    .data-layer.ready.hovering .line-path              { opacity:0.20; }
+    .data-layer.ready.hovering .area-path              { opacity:0.20; }
+    .data-layer.ready.hovering .dot-inner.visible      { opacity:0.20; }
+    .data-layer.ready.hovering .line-path.active       { opacity:1; }
+    .data-layer.ready.hovering .area-path.active       { opacity:1; }
+    .data-layer.ready.hovering .dot-inner.visible.active { opacity:1; }
 
-    svg.dark .bg-main  { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-    svg.dark .ct       { fill:#E6E0E9; } svg.dark .cs { fill:#938F99; }
-    svg.dark .an       { fill:#938F99; } svg.dark .al { fill:#938F99; }
-    svg.dark .lt       { fill:#E6E0E9; } svg.dark .lv { fill:#E6E0E9; }
-    svg.dark .lp       { fill:#938F99; }
-    svg.dark .gl       { stroke:#49454F; } svg.dark .bl { stroke:#938F99; }
-    svg.dark .lgd-bg   { fill:#49454F; stroke:#938F99; }
-    svg.dark .lgd-div  { stroke:#938F99; } svg.dark .lgd-ttl { fill:#938F99; }
-    svg.dark .footer   { fill:#938F99; }
-    svg.dark .t-track  { fill:#49454F; } svg.dark .t-label  { fill:#CAC4D0; }
-    svg.dark .pt-track { fill:#49454F; } svg.dark .pt-label { fill:#CAC4D0; }
-    svg.dark.print .pt-track { fill:#d97316; }
-    svg.dark .crosshair { stroke:#938F99; }
-    svg.dark .bub-bg   { fill:#1C1B1F; }
-    svg.dark .bub-bdr  { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .bub-tip  { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .bub-val  { fill:#E6E0E9; }
-    svg.dark .bub-lbl  { fill:#CAC4D0; }
+    svg.dark .card-bg       { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+    svg.dark .card-title    { fill:#E6E0E9; } svg.dark .card-subtitle { fill:#938F99; }
+    svg.dark .tick-label    { fill:#938F99; } svg.dark .category-label { fill:#938F99; }
+    svg.dark .legend-label  { fill:#E6E0E9; } svg.dark .legend-value  { fill:#E6E0E9; }
+    svg.dark .legend-note   { fill:#938F99; }
+    svg.dark .grid-line     { stroke:#49454F; } svg.dark .axis-line { stroke:#938F99; }
+    svg.dark .legend-bg     { fill:#49454F; stroke:#938F99; }
+    svg.dark .legend-divider { stroke:#938F99; } svg.dark .legend-title { fill:#938F99; }
+    svg.dark .footer        { fill:#938F99; }
+    svg.dark .toggle-track  { fill:#49454F; } svg.dark .toggle-label  { fill:#CAC4D0; }
+    svg.dark .print-track   { fill:#49454F; } svg.dark .print-label   { fill:#CAC4D0; }
+    svg.dark.print .print-track { fill:#d97316; }
+    svg.dark .crosshair     { stroke:#938F99; }
+    svg.dark .tip-bg        { fill:#1C1B1F; }
+    svg.dark .tip-border    { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .tip-tail      { fill:#1C1B1F; stroke:#938F99; }
+    svg.dark .tip-value     { fill:#E6E0E9; }
+    svg.dark .tip-label     { fill:#CAC4D0; }
     .border-dark  { display:none; } .border-light { display:block; }
     svg.dark .border-dark  { display:block; } svg.dark .border-light { display:none; }
   </style>
 </defs>
 
-<rect class="bg-main" width="1100" height="620" rx="18"/>
+<rect class="card-bg" width="1100" height="620" rx="18"/>
 <g class="border-dark"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/></g>
 <g class="border-light"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/></g>
 
-<text x="68" y="50" class="ct">Revenue by Quarter - Line Non-stacked</text>
-<text x="68" y="70" class="cs">5 product lines · hover data point to inspect</text>
+<text x="68" y="50" class="card-title">Revenue by Quarter - Line Non-stacked</text>
+<text x="68" y="70" class="card-subtitle">5 product lines · hover data point to inspect</text>
 
-<g class="t-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="t-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="t-thumb"/>
-  <text id="tlabel" x="44" y="4" class="t-label" text-anchor="middle">Dark</text>
+<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
+  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
+  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
 </g>
-<g class="t-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="pt-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="pt-thumb"/>
-  <text id="plabel" x="44" y="4" class="pt-label" text-anchor="middle">Print</text>
+<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
+  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
+  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
+  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
 </g>
 
-<line x1="68" y1="500" x2="850" y2="500" class="bl"/>
-<line x1="68" y1="400" x2="850" y2="400" class="gl"/>
-<line x1="68" y1="300" x2="850" y2="300" class="gl"/>
-<line x1="68" y1="200" x2="850" y2="200" class="gl"/>
-<line x1="68" y1="100" x2="850" y2="100" class="gl"/>
-<line x1="68" y1="100" x2="68"  y2="500" class="bl"/>
+<line x1="68" y1="500" x2="850" y2="500" class="axis-line"/>
+<line x1="68" y1="400" x2="850" y2="400" class="grid-line"/>
+<line x1="68" y1="300" x2="850" y2="300" class="grid-line"/>
+<line x1="68" y1="200" x2="850" y2="200" class="grid-line"/>
+<line x1="68" y1="100" x2="850" y2="100" class="grid-line"/>
+<line x1="68" y1="100" x2="68"  y2="500" class="axis-line"/>
 
-<text x="56" y="504" class="an" text-anchor="end">$0</text>
-<text x="56" y="404" class="an" text-anchor="end">$25M</text>
-<text x="56" y="304" class="an" text-anchor="end">$50M</text>
-<text x="56" y="204" class="an" text-anchor="end">$75M</text>
-<text x="56" y="104" class="an" text-anchor="end">$100M</text>
+<text x="56" y="504" class="tick-label" text-anchor="end">$0</text>
+<text x="56" y="404" class="tick-label" text-anchor="end">$25M</text>
+<text x="56" y="304" class="tick-label" text-anchor="end">$50M</text>
+<text x="56" y="204" class="tick-label" text-anchor="end">$75M</text>
+<text x="56" y="104" class="tick-label" text-anchor="end">$100M</text>
 
-<text x="68"  y="522" class="al" text-anchor="middle">Q1 '22</text>
-<text x="180" y="522" class="al" text-anchor="middle">Q2 '22</text>
-<text x="291" y="522" class="al" text-anchor="middle">Q3 '22</text>
-<text x="403" y="522" class="al" text-anchor="middle">Q4 '22</text>
-<text x="515" y="522" class="al" text-anchor="middle">Q1 '23</text>
-<text x="627" y="522" class="al" text-anchor="middle">Q2 '23</text>
-<text x="738" y="522" class="al" text-anchor="middle">Q3 '23</text>
-<text x="850" y="522" class="al" text-anchor="middle">Q4 '23</text>
+<text x="68"  y="522" class="category-label" text-anchor="middle">Q1 '22</text>
+<text x="180" y="522" class="category-label" text-anchor="middle">Q2 '22</text>
+<text x="291" y="522" class="category-label" text-anchor="middle">Q3 '22</text>
+<text x="403" y="522" class="category-label" text-anchor="middle">Q4 '22</text>
+<text x="515" y="522" class="category-label" text-anchor="middle">Q1 '23</text>
+<text x="627" y="522" class="category-label" text-anchor="middle">Q2 '23</text>
+<text x="738" y="522" class="category-label" text-anchor="middle">Q3 '23</text>
+<text x="850" y="522" class="category-label" text-anchor="middle">Q4 '23</text>
 
 <line x1="459" y1="100" x2="459" y2="510" stroke="#c0b8a8" stroke-width="1" stroke-dasharray="5,4" opacity="0.6"/>
-<text x="263" y="90" class="an" text-anchor="middle">2022</text>
-<text x="654" y="90" class="an" text-anchor="middle">2023</text>
+<text x="263" y="90" class="tick-label" text-anchor="middle">2022</text>
+<text x="654" y="90" class="tick-label" text-anchor="middle">2023</text>
 
-<!-- .ca wraps all chart elements so .ca.ready.hovering scopes correctly -->
-<g class="ca" id="ca">
+<!-- .data-layer wraps all chart elements so .data-layer.ready.hovering scopes correctly -->
+<g class="data-layer" id="data-layer">
   <path id="area-5" class="area-path" data-series="5" d="M68,500 L68,460 L180,448 L291,456 L403,440 L515,448 L627,432 L738,440 L850,424 L850,500 Z" fill="url(#a5)"/>
   <path id="area-4" class="area-path" data-series="4" d="M68,500 L68,452 L180,440 L291,428 L403,444 L515,432 L627,420 L738,436 L850,412 L850,500 Z" fill="url(#a4)"/>
   <path id="area-3" class="area-path" data-series="3" d="M68,500 L68,428 L180,412 L291,400 L403,384 L515,400 L627,388 L738,376 L850,360 L850,500 Z" fill="url(#a3)"/>
   <path id="area-2" class="area-path" data-series="2" d="M68,500 L68,388 L180,376 L291,360 L403,340 L515,324 L627,304 L738,280 L850,252 L850,500 Z" fill="url(#a2)"/>
   <path id="area-1" class="area-path" data-series="1" d="M68,500 L68,372 L180,348 L291,336 L403,308 L515,292 L627,256 L738,228 L850,212 L850,500 Z" fill="url(#a1)"/>
 
-  <path id="line-5" class="line-path bar-5 s5" data-series="5" style="--len:900;fill:none" stroke-width="2"   stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7,4" d="M68,460 L180,448 L291,456 L403,440 L515,448 L627,432 L738,440 L850,424"/>
-  <path id="line-4" class="line-path bar-4 s4" data-series="4" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,452 L180,440 L291,428 L403,444 L515,432 L627,420 L738,436 L850,412"/>
-  <path id="line-3" class="line-path bar-3 s3" data-series="3" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,428 L180,412 L291,400 L403,384 L515,400 L627,388 L738,376 L850,360"/>
-  <path id="line-2" class="line-path bar-2 s2" data-series="2" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,388 L180,376 L291,360 L403,340 L515,324 L627,304 L738,280 L850,252"/>
-  <path id="line-1" class="line-path bar-1 s1" data-series="1" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,372 L180,348 L291,336 L403,308 L515,292 L627,256 L738,228 L850,212"/>
+  <path id="line-5" class="line-path series-5 stagger-5" data-series="5" style="--len:900;fill:none" stroke-width="2"   stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7,4" d="M68,460 L180,448 L291,456 L403,440 L515,448 L627,432 L738,440 L850,424"/>
+  <path id="line-4" class="line-path series-4 stagger-4" data-series="4" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,452 L180,440 L291,428 L403,444 L515,432 L627,420 L738,436 L850,412"/>
+  <path id="line-3" class="line-path series-3 stagger-3" data-series="3" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,428 L180,412 L291,400 L403,384 L515,400 L627,388 L738,376 L850,360"/>
+  <path id="line-2" class="line-path series-2 stagger-2" data-series="2" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,388 L180,376 L291,360 L403,340 L515,324 L627,304 L738,280 L850,252"/>
+  <path id="line-1" class="line-path series-1 stagger-1" data-series="1" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,372 L180,348 L291,336 L403,308 L515,292 L627,256 L738,228 L850,212"/>
 
   <g id="crosshairs">
     <line id="ch0" class="crosshair" x1="68"  y1="100" x2="68"  y2="500"/>
@@ -162,37 +161,37 @@
   <g id="tip-layer"></g>
 </g>
 
-<rect x="870" y="100" width="210" height="262" rx="14" class="lgd-bg"/>
-<text x="888" y="124" class="lgd-ttl">SERIES</text>
-<g transform="translate(888,140)"><rect class="bar-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Cyan</text>   <text x="188" y="11" class="lv lgd-val" text-anchor="end">$72M</text></g>
-<g transform="translate(888,170)"><rect class="bar-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Violet</text>  <text x="188" y="11" class="lv lgd-val" text-anchor="end">$62M</text></g>
-<g transform="translate(888,200)"><rect class="bar-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Emerald</text> <text x="188" y="11" class="lv lgd-val" text-anchor="end">$35M</text></g>
-<g transform="translate(888,230)"><rect class="bar-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Amber</text>   <text x="188" y="11" class="lv lgd-val" text-anchor="end">$22M</text></g>
-<g transform="translate(888,260)"><rect class="bar-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="lt">Slate</text>    <text x="188" y="11" class="lv lgd-val" text-anchor="end">$19M</text></g>
-<line x1="888" y1="286" x2="1062" y2="286" class="lgd-div"/>
-<text x="888" y="306" class="lt">Q4 2023 values</text>
-<text x="888" y="324" class="lp">Hover dots to inspect</text>
+<rect x="870" y="100" width="210" height="262" rx="14" class="legend-bg"/>
+<text x="888" y="124" class="legend-title">SERIES</text>
+<g transform="translate(888,140)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Cyan</text>   <text x="188" y="11" class="legend-value" text-anchor="end">$72M</text></g>
+<g transform="translate(888,170)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Violet</text>  <text x="188" y="11" class="legend-value" text-anchor="end">$62M</text></g>
+<g transform="translate(888,200)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Emerald</text> <text x="188" y="11" class="legend-value" text-anchor="end">$35M</text></g>
+<g transform="translate(888,230)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Amber</text>   <text x="188" y="11" class="legend-value" text-anchor="end">$22M</text></g>
+<g transform="translate(888,260)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Slate</text>    <text x="188" y="11" class="legend-value" text-anchor="end">$19M</text></g>
+<line x1="888" y1="286" x2="1062" y2="286" class="legend-divider"/>
+<text x="888" y="306" class="legend-label">Q4 2023 values</text>
+<text x="888" y="324" class="legend-note">Hover dots to inspect</text>
 
 <text x="68" y="600" class="footer">Revenue by Quarter · 5 series · line chart</text>
 
 <script type="text/javascript">
 //<![CDATA[
 (function() {
-  var svg       = document.getElementById('root');
-  var ca        = document.getElementById('ca');
-  var ns        = 'http://www.w3.org/2000/svg';
-  var dotsLayer = document.getElementById('dots-layer');
-  var tipLayer  = document.getElementById('tip-layer');
+  var svg          = document.getElementById('root');
+  var dataLayerEl  = document.getElementById('data-layer');
+  var ns           = 'http://www.w3.org/2000/svg';
+  var dotsLayer    = document.getElementById('dots-layer');
+  var tipLayer     = document.getElementById('tip-layer');
 
   /* §2 — isDark hoisted before all build and animation code */
   var isDark = false;
 
   var series = [
-    { id:1, cls:'bar-1', label:'Cyan',    vals:[32,38,41,48,52,61,68,72], ys:[372,348,336,308,292,256,228,212] },
-    { id:2, cls:'bar-2', label:'Violet',  vals:[28,31,35,40,44,49,55,62], ys:[388,376,360,340,324,304,280,252] },
-    { id:3, cls:'bar-3', label:'Emerald', vals:[18,22,25,29,25,28,31,35], ys:[428,412,400,384,400,388,376,360] },
-    { id:4, cls:'bar-4', label:'Amber',   vals:[12,15,18,14,17,20,16,22], ys:[452,440,428,444,432,420,436,412] },
-    { id:5, cls:'bar-5', label:'Slate',   vals:[10,13,11,15,13,17,15,19], ys:[460,448,456,440,448,432,440,424] },
+    { id:1, cls:'series-1', label:'Cyan',    vals:[32,38,41,48,52,61,68,72], ys:[372,348,336,308,292,256,228,212] },
+    { id:2, cls:'series-2', label:'Violet',  vals:[28,31,35,40,44,49,55,62], ys:[388,376,360,340,324,304,280,252] },
+    { id:3, cls:'series-3', label:'Emerald', vals:[18,22,25,29,25,28,31,35], ys:[428,412,400,384,400,388,376,360] },
+    { id:4, cls:'series-4', label:'Amber',   vals:[12,15,18,14,17,20,16,22], ys:[452,440,428,444,432,420,436,412] },
+    { id:5, cls:'series-5', label:'Slate',   vals:[10,13,11,15,13,17,15,19], ys:[460,448,456,440,448,432,440,424] },
   ];
 
   var aOpacity = [0.28, 0.24, 0.20, 0.18, 0.14];
@@ -241,7 +240,7 @@
   }
 
   function setHover(activeSid) {
-    ca.classList.add('hovering');
+    dataLayerEl.classList.add('hovering');
     /* §4 — clear all stale .active before setting new active series */
     series.forEach(function(s) {
       var line = document.getElementById('line-'+s.id);
@@ -267,7 +266,7 @@
   }
 
   function clearHover() {
-    ca.classList.remove('hovering');
+    dataLayerEl.classList.remove('hovering');
     series.forEach(function(s) {
       var line=document.getElementById('line-'+s.id), area=document.getElementById('area-'+s.id);
       if (line) line.classList.remove('active');
@@ -300,9 +299,9 @@
       tipLayer.appendChild(tipG); allTips[key]=tipG;
 
       // Build text nodes first so getBBox() can measure actual rendered widths
-      var tv=el('text',{x:0,y:12,'text-anchor':'middle','dominant-baseline':'central','class':'bub-val'});
+      var tv=el('text',{x:0,y:12,'text-anchor':'middle','dominant-baseline':'central','class':'tip-value'});
       tv.textContent='$'+s.vals[qi]+'M'; tipG.appendChild(tv);
-      var tl=el('text',{x:0,y:30,'text-anchor':'middle','dominant-baseline':'central','class':'bub-lbl'});
+      var tl=el('text',{x:0,y:30,'text-anchor':'middle','dominant-baseline':'central','class':'tip-label'});
       tl.textContent=s.label+' · '+quarters[qi]; tipG.appendChild(tl);
 
       // Measure actual rendered widths with getBBox(), size bubble around content
@@ -320,13 +319,12 @@
       // Translate the whole tip group so local coords centre on bCx, top at bCy
       tipG.setAttribute('transform','translate('+bCx+','+bCy+')');
 
-      // bg rect — fill only, no stroke
-      var bgRect = el('rect',{x:-hw,y:0,width:bw,height:bh,rx:rx,'class':'bub-bg'});
+      // tip-bg rect — fill only, no stroke
+      var bgRect = el('rect',{x:-hw,y:0,width:bw,height:bh,rx:rx,'class':'tip-bg'});
       tipG.insertBefore(bgRect, tv);
 
-      // bdr path — open rounded-rect with gap at tail root (no Z)
-      // gap is ±tw wide at bottom (or top if flipped)
-      function makeBdr(hw, bh, rx, tw, flip) {
+      // tip-border path — open rounded-rect with gap at tail root (no Z)
+      function makeBorderPath(hw, bh, rx, tw, flip) {
         if (!flip) {
           // gap at bottom centre — tail points down
           return 'M'+tw+','+bh
@@ -345,17 +343,17 @@
             +' L'+tw+',0';
         }
       }
-      var bdrPath = el('path',{d:makeBdr(hw,bh,rx,tw,flip),'class':'bub-bdr'});
-      tipG.insertBefore(bdrPath, tv);
+      var borderPath = el('path',{d:makeBorderPath(hw,bh,rx,tw,flip),'class':'tip-border'});
+      tipG.insertBefore(borderPath, tv);
 
-      // tip tail triangle — root points align exactly to bdr gap endpoints
-      var tipPath;
+      // tip-tail triangle — root points align exactly to tip-border gap endpoints
+      var tailPath;
       if (!flip) {
-        tipPath = el('path',{d:'M'+tw+','+bh+' L0,'+(bh+TAIL)+' L'+(-tw)+','+bh,'class':'bub-tip'});
+        tailPath = el('path',{d:'M'+tw+','+bh+' L0,'+(bh+TAIL)+' L'+(-tw)+','+bh,'class':'tip-tail'});
       } else {
-        tipPath = el('path',{d:'M'+(-tw)+',0 L0,'+(-TAIL)+' L'+tw+',0','class':'bub-tip'});
+        tailPath = el('path',{d:'M'+(-tw)+',0 L0,'+(-TAIL)+' L'+tw+',0','class':'tip-tail'});
       }
-      tipG.insertBefore(tipPath, tv);
+      tipG.insertBefore(tailPath, tv);
 
       var ch=document.getElementById('ch'+qi);
       dg.addEventListener('mouseenter',function(){
@@ -373,9 +371,9 @@
     });
   });
 
-  // gate hover on .ca.ready after last dot animation finishes
+  // gate hover on .data-layer.ready after last dot animation finishes
   var lastDelay=(series.length-1)*0.25+(xs.length-1)*0.06;
-  setTimeout(function(){ ca.classList.add('ready'); },(lastDelay+0.35)*1000+100);
+  setTimeout(function(){ dataLayerEl.classList.add('ready'); },(lastDelay+0.35)*1000+100);
 
   function setMode(wantDark) {
     if(wantDark===isDark) return;
