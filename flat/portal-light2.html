@@ -872,6 +872,7 @@
             '<div class="chart-shell-subtitle">' + subtitle + '</div>' +
           '</div>' +
           '<div class="chart-shell-controls">' +
+            '<button class="chart-shell-btn" type="button" data-chart-open>Open</button>' +
             '<button class="chart-shell-btn active" type="button" data-chart-mode>Light</button>' +
             '<button class="chart-shell-btn" type="button" data-chart-print>Print</button>' +
           '</div>' +
@@ -900,6 +901,7 @@
 
     document.querySelectorAll('[data-chart-shell]').forEach(function (card) {
       var frame = card.querySelector('[data-chart-frame]');
+      var openBtn = card.querySelector('[data-chart-open]');
       var modeBtn = card.querySelector('[data-chart-mode]');
       var printBtn = card.querySelector('[data-chart-print]');
       var state = { dark: false, print: false };
@@ -918,6 +920,12 @@
         frame.contentWindow.postMessage({ type: 'setMode', dark: state.dark }, '*');
         frame.contentWindow.postMessage({ type: 'setPrint', print: state.print }, '*');
       }
+
+      openBtn.addEventListener('click', function () {
+        if (!frame) return;
+        var src = frame.getAttribute('src');
+        if (src) window.open(src, '_blank', 'noopener');
+      });
 
       modeBtn.addEventListener('click', function () {
         state.dark = !state.dark;
