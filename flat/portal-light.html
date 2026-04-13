@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <title>Dashboard Portal</title>
   <style>
     * {
@@ -20,23 +20,23 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
     }
 
-    /* CSS tokens matching chart dark mode */
+    /* CSS tokens for light portal */
     :root {
-      --bg: #151825;
-      --bg-surface: #222840;
-      --bg-surface-2: #252B3E;
-      --border: rgba(255, 255, 255, 0.12);
-      --border-cyan: rgba(0, 242, 255, 0.22);
-      --text-primary: #EEF2F7;
-      --text-sec: #8A99B0;
-      --text-muted: #7A8EA8;
-      --text-dim: #3E4E62;
-      --accent: #22D3EE;
-      --active-bg: rgba(0, 242, 255, 0.08);
-      --hover-bg: rgba(255, 255, 255, 0.04);
+      --bg: #f3eef6;
+      --bg-surface: #fffbfe;
+      --bg-surface-2: #f8f3fa;
+      --border: rgba(121, 116, 126, 0.22);
+      --border-cyan: rgba(0, 184, 122, 0.30);
+      --text-primary: #1C1B1F;
+      --text-sec: #49454F;
+      --text-muted: #79747E;
+      --text-dim: #B1A9B6;
+      --accent: #00B87A;
+      --active-bg: rgba(0, 184, 122, 0.12);
+      --hover-bg: rgba(121, 116, 126, 0.08);
     }
 
     .portal {
@@ -397,6 +397,133 @@
       border-radius: 18px;
       display: block;
     }
+
+    .chart-card-shell {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: 0;
+      background: var(--bg-surface);
+    }
+
+    .chart-card-shell.light {
+      background: #f8f5fb;
+      border-color: rgba(121, 116, 126, 0.28);
+      box-shadow: 0 18px 40px rgba(28, 27, 31, 0.08);
+    }
+
+    .chart-shell-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 20px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.035);
+    }
+
+    .chart-card-shell.light .chart-shell-header {
+      border-bottom-color: rgba(121, 116, 126, 0.18);
+    }
+
+    .chart-shell-copy {
+      min-width: 0;
+    }
+
+    .chart-shell-title {
+      font-size: 19px;
+      font-weight: 500;
+      line-height: 1.18;
+      color: var(--text-primary);
+      letter-spacing: 0;
+    }
+
+    .chart-card-shell.light .chart-shell-title {
+      color: #1c1b1f;
+    }
+
+    .chart-shell-subtitle {
+      margin-top: 8px;
+      font-size: 11px;
+      line-height: 1.45;
+      color: rgba(138, 153, 176, 0.92);
+    }
+
+    .chart-card-shell.light .chart-shell-subtitle {
+      color: #79747e;
+    }
+
+    .chart-shell-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .chart-shell-btn {
+      min-width: 72px;
+      height: 30px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-sec);
+      font: inherit;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+
+    .chart-card-shell.light .chart-shell-btn {
+      border-color: rgba(121, 116, 126, 0.28);
+      background: rgba(121, 116, 126, 0.06);
+      color: #49454f;
+    }
+
+    .chart-shell-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .chart-card-shell.light .chart-shell-btn:hover {
+      background: rgba(121, 116, 126, 0.12);
+    }
+
+    .chart-shell-btn.active {
+      color: var(--text-primary);
+      border-color: var(--border-cyan);
+      background: rgba(0, 242, 255, 0.08);
+    }
+
+    .chart-card-shell.light .chart-shell-btn.active {
+      color: #1c1b1f;
+      border-color: rgba(0, 184, 122, 0.42);
+      background: rgba(0, 184, 122, 0.12);
+    }
+
+    .chart-shell-body {
+      min-height: 0;
+      padding: 12px 10px 8px;
+    }
+
+    .chart-card-shell.light .chart-shell-body {
+      background: linear-gradient(180deg, rgba(255, 251, 254, 0.96), rgba(245, 240, 248, 0.94));
+    }
+
+    .chart-card-shell .chart-frame {
+      border-radius: 0;
+      height: 100%;
+    }
+
+    .chart-shell-footer {
+      padding: 12px 20px 16px;
+      font-size: 10px;
+      line-height: 1.5;
+      letter-spacing: 0.15px;
+      color: rgba(138, 153, 176, 0.78);
+    }
+
+    .chart-card-shell.light .chart-shell-footer {
+      color: #79747e;
+    }
   </style>
 </head>
 
@@ -663,8 +790,21 @@
         <div class="chart-card">
           <iframe class="chart-frame" src="bar_stacked_flat.svg?theme=light" scrolling="no" frameborder="0"></iframe>
         </div>
-        <div class="chart-card">
-          <iframe class="chart-frame" src="pie_flat.svg?theme=light" scrolling="no" frameborder="0"></iframe>
+        <div class="chart-card chart-card-shell" data-chart-shell>
+          <div class="chart-shell-header">
+            <div class="chart-shell-copy">
+              <div class="chart-shell-title">Revenue by Segment - Pie/Donut</div>
+              <div class="chart-shell-subtitle">Donut · hover slice to inspect</div>
+            </div>
+            <div class="chart-shell-controls">
+              <button class="chart-shell-btn active" type="button" data-chart-mode>Light</button>
+              <button class="chart-shell-btn" type="button" data-chart-print>Print</button>
+            </div>
+          </div>
+          <div class="chart-shell-body">
+            <iframe class="chart-frame" src="pie_flat.svg?theme=light" scrolling="no" frameborder="0" data-chart-frame></iframe>
+          </div>
+          <div class="chart-shell-footer">Revenue by Segment · donut chart · hover to inspect · print mode reveals values</div>
         </div>
         <div class="chart-card">
           <iframe class="chart-frame" src="line_flat.svg?theme=light" scrolling="no" frameborder="0"></iframe>
@@ -689,6 +829,130 @@
 
     </div>
   </div>
+  <script>
+    var defaultPalette = ['#00D4E8', '#00B87A', '#F59E0B', '#F43F5E', '#8B5CF6', '#3B82F6', '#0D9488', '#64748B'];
+    var chartShellMeta = {
+      'bar_flat.svg': {
+        title: 'Revenue by Category - Bar',
+        subtitle: '8 segments · hover bar to inspect',
+        footer: 'Revenue by Category · bar chart · print mode reveals values'
+      },
+      'bar_stacked_flat.svg': {
+        title: 'Revenue by Quarter - Bar Stacked',
+        subtitle: '5 product lines · stacked columns · hover to inspect',
+        footer: 'Revenue by Quarter · stacked bar chart · print mode reveals values'
+      },
+      'pie_flat.svg': {
+        title: 'Revenue by Segment - Pie/Donut',
+        subtitle: 'Donut · hover slice to inspect',
+        footer: 'Revenue by Segment · donut chart · hover to inspect · print mode reveals values'
+      },
+      'line_flat.svg': {
+        title: 'Revenue by Quarter - Line',
+        subtitle: '5 product lines · hover data point to inspect',
+        footer: 'Revenue by Quarter · line chart · hover to inspect'
+      },
+      'line_stacked_flat.svg': {
+        title: 'Revenue by Quarter - Line Stacked',
+        subtitle: '5 product lines · cumulative stacked view · hover to inspect',
+        footer: 'Revenue by Quarter · stacked line/area chart · hover to inspect'
+      },
+      'bubble_flat.svg': {
+        title: 'Revenue vs Growth by Category - Bubble',
+        subtitle: 'Bubble size reflects market share · hover to inspect',
+        footer: 'Revenue vs Growth · bubble chart · print mode reveals legend values'
+      },
+      'area_flat.svg': {
+        title: 'Revenue by Quarter - Area',
+        subtitle: '5 product lines · filled area chart · hover to inspect',
+        footer: 'Revenue by Quarter · area chart · hover to inspect'
+      },
+      'area_stacked_flat.svg': {
+        title: 'Revenue by Quarter - Area Stacked',
+        subtitle: '5 product lines · stacked waves · hover to inspect',
+        footer: 'Revenue by Quarter · stacked area chart · hover to inspect'
+      },
+      'candle_flat.svg': {
+        title: 'OHLC Price Chart - Candlestick',
+        subtitle: '12 months · open / high / low / close · hover to inspect',
+        footer: 'OHLC price chart · candlestick view · print mode reveals values'
+      }
+    };
+
+    function shellMarkup(title, subtitle, footer, src) {
+      return '' +
+        '<div class=\"chart-shell-header\">' +
+          '<div class=\"chart-shell-copy\">' +
+            '<div class=\"chart-shell-title\">' + title + '</div>' +
+            '<div class=\"chart-shell-subtitle\">' + subtitle + '</div>' +
+          '</div>' +
+          '<div class=\"chart-shell-controls\">' +
+            '<button class=\"chart-shell-btn active\" type=\"button\" data-chart-mode>Light</button>' +
+            '<button class=\"chart-shell-btn\" type=\"button\" data-chart-print>Print</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class=\"chart-shell-body\">' +
+          '<iframe class=\"chart-frame\" src=\"' + src + '\" scrolling=\"no\" frameborder=\"0\" data-chart-frame></iframe>' +
+        '</div>' +
+        '<div class=\"chart-shell-footer\">' + footer + '</div>';
+    }
+
+    document.querySelectorAll('.chart-card').forEach(function (card) {
+      var existingFrame = card.querySelector('iframe.chart-frame');
+      if (!existingFrame) return;
+
+      var src = existingFrame.getAttribute('src') || '';
+      var base = src.split('?')[0];
+      var meta = chartShellMeta[base];
+      if (!meta) return;
+
+      if (!card.hasAttribute('data-chart-shell')) {
+        card.classList.add('chart-card-shell');
+        card.setAttribute('data-chart-shell', '');
+        card.innerHTML = shellMarkup(meta.title, meta.subtitle, meta.footer, src);
+      }
+    });
+
+    document.querySelectorAll('[data-chart-shell]').forEach(function (card) {
+      var frame = card.querySelector('[data-chart-frame]');
+      var modeBtn = card.querySelector('[data-chart-mode]');
+      var printBtn = card.querySelector('[data-chart-print]');
+      var state = { dark: false, print: false };
+
+      function paintButtons() {
+        card.classList.toggle('light', !state.dark);
+        modeBtn.classList.toggle('active', state.dark);
+        modeBtn.textContent = state.dark ? 'Light' : 'Dark';
+        printBtn.classList.toggle('active', state.print);
+        printBtn.textContent = state.print ? 'Screen' : 'Print';
+      }
+
+      function syncFrame() {
+        if (!frame || !frame.contentWindow) return;
+        frame.contentWindow.postMessage({ type: 'setPalette', colors: defaultPalette }, '*');
+        frame.contentWindow.postMessage({ type: 'setMode', dark: state.dark }, '*');
+        frame.contentWindow.postMessage({ type: 'setPrint', print: state.print }, '*');
+      }
+
+      modeBtn.addEventListener('click', function () {
+        state.dark = !state.dark;
+        paintButtons();
+        syncFrame();
+      });
+
+      printBtn.addEventListener('click', function () {
+        state.print = !state.print;
+        paintButtons();
+        syncFrame();
+      });
+
+      frame.addEventListener('load', function () {
+        syncFrame();
+      });
+
+      paintButtons();
+    });
+  </script>
 </body>
 
 </html>

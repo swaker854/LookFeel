@@ -11,7 +11,12 @@
       "Bash(grep -l \"chart-shared.css\" *.svg)",
       "Bash(grep -l \"chart-shared.js\" *.svg)",
       "Bash(grep -l \"initChart\\(svg\\)\" *.svg)",
-      "Bash(grep -rn 'ctx\\\\.$$all\\\\|document\\\\.getElementById\\\\|document\\\\.querySelector[^A-Z]' e:/home/dev/github/lookfeel/flat/bar_flat.svg e:/home/dev/github/lookfeel/flat/bar_stacked_flat.svg e:/home/dev/github/lookfeel/flat/bubble_flat.svg e:/home/dev/github/lookfeel/flat/candle_flat.svg)"
+      "Bash(grep -rn 'ctx\\\\.$$all\\\\|document\\\\.getElementById\\\\|document\\\\.querySelector[^A-Z]' e:/home/dev/github/lookfeel/flat/bar_flat.svg e:/home/dev/github/lookfeel/flat/bar_stacked_flat.svg e:/home/dev/github/lookfeel/flat/bubble_flat.svg e:/home/dev/github/lookfeel/flat/candle_flat.svg)",
+      "Bash(find /e/home/dev/github/stylebi-visual_BI_tool/stylebi -name \"pom.xml\" -exec grep -l \"batik\\\\|jfreechart\" {} \\\\;)",
+      "Bash(grep -E \"\\\\.\\(ts|js|html\\)$\")",
+      "Bash(grep -n \"WebMapService\\\\|WebMapPainter\" /e/home/dev/github/stylebi-visual_BI_tool/stylebi/core/src/main/java/inetsoft/report/composition/graph/*.java)",
+      "Bash(grep -n \"PolygonGeometry\\\\|PointGeometry\" /e/home/dev/github/stylebi-visual_BI_tool/stylebi/core/src/main/java/inetsoft/report/composition/graph/*.java)",
+      "Bash(grep -n \"class.*VO\\\\|class.*Visual\" /e/home/dev/github/stylebi-visual_BI_tool/stylebi/core/src/main/java/inetsoft/graph/visual/*.java)"
     ]
   }
 }

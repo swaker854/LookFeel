@@ -2,3 +2,4 @@ flat/build_portal.py
 flat/bar_test.svg
 flat/_retune_portal_svgs.ps1
 flat/_trim_portal_svgs.ps1
+.claude/settings.local.json
