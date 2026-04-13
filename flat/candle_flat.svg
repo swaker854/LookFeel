@@ -1,7 +1,7 @@
 
 
 
-<svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter',Arial,sans-serif">
+<svg id="root" viewBox="40 88 1040 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto',Arial,sans-serif">
 <defs>
   <style>
     @import url('chart-shared.css');
@@ -29,24 +29,6 @@
   </style>
 </defs>
 
-<rect class="card-bg" width="1100" height="620" rx="18"/>
-<g class="border-light"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/></g>
-<g class="border-dark"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.2)" stroke-width="1.5"/></g>
-
-<text x="68" y="50" class="card-title">OHLC Price Chart - Candlestick</text>
-<text x="68" y="70" class="card-subtitle">12 months · open / high / low / close · hover to inspect · print for values</text>
-
-<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
-  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
-</g>
-<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
-  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
-</g>
-
 <line x1="68" y1="500" x2="850" y2="500" class="axis-line"/>
 <line x1="68" y1="100" x2="68"  y2="500" class="axis-line"/>
 <line x1="68" y1="400" x2="850" y2="400" class="grid-line"/>
@@ -72,18 +54,18 @@
 <text x="790" y="522" class="category-label" text-anchor="middle">Sep</text>
 
 <g class="data-layer" id="chart-area">
-  <g class="data-item" id="cw1"  data-tip="data-tip-1" ><g class="data-body stagger-1" ><line x1="128" y1="228" x2="128" y2="320" class="w-bull"/><rect class="c-bull" x="110" y="244" width="36" height="48"/></g></g>
-  <g class="data-item" id="cw2"  data-tip="data-tip-2" ><g class="data-body stagger-2" ><line x1="188" y1="200" x2="188" y2="268" class="w-bear"/><rect class="c-bear" x="170" y="244" width="36" height="20"/></g></g>
-  <g class="data-item" id="cw3"  data-tip="data-tip-3" ><g class="data-body stagger-3" ><line x1="249" y1="252" x2="249" y2="348" class="w-bear"/><rect class="c-bear" x="231" y="264" width="36" height="68"/></g></g>
-  <g class="data-item" id="cw4"  data-tip="data-tip-4" ><g class="data-body stagger-4" ><line x1="309" y1="280" x2="309" y2="360" class="w-bull"/><rect class="c-bull" x="291" y="296" width="36" height="36"/></g></g>
-  <g class="data-item" id="cw5"  data-tip="data-tip-5" ><g class="data-body stagger-5" ><line x1="369" y1="220" x2="369" y2="308" class="w-bull"/><rect class="c-bull" x="351" y="228" width="36" height="68"/></g></g>
-  <g class="data-item" id="cw6"  data-tip="data-tip-6" ><g class="data-body stagger-6" ><line x1="429" y1="172" x2="429" y2="248" class="w-bull"/><rect class="c-bull" x="411" y="188" width="36" height="40"/></g></g>
-  <g class="data-item" id="cw7"  data-tip="data-tip-7" ><g class="data-body stagger-7" ><line x1="489" y1="160" x2="489" y2="244" class="w-bear"/><rect class="c-bear" x="471" y="188" width="36" height="44"/></g></g>
-  <g class="data-item" id="cw8"  data-tip="data-tip-8" ><g class="data-body stagger-8" ><line x1="549" y1="212" x2="549" y2="300" class="w-bear"/><rect class="c-bear" x="531" y="232" width="36" height="52"/></g></g>
-  <g class="data-item" id="cw9"  data-tip="data-tip-9" ><g class="data-body stagger-9" ><line x1="609" y1="224" x2="609" y2="304" class="w-bull"/><rect class="c-bull" x="591" y="236" width="36" height="48"/></g></g>
-  <g class="data-item" id="cw10" data-tip="data-tip-10"><g class="data-body stagger-10"><line x1="670" y1="148" x2="670" y2="260" class="w-bull"/><rect class="c-bull" x="652" y="160" width="36" height="76"/></g></g>
-  <g class="data-item" id="cw11" data-tip="data-tip-11"><g class="data-body stagger-11"><line x1="730" y1="132" x2="730" y2="216" class="w-bear"/><rect class="c-bear" x="712" y="160" width="36" height="40"/></g></g>
-  <g class="data-item" id="cw12" data-tip="data-tip-12"><g class="data-body stagger-12"><line x1="790" y1="180" x2="790" y2="268" class="w-bear"/><rect class="c-bear" x="772" y="200" width="36" height="52"/></g></g>
+  <g class="data-item" id="cw1"  data-tip="data-tip-1" data-month="Oct" data-open="$132" data-high="$148" data-low="$125" data-close="$144" data-trend="Bullish"><g class="data-body stagger-1" ><line x1="128" y1="228" x2="128" y2="320" class="w-bull"/><rect class="c-bull" x="110" y="244" width="36" height="48"/></g></g>
+  <g class="data-item" id="cw2"  data-tip="data-tip-2" data-month="Nov" data-open="$144" data-high="$155" data-low="$138" data-close="$139" data-trend="Bearish"><g class="data-body stagger-2" ><line x1="188" y1="200" x2="188" y2="268" class="w-bear"/><rect class="c-bear" x="170" y="244" width="36" height="20"/></g></g>
+  <g class="data-item" id="cw3"  data-tip="data-tip-3" data-month="Dec" data-open="$139" data-high="$142" data-low="$118" data-close="$122" data-trend="Bearish"><g class="data-body stagger-3" ><line x1="249" y1="252" x2="249" y2="348" class="w-bear"/><rect class="c-bear" x="231" y="264" width="36" height="68"/></g></g>
+  <g class="data-item" id="cw4"  data-tip="data-tip-4" data-month="Jan" data-open="$122" data-high="$135" data-low="$115" data-close="$131" data-trend="Bullish"><g class="data-body stagger-4" ><line x1="309" y1="280" x2="309" y2="360" class="w-bull"/><rect class="c-bull" x="291" y="296" width="36" height="36"/></g></g>
+  <g class="data-item" id="cw5"  data-tip="data-tip-5" data-month="Feb" data-open="$131" data-high="$150" data-low="$128" data-close="$148" data-trend="Bullish"><g class="data-body stagger-5" ><line x1="369" y1="220" x2="369" y2="308" class="w-bull"/><rect class="c-bull" x="351" y="228" width="36" height="68"/></g></g>
+  <g class="data-item" id="cw6"  data-tip="data-tip-6" data-month="Mar" data-open="$148" data-high="$162" data-low="$143" data-close="$158" data-trend="Bullish"><g class="data-body stagger-6" ><line x1="429" y1="172" x2="429" y2="248" class="w-bull"/><rect class="c-bull" x="411" y="188" width="36" height="40"/></g></g>
+  <g class="data-item" id="cw7"  data-tip="data-tip-7" data-month="Apr" data-open="$158" data-high="$165" data-low="$144" data-close="$147" data-trend="Bearish"><g class="data-body stagger-7" ><line x1="489" y1="160" x2="489" y2="244" class="w-bear"/><rect class="c-bear" x="471" y="188" width="36" height="44"/></g></g>
+  <g class="data-item" id="cw8"  data-tip="data-tip-8" data-month="May" data-open="$147" data-high="$152" data-low="$130" data-close="$134" data-trend="Bearish"><g class="data-body stagger-8" ><line x1="549" y1="212" x2="549" y2="300" class="w-bear"/><rect class="c-bear" x="531" y="232" width="36" height="52"/></g></g>
+  <g class="data-item" id="cw9"  data-tip="data-tip-9" data-month="Jun" data-open="$134" data-high="$149" data-low="$129" data-close="$146" data-trend="Bullish"><g class="data-body stagger-9" ><line x1="609" y1="224" x2="609" y2="304" class="w-bull"/><rect class="c-bull" x="591" y="236" width="36" height="48"/></g></g>
+  <g class="data-item" id="cw10" data-tip="data-tip-10" data-month="Jul" data-open="$146" data-high="$168" data-low="$140" data-close="$165" data-trend="Bullish"><g class="data-body stagger-10"><line x1="670" y1="148" x2="670" y2="260" class="w-bull"/><rect class="c-bull" x="652" y="160" width="36" height="76"/></g></g>
+  <g class="data-item" id="cw11" data-tip="data-tip-11" data-month="Aug" data-open="$165" data-high="$172" data-low="$151" data-close="$155" data-trend="Bearish"><g class="data-body stagger-11"><line x1="730" y1="132" x2="730" y2="216" class="w-bear"/><rect class="c-bear" x="712" y="160" width="36" height="40"/></g></g>
+  <g class="data-item" id="cw12" data-tip="data-tip-12" data-month="Sep" data-open="$155" data-high="$160" data-low="$138" data-close="$142" data-trend="Bearish"><g class="data-body stagger-12"><line x1="790" y1="180" x2="790" y2="268" class="w-bear"/><rect class="c-bear" x="772" y="200" width="36" height="52"/></g></g>
 </g>
 
 <!-- tooltips — each uses standard .tip-* classes.
@@ -213,8 +195,6 @@
   <text y="60" class="legend-label">End Price  <tspan class="legend-value" dx="6">$142</tspan></text>
 </g>
 
-<text x="68" y="600" class="footer">OHLC Price Chart · 12 months · hover to inspect · print for values</text>
-
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
 (function () {
@@ -222,6 +202,102 @@
   svg._chartInit = function (svgEl, ctx) {
     var chartArea   = svgEl.querySelector('#chart-area');
     var dataItemEls = ctx.$$all('.data-item');
+    var FRAME_LEFT = 40;
+    var FRAME_TOP = 88;
+    var FRAME_RIGHT = 1080;
+    var FRAME_BOTTOM = 543;
+
+    function placeTip(itemEl, tipEl) {
+      var wickEl = itemEl.querySelector('line');
+      var bodyEl = itemEl.querySelector('rect');
+      var itemBounds = itemEl.getBBox();
+      var anchorX = wickEl ? parseFloat(wickEl.getAttribute('x1')) : itemEl.getBBox().x + itemEl.getBBox().width / 2;
+      var anchorTopY = itemBounds.y;
+      var anchorBottomY = bodyEl ? (parseFloat(bodyEl.getAttribute('y')) + parseFloat(bodyEl.getAttribute('height'))) : (itemBounds.y + itemBounds.height);
+      var boxWidth = 148;
+      var boxHeight = 96;
+      var radius = 10;
+      var tailHalf = 8;
+      var tailGap = 10;
+      var edgePad = 10;
+      var centerX = anchorX;
+      var showBelow = anchorTopY - tailGap - boxHeight < FRAME_TOP + edgePad;
+      var anchorY;
+      var boxTop;
+      var boxBottom;
+      var boxLeft;
+      var boxRight;
+      var borderPath;
+      var tailPath;
+      var rectEl = tipEl.querySelector('rect');
+      var borderEl = tipEl.querySelector('.tip-border');
+      var tailEl = tipEl.querySelector('.tip-tail');
+      var textEls = tipEl.querySelectorAll('text');
+
+      if (centerX - boxWidth / 2 < FRAME_LEFT + edgePad) centerX = FRAME_LEFT + edgePad + boxWidth / 2;
+      if (centerX + boxWidth / 2 > FRAME_RIGHT - edgePad) centerX = FRAME_RIGHT - edgePad - boxWidth / 2;
+
+      if (showBelow) {
+        anchorY = anchorBottomY;
+        boxTop = Math.min(anchorY + tailGap, FRAME_BOTTOM - edgePad - boxHeight);
+        boxBottom = boxTop + boxHeight;
+      } else {
+        anchorY = anchorTopY;
+        boxBottom = Math.max(anchorY - tailGap, FRAME_TOP + edgePad + boxHeight);
+        boxTop = boxBottom - boxHeight;
+      }
+
+      boxLeft = centerX - boxWidth / 2;
+      boxRight = centerX + boxWidth / 2;
+
+      rectEl.setAttribute('x', boxLeft);
+      rectEl.setAttribute('y', boxTop);
+      rectEl.setAttribute('width', boxWidth);
+      rectEl.setAttribute('height', boxHeight);
+
+      if (showBelow) {
+        borderPath = 'M' + (centerX - tailHalf) + ',' + boxTop +
+          ' L' + (boxLeft + radius) + ',' + boxTop +
+          ' Q' + boxLeft + ',' + boxTop + ' ' + boxLeft + ',' + (boxTop + radius) +
+          ' L' + boxLeft + ',' + (boxBottom - radius) +
+          ' Q' + boxLeft + ',' + boxBottom + ' ' + (boxLeft + radius) + ',' + boxBottom +
+          ' L' + (boxRight - radius) + ',' + boxBottom +
+          ' Q' + boxRight + ',' + boxBottom + ' ' + boxRight + ',' + (boxBottom - radius) +
+          ' L' + boxRight + ',' + (boxTop + radius) +
+          ' Q' + boxRight + ',' + boxTop + ' ' + (boxRight - radius) + ',' + boxTop +
+          ' L' + (centerX + tailHalf) + ',' + boxTop;
+        tailPath = 'M' + (centerX - tailHalf) + ',' + boxTop +
+          ' L' + anchorX + ',' + anchorY +
+          ' L' + (centerX + tailHalf) + ',' + boxTop;
+        textEls[0].setAttribute('y', boxTop + 18);
+        textEls[1].setAttribute('y', boxTop + 40);
+        textEls[2].setAttribute('y', boxTop + 80);
+      } else {
+        borderPath = 'M' + (centerX + tailHalf) + ',' + boxBottom +
+          ' L' + (boxRight - radius) + ',' + boxBottom +
+          ' Q' + boxRight + ',' + boxBottom + ' ' + boxRight + ',' + (boxBottom - radius) +
+          ' L' + boxRight + ',' + (boxTop + radius) +
+          ' Q' + boxRight + ',' + boxTop + ' ' + (boxRight - radius) + ',' + boxTop +
+          ' L' + (boxLeft + radius) + ',' + boxTop +
+          ' Q' + boxLeft + ',' + boxTop + ' ' + boxLeft + ',' + (boxTop + radius) +
+          ' L' + boxLeft + ',' + (boxBottom - radius) +
+          ' Q' + boxLeft + ',' + boxBottom + ' ' + (boxLeft + radius) + ',' + boxBottom +
+          ' L' + (centerX - tailHalf) + ',' + boxBottom;
+        tailPath = 'M' + (centerX - tailHalf) + ',' + boxBottom +
+          ' L' + anchorX + ',' + anchorY +
+          ' L' + (centerX + tailHalf) + ',' + boxBottom;
+        textEls[0].setAttribute('y', boxTop + 18);
+        textEls[1].setAttribute('y', boxTop + 40);
+        textEls[2].setAttribute('y', boxTop + 80);
+      }
+
+      textEls[0].setAttribute('x', centerX);
+      textEls[1].setAttribute('x', centerX);
+      textEls[2].setAttribute('x', centerX);
+      borderEl.setAttribute('d', borderPath);
+      tailEl.setAttribute('d', tailPath);
+      tipEl.removeAttribute('transform');
+    }
 
     /* Hover dimming + tooltip via data-tip attribute */
     dataItemEls.forEach(function (itemEl) {
@@ -230,7 +306,10 @@
         dataItemEls.forEach(function (c) { c.classList.remove('active'); });
         chartArea.classList.add('hovering');
         itemEl.classList.add('active');
-        if (tipEl) tipEl.style.opacity = '1';
+        if (tipEl) {
+          placeTip(itemEl, tipEl);
+          tipEl.style.opacity = '1';
+        }
       });
       itemEl.addEventListener('mouseleave', function () {
         chartArea.classList.remove('hovering');
@@ -243,3 +322,5 @@
 }());
 ]]></script>
 </svg>
+
+

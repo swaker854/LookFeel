@@ -1,8 +1,10 @@
 
-<svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
+<svg id="root" viewBox="40 80 1040 463" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
     @import url('chart-shared.css');
+  .chart-shell-hidden { display:none; }
+  .card-bg, .border-light, .border-dark { display:none; }
     .card-bg         { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
     .card-title      { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
     .card-subtitle   { font-size:11px; fill:#79747E; font-weight:400; }
@@ -68,6 +70,7 @@
     .pareto-dot          { opacity:0; }
     .pareto-dot.visible  { opacity:1; transition:none; }
     .p80-line    { stroke-width:1.2; stroke-dasharray:5 4; opacity:0.55; }
+    .pareto-line, .pareto-dot, .p80-line, .grid-line-right { pointer-events:none; }
 
     /* §4 — Tooltip classes */
     .tip-bg      { fill:#FFFBFE; }
@@ -108,6 +111,7 @@
     .border-light { display:block; }
     svg.dark .border-dark  { display:block; }
     svg.dark .border-light { display:none; }
+    .card-bg, .border-light, .border-dark, .card-title, .card-subtitle, .footer, .toggle-wrap { display:none !important; }
   </style>
 </defs>
 

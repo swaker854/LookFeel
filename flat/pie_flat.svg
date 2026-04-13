@@ -1,17 +1,7 @@
-
-<svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
+<svg id="root" viewBox="0 0 920 390" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
     @import url('chart-shared.css');
-
-    .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
-    .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
-    .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
-    .series-7 { fill:#0D9488; } .series-8 { fill:#64748B; }
-    svg.dark .series-1 { fill:#22D3EE; } svg.dark .series-2 { fill:#10B981; }
-    svg.dark .series-3 { fill:#FBB724; } svg.dark .series-4 { fill:#FB6181; }
-    svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
-    svg.dark .series-7 { fill:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; }
 
     .slice-g  { cursor:pointer; }
     #pie      { shape-rendering:geometricPrecision; }
@@ -21,29 +11,10 @@
     svg.print .tip { opacity:0 !important; }
     .tip-pct    { fill:#79747E; font-size:10px; font-weight:400; }
     svg.dark .tip-pct { fill:#938F99; }
-
   </style>
 </defs>
 
-<rect class="card-bg" width="1100" height="620" rx="18"/>
-<g class="border-dark"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/></g>
-<g class="border-light"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/></g>
-
-<text x="68" y="50" class="card-title">Revenue by Segment - Pie/Donus</text>
-<text x="68" y="70" class="card-subtitle">Donut · hover slice to inspect</text>
-
-<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
-  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
-</g>
-<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
-  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
-</g>
-
-<g class="data-layer" id="pie" transform="translate(459,300)">
+<g class="data-layer" id="pie" transform="translate(220,195)">
   <g class="slice-g" id="sl1" data-label="Royal Blue" data-val="$220M" data-pct="18.3%" data-mid="32.95"  data-span="65.9"><path id="sp1" d="M0,0 L195.00,0.00 A195,195 0 0,1 79.62,178.00 Z" class="series-1"/></g>
   <g class="slice-g" id="sl2" data-label="Emerald"    data-val="$180M" data-pct="15.0%" data-mid="92.90"  data-span="54.0"><path id="sp2" d="M0,0 L79.62,178.00 A195,195 0 0,1 -97.21,169.04 Z" class="series-2"/></g>
   <g class="slice-g" id="sl3" data-label="Amber"      data-val="$150M" data-pct="12.5%" data-mid="142.40" data-span="45.0"><path id="sp3" d="M0,0 L-97.21,169.04 A195,195 0 0,1 -188.27,50.80 Z" class="series-3"/></g>
@@ -59,8 +30,7 @@
     <text x="0" y="-10" text-anchor="middle" class="card-subtitle">Total</text>
     <text x="0" y="14"  text-anchor="middle" class="card-title">$1.2B</text>
   </g>
-  <!-- §7 — tip-layer inside #pie (.data-layer) so CSS hover selectors can scope to it -->
-  <g id="tip-layer" transform="translate(-459,-300)" pointer-events="none">
+  <g id="tip-layer" transform="translate(-220,-195)" pointer-events="none">
     <g class="tip" id="tip" style="opacity:0;pointer-events:none;">
       <rect id="tip-bg"  class="tip-bg" rx="9"/>
       <path id="tip-bdr" class="tip-border"/>
@@ -72,20 +42,18 @@
   </g>
 </g>
 
-<rect x="870" y="100" width="210" height="418" rx="14" class="legend-bg"/>
-<text x="888" y="124" class="legend-title">SEGMENTS</text>
-<g transform="translate(888,140)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Royal Blue</text><text x="158" y="11" class="legend-value" text-anchor="end">$220M</text><text x="200" y="11" class="legend-note legend-value" text-anchor="end">18.3%</text></g>
-<g transform="translate(888,170)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Emerald</text>   <text x="158" y="11" class="legend-value" text-anchor="end">$180M</text><text x="200" y="11" class="legend-note legend-value" text-anchor="end">15.0%</text></g>
-<g transform="translate(888,200)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Amber</text>      <text x="158" y="11" class="legend-value" text-anchor="end">$150M</text><text x="200" y="11" class="legend-note legend-value" text-anchor="end">12.5%</text></g>
-<g transform="translate(888,230)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Rose</text>        <text x="158" y="11" class="legend-value" text-anchor="end">$130M</text><text x="200" y="11" class="legend-note legend-value" text-anchor="end">10.8%</text></g>
-<g transform="translate(888,260)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Violet</text>      <text x="158" y="11" class="legend-value" text-anchor="end">$100M</text><text x="200" y="11" class="legend-note legend-value" text-anchor="end">8.3%</text></g>
-<g transform="translate(888,290)"><rect class="series-6" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Blue</text>        <text x="158" y="11" class="legend-value" text-anchor="end">$90M</text> <text x="200" y="11" class="legend-note legend-value" text-anchor="end">7.5%</text></g>
-<g transform="translate(888,320)"><rect class="series-7" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Teal</text>        <text x="158" y="11" class="legend-value" text-anchor="end">$70M</text> <text x="200" y="11" class="legend-note legend-value" text-anchor="end">5.8%</text></g>
-<g transform="translate(888,350)"><rect class="series-8" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Slate</text>       <text x="158" y="11" class="legend-value" text-anchor="end">$60M</text> <text x="200" y="11" class="legend-note legend-value" text-anchor="end">5.0%</text></g>
-<line x1="888" y1="378" x2="1062" y2="378" class="legend-divider"/>
-<g transform="translate(888,390)"><rect class="series-8" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Other</text>       <text x="158" y="11" class="legend-value" text-anchor="end">$200M</text><text x="200" y="11" class="legend-note legend-value" text-anchor="end">16.7%</text></g>
-
-<text x="68" y="600" class="footer">Revenue by Segment · donut chart · hover to inspect · print mode reveals values</text>
+<rect x="450" y="34" width="430" height="312" rx="14" class="legend-bg"/>
+<text x="474" y="58" class="legend-title">SEGMENTS</text>
+<g transform="translate(474,78)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Royal Blue</text><text x="308" y="11" class="legend-value" text-anchor="end">$220M</text><text x="388" y="11" class="legend-note legend-value" text-anchor="end">18.3%</text></g>
+<g transform="translate(474,108)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Emerald</text><text x="308" y="11" class="legend-value" text-anchor="end">$180M</text><text x="388" y="11" class="legend-note legend-value" text-anchor="end">15.0%</text></g>
+<g transform="translate(474,138)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Amber</text><text x="308" y="11" class="legend-value" text-anchor="end">$150M</text><text x="388" y="11" class="legend-note legend-value" text-anchor="end">12.5%</text></g>
+<g transform="translate(474,168)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Rose</text><text x="308" y="11" class="legend-value" text-anchor="end">$130M</text><text x="388" y="11" class="legend-note legend-value" text-anchor="end">10.8%</text></g>
+<g transform="translate(474,198)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Violet</text><text x="308" y="11" class="legend-value" text-anchor="end">$100M</text><text x="388" y="11" class="legend-note legend-value" text-anchor="end">8.3%</text></g>
+<g transform="translate(474,228)"><rect class="series-6" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Blue</text><text x="308" y="11" class="legend-value" text-anchor="end">$90M</text><text x="388" y="11" class="legend-note legend-value" text-anchor="end">7.5%</text></g>
+<g transform="translate(474,258)"><rect class="series-7" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Teal</text><text x="308" y="11" class="legend-value" text-anchor="end">$70M</text><text x="388" y="11" class="legend-note legend-value" text-anchor="end">5.8%</text></g>
+<g transform="translate(474,288)"><rect class="series-8" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Slate</text><text x="308" y="11" class="legend-value" text-anchor="end">$60M</text><text x="388" y="11" class="legend-note legend-value" text-anchor="end">5.0%</text></g>
+<line x1="474" y1="316" x2="850" y2="316" class="legend-divider"/>
+<g transform="translate(474,328)"><rect class="series-8" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Other</text><text x="308" y="11" class="legend-value" text-anchor="end">$200M</text><text x="388" y="11" class="legend-note legend-value" text-anchor="end">16.7%</text></g>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -94,6 +62,8 @@
   svg._chartInit = function (svgEl, ctx) {
     var pie = svgEl.querySelector('#pie');
     var R   = 195, PUSH = 14;
+    var FRAME_W = 920, FRAME_H = 390;
+    var CX = 220, CY = 195;
 
     function easeOutCubic(t) { return 1 - Math.pow(1-t, 3); }
     function easeOutBack(t)  { var c1=1.70158,c3=c1+1; return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2); }
@@ -144,8 +114,7 @@
       var pct    = g.getAttribute('data-pct');
       var midRad = midDeg * Math.PI / 180;
       var dx = Math.cos(midRad), dy = Math.sin(midRad);
-      var cx = 459, cy = 300;
-      var tipX = cx + dx * R, tipY = cy + dy * R;
+      var tipX = CX + dx * R, tipY = CY + dy * R;
 
       tipVal.textContent = val; tipLbl.textContent = label; tipPct.textContent = pct;
       var pad = 20;
@@ -154,25 +123,40 @@
 
       var bCx = tipX;
       if (bCx - hw < 8)    bCx = 8 + hw;
-      if (bCx + hw > 1092) bCx = 1092 - hw;
+      if (bCx + hw > FRAME_W - 8) bCx = FRAME_W - 8 - hw;
       var flip = dy > 0;
       var bT, bB;
+      var tailTipY;
       if (!flip) { bT = tipY - TAIL - bh; bB = tipY - TAIL; }
       else       { bT = tipY + TAIL;      bB = tipY + TAIL + bh; }
       if (bT < 8)   { bT = 8;   bB = bT + bh; }
-      if (bB > 610) { bB = 610; bT = bB - bh; }
+      if (bB > FRAME_H - 8) { bB = FRAME_H - 8; bT = bB - bh; }
+      if (tipY <= bT) {
+        flip = true;
+      } else if (tipY >= bB) {
+        flip = false;
+      } else if (!flip) {
+        bT = Math.min(FRAME_H - 8 - bh, tipY + TAIL);
+        bB = bT + bh;
+        flip = true;
+      } else {
+        bB = Math.max(8 + bh, tipY - TAIL);
+        bT = bB - bh;
+        flip = false;
+      }
+      tailTipY = flip ? Math.min(tipY, bT - 4) : Math.max(tipY, bB + 4);
       var bL = bCx - hw, bR = bCx + hw;
 
       tipBg.setAttribute('x', bL); tipBg.setAttribute('y', bT);
       tipBg.setAttribute('width', hw*2); tipBg.setAttribute('height', bh);
 
       var openPath, tailPath;
-      if (!flip) {
-        openPath = 'M'+(bCx+tw)+','+bB+' L'+(bR-rx9)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-rx9)+' L'+bR+','+(bT+rx9)+' Q'+bR+','+bT+' '+(bR-rx9)+','+bT+' L'+(bL+rx9)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+rx9)+' L'+bL+','+(bB-rx9)+' Q'+bL+','+bB+' '+(bL+rx9)+','+bB+' L'+(bCx-tw)+','+bB;
-        tailPath = 'M'+(bCx-tw)+','+bB+' L'+bCx+','+tipY+' L'+(bCx+tw)+','+bB;
-      } else {
+      if (flip) {
         openPath = 'M'+(bCx-tw)+','+bT+' L'+(bL+rx9)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+rx9)+' L'+bL+','+(bB-rx9)+' Q'+bL+','+bB+' '+(bL+rx9)+','+bB+' L'+(bR-rx9)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-rx9)+' L'+bR+','+(bT+rx9)+' Q'+bR+','+bT+' '+(bR-rx9)+','+bT+' L'+(bCx+tw)+','+bT;
-        tailPath = 'M'+(bCx+tw)+','+bT+' L'+bCx+','+tipY+' L'+(bCx-tw)+','+bT;
+        tailPath = 'M'+(bCx+tw)+','+bT+' L'+bCx+','+tailTipY+' L'+(bCx-tw)+','+bT;
+      } else {
+        openPath = 'M'+(bCx+tw)+','+bB+' L'+(bR-rx9)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-rx9)+' L'+bR+','+(bT+rx9)+' Q'+bR+','+bT+' '+(bR-rx9)+','+bT+' L'+(bL+rx9)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+rx9)+' L'+bL+','+(bB-rx9)+' Q'+bL+','+bB+' '+(bL+rx9)+','+bB+' L'+(bCx-tw)+','+bB;
+        tailPath = 'M'+(bCx-tw)+','+bB+' L'+bCx+','+tailTipY+' L'+(bCx+tw)+','+bB;
       }
       tipBdr.setAttribute('d', openPath); tipArr.setAttribute('d', tailPath);
       tipVal.setAttribute('x', bCx); tipVal.setAttribute('y', bT + bh*0.28);

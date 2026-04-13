@@ -1,9 +1,11 @@
 
 
-<svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
+<svg id="root" viewBox="40 80 1040 463" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
 <defs>
 <style>
   @import url('chart-shared.css');
+  .chart-shell-hidden { display:none; }
+  .card-bg, .border-light, .border-dark { display:none; }
   .card-bg  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
   .card-title       { font-size:18px;font-weight:500;fill:#1C1B1F;letter-spacing:-.2px; }
   .card-subtitle       { font-size:11px;fill:#79747E;font-weight:400; }
@@ -39,6 +41,8 @@
      Hover rules gate on .ready and target .tm-tile.visible — no conflict, no !important needed. */
   .tm-tile                              { opacity:0; cursor:pointer; }
   .tm-tile.visible                      { opacity:1; }
+  .tm-grid                              { opacity:0; pointer-events:none; }
+  .tm-grid.visible                      { opacity:1; }
   .data-layer.ready.hovering .tm-tile.visible         { opacity:0.20; transition:opacity .2s ease; }
   .data-layer.ready.hovering .tm-tile.visible.hovered { opacity:1;    transition:opacity .2s ease; }
 
@@ -68,6 +72,7 @@
   svg.dark.print .print-track { fill:#d97316; }
   .border-dark  { display:none; } .border-light { display:block; }
   svg.dark .border-dark  { display:block; } svg.dark .border-light { display:none; }
+  .card-bg, .border-light, .border-dark, .card-title, .card-subtitle, .footer, .toggle-wrap { display:none !important; }
 </style>
 </defs>
 
@@ -142,7 +147,7 @@
   </g>
 </g>
 
-<g stroke="white" stroke-width="2" fill="none">
+<g id="tm-grid" class="tm-grid" stroke="white" stroke-width="2" fill="none">
   <line x1="68"  y1="307" x2="850" y2="307"/>
   <line x1="68"  y1="413" x2="850" y2="413"/>
   <line x1="539" y1="100" x2="539" y2="307"/>
@@ -173,21 +178,21 @@
 <g id="bubble-overlay">
 
   <!-- Violet $320M — anchor (284,100) -->
-  <g class="data-tip" id="bub1" transform="translate(303,100)">
-    <rect class="tip-bg"  x="-44" y="-62" width="88" height="53" rx="8"/>
-    <path class="tip-border" d="M8,-9 L36,-9 Q44,-9 44,-17 L44,-54 Q44,-62 36,-62 L-36,-62 Q-44,-62 -44,-54 L-44,-17 Q-44,-9 -36,-9 L-8,-9"/>
-    <path class="tip-tail" d="M8,-9 L0,0 L-8,-9"/>
-    <text x="0" y="-43" text-anchor="middle" dominant-baseline="central" class="tip-value">$320M</text>
-    <text x="0" y="-25" text-anchor="middle" dominant-baseline="central" class="tip-label">Violet · 31.2%</text>
+  <g class="data-tip" id="bub1" transform="translate(303,170)">
+    <rect class="tip-bg"  x="-44" y="9" width="88" height="53" rx="8"/>
+    <path class="tip-border" d="M-8,9 L-36,9 Q-44,9 -44,17 L-44,54 Q-44,62 -36,62 L36,62 Q44,62 44,54 L44,17 Q44,9 36,9 L8,9"/>
+    <path class="tip-tail" d="M-8,9 L0,0 L8,9"/>
+    <text x="0" y="28" text-anchor="middle" dominant-baseline="central" class="tip-value">$320M</text>
+    <text x="0" y="46" text-anchor="middle" dominant-baseline="central" class="tip-label">Violet 31.2%</text>
   </g>
 
   <!-- Cyan $210M — anchor (689,100) -->
-  <g class="data-tip" id="bub2" transform="translate(694,100)">
-    <rect class="tip-bg"  x="-40" y="-62" width="80" height="53" rx="8"/>
-    <path class="tip-border" d="M8,-9 L32,-9 Q40,-9 40,-17 L40,-54 Q40,-62 32,-62 L-32,-62 Q-40,-62 -40,-54 L-40,-17 Q-40,-9 -32,-9 L-8,-9"/>
-    <path class="tip-tail" d="M8,-9 L0,0 L-8,-9"/>
-    <text x="0" y="-43" text-anchor="middle" dominant-baseline="central" class="tip-value">$210M</text>
-    <text x="0" y="-25" text-anchor="middle" dominant-baseline="central" class="tip-label">Cyan · 20.5%</text>
+  <g class="data-tip" id="bub2" transform="translate(694,170)">
+    <rect class="tip-bg"  x="-40" y="9" width="80" height="53" rx="8"/>
+    <path class="tip-border" d="M-8,9 L-32,9 Q-40,9 -40,17 L-40,54 Q-40,62 -32,62 L32,62 Q40,62 40,54 L40,17 Q40,9 32,9 L8,9"/>
+    <path class="tip-tail" d="M-8,9 L0,0 L8,9"/>
+    <text x="0" y="28" text-anchor="middle" dominant-baseline="central" class="tip-value">$210M</text>
+    <text x="0" y="46" text-anchor="middle" dominant-baseline="central" class="tip-label">Cyan 20.5%</text>
   </g>
 
   <!-- Emerald $150M — anchor (265,307) -->
@@ -255,6 +260,7 @@
   svg._chartInit = function (svgEl, ctx) {
 var svg   = document.getElementById('root');
   var dataLayerEl = document.getElementById('data-layer');
+  var gridEl = document.getElementById('tm-grid');
 
   /* §2 isDark before all build/animation code */
 
@@ -277,6 +283,15 @@ var svg   = document.getElementById('root');
       tile.classList.add('visible');
     }, { once: true });
   });
+
+  if (gridEl) {
+    gridEl.style.animation = 'tileFade 0.8s ease-out 0s';
+    gridEl.addEventListener('animationend', function handler() {
+      gridEl.removeEventListener('animationend', handler);
+      gridEl.style.animation = 'none';
+      gridEl.classList.add('visible');
+    }, { once: true });
+  }
 
   setTimeout(function() { dataLayerEl.classList.add('ready'); }, readyDelay);
 
@@ -308,3 +323,4 @@ var svg   = document.getElementById('root');
 }());
 ]]></script>
 </svg>
+

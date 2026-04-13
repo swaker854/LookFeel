@@ -1,10 +1,12 @@
 
 
 
-<svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
+<svg id="root" viewBox="40 80 1040 463" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
     @import url('chart-shared.css');
+  .chart-shell-hidden { display:none; }
+  .card-bg, .border-light, .border-dark { display:none; }
     .card-bg    { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
     .card-title { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
     .card-subtitle { font-size:11px; fill:#79747E; font-weight:400; }
@@ -62,7 +64,7 @@
     .data-layer.ready.hovering .data-item.active { opacity:1;    transition:opacity 0.2s ease; }
     .dw  { cursor:pointer; }
     /* Dot hit targets — invisible circles in a top-layer group, pointer-events only */
-    .dht { fill:transparent; cursor:pointer; }
+    .dht { fill:transparent; cursor:pointer; pointer-events:all; }
 
     /* §4 — Tooltip bubble */
     .data-tip  { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
@@ -104,6 +106,7 @@
     .border-light { display:block; }
     svg.dark .border-dark  { display:block; }
     svg.dark .border-light { display:none; }
+    .card-bg, .border-light, .border-dark, .card-title, .card-subtitle, .footer, .toggle-wrap { display:none !important; }
   </style>
 </defs>
 
@@ -185,7 +188,7 @@
 <!-- ── Series C: Emerald (back layer) ── -->
 <g class="data-item" id="bw3">
   <g class="data-body">
-    <g id="series-anim-3" class="sa">
+    <g id="series-anim-3" class="sa" style="opacity:0;transform:scale(0)">
       <polygon class="series-2 sp-poly sp-poly-2" points="430.0,177.0 508.2,242.7 595.7,342.8 491.6,432.9 358.8,452.8 309.1,332.6 289.3,192.8"/>
       <circle cx="430.0" cy="177.0" r="6" class="series-2"/>
       <circle cx="508.2" cy="242.7" r="6" class="series-2"/>
@@ -201,7 +204,7 @@
 <!-- ── Series B: Violet (middle layer) ── -->
 <g class="data-item" id="bw2">
   <g class="data-body">
-    <g id="series-anim-2" class="sa">
+    <g id="series-anim-2" class="sa" style="opacity:0;transform:scale(0)">
       <polygon class="series-5 sp-poly sp-poly-5" points="430.0,195.0 558.2,202.7 566.5,336.2 484.7,418.5 379.7,409.5 258.4,344.2 317.4,215.2"/>
       <circle cx="430.0" cy="195.0" r="6" class="series-5"/>
       <circle cx="558.2" cy="202.7" r="6" class="series-5"/>
@@ -217,7 +220,7 @@
 <!-- ── Series A: Cyan (front layer) ── -->
 <g class="data-item" id="bw1">
   <g class="data-body">
-    <g id="series-anim-1" class="sa">
+    <g id="series-anim-1" class="sa" style="opacity:0;transform:scale(0)">
       <polygon class="series-1 sp-poly sp-poly-1" points="430.0,161.0 531.6,223.9 543.1,330.8 499.4,449.2 365.8,438.3 322.8,329.5 323.7,220.2"/>
       <circle cx="430.0" cy="161.0" r="6" class="series-1"/>
       <circle cx="531.6" cy="223.9" r="6" class="series-1"/>

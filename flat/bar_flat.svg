@@ -1,7 +1,7 @@
 
 
 
-<svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
+<svg id="root" viewBox="40 88 1040 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
     @import url('chart-shared.css');
@@ -24,28 +24,6 @@
     .stagger-7 { animation-delay:1.50s; } .stagger-8 { animation-delay:1.75s; }
   </style>
 </defs>
-
-<rect class="card-bg" width="1100" height="620" rx="18"/>
-<g class="border-dark">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
-</g>
-<g class="border-light">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
-</g>
-
-<text x="68" y="50" class="card-title">Revenue by Category - bar</text>
-<text x="68" y="70" class="card-subtitle">7 series + Other · hover to inspect · print for values</text>
-
-<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
-  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
-</g>
-<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
-  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
-</g>
 
 <line x1="68" y1="500" x2="850" y2="500" class="axis-line"/>
 <line x1="68" y1="400" x2="850" y2="400" class="grid-line"/>
@@ -223,8 +201,6 @@
   <text x="188" y="11" class="legend-value" text-anchor="end">$48M</text>
 </g>
 
-<text x="68" y="600" class="footer">Revenue by Category · 7 series + Other · bar chart</text>
-
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
 (function () {
@@ -283,3 +259,5 @@
 }());
 ]]></script>
 </svg>
+
+

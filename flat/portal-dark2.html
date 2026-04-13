@@ -397,6 +397,133 @@
       border-radius: 18px;
       display: block;
     }
+
+    .chart-card-shell {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: 0;
+      background: var(--bg-surface);
+    }
+
+    .chart-card-shell.light {
+      background: #f8f5fb;
+      border-color: rgba(121, 116, 126, 0.28);
+      box-shadow: 0 18px 40px rgba(28, 27, 31, 0.08);
+    }
+
+    .chart-shell-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 20px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.035);
+    }
+
+    .chart-card-shell.light .chart-shell-header {
+      border-bottom-color: rgba(121, 116, 126, 0.18);
+    }
+
+    .chart-shell-copy {
+      min-width: 0;
+    }
+
+    .chart-shell-title {
+      font-size: 19px;
+      font-weight: 500;
+      line-height: 1.18;
+      color: var(--text-primary);
+      letter-spacing: 0;
+    }
+
+    .chart-card-shell.light .chart-shell-title {
+      color: #1c1b1f;
+    }
+
+    .chart-shell-subtitle {
+      margin-top: 8px;
+      font-size: 11px;
+      line-height: 1.45;
+      color: rgba(138, 153, 176, 0.92);
+    }
+
+    .chart-card-shell.light .chart-shell-subtitle {
+      color: #79747e;
+    }
+
+    .chart-shell-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .chart-shell-btn {
+      min-width: 72px;
+      height: 30px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-sec);
+      font: inherit;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+
+    .chart-card-shell.light .chart-shell-btn {
+      border-color: rgba(121, 116, 126, 0.28);
+      background: rgba(121, 116, 126, 0.06);
+      color: #49454f;
+    }
+
+    .chart-shell-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .chart-card-shell.light .chart-shell-btn:hover {
+      background: rgba(121, 116, 126, 0.12);
+    }
+
+    .chart-shell-btn.active {
+      color: var(--text-primary);
+      border-color: var(--border-cyan);
+      background: rgba(0, 242, 255, 0.08);
+    }
+
+    .chart-card-shell.light .chart-shell-btn.active {
+      color: #1c1b1f;
+      border-color: rgba(0, 184, 122, 0.42);
+      background: rgba(0, 184, 122, 0.12);
+    }
+
+    .chart-shell-body {
+      min-height: 0;
+      padding: 12px 10px 8px;
+    }
+
+    .chart-card-shell.light .chart-shell-body {
+      background: linear-gradient(180deg, rgba(255, 251, 254, 0.96), rgba(245, 240, 248, 0.94));
+    }
+
+    .chart-card-shell .chart-frame {
+      border-radius: 0;
+      height: 100%;
+    }
+
+    .chart-shell-footer {
+      padding: 12px 20px 16px;
+      font-size: 10px;
+      line-height: 1.5;
+      letter-spacing: 0.15px;
+      color: rgba(138, 153, 176, 0.78);
+    }
+
+    .chart-card-shell.light .chart-shell-footer {
+      color: #79747e;
+    }
   </style>
 </head>
 
@@ -687,6 +814,130 @@
       </div>
     </div>
   </div>
+  <script>
+    var defaultPalette = ['#00D4E8', '#00B87A', '#F59E0B', '#F43F5E', '#8B5CF6', '#3B82F6', '#0D9488', '#64748B'];
+    var chartShellMeta = {
+      'treemap_flat.svg': {
+        title: 'Revenue by Category - Treemap',
+        subtitle: '8 segments · area proportional to revenue · hover to inspect',
+        footer: 'Revenue by category · treemap · hover to inspect · print mode reveals values'
+      },
+      'marimekko_flat.svg': {
+        title: 'Sales by Product - Marimekko',
+        subtitle: 'Width = product share · height = country mix',
+        footer: 'Sales by product and country · marimekko chart · hover to inspect'
+      },
+      'pareto_flat.svg': {
+        title: 'Defects by Category - Pareto',
+        subtitle: 'Bars sorted descending with cumulative line · hover to inspect',
+        footer: 'Defects by category · pareto chart · print mode reveals values'
+      },
+      'radar_flat.svg': {
+        title: 'Capability Comparison - Radar',
+        subtitle: 'Five profiles across shared dimensions · hover to inspect',
+        footer: 'Capability comparison · radar chart · hover to inspect'
+      },
+      'waterfall_flat.svg': {
+        title: 'Revenue Bridge - Waterfall',
+        subtitle: 'Step contributions from baseline to final total · hover to inspect',
+        footer: 'Revenue bridge · waterfall chart · hover to inspect'
+      },
+      'sunburst_flat.svg': {
+        title: 'Revenue by Category - Sunburst',
+        subtitle: 'Inner ring = category · outer ring = quarter',
+        footer: 'Revenue sunburst · hover to inspect · print mode reveals values'
+      },
+      'boxplot_flat.svg': {
+        title: 'Distribution by Segment - Box Plot',
+        subtitle: 'Quartiles, whiskers, and outliers by group · hover to inspect',
+        footer: 'Distribution by segment · box plot · hover to inspect'
+      },
+      'gantt_flat.svg': {
+        title: 'Project Timeline - Gantt',
+        subtitle: 'Tasks, milestones, and dependencies across the schedule',
+        footer: 'Project timeline · gantt chart · hover to inspect'
+      },
+      'icicle_flat.svg': {
+        title: 'Flare Visualization Toolkit - Icicle',
+        subtitle: 'Five levels · area proportional to source lines of code',
+        footer: 'Flare visualization toolkit · icicle chart · hover to inspect'
+      }
+    };
+
+    function shellMarkup(title, subtitle, footer, src) {
+      return '' +
+        '<div class="chart-shell-header">' +
+          '<div class="chart-shell-copy">' +
+            '<div class="chart-shell-title">' + title + '</div>' +
+            '<div class="chart-shell-subtitle">' + subtitle + '</div>' +
+          '</div>' +
+          '<div class="chart-shell-controls">' +
+            '<button class="chart-shell-btn active" type="button" data-chart-mode>Light</button>' +
+            '<button class="chart-shell-btn" type="button" data-chart-print>Print</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="chart-shell-body">' +
+          '<iframe class="chart-frame" src="' + src + '" scrolling="no" frameborder="0" data-chart-frame></iframe>' +
+        '</div>' +
+        '<div class="chart-shell-footer">' + footer + '</div>';
+    }
+
+    document.querySelectorAll('.chart-card').forEach(function (card) {
+      var existingFrame = card.querySelector('iframe.chart-frame');
+      if (!existingFrame) return;
+
+      var src = existingFrame.getAttribute('src') || '';
+      var base = src.split('?')[0];
+      var meta = chartShellMeta[base];
+      if (!meta) return;
+
+      if (!card.hasAttribute('data-chart-shell')) {
+        card.classList.add('chart-card-shell');
+        card.setAttribute('data-chart-shell', '');
+        card.innerHTML = shellMarkup(meta.title, meta.subtitle, meta.footer, src);
+      }
+    });
+
+    document.querySelectorAll('[data-chart-shell]').forEach(function (card) {
+      var frame = card.querySelector('[data-chart-frame]');
+      var modeBtn = card.querySelector('[data-chart-mode]');
+      var printBtn = card.querySelector('[data-chart-print]');
+      var state = { dark: true, print: false };
+
+      function paintButtons() {
+        card.classList.toggle('light', !state.dark);
+        modeBtn.classList.toggle('active', state.dark);
+        modeBtn.textContent = state.dark ? 'Light' : 'Dark';
+        printBtn.classList.toggle('active', state.print);
+        printBtn.textContent = state.print ? 'Screen' : 'Print';
+      }
+
+      function syncFrame() {
+        if (!frame || !frame.contentWindow) return;
+        frame.contentWindow.postMessage({ type: 'setPalette', colors: defaultPalette }, '*');
+        frame.contentWindow.postMessage({ type: 'setMode', dark: state.dark }, '*');
+        frame.contentWindow.postMessage({ type: 'setPrint', print: state.print }, '*');
+      }
+
+      modeBtn.addEventListener('click', function () {
+        state.dark = !state.dark;
+        paintButtons();
+        syncFrame();
+      });
+
+      printBtn.addEventListener('click', function () {
+        state.print = !state.print;
+        paintButtons();
+        syncFrame();
+      });
+
+      frame.addEventListener('load', function () {
+        syncFrame();
+      });
+
+      paintButtons();
+    });
+  </script>
 </body>
 
 </html>

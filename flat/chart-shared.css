@@ -1,8 +1,61 @@
 /* ── chart-shared.css ─────────────────────────────────────────────────────────
    Design tokens and component styles shared across all flat chart SVGs.
-   Series palette (.series-N) stays per-chart because ordering varies.
+   Series slots (.series-N) resolve through shared CSS variables so the host
+   can provide one palette sequence for every chart.
    ──────────────────────────────────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+svg {
+  --series-1: #00D4E8;
+  --series-2: #00B87A;
+  --series-3: #F59E0B;
+  --series-4: #F43F5E;
+  --series-5: #8B5CF6;
+  --series-6: #3B82F6;
+  --series-7: #0D9488;
+  --series-8: #64748B;
+  --series-9: var(--series-1);
+  --series-10: var(--series-2);
+  --series-11: var(--series-3);
+  --series-12: var(--series-4);
+  --series-13: var(--series-5);
+  --series-14: var(--series-6);
+  --series-15: var(--series-7);
+  --series-16: var(--series-8);
+  --series-17: var(--series-1);
+  --series-18: var(--series-2);
+  --series-19: var(--series-3);
+  --series-20: var(--series-4);
+  --series-21: var(--series-5);
+  --series-22: var(--series-6);
+  --series-23: var(--series-7);
+  --series-24: var(--series-8);
+}
+
+.series-1 { fill: var(--series-1); }
+.series-2 { fill: var(--series-2); }
+.series-3 { fill: var(--series-3); }
+.series-4 { fill: var(--series-4); }
+.series-5 { fill: var(--series-5); }
+.series-6 { fill: var(--series-6); }
+.series-7 { fill: var(--series-7); }
+.series-8 { fill: var(--series-8); }
+.series-9 { fill: var(--series-9); }
+.series-10 { fill: var(--series-10); }
+.series-11 { fill: var(--series-11); }
+.series-12 { fill: var(--series-12); }
+.series-13 { fill: var(--series-13); }
+.series-14 { fill: var(--series-14); }
+.series-15 { fill: var(--series-15); }
+.series-16 { fill: var(--series-16); }
+.series-17 { fill: var(--series-17); }
+.series-18 { fill: var(--series-18); }
+.series-19 { fill: var(--series-19); }
+.series-20 { fill: var(--series-20); }
+.series-21 { fill: var(--series-21); }
+.series-22 { fill: var(--series-22); }
+.series-23 { fill: var(--series-23); }
+.series-24 { fill: var(--series-24); }
 
 /* ── Card chrome ── */
 .card-bg        { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }

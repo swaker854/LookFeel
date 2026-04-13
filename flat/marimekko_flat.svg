@@ -1,7 +1,9 @@
-<svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
+<svg id="root" viewBox="40 80 1040 463" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
     @import url('chart-shared.css');
+  .chart-shell-hidden { display:none; }
+  .card-bg, .border-light, .border-dark { display:none; }
     .card-bg      { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
     .card-title       { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
     .card-subtitle       { font-size:11px; fill:#79747E; font-weight:400; }
@@ -47,6 +49,8 @@
     @keyframes cellFade { from{opacity:0} to{opacity:1} }
     .mcell         { opacity:0; cursor:pointer; transition:opacity .2s ease; }
     .mcell.visible { opacity:1; }
+    .structural-overlay         { opacity:0; pointer-events:none; }
+    .structural-overlay.visible { opacity:1; }
     .data-layer.ready.hovering .mcell.visible         { opacity:0.20; transition:opacity .2s ease; }
     .data-layer.ready.hovering .mcell.visible.hovered { opacity:1;    transition:opacity .2s ease; }
 
@@ -90,6 +94,7 @@
     svg.dark .tip-pct    { fill:#938F99; }
     svg.dark .border-dark  { display:block; }
     svg.dark .border-light { display:none; }
+    .card-bg, .border-light, .border-dark, .card-title, .card-subtitle, .footer, .toggle-wrap { display:none !important; }
   </style>
 </defs>
 
@@ -231,7 +236,7 @@
 <!-- §6 Layer 3 — structural overlays (column dividers + chart border)
      Intentionally after .data-layer so white cdiv lines paint over tile fills.
      Placed before #tip-overlay so tooltips always appear on top. -->
-<g id="structural-overlay">
+<g id="structural-overlay" class="structural-overlay">
   <!-- Column dividers -->
   <line x1="266.1" y1="92" x2="266.1" y2="512" class="cdiv"/>
   <line x1="512.2" y1="92" x2="512.2" y2="512" class="cdiv"/>
@@ -325,6 +330,7 @@
   svg._chartInit = function (svgEl, ctx) {
 var svg         = document.getElementById('root');
   var dataLayerEl = document.getElementById('data-layer');
+  var structuralOverlayEl = document.getElementById('structural-overlay');
   var cells = Array.prototype.slice.call(dataLayerEl.querySelectorAll('.mcell'));
 
   /* §3 — Method A1: animationend + .visible, setTimeout gates .ready */
@@ -339,6 +345,13 @@ var svg         = document.getElementById('root');
       cell.classList.add('visible');
     }, { once: true });
   });
+  if (structuralOverlayEl) {
+    structuralOverlayEl.style.animation = 'cellFade ' + duration + 's ease-out 0s';
+    structuralOverlayEl.addEventListener('animationend', function() {
+      structuralOverlayEl.style.animation = 'none';
+      structuralOverlayEl.classList.add('visible');
+    }, { once: true });
+  }
   setTimeout(function() { dataLayerEl.classList.add('ready'); }, (lastDelay + duration + 0.1) * 1000);
 
   /* §4 — Tooltip (JS-driven, 3-element tip-bg + tip-border + tip-tail) */
