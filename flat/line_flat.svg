@@ -4,39 +4,8 @@
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
-    .card-bg        { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    .card-title     { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .card-subtitle  { font-size:11px; fill:#79747E; font-weight:400; }
-    .tick-label     { font-size:10px; fill:#79747E; font-weight:400; }
-    .category-label { font-size:10px; fill:#79747E; font-weight:500; }
-    .legend-label   { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    .legend-value   { font-size:11px; fill:#1C1B1F; font-weight:500; opacity:0; transition:opacity 0.2s; }
-    .legend-note    { font-size:10px; fill:#79747E; font-weight:400; }
-    .grid-line      { stroke:#E7E0EC; stroke-width:1; }
-    .axis-line      { stroke:#79747E; stroke-width:1.5; }
-    .legend-bg      { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .legend-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .legend-title   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-    .footer         { font-size:10px; fill:#79747E; font-weight:400; }
-    .toggle-wrap    { cursor:pointer; }
-    .toggle-track   { fill:#E7E0EC; } .toggle-thumb { fill:#ffffff; }
-    .toggle-label   { font-size:11px; font-weight:500; fill:#49454F; }
-    .print-track    { fill:#E7E0EC; transition:fill 0.3s; } .print-thumb { fill:#ffffff; }
-    .print-label    { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.print .legend-value { opacity:1; }
-    svg.print .print-track  { fill:#d97316; }
-    .dot-g     { cursor:pointer; }
-    .crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
-    .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    svg.print .tip { opacity:0 !important; }
-    .tip-bg     { fill:#FFFBFE; }
-    .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
+    @import url('chart-shared.css');
 
-    /* ── standard palette ── */
     .series-1 { fill:#00D4E8; stroke:#00D4E8; } .series-2 { fill:#8B5CF6; stroke:#8B5CF6; }
     .series-3 { fill:#00B87A; stroke:#00B87A; } .series-4 { fill:#F59E0B; stroke:#F59E0B; }
     .series-5 { fill:#64748B; stroke:#64748B; }
@@ -44,19 +13,22 @@
     svg.dark .series-3 { fill:#10B981; stroke:#10B981; } svg.dark .series-4 { fill:#FBB724; stroke:#FBB724; }
     svg.dark .series-5 { fill:#94A3B8; stroke:#94A3B8; }
 
-    /* ── line draw animation — both safe: animates stroke-dashoffset not opacity ── */
+    .dot-g     { cursor:pointer; }
+    .crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
+    svg.dark .crosshair { stroke:#938F99; }
+    .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
+    svg.print .tip { opacity:0 !important; }
+
     @keyframes drawLine { from{stroke-dashoffset:var(--len,900)} to{stroke-dashoffset:0} }
     .line-path { stroke-dasharray:var(--len,900); stroke-dashoffset:var(--len,900);
                  animation:drawLine 1.2s cubic-bezier(0.4,0,0.2,1) both; }
     .stagger-1 { animation-delay:0.00s; } .stagger-2 { animation-delay:0.25s; }
     .stagger-3 { animation-delay:0.50s; } .stagger-4 { animation-delay:0.75s; } .stagger-5 { animation-delay:1.00s; }
 
-    /* ── dot animation — Method A1: animationend adds .visible ── */
     @keyframes popDot { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
     .dot-inner         { opacity:0; cursor:pointer; transition:opacity 0.2s ease; }
     .dot-inner.visible { opacity:1; }
 
-    /* ── hover dimming — gated on .data-layer.ready ── */
     .line-path { transition:opacity 0.2s ease; }
     .area-path { transition:opacity 0.2s ease; }
     .data-layer.ready.hovering .line-path              { opacity:0.20; }
@@ -65,27 +37,6 @@
     .data-layer.ready.hovering .line-path.active       { opacity:1; }
     .data-layer.ready.hovering .area-path.active       { opacity:1; }
     .data-layer.ready.hovering .dot-inner.visible.active { opacity:1; }
-
-    svg.dark .card-bg       { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-    svg.dark .card-title    { fill:#E6E0E9; } svg.dark .card-subtitle { fill:#938F99; }
-    svg.dark .tick-label    { fill:#938F99; } svg.dark .category-label { fill:#938F99; }
-    svg.dark .legend-label  { fill:#E6E0E9; } svg.dark .legend-value  { fill:#E6E0E9; }
-    svg.dark .legend-note   { fill:#938F99; }
-    svg.dark .grid-line     { stroke:#49454F; } svg.dark .axis-line { stroke:#938F99; }
-    svg.dark .legend-bg     { fill:#49454F; stroke:#938F99; }
-    svg.dark .legend-divider { stroke:#938F99; } svg.dark .legend-title { fill:#938F99; }
-    svg.dark .footer        { fill:#938F99; }
-    svg.dark .toggle-track  { fill:#49454F; } svg.dark .toggle-label  { fill:#CAC4D0; }
-    svg.dark .print-track   { fill:#49454F; } svg.dark .print-label   { fill:#CAC4D0; }
-    svg.dark.print .print-track { fill:#d97316; }
-    svg.dark .crosshair     { stroke:#938F99; }
-    svg.dark .tip-bg        { fill:#1C1B1F; }
-    svg.dark .tip-border    { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .tip-tail      { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .tip-value     { fill:#E6E0E9; }
-    svg.dark .tip-label     { fill:#CAC4D0; }
-    .border-dark  { display:none; } .border-light { display:block; }
-    svg.dark .border-dark  { display:block; } svg.dark .border-light { display:none; }
   </style>
 </defs>
 
@@ -174,227 +125,197 @@
 
 <text x="68" y="600" class="footer">Revenue by Quarter · 5 series · line chart</text>
 
-<script type="text/javascript">
-//<![CDATA[
-(function() {
-  var svg          = document.getElementById('root');
-  var dataLayerEl  = document.getElementById('data-layer');
-  var ns           = 'http://www.w3.org/2000/svg';
-  var dotsLayer    = document.getElementById('dots-layer');
-  var tipLayer     = document.getElementById('tip-layer');
+<script href="chart-shared.js"></script>
+<script type="text/javascript"><![CDATA[
+(function () {
+  var svg = document.documentElement;
+  svg._chartInit = function (svgEl, ctx) {
+    var dataLayerEl  = svgEl.querySelector('#data-layer');
+    var ns           = 'http://www.w3.org/2000/svg';
+    var dotsLayer    = svgEl.querySelector('#dots-layer');
+    var tipLayer     = svgEl.querySelector('#tip-layer');
 
-  /* §2 — isDark hoisted before all build and animation code */
-  var isDark = false;
+    var series = [
+      { id:1, cls:'series-1', label:'Cyan',    vals:[32,38,41,48,52,61,68,72], ys:[372,348,336,308,292,256,228,212] },
+      { id:2, cls:'series-2', label:'Violet',  vals:[28,31,35,40,44,49,55,62], ys:[388,376,360,340,324,304,280,252] },
+      { id:3, cls:'series-3', label:'Emerald', vals:[18,22,25,29,25,28,31,35], ys:[428,412,400,384,400,388,376,360] },
+      { id:4, cls:'series-4', label:'Amber',   vals:[12,15,18,14,17,20,16,22], ys:[452,440,428,444,432,420,436,412] },
+      { id:5, cls:'series-5', label:'Slate',   vals:[10,13,11,15,13,17,15,19], ys:[460,448,456,440,448,432,440,424] },
+    ];
 
-  var series = [
-    { id:1, cls:'series-1', label:'Cyan',    vals:[32,38,41,48,52,61,68,72], ys:[372,348,336,308,292,256,228,212] },
-    { id:2, cls:'series-2', label:'Violet',  vals:[28,31,35,40,44,49,55,62], ys:[388,376,360,340,324,304,280,252] },
-    { id:3, cls:'series-3', label:'Emerald', vals:[18,22,25,29,25,28,31,35], ys:[428,412,400,384,400,388,376,360] },
-    { id:4, cls:'series-4', label:'Amber',   vals:[12,15,18,14,17,20,16,22], ys:[452,440,428,444,432,420,436,412] },
-    { id:5, cls:'series-5', label:'Slate',   vals:[10,13,11,15,13,17,15,19], ys:[460,448,456,440,448,432,440,424] },
-  ];
+    var aOpacity = [0.28, 0.24, 0.20, 0.18, 0.14];
 
-  var aOpacity = [0.28, 0.24, 0.20, 0.18, 0.14];
-
-  var defs = svg.querySelector('defs');
-  series.forEach(function(s, i) {
-    var grad = document.createElementNS(ns, 'linearGradient');
-    grad.setAttribute('id', 'a'+s.id);
-    grad.setAttribute('x1','0'); grad.setAttribute('y1','0');
-    grad.setAttribute('x2','0'); grad.setAttribute('y2','1');
-    var s0 = document.createElementNS(ns, 'stop');
-    s0.setAttribute('id','a'+s.id+'s0'); s0.setAttribute('offset','0%');
-    s0.setAttribute('stop-opacity', aOpacity[i]);
-    var s1 = document.createElementNS(ns, 'stop');
-    s1.setAttribute('id','a'+s.id+'s1'); s1.setAttribute('offset','100%');
-    s1.setAttribute('stop-opacity','0.02');
-    grad.appendChild(s0); grad.appendChild(s1); defs.appendChild(grad);
-    var area = document.getElementById('area-'+s.id);
-    if (area) area.setAttribute('fill','url(#a'+s.id+')');
-  });
-
-  function syncGradients() {
-    var probe = document.createElementNS(ns, 'rect');
-    probe.style.visibility='hidden'; probe.style.position='absolute';
-    svg.appendChild(probe);
-    series.forEach(function(s) {
-      probe.setAttribute('class', s.cls);
-      var color = window.getComputedStyle(probe).fill;
-      var s0=document.getElementById('a'+s.id+'s0'), s1=document.getElementById('a'+s.id+'s1');
-      if (s0) s0.setAttribute('stop-color', color);
-      if (s1) s1.setAttribute('stop-color', color);
-      var area=document.getElementById('area-'+s.id);
+    var defs = svgEl.querySelector('defs');
+    series.forEach(function(s, i) {
+      var grad = document.createElementNS(ns, 'linearGradient');
+      grad.setAttribute('id', 'a'+s.id);
+      grad.setAttribute('x1','0'); grad.setAttribute('y1','0');
+      grad.setAttribute('x2','0'); grad.setAttribute('y2','1');
+      var s0 = document.createElementNS(ns, 'stop');
+      s0.setAttribute('id','a'+s.id+'s0'); s0.setAttribute('offset','0%');
+      s0.setAttribute('stop-opacity', aOpacity[i]);
+      var s1 = document.createElementNS(ns, 'stop');
+      s1.setAttribute('id','a'+s.id+'s1'); s1.setAttribute('offset','100%');
+      s1.setAttribute('stop-opacity','0.02');
+      grad.appendChild(s0); grad.appendChild(s1); defs.appendChild(grad);
+      var area = svgEl.querySelector('#area-'+s.id);
       if (area) area.setAttribute('fill','url(#a'+s.id+')');
     });
-    svg.removeChild(probe);
-  }
 
-  var quarters = ["Q1 '22","Q2 '22","Q3 '22","Q4 '22","Q1 '23","Q2 '23","Q3 '23","Q4 '23"];
-  var xs = [68,180,291,403,515,627,738,850];
-  var allTips = {};
-
-  function el(tag, attrs) {
-    var e = document.createElementNS(ns, tag);
-    Object.keys(attrs).forEach(function(k){ e.setAttribute(k, attrs[k]); });
-    return e;
-  }
-
-  function setHover(activeSid) {
-    dataLayerEl.classList.add('hovering');
-    /* §4 — clear all stale .active before setting new active series */
-    series.forEach(function(s) {
-      var line = document.getElementById('line-'+s.id);
-      var area = document.getElementById('area-'+s.id);
-      if (line) line.classList.remove('active');
-      if (area) area.classList.remove('active');
-      xs.forEach(function(_, qi) {
-        var inner = document.querySelector('#d'+s.id+'_'+qi+' .dot-inner');
-        if (inner) inner.classList.remove('active');
+    function syncGradients() {
+      var probe = document.createElementNS(ns, 'rect');
+      probe.style.visibility='hidden'; probe.style.position='absolute';
+      svgEl.appendChild(probe);
+      series.forEach(function(s) {
+        probe.setAttribute('class', s.cls);
+        var color = window.getComputedStyle(probe).fill;
+        var s0=svgEl.querySelector('#a'+s.id+'s0'), s1=svgEl.querySelector('#a'+s.id+'s1');
+        if (s0) s0.setAttribute('stop-color', color);
+        if (s1) s1.setAttribute('stop-color', color);
+        var area=svgEl.querySelector('#area-'+s.id);
+        if (area) area.setAttribute('fill','url(#a'+s.id+')');
       });
-    });
-    series.forEach(function(s) {
-      var isActive = (s.id === activeSid);
-      var line = document.getElementById('line-'+s.id);
-      var area = document.getElementById('area-'+s.id);
-      if (line) line.classList.toggle('active', isActive);
-      if (area) area.classList.toggle('active', isActive);
-      xs.forEach(function(_, qi) {
-        var inner = document.querySelector('#d'+s.id+'_'+qi+' .dot-inner');
-        if (inner) inner.classList.toggle('active', isActive);
+      svgEl.removeChild(probe);
+    }
+
+    var quarters = ["Q1 '22","Q2 '22","Q3 '22","Q4 '22","Q1 '23","Q2 '23","Q3 '23","Q4 '23"];
+    var xs = [68,180,291,403,515,627,738,850];
+    var allTips = {};
+
+    function el(tag, attrs) {
+      var e = document.createElementNS(ns, tag);
+      Object.keys(attrs).forEach(function(k){ e.setAttribute(k, attrs[k]); });
+      return e;
+    }
+
+    function setHover(activeSid) {
+      dataLayerEl.classList.add('hovering');
+      series.forEach(function(s) {
+        var line = svgEl.querySelector('#line-'+s.id);
+        var area = svgEl.querySelector('#area-'+s.id);
+        if (line) line.classList.remove('active');
+        if (area) area.classList.remove('active');
+        xs.forEach(function(_, qi) {
+          var inner = svgEl.querySelector('#d'+s.id+'_'+qi+' .dot-inner');
+          if (inner) inner.classList.remove('active');
+        });
       });
-    });
-  }
-
-  function clearHover() {
-    dataLayerEl.classList.remove('hovering');
-    series.forEach(function(s) {
-      var line=document.getElementById('line-'+s.id), area=document.getElementById('area-'+s.id);
-      if (line) line.classList.remove('active');
-      if (area) area.classList.remove('active');
-      xs.forEach(function(_, qi) {
-        var inner=document.querySelector('#d'+s.id+'_'+qi+' .dot-inner');
-        if (inner) inner.classList.remove('active');
+      series.forEach(function(s) {
+        var isActive = (s.id === activeSid);
+        var line = svgEl.querySelector('#line-'+s.id);
+        var area = svgEl.querySelector('#area-'+s.id);
+        if (line) line.classList.toggle('active', isActive);
+        if (area) area.classList.toggle('active', isActive);
+        xs.forEach(function(_, qi) {
+          var inner = svgEl.querySelector('#d'+s.id+'_'+qi+' .dot-inner');
+          if (inner) inner.classList.toggle('active', isActive);
+        });
       });
-    });
-  }
+    }
 
-  series.forEach(function(s) {
-    xs.forEach(function(x, qi) {
-      var y=s.ys[qi], key=s.id+'_'+qi;
-      var delay=((s.id-1)*0.25+qi*0.06)+'s';
+    function clearHover() {
+      dataLayerEl.classList.remove('hovering');
+      series.forEach(function(s) {
+        var line=svgEl.querySelector('#line-'+s.id), area=svgEl.querySelector('#area-'+s.id);
+        if (line) line.classList.remove('active');
+        if (area) area.classList.remove('active');
+        xs.forEach(function(_, qi) {
+          var inner=svgEl.querySelector('#d'+s.id+'_'+qi+' .dot-inner');
+          if (inner) inner.classList.remove('active');
+        });
+      });
+    }
 
-      var dg=el('g',{'class':'dot-g',id:'d'+key});
-      var inner=el('g',{'class':'dot-inner',style:'transform-origin:'+x+'px '+y+'px'});
-      inner.style.animation='popDot 0.35s cubic-bezier(0.34,1.4,0.64,1) '+delay;
-      inner.addEventListener('animationend',function(){
-        inner.style.animation='none';
-        inner.classList.add('visible');
-      },{once:true});
-      var dot=el('circle',{cx:x,cy:y,r:5,'class':s.cls,stroke:'none'});
-      inner.appendChild(dot); dg.appendChild(inner); dotsLayer.appendChild(dg);
+    series.forEach(function(s) {
+      xs.forEach(function(x, qi) {
+        var y=s.ys[qi], key=s.id+'_'+qi;
+        var delay=((s.id-1)*0.25+qi*0.06)+'s';
 
-      var TAIL=14, bh=44, rx=8, tw=10, PAD=20;
+        var dg=el('g',{'class':'dot-g',id:'d'+key});
+        var inner=el('g',{'class':'dot-inner',style:'transform-origin:'+x+'px '+y+'px'});
+        inner.style.animation='popDot 0.35s cubic-bezier(0.34,1.4,0.64,1) '+delay;
+        inner.addEventListener('animationend',function(){
+          inner.style.animation='none';
+          inner.classList.add('visible');
+        },{once:true});
+        var dot=el('circle',{cx:x,cy:y,r:5,'class':s.cls,stroke:'none'});
+        inner.appendChild(dot); dg.appendChild(inner); dotsLayer.appendChild(dg);
 
-      var tipG=el('g',{'class':'tip',id:'t'+key});
-      tipLayer.appendChild(tipG); allTips[key]=tipG;
+        var TAIL=14, bh=44, rx=8, tw=10, PAD=20;
 
-      // Build text nodes first so getBBox() can measure actual rendered widths
-      var tv=el('text',{x:0,y:12,'text-anchor':'middle','dominant-baseline':'central','class':'tip-value'});
-      tv.textContent='$'+s.vals[qi]+'M'; tipG.appendChild(tv);
-      var tl=el('text',{x:0,y:30,'text-anchor':'middle','dominant-baseline':'central','class':'tip-label'});
-      tl.textContent=s.label+' · '+quarters[qi]; tipG.appendChild(tl);
+        var tipG=el('g',{'class':'tip',id:'t'+key});
+        tipLayer.appendChild(tipG); allTips[key]=tipG;
 
-      // Measure actual rendered widths with getBBox(), size bubble around content
-      var valW = tv.getBBox().width + PAD;
-      var lblW = tl.getBBox().width + PAD;
-      var hw   = Math.max(valW, lblW, 60) / 2;
-      var bw   = hw * 2;
+        var tv=el('text',{x:0,y:12,'text-anchor':'middle','dominant-baseline':'central','class':'tip-value'});
+        tv.textContent='$'+s.vals[qi]+'M'; tipG.appendChild(tv);
+        var tl=el('text',{x:0,y:30,'text-anchor':'middle','dominant-baseline':'central','class':'tip-label'});
+        tl.textContent=s.label+' · '+quarters[qi]; tipG.appendChild(tl);
 
-      // Clamp centre-x so bubble never exits card edges (viewBox width = 1100)
-      var bCx = Math.max(hw + 8, Math.min(x, 1100 - hw - 8));
-      // Position above the dot; flip below if near top of plot area
-      var flip = (y - bh - TAIL - 10) < 100;
-      var bCy  = flip ? (y + TAIL + 6) : (y - bh - TAIL - 6);
+        var valW = tv.getBBox().width + PAD;
+        var lblW = tl.getBBox().width + PAD;
+        var hw   = Math.max(valW, lblW, 60) / 2;
+        var bw   = hw * 2;
 
-      // Translate the whole tip group so local coords centre on bCx, top at bCy
-      tipG.setAttribute('transform','translate('+bCx+','+bCy+')');
+        var bCx = Math.max(hw + 8, Math.min(x, 1100 - hw - 8));
+        var flip = (y - bh - TAIL - 10) < 100;
+        var bCy  = flip ? (y + TAIL + 6) : (y - bh - TAIL - 6);
 
-      // tip-bg rect — fill only, no stroke
-      var bgRect = el('rect',{x:-hw,y:0,width:bw,height:bh,rx:rx,'class':'tip-bg'});
-      tipG.insertBefore(bgRect, tv);
+        tipG.setAttribute('transform','translate('+bCx+','+bCy+')');
 
-      // tip-border path — open rounded-rect with gap at tail root (no Z)
-      function makeBorderPath(hw, bh, rx, tw, flip) {
-        if (!flip) {
-          // gap at bottom centre — tail points down
-          return 'M'+tw+','+bh
-            +' L'+(hw-rx)+','+bh+' Q'+hw+','+bh+' '+hw+','+(bh-rx)
-            +' L'+hw+','+rx+' Q'+hw+',0 '+(hw-rx)+',0'
-            +' L'+(-(hw-rx))+',0 Q'+(-hw)+',0 '+(-hw)+','+rx
-            +' L'+(-hw)+','+(bh-rx)+' Q'+(-hw)+','+bh+' '+(-(hw-rx))+','+bh
-            +' L'+(-tw)+','+bh;
-        } else {
-          // gap at top centre — tail points up
-          return 'M'+(-tw)+',0'
-            +' L'+(-(hw-rx))+',0 Q'+(-hw)+',0 '+(-hw)+','+rx
-            +' L'+(-hw)+','+(bh-rx)+' Q'+(-hw)+','+bh+' '+(-(hw-rx))+','+bh
-            +' L'+(hw-rx)+','+bh+' Q'+hw+','+bh+' '+hw+','+(bh-rx)
-            +' L'+hw+','+rx+' Q'+hw+',0 '+(hw-rx)+',0'
-            +' L'+tw+',0';
+        var bgRect = el('rect',{x:-hw,y:0,width:bw,height:bh,rx:rx,'class':'tip-bg'});
+        tipG.insertBefore(bgRect, tv);
+
+        function makeBorderPath(hw, bh, rx, tw, flip) {
+          if (!flip) {
+            return 'M'+tw+','+bh
+              +' L'+(hw-rx)+','+bh+' Q'+hw+','+bh+' '+hw+','+(bh-rx)
+              +' L'+hw+','+rx+' Q'+hw+',0 '+(hw-rx)+',0'
+              +' L'+(-(hw-rx))+',0 Q'+(-hw)+',0 '+(-hw)+','+rx
+              +' L'+(-hw)+','+(bh-rx)+' Q'+(-hw)+','+bh+' '+(-(hw-rx))+','+bh
+              +' L'+(-tw)+','+bh;
+          } else {
+            return 'M'+(-tw)+',0'
+              +' L'+(-(hw-rx))+',0 Q'+(-hw)+',0 '+(-hw)+','+rx
+              +' L'+(-hw)+','+(bh-rx)+' Q'+(-hw)+','+bh+' '+(-(hw-rx))+','+bh
+              +' L'+(hw-rx)+','+bh+' Q'+hw+','+bh+' '+hw+','+(bh-rx)
+              +' L'+hw+','+rx+' Q'+hw+',0 '+(hw-rx)+',0'
+              +' L'+tw+',0';
+          }
         }
-      }
-      var borderPath = el('path',{d:makeBorderPath(hw,bh,rx,tw,flip),'class':'tip-border'});
-      tipG.insertBefore(borderPath, tv);
+        var borderPath = el('path',{d:makeBorderPath(hw,bh,rx,tw,flip),'class':'tip-border'});
+        tipG.insertBefore(borderPath, tv);
 
-      // tip-tail triangle — root points align exactly to tip-border gap endpoints
-      var tailPath;
-      if (!flip) {
-        tailPath = el('path',{d:'M'+tw+','+bh+' L0,'+(bh+TAIL)+' L'+(-tw)+','+bh,'class':'tip-tail'});
-      } else {
-        tailPath = el('path',{d:'M'+(-tw)+',0 L0,'+(-TAIL)+' L'+tw+',0','class':'tip-tail'});
-      }
-      tipG.insertBefore(tailPath, tv);
+        var tailPath;
+        if (!flip) {
+          tailPath = el('path',{d:'M'+tw+','+bh+' L0,'+(bh+TAIL)+' L'+(-tw)+','+bh,'class':'tip-tail'});
+        } else {
+          tailPath = el('path',{d:'M'+(-tw)+',0 L0,'+(-TAIL)+' L'+tw+',0','class':'tip-tail'});
+        }
+        tipG.insertBefore(tailPath, tv);
 
-      var ch=document.getElementById('ch'+qi);
-      dg.addEventListener('mouseenter',function(){
-        allTips[key].style.opacity='1';
-        if(ch) ch.style.opacity='1';
-        dot.setAttribute('r','7');
-        setHover(s.id);
-      });
-      dg.addEventListener('mouseleave',function(){
-        allTips[key].style.opacity='';
-        if(ch) ch.style.opacity='';
-        dot.setAttribute('r','5');
-        clearHover();
+        var ch=svgEl.querySelector('#ch'+qi);
+        dg.addEventListener('mouseenter',function(){
+          allTips[key].style.opacity='1';
+          if(ch) ch.style.opacity='1';
+          dot.setAttribute('r','7');
+          setHover(s.id);
+        });
+        dg.addEventListener('mouseleave',function(){
+          allTips[key].style.opacity='';
+          if(ch) ch.style.opacity='';
+          dot.setAttribute('r','5');
+          clearHover();
+        });
       });
     });
-  });
 
-  // gate hover on .data-layer.ready after last dot animation finishes
-  var lastDelay=(series.length-1)*0.25+(xs.length-1)*0.06;
-  setTimeout(function(){ dataLayerEl.classList.add('ready'); },(lastDelay+0.35)*1000+100);
+    var lastDelay=(series.length-1)*0.25+(xs.length-1)*0.06;
+    setTimeout(function(){ dataLayerEl.classList.add('ready'); },(lastDelay+0.35)*1000+100);
 
-  function setMode(wantDark) {
-    if(wantDark===isDark) return;
-    isDark=wantDark;
-    var thumb=document.getElementById('tthumb'),lbl=document.getElementById('tlabel');
-    if(wantDark){svg.classList.add('dark');thumb.setAttribute('cx','52');lbl.textContent='Light';}
-    else{svg.classList.remove('dark');thumb.setAttribute('cx','16');lbl.textContent='Dark';}
+    svgEl._onModeChange = function() { syncGradients(); };
     syncGradients();
-  }
-
-  syncGradients();
-  document.getElementById('dark-toggle').addEventListener('click',function(){setMode(!isDark);});
-  document.getElementById('print-toggle').addEventListener('click',function(){
-    var thumb=document.getElementById('pthumb'),lbl=document.getElementById('plabel');
-    if(svg.classList.toggle('print')){thumb.setAttribute('cx','52');lbl.textContent='Screen';}
-    else{thumb.setAttribute('cx','16');lbl.textContent='Print';}
-  });
-  window.setMode=setMode;
-  window.addEventListener('message',function(e){if(e.data&&e.data.type==='setMode')setMode(e.data.dark);});
-  setMode(window.location.href.indexOf('theme=dark')!==-1);
-})();
-//]]>
-</script>
+  };
+  if (window.bootstrapChart) { window.bootstrapChart(svg); }
+}());
+]]></script>
 </svg>

@@ -8,40 +8,8 @@
     <rect x="68" y="96" width="782" height="412"/>
   </clipPath>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
-    .card-bg        { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    .card-title     { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .card-subtitle  { font-size:11px; fill:#79747E; font-weight:400; }
-    .tick-label     { font-size:10px; fill:#79747E; font-weight:400; }
-    .category-label { font-size:10px; fill:#79747E; font-weight:500; }
-    .legend-label   { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    .legend-value   { font-size:11px; fill:#1C1B1F; font-weight:500; opacity:0; transition:opacity 0.2s; }
-    .legend-note    { font-size:10px; fill:#79747E; font-weight:400; }
-    .grid-line      { stroke:#E7E0EC; stroke-width:1; }
-    .axis-line      { stroke:#79747E; stroke-width:1.5; }
-    .legend-bg      { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .legend-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .legend-title   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-    .footer         { font-size:10px; fill:#79747E; font-weight:400; }
-    .toggle-wrap    { cursor:pointer; }
-    .toggle-track   { fill:#E7E0EC; }
-    .toggle-thumb   { fill:#ffffff; }
-    .toggle-label   { font-size:11px; font-weight:500; fill:#49454F; }
-    .print-track    { fill:#E7E0EC; transition:fill 0.3s; }
-    .print-thumb    { fill:#ffffff; }
-    .print-label    { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.print .legend-value { opacity:1; }
-    svg.print .print-track  { fill:#d97316; }
-    .crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
-    .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    svg.print .tip { opacity:0 !important; }
-    .tip-bg      { fill:#FFFBFE; }
-    .tip-border  { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .tip-value   { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .tip-label   { fill:#49454F; font-size:10px; font-weight:400; }
+    @import url('chart-shared.css');
 
-    /* Standard palette */
     .series-1 { fill:#00D4E8; stroke:#00D4E8; } .series-2 { fill:#8B5CF6; stroke:#8B5CF6; }
     .series-3 { fill:#00B87A; stroke:#00B87A; } .series-4 { fill:#F59E0B; stroke:#F59E0B; }
     .series-5 { fill:#64748B; stroke:#64748B; }
@@ -50,13 +18,17 @@
     svg.dark .series-3 { fill:#10B981; stroke:#10B981; } svg.dark .series-4 { fill:#FBB724; stroke:#FBB724; }
     svg.dark .series-5 { fill:#94A3B8; stroke:#94A3B8; }
 
-    /* wave edges — fill:none overridden in style attr to beat .series-N fill */
-    /* §3 A1: opacity:0 initial; animationend clears animation + adds .visible; no both fill-mode */
+    .crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
+    svg.dark .crosshair { stroke:#938F99; }
+    .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
+    svg.print .tip { opacity:0 !important; }
+    .tip-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+    svg.dark .tip-divider { stroke:#938F99; }
+
     @keyframes drawWave { from{stroke-dashoffset:var(--len,900);} to{stroke-dashoffset:0;} }
     .wave-edge         { stroke-dasharray:var(--len,900); stroke-dashoffset:var(--len,900);
                          opacity:0; transition:opacity 0.2s ease; }
     .wave-edge.visible { stroke-dashoffset:0; }
-    /* per-layer visual weights applied via .visible so hover can override cleanly */
     .we-w1.visible { opacity:1.00; }
     .we-w2.visible { opacity:0.90; }
     .we-w3.visible { opacity:0.82; }
@@ -69,7 +41,6 @@
     .f1{animation-delay:0.00s;} .f2{animation-delay:0.25s;}
     .f3{animation-delay:0.50s;} .f4{animation-delay:0.75s;} .f5{animation-delay:1.00s;}
 
-    /* hover dimming — gated on .ready; active restores natural per-layer weight via .we-wN.visible */
     .data-layer.ready.hovering .wave-edge.visible              { opacity: 0.20; }
     .data-layer.ready.hovering .wave-edge.visible.active       { opacity: 1; }
     .data-layer.ready.hovering .wave-edge.visible.we-w2.active { opacity: 0.90; }
@@ -80,36 +51,6 @@
     .data-layer.ready.hovering .area-fill.visible.active       { opacity: 1; }
     .col-dot { opacity:0; transition:opacity 0.2s ease; pointer-events:none; }
     .data-layer.ready.hovering .col-dot.active { opacity:1; }
-
-    svg.dark .card-bg        { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-    svg.dark .card-title     { fill:#E6E0E9; }
-    svg.dark .card-subtitle  { fill:#938F99; }
-    svg.dark .tick-label     { fill:#938F99; }
-    svg.dark .category-label { fill:#938F99; }
-    svg.dark .legend-label   { fill:#E6E0E9; }
-    svg.dark .legend-value   { fill:#E6E0E9; }
-    svg.dark .legend-note    { fill:#938F99; }
-    svg.dark .grid-line      { stroke:#49454F; }
-    svg.dark .axis-line      { stroke:#938F99; }
-    svg.dark .legend-bg      { fill:#49454F; stroke:#938F99; }
-    svg.dark .legend-divider { stroke:#938F99; }
-    svg.dark .legend-title   { fill:#938F99; }
-    svg.dark .footer         { fill:#938F99; }
-    svg.dark .toggle-track   { fill:#49454F; }
-    svg.dark .toggle-label   { fill:#CAC4D0; }
-    svg.dark .print-track    { fill:#49454F; }
-    svg.dark .print-label    { fill:#CAC4D0; }
-    svg.dark.print .print-track { fill:#d97316; }
-    svg.dark .crosshair      { stroke:#938F99; }
-    svg.dark .tip-bg         { fill:#1C1B1F; }
-    svg.dark .tip-border     { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
-    svg.dark .tip-value      { fill:#E6E0E9; }
-    svg.dark .tip-label      { fill:#CAC4D0; }
-    svg.dark .tip-divider    { stroke:#938F99; }
-    .border-dark  { display:none; }
-    .border-light { display:block; }
-    svg.dark .border-dark  { display:block; }
-    svg.dark .border-light { display:none; }
   </style>
 </defs>
 
@@ -223,243 +164,203 @@
 
 <text x="68" y="600" class="footer">Revenue by Quarter · 5 series · stacked area chart</text>
 
-<script type="text/javascript">
-//<![CDATA[
-(function() {
-  var svg         = document.getElementById('root');
-  var ns          = 'http://www.w3.org/2000/svg';
-  var dataLayerEl = document.getElementById('data-layer');
-  var dotsL       = document.getElementById('dots-layer');
-  var hitLayer    = document.getElementById('hit-layer');
-  var tipLayer    = document.getElementById('tip-layer');
-  var defs        = svg.querySelector('defs');
+<script href="chart-shared.js"></script>
+<script type="text/javascript"><![CDATA[
+(function () {
+  var svg = document.documentElement;
+  svg._chartInit = function (svgEl, ctx) {
+    var ns          = 'http://www.w3.org/2000/svg';
+    var dataLayerEl = svgEl.querySelector('#data-layer');
+    var dotsL       = svgEl.querySelector('#dots-layer');
+    var hitLayer    = svgEl.querySelector('#hit-layer');
+    var tipLayer    = svgEl.querySelector('#tip-layer');
+    var defs        = svgEl.querySelector('defs');
 
-  /* §2 — isDark hoisted before all build and animation code */
-  var isDark = false;
+    var series = [
+      { id:1, cls:'series-1', label:'Cyan',
+        vals:[38,42,46,50,55,60,66,72], ys:[342.4,311.7,294.1,268.1,261.2,221.8,205.0,165.6] },
+      { id:2, cls:'series-2', label:'Violet',
+        vals:[32,35,38,41,45,50,56,62], ys:[394.1,373.9,360.8,346.4,344.2,320.2,315.6,281.4] },
+      { id:3, cls:'series-3', label:'Emerald',
+        vals:[18,20,21,23,25,27,31,35], ys:[439.4,423.2,416.9,410.5,415.3,399.6,403.8,381.6] },
+      { id:4, cls:'series-4', label:'Amber',
+        vals:[11,12,13,14,15,17,19,22], ys:[468.3,459.3,457.1,457.1,455.5,444.2,453.9,437.7] },
+      { id:5, cls:'series-5', label:'Slate',
+        vals:[10,11,12,13,14,16,17,19], ys:[487.8,483.0,486.2,480.2,483.0,477.5,480.2,473.3] },
+    ];
 
-  var series = [
-    { id:1, cls:'series-1', label:'Cyan',
-      vals:[38,42,46,50,55,60,66,72], ys:[342.4,311.7,294.1,268.1,261.2,221.8,205.0,165.6] },
-    { id:2, cls:'series-2', label:'Violet',
-      vals:[32,35,38,41,45,50,56,62], ys:[394.1,373.9,360.8,346.4,344.2,320.2,315.6,281.4] },
-    { id:3, cls:'series-3', label:'Emerald',
-      vals:[18,20,21,23,25,27,31,35], ys:[439.4,423.2,416.9,410.5,415.3,399.6,403.8,381.6] },
-    { id:4, cls:'series-4', label:'Amber',
-      vals:[11,12,13,14,15,17,19,22], ys:[468.3,459.3,457.1,457.1,455.5,444.2,453.9,437.7] },
-    { id:5, cls:'series-5', label:'Slate',
-      vals:[10,11,12,13,14,16,17,19], ys:[487.8,483.0,486.2,480.2,483.0,477.5,480.2,473.3] },
-  ];
+    var aOpacity = [0.85, 0.75, 0.65, 0.55, 0.45];
+    var quarters = ["Q1 '22","Q2 '22","Q3 '22","Q4 '22","Q1 '23","Q2 '23","Q3 '23","Q4 '23"];
+    var xs   = [68,180,291,403,515,627,738,850];
+    var colW = 56;
+    var allTips = {};
 
-  var aOpacity = [0.85, 0.75, 0.65, 0.55, 0.45];
-  var quarters = ["Q1 '22","Q2 '22","Q3 '22","Q4 '22","Q1 '23","Q2 '23","Q3 '23","Q4 '23"];
-  var xs   = [68,180,291,403,515,627,738,850];
-  var colW = 56;
-  var allTips = {};
-
-  var totals = xs.map(function(_,qi){
-    return series.reduce(function(s,sr){ return s + sr.vals[qi]; }, 0);
-  });
-
-  function el(tag, attrs) {
-    var e = document.createElementNS(ns, tag);
-    Object.keys(attrs).forEach(function(k){ e.setAttribute(k, attrs[k]); });
-    return e;
-  }
-
-  function buildGradients() {
-    var probe = document.createElementNS(ns, 'rect');
-    probe.style.visibility = 'hidden';
-    svg.appendChild(probe);
-    series.forEach(function(s, i) {
-      probe.setAttribute('class', s.cls);
-      var color = window.getComputedStyle(probe).fill;
-      var gradId = 'ag' + s.id;
-      var existing = document.getElementById(gradId);
-      if (existing) existing.parentNode.removeChild(existing);
-      var grad = document.createElementNS(ns, 'linearGradient');
-      grad.setAttribute('id', gradId);
-      var stop = document.createElementNS(ns, 'stop');
-      stop.setAttribute('offset', '0%');
-      stop.setAttribute('stop-color', color);
-      stop.setAttribute('stop-opacity', aOpacity[i]);
-      grad.appendChild(stop);
-      defs.appendChild(grad);
-      var area = document.getElementById('area-' + s.id);
-      if (area) area.setAttribute('fill', 'url(#' + gradId + ')');
-    });
-    svg.removeChild(probe);
-  }
-
-  xs.forEach(function(x, qi) {
-    series.forEach(function(s) {
-      var dot = el('circle', {
-        cx:x, cy:s.ys[qi], r:4,
-        'class':'col-dot ' + s.cls,
-        style:'stroke:none', 'data-col':qi
-      });
-      dotsL.appendChild(dot);
-    });
-  });
-
-  xs.forEach(function(x, qi) {
-    var PAD = 16, DOT_R = 4, DOT_X = 14, LBL_X = 26, bCy = 200, rxB = 10;
-    var rowH = 18, hdrH = 20, divH = 8, totH = 20;
-    var bh = hdrH + divH + series.length * rowH + divH + totH + PAD;
-
-    var tipG = el('g', { 'class':'tip', id:'tip_'+qi });
-    tipLayer.appendChild(tipG);
-    allTips[qi] = tipG;
-
-    // ── build text nodes first (local coords, x=0) so getBBox() measures real widths ──
-    var qLbl = el('text', { x:0, y:bCy + hdrH/2,
-      'text-anchor':'middle', 'dominant-baseline':'central', 'class':'tip-label' });
-    qLbl.textContent = quarters[qi];
-    tipG.appendChild(qLbl);
-
-    var rowEls = [];
-    series.forEach(function(s, si) {
-      var rowY = bCy + hdrH + divH + si * rowH + rowH/2;
-      var dot  = el('circle', { cx:0, cy:rowY, r:DOT_R, 'class':s.cls, style:'stroke:none' });
-      var sLbl = el('text', { x:LBL_X, y:rowY, 'dominant-baseline':'central', 'class':'tip-label' });
-      sLbl.textContent = s.label;
-      var sVal = el('text', { x:0, y:rowY, 'text-anchor':'end', 'dominant-baseline':'central',
-        'class':'tip-value', 'font-size':'11' });
-      sVal.textContent = '$'+s.vals[qi]+'M';
-      tipG.appendChild(dot); tipG.appendChild(sLbl); tipG.appendChild(sVal);
-      rowEls.push({ dot:dot, sLbl:sLbl, sVal:sVal });
+    var totals = xs.map(function(_,qi){
+      return series.reduce(function(s,sr){ return s + sr.vals[qi]; }, 0);
     });
 
-    var totY = bCy + hdrH + divH + series.length * rowH + divH + totH/2;
-    var totLbl = el('text', { x:LBL_X, y:totY, 'dominant-baseline':'central', 'class':'tip-label' });
-    totLbl.textContent = 'Total';
-    var totVal = el('text', { x:0, y:totY, 'text-anchor':'end', 'dominant-baseline':'central', 'class':'tip-value' });
-    totVal.textContent = '$'+totals[qi]+'M';
-    tipG.appendChild(totLbl); tipG.appendChild(totVal);
-
-    // ── measure with getBBox() to compute hw ──
-    var maxLblW = 0;
-    rowEls.forEach(function(r) { maxLblW = Math.max(maxLblW, LBL_X + r.sLbl.getBBox().width + 8); });
-    maxLblW = Math.max(maxLblW, LBL_X + totLbl.getBBox().width + 8);
-    var maxValW = 0;
-    rowEls.forEach(function(r) { maxValW = Math.max(maxValW, r.sVal.getBBox().width); });
-    maxValW = Math.max(maxValW, totVal.getBBox().width);
-    var hw = Math.max((maxLblW + maxValW) / 2 + PAD, 80);
-
-    // ── clamp centre-x to card bounds ──
-    var bCx = Math.max(hw + 8, Math.min(x, 1100 - hw - 8));
-
-    // ── translate group; reposition all elements relative to bCx ──
-    tipG.setAttribute('transform', 'translate('+bCx+',0)');
-    qLbl.setAttribute('x', '0');
-    rowEls.forEach(function(r) {
-      r.dot.setAttribute('cx',  String(-hw + DOT_X));
-      r.sLbl.setAttribute('x', String(-hw + LBL_X));
-      r.sVal.setAttribute('x', String(hw - 8));
-    });
-    totLbl.setAttribute('x', String(-hw + LBL_X));
-    totVal.setAttribute('x', String(hw - 8));
-
-    // divider lines
-    var div1Y = bCy + hdrH + divH/2;
-    var div2Y = bCy + hdrH + divH + series.length * rowH + divH/2;
-    tipG.insertBefore(el('line', { x1:-hw+8, y1:div1Y, x2:hw-8, y2:div1Y, 'class':'tip-divider' }), qLbl.nextSibling);
-    tipG.appendChild(el('line',  { x1:-hw+8, y1:div2Y, x2:hw-8, y2:div2Y, 'class':'tip-divider' }));
-
-    // ── tip-bg rect (fill only, no stroke) ──
-    var ty = bCy - PAD/2, by = ty + bh;
-    tipG.insertBefore(el('rect', { x:-hw, y:ty, width:hw*2, height:bh, rx:rxB, 'class':'tip-bg' }), tipG.firstChild);
-
-    // ── tip-border: <path> not <rect> — closed rounded-rect (no tail on panel tooltip) ──
-    var borderPath = 'M'+(-(hw-rxB))+','+ty
-      +' L'+(hw-rxB)+','+ty+' Q'+hw+','+ty+' '+hw+','+(ty+rxB)
-      +' L'+hw+','+(by-rxB)+' Q'+hw+','+by+' '+(hw-rxB)+','+by
-      +' L'+(-(hw-rxB))+','+by+' Q'+(-hw)+','+by+' '+(-hw)+','+(by-rxB)
-      +' L'+(-hw)+','+(ty+rxB)+' Q'+(-hw)+','+ty+' '+(-(hw-rxB))+','+ty+' Z';
-    tipG.insertBefore(el('path', { d:borderPath, 'class':'tip-border' }), tipG.children[1]);
-
-    var hx1 = Math.max(68,  x - colW);
-    var hx2 = Math.min(850, x + colW);
-    var hit = el('rect', { x:hx1, y:100, width:hx2-hx1, height:404,
-      fill:'transparent', cursor:'crosshair', id:'hit'+qi });
-    hitLayer.appendChild(hit);
-
-    var ch = document.getElementById('ch' + qi);
-    var colDots = dotsL.querySelectorAll('.col-dot[data-col="'+qi+'"]');
-
-    hit.addEventListener('mouseenter', function() {
-      dataLayerEl.classList.add('hovering');
-      dotsL.querySelectorAll('.col-dot').forEach(function(d) { d.classList.remove('active'); });
-      colDots.forEach(function(d) { d.classList.add('active'); });
-      allTips[qi].style.opacity = '1';
-      if (ch) ch.style.opacity = '1';
-    });
-    hit.addEventListener('mouseleave', function() {
-      dataLayerEl.classList.remove('hovering');
-      colDots.forEach(function(d) { d.classList.remove('active'); });
-      allTips[qi].style.opacity = '';
-      if (ch) ch.style.opacity = '';
-    });
-  });
-
-  function setMode(wantDark) {
-    if (wantDark === isDark) return;
-    isDark = wantDark;
-    var thumb = document.getElementById('tthumb'), lbl = document.getElementById('tlabel');
-    if (wantDark) {
-      svg.classList.add('dark');
-      if (thumb) thumb.setAttribute('cx','52');
-      if (lbl)   lbl.textContent = 'Light';
-    } else {
-      svg.classList.remove('dark');
-      if (thumb) thumb.setAttribute('cx','16');
-      if (lbl)   lbl.textContent = 'Dark';
+    function el(tag, attrs) {
+      var e = document.createElementNS(ns, tag);
+      Object.keys(attrs).forEach(function(k){ e.setAttribute(k, attrs[k]); });
+      return e;
     }
+
+    function buildGradients() {
+      var probe = document.createElementNS(ns, 'rect');
+      probe.style.visibility = 'hidden';
+      svgEl.appendChild(probe);
+      series.forEach(function(s, i) {
+        probe.setAttribute('class', s.cls);
+        var color = window.getComputedStyle(probe).fill;
+        var gradId = 'ag' + s.id;
+        var existing = svgEl.querySelector('#' + gradId);
+        if (existing) existing.parentNode.removeChild(existing);
+        var grad = document.createElementNS(ns, 'linearGradient');
+        grad.setAttribute('id', gradId);
+        var stop = document.createElementNS(ns, 'stop');
+        stop.setAttribute('offset', '0%');
+        stop.setAttribute('stop-color', color);
+        stop.setAttribute('stop-opacity', aOpacity[i]);
+        grad.appendChild(stop);
+        defs.appendChild(grad);
+        var area = svgEl.querySelector('#area-' + s.id);
+        if (area) area.setAttribute('fill', 'url(#' + gradId + ')');
+      });
+      svgEl.removeChild(probe);
+    }
+
+    xs.forEach(function(x, qi) {
+      series.forEach(function(s) {
+        var dot = el('circle', {
+          cx:x, cy:s.ys[qi], r:4,
+          'class':'col-dot ' + s.cls,
+          style:'stroke:none', 'data-col':qi
+        });
+        dotsL.appendChild(dot);
+      });
+    });
+
+    xs.forEach(function(x, qi) {
+      var PAD = 16, DOT_R = 4, DOT_X = 14, LBL_X = 26, bCy = 200, rxB = 10;
+      var rowH = 18, hdrH = 20, divH = 8, totH = 20;
+      var bh = hdrH + divH + series.length * rowH + divH + totH + PAD;
+
+      var tipG = el('g', { 'class':'tip', id:'tip_'+qi });
+      tipLayer.appendChild(tipG);
+      allTips[qi] = tipG;
+
+      var qLbl = el('text', { x:0, y:bCy + hdrH/2,
+        'text-anchor':'middle', 'dominant-baseline':'central', 'class':'tip-label' });
+      qLbl.textContent = quarters[qi];
+      tipG.appendChild(qLbl);
+
+      var rowEls = [];
+      series.forEach(function(s, si) {
+        var rowY = bCy + hdrH + divH + si * rowH + rowH/2;
+        var dot  = el('circle', { cx:0, cy:rowY, r:DOT_R, 'class':s.cls, style:'stroke:none' });
+        var sLbl = el('text', { x:LBL_X, y:rowY, 'dominant-baseline':'central', 'class':'tip-label' });
+        sLbl.textContent = s.label;
+        var sVal = el('text', { x:0, y:rowY, 'text-anchor':'end', 'dominant-baseline':'central',
+          'class':'tip-value', 'font-size':'11' });
+        sVal.textContent = '$'+s.vals[qi]+'M';
+        tipG.appendChild(dot); tipG.appendChild(sLbl); tipG.appendChild(sVal);
+        rowEls.push({ dot:dot, sLbl:sLbl, sVal:sVal });
+      });
+
+      var totY = bCy + hdrH + divH + series.length * rowH + divH + totH/2;
+      var totLbl = el('text', { x:LBL_X, y:totY, 'dominant-baseline':'central', 'class':'tip-label' });
+      totLbl.textContent = 'Total';
+      var totVal = el('text', { x:0, y:totY, 'text-anchor':'end', 'dominant-baseline':'central', 'class':'tip-value' });
+      totVal.textContent = '$'+totals[qi]+'M';
+      tipG.appendChild(totLbl); tipG.appendChild(totVal);
+
+      var maxLblW = 0;
+      rowEls.forEach(function(r) { maxLblW = Math.max(maxLblW, LBL_X + r.sLbl.getBBox().width + 8); });
+      maxLblW = Math.max(maxLblW, LBL_X + totLbl.getBBox().width + 8);
+      var maxValW = 0;
+      rowEls.forEach(function(r) { maxValW = Math.max(maxValW, r.sVal.getBBox().width); });
+      maxValW = Math.max(maxValW, totVal.getBBox().width);
+      var hw = Math.max((maxLblW + maxValW) / 2 + PAD, 80);
+
+      var bCx = Math.max(hw + 8, Math.min(x, 1100 - hw - 8));
+
+      tipG.setAttribute('transform', 'translate('+bCx+',0)');
+      qLbl.setAttribute('x', '0');
+      rowEls.forEach(function(r) {
+        r.dot.setAttribute('cx',  String(-hw + DOT_X));
+        r.sLbl.setAttribute('x', String(-hw + LBL_X));
+        r.sVal.setAttribute('x', String(hw - 8));
+      });
+      totLbl.setAttribute('x', String(-hw + LBL_X));
+      totVal.setAttribute('x', String(hw - 8));
+
+      var div1Y = bCy + hdrH + divH/2;
+      var div2Y = bCy + hdrH + divH + series.length * rowH + divH/2;
+      tipG.insertBefore(el('line', { x1:-hw+8, y1:div1Y, x2:hw-8, y2:div1Y, 'class':'tip-divider' }), qLbl.nextSibling);
+      tipG.appendChild(el('line',  { x1:-hw+8, y1:div2Y, x2:hw-8, y2:div2Y, 'class':'tip-divider' }));
+
+      var ty = bCy - PAD/2, by = ty + bh;
+      tipG.insertBefore(el('rect', { x:-hw, y:ty, width:hw*2, height:bh, rx:rxB, 'class':'tip-bg' }), tipG.firstChild);
+
+      var borderPath = 'M'+(-(hw-rxB))+','+ty
+        +' L'+(hw-rxB)+','+ty+' Q'+hw+','+ty+' '+hw+','+(ty+rxB)
+        +' L'+hw+','+(by-rxB)+' Q'+hw+','+by+' '+(hw-rxB)+','+by
+        +' L'+(-(hw-rxB))+','+by+' Q'+(-hw)+','+by+' '+(-hw)+','+(by-rxB)
+        +' L'+(-hw)+','+(ty+rxB)+' Q'+(-hw)+','+ty+' '+(-(hw-rxB))+','+ty+' Z';
+      tipG.insertBefore(el('path', { d:borderPath, 'class':'tip-border' }), tipG.children[1]);
+
+      var hx1 = Math.max(68,  x - colW);
+      var hx2 = Math.min(850, x + colW);
+      var hit = el('rect', { x:hx1, y:100, width:hx2-hx1, height:404,
+        fill:'transparent', cursor:'crosshair', id:'hit'+qi });
+      hitLayer.appendChild(hit);
+
+      var ch = svgEl.querySelector('#ch' + qi);
+      var colDots = dotsL.querySelectorAll('.col-dot[data-col="'+qi+'"]');
+
+      hit.addEventListener('mouseenter', function() {
+        dataLayerEl.classList.add('hovering');
+        dotsL.querySelectorAll('.col-dot').forEach(function(d) { d.classList.remove('active'); });
+        colDots.forEach(function(d) { d.classList.add('active'); });
+        allTips[qi].style.opacity = '1';
+        if (ch) ch.style.opacity = '1';
+      });
+      hit.addEventListener('mouseleave', function() {
+        dataLayerEl.classList.remove('hovering');
+        colDots.forEach(function(d) { d.classList.remove('active'); });
+        allTips[qi].style.opacity = '';
+        if (ch) ch.style.opacity = '';
+      });
+    });
+
+    svgEl._onModeChange = function() { buildGradients(); };
     buildGradients();
-  }
 
-  document.getElementById('dark-toggle').addEventListener('click', function() { setMode(!isDark); });
-  document.getElementById('print-toggle').addEventListener('click', function() {
-    var thumb = document.getElementById('pthumb'), lbl = document.getElementById('plabel');
-    if (svg.classList.toggle('print')) { thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
-    else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print'; }
-  });
+    /* wave-edges are ordered we5,we4,we3,we2,we1 in markup — stagger bottom-to-top */
+    var waveEls    = svgEl.querySelectorAll('.wave-edge');
+    var waveDelays = [0, 0.25, 0.50, 0.75, 1.00];
+    waveEls.forEach(function(el, i) {
+      var delay = waveDelays[waveEls.length - 1 - i];
+      el.style.animation = 'drawWave 1.2s cubic-bezier(0.4,0,0.2,1) ' + delay.toFixed(2) + 's';
+      el.addEventListener('animationend', function() {
+        el.style.animation = 'none';
+        el.classList.add('visible');
+      }, { once: true });
+    });
 
-  window.setMode = setMode;
-  window.addEventListener('message', function(e) {
-    if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
-  });
+    var areaEls = svgEl.querySelectorAll('.area-fill');
+    var areaDelays = [0, 0.25, 0.50, 0.75, 1.00];
+    areaEls.forEach(function(el, i) {
+      el.style.animation = 'dataFadeIn 0.8s cubic-bezier(0.4,0,0.2,1) ' + areaDelays[areaEls.length - 1 - i] + 's';
+      el.addEventListener('animationend', function() {
+        el.style.animation = 'none';
+        el.classList.add('visible');
+      }, { once: true });
+    });
 
-  buildGradients();
-
-  /* §3 A1 — wire animationend + .visible for wave-edges (clears both fill-mode conflict) */
-  var waveEls    = svg.querySelectorAll('.wave-edge');
-  var waveDelays = [0, 0.25, 0.50, 0.75, 1.00]; /* w1–w5, index matches order in markup (we5..we1) */
-  /* wave-edges are ordered we5,we4,we3,we2,we1 in markup — stagger bottom-to-top */
-  waveEls.forEach(function(el, i) {
-    var delay = waveDelays[waveEls.length - 1 - i]; /* reverse: we1 gets 0s, we5 gets 1.0s */
-    el.style.animation = 'drawWave 1.2s cubic-bezier(0.4,0,0.2,1) ' + delay.toFixed(2) + 's';
-    el.addEventListener('animationend', function() {
-      el.style.animation = 'none';
-      el.classList.add('visible');
-    }, { once: true });
-  });
-
-  /* §3 A1 — wire animationend + .visible for each area-fill */
-  var areaEls = svg.querySelectorAll('.area-fill');
-  var areaDelays = [0, 0.25, 0.50, 0.75, 1.00]; /* f1–f5 */
-  areaEls.forEach(function(el, i) {
-    el.style.animation = 'dataFadeIn 0.8s cubic-bezier(0.4,0,0.2,1) ' + areaDelays[areaEls.length - 1 - i] + 's';
-    el.addEventListener('animationend', function() {
-      el.style.animation = 'none';
-      el.classList.add('visible');
-    }, { once: true });
-  });
-
-  /* gate hover on .ready after last animation finishes */
-  setTimeout(function() { dataLayerEl.classList.add('ready'); }, (1.00 + 0.8) * 1000 + 100);
-
-  setMode(window.location.href.indexOf('theme=dark') !== -1);
-})();
-//]]>
-</script>
+    setTimeout(function() { dataLayerEl.classList.add('ready'); }, (1.00 + 0.8) * 1000 + 100);
+  };
+  if (window.bootstrapChart) { window.bootstrapChart(svg); }
+}());
+]]></script>
 </svg>

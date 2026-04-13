@@ -4,31 +4,7 @@
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
-    .card-bg       { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    .card-title    { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .card-subtitle { font-size:11px; fill:#79747E; font-weight:400; }
-    .tick-label    { font-size:10px; fill:#79747E; font-weight:400; }
-    .category-label{ font-size:10px; fill:#79747E; font-weight:500; }
-    .legend-label  { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    .legend-value  { font-size:11px; fill:#1C1B1F; font-weight:500; }
-    .grid-line     { stroke:#E7E0EC; stroke-width:1; }
-    .axis-line     { stroke:#79747E; stroke-width:1.5; }
-    .legend-bg     { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .legend-divider{ stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .legend-title  { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-    .footer        { font-size:10px; fill:#79747E; font-weight:400; }
-    .toggle-wrap   { cursor:pointer; }
-    .toggle-track  { fill:#E7E0EC; }
-    .toggle-thumb  { fill:#ffffff; }
-    .toggle-label  { font-size:11px; font-weight:500; fill:#49454F; }
-    .print-track   { fill:#E7E0EC; transition:fill 0.3s; }
-    .print-thumb   { fill:#ffffff; }
-    .print-label   { font-size:11px; font-weight:500; fill:#49454F; }
-
-    .legend-value  { opacity:0; transition:opacity 0.2s; }
-    svg.print .legend-value { opacity:1; }
-    svg.print .print-track  { fill:#d97316; }
+    @import url('chart-shared.css');
 
     .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
     .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
@@ -40,59 +16,12 @@
     svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
     svg.dark .series-7 { fill:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; }
 
-    /* A2 — .data-body is a child of .data-item; fill-mode safe, no hover conflict */
     @keyframes dataFadeIn { from{opacity:0} to{opacity:1} }
     .data-body { animation: dataFadeIn 0.8s ease-out both; }
     .stagger-1 { animation-delay:0.00s; } .stagger-2 { animation-delay:0.25s; }
     .stagger-3 { animation-delay:0.50s; } .stagger-4 { animation-delay:0.75s; }
     .stagger-5 { animation-delay:1.00s; } .stagger-6 { animation-delay:1.25s; }
     .stagger-7 { animation-delay:1.50s; } .stagger-8 { animation-delay:1.75s; }
-
-    .data-item { cursor:pointer; }
-
-    /* CSS-driven — .data-tip is a child of .data-item; .data-item.active .data-tip shows it */
-    .data-tip  { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    .data-item.active .data-tip { opacity:1; }
-
-    .data-layer.hovering .data-item        { opacity:0.20; transition:opacity 0.15s; }
-    .data-layer.hovering .data-item.active { opacity:1; }
-    svg.print .data-tip { opacity:0 !important; }
-    svg.print .data-layer.hovering .data-item { opacity:1 !important; }
-
-    .tip-bg     { fill:#FFFBFE; }
-    .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
-
-    svg.dark .card-bg       { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-    svg.dark .card-title    { fill:#E6E0E9; }
-    svg.dark .card-subtitle { fill:#938F99; }
-    svg.dark .tick-label    { fill:#938F99; }
-    svg.dark .category-label{ fill:#938F99; }
-    svg.dark .legend-label  { fill:#E6E0E9; }
-    svg.dark .legend-value  { fill:#E6E0E9; }
-    svg.dark .grid-line     { stroke:#49454F; }
-    svg.dark .axis-line     { stroke:#938F99; }
-    svg.dark .legend-bg     { fill:#49454F; stroke:#938F99; }
-    svg.dark .legend-divider{ stroke:#938F99; }
-    svg.dark .legend-title  { fill:#938F99; }
-    svg.dark .footer        { fill:#938F99; }
-    svg.dark .toggle-track  { fill:#49454F; }
-    svg.dark .toggle-label  { fill:#CAC4D0; }
-    svg.dark .print-track   { fill:#49454F; }
-    svg.dark .print-label   { fill:#CAC4D0; }
-    svg.dark.print .print-track { fill:#d97316; }
-    svg.dark .tip-bg     { fill:#1C1B1F; }
-    svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
-    svg.dark .tip-tail   { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
-    svg.dark .tip-value  { fill:#E6E0E9; }
-    svg.dark .tip-label  { fill:#CAC4D0; }
-
-    .border-dark  { display:none; }
-    .border-light { display:block; }
-    svg.dark .border-dark  { display:block; }
-    svg.dark .border-light { display:none; }
   </style>
 </defs>
 
@@ -296,110 +225,61 @@
 
 <text x="68" y="600" class="footer">Revenue by Category · 7 series + Other · bar chart</text>
 
+<script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
-(function() {
-  var svg          = document.getElementById('root');
-  var dataLayerEl  = document.querySelector('.data-layer');
+(function () {
+  var svg = document.documentElement;
+  svg._chartInit = function (svgEl, ctx) {
+    var dataLayerEl = svgEl.querySelector('.data-layer');
 
-  /* isDark hoisted before all other code */
-  var isDark = false;
-
-  /* initBubbles: position tooltip geometry via getBBox(); CSS owns show/hide */
-  function initBubbles() {
-    var pad = 20, bh = 38, rx = 9, tw = 8, tail = 8;
-    Array.prototype.slice.call(document.querySelectorAll('.data-item')).forEach(function(dataItem) {
-      var itemCx   = parseFloat(dataItem.getAttribute('data-item-cx'));
-      var itemTop  = parseFloat(dataItem.getAttribute('data-item-top'));
-      var tip      = dataItem.querySelector('.data-tip');
-      var texts    = tip.querySelectorAll('text');
-      var bgRect   = tip.querySelector('rect');
-      var paths    = tip.querySelectorAll('path');
-      var borderPath = paths[0], tailPath = paths[1];
-
-      /* place text at known position before measuring */
-      Array.prototype.forEach.call(texts, function(t) {
-        t.setAttribute('x', '0'); t.setAttribute('y', '0');
+    /* Position tooltip bubbles via getBBox(); CSS owns show/hide */
+    function initBubbles() {
+      var pad = 20, bh = 38, rx = 9, tw = 8, tail = 8;
+      ctx.$$all('.data-item').forEach(function (dataItem) {
+        var itemCx = parseFloat(dataItem.getAttribute('data-item-cx'));
+        var itemTop = parseFloat(dataItem.getAttribute('data-item-top'));
+        var tip = dataItem.querySelector('.data-tip');
+        var texts = tip.querySelectorAll('text');
+        var bgRect = tip.querySelector('rect');
+        var paths = tip.querySelectorAll('path');
+        var borderPath = paths[0], tailPath = paths[1];
+        Array.prototype.forEach.call(texts, function (t) {
+          t.setAttribute('x', '0'); t.setAttribute('y', '0');
+        });
+        var hw = Math.max(texts[0].getBBox().width + pad, texts[1].getBBox().width + pad, 60) / 2;
+        var tx = Math.max(hw + 8, Math.min(itemCx, 1092 - hw - 8));
+        var bB = itemTop - tail, bT = bB - bh, bL = tx - hw, bR = tx + hw;
+        bgRect.setAttribute('x', bL); bgRect.setAttribute('y', bT);
+        bgRect.setAttribute('width', hw * 2); bgRect.setAttribute('height', bh);
+        borderPath.setAttribute('d',
+          'M'+(tx+tw)+','+bB+
+          ' L'+(bR-rx)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-rx)+
+          ' L'+bR+','+(bT+rx)+' Q'+bR+','+bT+' '+(bR-rx)+','+bT+
+          ' L'+(bL+rx)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+rx)+
+          ' L'+bL+','+(bB-rx)+' Q'+bL+','+bB+' '+(bL+rx)+','+bB+
+          ' L'+(tx-tw)+','+bB);
+        tailPath.setAttribute('d', 'M'+(tx-tw)+','+bB+' L'+tx+','+itemTop+' L'+(tx+tw)+','+bB);
+        texts[0].setAttribute('x', tx); texts[0].setAttribute('y', bT + bh * 0.32);
+        texts[1].setAttribute('x', tx); texts[1].setAttribute('y', bT + bh * 0.72);
       });
-
-      var hw = Math.max(
-        texts[0].getBBox().width + pad,
-        texts[1].getBBox().width + pad,
-        60
-      ) / 2;
-
-      var tx = Math.max(hw + 8, Math.min(itemCx, 1092 - hw - 8));
-      var bB = itemTop - tail;
-      var bT = bB - bh;
-      var bL = tx - hw, bR = tx + hw;
-
-      bgRect.setAttribute('x', bL); bgRect.setAttribute('y', bT);
-      bgRect.setAttribute('width', hw * 2); bgRect.setAttribute('height', bh);
-
-      borderPath.setAttribute('d',
-        'M'+(tx+tw)+','+bB+
-        ' L'+(bR-rx)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-rx)+
-        ' L'+bR+','+(bT+rx)+' Q'+bR+','+bT+' '+(bR-rx)+','+bT+
-        ' L'+(bL+rx)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+rx)+
-        ' L'+bL+','+(bB-rx)+' Q'+bL+','+bB+' '+(bL+rx)+','+bB+
-        ' L'+(tx-tw)+','+bB
-      );
-
-      tailPath.setAttribute('d',
-        'M'+(tx-tw)+','+bB+' L'+tx+','+itemTop+' L'+(tx+tw)+','+bB
-      );
-
-      texts[0].setAttribute('x', tx); texts[0].setAttribute('y', bT + bh * 0.32);
-      texts[1].setAttribute('x', tx); texts[1].setAttribute('y', bT + bh * 0.72);
-    });
-  }
-  initBubbles();
-
-  /* animation is pure CSS @keyframes (A2); no JS needed */
-
-  /* Hover: CSS-driven via .data-item.active .data-tip; JS manages .active and .hovering */
-  var dataItemEls = Array.prototype.slice.call(document.querySelectorAll('.data-item'));
-
-  dataItemEls.forEach(function(dataItem) {
-    dataItem.addEventListener('mouseenter', function() {
-      dataLayerEl.classList.add('hovering');
-      dataItemEls.forEach(function(x) { x.classList.remove('active'); }); /* clear stale */
-      dataItem.classList.add('active');
-    });
-    dataItem.addEventListener('mouseleave', function() {
-      dataItem.classList.remove('active');
-      dataLayerEl.classList.remove('hovering');
-    });
-  });
-
-  /* Dark mode toggle */
-  function setMode(wantDark) {
-    if (wantDark === isDark) return;
-    isDark = wantDark;
-    var thumb = document.getElementById('tthumb');
-    var lbl   = document.getElementById('tlabel');
-    if (wantDark) {
-      svg.classList.add('dark');
-      if (thumb) thumb.setAttribute('cx', '52');
-      if (lbl)   lbl.textContent = 'Light';
-    } else {
-      svg.classList.remove('dark');
-      if (thumb) thumb.setAttribute('cx', '16');
-      if (lbl)   lbl.textContent = 'Dark';
     }
-  }
+    initBubbles();
 
-  document.getElementById('dark-toggle').addEventListener('click', function() { setMode(!isDark); });
-  document.getElementById('print-toggle').addEventListener('click', function() {
-    var thumb = document.getElementById('pthumb'), lbl = document.getElementById('plabel');
-    if (svg.classList.toggle('print')) { thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
-    else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print'; }
-  });
-
-  window.setMode = setMode;
-  window.addEventListener('message', function(e) {
-    if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
-  });
-  setMode(window.location.href.indexOf('theme=dark') !== -1);
-})();
+    /* Hover — CSS drives opacity; JS manages .active and .hovering */
+    var dataItemEls = ctx.$$all('.data-item');
+    dataItemEls.forEach(function (dataItem) {
+      dataItem.addEventListener('mouseenter', function () {
+        dataLayerEl.classList.add('hovering');
+        dataItemEls.forEach(function (x) { x.classList.remove('active'); });
+        dataItem.classList.add('active');
+      });
+      dataItem.addEventListener('mouseleave', function () {
+        dataItem.classList.remove('active');
+        dataLayerEl.classList.remove('hovering');
+      });
+    });
+  };
+  if (window.bootstrapChart) { window.bootstrapChart(svg); }
+}());
 ]]></script>
 </svg>

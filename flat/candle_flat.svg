@@ -4,28 +4,8 @@
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter',Arial,sans-serif">
 <defs>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
-    .card-bg   { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    .card-title      { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .card-subtitle      { font-size:11px; fill:#79747E; }
-    .tick-label       { font-size:10px; fill:#79747E; }
-    .category-label       { font-size:10px; fill:#79747E; font-weight:500; }
-    .legend-label       { font-size:11px; fill:#1C1B1F; }
-    .legend-value       { font-size:11px; fill:#1C1B1F; font-weight:500; }
-    .grid-line       { stroke:#E7E0EC; stroke-width:1; fill:none; }
-    .axis-line       { stroke:#79747E; stroke-width:1.5; fill:none; }
-    .legend-bg   { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .legend-divider  { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .legend-title  { font-size:10px; fill:#79747E; font-weight:500; }
-    .footer   { font-size:10px; fill:#79747E; }
-    .toggle-wrap   { cursor:pointer; }
-    .toggle-track  { fill:#E7E0EC; } .toggle-thumb { fill:#ffffff; }
-    .toggle-label  { font-size:11px; font-weight:500; fill:#49454F; }
-    .print-track { fill:#E7E0EC; transition:fill 0.3s; } .print-thumb { fill:#ffffff; }
-    .print-label { font-size:11px; font-weight:500; fill:#49454F; }
+    @import url('chart-shared.css');
 
-    /* candle colors — semantic, aligned to standard palette:
-       bull = series-2 green, bear = series-4 rose */
     .c-bull { fill:#00B87A; }
     .c-bear { fill:#F43F5E; }
     .w-bull { stroke:#00B87A; stroke-width:1.5; fill:none; }
@@ -35,9 +15,6 @@
     svg.dark .w-bull { stroke:#10B981; }
     svg.dark .w-bear { stroke:#FB6181; }
 
-    /* ── Method A @keyframes — opacity only, per-element stagger via delay ──
-       uses both fill-mode because .data-body and .data-item are separate nested elements:
-       both only affects .data-body opacity, hover dimming targets .data-item — no conflict */
     @keyframes dataFadeIn { from{opacity:0} to{opacity:1} }
     .data-body { animation:dataFadeIn 0.8s ease-out both; }
     .stagger-1  { animation-delay:0.00s; } .stagger-2  { animation-delay:0.16s; }
@@ -47,45 +24,8 @@
     .stagger-9  { animation-delay:1.28s; } .stagger-10 { animation-delay:1.44s; }
     .stagger-11 { animation-delay:1.60s; } .stagger-12 { animation-delay:1.76s; }
 
-    /* ── hover — no .ready gate needed: .data-body and .data-item are separate elements,
-       animation never touches .data-item opacity ── */
-    .data-item { cursor:pointer; }
-    .data-layer.hovering .data-item        { opacity:0.20; transition:opacity 0.2s ease; }
-    .data-layer.hovering .data-item.active { opacity:1;    transition:opacity 0.2s ease; }
-
-    /* tooltip */
-    .data-tip   { opacity:0; pointer-events:none; transition:opacity 0.2s ease; }
-    svg.print .data-tip { opacity:0 !important; }
-    .tip-bg   { fill:#FFFBFE; }
-    .tip-border  { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-tail  { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .tip-label  { fill:#49454F; font-size:10px; }
-
     .legend-value { opacity:0; transition:opacity 0.3s; }
-    svg.print .legend-value  { opacity:1; }
-    svg.print .print-track { fill:#d97316; }
-
-    svg.dark .card-bg   { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-    svg.dark .card-title        { fill:#E6E0E9; }
-    svg.dark .tick-label, svg.dark .category-label, svg.dark .card-subtitle { fill:#938F99; }
-    svg.dark .legend-label, svg.dark .legend-value { fill:#E6E0E9; }
-    svg.dark .grid-line        { stroke:#49454F; }
-    svg.dark .axis-line        { stroke:#938F99; }
-    svg.dark .legend-bg    { fill:#49454F; stroke:#938F99; }
-    svg.dark .legend-divider   { stroke:#938F99; }
-    svg.dark .legend-title   { fill:#938F99; }
-    svg.dark .footer    { fill:#938F99; }
-    svg.dark .tip-bg    { fill:#1C1B1F; }
-    svg.dark .tip-border   { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .tip-tail   { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .tip-value   { fill:#E6E0E9; }
-    svg.dark .tip-label   { fill:#CAC4D0; }
-    svg.dark .toggle-track, svg.dark .print-track { fill:#49454F; }
-    svg.dark .toggle-label,  svg.dark .print-label { fill:#CAC4D0; }
-    svg.dark.print .print-track { fill:#d97316; }
-    .border-dark  { display:none; } .border-light { display:block; }
-    svg.dark .border-dark  { display:block; } svg.dark .border-light { display:none; }
+    svg.print .legend-value { opacity:1; }
   </style>
 </defs>
 
@@ -275,51 +215,31 @@
 
 <text x="68" y="600" class="footer">OHLC Price Chart · 12 months · hover to inspect · print for values</text>
 
+<script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
-(function() {
-  var svg       = document.getElementById('root');
-  var chartArea = document.getElementById('chart-area');
-  var dataItemEls = Array.prototype.slice.call(svg.querySelectorAll('.data-item'));
+(function () {
+  var svg = document.documentElement;
+  svg._chartInit = function (svgEl, ctx) {
+    var chartArea   = svgEl.querySelector('#chart-area');
+    var dataItemEls = ctx.$$all('.data-item');
 
-  /* §2 — isDark hoisted before all build and animation code */
-  var isDark = false;
-
-  /* ── hover dimming + tooltip ── */
-  dataItemEls.forEach(function(itemEl) {
-    var tipEl = document.getElementById(itemEl.getAttribute('data-tip'));
-    itemEl.addEventListener('mouseenter', function() {
-      dataItemEls.forEach(function(c){ c.classList.remove('active'); });
-      chartArea.classList.add('hovering');
-      itemEl.classList.add('active');
-      if (tipEl) tipEl.style.opacity = '1';
+    /* Hover dimming + tooltip via data-tip attribute */
+    dataItemEls.forEach(function (itemEl) {
+      var tipEl = svgEl.querySelector('#' + itemEl.getAttribute('data-tip'));
+      itemEl.addEventListener('mouseenter', function () {
+        dataItemEls.forEach(function (c) { c.classList.remove('active'); });
+        chartArea.classList.add('hovering');
+        itemEl.classList.add('active');
+        if (tipEl) tipEl.style.opacity = '1';
+      });
+      itemEl.addEventListener('mouseleave', function () {
+        chartArea.classList.remove('hovering');
+        itemEl.classList.remove('active');
+        if (tipEl) tipEl.style.opacity = '';
+      });
     });
-    itemEl.addEventListener('mouseleave', function() {
-      chartArea.classList.remove('hovering');
-      itemEl.classList.remove('active');
-      if (tipEl) tipEl.style.opacity = '';
-    });
-  });
-
-  /* ── dark mode ── */
-  function setMode(wantDark) {
-    if (wantDark === isDark) return;
-    isDark = wantDark;
-    var thumb = document.getElementById('tthumb'), lbl = document.getElementById('tlabel');
-    if (wantDark) { svg.classList.add('dark');   thumb.setAttribute('cx','52'); lbl.textContent='Light'; }
-    else          { svg.classList.remove('dark'); thumb.setAttribute('cx','16'); lbl.textContent='Dark';  }
-  }
-
-  document.getElementById('dark-toggle').addEventListener('click', function(){ setMode(!isDark); });
-  document.getElementById('print-toggle').addEventListener('click', function(){
-    var thumb=document.getElementById('pthumb'), lbl=document.getElementById('plabel');
-    if (svg.classList.toggle('print')){ thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
-    else                              { thumb.setAttribute('cx','16'); lbl.textContent='Print';  }
-  });
-  window.setMode = setMode;
-  window.addEventListener('message', function(e){
-    if (e.data && e.data.type==='setMode') setMode(e.data.dark);
-  });
-  setMode(window.location.href.indexOf('theme=dark')!==-1);
-})();
+  };
+  if (window.bootstrapChart) { window.bootstrapChart(svg); }
+}());
 ]]></script>
 </svg>

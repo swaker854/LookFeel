@@ -1,0 +1,100 @@
+/* ── chart-shared.css ─────────────────────────────────────────────────────────
+   Design tokens and component styles shared across all flat chart SVGs.
+   Series palette (.series-N) stays per-chart because ordering varies.
+   ──────────────────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+/* ── Card chrome ── */
+.card-bg        { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
+.card-title     { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
+.card-subtitle  { font-size:11px; fill:#79747E; font-weight:400; }
+
+/* ── Axes & grid ── */
+.tick-label     { font-size:10px; fill:#79747E; font-weight:400; }
+.category-label { font-size:10px; fill:#79747E; font-weight:500; }
+.grid-line      { stroke:#E7E0EC; stroke-width:1; }
+.axis-line      { stroke:#79747E; stroke-width:1.5; }
+
+/* ── Legend ── */
+.legend-label   { font-size:11px; fill:#1C1B1F; font-weight:400; }
+.legend-value   { font-size:11px; fill:#1C1B1F; font-weight:500; opacity:0; transition:opacity 0.2s; }
+.legend-note    { font-size:10px; fill:#79747E; font-weight:400; }
+.legend-bg      { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+.legend-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+.legend-title   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
+
+/* ── Footer ── */
+.footer { font-size:10px; fill:#79747E; font-weight:400; }
+
+/* ── Dark/Light mode toggle ── */
+.toggle-wrap  { cursor:pointer; }
+.toggle-track { fill:#E7E0EC; }
+.toggle-thumb { fill:#ffffff; }
+.toggle-label { font-size:11px; font-weight:500; fill:#49454F; }
+
+/* ── Print toggle ── */
+.print-track { fill:#E7E0EC; transition:fill 0.3s; }
+.print-thumb { fill:#ffffff; }
+.print-label { font-size:11px; font-weight:500; fill:#49454F; }
+
+/* ── Print-mode overrides ── */
+svg.print .legend-value { opacity:1; }
+svg.print .print-track  { fill:#d97316; }
+
+/* ── Tooltip geometry — inner elements shared across chart types ── */
+.tip-bg     { fill:#FFFBFE; }
+.tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+.tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+.tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
+.tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
+
+/* ── Tooltip visibility — per-item trigger ── */
+.data-item { cursor:pointer; }
+.data-tip  { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
+.data-item.active .data-tip { opacity:1; }
+svg.print .data-tip { opacity:0 !important; }
+
+/* ── Hover dimming — standard (non-gated) pattern ── */
+.data-layer.hovering .data-item        { opacity:0.20; transition:opacity 0.15s; }
+.data-layer.hovering .data-item.active { opacity:1; }
+svg.print .data-layer.hovering .data-item { opacity:1 !important; }
+
+/* ── Border visibility toggle ── */
+.border-dark  { display:none; }
+.border-light { display:block; }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   Dark-mode overrides  (svg.dark .*)
+   ══════════════════════════════════════════════════════════════════════════════ */
+svg.dark .card-bg       { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+svg.dark .card-title    { fill:#E6E0E9; }
+svg.dark .card-subtitle { fill:#938F99; }
+
+svg.dark .tick-label     { fill:#938F99; }
+svg.dark .category-label { fill:#938F99; }
+svg.dark .grid-line      { stroke:#49454F; }
+svg.dark .axis-line      { stroke:#938F99; }
+
+svg.dark .legend-label   { fill:#E6E0E9; }
+svg.dark .legend-value   { fill:#E6E0E9; }
+svg.dark .legend-note    { fill:#938F99; }
+svg.dark .legend-bg      { fill:#49454F; stroke:#938F99; }
+svg.dark .legend-divider { stroke:#938F99; }
+svg.dark .legend-title   { fill:#938F99; }
+
+svg.dark .footer { fill:#938F99; }
+
+svg.dark .toggle-track { fill:#49454F; }
+svg.dark .toggle-label { fill:#CAC4D0; }
+svg.dark .print-track  { fill:#49454F; }
+svg.dark .print-label  { fill:#CAC4D0; }
+svg.dark.print .print-track { fill:#d97316; }
+
+svg.dark .tip-bg     { fill:#1C1B1F; }
+svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; }
+svg.dark .tip-tail   { fill:#1C1B1F; stroke:#938F99; }
+svg.dark .tip-value  { fill:#E6E0E9; }
+svg.dark .tip-label  { fill:#CAC4D0; }
+
+svg.dark .border-dark  { display:block; }
+svg.dark .border-light { display:none; }

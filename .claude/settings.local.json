@@ -5,7 +5,13 @@
       "Bash(xargs basename:*)",
       "Bash(grep -E \"\\\\.\\(scss|ts|css\\)$\")",
       "Bash(grep -n \"DEFAULT_COLOR\\\\|StaticColorFrame\" /e/home/dev/github/stylebi-visual_BI_tool/stylebi/core/src/main/java/inetsoft/graph/aesthetic/*.java)",
-      "Bash(grep -l \"<style>\" /e/home/dev/github/lookfeel/flat/*_flat.svg)"
+      "Bash(grep -l \"<style>\" /e/home/dev/github/lookfeel/flat/*_flat.svg)",
+      "Bash(grep -n \"};$\\\\|}\\(\\);$\" \"e:/home/dev/github/lookfeel/flat/area_flat.svg\")",
+      "Bash(grep -l \"fonts.googleapis.com\" *.svg)",
+      "Bash(grep -l \"chart-shared.css\" *.svg)",
+      "Bash(grep -l \"chart-shared.js\" *.svg)",
+      "Bash(grep -l \"initChart\\(svg\\)\" *.svg)",
+      "Bash(grep -rn 'ctx\\\\.$$all\\\\|document\\\\.getElementById\\\\|document\\\\.querySelector[^A-Z]' e:/home/dev/github/lookfeel/flat/bar_flat.svg e:/home/dev/github/lookfeel/flat/bar_stacked_flat.svg e:/home/dev/github/lookfeel/flat/bubble_flat.svg e:/home/dev/github/lookfeel/flat/candle_flat.svg)"
     ]
   }
 }
