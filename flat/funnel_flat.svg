@@ -5,7 +5,7 @@
      font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
+    @import url('chart-shared.css');
 
     /* §9 — Card shell */
     .card-bg  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
@@ -236,14 +236,16 @@
   <text id="tip-pct" class="tip-pct"    text-anchor="middle"/>
 </g>
 
+<script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
-(function() {
-  var svg         = document.getElementById('root');
+(function () {
+  var svg = document.documentElement;
+  svg._chartInit = function (svgEl, ctx) {
+var svg         = document.getElementById('root');
   var dataLayerEl = document.getElementById('data-layer');
   var stages = Array.prototype.slice.call(dataLayerEl.querySelectorAll('.fstage'));
 
   /* §2 — isDark declared before all other code */
-  var isDark = false;
 
   /* §3 — Method A1: animationend + .visible, adaptive stagger, .ready gate */
   var duration = 0.8;
@@ -359,34 +361,8 @@
   });
 
   /* §2 — Dark mode toggle */
-  function setMode(wantDark) {
-    if (wantDark === isDark) return;
-    isDark = wantDark;
-    var thumb = document.getElementById('tthumb');
-    var lbl   = document.getElementById('tlabel');
-    if (wantDark) {
-      svg.classList.add('dark');
-      if (thumb) thumb.setAttribute('cx', '52');
-      if (lbl)   lbl.textContent = 'Light';
-    } else {
-      svg.classList.remove('dark');
-      if (thumb) thumb.setAttribute('cx', '16');
-      if (lbl)   lbl.textContent = 'Dark';
-    }
-  }
-
-  document.getElementById('dark-toggle').addEventListener('click', function() { setMode(!isDark); });
-  document.getElementById('print-toggle').addEventListener('click', function() {
-    var thumb = document.getElementById('pthumb'), lbl = document.getElementById('plabel');
-    if (svg.classList.toggle('print')) { thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
-    else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print';  }
-  });
-
-  window.setMode = setMode;
-  window.addEventListener('message', function(e) {
-    if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
-  });
-  setMode(window.location.href.indexOf('theme=dark') !== -1);
-})();
+  };
+  if (window.bootstrapChart) { window.bootstrapChart(svg); }
+}());
 ]]></script>
 </svg>

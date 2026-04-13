@@ -3,7 +3,7 @@
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
+    @import url('chart-shared.css');
 
     /* §1 — Standard palette (CSS single source of truth, no fill attrs on bars) */
     .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
@@ -355,44 +355,19 @@
 
 <text x="68" y="600" class="footer">Revenue by Category · 7 series + Other · cumulative waterfall</text>
 
+<script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
-(function() {
-  var svg   = document.getElementById('root');
+(function () {
+  var svg = document.documentElement;
+  svg._chartInit = function (svgEl, ctx) {
+var svg   = document.getElementById('root');
   var dataLayerEl = document.getElementById('data-layer');
   var dataItemEls = dataLayerEl.querySelectorAll('.data-item');
 
   /* §2 — isDark boolean guard; no swapColors(); dark mode is purely CSS */
-  var isDark = false;
 
-  function setMode(wantDark) {
-    if (wantDark === isDark) return;
-    isDark = wantDark;
-    var thumb = document.getElementById('tthumb');
-    var lbl   = document.getElementById('tlabel');
-    if (isDark) {
-      svg.classList.add('dark');
-      if (thumb) thumb.setAttribute('cx', '52');
-      if (lbl)   lbl.textContent = 'Light';
-    } else {
-      svg.classList.remove('dark');
-      if (thumb) thumb.setAttribute('cx', '16');
-      if (lbl)   lbl.textContent = 'Dark';
-    }
-  }
 
-  document.getElementById('dark-toggle').addEventListener('click', function() {
-    setMode(!isDark);
-  });
 
-  document.getElementById('print-toggle').addEventListener('click', function() {
-    var thumb = document.getElementById('pthumb');
-    var lbl   = document.getElementById('plabel');
-    if (svg.classList.toggle('print')) {
-      thumb.setAttribute('cx', '52'); lbl.textContent = 'Screen';
-    } else {
-      thumb.setAttribute('cx', '16'); lbl.textContent = 'Print';
-    }
-  });
 
   /* §4 — Hover: JS class toggling, no :hover pseudo-class */
   dataItemEls.forEach(function(itemEl) {
@@ -408,15 +383,10 @@
     });
   });
 
-  window.setMode = setMode;
-  window.addEventListener('message', function(e) {
-    if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
-  });
 
   /* §2 — Initialise: light mode (isDark=false is already the default) */
-  (function() {
-    if (window.location.href.indexOf('theme=dark') !== -1) setMode(true);
-  })();
-})();
+  };
+  if (window.bootstrapChart) { window.bootstrapChart(svg); }
+}());
 ]]></script>
 </svg>

@@ -3,7 +3,7 @@
 <svg id="root" viewBox="0 0 1100 620" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Inter','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap');
+    @import url('chart-shared.css');
     .card-bg    { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
     .card-title { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
     .card-subtitle { font-size:11px; fill:#79747E; font-weight:400; }
@@ -189,12 +189,14 @@
 
 <text x="68" y="600" class="footer">Revenue by Category &amp; Quarter · hierarchical sunburst · inner = category · outer = quarterly split · total $507M</text>
 
+<script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
 (function () {
-  var svg    = document.getElementById('root');
+  var svg = document.documentElement;
+  svg._chartInit = function (svgEl, ctx) {
+var svg    = document.getElementById('root');
   var pie    = document.getElementById('pie');
   var ns     = 'http://www.w3.org/2000/svg';
-  var isDark = false;
 
   /* ── depth tinting for quarter slices (icicle reference pattern) ── */
   var _probe = null;
@@ -227,7 +229,7 @@
   var Q_BLENDS = [0.72, 0.48, 0.24, 0.0];
 
   function recolor() {
-    var bg = isDark ? '#1C1B1F' : '#FFFBFE';
+    var bg = svgEl.classList.contains('dark') ? '#1C1B1F' : '#FFFBFE';
     pie.querySelectorAll('path[data-arc="o"]').forEach(function(p) {
       var ci = +p.getAttribute('data-ci');
       var qi = +p.getAttribute('data-qi');
@@ -350,24 +352,10 @@
   });
 
   /* ── dark mode ── */
-  function setMode(wantDark) {
-    if (wantDark===isDark) return;
-    isDark=wantDark;
-    var thumb=document.getElementById('tthumb'), lbl=document.getElementById('tlabel');
-    if (wantDark){ svg.classList.add('dark');   thumb.setAttribute('cx','52'); lbl.textContent='Light'; }
-    else         { svg.classList.remove('dark'); thumb.setAttribute('cx','16'); lbl.textContent='Dark';  }
-    recolor();
-  }
-  document.getElementById('dark-toggle').addEventListener('click', function(){ setMode(!isDark); });
-  document.getElementById('print-toggle').addEventListener('click', function(){
-    var thumb=document.getElementById('pthumb'), lbl=document.getElementById('plabel');
-    if(svg.classList.toggle('print')){ thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
-    else                             { thumb.setAttribute('cx','16'); lbl.textContent='Print';  }
-  });
-  window.setMode=setMode;
-  window.addEventListener('message', function(e){ if(e.data&&e.data.type==='setMode') setMode(e.data.dark); });
-  setMode(window.location.href.indexOf('theme=dark')!==-1);
+  svgEl._onModeChange = function () { recolor(); };
   recolor();
-})();
+  };
+  if (window.bootstrapChart) { window.bootstrapChart(svg); }
+}());
 ]]></script>
 </svg>
