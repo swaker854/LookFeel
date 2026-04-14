@@ -10,14 +10,14 @@ during investigation, and their resolutions.
 
 | Track | Renderer | Purpose | Chart scope |
 |---|---|---|---|
-| Track 1 | Batik / VGraph (existing) | Export — PDF, Excel, PowerPoint | All chart types |
+| Track 1 (charts) | ECharts SSR via Node.js sidecar | Export — PDF, Excel, PowerPoint | Standard charts (25 types); map charts (Phase 8) |
+| Track 1 (non-chart) | Batik / VGraph | Export — non-chart elements | Contour, Faceted, Gauges, Tables, Crosstabs |
 | Track 2 | ECharts (new) | Browser — interactive, animated | Standard + geo/map charts |
-| Track 3 | Batik SVG → `<img>` (unchanged) | Browser — contour charts stay server-rendered | Scatter Contour, Map Contour |
+| Track 3 | Batik SVG → `<img>` (unchanged) | Browser — contour and faceted charts stay server-rendered | Scatter Contour, Map Contour, Faceted (small multiples) |
 
 All tracks share `ViewsheetSandbox` → `ChartInfo + VSDataSet` as a common data source.
-Batik becomes maintenance-stable — style updates only. ECharts is where new interactive
-capability lands. Contour charts are excluded from the lookfeel flat design update and
-remain on the existing server-rendered `<img>` path in both browser and export.
+`EChartsOptionBuilder` is the single option mapper — it feeds both the browser (Track 2)
+and the Node.js sidecar (Track 1), so visual changes are made once and appear everywhere.
 
 ---
 
@@ -54,86 +54,320 @@ When the design version flag is off (§ Phase 0), the system falls back to the e
 
 ## 2. What Lives Where
 
-### Data Pipeline — Unchanged
+### Data Pipeline
 
 ```
 ViewsheetSandbox
   └── ChartInfo + VSDataSet        ← single source of truth (unchanged)
-        ├── Track 1: VGraphPair → Batik → BufferedImage → PDF / Excel / PPT
-        └── Track 2: JSON endpoint → ECharts option → browser canvas
+        ├── Track 1 (standard charts): EChartsOptionBuilder → SsrRenderClient
+        │                               → POST /render → Node.js sidecar
+        │                               → renderToSVGString() → SVG string
+        │                               → Batik SVGTranscoder → PDF / Excel / PPT
+        ├── Track 1 (non-chart):     VGraphPair → Batik → PDF / Excel / PPT
+        └── Track 2:                 JSON endpoint → ECharts option → browser canvas
 ```
 
 ### Rendering Ownership After Redesign
 
-| Element | Track 1 (Batik / export) | Track 2 (ECharts / browser) | Track 3 (Batik `<img>` / browser) |
+| Element | Track 1 (export) | Track 2 (ECharts / browser) | Track 3 (Batik `<img>` / browser) |
 |---|---|---|---|
-| Bar / line / point geometry | VGraph — updated visual style | ECharts series | — |
-| Map polygon / point | VGraph `PolygonVO` / `PointVO` | ECharts `map` + `geo` (GeoJSON) | Fallback if web tile background |
+| Bar / line / point geometry | ECharts SSR (Node.js sidecar) | ECharts series | — |
+| Map polygon / point | ECharts SSR — Phase 8 | ECharts `map` + `geo` (GeoJSON) | Fallback if web tile background |
 | Contour (scatter + map) | VGraph `DensityFormVO` (unchanged) | — not used — | `DensityFormVO` → SVG `<img>` (unchanged) |
-| Axis tick labels | Batik — updated font/color | ECharts `xAxis` / `yAxis` | Batik (unchanged) |
-| Axis titles | Batik — updated font/color | ECharts `xAxis.name` / `yAxis.name` | Batik (unchanged) |
-| Legend | Batik — updated style | ECharts `legend` component | Batik (unchanged) |
-| On-load animation | None (correct for print) | ECharts `animationDelay` function | None |
+| Faceted charts | VGraph (unchanged) | — not used — | Batik `<img>` (unchanged) |
+| Gauges, Tables, Crosstabs | VGraph → Batik (unchanged) | — not charts — | — |
+| Axis tick labels | ECharts SSR (via option) | ECharts `xAxis` / `yAxis` | Batik (unchanged) |
+| Legend | ECharts SSR (via option) | ECharts `legend` component | Batik (unchanged) |
+| On-load animation | None (correct for print/export) | ECharts `animationDelay` function | None |
 | Hover dimming | None | ECharts `emphasis` / `blur` system | None |
 | Tooltip bubble | None | ECharts `tooltip` component | None |
 | Dark mode | N/A (export is always light) | ECharts theme swap | N/A |
-| Color palette | Updated `CategoricalColorModel` | ECharts `color` array in theme | Batik palette (unchanged) |
+| Color palette | `EChartsOptionBuilder` → option.color[] → SSR | ECharts `color` array in theme | Batik palette (unchanged) |
 | Cross-chart brush | VGraphPair brush selection (unchanged) | ECharts → WebSocket → server | Batik canvas → WebSocket (unchanged) |
 | Cross-chart filter propagation | `ViewsheetSandbox.processChange()` (unchanged) | Unchanged — server-side | Unchanged — server-side |
 
 ---
 
-## 3. Track 1 — Batik Visual Style Update
+## 3. Track 1 — Export Rendering
 
-### What Changes in the Export Renderer
+### Decision: ECharts SSR via Node.js Sidecar
 
-The export pipeline requires no architectural change. Only visual property updates are
-needed so that exported charts match the flat design palette, spacing, and shape style.
+Export chart rendering uses ECharts SSR (v5.3+ `renderToSVGString()`) via a Node.js
+sidecar process. The same `EChartsOptionBuilder` that generates option JSON for the browser
+also feeds the sidecar — one mapper, two consumers.
 
-### Change 1: Color Palette
+This eliminates the need to separately update Batik chart rendering for every visual style
+change. Colors, typography, animation configuration, and layout all flow through the option
+object and render identically in browser and export.
 
-Batik already reads from `CategoricalColorModel`. Two changes:
+### 3.1 ECharts SSR — SVG Mode
 
-1. Add a `Flat` named palette with the flat design colors to `defaults.css`
-2. Support dual-mode palette format (light + dark) in `ColorPalettes.java`:
+ECharts 5.3+ provides a zero-dependency SSR entry point:
+
+```javascript
+const { renderToSVGString } = require('echarts/ssr');
+const svg = renderToSVGString(option, { width, height, theme });
+// svg is a complete <svg>…</svg> string, ready for Batik SVGTranscoder
+```
+
+SVG mode is preferred over canvas mode (which requires native `node-canvas` C++ bindings).
+The SVG string feeds Batik's existing `SVGTranscoder` at the same integration point as
+before — no PDF/Excel/PPT pipeline changes needed.
+
+### 3.2 Node.js Sidecar
+
+SBI's built-in JS engine (Apache Rhino 1.7.14) cannot run ECharts — see §3.6 for
+details. The sidecar is a separate Node.js process launched at SBI startup.
+
+**Sidecar design:**
+
+```
+SBI JVM                                   Node.js Sidecar
+─────────────────────────────────────     ──────────────────────────────────
+AbstractVSExporter
+  └─ ChartVSAssemblyInfo
+       └─ EChartsOptionBuilder ──POST /render──▶  render-server.js
+            (same JSON as browser)                      │
+                                           renderToSVGString(option)
+                                                        │
+       ◀──── { svg: "<svg>…</svg>" } ──────────────────┘
+  │
+  └─ Batik SVGTranscoder.transcode(svgReader, g2)
+       └─ embedded in PDF / Excel / PPT
+```
+
+**HTTP contract:**
+
+```
+POST http://localhost:7734/render
+Content-Type: application/json
+
+{
+  "option": { /* ECharts option object */ },
+  "width": 800,
+  "height": 500,
+  "theme": "flatLight"   // or "print"
+}
+
+Response 200: { "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" …>…</svg>" }
+Response 400/500: { "error": "message" }
+```
+
+**`render-server.js`:**
+
+```javascript
+'use strict';
+const http = require('http');
+const echarts = require('echarts');
+const { renderToSVGString } = require('echarts/ssr');
+
+echarts.registerTheme('flatLight', require('./themes/flat-light.json'));
+echarts.registerTheme('print',     require('./themes/flat-print.json'));
+
+const server = http.createServer(function(req, res) {
+  if (req.method !== 'POST' || req.url !== '/render') {
+    res.writeHead(404); res.end(); return;
+  }
+  var body = '';
+  req.on('data', function(chunk) { body += chunk; });
+  req.on('end', function() {
+    try {
+      var payload = JSON.parse(body);
+      var svg = renderToSVGString(payload.option, {
+        width:  payload.width  || 800,
+        height: payload.height || 500,
+        theme:  payload.theme  || 'flatLight'
+      });
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ svg: svg }));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: err.message }));
+    }
+  });
+});
+
+server.listen(7734, '127.0.0.1', function() {
+  process.stdout.write('ready\n');  // signal to JVM that sidecar is up
+});
+```
+
+**`SsrRenderClient.java`:**
+
+```java
+public class SsrRenderClient {
+    private static final String SSR_URL = "http://localhost:7734/render";
+
+    public String renderToSvg(JsonObject option, int width, int height,
+                               boolean print) throws IOException {
+        String theme = print ? "print" : "flatLight";
+        JsonObject payload = new JsonObject();
+        payload.add("option", option);
+        payload.addProperty("width", width);
+        payload.addProperty("height", height);
+        payload.addProperty("theme", theme);
+
+        HttpURLConnection conn = (HttpURLConnection)
+            new URL(SSR_URL).openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setDoOutput(true);
+        conn.setConnectTimeout(2000);
+        conn.setReadTimeout(10000);
+
+        try (OutputStream out = conn.getOutputStream()) {
+            out.write(payload.toString().getBytes(StandardCharsets.UTF_8));
+        }
+        if (conn.getResponseCode() != 200) {
+            throw new IOException("SSR sidecar error: HTTP " + conn.getResponseCode());
+        }
+        try (InputStream in = conn.getInputStream()) {
+            return JsonParser.parseReader(
+                new InputStreamReader(in, StandardCharsets.UTF_8))
+                .getAsJsonObject().get("svg").getAsString();
+        }
+    }
+}
+```
+
+**Integration in `AbstractVSExporter`:**
+
+```java
+private void exportChart(ChartVSAssemblyInfo info, Graphics2D g2,
+                          Rectangle2D bounds) {
+    if (featureFlag.isEnabled("echart-ssr-export") && isFlatDesignChart(info)) {
+        JsonObject option = echartsOptionBuilder.build(info);
+        String svgStr = ssrClient.renderToSvg(
+            option, (int) bounds.getWidth(), (int) bounds.getHeight(), isPrint);
+        SVGTranscoder transcoder = new SVGTranscoder();
+        transcoder.transcode(new TranscoderInput(new StringReader(svgStr)), g2, bounds);
+    } else {
+        vgraphPair.paintGraph(g2);  // existing path — contour, faceted, gauges, etc.
+    }
+}
+```
+
+**Sidecar lifecycle** — managed by a `SsrSidecarManager` service:
+
+```
+SBI startup  → ProcessBuilder("node", "render-server.js")
+               wait for "ready\n" on stdout (max 10s)
+SBI shutdown → process.destroy()
+Health check → GET /health (500ms timeout) before each export batch;
+               restart sidecar if unreachable
+```
+
+### 3.3 One Mapper, Two Consumers
+
+`EChartsOptionBuilder` is the single source of chart configuration for both tracks:
+
+```
+EChartsOptionBuilder.build(ChartVSAssemblyInfo)
+          │
+          ├── /getChartOption/{...}  ◀── Angular browser component (Track 2)
+          │
+          └── SsrRenderClient.renderToSvg()  ◀── Export pipeline (Track 1)
+```
+
+Visual changes — palette, typography, corner radius, grid lines — are made once in the
+option builder and automatically propagate to both browser rendering and exported documents.
+
+### 3.4 What Remains on Batik
+
+| Element | Why Batik Stays |
+|---|---|
+| Contour charts | KDE + MarchingSquares → GeneralPath; no ECharts equivalent |
+| Faceted charts (small multiples) | Grammar-of-graphics trellis; N panels data-driven; no native ECharts concept |
+| Gauges (Speedometer) | SBI's custom polar gauge; not standard ECharts gauge |
+| Crosstab / table cells | VGraph text-flow and cell merging; not a chart |
+| PDF page layout / pagination | Apache FOP + Batik document assembly |
+| Non-chart images (logos, screenshots) | Not chart data |
+
+Batik's chart scope reduces from ~25 types to the items above.
+
+> **Permanent vs. deferred:** Contour and faceted are permanently on Batik — no ECharts
+> equivalent exists. Map charts are deferred ECharts work (Phase 8) and should not be
+> grouped with contour/faceted as a permanent exception.
+
+### 3.5 Batik Style Updates for Non-ECharts Elements
+
+The elements remaining on Batik (tables, gauges, contour, faceted) still need flat design
+visual updates. These are applied via the existing Batik/VGraph style layer, gated on
+`GraphPaintContext.isFlatDesign()`.
+
+**Palette:** Add `Flat` palette to `defaults.css` with `variant='light'`/`variant='dark'`
+selectors. Backward compatible — existing palettes without `variant` treated as light mode.
 
 ```css
-/* defaults.css — new Flat palette */
 ChartPalette[name='Flat'][variant='light'][index='1'] { color: #00D4E8; }
 ChartPalette[name='Flat'][variant='dark'][index='1']  { color: #22D3EE; }
 ```
 
-Dark variant is loaded at export time and used when the export context is dark mode.
-Existing palettes without `variant` are treated as light mode — fully backward-compatible.
+**Typography:** Update `GDefaults` font family to Inter / Helvetica Neue / Arial to match
+flat design. Applied gated on `isFlatDesign()`.
 
-### Change 2: Rounded Bar Corners
+**Grid lines and axis styling:** Lighter grid line color and reduced tick density in
+`AxisSpec`, applied in `VGraphPair` post-processing.
 
-`IntervalElement.cornerRadius` already exists, defaults to `0`. Set to `~0.15` in flat
-design mode. This controls `rx` on the bar `<rect>` in Batik output — no geometry
-changes needed.
-
-### Change 3: Typography
-
-Update `GDefaults` font family to match flat design (`Inter`, fallback `Helvetica Neue`,
-`Arial`). Update axis label, title, and legend font sizes to match `Chart_Design_short.md`
-specifications. All gated on `GraphPaintContext.isFlatDesign()`.
-
-### Change 4: Grid Lines and Axis Styling
-
-`AxisSpec` updates for flat design: lighter grid line color, reduced tick density. Applied
-in `VGraphPair` post-processing gated on `isFlatDesign()`.
-
-### Files to Modify (Track 1)
+**Files to Modify (Batik non-chart elements):**
 
 | File | Change |
 |---|---|
 | `defaults.css` | Add `Flat` palette with `variant='light'`/`variant='dark'` selectors |
-| `ColorPalettes.java` | `getLightPalette(name)` / `getDarkPalette(name)` methods; check active theme JAR for `chart-palettes.css` |
-| `CategoricalColorModel.java` | Add `darkColors[]` field alongside existing `colors[]` |
-| `IntervalElement.java` | Set `cornerRadius` default to `~0.15` when `isFlatDesign()` |
+| `ColorPalettes.java` | `getLightPalette(name)` / `getDarkPalette(name)`; check theme JAR |
+| `CategoricalColorModel.java` | Add `darkColors[]` field alongside `colors[]` |
 | `GDefaults.java` | Update default font family to Inter / Helvetica Neue / Arial |
-| `AxisSpec.java` | Update grid line color and weight for flat design |
+| `AxisSpec.java` | Grid line color and weight for flat design |
 | `VGraphPair.java` | Apply flat design axis styling gated on `isFlatDesign()` |
+
+### 3.6 Why Rhino Cannot Host ECharts SSR
+
+SBI uses Apache Rhino 1.7.14 as its embedded JS engine. ECharts 5.x is an ES2020+ bundle
+that cannot run under Rhino due to fundamental language-level incompatibilities:
+
+| Feature required by ECharts 5.x | Rhino 1.7.14 |
+|---|---|
+| Arrow functions `() =>` | No |
+| Classes `class Foo {}` | No |
+| `let` / `const` | Partial only |
+| `Promise` / `async` | No |
+| `Symbol`, `Map`, `Set` | No |
+| CommonJS `require()` | No |
+| DOM APIs (`document.createElement`) | No |
+
+ECharts would fail to parse at the first arrow function (~line 200 of the bundle).
+Rhino is scoped for short user-authored scripts and is not a general-purpose runtime.
+The Node.js sidecar is necessary.
+
+### 3.7 GraalVM — Future In-Process Path
+
+GraalVM JavaScript (ES2022+, runs inside the JVM) could eventually replace the Node.js
+sidecar:
+
+```java
+// Conceptual — requires GraalVM polyglot dependency
+Context jsCtx = Context.newBuilder("js")
+    .allowHostAccess(HostAccess.NONE).allowIO(IOAccess.NONE).build();
+jsCtx.eval("js", echartsBundle);
+String svg = jsCtx.eval("js",
+    "renderToSVGString(" + optionJson + ", {width:" + w + ",height:" + h + "})")
+    .asString();
+```
+
+This is a **separate major project**, not a prerequisite: migrating from Rhino requires
+touching 54 scriptable APIs, rebuilding the security sandbox, and a full QA regression.
+The Node.js sidecar is the correct path today; GraalVM is the future upgrade that
+decommissions the sidecar.
+
+### 3.8 SSR Risks
+
+| Risk | Severity | Mitigation |
+|---|---|---|
+| Sidecar crash during export batch | Medium | Health check before batch; restart on failure; fallback to Batik via feature flag |
+| `renderToSVGString` does not support all option features | Medium | Test all 25 chart types; file ECharts issues for gaps |
+| SVG output rejected by Batik SVGTranscoder | Low | Verify in Phase 1b; SVG mode output is standards-conformant |
+| Sidecar startup adds latency to SBI startup | Low | Start async; mark export unavailable until ready |
+| Node.js version management in deployment | Low | Pin LTS; document in deployment guide |
 
 ---
 
@@ -722,12 +956,50 @@ Side-by-side screenshot verification.
 
 ---
 
-### Phase 1 — Track 1: Batik Visual Style Update
+### Phase 1a — Track 1: Node.js Sidecar Setup
+
+> **Prerequisite for all export SSR work.**
+
+Set up the Node.js sidecar process and verify end-to-end SVG round-trip for one chart
+type before proceeding to full option builder work.
+
+**Steps:**
+
+1. Create `ssr/` directory in SBI project: `render-server.js`, `package.json`,
+   `themes/flat-light.json`, `themes/flat-print.json`
+2. `SsrSidecarManager.java` (new): `ProcessBuilder` launch on SBI startup, stdout
+   reader waiting for `"ready\n"`, `GET /health` check, restart-on-failure logic,
+   `destroy()` on SBI shutdown
+3. `SsrRenderClient.java` (new): HTTP POST to `localhost:7734/render`; returns SVG string
+4. `AbstractVSExporter.java`: add `exportChart()` helper gated on `echart-ssr-export`
+   feature flag; wire `SsrRenderClient` + `SVGTranscoder` path
+5. Smoke test: render a single bar chart option object through the sidecar; verify SVG
+   output is accepted by `SVGTranscoder` and appears in a test PDF
+
+**Deliverable:** Sidecar starts with SBI, accepts render requests, and produces SVG
+that Batik can embed in PDF. Feature flag `echart-ssr-export` controls which path is used.
+
+**Files to modify / create:**
+
+| File | Change |
+|---|---|
+| `ssr/render-server.js` (new) | Node.js HTTP server wrapping `renderToSVGString` |
+| `ssr/package.json` (new) | `echarts` dependency, pinned version |
+| `ssr/themes/flat-light.json` (new) | ECharts flat light theme object |
+| `ssr/themes/flat-print.json` (new) | ECharts print theme (no transparency, CMYK-safe colors) |
+| `SsrSidecarManager.java` (new) | Sidecar lifecycle: start, health check, restart, stop |
+| `SsrRenderClient.java` (new) | HTTP client for POST /render |
+| `AbstractVSExporter.java` | `exportChart()` with SSR vs. Batik flag gate |
+
+---
+
+### Phase 1b — Track 1: Batik Style Updates (Non-ECharts Elements)
 
 > **Flag gate:** all changes execute only when `GraphPaintContext.isFlatDesign()` is true.
 
-All 27 chart types receive updated visual style in export (PDF, Excel, PPT) after this
-phase. No Angular changes. Export pipeline architecture is unchanged.
+Updates visual style in export for elements that remain on Batik — contour charts, faceted
+charts, gauges, tables, and crosstabs. Standard chart types no longer need Batik style
+updates as they render via ECharts SSR after Phase 1a + Phase 2.
 
 **Steps:**
 
@@ -735,13 +1007,12 @@ phase. No Angular changes. Export pipeline architecture is unchanged.
 2. `ColorPalettes.java`: add `getLightPalette(name)` / `getDarkPalette(name)` methods;
    check active theme JAR for `chart-palettes.css` override
 3. `CategoricalColorModel.java`: add `darkColors[]` alongside `colors[]`
-4. `IntervalElement.java`: set `cornerRadius` default to `~0.15` when `isFlatDesign()`
-5. `GDefaults.java`: update default font family to Inter / Helvetica Neue / Arial
-6. `AxisSpec.java`: lighter grid lines, reduced tick weight for flat design
-7. `VGraphPair.java`: apply flat design axis styling gated on `isFlatDesign()`
+4. `GDefaults.java`: update default font family to Inter / Helvetica Neue / Arial
+5. `AxisSpec.java`: lighter grid lines, reduced tick weight for flat design
+6. `VGraphPair.java`: apply flat design axis styling gated on `isFlatDesign()`
 
-**Deliverable:** All chart types export with flat design palette, rounded bar corners,
-and updated typography. Verify in PDF, Excel, and PowerPoint against design reference.
+**Deliverable:** Batik-rendered elements (tables, gauges, contour charts, faceted charts)
+export with flat design palette and updated typography in PDF, Excel, and PowerPoint.
 
 **Files to modify:**
 
@@ -750,7 +1021,6 @@ and updated typography. Verify in PDF, Excel, and PowerPoint against design refe
 | `defaults.css` | Add `Flat` palette with `variant='light'`/`variant='dark'` selectors |
 | `ColorPalettes.java` | Dual-mode palette methods; theme JAR override |
 | `CategoricalColorModel.java` | Add `darkColors[]` field |
-| `IntervalElement.java` | `cornerRadius` default `~0.15` when `isFlatDesign()` |
 | `GDefaults.java` | Update font family default |
 | `AxisSpec.java` | Grid line color/weight for flat design |
 | `VGraphPair.java` | Apply flat design axis styling; pass palette to export path |
@@ -759,7 +1029,7 @@ and updated typography. Verify in PDF, Excel, and PowerPoint against design refe
 **Design references:**
 
 - `Chart_Design_short.md` — color palette, typography specifications
-- `bar_flat.svg` — palette color values, corner radius, axis style reference
+- `bar_flat.svg` — palette color values, axis style reference
 
 ---
 
@@ -1142,19 +1412,28 @@ ECharts geo charts then participate in the full Track 2 pipeline: flat design th
 
 Web tile background is a **deferred enhancement** (see §10.1 below).
 
-#### Tier B — Batik `<img>` retained (browser + export): Scatter Contour, Map Contour
+#### Tier B — Batik `<img>` retained (browser + export): Scatter Contour, Map Contour, Faceted Charts
 
-The KDE + Marching Squares contour algorithm is a complex, high-quality server-side
-computation with no ECharts equivalent. The output is already pure vector and renders
-well at any resolution. These chart types:
+**Contour charts:** The KDE + Marching Squares contour algorithm is a complex, high-quality
+server-side computation with no ECharts equivalent. The output is already pure vector and
+renders well at any resolution.
+
+**Faceted charts (small multiples / trellis):** SBI's grammar-of-graphics engine generates
+N panels dynamically based on a "facet by" dimension — the panel count is data-driven and
+unknown at option-build time. ECharts has no native facet concept. Its multiple `grid`
+components require static, manually-specified layouts and provide no built-in axis
+synchronization across panels. Approximating facets by emitting N separate ECharts instances
+would require pre-splitting data server-side and losing cross-panel scale coordination.
+
+Both types:
 
 - Are explicitly **excluded from the lookfeel flat design update** — no animation, no
   hover dimming, no tooltip redesign applies to them
 - Continue to be served as Batik-rendered SVG `<img>` in the browser (Track 3)
 - Continue to be rendered via Batik for export (Track 1) — no change
 
-`FlatDesignService.isFlatDesign()` returns `false` for contour chart types regardless
-of the global flag. The `EChartsChartComponent` renders an `<img>` for these types
+`FlatDesignService.isFlatDesign()` returns `false` for these chart types regardless
+of the global flag. The `EChartsChartComponent` renders an `<img>` for them
 identically to today.
 
 #### Rendering track summary (updated)
@@ -1163,9 +1442,15 @@ identically to today.
 ViewsheetSandbox
   ├── Export (all):          VGraphPair → Batik → PDF / Excel / PPT
   ├── Browser — standard:   JSON option → ECharts → canvas   (Phases 2–7)
-  ├── Browser — map/geo:    JSON + GeoJSON → ECharts geo → canvas  (Phase 8)
-  └── Browser — contour:    Batik SVG → <img>  (unchanged, no flag gate)
+  ├── Browser — map/geo:    JSON + GeoJSON → ECharts geo → canvas  (Phase 8 — deferred)
+  └── Browser — contour/faceted: Batik SVG → <img>  (unchanged, no flag gate — permanent)
 ```
+
+> **Permanent vs. deferred Batik:** Contour and faceted charts stay on Batik indefinitely
+> because no ECharts equivalent exists. Map charts are **deferred ECharts work** (Phase 8)
+> — ECharts natively handles choropleth and point-on-map via GeoJSON, and the WKT→GeoJSON
+> conversion uses JTS which is already in SBI. Maps can be cut from an initial release but
+> should not be permanently classified alongside contour/faceted as Batik-only.
 
 ### 13.1 Web Tile Base Map — Deferred Enhancement
 
