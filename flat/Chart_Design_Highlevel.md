@@ -1,6 +1,6 @@
 # Chart Design System (High-Level)
 
-This document is used alongside reference charts which provide concrete code examples. When implementing a new chart type, always request the relevant reference chart first.
+This document is provided to AI agent to create new charts but it also a good summary of intended design for human. It is supposed to be used alongside reference charts which provide concrete code examples. When implementing a new chart type, always request the relevant reference chart first.
 
 ---
 
@@ -224,7 +224,18 @@ Rendering order in SVG (no z-index support — later elements paint on top).
 
 ---
 
-## 8. Iframe Embedding
+## Guiding Principles
+
+* CSS owns styling; JS owns behavior
+* Never duplicate state between DOM and JS
+* Prefer structure over mutation
+* Protect hover consistency at all times - the stale-clear on mouseenter is never optional
+* Always support both light and dark mode from the start
+* Layout spacing is as important as visual correctness
+
+---
+
+## Appendix A. Iframe Embedding
 
 ### What it defines
 
@@ -237,17 +248,34 @@ Rules for consistent rendering in embedded contexts.
 
 ### What to avoid (anti-patterns)
 
-* ❌ Missing font import — causes layout shift and measurement errors in `getBBox()`
+* x Missing font import - causes layout shift and measurement errors in `getBBox()`
+* x Assuming the iframe query string alone controls theme in wrapper portals - host pages may immediately override it via `postMessage`
 
 ---
 
-## 9. Card Shell & Layout Grid
+## Appendix B. Card Shell & Layout Grid
 
 ### What it defines
 
-Standard layout boundaries and spacing system.
+Standard layout boundaries and spacing system for the standalone demo shell.
 
-### Typography positions (fixed — audit these directly)
+### Wrapper portal variant
+
+There are now two valid shell patterns in this repo:
+
+* **Standalone SVG shell** - title, subtitle, footer, card background, border rings, dark toggle, and print toggle live inside the SVG itself
+* **Wrapper portal shell** - those shell elements live in the host HTML card, and the embedded SVG is cropped down to the chart-focused viewport
+
+For wrapper portals such as `portal-dark*.html` / `portal-light*.html`:
+
+* The host card owns title, subtitle, footer, `Open`, light/dark, and print controls
+* The iframe source may still include `?theme=light` / `?theme=dark`, but the host is authoritative and may override mode via `postMessage`
+* Embedded SVGs may intentionally hide `.card-bg`, `.border-light`, `.border-dark`, `.card-title`, `.card-subtitle`, `.footer`, and `.toggle-wrap`
+* In wrapper portals, any leftover internal shell element is a bug
+
+Treat the standalone SVG shell layout below as the reference for standalone chart files, not a requirement for wrapper-embedded variants.
+
+### Typography positions (fixed - audit these directly)
 
 | Element | x | y | Class |
 |---|---|---|---|
@@ -255,7 +283,7 @@ Standard layout boundaries and spacing system.
 | Subtitle | 68 | 70 | `.card-subtitle` |
 | Footer | 68 | **600** | `.footer` |
 
-### Card shell CSS values (required — must match exactly)
+### Card shell CSS values (required - must match exactly)
 
 ```css
 .card-bg { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
@@ -266,7 +294,7 @@ The `drop-shadow` filter is required on `.card-bg` in both modes. Omitting it re
 
 ### Core rules (non-negotiable)
 
-* Plot area fixed bounds — no element edge may cross these. Applies to **all chart types**, including axisless charts (donut, treemap, circle packing):
+* Plot area fixed bounds - no element edge may cross these. Applies to **all chart types**, including axisless charts (donut, treemap, circle packing):
 
   | Edge | Value |
   |------|-------|
@@ -275,33 +303,22 @@ The `drop-shadow` filter is required on `.card-bg` in both modes. Omitting it re
   | Top | 100 |
   | Bottom | 500 |
 
-* x=850 is an **outer boundary**, not a fill target. The data area may end before x=850 when layout requires it — for example, a dual-axis chart may run gridlines and bars only to x=820, using the x=820–850 corridor for the secondary axis line and its labels. All elements including those labels must still stay within x=850.
+* x=850 is an **outer boundary**, not a fill target. The data area may end before x=850 when layout requires it - for example, a dual-axis chart may run gridlines and bars only to x=820, using the x=820-850 corridor for the secondary axis line and its labels. All elements including those labels must still stay within x=850.
 
 * Reserved zones outside the plot area:
-  * Top (y < 100) → title, subtitle, toggles
-  * Bottom (y > 500) → x-axis labels, footer
-  * Right (x > 850) → legend panel (x: 870–1080)
+  * Top (y < 100) - title, subtitle, toggles
+  * Bottom (y > 500) - x-axis labels, footer
+  * Right (x > 850) - legend panel (x: 870-1080)
 
-* **For axisless charts (donut, treemap, circle packing):** the full plot area box is the layout constraint. Center circular charts at the plot area midpoint (x ≈ 459, y ≈ 300). The legend always sits at x: 870–1080 regardless of chart type — never expand the chart horizontally to fill the legend zone.
+* **For axisless charts (donut, treemap, circle packing):** the full plot area box is the layout constraint. Center circular charts at the plot area midpoint (x ~ 459, y ~ 300). The legend always sits at x: 870-1080 regardless of chart type - never expand the chart horizontally to fill the legend zone.
 
 ### What to avoid (anti-patterns)
 
-* ❌ Plot area overlapping title, footer, or legend
-* ❌ Dynamically changing layout bounds at runtime
-* ❌ Spreading a circular or axisless chart across the full card width — the legend zone (x > 850) is always reserved
-* ❌ Treating x=850 as a strict data-area right edge on dual-axis charts — secondary axis labels between x=820 and x=850 are correct, not a violation
+* x Plot area overlapping title, footer, or legend
+* x Dynamically changing layout bounds at runtime
+* x Spreading a circular or axisless chart across the full card width - the legend zone (x > 850) is always reserved
+* x Treating x=850 as a strict data-area right edge on dual-axis charts - secondary axis labels between x=820 and x=850 are correct, not a violation
 
 ### Reference implementation
 
 See: Bar Chart (layout standard)
-
----
-
-## Guiding Principles
-
-* CSS owns styling; JS owns behavior
-* Never duplicate state between DOM and JS
-* Prefer structure over mutation
-* Protect hover consistency at all times — the stale-clear on mouseenter is never optional
-* Always support both light and dark mode from the start
-* Layout spacing is as important as visual correctness

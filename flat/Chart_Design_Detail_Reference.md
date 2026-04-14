@@ -1,5 +1,7 @@
 # Chart Design System
 
+This is a expanded versio of highlevel chart design. It has key technique used in code format. The main use is to drive AI chart creation. But it can help human to understand how and why charts are created in certain ways
+
 ## 1. Standard Color Palette
 
 Defined as CSS classes on every chart. Single source of truth — JS never stores hex.
@@ -685,7 +687,145 @@ Placing `#tooltip-layer` outside `#data-layer` is the most common structural err
 
 ---
 
-## 7. Iframe Embedding
+## 7. Tooltip Bubble Sizing
+
+**Never estimate bubble width from character count.** Character-count heuristics (`text.length * 8`) break silently across different labels, font sizes, and zoom levels, causing text to spill outside the border.
+
+**Always use `getBBox()` after setting text content** to measure the actual rendered width, then size the bubble around it.
+
+```js
+// Set text content first
+tipVal.textContent = val;
+tipLbl.textContent = label;
+
+// Then measure actual rendered widths
+var pad = 20;
+var valW = tipVal.getBBox().width + pad;
+var lblW = tipLbl.getBBox().width + pad;
+var hw   = Math.max(valW, lblW, 60) / 2;  // half-width, minimum 60px total
+```
+
+The bubble rect and border path are then both sized to `hw * 2` wide. This is guaranteed to fit regardless of content.
+
+### JS-driven bubble coordinate system
+
+For JS-driven tooltips (circles, donuts, variable-position elements), use the following local coordinate convention consistently:
+
+- The tip `<g>` is translated to `(tx, ty)` where `ty` is the **top edge** of the bubble rect.
+- The rect draws **downward** from `y=0` to `y=bh` in local coordinates.
+- The arrow tail extends **below** the rect (at `y=bh`) pointing toward the element below.
+
+```
+  ┌─────────────┐  ← ty (translate y) = local y=0
+  │   val text  │
+  │   lbl text  │
+  └──────┬──────┘  ← local y=bh
+         │ tail
+         ▼ arrow tip touches element top edge
+```
+
+This means:
+```js
+var ty = cy - r - tail - bh - 4;  // bubble top = circle top minus tail minus bubble height
+```
+
+**NOT** `cy - r` (that places the origin at the circle top, with the bubble drawn upward using negative y, which is harder to reason about and prone to sign errors).
+
+When flipping below the element (not enough headroom):
+```js
+var flip = ty < 90;  // 90 = top of plot area + some margin
+if (flip) ty = cy + r + tail + 4;  // bubble top = circle bottom plus tail
+// arrow points up from y=0 edge instead of down from y=bh
+```
+
+### Viewbox clamping
+
+Always clamp `tx` so the bubble never exits the left or right card edge:
+
+```js
+var tx = Math.max(hw + 8, Math.min(cx, 1100 - hw - 8));
+```
+
+---
+
+## 8. Animation Timing Reference
+
+Duration and easing are fixed for all charts. Stagger has a maximum of `0.25s` but must scale down when element count is large.
+
+| Parameter      | Value  | Notes                                      |
+|----------------|--------|--------------------------------------------|
+| Duration       | `0.8s` | Fixed — `itemFade` / `dataFadeIn` duration  |
+| Stagger        | `min(0.25, 1.0 / count)` | 0.25s max; scale down for large counts |
+| Easing         | `ease-out` | Fixed — consistent across all charts   |
+| `.ready` delay | `(lastDelay + duration + 0.1) * 1000` ms | 100ms buffer after last animation |
+
+### Standard case — small element count
+
+For charts with few elements (e.g. 8-bar chart), the full `0.25s` stagger applies and produces the intended cadence (1.75s total spread):
+
+```js
+// Standard — small count, full stagger
+var duration  = 0.8;
+var stagger   = 0.25;
+var lastDelay = (items.length - 1) * stagger;
+
+items.forEach(function(el, i) {
+  el.style.animation = 'itemFade ' + duration + 's ease-out ' + (i * stagger) + 's';
+  el.addEventListener('animationend', function() {
+    el.style.animation = 'none';
+    el.classList.add('visible');
+  }, { once: true });
+});
+
+setTimeout(function() {
+  container.classList.add('ready');
+}, (lastDelay + duration + 0.1) * 1000);
+```
+
+### Adaptive case — large element count
+
+When element count is large (e.g. a 30-bar chart, or a dense icicle column with 50+ cells), a fixed `0.25s` stagger produces an unacceptably long animation — 50 elements × 0.25s = 12.5s before the last element appears. Cap the total spread at ~1s by scaling the stagger down:
+
+```js
+// Adaptive — large count, stagger scales to fit ~1s window
+var duration  = 0.8;
+var WINDOW    = 1.0;  // max spread duration in seconds
+var stagger   = Math.min(0.25, WINDOW / items.length);
+var lastDelay = (items.length - 1) * stagger;
+
+items.forEach(function(el, i) {
+  el.style.animation = 'itemFade ' + duration + 's ease-out ' + (i * stagger).toFixed(2) + 's';
+  el.addEventListener('animationend', function() {
+    el.style.animation = 'none';
+    el.classList.add('visible');
+  }, { once: true });
+});
+
+setTimeout(function() {
+  container.classList.add('ready');
+}, (lastDelay + duration + 0.1) * 1000);
+```
+
+This formula is self-correcting: for 8 elements `min(0.25, 1.0/8) = 0.125` — still fast and comfortable. For 50 elements `min(0.25, 1.0/50) = 0.02` — the full column spreads in 1s. Duration and easing never change.
+
+**Do not shorten duration** — only stagger adapts. The 0.8s per-element fade is a deliberate design choice that remains consistent regardless of element count.
+
+---
+
+## 9. Guiding Principles
+
+These apply across every section and every chart type.
+
+* **CSS owns styling; JS owns behavior.** If JS is mutating colors, fills, or opacities outside of the animation loop, that is a signal that something belongs in CSS instead.
+* **Never duplicate state between DOM and JS.** `isDark` is the source of truth for dark mode — never re-read it from `classList`. The DOM reflects state; it does not define it.
+* **Prefer structure over mutation.** The A1 animation pattern (`.visible` class + CSS state) is cleaner than mutating inline styles after the fact. The depth-tinting `recolor()` pattern mutates only fill attributes — it never rebuilds the DOM.
+* **Protect hover consistency at all times.** The stale-clear on `mouseenter` is never optional. Two elements highlighted simultaneously is always a bug, and it always comes from a missing stale-clear or a wrong `mouseleave` placement.
+* **Always support both light and dark mode from the start.** Dark mode added as an afterthought produces `swapColors()`-style JS hacks. Built-in from the start, it is purely a CSS class toggle with zero JS color logic.
+* **Layout spacing is as important as visual correctness.** A chart that renders correctly but clips into the title zone, misplaces the footer, or expands into the legend area fails the standard even if the data rendering is perfect.
+
+---
+
+## Appendix A. Iframe Embedding
 
 When a standalone SVG file is loaded as an `<iframe>` inside a grid layout,
 `width="100%"` on the `<svg>` element must resolve against the iframe
@@ -707,11 +847,46 @@ document mode.
 Note the `&amp;` — SVG is XML, so bare `&` in attribute values is illegal
 and will cause a parse error (`EntityRef: expecting ';'`). Always escape it.
 
+### Wrapper-hosted portals
+
+The repo now also uses wrapper-hosted portal pages (`portal-dark*.html`, `portal-light*.html`) that own the card shell outside the SVG.
+
+In that pattern:
+
+* The host HTML owns title, subtitle, footer, and controls
+* Controls may include `Open`, light/dark mode, and print/screen
+* The iframe `src` query (`?theme=light` / `?theme=dark`) is only an initial hint
+* The host may immediately send `setMode`, `setPrint`, and `setPalette` messages after iframe load
+* Embedded SVGs may hide internal shell classes:
+  * `.card-bg`
+  * `.border-light`
+  * `.border-dark`
+  * `.card-title`
+  * `.card-subtitle`
+  * `.footer`
+  * `.toggle-wrap`
+
+Do not assume an embedded chart should visibly retain its internal shell when used inside a wrapper portal.
+
 ---
 
-## 8. Card Shell & Layout Grid
+## Appendix B. Card Shell & Layout Grid
 
 Every chart uses an identical card shell and layout grid. Copy verbatim — never invent new dimensions.
+
+### Important scope note
+
+This section describes the **standalone SVG shell** pattern.
+
+For wrapper portals:
+
+* the host HTML card replaces the visible shell
+* the embedded SVG is typically cropped to the plot region
+* the internal shell geometry may remain in the file for standalone use, but can be hidden by CSS when embedded
+* wrapper controls may sit beside each other in the host header:
+  * `Open`
+  * light/dark toggle
+  * print/screen toggle
 
 ### SVG root
 
@@ -889,141 +1064,3 @@ window.addEventListener('message', function(e) {
 });
 setMode(window.location.href.indexOf('theme=dark') !== -1);
 ```
-
----
-
-## 9. Tooltip Bubble Sizing
-
-**Never estimate bubble width from character count.** Character-count heuristics (`text.length * 8`) break silently across different labels, font sizes, and zoom levels, causing text to spill outside the border.
-
-**Always use `getBBox()` after setting text content** to measure the actual rendered width, then size the bubble around it.
-
-```js
-// Set text content first
-tipVal.textContent = val;
-tipLbl.textContent = label;
-
-// Then measure actual rendered widths
-var pad = 20;
-var valW = tipVal.getBBox().width + pad;
-var lblW = tipLbl.getBBox().width + pad;
-var hw   = Math.max(valW, lblW, 60) / 2;  // half-width, minimum 60px total
-```
-
-The bubble rect and border path are then both sized to `hw * 2` wide. This is guaranteed to fit regardless of content.
-
-### JS-driven bubble coordinate system
-
-For JS-driven tooltips (circles, donuts, variable-position elements), use the following local coordinate convention consistently:
-
-- The tip `<g>` is translated to `(tx, ty)` where `ty` is the **top edge** of the bubble rect.
-- The rect draws **downward** from `y=0` to `y=bh` in local coordinates.
-- The arrow tail extends **below** the rect (at `y=bh`) pointing toward the element below.
-
-```
-  ┌─────────────┐  ← ty (translate y) = local y=0
-  │   val text  │
-  │   lbl text  │
-  └──────┬──────┘  ← local y=bh
-         │ tail
-         ▼ arrow tip touches element top edge
-```
-
-This means:
-```js
-var ty = cy - r - tail - bh - 4;  // bubble top = circle top minus tail minus bubble height
-```
-
-**NOT** `cy - r` (that places the origin at the circle top, with the bubble drawn upward using negative y, which is harder to reason about and prone to sign errors).
-
-When flipping below the element (not enough headroom):
-```js
-var flip = ty < 90;  // 90 = top of plot area + some margin
-if (flip) ty = cy + r + tail + 4;  // bubble top = circle bottom plus tail
-// arrow points up from y=0 edge instead of down from y=bh
-```
-
-### Viewbox clamping
-
-Always clamp `tx` so the bubble never exits the left or right card edge:
-
-```js
-var tx = Math.max(hw + 8, Math.min(cx, 1100 - hw - 8));
-```
-
----
-
-## 10. Animation Timing Reference
-
-Duration and easing are fixed for all charts. Stagger has a maximum of `0.25s` but must scale down when element count is large.
-
-| Parameter      | Value  | Notes                                      |
-|----------------|--------|--------------------------------------------|
-| Duration       | `0.8s` | Fixed — `itemFade` / `dataFadeIn` duration  |
-| Stagger        | `min(0.25, 1.0 / count)` | 0.25s max; scale down for large counts |
-| Easing         | `ease-out` | Fixed — consistent across all charts   |
-| `.ready` delay | `(lastDelay + duration + 0.1) * 1000` ms | 100ms buffer after last animation |
-
-### Standard case — small element count
-
-For charts with few elements (e.g. 8-bar chart), the full `0.25s` stagger applies and produces the intended cadence (1.75s total spread):
-
-```js
-// Standard — small count, full stagger
-var duration  = 0.8;
-var stagger   = 0.25;
-var lastDelay = (items.length - 1) * stagger;
-
-items.forEach(function(el, i) {
-  el.style.animation = 'itemFade ' + duration + 's ease-out ' + (i * stagger) + 's';
-  el.addEventListener('animationend', function() {
-    el.style.animation = 'none';
-    el.classList.add('visible');
-  }, { once: true });
-});
-
-setTimeout(function() {
-  container.classList.add('ready');
-}, (lastDelay + duration + 0.1) * 1000);
-```
-
-### Adaptive case — large element count
-
-When element count is large (e.g. a 30-bar chart, or a dense icicle column with 50+ cells), a fixed `0.25s` stagger produces an unacceptably long animation — 50 elements × 0.25s = 12.5s before the last element appears. Cap the total spread at ~1s by scaling the stagger down:
-
-```js
-// Adaptive — large count, stagger scales to fit ~1s window
-var duration  = 0.8;
-var WINDOW    = 1.0;  // max spread duration in seconds
-var stagger   = Math.min(0.25, WINDOW / items.length);
-var lastDelay = (items.length - 1) * stagger;
-
-items.forEach(function(el, i) {
-  el.style.animation = 'itemFade ' + duration + 's ease-out ' + (i * stagger).toFixed(2) + 's';
-  el.addEventListener('animationend', function() {
-    el.style.animation = 'none';
-    el.classList.add('visible');
-  }, { once: true });
-});
-
-setTimeout(function() {
-  container.classList.add('ready');
-}, (lastDelay + duration + 0.1) * 1000);
-```
-
-This formula is self-correcting: for 8 elements `min(0.25, 1.0/8) = 0.125` — still fast and comfortable. For 50 elements `min(0.25, 1.0/50) = 0.02` — the full column spreads in 1s. Duration and easing never change.
-
-**Do not shorten duration** — only stagger adapts. The 0.8s per-element fade is a deliberate design choice that remains consistent regardless of element count.
-
----
-
-## 11. Guiding Principles
-
-These apply across every section and every chart type.
-
-* **CSS owns styling; JS owns behavior.** If JS is mutating colors, fills, or opacities outside of the animation loop, that is a signal that something belongs in CSS instead.
-* **Never duplicate state between DOM and JS.** `isDark` is the source of truth for dark mode — never re-read it from `classList`. The DOM reflects state; it does not define it.
-* **Prefer structure over mutation.** The A1 animation pattern (`.visible` class + CSS state) is cleaner than mutating inline styles after the fact. The depth-tinting `recolor()` pattern mutates only fill attributes — it never rebuilds the DOM.
-* **Protect hover consistency at all times.** The stale-clear on `mouseenter` is never optional. Two elements highlighted simultaneously is always a bug, and it always comes from a missing stale-clear or a wrong `mouseleave` placement.
-* **Always support both light and dark mode from the start.** Dark mode added as an afterthought produces `swapColors()`-style JS hacks. Built-in from the start, it is purely a CSS class toggle with zero JS color logic.
-* **Layout spacing is as important as visual correctness.** A chart that renders correctly but clips into the title zone, misplaces the footer, or expands into the legend area fails the standard even if the data rendering is perfect.
