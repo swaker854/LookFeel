@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Funnel EChart</title>
+<style>
+  html, body, #chart { width: 100%; height: 100%; margin: 0; background: transparent; overflow: hidden; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/echarts@6.0.0/dist/echarts.min.js"></script>
+</head>
+<body>
+<div id="chart"></div>
+<script>
+  const chart = echarts.init(document.getElementById('chart'), null, { renderer: 'svg' });
+  const state = {
+    dark: true,
+    colors: ['#00D4E8', '#00B87A', '#F59E0B', '#F43F5E', '#8B5CF6', '#3B82F6', '#0D9488', '#64748B']
+  };
+  const data = [
+    { value: 48200, name: 'Awareness' },
+    { value: 28900, name: 'Interest' },
+    { value: 14600, name: 'Consideration' },
+    { value: 7840, name: 'Intent' },
+    { value: 3920, name: 'Evaluation' },
+    { value: 1960, name: 'Purchase' }
+  ];
+
+  function tooltip(param) {
+    const dark = state.dark;
+    return '<div style="min-width:132px;padding:10px 12px;border-radius:10px;background:' + (dark ? '#1C1B1F' : '#FFFBFE') + ';border:1px solid ' + (dark ? '#938F99' : '#79747E') + ';">' +
+      '<div style="color:' + (dark ? '#E6E0E9' : '#1C1B1F') + ';font-size:13px;font-weight:600;">' + param.name + '</div>' +
+      '<div style="margin-top:4px;color:' + (dark ? '#CAC4D0' : '#49454F') + ';font-size:10px;">Qualified users</div>' +
+      '<div style="margin-top:6px;color:' + (dark ? '#E6E0E9' : '#1C1B1F') + ';font-size:11px;font-weight:600;">' + param.value + '</div>' +
+      '<div style="margin-top:4px;color:' + (dark ? '#938F99' : '#79747E') + ';font-size:10px;">' + param.percent + '% of total</div>' +
+    '</div>';
+  }
+
+  function option() {
+    const dark = state.dark;
+    const darkPalette = ['#22D3EE', '#10B981', '#FBB724', '#FB6181', '#A78BFA', '#60A5FA', '#2DD4BF', '#94A3B8'];
+    const colors = dark ? darkPalette : state.colors;
+    return {
+      animationDuration: 800,
+      animationDurationUpdate: 250,
+      animationEasing: 'cubicOut',
+      color: [colors[0], colors[1], colors[2], colors[3], colors[4], colors[5]],
+      backgroundColor: 'transparent',
+      tooltip: {
+        trigger: 'item',
+        confine: true,
+        backgroundColor: 'transparent',
+        borderWidth: 0,
+        padding: 0,
+        extraCssText: 'box-shadow:none;background:transparent;',
+        formatter: tooltip,
+        position: function(pos, params, dom, rect, size) {
+          const x = Math.max(8, Math.min(pos[0] - size.contentSize[0] / 2, size.viewSize[0] - size.contentSize[0] - 8));
+          const preferredY = rect ? rect.y - size.contentSize[1] - 14 : pos[1] - size.contentSize[1] - 18;
+          const fallbackY = rect ? rect.y + rect.height + 14 : pos[1] + 18;
+          const y = preferredY < 8 ? Math.min(size.viewSize[1] - size.contentSize[1] - 8, fallbackY) : preferredY;
+          return [x, Math.max(8, Math.min(y, size.viewSize[1] - size.contentSize[1] - 8))];
+        }
+      },
+      series: [{
+        type: 'funnel',
+        left: 24,
+        top: 18,
+        bottom: 18,
+        width: '68%',
+        min: 0,
+        max: 48200,
+        minSize: '7%',
+        maxSize: '92%',
+        sort: 'descending',
+        gap: 8,
+        label: {
+          show: true,
+          position: 'right',
+          color: dark ? '#E6E0E9' : '#1C1B1F',
+          fontSize: 11,
+          formatter: function(param) { return param.name; }
+        },
+        labelLine: {
+          show: true,
+          length: 10,
+          lineStyle: { color: dark ? '#938F99' : '#79747E' }
+        },
+        itemStyle: {
+          borderColor: dark ? '#151825' : '#f8f5fb',
+          borderWidth: 3
+        },
+        emphasis: { focus: 'self', blurScope: 'series' },
+        blur: { itemStyle: { opacity: 0.2 } },
+        animationDelay: function(idx) { return idx * 140; },
+        data: data
+      }]
+    };
+  }
+
+  function render() { chart.setOption(option(), true); }
+  let _rt = null;
+  function scheduleRender() { clearTimeout(_rt); _rt = setTimeout(render, 200); }
+  window.addEventListener('message', function(event) {
+    const data = event.data || {};
+    if (data.type === 'setPalette' && Array.isArray(data.colors)) state.colors = data.colors;
+    if (data.type === 'setMode') state.dark = !!data.dark;
+    scheduleRender();
+  });
+  window.addEventListener('resize', function() { chart.resize(); });
+  scheduleRender();
+</script>
+</body>
+</html>

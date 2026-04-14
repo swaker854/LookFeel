@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bar EChart</title>
+<style>
+  html, body, #chart { width: 100%; height: 100%; margin: 0; background: transparent; overflow: hidden; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/echarts@6.0.0/dist/echarts.min.js"></script>
+</head>
+<body>
+<div id="chart"></div>
+<script>
+  const chart = echarts.init(document.getElementById('chart'), null, { renderer: 'svg' });
+  const state = {
+    dark: true,
+    colors: ['#00D4E8', '#00B87A', '#F59E0B', '#F43F5E', '#8B5CF6', '#3B82F6', '#0D9488', '#64748B']
+  };
+  const categories = ['Cyan', 'Emerald', 'Amber', 'Rose', 'Violet', 'Blue', 'Teal', 'Other'];
+  const values = [72, 68, 60, 55, 79, 64, 61, 48];
+
+  function tooltip(params) {
+    const p = params[0];
+    const dark = state.dark;
+    const bg = dark ? '#1C1B1F' : '#FFFBFE';
+    const border = dark ? '#938F99' : '#79747E';
+    return '<div style="position:relative;min-width:110px;padding:10px 12px;border-radius:10px;background:' + bg + ';border:1px solid ' + border + ';">' +
+      '<div style="color:' + (dark ? '#E6E0E9' : '#1C1B1F') + ';font-size:13px;font-weight:600;">' + p.name + '</div>' +
+      '<div style="margin-top:4px;color:' + (dark ? '#CAC4D0' : '#49454F') + ';font-size:10px;">Revenue</div>' +
+      '<div style="margin-top:6px;color:' + (dark ? '#E6E0E9' : '#1C1B1F') + ';font-size:11px;font-weight:600;">$' + p.value + 'M</div>' +
+      '<div style="position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:9px solid ' + border + ';"></div>' +
+      '<div style="position:absolute;left:50%;bottom:-8px;transform:translateX(-50%);width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:8px solid ' + bg + ';"></div>' +
+    '</div>';
+  }
+
+  function legendGraphic(colors) {
+    const dark = state.dark;
+    const panelWidth = 124;
+    const panelX = Math.max(0, chart.getWidth() - panelWidth - 12);
+    const panelY = 8;
+    const availableHeight = Math.max(180, chart.getHeight() - panelY - 8);
+    const panelHeight = Math.min(220, availableHeight);
+    const rowStartY = 38;
+    const rowHeight = Math.floor((panelHeight - rowStartY - 10) / categories.length);
+    const dividerY = Math.round(rowStartY + rowHeight * 6.5);
+    const group = {
+      type: 'group', left: panelX, top: panelY, bounding: 'all',
+      children: [{
+        type: 'rect',
+        shape: { x: 0, y: 0, width: panelWidth, height: panelHeight, r: 14 },
+        style: { fill: dark ? '#2A2630' : '#F3EDF7', stroke: dark ? '#938F99' : '#79747E', lineWidth: 1, opacity: dark ? 0.95 : 1 }
+      }, {
+        type: 'text',
+        style: { x: 18, y: 18, text: 'SERIES', fill: dark ? '#938F99' : '#79747E', font: '500 10px Roboto, Helvetica Neue, Arial, sans-serif' }
+      }]
+    };
+    categories.forEach(function(name, idx) {
+      const y = rowStartY + idx * rowHeight;
+      if (idx === 7) {
+        group.children.push({ type: 'line', shape: { x1: 18, y1: dividerY, x2: panelWidth - 18, y2: dividerY }, style: { stroke: dark ? '#938F99' : '#79747E', lineWidth: 1, opacity: 0.3 } });
+      }
+      group.children.push({ type: 'rect', shape: { x: 18, y: y - 7, width: 14, height: 14, r: 3 }, style: { fill: colors[idx], opacity: 1 } });
+      group.children.push({ type: 'text', style: { x: 40, y: y, text: name, textVerticalAlign: 'middle', fill: dark ? '#E6E0E9' : '#1C1B1F', font: '400 11px Roboto, Helvetica Neue, Arial, sans-serif' } });
+    });
+    return [group];
+  }
+
+  function option() {
+    const dark = state.dark;
+    const darkPalette = ['#22D3EE', '#10B981', '#FBB724', '#FB6181', '#A78BFA', '#60A5FA', '#2DD4BF', '#94A3B8'];
+    const colors = dark ? darkPalette : state.colors;
+    return {
+      animationDuration: 400,
+      animationDurationUpdate: 250,
+      animationEasing: 'cubicOut',
+      color: colors,
+      backgroundColor: 'transparent',
+      grid: { left: 48, right: 148, top: 14, bottom: 34 },
+      tooltip: {
+        trigger: 'axis',
+        confine: true,
+        axisPointer: { type: 'shadow', shadowStyle: { color: dark ? 'rgba(255,255,255,0.04)' : 'rgba(121,116,126,0.08)' } },
+        backgroundColor: 'transparent',
+        borderWidth: 0,
+        padding: 0,
+        extraCssText: 'box-shadow:none;background:transparent;',
+        formatter: tooltip,
+        position: function(pos, params, dom, rect, size) {
+          const x = Math.max(8, Math.min(pos[0] - size.contentSize[0] / 2, size.viewSize[0] - size.contentSize[0] - 8));
+          const preferredY = rect ? rect.y - size.contentSize[1] - 14 : pos[1] - size.contentSize[1] - 18;
+          const fallbackY = rect ? rect.y + rect.height + 14 : pos[1] + 18;
+          const y = preferredY < 8 ? Math.min(size.viewSize[1] - size.contentSize[1] - 8, fallbackY) : preferredY;
+          return [x, Math.max(8, Math.min(y, size.viewSize[1] - size.contentSize[1] - 8))];
+        }
+      },
+      graphic: legendGraphic(colors),
+      xAxis: {
+        type: 'category',
+        data: categories,
+        axisLine: { lineStyle: { color: dark ? '#938F99' : '#79747E', width: 1.5 } },
+        axisTick: { show: false },
+        axisLabel: { color: dark ? '#938F99' : '#79747E', fontSize: 10, margin: 14 }
+      },
+      yAxis: {
+        type: 'value',
+        min: 0, max: 100, interval: 25,
+        axisLine: { show: true, lineStyle: { color: dark ? '#938F99' : '#79747E', width: 1.5 } },
+        axisTick: { show: false },
+        axisLabel: { color: dark ? '#938F99' : '#79747E', fontSize: 10, formatter: function(v) { return '$' + v + 'M'; } },
+        splitLine: { lineStyle: { color: dark ? '#49454F' : '#E7E0EC' } }
+      },
+      series: [{
+        type: 'bar',
+        name: 'Revenue',
+        barWidth: 34,
+        animationEasing: 'cubicOut',
+        animationDelay: function(idx) { return idx * 224; },
+        data: values.map(function(value, idx) {
+          return { value: value, itemStyle: { color: colors[idx % colors.length] } };
+        }),
+        itemStyle: { borderRadius: [10, 10, 10, 10] },
+        emphasis: { focus: 'self', blurScope: 'coordinateSystem' },
+        blur: { itemStyle: { opacity: 0.2 } },
+        label: { show: false }
+      }]
+    };
+  }
+
+  function render() { chart.setOption(option(), true); }
+  let _rt = null;
+  function scheduleRender() { clearTimeout(_rt); _rt = setTimeout(render, 200); }
+  window.addEventListener('message', function(event) {
+    const data = event.data || {};
+    if (data.type === 'setPalette' && Array.isArray(data.colors)) state.colors = data.colors;
+    if (data.type === 'setMode') state.dark = !!data.dark;
+    scheduleRender();
+  });
+  window.addEventListener('resize', function() { chart.resize(); });
+  scheduleRender();
+</script>
+</body>
+</html>

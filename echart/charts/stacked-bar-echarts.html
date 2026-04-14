@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stacked Bar EChart</title>
+<style>
+  html, body, #chart { width: 100%; height: 100%; margin: 0; background: transparent; overflow: hidden; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/echarts@6.0.0/dist/echarts.min.js"></script>
+</head>
+<body>
+<div id="chart"></div>
+<script>
+  const chart = echarts.init(document.getElementById('chart'), null, { renderer: 'svg' });
+  const state = {
+    dark: true,
+    colors: ['#00D4E8', '#00B87A', '#F59E0B', '#F43F5E', '#8B5CF6', '#3B82F6', '#0D9488', '#64748B']
+  };
+  const quarters = ["Q1 '22", "Q2 '22", "Q3 '22", "Q4 '22", "Q1 '23", "Q2 '23", "Q3 '23", "Q4 '23"];
+  const seriesData = [
+    { name: 'Cyan',    values: [38, 42, 46, 50, 55, 60, 66, 72] },
+    { name: 'Emerald', values: [18, 20, 21, 23, 25, 27, 31, 35] },
+    { name: 'Amber',   values: [11, 12, 13, 14, 15, 17, 19, 22] },
+    { name: 'Violet',  values: [32, 35, 38, 41, 45, 50, 56, 62] },
+    { name: 'Slate',   values: [10, 11, 12, 13, 14, 16, 17, 19] }
+  ];
+  const stackedSeries = seriesData.slice().reverse();
+  const totals = quarters.map(function(_, idx) {
+    return seriesData.reduce(function(sum, s) { return sum + s.values[idx]; }, 0);
+  });
+
+  function tooltip(params) {
+    const dark = state.dark;
+    const rows = params.slice().reverse().map(function(param) {
+      return '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:6px;">' +
+        '<div style="display:flex;align-items:center;gap:8px;color:' + (dark ? '#CAC4D0' : '#49454F') + ';font-size:10px;">' +
+        '<span style="width:8px;height:8px;border-radius:999px;background:' + param.color + ';display:inline-block;"></span>' +
+        '<span>' + param.seriesName + '</span>' +
+        '</div>' +
+        '<div style="color:' + (dark ? '#E6E0E9' : '#1C1B1F') + ';font-size:11px;font-weight:600;">$' + param.value + 'M</div>' +
+      '</div>';
+    }).join('');
+    const bg = dark ? '#1C1B1F' : '#FFFBFE';
+    const border = dark ? '#938F99' : '#79747E';
+    const total = totals[params[0].dataIndex];
+    return '<div style="position:relative;min-width:158px;padding:10px 12px;border-radius:10px;background:' + bg + ';border:1px solid ' + border + ';">' +
+      '<div style="color:' + (dark ? '#E6E0E9' : '#1C1B1F') + ';font-size:13px;font-weight:600;">' + params[0].axisValue + '</div>' +
+      '<div style="margin-top:6px;border-top:1px solid ' + (dark ? '#49454F' : '#E7E0EC') + ';"></div>' +
+      rows +
+      '<div style="margin-top:8px;border-top:1px solid ' + (dark ? '#49454F' : '#E7E0EC') + ';"></div>' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px;">' +
+        '<div style="color:' + (dark ? '#CAC4D0' : '#49454F') + ';font-size:10px;">Total</div>' +
+        '<div style="color:' + (dark ? '#E6E0E9' : '#1C1B1F') + ';font-size:11px;font-weight:600;">$' + total + 'M</div>' +
+      '</div>' +
+      '<div style="position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:9px solid ' + border + ';"></div>' +
+      '<div style="position:absolute;left:50%;bottom:-8px;transform:translateX(-50%);width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:8px solid ' + bg + ';"></div>' +
+    '</div>';
+  }
+
+  function legendGraphic(colors) {
+    const dark = state.dark;
+    const panelWidth = 124;
+    const panelX = Math.max(0, chart.getWidth() - panelWidth - 12);
+    const panelY = 8;
+    const rowStartY = 38;
+    const rowHeight = 18;
+    const panelHeight = rowStartY + seriesData.length * rowHeight + 12;
+    const group = {
+      type: 'group', left: panelX, top: panelY, bounding: 'all',
+      children: [{
+        type: 'rect',
+        shape: { x: 0, y: 0, width: panelWidth, height: panelHeight, r: 14 },
+        style: { fill: dark ? '#2A2630' : '#F3EDF7', stroke: dark ? '#938F99' : '#79747E', lineWidth: 1 }
+      }, {
+        type: 'text',
+        style: { x: 18, y: 18, text: 'SERIES', fill: dark ? '#938F99' : '#79747E', font: '500 10px Roboto, Helvetica Neue, Arial, sans-serif' }
+      }]
+    };
+    seriesData.forEach(function(s, idx) {
+      const y = rowStartY + idx * rowHeight;
+      group.children.push({ type: 'rect', shape: { x: 18, y: y - 7, width: 14, height: 14, r: 3 }, style: { fill: colors[idx], opacity: 1 } });
+      group.children.push({ type: 'text', style: { x: 40, y: y, text: s.name, textVerticalAlign: 'middle', fill: dark ? '#E6E0E9' : '#1C1B1F', font: '400 11px Roboto, Helvetica Neue, Arial, sans-serif' } });
+    });
+    return [group];
+  }
+
+  function option() {
+    const dark = state.dark;
+    const darkPalette  = ['#22D3EE', '#10B981', '#FBB724', '#A78BFA', '#94A3B8'];
+    const lightPalette = ['#00D4E8', '#00B87A', '#F59E0B', '#8B5CF6', '#64748B'];
+    const colors = dark ? darkPalette : lightPalette;
+    const colorByName = seriesData.reduce(function(map, s, idx) { map[s.name] = colors[idx]; return map; }, {});
+    const gridRight = 148;
+    const plotW = chart.getWidth() - 48 - gridRight;
+    return {
+      animationDuration: 400,
+      animationDurationUpdate: 250,
+      animationEasing: 'cubicOut',
+      backgroundColor: 'transparent',
+      color: colors,
+      grid: { left: 48, right: gridRight, top: 24, bottom: 34 },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow',
+          shadowStyle: { color: dark ? 'rgba(255,255,255,0.04)' : 'rgba(121,116,126,0.08)' }
+        },
+        backgroundColor: 'transparent',
+        borderWidth: 0,
+        padding: 0,
+        extraCssText: 'box-shadow:none;background:transparent;',
+        formatter: tooltip,
+        position: function(pos, params, dom, rect, size) {
+          const edgePad = 8;
+          const bottomPad = 28;
+          const x = Math.max(edgePad, Math.min(pos[0] - size.contentSize[0] / 2, size.viewSize[0] - size.contentSize[0] - edgePad));
+          const preferredY = rect ? rect.y - size.contentSize[1] - 14 : pos[1] - size.contentSize[1] - 18;
+          const fallbackY = rect ? rect.y + rect.height + 14 : pos[1] + 18;
+          const maxY = size.viewSize[1] - size.contentSize[1] - bottomPad;
+          const y = preferredY < edgePad ? Math.min(maxY, fallbackY) : preferredY;
+          return [x, Math.max(edgePad, Math.min(y, maxY))];
+        }
+      },
+      graphic: [
+        {
+          type: 'line',
+          left: 48 + plotW / 2,
+          top: 24,
+          shape: { x1: 0, y1: 0, x2: 0, y2: chart.getHeight() - 58 },
+          style: { stroke: dark ? '#938F99' : '#c0b8a8', lineWidth: 1, opacity: 0.6, lineDash: [5, 4] }
+        },
+        {
+          type: 'text',
+          left: 48 + plotW / 4 - 14,
+          top: 2,
+          style: { text: '2022', fill: dark ? '#938F99' : '#79747E', font: '400 10px Roboto, Helvetica Neue, Arial, sans-serif' }
+        },
+        {
+          type: 'text',
+          left: 48 + plotW * 0.75 - 14,
+          top: 2,
+          style: { text: '2023', fill: dark ? '#938F99' : '#79747E', font: '400 10px Roboto, Helvetica Neue, Arial, sans-serif' }
+        }
+      ].concat(legendGraphic(colors)),
+      xAxis: {
+        type: 'category',
+        data: quarters,
+        axisLine: { lineStyle: { color: dark ? '#938F99' : '#79747E', width: 1.5 } },
+        axisTick: { show: false },
+        axisLabel: { color: dark ? '#938F99' : '#79747E', fontSize: 10, margin: 14 }
+      },
+      yAxis: {
+        type: 'value',
+        min: 0,
+        max: 250,
+        interval: 50,
+        axisLine: { show: true, lineStyle: { color: dark ? '#938F99' : '#79747E', width: 1.5 } },
+        axisTick: { show: false },
+        axisLabel: { color: dark ? '#938F99' : '#79747E', fontSize: 10, formatter: function(v) { return '$' + v + 'M'; } },
+        splitLine: { lineStyle: { color: dark ? '#49454F' : '#E7E0EC' } }
+      },
+      series: stackedSeries.map(function(series, idx) {
+        return {
+          type: 'bar',
+          name: series.name,
+          stack: 'total',
+          barWidth: 34,
+          emphasis: { focus: 'series', blurScope: 'coordinateSystem' },
+          blur: { itemStyle: { opacity: 0.2 } },
+          animationDuration: 400,
+          animationEasing: 'cubicOut',
+          animationDelay: function(dataIndex) { return dataIndex * 224; },
+          itemStyle: {
+            color: colorByName[series.name],
+            borderRadius: idx === 0 ? [0, 0, 6, 6] : (idx === stackedSeries.length - 1 ? [6, 6, 0, 0] : [0, 0, 0, 0])
+          },
+          label: { show: false },
+          data: series.values
+        };
+      })
+    };
+  }
+
+  function render() { chart.setOption(option(), true); }
+  let _rt = null;
+  function scheduleRender() { clearTimeout(_rt); _rt = setTimeout(render, 200); }
+  window.addEventListener('message', function(event) {
+    const data = event.data || {};
+    if (data.type === 'setPalette' && Array.isArray(data.colors)) state.colors = data.colors;
+    if (data.type === 'setMode') state.dark = !!data.dark;
+    scheduleRender();
+  });
+  window.addEventListener('resize', function() { chart.resize(); scheduleRender(); });
+  scheduleRender();
+</script>
+</body>
+</html>
