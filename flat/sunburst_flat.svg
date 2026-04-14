@@ -202,19 +202,14 @@ var svg    = document.getElementById('root');
   var ns     = 'http://www.w3.org/2000/svg';
 
   /* ── depth tinting for quarter slices (icicle reference pattern) ── */
-  var _probe = null;
-  function probeColor(cls) {
-    if (!_probe) {
-      _probe = document.createElementNS(ns, 'rect');
-      _probe.style.visibility = 'hidden';
-      _probe.style.position   = 'absolute';
-      svg.appendChild(_probe);
-    }
-    _probe.setAttribute('class', cls);
-    var fill = window.getComputedStyle(_probe).fill;
-    var m = fill.match(/[\d.]+/g);
-    return m ? [+m[0], +m[1], +m[2]] : [0, 0, 0];
-  }
+  var PALETTE_LIGHT = {
+    1:[0,212,232], 2:[0,184,122], 3:[245,158,11], 4:[244,63,94],
+    5:[139,92,246], 6:[59,130,246], 7:[13,148,136], 8:[100,116,139]
+  };
+  var PALETTE_DARK = {
+    1:[34,211,238], 2:[16,185,129], 3:[251,183,36], 4:[251,97,129],
+    5:[167,139,250], 6:[96,165,250], 7:[45,212,191], 8:[148,163,184]
+  };
 
   function hexToRgb(h) {
     var n = parseInt(h.replace('#',''), 16);
@@ -229,14 +224,18 @@ var svg    = document.getElementById('root');
   }
 
   /* Q1=most blended (lightest), Q4=no blend (full color) */
-  var Q_BLENDS = [0.72, 0.48, 0.24, 0.0];
+  var Q_BLENDS_LIGHT = [0.72, 0.48, 0.24, 0.0];
+  var Q_BLENDS_DARK = [0.32, 0.18, 0.08, 0.0];
 
   function recolor() {
-    var bg = svgEl.classList.contains('dark') ? '#1C1B1F' : '#FFFBFE';
+    var dark = svgEl.classList.contains('dark');
+    var bg = dark ? '#1C1B1F' : '#FFFBFE';
+    var blends = dark ? Q_BLENDS_DARK : Q_BLENDS_LIGHT;
+    var palette = dark ? PALETTE_DARK : PALETTE_LIGHT;
     pie.querySelectorAll('path[data-arc="o"]').forEach(function(p) {
       var ci = +p.getAttribute('data-ci');
       var qi = +p.getAttribute('data-qi');
-      p.style.fill = blendRgb(probeColor('series-'+ci), bg, Q_BLENDS[qi]);
+      p.style.fill = blendRgb(palette[ci] || [128,128,128], bg, blends[qi]);
     });
   }
 

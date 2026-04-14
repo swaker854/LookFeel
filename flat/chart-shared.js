@@ -153,7 +153,19 @@
     var resolved = buildPalette(colors, count, wantDark);
 
     resolved.forEach(function (color, index) {
+      var seriesName = '.series-' + (index + 1);
       svgEl.style.setProperty('--series-' + (index + 1), color);
+      Array.prototype.forEach.call(svgEl.querySelectorAll(seriesName), function (node) {
+        var computed;
+        if (node.hasAttribute('data-ci') || node.getAttribute('data-arc') === 'o') return;
+        if (node.__chartUsesFill == null || node.__chartUsesStroke == null) {
+          computed = global.getComputedStyle ? global.getComputedStyle(node) : null;
+          node.__chartUsesFill = !!(computed && computed.fill && computed.fill !== 'none');
+          node.__chartUsesStroke = !!(computed && computed.stroke && computed.stroke !== 'none');
+        }
+        if (node.__chartUsesFill) node.style.fill = color;
+        if (node.__chartUsesStroke) node.style.stroke = color;
+      });
     });
 
     svgEl.__chartPalette = colors && colors.length ? colors.slice() : null;

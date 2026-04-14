@@ -402,7 +402,8 @@
       display: grid;
       grid-template-rows: auto 1fr auto;
       padding: 0;
-      background: var(--bg-surface);
+      background: #222840;
+      border-color: rgba(255, 255, 255, 0.12);
     }
 
     .chart-card-shell.light {
@@ -415,8 +416,8 @@
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 16px;
-      padding: 20px 20px 14px;
+      gap: 12px;
+      padding: 16px 18px 10px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.035);
     }
 
@@ -426,14 +427,19 @@
 
     .chart-shell-copy {
       min-width: 0;
+      display: grid;
+      gap: 2px;
     }
 
     .chart-shell-title {
-      font-size: 19px;
+      font-size: 15px;
       font-weight: 500;
       line-height: 1.18;
-      color: var(--text-primary);
+      color: #EEF2F7;
       letter-spacing: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .chart-card-shell.light .chart-shell-title {
@@ -441,10 +447,12 @@
     }
 
     .chart-shell-subtitle {
-      margin-top: 8px;
-      font-size: 11px;
-      line-height: 1.45;
+      font-size: 10px;
+      line-height: 1.35;
       color: rgba(138, 153, 176, 0.92);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .chart-card-shell.light .chart-shell-subtitle {
@@ -454,20 +462,20 @@
     .chart-shell-controls {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       flex-shrink: 0;
     }
 
     .chart-shell-btn {
-      min-width: 72px;
-      height: 30px;
-      padding: 0 12px;
+      min-width: 56px;
+      height: 24px;
+      padding: 0 8px;
       border-radius: 999px;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       background: rgba(255, 255, 255, 0.03);
-      color: var(--text-sec);
+      color: #8A99B0;
       font: inherit;
-      font-size: 11px;
+      font-size: 9px;
       font-weight: 500;
       cursor: pointer;
       transition: background 0.15s, border-color 0.15s, color 0.15s;
@@ -488,8 +496,8 @@
     }
 
     .chart-shell-btn.active {
-      color: var(--text-primary);
-      border-color: var(--border-cyan);
+      color: #EEF2F7;
+      border-color: rgba(0, 242, 255, 0.22);
       background: rgba(0, 242, 255, 0.08);
     }
 
@@ -519,6 +527,9 @@
       line-height: 1.5;
       letter-spacing: 0.15px;
       color: rgba(138, 153, 176, 0.78);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .chart-card-shell.light .chart-shell-footer {
@@ -900,50 +911,91 @@
     });
 
     document.querySelectorAll('[data-chart-shell]').forEach(function (card) {
-      var frame = card.querySelector('[data-chart-frame]');
-      var openBtn = card.querySelector('[data-chart-open]');
+      card.dataset.dark = 'false';
+      card.dataset.print = 'false';
+      var frame = card.querySelector('[data-chart-frame], iframe.chart-frame');
+      if (frame) {
+        frame.addEventListener('load', function () {
+          syncChartCard(card);
+        });
+      }
+      paintChartCard(card);
+    });
+
+    function paintChartCard(card) {
       var modeBtn = card.querySelector('[data-chart-mode]');
       var printBtn = card.querySelector('[data-chart-print]');
-      var state = { dark: false, print: false };
+      var dark = card.dataset.dark !== 'false';
+      var print = card.dataset.print === 'true';
+      card.classList.toggle('light', !dark);
+      if (modeBtn) {
+        modeBtn.classList.toggle('active', dark);
+        modeBtn.textContent = dark ? 'Light' : 'Dark';
+      }
+      if (printBtn) {
+        printBtn.classList.toggle('active', print);
+        printBtn.textContent = print ? 'Screen' : 'Print';
+      }
+    }
 
-      function paintButtons() {
-        card.classList.toggle('light', !state.dark);
-        modeBtn.classList.toggle('active', state.dark);
-        modeBtn.textContent = state.dark ? 'Light' : 'Dark';
-        printBtn.classList.toggle('active', state.print);
-        printBtn.textContent = state.print ? 'Screen' : 'Print';
+    function syncChartCard(card) {
+      var frame = card.querySelector('[data-chart-frame], iframe.chart-frame');
+      if (!frame || !frame.contentWindow) return;
+      var dark = card.dataset.dark !== 'false';
+      var print = card.dataset.print === 'true';
+      var currentSrc = frame.getAttribute('src') || '';
+      var desiredSrc = setFrameTheme(currentSrc, dark);
+      if (desiredSrc && desiredSrc !== currentSrc) {
+        frame.setAttribute('src', desiredSrc);
+        return;
+      }
+      frame.contentWindow.postMessage({ type: 'setMode', dark: dark }, '*');
+      frame.contentWindow.postMessage({ type: 'setPrint', print: print }, '*');
+    }
+
+    function setFrameTheme(src, dark) {
+      if (!src) return src;
+      var parts = src.split('#');
+      var hash = parts[1] ? '#' + parts[1] : '';
+      var queryParts = parts[0].split('?');
+      var base = queryParts[0];
+      var query = queryParts[1] || '';
+      var params = query ? query.split('&').filter(Boolean) : [];
+      var filtered = params.filter(function (part) { return part.split('=')[0] !== 'theme'; });
+      filtered.push('theme=' + (dark ? 'dark' : 'light'));
+      return base + '?' + filtered.join('&') + hash;
+    }
+
+    document.addEventListener('click', function (event) {
+      var openBtn = event.target.closest('[data-chart-open]');
+      if (openBtn) {
+        var openCard = openBtn.closest('[data-chart-shell]');
+        if (!openCard) return;
+        var targetFrame = openCard.querySelector('[data-chart-frame], iframe.chart-frame');
+        if (!targetFrame) return;
+        var targetSrc = targetFrame.getAttribute('src');
+        if (targetSrc) window.open(targetSrc, '_blank', 'noopener');
+        return;
       }
 
-      function syncFrame() {
-        if (!frame || !frame.contentWindow) return;
-        frame.contentWindow.postMessage({ type: 'setPalette', colors: defaultPalette }, '*');
-        frame.contentWindow.postMessage({ type: 'setMode', dark: state.dark }, '*');
-        frame.contentWindow.postMessage({ type: 'setPrint', print: state.print }, '*');
+      var modeBtn = event.target.closest('[data-chart-mode]');
+      if (modeBtn) {
+        var modeCard = modeBtn.closest('[data-chart-shell]');
+        if (!modeCard) return;
+        modeCard.dataset.dark = modeCard.dataset.dark === 'false' ? 'true' : 'false';
+        paintChartCard(modeCard);
+        syncChartCard(modeCard);
+        return;
       }
 
-      openBtn.addEventListener('click', function () {
-        if (!frame) return;
-        var src = frame.getAttribute('src');
-        if (src) window.open(src, '_blank', 'noopener');
-      });
-
-      modeBtn.addEventListener('click', function () {
-        state.dark = !state.dark;
-        paintButtons();
-        syncFrame();
-      });
-
-      printBtn.addEventListener('click', function () {
-        state.print = !state.print;
-        paintButtons();
-        syncFrame();
-      });
-
-      frame.addEventListener('load', function () {
-        syncFrame();
-      });
-
-      paintButtons();
+      var printBtn = event.target.closest('[data-chart-print]');
+      if (printBtn) {
+        var printCard = printBtn.closest('[data-chart-shell]');
+        if (!printCard) return;
+        printCard.dataset.print = printCard.dataset.print === 'true' ? 'false' : 'true';
+        paintChartCard(printCard);
+        syncChartCard(printCard);
+      }
     });
   </script>
 </body>
