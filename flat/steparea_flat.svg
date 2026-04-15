@@ -13,8 +13,8 @@
     .card-subtitle     { font-size:11px; fill:#79747E; font-weight:400; }
     .tick-label     { font-size:10px; fill:#79747E; font-weight:400; }
     .category-label     { font-size:10px; fill:#79747E; font-weight:500; }
-    .legend-label     { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    .legend-value     { font-size:11px; fill:#1C1B1F; font-weight:500; opacity:0; transition:opacity 0.2s; }
+    .legend-label     { font-size:22px; fill:#1C1B1F; font-weight:500; }
+    .legend-value     { font-size:22px; fill:#1C1B1F; font-weight:600; opacity:0; transition:opacity 0.2s; }
     .footer { font-size:10px; fill:#79747E; font-weight:400; }
     svg.dark .card-title     { fill:#E6E0E9; }
     svg.dark .card-subtitle     { fill:#938F99; }
@@ -36,6 +36,8 @@
     svg.dark .series-1 { fill:#22D3EE; stroke:#22D3EE; } svg.dark .series-2 { fill:#10B981; stroke:#10B981; }
     svg.dark .series-3 { fill:#FBB724; stroke:#FBB724; } svg.dark .series-4 { fill:#FB6181; stroke:#FB6181; }
     svg.dark .series-5 { fill:#A78BFA; stroke:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; stroke:#60A5FA; }
+
+    .legend-title { font-size:22px; font-weight:700; letter-spacing:0.8px; }
 
     /* legend */
     .legend-bg  { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
@@ -179,27 +181,27 @@
 </g>
 
 <!-- legend -->
-<rect x="870" y="100" width="210" height="180" rx="14" class="legend-bg"/>
-<text x="888" y="124" class="legend-title">DEPARTMENT</text>
-<g transform="translate(888,140)">
+<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg"/>
+<text x="878" y="118" class="legend-title">DEPARTMENT</text>
+<g transform="translate(878,146)">
   <rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="legend-label">Engineering</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$182k</text>
+  <text x="22" y="7" class="legend-label" dominant-baseline="middle">Engineering</text>
+  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$182k</text>
 </g>
-<g transform="translate(888,170)">
+<g transform="translate(878,194)">
   <rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="legend-label">Data &amp; ML</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$143k</text>
+  <text x="22" y="7" class="legend-label" dominant-baseline="middle">Data &amp; ML</text>
+  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$143k</text>
 </g>
-<g transform="translate(888,200)">
+<g transform="translate(878,242)">
   <rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="legend-label">Product</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$67k</text>
+  <text x="22" y="7" class="legend-label" dominant-baseline="middle">Product</text>
+  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$67k</text>
 </g>
-<g transform="translate(888,230)">
+<g transform="translate(878,290)">
   <rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="legend-label">Marketing</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$44k</text>
+  <text x="22" y="7" class="legend-label" dominant-baseline="middle">Marketing</text>
+  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$44k</text>
 </g>
 
 <text x="68" y="600" class="footer">Cloud Spend by Department · 4 series · step area chart</text>

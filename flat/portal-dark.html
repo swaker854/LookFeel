@@ -511,6 +511,38 @@
       padding: 12px 10px 8px;
     }
 
+    .chart-card-shell {
+      aspect-ratio: 1100 / 720;
+    }
+
+    .chart-card-shell .chart-shell-header {
+      padding: 14px 16px 8px;
+    }
+
+    .chart-card-shell .chart-shell-title {
+      font-size: 14px;
+    }
+
+    .chart-card-shell .chart-shell-subtitle {
+      font-size: 10px;
+    }
+
+    .chart-card-shell .chart-shell-body {
+      padding: 6px 22px 2px;
+      min-height: 132px;
+    }
+
+    .chart-card-shell .chart-frame {
+      width: 100%;
+      margin-left: 0;
+    }
+
+    .chart-card-shell .chart-shell-footer {
+      padding: 8px 16px 12px;
+      font-size: 9px;
+      line-height: 1.35;
+    }
+
     .chart-card-shell.light .chart-shell-body {
       background: linear-gradient(180deg, rgba(255, 251, 254, 0.96), rgba(245, 240, 248, 0.94));
     }
@@ -794,13 +826,41 @@
 
       <!-- Chart content grid — filenames match final SVG outputs, consistent order with light portal -->
       <div class="content">
-        <div class="chart-card">
-          <iframe class="chart-frame" src="bar_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
+        <div class="chart-card chart-card-shell" data-chart-shell data-chart-base="bar_flat">
+          <div class="chart-shell-header">
+            <div class="chart-shell-copy">
+              <div class="chart-shell-title">Revenue by Category - Bar</div>
+              <div class="chart-shell-subtitle">8 segments · hover bar to inspect</div>
+            </div>
+            <div class="chart-shell-controls">
+              <button class="chart-shell-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-shell-btn active" type="button" data-chart-mode>Light</button>
+              <button class="chart-shell-btn" type="button" data-chart-print>Print</button>
+            </div>
+          </div>
+          <div class="chart-shell-body">
+            <iframe class="chart-frame" src="bar_flat.svg?theme=dark" scrolling="no" frameborder="0" data-chart-frame></iframe>
+          </div>
+          <div class="chart-shell-footer">Revenue by Category · bar chart · print mode reveals values</div>
         </div>
-        <div class="chart-card">
-          <iframe class="chart-frame" src="bar_stacked_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
+        <div class="chart-card chart-card-shell" data-chart-shell data-chart-base="bar_stacked_flat">
+          <div class="chart-shell-header">
+            <div class="chart-shell-copy">
+              <div class="chart-shell-title">Revenue by Quarter - Bar Stacked</div>
+              <div class="chart-shell-subtitle">5 product lines · stacked columns · hover to inspect</div>
+            </div>
+            <div class="chart-shell-controls">
+              <button class="chart-shell-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-shell-btn active" type="button" data-chart-mode>Light</button>
+              <button class="chart-shell-btn" type="button" data-chart-print>Print</button>
+            </div>
+          </div>
+          <div class="chart-shell-body">
+            <iframe class="chart-frame" src="bar_stacked_flat.svg?theme=dark" scrolling="no" frameborder="0" data-chart-frame></iframe>
+          </div>
+          <div class="chart-shell-footer">Revenue by Quarter · stacked bar chart · print mode reveals values</div>
         </div>
-        <div class="chart-card chart-card-shell" data-chart-shell>
+        <div class="chart-card chart-card-shell" data-chart-shell data-chart-base="pie_flat">
           <div class="chart-shell-header">
             <div class="chart-shell-copy">
               <div class="chart-shell-title">Revenue by Segment - Pie/Donut</div>
@@ -817,23 +877,107 @@
           </div>
           <div class="chart-shell-footer">Revenue by Segment · donut chart · hover to inspect · print mode reveals values</div>
         </div>
-        <div class="chart-card">
-          <iframe class="chart-frame" src="line_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
+        <div class="chart-card chart-card-shell" data-chart-shell data-chart-base="line_flat">
+          <div class="chart-shell-header">
+            <div class="chart-shell-copy">
+              <div class="chart-shell-title">Revenue by Month - Line</div>
+              <div class="chart-shell-subtitle">8 points · hover line marker to inspect</div>
+            </div>
+            <div class="chart-shell-controls">
+              <button class="chart-shell-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-shell-btn active" type="button" data-chart-mode>Light</button>
+              <button class="chart-shell-btn" type="button" data-chart-print>Print</button>
+            </div>
+          </div>
+          <div class="chart-shell-body">
+            <iframe class="chart-frame" src="line_flat.svg?theme=dark" scrolling="no" frameborder="0" data-chart-frame></iframe>
+          </div>
+          <div class="chart-shell-footer">Revenue by Month · line chart · hover marker to inspect · print mode reveals values</div>
         </div>
-        <div class="chart-card">
-          <iframe class="chart-frame" src="line_stacked_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
+        <div class="chart-card chart-card-shell" data-chart-shell data-chart-base="line_stacked_flat">
+          <div class="chart-shell-header">
+            <div class="chart-shell-copy">
+              <div class="chart-shell-title">Revenue by Month - Line Stacked</div>
+              <div class="chart-shell-subtitle">4 streams · stacked line/area trend · hover to inspect</div>
+            </div>
+            <div class="chart-shell-controls">
+              <button class="chart-shell-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-shell-btn active" type="button" data-chart-mode>Light</button>
+              <button class="chart-shell-btn" type="button" data-chart-print>Print</button>
+            </div>
+          </div>
+          <div class="chart-shell-body">
+            <iframe class="chart-frame" src="line_stacked_flat.svg?theme=dark" scrolling="no" frameborder="0" data-chart-frame></iframe>
+          </div>
+          <div class="chart-shell-footer">Revenue by Month · stacked line chart · hover marker to inspect · print mode reveals values</div>
         </div>
-        <div class="chart-card">
-          <iframe class="chart-frame" src="bubble_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
+        <div class="chart-card chart-card-shell" data-chart-shell data-chart-base="bubble_flat">
+          <div class="chart-shell-header">
+            <div class="chart-shell-copy">
+              <div class="chart-shell-title">Market Segments - Bubble</div>
+              <div class="chart-shell-subtitle">Position, size, and category · hover bubble to inspect</div>
+            </div>
+            <div class="chart-shell-controls">
+              <button class="chart-shell-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-shell-btn active" type="button" data-chart-mode>Light</button>
+              <button class="chart-shell-btn" type="button" data-chart-print>Print</button>
+            </div>
+          </div>
+          <div class="chart-shell-body">
+            <iframe class="chart-frame" src="bubble_flat.svg?theme=dark" scrolling="no" frameborder="0" data-chart-frame></iframe>
+          </div>
+          <div class="chart-shell-footer">Market Segments · bubble chart · hover bubble to inspect · print mode reveals values</div>
         </div>
-        <div class="chart-card">
-          <iframe class="chart-frame" src="area_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
+        <div class="chart-card chart-card-shell" data-chart-shell data-chart-base="area_flat">
+          <div class="chart-shell-header">
+            <div class="chart-shell-copy">
+              <div class="chart-shell-title">Traffic by Week - Area</div>
+              <div class="chart-shell-subtitle">Filled trend · hover point to inspect</div>
+            </div>
+            <div class="chart-shell-controls">
+              <button class="chart-shell-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-shell-btn active" type="button" data-chart-mode>Light</button>
+              <button class="chart-shell-btn" type="button" data-chart-print>Print</button>
+            </div>
+          </div>
+          <div class="chart-shell-body">
+            <iframe class="chart-frame" src="area_flat.svg?theme=dark" scrolling="no" frameborder="0" data-chart-frame></iframe>
+          </div>
+          <div class="chart-shell-footer">Traffic by Week · area chart · hover point to inspect · print mode reveals values</div>
         </div>
-        <div class="chart-card">
-          <iframe class="chart-frame" src="area_stacked_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
+        <div class="chart-card chart-card-shell" data-chart-shell data-chart-base="area_stacked_flat">
+          <div class="chart-shell-header">
+            <div class="chart-shell-copy">
+              <div class="chart-shell-title">Traffic by Source - Area Stacked</div>
+              <div class="chart-shell-subtitle">4 sources · stacked fill trend · hover to inspect</div>
+            </div>
+            <div class="chart-shell-controls">
+              <button class="chart-shell-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-shell-btn active" type="button" data-chart-mode>Light</button>
+              <button class="chart-shell-btn" type="button" data-chart-print>Print</button>
+            </div>
+          </div>
+          <div class="chart-shell-body">
+            <iframe class="chart-frame" src="area_stacked_flat.svg?theme=dark" scrolling="no" frameborder="0" data-chart-frame></iframe>
+          </div>
+          <div class="chart-shell-footer">Traffic by Source · stacked area chart · hover point to inspect · print mode reveals values</div>
         </div>
-        <div class="chart-card">
-          <iframe class="chart-frame" src="candle_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
+        <div class="chart-card chart-card-shell" data-chart-shell data-chart-base="candle_flat">
+          <div class="chart-shell-header">
+            <div class="chart-shell-copy">
+              <div class="chart-shell-title">Price Movement - Candlestick</div>
+              <div class="chart-shell-subtitle">Daily OHLC · hover candle to inspect</div>
+            </div>
+            <div class="chart-shell-controls">
+              <button class="chart-shell-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-shell-btn active" type="button" data-chart-mode>Light</button>
+              <button class="chart-shell-btn" type="button" data-chart-print>Print</button>
+            </div>
+          </div>
+          <div class="chart-shell-body">
+            <iframe class="chart-frame" src="candle_flat.svg?theme=dark" scrolling="no" frameborder="0" data-chart-frame></iframe>
+          </div>
+          <div class="chart-shell-footer">Price Movement · candlestick chart · hover candle to inspect · print mode reveals values</div>
         </div>
 
       </div>
@@ -842,89 +986,6 @@
   </div>
   <script>
     var defaultPalette = ['#00D4E8', '#00B87A', '#F59E0B', '#F43F5E', '#8B5CF6', '#3B82F6', '#0D9488', '#64748B'];
-    var chartShellMeta = {
-      'bar_flat.svg': {
-        title: 'Revenue by Category - Bar',
-        subtitle: '8 segments · hover bar to inspect',
-        footer: 'Revenue by Category · bar chart · print mode reveals values'
-      },
-      'bar_stacked_flat.svg': {
-        title: 'Revenue by Quarter - Bar Stacked',
-        subtitle: '5 product lines · stacked columns · hover to inspect',
-        footer: 'Revenue by Quarter · stacked bar chart · print mode reveals values'
-      },
-      'pie_flat.svg': {
-        title: 'Revenue by Segment - Pie/Donut',
-        subtitle: 'Donut · hover slice to inspect',
-        footer: 'Revenue by Segment · donut chart · hover to inspect · print mode reveals values'
-      },
-      'line_flat.svg': {
-        title: 'Revenue by Quarter - Line',
-        subtitle: '5 product lines · hover data point to inspect',
-        footer: 'Revenue by Quarter · line chart · hover to inspect'
-      },
-      'line_stacked_flat.svg': {
-        title: 'Revenue by Quarter - Line Stacked',
-        subtitle: '5 product lines · cumulative stacked view · hover to inspect',
-        footer: 'Revenue by Quarter · stacked line/area chart · hover to inspect'
-      },
-      'bubble_flat.svg': {
-        title: 'Revenue vs Growth by Category - Bubble',
-        subtitle: 'Bubble size reflects market share · hover to inspect',
-        footer: 'Revenue vs Growth · bubble chart · print mode reveals legend values'
-      },
-      'area_flat.svg': {
-        title: 'Revenue by Quarter - Area',
-        subtitle: '5 product lines · filled area chart · hover to inspect',
-        footer: 'Revenue by Quarter · area chart · hover to inspect'
-      },
-      'area_stacked_flat.svg': {
-        title: 'Revenue by Quarter - Area Stacked',
-        subtitle: '5 product lines · stacked waves · hover to inspect',
-        footer: 'Revenue by Quarter · stacked area chart · hover to inspect'
-      },
-      'candle_flat.svg': {
-        title: 'OHLC Price Chart - Candlestick',
-        subtitle: '12 months · open / high / low / close · hover to inspect',
-        footer: 'OHLC price chart · candlestick view · print mode reveals values'
-      }
-    };
-
-    function shellMarkup(title, subtitle, footer, src) {
-      return '' +
-        '<div class=\"chart-shell-header\">' +
-          '<div class=\"chart-shell-copy\">' +
-            '<div class=\"chart-shell-title\">' + title + '</div>' +
-            '<div class=\"chart-shell-subtitle\">' + subtitle + '</div>' +
-          '</div>' +
-            '<div class=\"chart-shell-controls\">' +
-            '<button class=\"chart-shell-btn\" type=\"button\" data-chart-open>Open</button>' +
-            '<button class=\"chart-shell-btn active\" type=\"button\" data-chart-mode>Light</button>' +
-            '<button class=\"chart-shell-btn\" type=\"button\" data-chart-print>Print</button>' +
-          '</div>' +
-        '</div>' +
-        '<div class=\"chart-shell-body\">' +
-          '<iframe class=\"chart-frame\" src=\"' + src + '\" scrolling=\"no\" frameborder=\"0\" data-chart-frame></iframe>' +
-        '</div>' +
-        '<div class=\"chart-shell-footer\">' + footer + '</div>';
-    }
-
-    document.querySelectorAll('.chart-card').forEach(function (card) {
-      var existingFrame = card.querySelector('iframe.chart-frame');
-      if (!existingFrame) return;
-
-      var src = existingFrame.getAttribute('src') || '';
-      var base = src.split('?')[0];
-      var meta = chartShellMeta[base];
-      if (!meta) return;
-
-      if (!card.hasAttribute('data-chart-shell')) {
-        card.classList.add('chart-card-shell');
-        card.setAttribute('data-chart-shell', '');
-        card.innerHTML = shellMarkup(meta.title, meta.subtitle, meta.footer, src);
-      }
-    });
-
     document.querySelectorAll('[data-chart-shell]').forEach(function (card) {
       card.dataset.dark = 'true';
       card.dataset.print = 'false';

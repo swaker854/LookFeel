@@ -1,4 +1,4 @@
-<svg id="root" viewBox="40 88 1040 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<svg id="root" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
     @import url('chart-shared.css');
@@ -14,14 +14,25 @@
     svg.dark .series-7 { fill:#2DD4BF; stroke:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; stroke:#94A3B8; }
 
     .bub-g { opacity:0; }
+    .tick-label { font-size:22px; font-weight:500; }
+    .category-label { font-size:22px; font-weight:500; }
+    .legend-title { font-size:22px; font-weight:700; letter-spacing:0.8px; }
+    .legend-label { font-size:22px; font-weight:500; }
+    .legend-value { font-size:22px; font-weight:600; }
+    .tip { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
+    svg.print .tip { opacity:0 !important; }
+    .tip-value { fill:#1C1B1F; font-size:28px; font-weight:700; }
+    .tip-label { fill:#49454F; font-size:22px; font-weight:400; }
+    svg.dark .tip-value { fill:#E6E0E9; }
+    svg.dark .tip-label { fill:#CAC4D0; }
 
-    .data-layer.ready.hovering .data-item        { opacity:0.20; transition:opacity 0.2s ease; }
+    .data-layer.ready.hovering .data-item { opacity:0.20; transition:opacity 0.2s ease; }
     .data-layer.ready.hovering .data-item.active { opacity:1; }
   </style>
 </defs>
 
 <line x1="68" y1="500" x2="820" y2="500" class="axis-line"/>
-<line x1="68" y1="100" x2="68"  y2="500" class="axis-line"/>
+<line x1="68" y1="100" x2="68" y2="500" class="axis-line"/>
 <line x1="68" y1="420" x2="820" y2="420" class="grid-line"/>
 <line x1="68" y1="340" x2="820" y2="340" class="grid-line"/>
 <line x1="68" y1="260" x2="820" y2="260" class="grid-line"/>
@@ -33,126 +44,48 @@
 <line x1="668" y1="100" x2="668" y2="500" class="grid-line"/>
 <line x1="818" y1="100" x2="818" y2="500" class="grid-line"/>
 
+<text x="56" y="504" class="tick-label" text-anchor="end">$40M</text>
+<text x="56" y="424" class="tick-label" text-anchor="end">$50M</text>
+<text x="56" y="344" class="tick-label" text-anchor="end">$60M</text>
+<text x="56" y="264" class="tick-label" text-anchor="end">$70M</text>
+<text x="56" y="184" class="tick-label" text-anchor="end">$80M</text>
+<text x="56" y="104" class="tick-label" text-anchor="end">$90M</text>
+
+<text x="68" y="530" class="category-label" text-anchor="middle">12%</text>
+<text x="218" y="530" class="category-label" text-anchor="middle">20%</text>
+<text x="368" y="530" class="category-label" text-anchor="middle">28%</text>
+<text x="518" y="530" class="category-label" text-anchor="middle">36%</text>
+<text x="668" y="530" class="category-label" text-anchor="middle">44%</text>
+<text x="818" y="530" class="category-label" text-anchor="middle">52%</text>
+
 <g class="data-layer" id="chart-area">
-
-  <g class="data-item" id="bw1">
-    <g class="bub-g" id="bg1">
-      <circle class="series-1" cx="609" cy="196" r="28" style="stroke:none"/>
-    </g>
-    <g class="data-tip" transform="translate(609,156)">
-      <rect x="-34" y="-44" width="68" height="38" rx="9" class="tip-bg"/>
-      <path d="M8,-6 L25,-6 Q34,-6 34,-15 L34,-44 Q34,-53 25,-53 L-25,-53 Q-34,-53 -34,-44 L-34,-15 Q-34,-6 -25,-6 L-8,-6" class="tip-border"/>
-      <path d="M-8,-6 L0,8 L8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" class="tip-value">$72M</text>
-      <text x="0" y="-16" text-anchor="middle" class="tip-label">Cyan · 38%</text>
-    </g>
-  </g>
-
-  <g class="data-item" id="bw2">
-    <g class="bub-g" id="bg2">
-      <circle class="series-2" cx="579" cy="324" r="26" style="stroke:none"/>
-    </g>
-    <g class="data-tip" transform="translate(579,284)">
-      <rect x="-40" y="-44" width="80" height="38" rx="9" class="tip-bg"/>
-      <path d="M8,-6 L31,-6 Q40,-6 40,-15 L40,-44 Q40,-53 31,-53 L-31,-53 Q-40,-53 -40,-44 L-40,-15 Q-40,-6 -31,-6 L-8,-6" class="tip-border"/>
-      <path d="M-8,-6 L0,8 L8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" class="tip-value">$68M</text>
-      <text x="0" y="-16" text-anchor="middle" class="tip-label">Emerald · 22%</text>
-    </g>
-  </g>
-
-  <g class="data-item" id="bw3">
-    <g class="bub-g" id="bg3">
-      <circle class="series-3" cx="519" cy="148" r="24" style="stroke:none"/>
-    </g>
-    <g class="data-tip" transform="translate(519,112)">
-      <rect x="-34" y="-44" width="68" height="38" rx="9" class="tip-bg"/>
-      <path d="M8,-6 L25,-6 Q34,-6 34,-15 L34,-44 Q34,-53 25,-53 L-25,-53 Q-34,-53 -34,-44 L-34,-15 Q-34,-6 -25,-6 L-8,-6" class="tip-border"/>
-      <path d="M-8,-6 L0,8 L8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" class="tip-value">$60M</text>
-      <text x="0" y="-16" text-anchor="middle" class="tip-label">Amber · 44%</text>
-    </g>
-  </g>
-
-  <g class="data-item" id="bw4">
-    <g class="bub-g" id="bg4">
-      <circle class="series-4" cx="482" cy="380" r="22" style="stroke:none"/>
-    </g>
-    <g class="data-tip" transform="translate(482,346)">
-      <rect x="-34" y="-44" width="68" height="38" rx="9" class="tip-bg"/>
-      <path d="M8,-6 L25,-6 Q34,-6 34,-15 L34,-44 Q34,-53 25,-53 L-25,-53 Q-34,-53 -34,-44 L-34,-15 Q-34,-6 -25,-6 L-8,-6" class="tip-border"/>
-      <path d="M-8,-6 L0,8 L8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" class="tip-value">$55M</text>
-      <text x="0" y="-16" text-anchor="middle" class="tip-label">Rose · 15%</text>
-    </g>
-  </g>
-
-  <g class="data-item" id="bw5">
-    <g class="bub-g" id="bg5">
-      <circle class="series-5" cx="661" cy="252" r="32" style="stroke:none"/>
-    </g>
-    <g class="data-tip" transform="translate(661,208)">
-      <rect x="-34" y="-44" width="68" height="38" rx="9" class="tip-bg"/>
-      <path d="M8,-6 L25,-6 Q34,-6 34,-15 L34,-44 Q34,-53 25,-53 L-25,-53 Q-34,-53 -34,-44 L-34,-15 Q-34,-6 -25,-6 L-8,-6" class="tip-border"/>
-      <path d="M-8,-6 L0,8 L8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" class="tip-value">$79M</text>
-      <text x="0" y="-16" text-anchor="middle" class="tip-label">Violet · 31%</text>
-    </g>
-  </g>
-
-  <g class="data-item" id="bw6">
-    <g class="bub-g" id="bg6">
-      <circle class="series-6" cx="549" cy="284" r="25" style="stroke:none"/>
-    </g>
-    <g class="data-tip" transform="translate(549,247)">
-      <rect x="-34" y="-44" width="68" height="38" rx="9" class="tip-bg"/>
-      <path d="M8,-6 L25,-6 Q34,-6 34,-15 L34,-44 Q34,-53 25,-53 L-25,-53 Q-34,-53 -34,-44 L-34,-15 Q-34,-6 -25,-6 L-8,-6" class="tip-border"/>
-      <path d="M-8,-6 L0,8 L8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" class="tip-value">$64M</text>
-      <text x="0" y="-16" text-anchor="middle" class="tip-label">Blue · 27%</text>
-    </g>
-  </g>
-
-  <g class="data-item" id="bw7">
-    <g class="bub-g" id="bg7">
-      <circle class="series-7" cx="527" cy="164" r="24" style="stroke:none"/>
-    </g>
-    <g class="data-tip" transform="translate(527,128)">
-      <rect x="-34" y="-44" width="68" height="38" rx="9" class="tip-bg"/>
-      <path d="M8,-6 L25,-6 Q34,-6 34,-15 L34,-44 Q34,-53 25,-53 L-25,-53 Q-34,-53 -34,-44 L-34,-15 Q-34,-6 -25,-6 L-8,-6" class="tip-border"/>
-      <path d="M-8,-6 L0,8 L8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" class="tip-value">$61M</text>
-      <text x="0" y="-16" text-anchor="middle" class="tip-label">Teal · 42%</text>
-    </g>
-  </g>
-
-  <g class="data-item" id="bw8">
-    <g class="bub-g" id="bg8">
-      <circle class="series-8" cx="429" cy="404" r="19" style="stroke:none"/>
-    </g>
-    <g class="data-tip" transform="translate(429,373)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-      <path d="M8,-6 L29,-6 Q38,-6 38,-15 L38,-44 Q38,-53 29,-53 L-29,-53 Q-38,-53 -38,-44 L-38,-15 Q-38,-6 -29,-6 L-8,-6" class="tip-border"/>
-      <path d="M-8,-6 L0,8 L8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" class="tip-value">$48M</text>
-      <text x="0" y="-16" text-anchor="middle" class="tip-label">Other · 12%</text>
-    </g>
-  </g>
-
+  <g class="data-item" id="bw1"><g class="bub-g" id="bg1"><circle class="series-1" cx="609" cy="196" r="28" style="stroke:none"/></g></g>
+  <g class="data-item" id="bw2"><g class="bub-g" id="bg2"><circle class="series-2" cx="579" cy="324" r="26" style="stroke:none"/></g></g>
+  <g class="data-item" id="bw3"><g class="bub-g" id="bg3"><circle class="series-3" cx="519" cy="148" r="24" style="stroke:none"/></g></g>
+  <g class="data-item" id="bw4"><g class="bub-g" id="bg4"><circle class="series-4" cx="482" cy="380" r="22" style="stroke:none"/></g></g>
+  <g class="data-item" id="bw5"><g class="bub-g" id="bg5"><circle class="series-5" cx="661" cy="252" r="32" style="stroke:none"/></g></g>
+  <g class="data-item" id="bw6"><g class="bub-g" id="bg6"><circle class="series-6" cx="549" cy="284" r="25" style="stroke:none"/></g></g>
+  <g class="data-item" id="bw7"><g class="bub-g" id="bg7"><circle class="series-7" cx="527" cy="164" r="24" style="stroke:none"/></g></g>
+  <g class="data-item" id="bw8"><g class="bub-g" id="bg8"><circle class="series-8" cx="429" cy="404" r="19" style="stroke:none"/></g></g>
 </g>
 
-<!-- Legend -->
-<rect x="848" y="100" width="224" height="390" rx="14" class="legend-bg"/>
-<text x="866" y="124" class="legend-title">SERIES</text>
-<g transform="translate(866,140)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3" style="stroke:none"/><text x="22" y="11" class="legend-label">Cyan</text><text x="200" y="11" class="legend-value" text-anchor="end">$72M · 38%</text></g>
-<g transform="translate(866,170)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3" style="stroke:none"/><text x="22" y="11" class="legend-label">Emerald</text><text x="200" y="11" class="legend-value" text-anchor="end">$68M · 22%</text></g>
-<g transform="translate(866,200)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3" style="stroke:none"/><text x="22" y="11" class="legend-label">Amber</text><text x="200" y="11" class="legend-value" text-anchor="end">$60M · 44%</text></g>
-<g transform="translate(866,230)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3" style="stroke:none"/><text x="22" y="11" class="legend-label">Rose</text><text x="200" y="11" class="legend-value" text-anchor="end">$55M · 15%</text></g>
-<g transform="translate(866,260)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3" style="stroke:none"/><text x="22" y="11" class="legend-label">Violet</text><text x="200" y="11" class="legend-value" text-anchor="end">$79M · 31%</text></g>
-<g transform="translate(866,290)"><rect class="series-6" x="0" y="0" width="14" height="14" rx="3" style="stroke:none"/><text x="22" y="11" class="legend-label">Blue</text><text x="200" y="11" class="legend-value" text-anchor="end">$64M · 27%</text></g>
-<g transform="translate(866,320)"><rect class="series-7" x="0" y="0" width="14" height="14" rx="3" style="stroke:none"/><text x="22" y="11" class="legend-label">Teal</text><text x="200" y="11" class="legend-value" text-anchor="end">$61M · 42%</text></g>
-<line x1="866" y1="352" x2="1054" y2="352" class="legend-divider"/>
-<g transform="translate(866,364)"><rect class="series-8" x="0" y="0" width="14" height="14" rx="3" style="stroke:none"/><text x="22" y="11" class="legend-label">Other</text><text x="200" y="11" class="legend-value" text-anchor="end">$48M · 12%</text></g>
+<g id="tip-layer" pointer-events="none">
+  <g class="tip" id="tip">
+    <rect id="tip-bg" class="tip-bg" rx="12"/>
+    <path id="tip-bdr" class="tip-border"/>
+    <path id="tip-tail" class="tip-tail"/>
+    <text id="tip-val" class="tip-value" text-anchor="middle" dominant-baseline="central"/>
+    <text id="tip-lbl" class="tip-label" text-anchor="middle" dominant-baseline="central"/>
+  </g>
+</g>
+
+<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg"/>
+<text x="878" y="118" class="legend-title">SERIES</text>
+<g transform="translate(878,146)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3" style="stroke:none"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Cyan</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$72M</text></g>
+<g transform="translate(878,194)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3" style="stroke:none"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Emerald</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$68M</text></g>
+<g transform="translate(878,242)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3" style="stroke:none"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Amber</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$60M</text></g>
+<g transform="translate(878,290)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3" style="stroke:none"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Rose</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$55M</text></g>
+<g transform="translate(878,338)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3" style="stroke:none"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Violet</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$79M</text></g>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -160,14 +93,102 @@
   var svg = document.documentElement;
   svg._chartInit = function (svgEl, ctx) {
     var chartArea = svgEl.querySelector('#chart-area');
+    var tip = svgEl.querySelector('#tip');
+    var tipBg = svgEl.querySelector('#tip-bg');
+    var tipBdr = svgEl.querySelector('#tip-bdr');
+    var tipTail = svgEl.querySelector('#tip-tail');
+    var tipVal = svgEl.querySelector('#tip-val');
+    var tipLbl = svgEl.querySelector('#tip-lbl');
+    var plotL = 42, plotR = 840, plotT = 100, plotB = 500;
+    var meta = {
+      bw1: { label:'Cyan', value:'$72M', share:'38%' },
+      bw2: { label:'Emerald', value:'$68M', share:'22%' },
+      bw3: { label:'Amber', value:'$60M', share:'44%' },
+      bw4: { label:'Rose', value:'$55M', share:'15%' },
+      bw5: { label:'Violet', value:'$79M', share:'31%' },
+      bw6: { label:'Blue', value:'$64M', share:'27%' },
+      bw7: { label:'Teal', value:'$61M', share:'42%' },
+      bw8: { label:'Other', value:'$48M', share:'12%' }
+    };
 
-    /* rAF bubble fade-in — 0.8s duration, 0.25s stagger */
+    function easeInOutCubic(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function showTip(itemEl) {
+      var circle = itemEl.querySelector('circle');
+      var m = meta[itemEl.id];
+      if (!circle || !m) return;
+      var x = parseFloat(circle.getAttribute('cx'));
+      var y = parseFloat(circle.getAttribute('cy'));
+      var r = parseFloat(circle.getAttribute('r'));
+      var bw = 236, bh = 132, rx = 12, tw = 10, tail = 14;
+      var spaceR = plotR - x;
+      var spaceL = x - plotL;
+      var goRight = spaceR >= spaceL;
+      var bL, bR, ancX;
+
+      tipVal.textContent = m.value;
+      tipLbl.textContent = m.label + ' - ' + m.share + ' share';
+
+      if (goRight) {
+        ancX = x + r;
+        bL = ancX + tail;
+        bR = bL + bw;
+      } else {
+        ancX = x - r;
+        bR = ancX - tail;
+        bL = bR - bw;
+      }
+
+      var bT = y - bh / 2;
+      var bB = bT + bh;
+      if (bT < plotT) { bT = plotT; bB = bT + bh; }
+      if (bB > plotB) { bB = plotB; bT = bB - bh; }
+      var tY = Math.max(bT + rx + tw, Math.min(bB - rx - tw, y));
+
+      tipBg.setAttribute('x', String(bL));
+      tipBg.setAttribute('y', String(bT));
+      tipBg.setAttribute('width', String(bw));
+      tipBg.setAttribute('height', String(bh));
+      tipVal.setAttribute('x', String(bL + bw / 2));
+      tipVal.setAttribute('y', String(bT + bh * 0.38));
+      tipLbl.setAttribute('x', String(bL + bw / 2));
+      tipLbl.setAttribute('y', String(bT + bh * 0.68));
+
+      if (goRight) {
+        tipBdr.setAttribute('d',
+          'M'+bL+','+(tY-tw)+
+          ' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+
+          ' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+
+          ' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+
+          ' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+
+          ' L'+bL+','+(tY+tw)
+        );
+        tipTail.setAttribute('d', 'M'+bL+','+(tY+tw)+' L'+ancX+','+y+' L'+bL+','+(tY-tw));
+      } else {
+        tipBdr.setAttribute('d',
+          'M'+bR+','+(tY+tw)+
+          ' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+
+          ' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+
+          ' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+
+          ' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+
+          ' L'+bR+','+(tY-tw)
+        );
+        tipTail.setAttribute('d', 'M'+bR+','+(tY-tw)+' L'+ancX+','+y+' L'+bR+','+(tY+tw));
+      }
+
+      tip.style.opacity = '1';
+    }
+
+    function hideTip() {
+      tip.style.opacity = '';
+    }
+
     var FADE_DUR = 800, STAGGER = 250;
     var bubGrps = [1,2,3,4,5,6,7,8].map(function (i) {
       return svgEl.querySelector('#bg' + i);
     });
-
-    function easeInOutCubic(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
 
     var startTime = null;
     function animBubbles(ts) {
@@ -179,25 +200,27 @@
         g.style.opacity = easeInOutCubic(t).toFixed(3);
         if (t < 1) done = false;
       });
-      if (!done) { requestAnimationFrame(animBubbles); }
-      else {
+      if (!done) {
+        requestAnimationFrame(animBubbles);
+      } else {
         bubGrps.forEach(function (g) { g.style.opacity = '1'; });
         chartArea.classList.add('ready');
       }
     }
     requestAnimationFrame(animBubbles);
 
-    /* Hover dimming */
     var dataItemEls = ctx.$$all('.data-item');
     dataItemEls.forEach(function (itemEl) {
       itemEl.addEventListener('mouseenter', function () {
         chartArea.classList.add('hovering');
         dataItemEls.forEach(function (x) { x.classList.remove('active'); });
         itemEl.classList.add('active');
+        showTip(itemEl);
       });
       itemEl.addEventListener('mouseleave', function () {
         itemEl.classList.remove('active');
         chartArea.classList.remove('hovering');
+        hideTip();
       });
     });
   };
@@ -205,5 +228,3 @@
 }());
 ]]></script>
 </svg>
-
-

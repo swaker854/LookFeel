@@ -1,4 +1,4 @@
-<svg id="root" viewBox="0 0 920 390" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<svg id="root" viewBox="0 0 1040 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
     @import url('chart-shared.css');
@@ -14,10 +14,15 @@
     .tip-value { fill:#1C1B1F; font-size:28px; font-weight:700; }
     svg.dark .tip-label { fill:#E6E0E9; }
     svg.dark .tip-value { fill:#E6E0E9; }
+    .legend-title { font-size:22px; font-weight:700; letter-spacing:0.8px; }
+    .legend-label { font-size:22px; font-weight:500; }
+    .legend-value { font-size:22px; font-weight:600; }
+    .card-subtitle { font-size:24px; font-weight:500; }
+    .card-title { font-size:42px; font-weight:700; }
   </style>
 </defs>
 
-<g class="data-layer" id="pie" transform="translate(220,195)">
+<g class="data-layer" id="pie" transform="translate(416,228)">
   <g class="slice-g" id="sl1" data-label="Royal Blue" data-val="$220M" data-pct="18.3%" data-mid="32.95"  data-span="65.9"><path id="sp1" d="M0,0 L195.00,0.00 A195,195 0 0,1 79.62,178.00 Z" class="series-1"/></g>
   <g class="slice-g" id="sl2" data-label="Emerald"    data-val="$180M" data-pct="15.0%" data-mid="92.90"  data-span="54.0"><path id="sp2" d="M0,0 L79.62,178.00 A195,195 0 0,1 -97.21,169.04 Z" class="series-2"/></g>
   <g class="slice-g" id="sl3" data-label="Amber"      data-val="$150M" data-pct="12.5%" data-mid="142.40" data-span="45.0"><path id="sp3" d="M0,0 L-97.21,169.04 A195,195 0 0,1 -188.27,50.80 Z" class="series-3"/></g>
@@ -30,10 +35,10 @@
   <g id="hole-group">
     <circle cx="0" cy="0" r="88" class="card-bg"/>
     <path class="border-light" d="M-62,-62 A88,88 0 0,1 62,-62" fill="none" stroke="rgba(0,0,0,0.12)" stroke-width="1.5" stroke-linecap="round"/>
-    <text x="0" y="-10" text-anchor="middle" class="card-subtitle">Total</text>
-    <text x="0" y="14"  text-anchor="middle" class="card-title">$1.2B</text>
+    <text x="0" y="-22" text-anchor="middle" class="card-subtitle">Total</text>
+    <text x="0" y="22"  text-anchor="middle" class="card-title">$1.2B</text>
   </g>
-  <g id="tip-layer" transform="translate(-220,-195)" pointer-events="none">
+  <g id="tip-layer" transform="translate(-416,-228)" pointer-events="none">
     <g class="tip" id="tip" style="opacity:0;pointer-events:none;">
       <rect id="tip-bg"  class="tip-bg" rx="9"/>
       <path id="tip-bdr" class="tip-border"/>
@@ -46,18 +51,13 @@
   </g>
 </g>
 
-<rect x="450" y="34" width="430" height="312" rx="14" class="legend-bg"/>
-<text x="474" y="58" class="legend-title">SEGMENTS</text>
-<g transform="translate(474,78)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Royal Blue</text><text x="308" y="11" class="legend-value" text-anchor="end">$220M</text><text x="388" y="11" class="legend-note legend-value" text-anchor="end">18.3%</text></g>
-<g transform="translate(474,108)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Emerald</text><text x="308" y="11" class="legend-value" text-anchor="end">$180M</text><text x="388" y="11" class="legend-note legend-value" text-anchor="end">15.0%</text></g>
-<g transform="translate(474,138)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Amber</text><text x="308" y="11" class="legend-value" text-anchor="end">$150M</text><text x="388" y="11" class="legend-note legend-value" text-anchor="end">12.5%</text></g>
-<g transform="translate(474,168)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Rose</text><text x="308" y="11" class="legend-value" text-anchor="end">$130M</text><text x="388" y="11" class="legend-note legend-value" text-anchor="end">10.8%</text></g>
-<g transform="translate(474,198)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Violet</text><text x="308" y="11" class="legend-value" text-anchor="end">$100M</text><text x="388" y="11" class="legend-note legend-value" text-anchor="end">8.3%</text></g>
-<g transform="translate(474,228)"><rect class="series-6" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Blue</text><text x="308" y="11" class="legend-value" text-anchor="end">$90M</text><text x="388" y="11" class="legend-note legend-value" text-anchor="end">7.5%</text></g>
-<g transform="translate(474,258)"><rect class="series-7" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Teal</text><text x="308" y="11" class="legend-value" text-anchor="end">$70M</text><text x="388" y="11" class="legend-note legend-value" text-anchor="end">5.8%</text></g>
-<g transform="translate(474,288)"><rect class="series-8" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Slate</text><text x="308" y="11" class="legend-value" text-anchor="end">$60M</text><text x="388" y="11" class="legend-note legend-value" text-anchor="end">5.0%</text></g>
-<line x1="474" y1="316" x2="850" y2="316" class="legend-divider"/>
-<g transform="translate(474,328)"><rect class="series-8" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Other</text><text x="308" y="11" class="legend-value" text-anchor="end">$200M</text><text x="388" y="11" class="legend-note legend-value" text-anchor="end">16.7%</text></g>
+<rect x="818" y="0" width="214" height="455" rx="18" class="legend-bg"/>
+<text x="838" y="30" class="legend-title">SERIES</text>
+<g transform="translate(838,58)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Royal Blue</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$220M</text></g>
+<g transform="translate(838,106)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Emerald</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$180M</text></g>
+<g transform="translate(838,154)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Amber</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$150M</text></g>
+<g transform="translate(838,202)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Rose</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$130M</text></g>
+<g transform="translate(838,250)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Violet</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$100M</text></g>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -66,8 +66,8 @@
   svg._chartInit = function (svgEl, ctx) {
     var pie = svgEl.querySelector('#pie');
     var R   = 195, PUSH = 14;
-    var FRAME_W = 920, FRAME_H = 390;
-    var CX = 220, CY = 195;
+    var FRAME_W = 1040, FRAME_H = 455;
+    var CX = 416, CY = 228;
 
     function easeOutCubic(t) { return 1 - Math.pow(1-t, 3); }
     function easeOutBack(t)  { var c1=1.70158,c3=c1+1; return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2); }
@@ -132,7 +132,7 @@
       var contentW = Math.max(tipLbl.getBBox().width, tipSub.getBBox().width, tipVal.getBBox().width, tipPct.getBBox().width);
       var bw = Math.max(contentW + padH * 2, 300);
 
-      var t = ctx.buildTip(ancX, ancY, bw, bh, 4, 440, 4, FRAME_H - 4);
+      var t = ctx.buildTip(ancX, ancY, bw, bh, 4, 800, 4, FRAME_H - 4);
 
       tipBg.setAttribute('x', t.bL); tipBg.setAttribute('y', t.bT);
       tipBg.setAttribute('width', bw); tipBg.setAttribute('height', bh);

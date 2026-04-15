@@ -1,6 +1,6 @@
 
 
-<svg id="root" viewBox="40 88 1040 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<svg id="root" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
 <defs>
   <clipPath id="chartclip">
     <rect x="68" y="96" width="782" height="412"/>
@@ -30,6 +30,12 @@
     svg.print .tip { opacity:0 !important; }
     .tip-value { fill:#1C1B1F; font-size:28px; font-weight:700; }
     .tip-label { fill:#49454F; font-size:22px; font-weight:400; }
+    .tick-label { font-size:22px; font-weight:500; }
+    .category-label { font-size:22px; font-weight:500; }
+    .legend-title { font-size:22px; font-weight:700; letter-spacing:0.8px; }
+    .legend-label { font-size:22px; font-weight:500; }
+    .legend-value { font-size:22px; font-weight:600; }
+    .legend-note  { font-size:22px; }
     svg.dark .tip-value { fill:#E6E0E9; }
     svg.dark .tip-label { fill:#CAC4D0; }
 
@@ -55,14 +61,14 @@
 <text x="56" y="185" class="tick-label" text-anchor="end">$200M</text>
 <text x="56" y="104" class="tick-label" text-anchor="end">$250M</text>
 
-<text x="126.9" y="526" class="category-label" text-anchor="middle">Q1 '22</text>
-<text x="221.8" y="526" class="category-label" text-anchor="middle">Q2 '22</text>
-<text x="316.7" y="526" class="category-label" text-anchor="middle">Q3 '22</text>
-<text x="411.6" y="526" class="category-label" text-anchor="middle">Q4 '22</text>
-<text x="506.4" y="526" class="category-label" text-anchor="middle">Q1 '23</text>
-<text x="601.3" y="526" class="category-label" text-anchor="middle">Q2 '23</text>
-<text x="696.2" y="526" class="category-label" text-anchor="middle">Q3 '23</text>
-<text x="791.1" y="526" class="category-label" text-anchor="middle">Q4 '23</text>
+<text x="126.9" y="534" class="category-label" text-anchor="middle">Q1 '22</text>
+<text x="221.8" y="534" class="category-label" text-anchor="middle">Q2 '22</text>
+<text x="316.7" y="534" class="category-label" text-anchor="middle">Q3 '22</text>
+<text x="411.6" y="534" class="category-label" text-anchor="middle">Q4 '22</text>
+<text x="506.4" y="534" class="category-label" text-anchor="middle">Q1 '23</text>
+<text x="601.3" y="534" class="category-label" text-anchor="middle">Q2 '23</text>
+<text x="696.2" y="534" class="category-label" text-anchor="middle">Q3 '23</text>
+<text x="791.1" y="534" class="category-label" text-anchor="middle">Q4 '23</text>
 
 <line x1="459" y1="100" x2="459" y2="518" stroke="#c0b8a8" stroke-width="1" stroke-dasharray="5,4" opacity="0.6"/>
 <text x="269.2" y="90" class="tick-label" text-anchor="middle">2022</text>
@@ -174,17 +180,13 @@
 <g id="hit-layer"></g>
 <g id="tip-layer"></g>
 
-<rect x="870" y="100" width="210" height="248" rx="14" class="legend-bg"/>
-<text x="888" y="124" class="legend-title">SERIES</text>
-<g transform="translate(888,140)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Cyan</text>   <text x="188" y="11" class="legend-value" text-anchor="end">$72M</text></g>
-<g transform="translate(888,170)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Violet</text>  <text x="188" y="11" class="legend-value" text-anchor="end">$62M</text></g>
-<g transform="translate(888,200)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Emerald</text> <text x="188" y="11" class="legend-value" text-anchor="end">$35M</text></g>
-<g transform="translate(888,230)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Amber</text>   <text x="188" y="11" class="legend-value" text-anchor="end">$22M</text></g>
-<g transform="translate(888,260)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Slate</text>    <text x="188" y="11" class="legend-value" text-anchor="end">$19M</text></g>
-<line x1="888" y1="290" x2="1062" y2="290" class="legend-divider"/>
-<text x="888" y="308" class="legend-label">Q4 2023 total</text>
-<text x="1062" y="308" class="legend-value" text-anchor="end">$210M</text>
-<text x="888" y="328" class="legend-note">Hover columns to inspect</text>
+<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg"/>
+<text x="878" y="118" class="legend-title">SERIES</text>
+<g transform="translate(878,146)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Cyan</text>   <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$72M</text></g>
+<g transform="translate(878,194)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Violet</text>  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$62M</text></g>
+<g transform="translate(878,242)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Emerald</text> <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$35M</text></g>
+<g transform="translate(878,290)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Amber</text>   <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$22M</text></g>
+<g transform="translate(878,338)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Slate</text>    <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$19M</text></g>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -220,8 +222,8 @@
     }
 
     xs.forEach(function(x, qi) {
-      var PAD = 14, DOT_R = 5, DOT_X = 16, LBL_X = 28;
-      var rowH = 34, hdrH = 30, divH = 8, totH = 36;
+      var PAD = 22, DOT_R = 5, DOT_X = 20, LBL_X = 38;
+      var rowH = 42, hdrH = 38, divH = 12, totH = 46;
       var bh = hdrH + divH + series.length * rowH + divH + totH + PAD;
       var rx = 12;
 
@@ -241,7 +243,7 @@
         var sLbl = el('text', {x:LBL_X, y:rowY, 'dominant-baseline':'central', 'class':'tip-label'});
         sLbl.textContent = s.label;
         var sVal = el('text', {x:0, y:rowY, 'text-anchor':'end',
-          'dominant-baseline':'central', 'class':'tip-value', 'font-size':'16'});
+          'dominant-baseline':'central', 'class':'tip-value', 'font-size':'18'});
         sVal.textContent = '$' + s.vals[qi] + 'M';
         tipG.appendChild(dot); tipG.appendChild(sLbl); tipG.appendChild(sVal);
         rowEls.push({dot:dot, sLbl:sLbl, sVal:sVal});
@@ -289,7 +291,7 @@
       rowEls.forEach(function(r) {
         r.dot.setAttribute('cx', String(bL + DOT_X));
         r.sLbl.setAttribute('x', String(bL + LBL_X));
-        r.sVal.setAttribute('x', String(bR - 8));
+        r.sVal.setAttribute('x', String(bR - 16));
         var rowY = bT + hdrH + divH + rowEls.indexOf(r) * rowH + rowH / 2;
         r.dot.setAttribute('cy', String(rowY));
         r.sLbl.setAttribute('y', String(rowY));
@@ -298,13 +300,13 @@
       var absTotY = bT + hdrH + divH + series.length * rowH + divH + totH / 2;
       totLbl.setAttribute('x', String(bL + LBL_X));
       totLbl.setAttribute('y', String(absTotY));
-      totVal.setAttribute('x', String(bR - 8));
+      totVal.setAttribute('x', String(bR - 16));
       totVal.setAttribute('y', String(absTotY));
 
       var div1Y = bT + hdrH + divH / 2;
       var div2Y = bT + hdrH + divH + series.length * rowH + divH / 2;
-      tipG.insertBefore(el('line', {x1:bL+8, y1:div1Y, x2:bR-8, y2:div1Y, 'class':'tip-div'}), qLbl.nextSibling);
-      tipG.appendChild(el('line', {x1:bL+8, y1:div2Y, x2:bR-8, y2:div2Y, 'class':'tip-div'}));
+      tipG.insertBefore(el('line', {x1:bL+14, y1:div1Y, x2:bR-14, y2:div1Y, 'class':'tip-div'}), qLbl.nextSibling);
+      tipG.appendChild(el('line', {x1:bL+14, y1:div2Y, x2:bR-14, y2:div2Y, 'class':'tip-div'}));
 
       tipG.insertBefore(el('rect', {x:bL, y:bT, width:bw, height:bh, rx:rx, 'class':'tip-bg'}), tipG.firstChild);
 
@@ -354,5 +356,3 @@
 }());
 ]]></script>
 </svg>
-
-

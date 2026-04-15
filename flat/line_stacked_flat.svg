@@ -1,9 +1,4 @@
-
-
-
-
-
-<svg id="root" viewBox="40 88 1040 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<svg id="root" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
     @import url('chart-shared.css');
@@ -14,12 +9,20 @@
     svg.dark .series-1 { fill:#22D3EE; stroke:#22D3EE; } svg.dark .series-2 { fill:#A78BFA; stroke:#A78BFA; }
     svg.dark .series-3 { fill:#10B981; stroke:#10B981; } svg.dark .series-4 { fill:#FBB724; stroke:#FBB724; }
     svg.dark .series-5 { fill:#94A3B8; stroke:#94A3B8; }
+    .tick-label { font-size:22px; font-weight:500; }
+    .category-label { font-size:22px; font-weight:500; }
+    .legend-title { font-size:22px; font-weight:700; letter-spacing:0.8px; }
+    .legend-label { font-size:22px; font-weight:500; }
+    .legend-value { font-size:22px; font-weight:600; }
+    .legend-note  { font-size:22px; }
 
     .dot-g     { cursor:pointer; }
     .crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
     svg.dark .crosshair { stroke:#938F99; }
     .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     svg.print .tip { opacity:0 !important; }
+    .tip-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
+    svg.dark .tip-divider { stroke:#938F99; }
 
     @keyframes drawLine { from{stroke-dashoffset:var(--len,900)} to{stroke-dashoffset:0} }
     .line-path { stroke-dasharray:var(--len,900); stroke-dashoffset:var(--len,900);
@@ -40,6 +43,8 @@
     .data-layer.ready.hovering .area-path.active       { opacity:1; }
     .data-layer.ready.hovering .dot-inner.visible.active { opacity:1; }
 
+    .col-dot { opacity:0; transition:opacity 0.2s ease; pointer-events:none; }
+    .data-layer.ready.hovering .col-dot.active { opacity:1; }
     .tip-value { fill:#1C1B1F; font-size:28px; font-weight:700; }
     .tip-label { fill:#49454F; font-size:22px; font-weight:400; }
     svg.dark .tip-value { fill:#E6E0E9; }
@@ -47,12 +52,12 @@
   </style>
 </defs>
 
-<line x1="68" y1="500" x2="850" y2="500" class="axis-line"/>
-<line x1="68" y1="411" x2="850" y2="411" class="grid-line"/>
-<line x1="68" y1="322" x2="850" y2="322" class="grid-line"/>
-<line x1="68" y1="233" x2="850" y2="233" class="grid-line"/>
-<line x1="68" y1="144" x2="850" y2="144" class="grid-line"/>
-<line x1="68" y1="100" x2="850" y2="100" class="grid-line"/>
+<line x1="68" y1="500" x2="832" y2="500" class="axis-line"/>
+<line x1="68" y1="411" x2="832" y2="411" class="grid-line"/>
+<line x1="68" y1="322" x2="832" y2="322" class="grid-line"/>
+<line x1="68" y1="233" x2="832" y2="233" class="grid-line"/>
+<line x1="68" y1="144" x2="832" y2="144" class="grid-line"/>
+<line x1="68" y1="100" x2="832" y2="100" class="grid-line"/>
 <line x1="68" y1="100" x2="68"  y2="500" class="axis-line"/>
 
 <text x="56" y="504" class="tick-label" text-anchor="end">$0</text>
@@ -62,88 +67,82 @@
 <text x="56" y="148" class="tick-label" text-anchor="end">$200M</text>
 <text x="56" y="104" class="tick-label" text-anchor="end">$225M</text>
 
-<text x="68"  y="522" class="category-label" text-anchor="middle">Q1 '22</text>
-<text x="180" y="522" class="category-label" text-anchor="middle">Q2 '22</text>
-<text x="291" y="522" class="category-label" text-anchor="middle">Q3 '22</text>
-<text x="403" y="522" class="category-label" text-anchor="middle">Q4 '22</text>
-<text x="515" y="522" class="category-label" text-anchor="middle">Q1 '23</text>
-<text x="627" y="522" class="category-label" text-anchor="middle">Q2 '23</text>
-<text x="738" y="522" class="category-label" text-anchor="middle">Q3 '23</text>
-<text x="850" y="522" class="category-label" text-anchor="middle">Q4 '23</text>
+<text x="68"  y="530" class="category-label" text-anchor="middle">Q1 '22</text>
+<text x="171" y="530" class="category-label" text-anchor="middle">Q2 '22</text>
+<text x="274" y="530" class="category-label" text-anchor="middle">Q3 '22</text>
+<text x="377" y="530" class="category-label" text-anchor="middle">Q4 '22</text>
+<text x="480" y="530" class="category-label" text-anchor="middle">Q1 '23</text>
+<text x="583" y="530" class="category-label" text-anchor="middle">Q2 '23</text>
+<text x="686" y="530" class="category-label" text-anchor="middle">Q3 '23</text>
+<text x="789" y="530" class="category-label" text-anchor="middle">Q4 '23</text>
 
-<line x1="459" y1="100" x2="459" y2="510" stroke="#c0b8a8" stroke-width="1" stroke-dasharray="5,4" opacity="0.6"/>
-<text x="263" y="90" class="tick-label" text-anchor="middle">2022</text>
-<text x="654" y="90" class="tick-label" text-anchor="middle">2023</text>
+<line x1="429" y1="100" x2="429" y2="510" stroke="#c0b8a8" stroke-width="1" stroke-dasharray="5,4" opacity="0.6"/>
+<text x="223" y="90" class="tick-label" text-anchor="middle">2022</text>
+<text x="635" y="90" class="tick-label" text-anchor="middle">2023</text>
 
-<!-- .data-layer wraps all chart elements so .data-layer.ready.hovering scopes correctly -->
 <g class="data-layer" id="data-layer">
-  <!-- Band below stagger-5 (Slate) to baseline — owned by Slate (upper line), series-5, data-series="5" -->
-  <path id="band-base" class="area-path series-5" data-series="5" stroke="none" fill-opacity="0.17"
-    d="M68,482.2 L180,476.9 L291,480.4 L403,473.3 L515,476.9 L627,469.8 L738,473.3 L850,466.2 L850,500 L68,500 Z"/>
-  <!-- Band stagger-4↔stagger-5 — owned by Amber (upper line), series-4, data-series="4" -->
-  <path id="band-4-5" class="area-path series-4" data-series="4" stroke="none" fill-opacity="0.24"
-    d="M68,460.9 L180,450.2 L291,448.4 L403,448.4 L515,446.7 L627,434.2 L738,444.9 L850,427.1 L850,466.2 L738,473.3 L627,469.8 L515,476.9 L403,473.3 L291,480.4 L180,476.9 L68,482.2 Z"/>
-  <!-- Band stagger-3↔stagger-4 — owned by Emerald (upper line), series-3, data-series="3" -->
-  <path id="band-3-4" class="area-path series-3" data-series="3" stroke="none" fill-opacity="0.33"
-    d="M68,428.9 L180,411.1 L291,404.0 L403,396.9 L515,402.2 L627,384.4 L738,389.8 L850,364.9 L850,427.1 L738,444.9 L627,434.2 L515,446.7 L403,448.4 L291,448.4 L180,450.2 L68,460.9 Z"/>
-  <!-- Band stagger-2↔stagger-3 — owned by Violet (upper line), series-2, data-series="2" -->
-  <path id="band-2-3" class="area-path series-2" data-series="2" stroke="none" fill-opacity="0.43"
-    d="M68,379.1 L180,356.0 L291,341.8 L403,325.8 L515,324.0 L627,297.3 L738,292.0 L850,254.7 L850,364.9 L738,389.8 L627,384.4 L515,402.2 L403,396.9 L291,404.0 L180,411.1 L68,428.9 Z"/>
-  <!-- Band stagger-1↔stagger-2 — owned by Cyan (upper line), series-1, data-series="1" -->
-  <path id="band-1-2" class="area-path series-1" data-series="1" stroke="none" fill-opacity="0.55"
-    d="M68,322.2 L180,288.4 L291,268.9 L403,240.4 L515,231.6 L627,188.9 L738,171.1 L850,126.7 L850,254.7 L738,292.0 L627,297.3 L515,324.0 L403,325.8 L291,341.8 L180,356.0 L68,379.1 Z"/>
+  <path id="band-base" class="area-path series-5" data-series="5" stroke="none" fill-opacity="0.17" d="M68,482.2 L171,476.9 L274,480.4 L377,473.3 L480,476.9 L583,469.8 L686,473.3 L789,466.2 L789,500 L68,500 Z"/>
+  <path id="band-4-5" class="area-path series-4" data-series="4" stroke="none" fill-opacity="0.24" d="M68,460.9 L171,450.2 L274,448.4 L377,448.4 L480,446.7 L583,434.2 L686,444.9 L789,427.1 L789,466.2 L686,473.3 L583,469.8 L480,476.9 L377,473.3 L274,480.4 L171,476.9 L68,482.2 Z"/>
+  <path id="band-3-4" class="area-path series-3" data-series="3" stroke="none" fill-opacity="0.33" d="M68,428.9 L171,411.1 L274,404.0 L377,396.9 L480,402.2 L583,384.4 L686,389.8 L789,364.9 L789,427.1 L686,444.9 L583,434.2 L480,446.7 L377,448.4 L274,448.4 L171,450.2 L68,460.9 Z"/>
+  <path id="band-2-3" class="area-path series-2" data-series="2" stroke="none" fill-opacity="0.43" d="M68,379.1 L171,356.0 L274,341.8 L377,325.8 L480,324.0 L583,297.3 L686,292.0 L789,254.7 L789,364.9 L686,389.8 L583,384.4 L480,402.2 L377,396.9 L274,404.0 L171,411.1 L68,428.9 Z"/>
+  <path id="band-1-2" class="area-path series-1" data-series="1" stroke="none" fill-opacity="0.55" d="M68,322.2 L171,288.4 L274,268.9 L377,240.4 L480,231.6 L583,188.9 L686,171.1 L789,126.7 L789,254.7 L686,292.0 L583,297.3 L480,324.0 L377,325.8 L274,341.8 L171,356.0 L68,379.1 Z"/>
 
-  <path id="line-5" class="line-path series-5 stagger-5" data-series="5" style="--len:900;fill:none" stroke-width="2"   stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7,4" d="M68,482.2 L180,476.9 L291,480.4 L403,473.3 L515,476.9 L627,469.8 L738,473.3 L850,466.2"/>
-  <path id="line-4" class="line-path series-4 stagger-4" data-series="4" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,460.9 L180,450.2 L291,448.4 L403,448.4 L515,446.7 L627,434.2 L738,444.9 L850,427.1"/>
-  <path id="line-3" class="line-path series-3 stagger-3" data-series="3" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,428.9 L180,411.1 L291,404.0 L403,396.9 L515,402.2 L627,384.4 L738,389.8 L850,364.9"/>
-  <path id="line-2" class="line-path series-2 stagger-2" data-series="2" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,379.1 L180,356.0 L291,341.8 L403,325.8 L515,324.0 L627,297.3 L738,292.0 L850,254.7"/>
-  <path id="line-1" class="line-path series-1 stagger-1" data-series="1" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,322.2 L180,288.4 L291,268.9 L403,240.4 L515,231.6 L627,188.9 L738,171.1 L850,126.7"/>
+  <path id="line-5" class="line-path series-5 stagger-5" data-series="5" style="--len:900;fill:none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7,4" d="M68,482.2 L171,476.9 L274,480.4 L377,473.3 L480,476.9 L583,469.8 L686,473.3 L789,466.2"/>
+  <path id="line-4" class="line-path series-4 stagger-4" data-series="4" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,460.9 L171,450.2 L274,448.4 L377,448.4 L480,446.7 L583,434.2 L686,444.9 L789,427.1"/>
+  <path id="line-3" class="line-path series-3 stagger-3" data-series="3" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,428.9 L171,411.1 L274,404.0 L377,396.9 L480,402.2 L583,384.4 L686,389.8 L789,364.9"/>
+  <path id="line-2" class="line-path series-2 stagger-2" data-series="2" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,379.1 L171,356.0 L274,341.8 L377,325.8 L480,324.0 L583,297.3 L686,292.0 L789,254.7"/>
+  <path id="line-1" class="line-path series-1 stagger-1" data-series="1" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,322.2 L171,288.4 L274,268.9 L377,240.4 L480,231.6 L583,188.9 L686,171.1 L789,126.7"/>
 
   <g id="crosshairs">
-    <line id="ch0" class="crosshair" x1="68"  y1="100" x2="68"  y2="500"/>
-    <line id="ch1" class="crosshair" x1="180" y1="100" x2="180" y2="500"/>
-    <line id="ch2" class="crosshair" x1="291" y1="100" x2="291" y2="500"/>
-    <line id="ch3" class="crosshair" x1="403" y1="100" x2="403" y2="500"/>
-    <line id="ch4" class="crosshair" x1="515" y1="100" x2="515" y2="500"/>
-    <line id="ch5" class="crosshair" x1="627" y1="100" x2="627" y2="500"/>
-    <line id="ch6" class="crosshair" x1="738" y1="100" x2="738" y2="500"/>
-    <line id="ch7" class="crosshair" x1="850" y1="100" x2="850" y2="500"/>
+    <line id="ch0" class="crosshair" x1="68" y1="100" x2="68" y2="500"/>
+    <line id="ch1" class="crosshair" x1="171" y1="100" x2="171" y2="500"/>
+    <line id="ch2" class="crosshair" x1="274" y1="100" x2="274" y2="500"/>
+    <line id="ch3" class="crosshair" x1="377" y1="100" x2="377" y2="500"/>
+    <line id="ch4" class="crosshair" x1="480" y1="100" x2="480" y2="500"/>
+    <line id="ch5" class="crosshair" x1="583" y1="100" x2="583" y2="500"/>
+    <line id="ch6" class="crosshair" x1="686" y1="100" x2="686" y2="500"/>
+    <line id="ch7" class="crosshair" x1="789" y1="100" x2="789" y2="500"/>
   </g>
   <g id="dots-layer"></g>
+  <g id="hit-layer"></g>
   <g id="tip-layer"></g>
 </g>
 
-<rect x="870" y="100" width="210" height="262" rx="14" class="legend-bg"/>
-<text x="888" y="124" class="legend-title">SERIES</text>
-<g transform="translate(888,140)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Cyan</text>   <text x="188" y="11" class="legend-value" text-anchor="end">$210M</text></g>
-<g transform="translate(888,170)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Violet</text>  <text x="188" y="11" class="legend-value" text-anchor="end">$138M</text></g>
-<g transform="translate(888,200)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Emerald</text> <text x="188" y="11" class="legend-value" text-anchor="end">$76M</text></g>
-<g transform="translate(888,230)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Amber</text>   <text x="188" y="11" class="legend-value" text-anchor="end">$41M</text></g>
-<g transform="translate(888,260)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="11" class="legend-label">Slate</text>    <text x="188" y="11" class="legend-value" text-anchor="end">$19M</text></g>
-<line x1="888" y1="286" x2="1062" y2="286" class="legend-divider"/>
-<text x="888" y="306" class="legend-label">Q4 2023 cumulative</text>
-<text x="888" y="324" class="legend-note">Hover dots to inspect</text>
+<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg"/>
+<text x="878" y="118" class="legend-title">SERIES</text>
+<g transform="translate(878,146)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Cyan</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$210M</text></g>
+<g transform="translate(878,194)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Violet</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$138M</text></g>
+<g transform="translate(878,242)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Emerald</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$76M</text></g>
+<g transform="translate(878,290)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Amber</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$41M</text></g>
+<g transform="translate(878,338)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Slate</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$19M</text></g>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
 (function () {
   var svg = document.documentElement;
   svg._chartInit = function (svgEl, ctx) {
-    var dataLayerEl  = svgEl.querySelector('#data-layer');
-    var ns           = 'http://www.w3.org/2000/svg';
-    var dotsLayer    = svgEl.querySelector('#dots-layer');
-    var tipLayer     = svgEl.querySelector('#tip-layer');
+    var ns          = 'http://www.w3.org/2000/svg';
+    var dataLayerEl = svgEl.querySelector('#data-layer');
+    var dotsLayer   = svgEl.querySelector('#dots-layer');
+    var hitLayer    = svgEl.querySelector('#hit-layer');
+    var tipLayer    = svgEl.querySelector('#tip-layer');
+    var defs        = svgEl.querySelector('defs');
+    var plot        = { x:68, y:100, width:772, height:400 };
+    var revealDelays = [0, 0.25, 0.50, 0.75, 1.00];
+    var plotL = 42, plotR = 840, plotT = 100;
 
     var series = [
-      { id:1, cls:'series-1', label:'Cyan',    color:'#00D4E8', darkColor:'#22D3EE', vals:[100,119,130,146,151,175,185,210], ys:[322.2,288.4,268.9,240.4,231.6,188.9,171.1,126.7] },
-      { id:2, cls:'series-2', label:'Violet',  color:'#8B5CF6', darkColor:'#A78BFA', vals:[68,81,89,98,99,114,117,138],      ys:[379.1,356.0,341.8,325.8,324.0,297.3,292.0,254.7] },
-      { id:3, cls:'series-3', label:'Emerald', color:'#00B87A', darkColor:'#10B981', vals:[40,50,54,58,55,65,62,76],         ys:[428.9,411.1,404.0,396.9,402.2,384.4,389.8,364.9] },
-      { id:4, cls:'series-4', label:'Amber',   color:'#F59E0B', darkColor:'#FBB724', vals:[22,28,29,29,30,37,31,41],         ys:[460.9,450.2,448.4,448.4,446.7,434.2,444.9,427.1] },
-      { id:5, cls:'series-5', label:'Slate',   color:'#64748B', darkColor:'#94A3B8', vals:[10,13,11,15,13,17,15,19],         ys:[482.2,476.9,480.4,473.3,476.9,469.8,473.3,466.2] },
+      { id:1, cls:'series-1', label:'Cyan',    vals:[100,119,130,146,151,175,185,210], ys:[322.2,288.4,268.9,240.4,231.6,188.9,171.1,126.7] },
+      { id:2, cls:'series-2', label:'Violet',  vals:[68,81,89,98,99,114,117,138],      ys:[379.1,356.0,341.8,325.8,324.0,297.3,292.0,254.7] },
+      { id:3, cls:'series-3', label:'Emerald', vals:[40,50,54,58,55,65,62,76],         ys:[428.9,411.1,404.0,396.9,402.2,384.4,389.8,364.9] },
+      { id:4, cls:'series-4', label:'Amber',   vals:[22,28,29,29,30,37,31,41],         ys:[460.9,450.2,448.4,448.4,446.7,434.2,444.9,427.1] },
+      { id:5, cls:'series-5', label:'Slate',   vals:[10,13,11,15,13,17,15,19],         ys:[482.2,476.9,480.4,473.3,476.9,469.8,473.3,466.2] }
     ];
-
     var quarters = ["Q1 '22","Q2 '22","Q3 '22","Q4 '22","Q1 '23","Q2 '23","Q3 '23","Q4 '23"];
-    var xs = [68,180,291,403,515,627,738,850];
+    var xs = [68,171,274,377,480,583,686,789];
+    var totals = xs.map(function(_, qi) {
+      return series.reduce(function(sum, s) { return sum + s.vals[qi]; }, 0);
+    });
     var allTips = {};
 
     function el(tag, attrs) {
@@ -152,139 +151,205 @@
       return e;
     }
 
-    function setHover(activeSid) {
-      dataLayerEl.classList.add('hovering');
-      series.forEach(function(s) {
-        var line = svgEl.querySelector('#line-'+s.id);
-        if (line) line.classList.remove('active');
-        xs.forEach(function(_, qi) {
-          var inner = svgEl.querySelector('#d'+s.id+'_'+qi+' .dot-inner');
-          if (inner) inner.classList.remove('active');
-        });
-      });
-      dataLayerEl.querySelectorAll('.area-path').forEach(function(band) {
-        band.classList.remove('active');
-      });
-      series.forEach(function(s) {
-        var isActive = (s.id === activeSid);
-        var line = svgEl.querySelector('#line-'+s.id);
-        if (line) line.classList.toggle('active', isActive);
-        xs.forEach(function(_, qi) {
-          var inner = svgEl.querySelector('#d'+s.id+'_'+qi+' .dot-inner');
-          if (inner) inner.classList.toggle('active', isActive);
-        });
-      });
-      dataLayerEl.querySelectorAll('.area-path').forEach(function(band) {
-        band.classList.toggle('active', +band.getAttribute('data-series') === activeSid);
-      });
-    }
-
-    function clearHover() {
-      dataLayerEl.classList.remove('hovering');
-      series.forEach(function(s) {
-        var line=svgEl.querySelector('#line-'+s.id);
-        if (line) line.classList.remove('active');
-        xs.forEach(function(_, qi) {
-          var inner=svgEl.querySelector('#d'+s.id+'_'+qi+' .dot-inner');
-          if (inner) inner.classList.remove('active');
-        });
-      });
-      dataLayerEl.querySelectorAll('.area-path').forEach(function(band) {
-        band.classList.remove('active');
-      });
-    }
+    [
+      { selector:'#band-1-2', id:1 },
+      { selector:'#band-2-3', id:2 },
+      { selector:'#band-3-4', id:3 },
+      { selector:'#band-4-5', id:4 },
+      { selector:'#band-base', id:5 }
+    ].forEach(function(band, i) {
+      var area = svgEl.querySelector(band.selector);
+      if (!area) return;
+      var areaClip = el('clipPath', { id:'line-stack-reveal-' + band.id, clipPathUnits:'userSpaceOnUse' });
+      var revealRect = el('rect', { x:plot.x, y:plot.y, width:0, height:plot.height });
+      areaClip.appendChild(revealRect);
+      defs.appendChild(areaClip);
+      area.setAttribute('clip-path', 'url(#line-stack-reveal-' + band.id + ')');
+      (function(rect, delay) {
+        var startAt = performance.now() + delay * 1000;
+        var duration = 1200;
+        function ease(t) { return 1 - Math.pow(1 - t, 3); }
+        function tick(now) {
+          if (now < startAt) return requestAnimationFrame(tick);
+          var p = Math.min((now - startAt) / duration, 1);
+          rect.setAttribute('width', String(plot.width * ease(p)));
+          if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }(revealRect, revealDelays[i]));
+    });
 
     series.forEach(function(s) {
       xs.forEach(function(x, qi) {
-        var y=s.ys[qi], key=s.id+'_'+qi;
-        var delay=((s.id-1)*0.25+qi*0.06)+'s';
+        var y = s.ys[qi];
+        var key = s.id + '_' + qi;
+        var delay = ((s.id - 1) * 0.25 + qi * 0.06) + 's';
 
-        var dg=el('g',{'class':'dot-g',id:'d'+key});
-        var inner=el('g',{'class':'dot-inner',style:'transform-origin:'+x+'px '+y+'px'});
-        inner.style.animation='popDot 0.35s cubic-bezier(0.34,1.4,0.64,1) '+delay;
-        inner.addEventListener('animationend',function(){
-          inner.style.animation='none';
+        var dg = el('g', {'class':'dot-g', id:'d'+key});
+        var inner = el('g', {'class':'dot-inner', style:'transform-origin:'+x+'px '+y+'px'});
+        inner.style.animation = 'popDot 0.35s cubic-bezier(0.34,1.4,0.64,1) ' + delay;
+        inner.addEventListener('animationend', function() {
+          inner.style.animation = 'none';
           inner.classList.add('visible');
-        },{once:true});
-        var dot=el('circle',{cx:x,cy:y,r:5,'class':s.cls,stroke:'none'});
-        inner.appendChild(dot); dg.appendChild(inner); dotsLayer.appendChild(dg);
+        }, { once:true });
+        inner.appendChild(el('circle', { cx:x, cy:y, r:5, 'class':s.cls, stroke:'none' }));
+        dg.appendChild(inner);
+        dotsLayer.appendChild(dg);
 
-        var TAIL=14, bh=200, rx=12, tw=10, PAD=20;
-
-        var tipG=el('g',{'class':'tip',id:'t'+key});
-        tipLayer.appendChild(tipG); allTips[key]=tipG;
-
-        var tv=el('text',{x:0,y:0,'text-anchor':'middle','dominant-baseline':'central','class':'tip-value'});
-        tv.textContent='$'+s.vals[qi]+'M total'; tipG.appendChild(tv);
-        var tl=el('text',{x:0,y:0,'text-anchor':'middle','dominant-baseline':'central','class':'tip-label'});
-        tl.textContent=s.label+' · '+quarters[qi]; tipG.appendChild(tl);
-
-        var bw = Math.max(tv.getBBox().width + PAD, tl.getBBox().width + PAD, 220);
-
-        /* side placement: go whichever side has more room */
-        var spaceR = 850 - x, spaceL = x - 68;
-        var goRight = spaceR >= spaceL;
-        var bL, bR;
-        if (goRight) { bL = x + TAIL; bR = bL + bw; }
-        else          { bR = x - TAIL; bL = bR - bw; }
-
-        /* vertical: center on dot, clamp to chart */
-        var bT = y - bh / 2, bB = bT + bh;
-        if (bT < 100) { bT = 100; bB = bT + bh; }
-        if (bB > 500) { bB = 500; bT = bB - bh; }
-        var tY = Math.max(bT + rx + tw, Math.min(bB - rx - tw, y));
-
-        tv.setAttribute('x', String(bL + bw / 2));
-        tv.setAttribute('y', String(bT + bh * 0.35));
-        tl.setAttribute('x', String(bL + bw / 2));
-        tl.setAttribute('y', String(bT + bh * 0.65));
-
-        tipG.insertBefore(el('rect',{x:String(bL),y:String(bT),width:String(bw),height:String(bh),rx:String(rx),'class':'tip-bg'}), tv);
-
-        var op, tp;
-        if (goRight) {
-          op = 'M'+bL+','+(tY-tw)+
-               ' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+
-               ' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+
-               ' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+
-               ' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+
-               ' L'+bL+','+(tY+tw);
-          tp = 'M'+bL+','+(tY+tw)+' L'+x+','+y+' L'+bL+','+(tY-tw);
-        } else {
-          op = 'M'+bR+','+(tY+tw)+
-               ' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+
-               ' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+
-               ' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+
-               ' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+
-               ' L'+bR+','+(tY-tw);
-          tp = 'M'+bR+','+(tY-tw)+' L'+x+','+y+' L'+bR+','+(tY+tw);
-        }
-        tipG.insertBefore(el('path',{d:op,'class':'tip-border'}), tv);
-        tipG.insertBefore(el('path',{d:tp,'class':'tip-tail'}), tv);
-
-        var ch=svgEl.querySelector('#ch'+qi);
-        dg.addEventListener('mouseenter',function(){
-          allTips[key].style.opacity='1';
-          if(ch) ch.style.opacity='1';
-          dot.setAttribute('r','7');
-          setHover(s.id);
-        });
-        dg.addEventListener('mouseleave',function(){
-          allTips[key].style.opacity='';
-          if(ch) ch.style.opacity='';
-          dot.setAttribute('r','5');
-          clearHover();
-        });
+        dotsLayer.appendChild(el('circle', { cx:x, cy:y, r:4, 'class':'col-dot ' + s.cls, 'data-col':qi, stroke:'none' }));
       });
     });
 
-    var lastDelay=(series.length-1)*0.25+(xs.length-1)*0.06;
-    setTimeout(function(){ dataLayerEl.classList.add('ready'); },(lastDelay+0.35)*1000+100);
+    function setColumnHover(qi, mouseY) {
+      dataLayerEl.classList.add('hovering');
+      svgEl.querySelectorAll('.line-path').forEach(function(line) { line.classList.remove('active'); });
+      svgEl.querySelectorAll('.area-path').forEach(function(area) { area.classList.remove('active'); });
+      svgEl.querySelectorAll('.dot-inner').forEach(function(dot) { dot.classList.remove('active'); });
+      var bestSid = series[0].id, bestDist = Infinity;
+      if (typeof mouseY === 'number') {
+        series.forEach(function(s) {
+          var dist = Math.abs(s.ys[qi] - mouseY);
+          if (dist < bestDist) { bestDist = dist; bestSid = s.id; }
+        });
+      }
+      var activeLine = svgEl.querySelector('#line-'+bestSid);
+      if (activeLine) activeLine.classList.add('active');
+      var activeArea = svgEl.querySelector('.area-path[data-series="'+bestSid+'"]');
+      if (activeArea) activeArea.classList.add('active');
+      series.forEach(function(s) {
+        var inner = svgEl.querySelector('#d'+s.id+'_'+qi+' .dot-inner');
+        if (inner) inner.classList.toggle('active', s.id === bestSid);
+      });
+      dotsLayer.querySelectorAll('.col-dot').forEach(function(dot) { dot.classList.remove('active'); });
+      dotsLayer.querySelectorAll('.col-dot[data-col="'+qi+'"]').forEach(function(dot) {
+        dot.classList.toggle('active', dot.getAttribute('class').indexOf('series-'+bestSid) !== -1);
+      });
+    }
 
+    function clearColumnHover() {
+      dataLayerEl.classList.remove('hovering');
+      svgEl.querySelectorAll('.line-path').forEach(function(line) { line.classList.remove('active'); });
+      svgEl.querySelectorAll('.area-path').forEach(function(area) { area.classList.remove('active'); });
+      svgEl.querySelectorAll('.dot-inner').forEach(function(dot) { dot.classList.remove('active'); });
+      dotsLayer.querySelectorAll('.col-dot').forEach(function(dot) { dot.classList.remove('active'); });
+    }
+
+    xs.forEach(function(x, qi) {
+      var PAD = 22, DOT_R = 5, DOT_X = 20, LBL_X = 38, rx = 12;
+      var rowH = 42, hdrH = 38, divH = 12, totH = 46;
+      var TAIL = 14, tw = 10;
+      var bh = hdrH + divH + series.length * rowH + divH + totH + PAD;
+
+      var tipG = el('g', {'class':'tip', id:'tip_'+qi});
+      tipLayer.appendChild(tipG);
+      allTips[qi] = tipG;
+
+      var qLbl = el('text', {x:0, y:0, 'text-anchor':'middle', 'dominant-baseline':'central', 'class':'tip-label'});
+      qLbl.textContent = quarters[qi];
+      tipG.appendChild(qLbl);
+
+      var rowEls = [];
+      series.forEach(function(s) {
+        var dot  = el('circle', {cx:0, cy:0, r:DOT_R, 'class':s.cls});
+        var sLbl = el('text', {x:0, y:0, 'dominant-baseline':'central', 'class':'tip-label'});
+        sLbl.textContent = s.label;
+        var sVal = el('text', {x:0, y:0, 'text-anchor':'end', 'dominant-baseline':'central', 'class':'tip-value', 'font-size':'18'});
+        sVal.textContent = '$' + s.vals[qi] + 'M';
+        tipG.appendChild(dot); tipG.appendChild(sLbl); tipG.appendChild(sVal);
+        rowEls.push({ dot:dot, sLbl:sLbl, sVal:sVal });
+      });
+
+      var totLbl = el('text', {x:0, y:0, 'dominant-baseline':'central', 'class':'tip-label'});
+      totLbl.textContent = 'Total';
+      var totVal = el('text', {x:0, y:0, 'text-anchor':'end', 'dominant-baseline':'central', 'class':'tip-value'});
+      totVal.textContent = '$' + totals[qi] + 'M';
+      tipG.appendChild(totLbl); tipG.appendChild(totVal);
+
+      var maxLblW = 0;
+      rowEls.forEach(function(r) { maxLblW = Math.max(maxLblW, LBL_X + r.sLbl.getBBox().width + 8); });
+      maxLblW = Math.max(maxLblW, LBL_X + totLbl.getBBox().width + 8);
+      var maxValW = 0;
+      rowEls.forEach(function(r) { maxValW = Math.max(maxValW, r.sVal.getBBox().width); });
+      maxValW = Math.max(maxValW, totVal.getBBox().width);
+      var hw = Math.max((maxLblW + maxValW) / 2 + PAD, 160);
+      var bw = hw * 2;
+
+      var spaceR = plotR - x, spaceL = x - plotL;
+      var goRight = spaceR >= spaceL;
+      var bL, bR;
+      if (goRight) { bL = x + TAIL; bR = bL + bw; }
+      else         { bR = x - TAIL; bL = bR - bw; }
+      var bCx = (bL + bR) / 2;
+
+      var bT = 304 - bh / 2, bB = bT + bh;
+      if (bT < plotT) { bT = plotT; bB = bT + bh; }
+      if (bB > 508) { bB = 508; bT = bB - bh; }
+      var ancY = (bT + bB) / 2;
+      var tY = Math.max(bT + rx + tw, Math.min(bB - rx - tw, ancY));
+
+      qLbl.setAttribute('x', String(bCx));
+      qLbl.setAttribute('y', String(bT + hdrH / 2));
+      rowEls.forEach(function(r, index) {
+        var rowY = bT + hdrH + divH + index * rowH + rowH / 2;
+        r.dot.setAttribute('cx', String(bL + DOT_X));
+        r.dot.setAttribute('cy', String(rowY));
+        r.sLbl.setAttribute('x', String(bL + LBL_X));
+        r.sLbl.setAttribute('y', String(rowY));
+        r.sVal.setAttribute('x', String(bR - 16));
+        r.sVal.setAttribute('y', String(rowY));
+      });
+      var absTotY = bT + hdrH + divH + series.length * rowH + divH + totH / 2;
+      totLbl.setAttribute('x', String(bL + LBL_X));
+      totLbl.setAttribute('y', String(absTotY));
+      totVal.setAttribute('x', String(bR - 16));
+      totVal.setAttribute('y', String(absTotY));
+
+      var div1Y = bT + hdrH + divH / 2;
+      var div2Y = bT + hdrH + divH + series.length * rowH + divH / 2;
+      tipG.insertBefore(el('line', {x1:bL+14, y1:div1Y, x2:bR-14, y2:div1Y, 'class':'tip-divider'}), qLbl.nextSibling);
+      tipG.appendChild(el('line', {x1:bL+14, y1:div2Y, x2:bR-14, y2:div2Y, 'class':'tip-divider'}));
+      tipG.insertBefore(el('rect', {x:bL, y:bT, width:bw, height:bh, rx:rx, 'class':'tip-bg'}), tipG.firstChild);
+
+      var borderPath, tailPath;
+      if (goRight) {
+        borderPath = 'M'+bL+','+(tY-tw)+' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+' L'+bL+','+(tY+tw);
+        tailPath = 'M'+bL+','+(tY+tw)+' L'+x+','+ancY+' L'+bL+','+(tY-tw);
+      } else {
+        borderPath = 'M'+bR+','+(tY+tw)+' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+' L'+bR+','+(tY-tw);
+        tailPath = 'M'+bR+','+(tY-tw)+' L'+x+','+ancY+' L'+bR+','+(tY+tw);
+      }
+      tipG.insertBefore(el('path', {d:borderPath, 'class':'tip-border'}), tipG.children[1]);
+      tipG.insertBefore(el('path', {d:tailPath, 'class':'tip-tail'}), tipG.children[2]);
+
+      var hx1 = Math.max(68, x - 56);
+      var hx2 = Math.min(832, x + 56);
+      var hit = el('rect', {x:hx1, y:100, width:hx2-hx1, height:400, fill:'transparent', cursor:'crosshair'});
+      hitLayer.appendChild(hit);
+      var ch = svgEl.querySelector('#ch'+qi);
+
+      hit.addEventListener('mouseenter', function(e) {
+        var pt = svgEl.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+        var sp = pt.matrixTransform(svgEl.getScreenCTM().inverse());
+        setColumnHover(qi, sp.y);
+        allTips[qi].style.opacity = '1';
+        if (ch) ch.style.opacity = '1';
+      });
+      hit.addEventListener('mousemove', function(e) {
+        var pt = svgEl.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+        var sp = pt.matrixTransform(svgEl.getScreenCTM().inverse());
+        setColumnHover(qi, sp.y);
+      });
+      hit.addEventListener('mouseleave', function() {
+        clearColumnHover();
+        allTips[qi].style.opacity = '';
+        if (ch) ch.style.opacity = '';
+      });
+    });
+
+    var lastDelay = (series.length - 1) * 0.25 + (xs.length - 1) * 0.06;
+    setTimeout(function(){ dataLayerEl.classList.add('ready'); }, (lastDelay + 0.35) * 1000 + 100);
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());
 ]]></script>
 </svg>
-
-
