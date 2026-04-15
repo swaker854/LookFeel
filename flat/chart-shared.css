@@ -32,30 +32,42 @@ svg {
   --series-24: var(--series-8);
 }
 
-.series-1 { fill: var(--series-1); }
-.series-2 { fill: var(--series-2); }
-.series-3 { fill: var(--series-3); }
-.series-4 { fill: var(--series-4); }
-.series-5 { fill: var(--series-5); }
-.series-6 { fill: var(--series-6); }
-.series-7 { fill: var(--series-7); }
-.series-8 { fill: var(--series-8); }
-.series-9 { fill: var(--series-9); }
-.series-10 { fill: var(--series-10); }
-.series-11 { fill: var(--series-11); }
-.series-12 { fill: var(--series-12); }
-.series-13 { fill: var(--series-13); }
-.series-14 { fill: var(--series-14); }
-.series-15 { fill: var(--series-15); }
-.series-16 { fill: var(--series-16); }
-.series-17 { fill: var(--series-17); }
-.series-18 { fill: var(--series-18); }
-.series-19 { fill: var(--series-19); }
-.series-20 { fill: var(--series-20); }
-.series-21 { fill: var(--series-21); }
-.series-22 { fill: var(--series-22); }
-.series-23 { fill: var(--series-23); }
-.series-24 { fill: var(--series-24); }
+svg.dark {
+  --series-1: #22D3EE;
+  --series-2: #10B981;
+  --series-3: #FBB724;
+  --series-4: #FB6181;
+  --series-5: #A78BFA;
+  --series-6: #60A5FA;
+  --series-7: #2DD4BF;
+  --series-8: #94A3B8;
+}
+
+.series-1 { --series-color: var(--series-1); fill: var(--series-color); }
+.series-2 { --series-color: var(--series-2); fill: var(--series-color); }
+.series-3 { --series-color: var(--series-3); fill: var(--series-color); }
+.series-4 { --series-color: var(--series-4); fill: var(--series-color); }
+.series-5 { --series-color: var(--series-5); fill: var(--series-color); }
+.series-6 { --series-color: var(--series-6); fill: var(--series-color); }
+.series-7 { --series-color: var(--series-7); fill: var(--series-color); }
+.series-8 { --series-color: var(--series-8); fill: var(--series-color); }
+.series-9 { --series-color: var(--series-9); fill: var(--series-color); }
+.series-10 { --series-color: var(--series-10); fill: var(--series-color); }
+.series-11 { --series-color: var(--series-11); fill: var(--series-color); }
+.series-12 { --series-color: var(--series-12); fill: var(--series-color); }
+.series-13 { --series-color: var(--series-13); fill: var(--series-color); }
+.series-14 { --series-color: var(--series-14); fill: var(--series-color); }
+.series-15 { --series-color: var(--series-15); fill: var(--series-color); }
+.series-16 { --series-color: var(--series-16); fill: var(--series-color); }
+.series-17 { --series-color: var(--series-17); fill: var(--series-color); }
+.series-18 { --series-color: var(--series-18); fill: var(--series-color); }
+.series-19 { --series-color: var(--series-19); fill: var(--series-color); }
+.series-20 { --series-color: var(--series-20); fill: var(--series-color); }
+.series-21 { --series-color: var(--series-21); fill: var(--series-color); }
+.series-22 { --series-color: var(--series-22); fill: var(--series-color); }
+.series-23 { --series-color: var(--series-23); fill: var(--series-color); }
+.series-24 { --series-color: var(--series-24); fill: var(--series-color); }
+.use-series-stroke { stroke: var(--series-color); }
 
 /* ── Card chrome ── */
 .card-bg        { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
@@ -98,6 +110,7 @@ svg.print .print-track  { fill:#d97316; }
 .tip-bg     { fill:#FFFBFE; }
 .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
 .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
+.tip-divider, .tip-div { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
 .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
 .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
 /* Additional tip text roles — used by charts with richer tooltip layouts */
@@ -109,6 +122,15 @@ svg.print .print-track  { fill:#d97316; }
 .data-tip  { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
 .data-item.active .data-tip { opacity:1; }
 svg.print .data-tip { opacity:0 !important; }
+
+svg.chart-standard .tick-label     { font-size:22px; font-weight:500; }
+svg.chart-standard .category-label { font-size:22px; font-weight:500; }
+svg.chart-standard .legend-title   { font-size:22px; font-weight:700; letter-spacing:0.8px; }
+svg.chart-standard .legend-label   { font-size:22px; font-weight:500; }
+svg.chart-standard .legend-value   { font-size:22px; font-weight:600; }
+svg.chart-standard .legend-note    { font-size:22px; }
+svg.chart-standard .tip-value      { font-size:28px; font-weight:700; }
+svg.chart-standard .tip-label      { font-size:22px; font-weight:400; }
 
 /* ── Hover dimming — standard (non-gated) pattern ── */
 .data-layer.hovering .data-item        { opacity:0.20; transition:opacity 0.15s; }
@@ -149,6 +171,7 @@ svg.dark.print .print-track { fill:#d97316; }
 svg.dark .tip-bg     { fill:#1C1B1F; }
 svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; }
 svg.dark .tip-tail   { fill:#1C1B1F; stroke:#938F99; }
+svg.dark .tip-divider, svg.dark .tip-div { stroke:#938F99; }
 svg.dark .tip-value  { fill:#E6E0E9; }
 svg.dark .tip-label  { fill:#CAC4D0; }
 svg.dark .tip-sub    { fill:#938F99; }

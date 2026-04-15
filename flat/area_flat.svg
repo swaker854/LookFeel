@@ -2,7 +2,7 @@
 
 
 
-<svg id="root" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
 <defs>
   <clipPath id="chartclip">
     <rect x="68" y="100" width="772" height="400"/>
@@ -10,20 +10,10 @@
   <style>
     @import url('chart-shared.css');
 
-    .series-1 { fill:#00D4E8; stroke:#00D4E8; } .series-2 { fill:#8B5CF6; stroke:#8B5CF6; }
-    .series-3 { fill:#00B87A; stroke:#00B87A; } .series-4 { fill:#F59E0B; stroke:#F59E0B; }
-    .series-5 { fill:#64748B; stroke:#64748B; }
-
-    svg.dark .series-1 { fill:#22D3EE; stroke:#22D3EE; } svg.dark .series-2 { fill:#A78BFA; stroke:#A78BFA; }
-    svg.dark .series-3 { fill:#10B981; stroke:#10B981; } svg.dark .series-4 { fill:#FBB724; stroke:#FBB724; }
-    svg.dark .series-5 { fill:#94A3B8; stroke:#94A3B8; }
-
     .crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
     svg.dark .crosshair { stroke:#938F99; }
     .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     svg.print .tip { opacity:0 !important; }
-    .tip-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    svg.dark .tip-divider { stroke:#938F99; }
 
     @keyframes drawWave { from{stroke-dashoffset:var(--len,900);} to{stroke-dashoffset:0;} }
     .wave-edge         { stroke-dasharray:var(--len,900); stroke-dashoffset:var(--len,900);
@@ -49,16 +39,6 @@
     .data-layer.ready.hovering .dot-inner.visible                 { opacity: 0; }
     .data-layer.ready.hovering .dot-inner.visible.active          { opacity: 0; }
 
-    .tip-value { fill:#1C1B1F; font-size:28px; font-weight:700; }
-    .tip-label { fill:#49454F; font-size:22px; font-weight:400; }
-    .tick-label { font-size:22px; font-weight:500; }
-    .category-label { font-size:22px; font-weight:500; }
-    .legend-title { font-size:22px; font-weight:700; letter-spacing:0.8px; }
-    .legend-label { font-size:22px; font-weight:500; }
-    .legend-value { font-size:22px; font-weight:600; }
-    .legend-note  { font-size:22px; }
-    svg.dark .tip-value { fill:#E6E0E9; }
-    svg.dark .tip-label { fill:#CAC4D0; }
   </style>
 </defs>
 
@@ -102,20 +82,20 @@
   <path id="area-5" class="area-fill series-5 f5" data-series="5" fill-opacity="0.20" stroke="none"
     d="M68,504 L68,281.8 C119.5,281.8 119.5,403.0 171,403.0 C222.5,403.0 222.5,411.1 274,411.1 C325.5,411.1 325.5,399.0 377,399.0 C428.5,399.0 428.5,407.0 480,407.0 C531.5,407.0 531.5,394.9 583,394.9 C634.5,394.9 634.5,415.1 686,415.1 C737.5,415.1 737.5,403.0 789,403.0 L789,504 Z"/>
 
-  <!-- Wave edges — all stroke-width 2 for consistency -->
-  <path id="we1" class="wave-edge series-1 w1" data-series="1" style="fill:none"
+  <!-- Wave edges â€” all stroke-width 2 for consistency -->
+<path id="we1" class="wave-edge series-1 use-series-stroke w1" data-series="1" style="fill:none"
     stroke-width="2" stroke-linecap="round"
     d="M377,281.8 C428.5,281.8 428.5,180.8 480,180.8 C531.5,180.8 531.5,221.2 583,221.2 C634.5,221.2 634.5,302.0 686,302.0 C737.5,302.0 737.5,241.4 789,241.4"/>
-  <path id="we2" class="wave-edge series-2 w2" data-series="2" style="fill:none"
+<path id="we2" class="wave-edge series-2 use-series-stroke w2" data-series="2" style="fill:none"
     stroke-width="2" stroke-linecap="round"
     d="M68,423.2 C119.5,423.2 119.5,322.2 171,322.2 C222.5,322.2 222.5,221.2 274,221.2 C325.5,221.2 325.5,281.8 377,281.8 C428.5,281.8 428.5,362.6 480,362.6 C531.5,362.6 531.5,201.0 583,201.0 C634.5,201.0 634.5,160.6 686,160.6 C737.5,160.6 737.5,213.1 789,213.1"/>
-  <path id="we3" class="wave-edge series-3 w3" data-series="3" style="fill:none"
+<path id="we3" class="wave-edge series-3 use-series-stroke w3" data-series="3" style="fill:none"
     stroke-width="2" stroke-linecap="round"
     d="M171,382.8 C222.5,382.8 222.5,281.8 274,281.8 C325.5,281.8 325.5,180.8 377,180.8 C428.5,180.8 428.5,261.6 480,261.6 C531.5,261.6 531.5,342.4 583,342.4 C634.5,342.4 634.5,504.0 686,504.0"/>
-  <path id="we4" class="wave-edge series-4 w4" data-series="4" style="fill:none"
+<path id="we4" class="wave-edge series-4 use-series-stroke w4" data-series="4" style="fill:none"
     stroke-width="2" stroke-linecap="round"
     d="M68,443.4 C119.5,443.4 119.5,302.0 171,302.0 C222.5,302.0 222.5,431.3 274,431.3 C325.5,431.3 325.5,403.0 377,403.0 C428.5,403.0 428.5,281.8 480,281.8 C531.5,281.8 531.5,382.8 583,382.8 C634.5,382.8 634.5,322.2 686,322.2 C737.5,322.2 737.5,261.6 789,261.6"/>
-  <path id="we5" class="wave-edge series-5 w5" data-series="5" style="fill:none"
+<path id="we5" class="wave-edge series-5 use-series-stroke w5" data-series="5" style="fill:none"
     stroke-width="2" stroke-linecap="round" stroke-dasharray="7,4"
     d="M68,281.8 C119.5,281.8 119.5,403.0 171,403.0 C222.5,403.0 222.5,411.1 274,411.1 C325.5,411.1 325.5,399.0 377,399.0 C428.5,399.0 428.5,407.0 480,407.0 C531.5,407.0 531.5,394.9 583,394.9 C634.5,394.9 634.5,415.1 686,415.1 C737.5,415.1 737.5,403.0 789,403.0"/>
 </g>
@@ -138,10 +118,10 @@
 <rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg"/>
 <text x="878" y="118" class="legend-title">SERIES</text>
 <g transform="translate(878,146)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Cyan</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$65M</text></g>
-<g transform="translate(878,194)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Violet</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$72M</text></g>
-<g transform="translate(878,242)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Emerald</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$50M</text></g>
-<g transform="translate(878,290)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Amber</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$60M</text></g>
-<g transform="translate(878,338)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Slate</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$25M</text></g>
+<g transform="translate(878,194)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Emerald</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$72M</text></g>
+<g transform="translate(878,242)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Amber</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$50M</text></g>
+<g transform="translate(878,290)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Rose</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$60M</text></g>
+<g transform="translate(878,338)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Violet</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$25M</text></g>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -158,13 +138,13 @@
     var series = [
       { id:1, cls:'series-1', label:'Cyan',
         vals:[0,0,0,55,80,70,50,65], ys:[504.0,504.0,504.0,281.8,180.8,221.2,302.0,241.4] },
-      { id:2, cls:'series-2', label:'Violet',
+      { id:2, cls:'series-2', label:'Emerald',
         vals:[20,45,70,55,35,75,85,72], ys:[423.2,322.2,221.2,281.8,362.6,201.0,160.6,213.1] },
-      { id:3, cls:'series-3', label:'Emerald',
+      { id:3, cls:'series-3', label:'Amber',
         vals:[0,30,55,80,60,40,0,0], ys:[504.0,382.8,281.8,180.8,261.6,342.4,504.0,504.0] },
-      { id:4, cls:'series-4', label:'Amber',
+      { id:4, cls:'series-4', label:'Rose',
         vals:[15,50,18,25,55,30,45,60], ys:[443.4,302.0,431.3,403.0,281.8,382.8,322.2,261.6] },
-      { id:5, cls:'series-5', label:'Slate',
+      { id:5, cls:'series-5', label:'Violet',
         vals:[55,25,23,26,24,27,22,25], ys:[281.8,403.0,411.1,399.0,407.0,394.9,415.1,403.0] },
     ];
 
@@ -174,11 +154,7 @@
     var waveDelays = [0, 0.25, 0.50, 0.75, 1.00];
     var plotL = 42, plotR = 840, plotT = 100, plotB = 500;
 
-    function el(tag, attrs) {
-      var e = document.createElementNS(ns, tag);
-      Object.keys(attrs).forEach(function(k){ e.setAttribute(k, attrs[k]); });
-      return e;
-    }
+    var el = ctx.el;
 
     function setHover(activeSid) {
       dataLayerEl.classList.add('hovering');
@@ -229,53 +205,24 @@
         var dot=el('circle',{cx:x,cy:y,r:5,'class':s.cls,stroke:'none'});
         inner.appendChild(dot); dg.appendChild(inner); dotsL.appendChild(dg);
 
-        var TAIL=14, bh=200, rx=12, tw=10, PAD=20;
         var tipG=el('g',{'class':'tip',id:'t'+key});
         tipLayer.appendChild(tipG); allTips[key]=tipG;
-
-        var tv=el('text',{x:0,y:0,'text-anchor':'middle','dominant-baseline':'central','class':'tip-value'});
-        tv.textContent='$'+s.vals[qi]+'M'; tipG.appendChild(tv);
-        var tl=el('text',{x:0,y:0,'text-anchor':'middle','dominant-baseline':'central','class':'tip-label'});
-        tl.textContent=s.label+' - '+quarters[qi]; tipG.appendChild(tl);
-
-        var bw = Math.max(tv.getBBox().width + PAD, tl.getBBox().width + PAD, 220);
-        var spaceR = plotR - x, spaceL = x - plotL;
-        var goRight = spaceR >= spaceL;
-        var bL, bR;
-        if (goRight) { bL = x + TAIL; bR = bL + bw; }
-        else          { bR = x - TAIL; bL = bR - bw; }
-
-        var bT = y - bh / 2, bB = bT + bh;
-        if (bT < plotT) { bT = plotT; bB = bT + bh; }
-        if (bB > plotB) { bB = plotB; bT = bB - bh; }
-        var tY = Math.max(bT + rx + tw, Math.min(bB - rx - tw, y));
-
-        tv.setAttribute('x', String(bL + bw / 2));
-        tv.setAttribute('y', String(bT + bh * 0.35));
-        tl.setAttribute('x', String(bL + bw / 2));
-        tl.setAttribute('y', String(bT + bh * 0.65));
-        tipG.insertBefore(el('rect',{x:String(bL),y:String(bT),width:String(bw),height:String(bh),rx:String(rx),'class':'tip-bg'}), tv);
-
-        var op, tp;
-        if (goRight) {
-          op = 'M'+bL+','+(tY-tw)+
-               ' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+
-               ' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+
-               ' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+
-               ' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+
-               ' L'+bL+','+(tY+tw);
-          tp = 'M'+bL+','+(tY+tw)+' L'+x+','+y+' L'+bL+','+(tY-tw);
-        } else {
-          op = 'M'+bR+','+(tY+tw)+
-               ' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+
-               ' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+
-               ' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+
-               ' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+
-               ' L'+bR+','+(tY-tw);
-          tp = 'M'+bR+','+(tY-tw)+' L'+x+','+y+' L'+bR+','+(tY+tw);
-        }
-        tipG.insertBefore(el('path',{d:op,'class':'tip-border'}), tv);
-        tipG.insertBefore(el('path',{d:tp,'class':'tip-tail'}), tv);
+        ctx.layoutSideTooltip(tipG, {
+          anchorX: x,
+          anchorY: y,
+          plotL: plotL,
+          plotR: plotR,
+          plotT: plotT,
+          plotB: plotB,
+          lines: [
+            { text: '$'+s.vals[qi]+'M', className: 'tip-value' },
+            { text: s.label+' - '+quarters[qi], className: 'tip-label' }
+          ],
+          lineHeights: [70, 70],
+          minWidth: 220,
+          paddingX: 20,
+          paddingY: 30
+        });
 
         var ch=svgEl.querySelector('#ch'+qi);
         dg.addEventListener('mouseenter',function(){

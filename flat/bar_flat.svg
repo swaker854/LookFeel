@@ -1,20 +1,10 @@
+﻿
 
 
-
-<svg id="root" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
     @import url('chart-shared.css');
-
-    .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
-    .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
-    .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
-    .series-7 { fill:#0D9488; } .series-8 { fill:#64748B; }
-
-    svg.dark .series-1 { fill:#22D3EE; } svg.dark .series-2 { fill:#10B981; }
-    svg.dark .series-3 { fill:#FBB724; } svg.dark .series-4 { fill:#FB6181; }
-    svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
-    svg.dark .series-7 { fill:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; }
 
     @keyframes dataFadeIn { from{opacity:0} to{opacity:1} }
     .data-body { animation: dataFadeIn 0.8s ease-out both; }
@@ -22,16 +12,6 @@
     .stagger-3 { animation-delay:0.50s; } .stagger-4 { animation-delay:0.75s; }
     .stagger-5 { animation-delay:1.00s; } .stagger-6 { animation-delay:1.25s; }
     .stagger-7 { animation-delay:1.50s; } .stagger-8 { animation-delay:1.75s; }
-
-    .tip-value { fill:#1C1B1F; font-size:28px; font-weight:700; }
-    .tip-label { fill:#49454F; font-size:22px; font-weight:400; }
-    .tick-label { font-size:22px; font-weight:500; }
-    .category-label { font-size:22px; font-weight:500; }
-    .legend-title { font-size:22px; font-weight:700; letter-spacing:0.8px; }
-    .legend-label { font-size:22px; font-weight:500; }
-    .legend-value { font-size:22px; font-weight:600; }
-    svg.dark .tip-value { fill:#E6E0E9; }
-    svg.dark .tip-label { fill:#CAC4D0; }
   </style>
 </defs>
 
@@ -57,7 +37,7 @@
 <text x="690" y="530" class="category-label" text-anchor="middle">Teal</text>
 <text x="789" y="530" class="category-label" text-anchor="middle">Other</text>
 
-<!-- DATA LAYER — bars only, no tooltips -->
+<!-- DATA LAYER Ã¢â‚¬â€ bars only, no tooltips -->
 <g class="data-layer" id="data-layer">
 
 <!-- Cyan $72M h=288 -->
@@ -223,102 +203,48 @@
     /* Position tooltip bubbles via getBBox(); CSS owns show/hide */
     function initBubbles() {
       var tipLayerEl = svgEl.querySelector('#tip-layer');
-      var TAIL = 14, tw = 10, rx = 12;
-      var barHW = 32;  /* half of bar width=64 */
-      var bh = 200;
+      var barHW = 32;
       var plotL = 42, plotR = 840, plotT = 100, plotB = 500;
 
       ctx.$$all('.data-item').forEach(function (dataItem) {
         var itemCx  = parseFloat(dataItem.getAttribute('data-item-cx'));
         var itemTop = parseFloat(dataItem.getAttribute('data-item-top'));
         var tip = dataItem.querySelector('.data-tip');
-        var texts = tip.querySelectorAll('text');
-        var bgRect = tip.querySelector('rect');
-        var paths  = tip.querySelectorAll('path');
-        var bdrPath = paths[0], tlPath = paths[1];
-
-        /* measure text at origin */
-        Array.prototype.forEach.call(texts, function (t) {
-          t.setAttribute('x', '0'); t.setAttribute('y', '0');
+        ctx.layoutSideTooltip(tip, {
+          anchorX: itemCx,
+          anchorY: itemTop,
+          anchorInset: barHW,
+          plotL: plotL,
+          plotR: plotR,
+          plotT: plotT,
+          plotB: plotB,
+          lines: [
+            { text: tip.querySelector('.tip-value').textContent, className: 'tip-value' },
+            { text: tip.querySelector('.tip-label').textContent, className: 'tip-label' }
+          ],
+          lineHeights: [70, 70],
+          minWidth: 220,
+          paddingX: 20,
+          paddingY: 30
         });
-        var bw = Math.max(
-          texts[0].getBBox().width + 40,
-          texts[1].getBBox().width + 40,
-          220
-        );
-
-        /* horizontal: go whichever side has more room */
-        var spaceR = plotR - (itemCx + barHW);
-        var spaceL = (itemCx - barHW) - plotL;
-        var goRight = spaceR >= spaceL;
-        var ancX, bL, bR;
-        if (goRight) {
-          ancX = itemCx + barHW; bL = ancX + TAIL; bR = bL + bw;
-        } else {
-          ancX = itemCx - barHW; bR = ancX - TAIL; bL = bR - bw;
-        }
-
-        /* vertical: center on bar top, clamp to chart */
-        var ancY = itemTop;
-        var bT = ancY - bh / 2;
-        var bB = bT + bh;
-        if (bT < plotT) { bT = plotT; bB = bT + bh; }
-        if (bB > plotB) { bB = plotB; bT = bB - bh; }
-        var tY = Math.max(bT + rx + tw, Math.min(bB - rx - tw, ancY));
-
-        /* open-sided border and tail */
-        var op, tp;
-        if (goRight) {
-          /* gap on left edge */
-          op = 'M'+bL+','+(tY-tw)+
-               ' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+
-               ' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+
-               ' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+
-               ' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+
-               ' L'+bL+','+(tY+tw);
-          tp = 'M'+bL+','+(tY+tw)+' L'+ancX+','+ancY+' L'+bL+','+(tY-tw);
-        } else {
-          /* gap on right edge */
-          op = 'M'+bR+','+(tY+tw)+
-               ' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+
-               ' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+
-               ' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+
-               ' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+
-               ' L'+bR+','+(tY-tw);
-          tp = 'M'+bR+','+(tY-tw)+' L'+ancX+','+ancY+' L'+bR+','+(tY+tw);
-        }
-
-        bgRect.setAttribute('x', String(bL)); bgRect.setAttribute('y', String(bT));
-        bgRect.setAttribute('width', String(bw)); bgRect.setAttribute('height', String(bh));
-        bgRect.setAttribute('rx', String(rx));
-        bdrPath.setAttribute('d', op);
-        tlPath.setAttribute('d', tp);
-        texts[0].setAttribute('x', String(bL + bw / 2));
-        texts[0].setAttribute('y', String(bT + bh * 0.35));
-        texts[1].setAttribute('x', String(bL + bw / 2));
-        texts[1].setAttribute('y', String(bT + bh * 0.65));
-        /* lift tip above all bars */
         tipLayerEl.appendChild(tip);
         dataItem._tip = tip;
       });
     }
     initBubbles();
 
-    /* Hover — data layer dims; tips live in #tip-layer so JS controls opacity directly */
+    /* Hover Ã¢â‚¬â€ data layer dims; tips live in #tip-layer so JS controls opacity directly */
     var dataItemEls = ctx.$$all('.data-item');
     dataItemEls.forEach(function (dataItem) {
       dataItem.addEventListener('mouseenter', function () {
         dataLayerEl.classList.add('hovering');
-        dataItemEls.forEach(function (x) {
-          x.classList.remove('active');
-          if (x._tip) x._tip.style.opacity = '';
-        });
-        dataItem.classList.add('active');
-        if (dataItem._tip) dataItem._tip.style.opacity = '1';
+        ctx.activateExclusive(dataItemEls, dataItem);
+        dataItemEls.forEach(function (x) { ctx.setOpacity(x._tip, null); });
+        ctx.setOpacity(dataItem._tip, 1);
       });
       dataItem.addEventListener('mouseleave', function () {
         dataItem.classList.remove('active');
-        if (dataItem._tip) dataItem._tip.style.opacity = '';
+        ctx.setOpacity(dataItem._tip, null);
         dataLayerEl.classList.remove('hovering');
       });
     });
@@ -327,3 +253,4 @@
 }());
 ]]></script>
 </svg>
+

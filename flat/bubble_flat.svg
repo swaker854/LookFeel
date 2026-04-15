@@ -1,30 +1,11 @@
-<svg id="root" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
     @import url('chart-shared.css');
 
-    .series-1 { fill:#00D4E8; stroke:#00D4E8; } .series-2 { fill:#00B87A; stroke:#00B87A; }
-    .series-3 { fill:#F59E0B; stroke:#F59E0B; } .series-4 { fill:#F43F5E; stroke:#F43F5E; }
-    .series-5 { fill:#8B5CF6; stroke:#8B5CF6; } .series-6 { fill:#3B82F6; stroke:#3B82F6; }
-    .series-7 { fill:#0D9488; stroke:#0D9488; } .series-8 { fill:#64748B; stroke:#64748B; }
-
-    svg.dark .series-1 { fill:#22D3EE; stroke:#22D3EE; } svg.dark .series-2 { fill:#10B981; stroke:#10B981; }
-    svg.dark .series-3 { fill:#FBB724; stroke:#FBB724; } svg.dark .series-4 { fill:#FB6181; stroke:#FB6181; }
-    svg.dark .series-5 { fill:#A78BFA; stroke:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; stroke:#60A5FA; }
-    svg.dark .series-7 { fill:#2DD4BF; stroke:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; stroke:#94A3B8; }
-
     .bub-g { opacity:0; }
-    .tick-label { font-size:22px; font-weight:500; }
-    .category-label { font-size:22px; font-weight:500; }
-    .legend-title { font-size:22px; font-weight:700; letter-spacing:0.8px; }
-    .legend-label { font-size:22px; font-weight:500; }
-    .legend-value { font-size:22px; font-weight:600; }
     .tip { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     svg.print .tip { opacity:0 !important; }
-    .tip-value { fill:#1C1B1F; font-size:28px; font-weight:700; }
-    .tip-label { fill:#49454F; font-size:22px; font-weight:400; }
-    svg.dark .tip-value { fill:#E6E0E9; }
-    svg.dark .tip-label { fill:#CAC4D0; }
 
     .data-layer.ready.hovering .data-item { opacity:0.20; transition:opacity 0.2s ease; }
     .data-layer.ready.hovering .data-item.active { opacity:1; }
@@ -122,68 +103,27 @@
       var x = parseFloat(circle.getAttribute('cx'));
       var y = parseFloat(circle.getAttribute('cy'));
       var r = parseFloat(circle.getAttribute('r'));
-      var bw = 236, bh = 132, rx = 12, tw = 10, tail = 14;
-      var spaceR = plotR - x;
-      var spaceL = x - plotL;
-      var goRight = spaceR >= spaceL;
-      var bL, bR, ancX;
-
-      tipVal.textContent = m.value;
-      tipLbl.textContent = m.label + ' - ' + m.share + ' share';
-
-      if (goRight) {
-        ancX = x + r;
-        bL = ancX + tail;
-        bR = bL + bw;
-      } else {
-        ancX = x - r;
-        bR = ancX - tail;
-        bL = bR - bw;
-      }
-
-      var bT = y - bh / 2;
-      var bB = bT + bh;
-      if (bT < plotT) { bT = plotT; bB = bT + bh; }
-      if (bB > plotB) { bB = plotB; bT = bB - bh; }
-      var tY = Math.max(bT + rx + tw, Math.min(bB - rx - tw, y));
-
-      tipBg.setAttribute('x', String(bL));
-      tipBg.setAttribute('y', String(bT));
-      tipBg.setAttribute('width', String(bw));
-      tipBg.setAttribute('height', String(bh));
-      tipVal.setAttribute('x', String(bL + bw / 2));
-      tipVal.setAttribute('y', String(bT + bh * 0.38));
-      tipLbl.setAttribute('x', String(bL + bw / 2));
-      tipLbl.setAttribute('y', String(bT + bh * 0.68));
-
-      if (goRight) {
-        tipBdr.setAttribute('d',
-          'M'+bL+','+(tY-tw)+
-          ' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+
-          ' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+
-          ' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+
-          ' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+
-          ' L'+bL+','+(tY+tw)
-        );
-        tipTail.setAttribute('d', 'M'+bL+','+(tY+tw)+' L'+ancX+','+y+' L'+bL+','+(tY-tw));
-      } else {
-        tipBdr.setAttribute('d',
-          'M'+bR+','+(tY+tw)+
-          ' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+
-          ' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+
-          ' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+
-          ' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+
-          ' L'+bR+','+(tY-tw)
-        );
-        tipTail.setAttribute('d', 'M'+bR+','+(tY-tw)+' L'+ancX+','+y+' L'+bR+','+(tY+tw));
-      }
-
-      tip.style.opacity = '1';
+      ctx.layoutSideTooltip(tip, {
+        anchorX: x,
+        anchorY: y,
+        anchorInset: r,
+        plotL: plotL,
+        plotR: plotR,
+        plotT: plotT,
+        plotB: plotB,
+        lines: [
+          { text: m.value, className: 'tip-value' },
+          { text: m.label + ' - ' + m.share + ' share', className: 'tip-label' }
+        ],
+        lineHeights: [70, 62],
+        minWidth: 236,
+        paddingX: 20,
+        paddingY: 24
+      });
+      ctx.setOpacity(tip, 1);
     }
 
-    function hideTip() {
-      tip.style.opacity = '';
-    }
+    function hideTip() { ctx.setOpacity(tip, null); }
 
     var FADE_DUR = 800, STAGGER = 250;
     var bubGrps = [1,2,3,4,5,6,7,8].map(function (i) {
@@ -213,8 +153,7 @@
     dataItemEls.forEach(function (itemEl) {
       itemEl.addEventListener('mouseenter', function () {
         chartArea.classList.add('hovering');
-        dataItemEls.forEach(function (x) { x.classList.remove('active'); });
-        itemEl.classList.add('active');
+        ctx.activateExclusive(dataItemEls, itemEl);
         showTip(itemEl);
       });
       itemEl.addEventListener('mouseleave', function () {

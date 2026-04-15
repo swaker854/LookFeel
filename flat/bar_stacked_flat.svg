@@ -1,6 +1,6 @@
 
 
-<svg id="root" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
 <defs>
   <clipPath id="chartclip">
     <rect x="68" y="96" width="782" height="412"/>
@@ -8,36 +8,16 @@
   <style>
     @import url('chart-shared.css');
 
-    .series-1 { fill:#00D4E8; stroke:#00D4E8; } .series-2 { fill:#8B5CF6; stroke:#8B5CF6; }
-    .series-3 { fill:#00B87A; stroke:#00B87A; } .series-4 { fill:#F59E0B; stroke:#F59E0B; }
-    .series-5 { fill:#64748B; stroke:#64748B; }
-    svg.dark .series-1 { fill:#22D3EE; stroke:#22D3EE; } svg.dark .series-2 { fill:#A78BFA; stroke:#A78BFA; }
-    svg.dark .series-3 { fill:#10B981; stroke:#10B981; } svg.dark .series-4 { fill:#FBB724; stroke:#FBB724; }
-    svg.dark .series-5 { fill:#94A3B8; stroke:#94A3B8; }
-
     @keyframes dataFadeIn { from{opacity:0} to{opacity:1} }
     .data-body { animation:dataFadeIn 0.8s ease-out both; }
     .stagger-1 { animation-delay:0.00s; } .stagger-2 { animation-delay:0.25s; }
     .stagger-3 { animation-delay:0.50s; } .stagger-4 { animation-delay:0.75s; }
     .stagger-5 { animation-delay:1.00s; } .stagger-6 { animation-delay:1.25s; }
     .stagger-7 { animation-delay:1.50s; } .stagger-8 { animation-delay:1.75s; }
-
-    .tip-div   { stroke:#CAC4D0; stroke-width:1; }
-    svg.dark .tip-div { stroke:#49454F; }
     .crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
     svg.dark .crosshair { stroke:#938F99; }
     .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     svg.print .tip { opacity:0 !important; }
-    .tip-value { fill:#1C1B1F; font-size:28px; font-weight:700; }
-    .tip-label { fill:#49454F; font-size:22px; font-weight:400; }
-    .tick-label { font-size:22px; font-weight:500; }
-    .category-label { font-size:22px; font-weight:500; }
-    .legend-title { font-size:22px; font-weight:700; letter-spacing:0.8px; }
-    .legend-label { font-size:22px; font-weight:500; }
-    .legend-value { font-size:22px; font-weight:600; }
-    .legend-note  { font-size:22px; }
-    svg.dark .tip-value { fill:#E6E0E9; }
-    svg.dark .tip-label { fill:#CAC4D0; }
 
     .data-item .seg { transition:opacity 0.2s ease; }
     .chart-container.hovering .data-item .seg        { opacity:0.20; }
@@ -182,11 +162,11 @@
 
 <rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg"/>
 <text x="878" y="118" class="legend-title">SERIES</text>
-<g transform="translate(878,146)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Cyan</text>   <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$72M</text></g>
-<g transform="translate(878,194)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Violet</text>  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$62M</text></g>
-<g transform="translate(878,242)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Emerald</text> <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$35M</text></g>
-<g transform="translate(878,290)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Amber</text>   <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$22M</text></g>
-<g transform="translate(878,338)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Slate</text>    <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$19M</text></g>
+<g transform="translate(878,146)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Cyan</text>    <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$72M</text></g>
+<g transform="translate(878,194)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Emerald</text> <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$62M</text></g>
+<g transform="translate(878,242)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Amber</text>   <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$35M</text></g>
+<g transform="translate(878,290)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Rose</text>    <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$22M</text></g>
+<g transform="translate(878,338)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Violet</text>  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$19M</text></g>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -202,10 +182,10 @@
     var colW = 36;
     var series = [
       { label:'Cyan',    cls:'series-1', vals:[38,42,46,50,55,60,66,72] },
-      { label:'Violet',  cls:'series-2', vals:[32,35,38,41,45,50,56,62] },
-      { label:'Emerald', cls:'series-3', vals:[18,20,21,23,25,27,31,35] },
-      { label:'Amber',   cls:'series-4', vals:[11,12,13,14,15,17,19,22] },
-      { label:'Slate',   cls:'series-5', vals:[10,11,12,13,14,16,17,19] },
+      { label:'Emerald', cls:'series-2', vals:[32,35,38,41,45,50,56,62] },
+      { label:'Amber',   cls:'series-3', vals:[18,20,21,23,25,27,31,35] },
+      { label:'Rose',    cls:'series-4', vals:[11,12,13,14,15,17,19,22] },
+      { label:'Violet',  cls:'series-5', vals:[10,11,12,13,14,16,17,19] },
     ];
     var totals = xs.map(function(_,qi){
       return series.reduce(function(s,sr){ return s+sr.vals[qi]; }, 0);
@@ -215,139 +195,42 @@
     var tipLayer = svgEl.querySelector('#tip-layer');
     var allTips  = {};
 
-    function el(tag, attrs) {
-      var e = document.createElementNS(ns, tag);
-      Object.keys(attrs).forEach(function(k){ e.setAttribute(k, attrs[k]); });
-      return e;
-    }
+    var el = ctx.el;
 
     xs.forEach(function(x, qi) {
-      var PAD = 22, DOT_R = 5, DOT_X = 20, LBL_X = 38;
-      var rowH = 42, hdrH = 38, divH = 12, totH = 46;
-      var bh = hdrH + divH + series.length * rowH + divH + totH + PAD;
-      var rx = 12;
-
-      var tipG = el('g', {'class':'tip', id:'tip_'+qi});
-      tipLayer.appendChild(tipG);
+      var tipG = ctx.buildStackedSideTooltip(tipLayer, {
+        id: 'tip_' + qi,
+        header: quarters[qi],
+        rows: series.map(function(s) {
+          return { cls: s.cls, label: s.label, value: '$' + s.vals[qi] + 'M' };
+        }),
+        totalLabel: 'Total',
+        totalValue: '$' + totals[qi] + 'M',
+        anchorX: x,
+        anchorY: 304,
+        anchorInset: 36,
+        plotL: 68,
+        plotR: 850,
+        plotT: 100,
+        plotB: 500
+      });
       allTips[qi] = tipG;
-
-      var qLbl = el('text', {x:0, y:0, 'text-anchor':'middle',
-        'dominant-baseline':'central', 'class':'tip-label'});
-      qLbl.textContent = quarters[qi];
-      tipG.appendChild(qLbl);
-
-      var rowEls = [];
-      series.forEach(function(s, si) {
-        var rowY = hdrH + divH + si * rowH + rowH / 2;
-        var dot  = el('circle', {cx:0, cy:rowY, r:DOT_R, 'class':s.cls});
-        var sLbl = el('text', {x:LBL_X, y:rowY, 'dominant-baseline':'central', 'class':'tip-label'});
-        sLbl.textContent = s.label;
-        var sVal = el('text', {x:0, y:rowY, 'text-anchor':'end',
-          'dominant-baseline':'central', 'class':'tip-value', 'font-size':'18'});
-        sVal.textContent = '$' + s.vals[qi] + 'M';
-        tipG.appendChild(dot); tipG.appendChild(sLbl); tipG.appendChild(sVal);
-        rowEls.push({dot:dot, sLbl:sLbl, sVal:sVal});
-      });
-
-      var totY = hdrH + divH + series.length * rowH + divH + totH / 2;
-      var totLbl = el('text', {x:LBL_X, y:totY, 'dominant-baseline':'central', 'class':'tip-label'});
-      totLbl.textContent = 'Total';
-      var totVal = el('text', {x:0, y:totY, 'text-anchor':'end',
-        'dominant-baseline':'central', 'class':'tip-value'});
-      totVal.textContent = '$' + totals[qi] + 'M';
-      tipG.appendChild(totLbl); tipG.appendChild(totVal);
-
-      var maxLblW = 0;
-      rowEls.forEach(function(r) { maxLblW = Math.max(maxLblW, LBL_X + r.sLbl.getBBox().width + 8); });
-      maxLblW = Math.max(maxLblW, LBL_X + totLbl.getBBox().width + 8);
-      var maxValW = 0;
-      rowEls.forEach(function(r) { maxValW = Math.max(maxValW, r.sVal.getBBox().width); });
-      maxValW = Math.max(maxValW, totVal.getBBox().width);
-      var hw = Math.max((maxLblW + maxValW) / 2 + PAD, 160);
-
-      var bw = hw * 2;
-      var barHW = 36;
-      var TAIL = 14, tw = 10;
-      var spaceR = 850 - (x + barHW);
-      var spaceL = (x - barHW) - 68;
-      var goRight = spaceR >= spaceL;
-      var ancX, bL, bR;
-      if (goRight) {
-        ancX = x + barHW; bL = ancX + TAIL; bR = bL + bw;
-      } else {
-        ancX = x - barHW; bR = ancX - TAIL; bL = bR - bw;
-      }
-      var bCx = (bL + bR) / 2;
-
-      /* vertical: center on chart area [100, 508] */
-      var bT = 304 - bh / 2, bB = bT + bh;
-      if (bT < 100) { bT = 100; bB = bT + bh; }
-      if (bB > 508) { bB = 508; bT = bB - bh; }
-      var ancY = (bT + bB) / 2;
-      var tY = Math.max(bT + rx + tw, Math.min(bB - rx - tw, ancY));
-
-      qLbl.setAttribute('x', String(bCx));
-      qLbl.setAttribute('y', String(bT + hdrH / 2));
-      rowEls.forEach(function(r) {
-        r.dot.setAttribute('cx', String(bL + DOT_X));
-        r.sLbl.setAttribute('x', String(bL + LBL_X));
-        r.sVal.setAttribute('x', String(bR - 16));
-        var rowY = bT + hdrH + divH + rowEls.indexOf(r) * rowH + rowH / 2;
-        r.dot.setAttribute('cy', String(rowY));
-        r.sLbl.setAttribute('y', String(rowY));
-        r.sVal.setAttribute('y', String(rowY));
-      });
-      var absTotY = bT + hdrH + divH + series.length * rowH + divH + totH / 2;
-      totLbl.setAttribute('x', String(bL + LBL_X));
-      totLbl.setAttribute('y', String(absTotY));
-      totVal.setAttribute('x', String(bR - 16));
-      totVal.setAttribute('y', String(absTotY));
-
-      var div1Y = bT + hdrH + divH / 2;
-      var div2Y = bT + hdrH + divH + series.length * rowH + divH / 2;
-      tipG.insertBefore(el('line', {x1:bL+14, y1:div1Y, x2:bR-14, y2:div1Y, 'class':'tip-div'}), qLbl.nextSibling);
-      tipG.appendChild(el('line', {x1:bL+14, y1:div2Y, x2:bR-14, y2:div2Y, 'class':'tip-div'}));
-
-      tipG.insertBefore(el('rect', {x:bL, y:bT, width:bw, height:bh, rx:rx, 'class':'tip-bg'}), tipG.firstChild);
-
-      var borderPath, tailPath;
-      if (goRight) {
-        borderPath = 'M'+bL+','+(tY-tw)+
-          ' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+
-          ' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+
-          ' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+
-          ' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+
-          ' L'+bL+','+(tY+tw);
-        tailPath = 'M'+bL+','+(tY+tw)+' L'+ancX+','+ancY+' L'+bL+','+(tY-tw);
-      } else {
-        borderPath = 'M'+bR+','+(tY+tw)+
-          ' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+
-          ' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+
-          ' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+
-          ' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+
-          ' L'+bR+','+(tY-tw);
-        tailPath = 'M'+bR+','+(tY-tw)+' L'+ancX+','+ancY+' L'+bR+','+(tY+tw);
-      }
-      tipG.insertBefore(el('path', {d:borderPath, 'class':'tip-border'}), tipG.children[1]);
-      tipG.insertBefore(el('path', {d:tailPath, 'class':'tip-tail'}), tipG.children[2]);
 
       var hit = el('rect', {x:x-colW, y:100, width:colW*2, height:408, fill:'transparent', cursor:'crosshair'});
       hitLayer.appendChild(hit);
       var ch = svgEl.querySelector('#ch'+qi);
+      var itemEl = svgEl.querySelector('#data-item-'+qi);
 
       hit.addEventListener('mouseenter', function() {
-        dataItemEls.forEach(function(c){ c.classList.remove('active'); });
-        allTips[qi].style.opacity = '1';
-        if (ch) ch.style.opacity = '1';
+        ctx.activateExclusive(dataItemEls, itemEl);
+        ctx.setOpacity(allTips[qi], 1);
+        ctx.setOpacity(ch, 1);
         dataLayerEl.classList.add('hovering');
-        var itemEl = svgEl.querySelector('#data-item-'+qi);
-        if (itemEl) itemEl.classList.add('active');
       });
       hit.addEventListener('mouseleave', function() {
-        allTips[qi].style.opacity = '';
-        if (ch) ch.style.opacity = '';
+        ctx.setOpacity(allTips[qi], null);
+        ctx.setOpacity(ch, null);
         dataLayerEl.classList.remove('hovering');
-        var itemEl = svgEl.querySelector('#data-item-'+qi);
         if (itemEl) itemEl.classList.remove('active');
       });
     });

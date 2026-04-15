@@ -95,6 +95,259 @@
     return { bL: bL, bT: bT, bR: bR, bB: bB, bCx: bCx, tailUp: tailUp, borderPath: op, tailPath: tp };
   }
 
+  function createSvgEl(tag, attrs) {
+    var e = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    Object.keys(attrs || {}).forEach(function (key) {
+      e.setAttribute(key, attrs[key]);
+    });
+    return e;
+  }
+
+  function setClassState(nodes, className, active) {
+    Array.prototype.slice.call(nodes || []).forEach(function (node) {
+      if (!node) return;
+      node.classList.toggle(className, !!active);
+    });
+  }
+
+  function activateExclusive(nodes, activeNode, className) {
+    var cls = className || 'active';
+    Array.prototype.slice.call(nodes || []).forEach(function (node) {
+      if (!node) return;
+      node.classList.toggle(cls, node === activeNode);
+    });
+  }
+
+  function setElementsActive(nodes, predicate, className) {
+    var cls = className || 'active';
+    Array.prototype.slice.call(nodes || []).forEach(function (node, index) {
+      if (!node) return;
+      node.classList.toggle(cls, !!predicate(node, index));
+    });
+  }
+
+  function setOpacity(node, value) {
+    if (!node) return;
+    node.style.opacity = value == null ? '' : String(value);
+  }
+
+  function eventToSvgPoint(svgEl, event) {
+    var pt = svgEl.createSVGPoint();
+    pt.x = event.clientX;
+    pt.y = event.clientY;
+    return pt.matrixTransform(svgEl.getScreenCTM().inverse());
+  }
+
+  function clearTooltipContent(tipG) {
+    Array.prototype.slice.call(tipG.querySelectorAll('[data-tip-line],[data-tip-divider]')).forEach(function (node) {
+      if (node && node.parentNode) node.parentNode.removeChild(node);
+    });
+  }
+
+  function ensureTooltipChrome(tipG, rx) {
+    var bg = tipG.querySelector('[data-tip-role="bg"]');
+    var border = tipG.querySelector('[data-tip-role="border"]');
+    var tail = tipG.querySelector('[data-tip-role="tail"]');
+    if (!bg) {
+      bg = createSvgEl('rect', { 'class': 'tip-bg', rx: String(rx || 12), 'data-tip-role': 'bg' });
+      tipG.insertBefore(bg, tipG.firstChild || null);
+    } else {
+      bg.setAttribute('rx', String(rx || 12));
+    }
+    if (!border) {
+      border = createSvgEl('path', { 'class': 'tip-border', 'data-tip-role': 'border' });
+      tipG.insertBefore(border, bg.nextSibling);
+    }
+    if (!tail) {
+      tail = createSvgEl('path', { 'class': 'tip-tail', 'data-tip-role': 'tail' });
+      tipG.insertBefore(tail, border.nextSibling);
+    }
+    return { bg: bg, border: border, tail: tail };
+  }
+
+  function buildSideTooltipChrome(anchorX, anchorY, bw, bh, plotL, plotR, plotT, plotB, anchorInset, gap, rx, tw) {
+    var spaceR = plotR - anchorX;
+    var spaceL = anchorX - plotL;
+    var goRight = spaceR >= spaceL;
+    var ancX = goRight ? anchorX + anchorInset : anchorX - anchorInset;
+    var bL, bR;
+    if (goRight) {
+      bL = ancX + gap;
+      bR = bL + bw;
+    } else {
+      bR = ancX - gap;
+      bL = bR - bw;
+    }
+
+    var bT = anchorY - bh / 2;
+    var bB = bT + bh;
+    if (bT < plotT) { bT = plotT; bB = bT + bh; }
+    if (bB > plotB) { bB = plotB; bT = bB - bh; }
+    var tY = Math.max(bT + rx + tw, Math.min(bB - rx - tw, anchorY));
+    var borderPath, tailPath;
+
+    if (goRight) {
+      borderPath = 'M' + bL + ',' + (tY - tw) +
+        ' L' + bL + ',' + (bT + rx) + ' Q' + bL + ',' + bT + ' ' + (bL + rx) + ',' + bT +
+        ' L' + (bR - rx) + ',' + bT + ' Q' + bR + ',' + bT + ' ' + bR + ',' + (bT + rx) +
+        ' L' + bR + ',' + (bB - rx) + ' Q' + bR + ',' + bB + ' ' + (bR - rx) + ',' + bB +
+        ' L' + (bL + rx) + ',' + bB + ' Q' + bL + ',' + bB + ' ' + bL + ',' + (bB - rx) +
+        ' L' + bL + ',' + (tY + tw);
+      tailPath = 'M' + bL + ',' + (tY + tw) + ' L' + ancX + ',' + anchorY + ' L' + bL + ',' + (tY - tw);
+    } else {
+      borderPath = 'M' + bR + ',' + (tY + tw) +
+        ' L' + bR + ',' + (bB - rx) + ' Q' + bR + ',' + bB + ' ' + (bR - rx) + ',' + bB +
+        ' L' + (bL + rx) + ',' + bB + ' Q' + bL + ',' + bB + ' ' + bL + ',' + (bB - rx) +
+        ' L' + bL + ',' + (bT + rx) + ' Q' + bL + ',' + bT + ' ' + (bL + rx) + ',' + bT +
+        ' L' + (bR - rx) + ',' + bT + ' Q' + bR + ',' + bT + ' ' + bR + ',' + (bT + rx) +
+        ' L' + bR + ',' + (tY - tw);
+      tailPath = 'M' + bR + ',' + (tY - tw) + ' L' + ancX + ',' + anchorY + ' L' + bR + ',' + (tY + tw);
+    }
+
+    return {
+      bL: bL, bR: bR, bT: bT, bB: bB, bw: bw, bh: bh, goRight: goRight, ancX: ancX, tY: tY,
+      borderPath: borderPath, tailPath: tailPath
+    };
+  }
+
+  function layoutSideTooltip(tipG, opts) {
+    var lines = (opts.lines || []).slice();
+    var padX = opts.paddingX != null ? opts.paddingX : 20;
+    var padY = opts.paddingY != null ? opts.paddingY : 18;
+    var lineHeights = opts.lineHeights || lines.map(function (line) {
+      return line.className === 'tip-value' ? 42 : 32;
+    });
+    var minWidth = opts.minWidth != null ? opts.minWidth : 220;
+    var gap = opts.gap != null ? opts.gap : 14;
+    var rx = opts.rx != null ? opts.rx : 12;
+    var tw = opts.tw != null ? opts.tw : 10;
+    var chrome = ensureTooltipChrome(tipG, rx);
+
+    clearTooltipContent(tipG);
+
+    var textEls = lines.map(function (line, index) {
+      var attrs = {
+        'class': line.className || 'tip-label',
+        'data-tip-line': '1',
+        'dominant-baseline': 'central'
+      };
+      attrs['text-anchor'] = line.align === 'start' ? 'start' : 'middle';
+      if (line.fontSize) attrs['font-size'] = String(line.fontSize);
+      if (line.fontWeight) attrs['font-weight'] = String(line.fontWeight);
+      var textEl = createSvgEl('text', attrs);
+      textEl.textContent = line.text;
+      tipG.appendChild(textEl);
+      return textEl;
+    });
+
+    var maxWidth = 0;
+    textEls.forEach(function (textEl) {
+      maxWidth = Math.max(maxWidth, textEl.getBBox().width);
+    });
+    var bw = Math.max(maxWidth + padX * 2, minWidth);
+    var bh = padY * 2 + lineHeights.reduce(function (sum, h) { return sum + h; }, 0);
+    var geom = buildSideTooltipChrome(
+      opts.anchorX, opts.anchorY, bw, bh,
+      opts.plotL, opts.plotR, opts.plotT, opts.plotB,
+      opts.anchorInset || 0, gap, rx, tw
+    );
+
+    chrome.bg.setAttribute('x', String(geom.bL));
+    chrome.bg.setAttribute('y', String(geom.bT));
+    chrome.bg.setAttribute('width', String(bw));
+    chrome.bg.setAttribute('height', String(bh));
+    chrome.border.setAttribute('d', geom.borderPath);
+    chrome.tail.setAttribute('d', geom.tailPath);
+
+    var y = geom.bT + padY;
+    textEls.forEach(function (textEl, index) {
+      var lh = lineHeights[index];
+      var align = lines[index].align === 'start' ? 'start' : 'middle';
+      textEl.setAttribute('x', String(align === 'start' ? geom.bL + padX : geom.bL + bw / 2));
+      textEl.setAttribute('y', String(y + lh / 2));
+      y += lh;
+    });
+
+    return geom;
+  }
+
+  function buildStackedSideTooltip(tipLayer, opts) {
+    var PAD = 22, DOT_R = 5, DOT_X = 20, LBL_X = 38, rx = 12;
+    var rowH = 42, hdrH = 38, divH = 12, totH = 46;
+    var rows = opts.rows || [];
+    var bh = hdrH + divH + rows.length * rowH + divH + totH + PAD;
+    var tipG = createSvgEl('g', { 'class': 'tip', id: opts.id || '' });
+    tipLayer.appendChild(tipG);
+
+    var chrome = ensureTooltipChrome(tipG, rx);
+    var qLbl = createSvgEl('text', { 'text-anchor':'middle', 'dominant-baseline':'central', 'class':'tip-label', 'data-tip-line':'1' });
+    qLbl.textContent = opts.header || '';
+    tipG.appendChild(qLbl);
+
+    var rowEls = rows.map(function (row) {
+      var dot  = createSvgEl('circle', { cx:'0', cy:'0', r:DOT_R, 'class': row.cls || '', 'style':'stroke:none', 'data-tip-line':'1' });
+      var sLbl = createSvgEl('text', { x:'0', y:'0', 'dominant-baseline':'central', 'class':'tip-label', 'data-tip-line':'1' });
+      sLbl.textContent = row.label || '';
+      var sVal = createSvgEl('text', { x:'0', y:'0', 'text-anchor':'end', 'dominant-baseline':'central', 'class':'tip-value', 'font-size':'18', 'data-tip-line':'1' });
+      sVal.textContent = row.value || '';
+      tipG.appendChild(dot);
+      tipG.appendChild(sLbl);
+      tipG.appendChild(sVal);
+      return { dot: dot, sLbl: sLbl, sVal: sVal };
+    });
+
+    var totLbl = createSvgEl('text', { x:'0', y:'0', 'dominant-baseline':'central', 'class':'tip-label', 'data-tip-line':'1' });
+    totLbl.textContent = opts.totalLabel || 'Total';
+    var totVal = createSvgEl('text', { x:'0', y:'0', 'text-anchor':'end', 'dominant-baseline':'central', 'class':'tip-value', 'data-tip-line':'1' });
+    totVal.textContent = opts.totalValue || '';
+    tipG.appendChild(totLbl);
+    tipG.appendChild(totVal);
+
+    var maxLblW = 0;
+    rowEls.forEach(function (row) { maxLblW = Math.max(maxLblW, LBL_X + row.sLbl.getBBox().width + 8); });
+    maxLblW = Math.max(maxLblW, LBL_X + totLbl.getBBox().width + 8);
+    var maxValW = 0;
+    rowEls.forEach(function (row) { maxValW = Math.max(maxValW, row.sVal.getBBox().width); });
+    maxValW = Math.max(maxValW, totVal.getBBox().width);
+    var bw = Math.max((maxLblW + maxValW) + PAD * 2, 320);
+    var geom = buildSideTooltipChrome(
+      opts.anchorX, opts.anchorY, bw, bh,
+      opts.plotL, opts.plotR, opts.plotT, opts.plotB,
+      opts.anchorInset || 0, opts.gap != null ? opts.gap : 14, rx, opts.tw != null ? opts.tw : 10
+    );
+
+    chrome.bg.setAttribute('x', String(geom.bL));
+    chrome.bg.setAttribute('y', String(geom.bT));
+    chrome.bg.setAttribute('width', String(bw));
+    chrome.bg.setAttribute('height', String(bh));
+    chrome.border.setAttribute('d', geom.borderPath);
+    chrome.tail.setAttribute('d', geom.tailPath);
+
+    qLbl.setAttribute('x', String(geom.bL + bw / 2));
+    qLbl.setAttribute('y', String(geom.bT + hdrH / 2));
+
+    rowEls.forEach(function (row, index) {
+      var rowY = geom.bT + hdrH + divH + index * rowH + rowH / 2;
+      row.dot.setAttribute('cx', String(geom.bL + DOT_X));
+      row.dot.setAttribute('cy', String(rowY));
+      row.sLbl.setAttribute('x', String(geom.bL + LBL_X));
+      row.sLbl.setAttribute('y', String(rowY));
+      row.sVal.setAttribute('x', String(geom.bR - 16));
+      row.sVal.setAttribute('y', String(rowY));
+    });
+
+    var totY = geom.bT + hdrH + divH + rows.length * rowH + divH + totH / 2;
+    totLbl.setAttribute('x', String(geom.bL + LBL_X));
+    totLbl.setAttribute('y', String(totY));
+    totVal.setAttribute('x', String(geom.bR - 16));
+    totVal.setAttribute('y', String(totY));
+
+    tipG.appendChild(createSvgEl('line', { x1:geom.bL + 14, y1:geom.bT + hdrH + divH / 2, x2:geom.bR - 14, y2:geom.bT + hdrH + divH / 2, 'class':'tip-divider', 'data-tip-divider':'1' }));
+    tipG.appendChild(createSvgEl('line', { x1:geom.bL + 14, y1:geom.bT + hdrH + divH + rows.length * rowH + divH / 2, x2:geom.bR - 14, y2:geom.bT + hdrH + divH + rows.length * rowH + divH / 2, 'class':'tip-divider', 'data-tip-divider':'1' }));
+
+    return tipG;
+  }
+
   function hexToRgb(hex) {
     var raw = (hex || '').replace('#', '').trim();
     if (raw.length === 3) raw = raw.replace(/(.)/g, '$1$1');
@@ -284,7 +537,19 @@
     if (pt) pt.addEventListener('click', function () { setPrint(!isPrint); });
 
     if (typeof svgEl._chartInit === 'function') {
-      svgEl._chartInit(svgEl, { $$: $$, $$all: $$all, buildTip: buildChartTip });
+      svgEl._chartInit(svgEl, {
+        $$: $$,
+        $$all: $$all,
+        el: createSvgEl,
+        buildTip: buildChartTip,
+        layoutSideTooltip: layoutSideTooltip,
+        buildStackedSideTooltip: buildStackedSideTooltip,
+        activateExclusive: activateExclusive,
+        setElementsActive: setElementsActive,
+        setClassState: setClassState,
+        setOpacity: setOpacity,
+        eventToSvgPoint: eventToSvgPoint
+      });
     }
 
     applyPalette(svgEl, svgEl.__chartPalette, svgEl.classList.contains('dark'));

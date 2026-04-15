@@ -2,7 +2,7 @@
 
 
 
-<svg id="root" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
 <defs>
   <clipPath id="chartclip">
     <rect x="68" y="96" width="772" height="412"/>
@@ -10,31 +10,10 @@
   <style>
     @import url('chart-shared.css');
 
-    .series-1 { fill:#00D4E8; stroke:#00D4E8; } .series-2 { fill:#8B5CF6; stroke:#8B5CF6; }
-    .series-3 { fill:#00B87A; stroke:#00B87A; } .series-4 { fill:#F59E0B; stroke:#F59E0B; }
-    .series-5 { fill:#64748B; stroke:#64748B; }
-
-    svg.dark .series-1 { fill:#22D3EE; stroke:#22D3EE; } svg.dark .series-2 { fill:#A78BFA; stroke:#A78BFA; }
-    svg.dark .series-3 { fill:#10B981; stroke:#10B981; } svg.dark .series-4 { fill:#FBB724; stroke:#FBB724; }
-    svg.dark .series-5 { fill:#94A3B8; stroke:#94A3B8; }
-
     .crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
     svg.dark .crosshair { stroke:#938F99; }
     .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     svg.print .tip { opacity:0 !important; }
-    .tip-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    svg.dark .tip-divider { stroke:#938F99; }
-
-    .tip-value { fill:#1C1B1F; font-size:28px; font-weight:700; }
-    .tip-label { fill:#49454F; font-size:22px; font-weight:400; }
-    .tick-label { font-size:22px; font-weight:500; }
-    .category-label { font-size:22px; font-weight:500; }
-    .legend-title { font-size:22px; font-weight:700; letter-spacing:0.8px; }
-    .legend-label { font-size:22px; font-weight:500; }
-    .legend-value { font-size:22px; font-weight:600; }
-    .legend-note  { font-size:22px; }
-    svg.dark .tip-value { fill:#E6E0E9; }
-    svg.dark .tip-label { fill:#CAC4D0; }
 
     @keyframes drawWave { from{stroke-dashoffset:var(--len,900);} to{stroke-dashoffset:0;} }
     .wave-edge         { stroke-dasharray:var(--len,900); stroke-dashoffset:var(--len,900);
@@ -106,19 +85,19 @@ d="M68,439.4 C119.5,439.4 119.5,423.2 171,423.2 C222.5,423.2 222.5,416.9 274,416
 d="M68,394.1 C119.5,394.1 119.5,373.9 171,373.9 C222.5,373.9 222.5,360.8 274,360.8 C325.5,360.8 325.5,346.4 377,346.4 C428.5,346.4 428.5,344.2 480,344.2 C531.5,344.2 531.5,320.2 583,320.2 C634.5,320.2 634.5,315.6 686,315.6 C737.5,315.6 737.5,281.4 789,281.4 L789,165.6 C737.5,165.6 737.5,205.0 686,205.0 C634.5,205.0 634.5,221.8 583,221.8 C531.5,221.8 531.5,261.2 480,261.2 C428.5,261.2 428.5,268.1 377,268.1 C325.5,268.1 325.5,294.1 274,294.1 C222.5,294.1 222.5,311.7 171,311.7 C119.5,311.7 119.5,342.4 68,342.4 Z"/>
 
   <!-- style="fill:none" overrides .series-N fill on stroke-only paths -->
-  <path id="we5" class="wave-edge we-w5 series-5 w5" style="fill:none"
+  <path id="we5" class="wave-edge we-w5 series-5 use-series-stroke w5" style="fill:none"
     stroke-width="1.5" stroke-linecap="round" stroke-dasharray="7,4"
 d="M68,487.8 C119.5,487.8 119.5,483.0 171,483.0 C222.5,483.0 222.5,486.2 274,486.2 C325.5,486.2 325.5,480.2 377,480.2 C428.5,480.2 428.5,483.0 480,483.0 C531.5,483.0 531.5,477.5 583,477.5 C634.5,477.5 634.5,480.2 686,480.2 C737.5,480.2 737.5,473.3 789,473.3"/>
-  <path id="we4" class="wave-edge we-w4 series-4 w4" style="fill:none"
+  <path id="we4" class="wave-edge we-w4 series-4 use-series-stroke w4" style="fill:none"
     stroke-width="2" stroke-linecap="round"
 d="M68,468.3 C119.5,468.3 119.5,459.3 171,459.3 C222.5,459.3 222.5,457.1 274,457.1 C325.5,457.1 325.5,457.1 377,457.1 C428.5,457.1 428.5,455.5 480,455.5 C531.5,455.5 531.5,444.2 583,444.2 C634.5,444.2 634.5,453.9 686,453.9 C737.5,453.9 737.5,437.7 789,437.7"/>
-  <path id="we3" class="wave-edge we-w3 series-3 w3" style="fill:none"
+  <path id="we3" class="wave-edge we-w3 series-3 use-series-stroke w3" style="fill:none"
     stroke-width="2.5" stroke-linecap="round"
 d="M68,439.4 C119.5,439.4 119.5,423.2 171,423.2 C222.5,423.2 222.5,416.9 274,416.9 C325.5,416.9 325.5,410.5 377,410.5 C428.5,410.5 428.5,415.3 480,415.3 C531.5,415.3 531.5,399.6 583,399.6 C634.5,399.6 634.5,403.8 686,403.8 C737.5,403.8 737.5,381.6 789,381.6"/>
-  <path id="we2" class="wave-edge we-w2 series-2 w2" style="fill:none"
+  <path id="we2" class="wave-edge we-w2 series-2 use-series-stroke w2" style="fill:none"
     stroke-width="2.5" stroke-linecap="round"
 d="M68,394.1 C119.5,394.1 119.5,373.9 171,373.9 C222.5,373.9 222.5,360.8 274,360.8 C325.5,360.8 325.5,346.4 377,346.4 C428.5,346.4 428.5,344.2 480,344.2 C531.5,344.2 531.5,320.2 583,320.2 C634.5,320.2 634.5,315.6 686,315.6 C737.5,315.6 737.5,281.4 789,281.4"/>
-  <path id="we1" class="wave-edge we-w1 series-1 w1" style="fill:none"
+  <path id="we1" class="wave-edge we-w1 series-1 use-series-stroke w1" style="fill:none"
     stroke-width="3.5" stroke-linecap="round"
 d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294.1 C325.5,294.1 325.5,268.1 377,268.1 C428.5,268.1 428.5,261.2 480,261.2 C531.5,261.2 531.5,221.8 583,221.8 C634.5,221.8 634.5,205.0 686,205.0 C737.5,205.0 737.5,165.6 789,165.6"/>
 </g>
@@ -141,10 +120,10 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
 <rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg"/>
 <text x="878" y="118" class="legend-title">SERIES</text>
 <g transform="translate(878,146)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Cyan</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$72M</text></g>
-<g transform="translate(878,194)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Violet</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$62M</text></g>
-<g transform="translate(878,242)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Emerald</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$35M</text></g>
-<g transform="translate(878,290)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Amber</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$22M</text></g>
-<g transform="translate(878,338)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Slate</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$19M</text></g>
+<g transform="translate(878,194)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Emerald</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$62M</text></g>
+<g transform="translate(878,242)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Amber</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$35M</text></g>
+<g transform="translate(878,290)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Rose</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$22M</text></g>
+<g transform="translate(878,338)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Violet</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$19M</text></g>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -162,19 +141,20 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
     var series = [
       { id:1, cls:'series-1', label:'Cyan',
         vals:[38,42,46,50,55,60,66,72], ys:[342.4,311.7,294.1,268.1,261.2,221.8,205.0,165.6] },
-      { id:2, cls:'series-2', label:'Violet',
+      { id:2, cls:'series-2', label:'Emerald',
         vals:[32,35,38,41,45,50,56,62], ys:[394.1,373.9,360.8,346.4,344.2,320.2,315.6,281.4] },
-      { id:3, cls:'series-3', label:'Emerald',
+      { id:3, cls:'series-3', label:'Amber',
         vals:[18,20,21,23,25,27,31,35], ys:[439.4,423.2,416.9,410.5,415.3,399.6,403.8,381.6] },
-      { id:4, cls:'series-4', label:'Amber',
+      { id:4, cls:'series-4', label:'Rose',
         vals:[11,12,13,14,15,17,19,22], ys:[468.3,459.3,457.1,457.1,455.5,444.2,453.9,437.7] },
-      { id:5, cls:'series-5', label:'Slate',
+      { id:5, cls:'series-5', label:'Violet',
         vals:[10,11,12,13,14,16,17,19], ys:[487.8,483.0,486.2,480.2,483.0,477.5,480.2,473.3] },
     ];
 
     var quarters = ["Q1 '22","Q2 '22","Q3 '22","Q4 '22","Q1 '23","Q2 '23","Q3 '23","Q4 '23"];
     var xs   = [68,171,274,377,480,583,686,789];
     var colW = 56;
+    var plotT = 100, plotB = 504;
     var allTips = {};
     var waveDelays = [0, 0.25, 0.50, 0.75, 1.00];
 
@@ -182,11 +162,7 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
       return series.reduce(function(s,sr){ return s + sr.vals[qi]; }, 0);
     });
 
-    function el(tag, attrs) {
-      var e = document.createElementNS(ns, tag);
-      Object.keys(attrs).forEach(function(k){ e.setAttribute(k, attrs[k]); });
-      return e;
-    }
+    var el = ctx.el;
 
     function setSeriesActive(qi, mouseY) {
       svgEl.querySelectorAll('.wave-edge, .area-fill').forEach(function(el) { el.classList.remove('active'); });
@@ -216,103 +192,22 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
     });
 
     xs.forEach(function(x, qi) {
-      var PAD = 22, DOT_R = 5, DOT_X = 20, LBL_X = 38, rx = 12;
-      var rowH = 42, hdrH = 38, divH = 12, totH = 46;
-      var TAIL = 14, tw = 10;
-      var bh = hdrH + divH + series.length * rowH + divH + totH + PAD;
-
-      var tipG = el('g', { 'class':'tip', id:'tip_'+qi });
-      tipLayer.appendChild(tipG);
+      var tipG = ctx.buildStackedSideTooltip(tipLayer, {
+        id: 'tip_' + qi,
+        header: quarters[qi],
+        rows: series.map(function(s) {
+          return { cls: s.cls, label: s.label, value: '$' + s.vals[qi] + 'M' };
+        }),
+        totalLabel: 'Total',
+        totalValue: '$' + totals[qi] + 'M',
+        anchorX: x,
+        anchorY: 304,
+        plotL: 42,
+        plotR: 840,
+        plotT: plotT,
+        plotB: plotB
+      });
       allTips[qi] = tipG;
-
-      var qLbl = el('text', { x:'0', y:'0',
-        'text-anchor':'middle', 'dominant-baseline':'central', 'class':'tip-label' });
-      qLbl.textContent = quarters[qi];
-      tipG.appendChild(qLbl);
-
-      var rowEls = [];
-      series.forEach(function(s, si) {
-        var dot  = el('circle', { cx:'0', cy:'0', r:DOT_R, 'class':s.cls, style:'stroke:none' });
-        var sLbl = el('text', { x:'0', y:'0', 'dominant-baseline':'central', 'class':'tip-label' });
-        sLbl.textContent = s.label;
-        var sVal = el('text', { x:'0', y:'0', 'text-anchor':'end', 'dominant-baseline':'central',
-          'class':'tip-value', 'font-size':'18' });
-        sVal.textContent = '$'+s.vals[qi]+'M';
-        tipG.appendChild(dot); tipG.appendChild(sLbl); tipG.appendChild(sVal);
-        rowEls.push({ dot:dot, sLbl:sLbl, sVal:sVal });
-      });
-
-      var totLbl = el('text', { x:'0', y:'0', 'dominant-baseline':'central', 'class':'tip-label' });
-      totLbl.textContent = 'Total';
-      var totVal = el('text', { x:'0', y:'0', 'text-anchor':'end', 'dominant-baseline':'central', 'class':'tip-value' });
-      totVal.textContent = '$'+totals[qi]+'M';
-      tipG.appendChild(totLbl); tipG.appendChild(totVal);
-
-      var maxLblW = 0;
-      rowEls.forEach(function(r) { maxLblW = Math.max(maxLblW, LBL_X + r.sLbl.getBBox().width + 8); });
-      maxLblW = Math.max(maxLblW, LBL_X + totLbl.getBBox().width + 8);
-      var maxValW = 0;
-      rowEls.forEach(function(r) { maxValW = Math.max(maxValW, r.sVal.getBBox().width); });
-      maxValW = Math.max(maxValW, totVal.getBBox().width);
-      var hw = Math.max((maxLblW + maxValW) / 2 + PAD, 160);
-      var bw = hw * 2;
-
-    var spaceR = 840 - x, spaceL = x - 42;
-      var goRight = spaceR >= spaceL;
-      var bL, bR;
-      if (goRight) { bL = x + TAIL; bR = bL + bw; }
-      else          { bR = x - TAIL; bL = bR - bw; }
-
-      var bT = 304 - bh / 2, bB = bT + bh;
-      if (bT < 100) { bT = 100; bB = bT + bh; }
-      if (bB > 504) { bB = 504; bT = bB - bh; }
-      var ancY = 304;
-      var tY = Math.max(bT + rx + tw, Math.min(bB - rx - tw, ancY));
-
-      qLbl.setAttribute('x', String(bL + hw));
-      qLbl.setAttribute('y', String(bT + hdrH / 2));
-      rowEls.forEach(function(r, si) {
-        var rowY = bT + hdrH + divH + si * rowH + rowH / 2;
-        r.dot.setAttribute('cx', String(bL + DOT_X));
-        r.dot.setAttribute('cy', String(rowY));
-        r.sLbl.setAttribute('x', String(bL + LBL_X));
-        r.sLbl.setAttribute('y', String(rowY));
-        r.sVal.setAttribute('x', String(bR - 16));
-        r.sVal.setAttribute('y', String(rowY));
-      });
-      var totY = bT + hdrH + divH + series.length * rowH + divH + totH / 2;
-      totLbl.setAttribute('x', String(bL + LBL_X));
-      totLbl.setAttribute('y', String(totY));
-      totVal.setAttribute('x', String(bR - 16));
-      totVal.setAttribute('y', String(totY));
-
-      var div1Y = bT + hdrH + divH / 2;
-      var div2Y = bT + hdrH + divH + series.length * rowH + divH / 2;
-      tipG.insertBefore(el('line', { x1:bL+14, y1:div1Y, x2:bR-14, y2:div1Y, 'class':'tip-divider' }), qLbl.nextSibling);
-      tipG.appendChild(el('line',  { x1:bL+14, y1:div2Y, x2:bR-14, y2:div2Y, 'class':'tip-divider' }));
-
-      tipG.insertBefore(el('rect', { x:bL, y:bT, width:bw, height:bh, rx:rx, 'class':'tip-bg' }), tipG.firstChild);
-
-      var borderPath, tailPath;
-      if (goRight) {
-        borderPath = 'M'+bL+','+(tY-tw)
-          +' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT
-          +' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)
-          +' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB
-          +' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)
-          +' L'+bL+','+(tY+tw);
-        tailPath = 'M'+bL+','+(tY+tw)+' L'+x+','+ancY+' L'+bL+','+(tY-tw);
-      } else {
-        borderPath = 'M'+bR+','+(tY+tw)
-          +' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB
-          +' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)
-          +' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT
-          +' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)
-          +' L'+bR+','+(tY-tw);
-        tailPath = 'M'+bR+','+(tY-tw)+' L'+x+','+ancY+' L'+bR+','+(tY+tw);
-      }
-      tipG.insertBefore(el('path', { d:borderPath, 'class':'tip-border' }), tipG.children[1]);
-      tipG.insertBefore(el('path', { d:tailPath,   'class':'tip-tail' }),   tipG.children[2]);
 
       var hx1 = Math.max(68,  x - colW);
       var hx2 = Math.min(832, x + colW);
@@ -324,26 +219,25 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
       var colDots = dotsL.querySelectorAll('.col-dot[data-col="'+qi+'"]');
 
       hit.addEventListener('mouseenter', function(e) {
-        var pt = svgEl.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
-        var sp = pt.matrixTransform(svgEl.getScreenCTM().inverse());
+        var sp = ctx.eventToSvgPoint(svgEl, e);
         dataLayerEl.classList.add('hovering');
-        dotsL.querySelectorAll('.col-dot').forEach(function(d) { d.classList.remove('active'); });
-        colDots.forEach(function(d) { d.classList.add('active'); });
+        ctx.setElementsActive(dotsL.querySelectorAll('.col-dot'), function(d) {
+          return Array.prototype.indexOf.call(colDots, d) !== -1;
+        });
         setSeriesActive(qi, sp.y);
-        allTips[qi].style.opacity = '1';
-        if (ch) ch.style.opacity = '1';
+        ctx.setOpacity(allTips[qi], 1);
+        ctx.setOpacity(ch, 1);
       });
       hit.addEventListener('mousemove', function(e) {
-        var pt = svgEl.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
-        var sp = pt.matrixTransform(svgEl.getScreenCTM().inverse());
+        var sp = ctx.eventToSvgPoint(svgEl, e);
         setSeriesActive(qi, sp.y);
       });
       hit.addEventListener('mouseleave', function() {
         clearSeriesActive();
         dataLayerEl.classList.remove('hovering');
-        colDots.forEach(function(d) { d.classList.remove('active'); });
-        allTips[qi].style.opacity = '';
-        if (ch) ch.style.opacity = '';
+        ctx.setClassState(colDots, 'active', false);
+        ctx.setOpacity(allTips[qi], null);
+        ctx.setOpacity(ch, null);
       });
     });
 
@@ -382,7 +276,7 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
       }(revealRect, waveDelays[i]));
     });
 
-    /* wave-edges are ordered we5,we4,we3,we2,we1 in markup — stagger bottom-to-top */
+    /* wave-edges are ordered we5,we4,we3,we2,we1 in markup Ã¢â‚¬â€ stagger bottom-to-top */
     var waveEls    = svgEl.querySelectorAll('.wave-edge');
     waveEls.forEach(function(el, i) {
       var delay = waveDelays[waveEls.length - 1 - i];

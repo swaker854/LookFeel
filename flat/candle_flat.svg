@@ -1,19 +1,15 @@
 
 
 
-<svg id="root" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto',Arial,sans-serif">
+<svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto',Arial,sans-serif">
 <defs>
   <style>
     @import url('chart-shared.css');
 
-    .c-bull { fill:#00B87A; }
-    .c-bear { fill:#F43F5E; }
-    .w-bull { stroke:#00B87A; stroke-width:1.5; fill:none; }
-    .w-bear { stroke:#F43F5E; stroke-width:1.5; fill:none; }
-    svg.dark .c-bull { fill:#10B981; }
-    svg.dark .c-bear { fill:#FB6181; }
-    svg.dark .w-bull { stroke:#10B981; }
-    svg.dark .w-bear { stroke:#FB6181; }
+    .c-bull { fill:var(--series-2); }
+    .c-bear { fill:var(--series-4); }
+    .w-bull { stroke:var(--series-2); stroke-width:1.5; fill:none; }
+    .w-bear { stroke:var(--series-4); stroke-width:1.5; fill:none; }
 
     @keyframes dataFadeIn { from{opacity:0} to{opacity:1} }
     .data-body { animation:dataFadeIn 0.8s ease-out both; }
@@ -26,21 +22,6 @@
 
     .legend-value { opacity:0; transition:opacity 0.3s; }
     svg.print .legend-value { opacity:1; }
-    .tip-value { fill:#1C1B1F; font-size:28px; font-weight:700; }
-    .tip-label { fill:#49454F; font-size:22px; font-weight:400; }
-    .tick-label { font-size:22px; font-weight:500; }
-    .category-label { font-size:22px; font-weight:500; }
-    .legend-title { font-size:22px; font-weight:700; letter-spacing:0.8px; }
-    .legend-label { font-size:22px; font-weight:500; }
-    .legend-value { font-size:22px; font-weight:600; }
-    svg.dark .tip-value { fill:#E6E0E9; }
-    svg.dark .tip-label { fill:#CAC4D0; }
-    .legend-k3 { fill:#64748B; stroke:#64748B; }
-    .legend-k4 { fill:#F59E0B; stroke:#F59E0B; }
-    .legend-k5 { fill:#00D4E8; stroke:#00D4E8; }
-    svg.dark .legend-k3 { fill:#94A3B8; stroke:#94A3B8; }
-    svg.dark .legend-k4 { fill:#FBB724; stroke:#FBB724; }
-    svg.dark .legend-k5 { fill:#22D3EE; stroke:#22D3EE; }
   </style>
 </defs>
 
@@ -190,9 +171,9 @@
 <text x="878" y="118" class="legend-title">SERIES</text>
 <g transform="translate(878,146)"><rect class="c-bull" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Bullish</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$165</text></g>
 <g transform="translate(878,194)"><rect class="c-bear" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Bearish</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$142</text></g>
-<g transform="translate(878,242)"><rect class="legend-k3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Year High</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$172</text></g>
-<g transform="translate(878,290)"><rect class="legend-k4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Year Low</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$115</text></g>
-<g transform="translate(878,338)"><rect class="legend-k5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Range</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$57</text></g>
+<g transform="translate(878,242)"><rect class="series-8" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Year High</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$172</text></g>
+<g transform="translate(878,290)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Year Low</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$115</text></g>
+<g transform="translate(878,338)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Range</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$57</text></g>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -211,74 +192,24 @@
       var itemBounds = itemEl.getBBox();
       var anchorX = wickEl ? parseFloat(wickEl.getAttribute('x1')) : itemBounds.x + itemBounds.width / 2;
       var anchorY = itemBounds.y;
-      var boxWidth = 244;
-      var boxHeight = 128;
-      var radius = 12;
-      var tailHalf = 10;
-      var tailGap = 14;
-      var anchorInset = 18;
-      var boxTop;
-      var boxBottom;
-      var boxLeft;
-      var boxRight;
-      var borderPath;
-      var tailPath;
-      var rectEl = tipEl.querySelector('rect');
-      var borderEl = tipEl.querySelector('.tip-border');
-      var tailEl = tipEl.querySelector('.tip-tail');
-      var textEls = tipEl.querySelectorAll('text');
-      var spaceR = plotR - anchorX;
-      var spaceL = anchorX - plotL;
-      var goRight = spaceR >= spaceL;
-      var ancX;
-
-      if (goRight) {
-        ancX = anchorX + anchorInset;
-        boxLeft = ancX + tailGap;
-        boxRight = boxLeft + boxWidth;
-      } else {
-        ancX = anchorX - anchorInset;
-        boxRight = ancX - tailGap;
-        boxLeft = boxRight - boxWidth;
-      }
-
-      boxTop = anchorY - boxHeight / 2;
-      boxBottom = boxTop + boxHeight;
-      if (boxTop < plotT) { boxTop = plotT; boxBottom = boxTop + boxHeight; }
-      if (boxBottom > plotB) { boxBottom = plotB; boxTop = boxBottom - boxHeight; }
-      var tY = Math.max(boxTop + radius + tailHalf, Math.min(boxBottom - radius - tailHalf, anchorY));
-
-      rectEl.setAttribute('x', boxLeft);
-      rectEl.setAttribute('y', boxTop);
-      rectEl.setAttribute('width', boxWidth);
-      rectEl.setAttribute('height', boxHeight);
-
-      if (goRight) {
-        borderPath = 'M'+boxLeft+','+(tY-tailHalf)+
-          ' L'+boxLeft+','+(boxTop+radius)+' Q'+boxLeft+','+boxTop+' '+(boxLeft+radius)+','+boxTop+
-          ' L'+(boxRight-radius)+','+boxTop+' Q'+boxRight+','+boxTop+' '+boxRight+','+(boxTop+radius)+
-          ' L'+boxRight+','+(boxBottom-radius)+' Q'+boxRight+','+boxBottom+' '+(boxRight-radius)+','+boxBottom+
-          ' L'+(boxLeft+radius)+','+boxBottom+' Q'+boxLeft+','+boxBottom+' '+boxLeft+','+(boxBottom-radius)+
-          ' L'+boxLeft+','+(tY+tailHalf);
-        tailPath = 'M'+boxLeft+','+(tY+tailHalf)+' L'+ancX+','+anchorY+' L'+boxLeft+','+(tY-tailHalf);
-      } else {
-        borderPath = 'M'+boxRight+','+(tY+tailHalf)+
-          ' L'+boxRight+','+(boxBottom-radius)+' Q'+boxRight+','+boxBottom+' '+(boxRight-radius)+','+boxBottom+
-          ' L'+(boxLeft+radius)+','+boxBottom+' Q'+boxLeft+','+boxBottom+' '+boxLeft+','+(boxBottom-radius)+
-          ' L'+boxLeft+','+(boxTop+radius)+' Q'+boxLeft+','+boxTop+' '+(boxLeft+radius)+','+boxTop+
-          ' L'+(boxRight-radius)+','+boxTop+' Q'+boxRight+','+boxTop+' '+boxRight+','+(boxTop+radius)+
-          ' L'+boxRight+','+(tY-tailHalf);
-        tailPath = 'M'+boxRight+','+(tY-tailHalf)+' L'+ancX+','+anchorY+' L'+boxRight+','+(tY+tailHalf);
-      }
-
-      textEls[0].setAttribute('x', boxLeft + boxWidth / 2);
-      textEls[1].setAttribute('x', boxLeft + boxWidth / 2);
-      textEls[2].setAttribute('x', boxLeft + boxWidth / 2);
-      textEls[0].setAttribute('y', boxTop + 28);
-      textEls[1].setAttribute('y', boxTop + 58);
-      textEls[2].setAttribute('y', boxTop + 100);
-      borderEl.setAttribute('d', borderPath);
-      tailEl.setAttribute('d', tailPath);
+      ctx.layoutSideTooltip(tipEl, {
+        anchorX: anchorX,
+        anchorY: anchorY,
+        anchorInset: 18,
+        plotL: plotL,
+        plotR: plotR,
+        plotT: plotT,
+        plotB: plotB,
+        lines: [
+          { text: itemEl.getAttribute('data-close'), className: 'tip-value' },
+          { text: itemEl.getAttribute('data-month') + ' - ' + itemEl.getAttribute('data-trend'), className: 'tip-label' },
+          { text: 'O ' + itemEl.getAttribute('data-open') + '  H ' + itemEl.getAttribute('data-high') + '  L ' + itemEl.getAttribute('data-low'), className: 'tip-label' }
+        ],
+        lineHeights: [48, 34, 30],
+        minWidth: 280,
+        paddingX: 20,
+        paddingY: 16
+      });
       tipEl.removeAttribute('transform');
     }
 
@@ -286,18 +217,17 @@
     dataItemEls.forEach(function (itemEl) {
       var tipEl = svgEl.querySelector('#' + itemEl.getAttribute('data-tip'));
       itemEl.addEventListener('mouseenter', function () {
-        dataItemEls.forEach(function (c) { c.classList.remove('active'); });
+        ctx.activateExclusive(dataItemEls, itemEl);
         chartArea.classList.add('hovering');
-        itemEl.classList.add('active');
         if (tipEl) {
           placeTip(itemEl, tipEl);
-          tipEl.style.opacity = '1';
+          ctx.setOpacity(tipEl, 1);
         }
       });
       itemEl.addEventListener('mouseleave', function () {
         chartArea.classList.remove('hovering');
         itemEl.classList.remove('active');
-        if (tipEl) tipEl.style.opacity = '';
+        ctx.setOpacity(tipEl, null);
       });
     });
   };
