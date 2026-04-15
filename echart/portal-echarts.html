@@ -4,6 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>ECharts Portal</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@6.0.0/dist/echarts.min.js"></script>
+<script src="./chart-registry.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
@@ -73,7 +75,7 @@
     grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: max-content; gap: 12px; background: var(--bg);
   }
   .chart-card {
-    position: relative; width: 100%; aspect-ratio: 1100 / 620; border-radius: 12px; overflow: hidden;
+    position: relative; width: 100%; aspect-ratio: 1100 / 700; border-radius: 12px; overflow: hidden;
     border: 1px solid var(--border); background: var(--bg-surface); display: grid; grid-template-rows: auto 1fr auto;
   }
   .chart-card.light { background: #f8f5fb; border-color: rgba(121,116,126,0.28); box-shadow: 0 18px 40px rgba(28,27,31,0.08); }
@@ -98,10 +100,18 @@
   .chart-card.light .chart-btn:hover { background: rgba(121,116,126,0.12); }
   .chart-btn.active { color: var(--text-primary); border-color: var(--border-cyan); background: rgba(0,242,255,0.08); }
   .chart-card.light .chart-btn.active { color: #1c1b1f; border-color: rgba(0,184,122,0.42); background: rgba(0,184,122,0.12); }
-  .chart-stage { min-height: 0; padding: 12px 10px 8px; }
+  .chart-stage {
+    min-height: 0; padding: 12px 10px 4px;
+  }
   .chart-card.light .chart-stage { background: linear-gradient(180deg, rgba(255,251,254,0.96), rgba(245,240,248,0.94)); }
-  .chart-frame { width: 100%; height: 100%; border: none; background: transparent; display: block; }
-  .chart-footer { padding: 12px 20px 16px; font-size: 10px; line-height: 1.5; letter-spacing: 0.15px; color: rgba(138,153,176,0.78); }
+  .chart-frame {
+    width: 100%; height: 100%;
+    border: none; background: transparent; display: block;
+  }
+  .chart-footer {
+    padding: 8px 20px 14px; font-size: 10px; line-height: 1.5; letter-spacing: 0.15px; color: rgba(138,153,176,0.78);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
   .chart-card.light .chart-footer { color: #79747e; }
 </style>
 </head>
@@ -143,13 +153,28 @@
           <div class="tree-item active">echart</div>
           <div class="tree-item">portal-echarts.html</div>
           <div class="tree-item">charts/bar-echarts.html</div>
+          <div class="tree-item">charts/pareto-echarts.html</div>
+          <div class="tree-item">charts/waterfall-echarts.html</div>
+          <div class="tree-item">charts/boxplot-echarts.html</div>
+          <div class="tree-item">charts/gantt-echarts.html</div>
+          <div class="tree-item">charts/bubble-echarts.html</div>
           <div class="tree-item">charts/stacked-bar-echarts.html</div>
           <div class="tree-item">charts/stacked-line-echarts.html</div>
+          <div class="tree-item">charts/stepline-echarts.html</div>
+          <div class="tree-item">charts/jumpline-echarts.html</div>
+          <div class="tree-item">charts/steparea-echarts.html</div>
           <div class="tree-item">charts/line-echarts.html</div>
+          <div class="tree-item">charts/area-echarts.html</div>
+          <div class="tree-item">charts/stacked-area-echarts.html</div>
+          <div class="tree-item">charts/candle-echarts.html</div>
           <div class="tree-item">charts/funnel-echarts.html</div>
           <div class="tree-item">charts/radar-echarts.html</div>
           <div class="tree-item">charts/pie-echarts.html</div>
+          <div class="tree-item">charts/sunburst-echarts.html</div>
+          <div class="tree-item">charts/icicle-echarts.html</div>
+          <div class="tree-item">charts/tree-echarts.html</div>
           <div class="tree-item">charts/treemap-echarts.html</div>
+          <div class="tree-item">charts/marimekko-echarts.html</div>
         </div>
       </div>
       <div class="content">
@@ -165,9 +190,89 @@
             </div>
           </div>
           <div class="chart-stage">
-            <iframe class="chart-frame" src="./charts/bar-echarts.html" data-chart-frame></iframe>
+            <div class="chart-frame" data-chart-frame data-chart-key="bar-echarts"></div>
           </div>
           <div class="chart-footer">Revenue by category Â· ECharts prototype Â· staged onload animation Â· custom tooltip</div>
+        </section>
+        <section class="chart-card" data-chart-shell>
+          <div class="chart-header">
+            <div class="chart-copy">
+              <div class="chart-title">Revenue Pareto by Category - Pareto</div>
+              <div class="chart-subtitle">Sorted descending Â· cumulative % line Â· 80/20 reference</div>
+            </div>
+            <div class="chart-controls">
+              <button class="chart-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-btn active" type="button" data-chart-mode>Light</button>
+            </div>
+          </div>
+          <div class="chart-stage">
+            <div class="chart-frame" data-chart-frame data-chart-key="pareto-echarts"></div>
+          </div>
+          <div class="chart-footer">Pareto analysis Â· flat reference data and ordering Â· staged bars then cumulative line Â· custom insight panel</div>
+        </section>
+        <section class="chart-card" data-chart-shell>
+          <div class="chart-header">
+            <div class="chart-copy">
+              <div class="chart-title">Revenue Waterfall by Category - Waterfall</div>
+              <div class="chart-subtitle">Cumulative build Â· 7 series + Other Â· total summary</div>
+            </div>
+            <div class="chart-controls">
+              <button class="chart-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-btn active" type="button" data-chart-mode>Light</button>
+            </div>
+          </div>
+          <div class="chart-stage">
+            <div class="chart-frame" data-chart-frame data-chart-key="waterfall-echarts"></div>
+          </div>
+          <div class="chart-footer">Waterfall build Â· flat reference data Â· staged cumulative bars with connectors Â· shared legend overlay</div>
+        </section>
+        <section class="chart-card" data-chart-shell>
+          <div class="chart-header">
+            <div class="chart-copy">
+              <div class="chart-title">Revenue Distribution by Category - Boxplot</div>
+              <div class="chart-subtitle">7 series + Other Â· box plot Â· hover to inspect</div>
+            </div>
+            <div class="chart-controls">
+              <button class="chart-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-btn active" type="button" data-chart-mode>Light</button>
+            </div>
+          </div>
+          <div class="chart-stage">
+            <div class="chart-frame" data-chart-frame data-chart-key="boxplot-echarts"></div>
+          </div>
+          <div class="chart-footer">Distribution view Â· flat boxplot reference Â· whiskers and outliers Â· shared legend overlay</div>
+        </section>
+        <section class="chart-card" data-chart-shell>
+          <div class="chart-header">
+            <div class="chart-copy">
+              <div class="chart-title">Product Roadmap - Gantt</div>
+              <div class="chart-subtitle">Apr-Sep 2026 Â· rounded workstream bars Â· milestones and today marker</div>
+            </div>
+            <div class="chart-controls">
+              <button class="chart-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-btn active" type="button" data-chart-mode>Light</button>
+            </div>
+          </div>
+          <div class="chart-stage">
+            <div class="chart-frame" data-chart-frame data-chart-key="gantt-echarts"></div>
+          </div>
+          <div class="chart-footer">Roadmap view Â· flat gantt reference data Â· rounded task bars with milestone diamonds Â· shared legend overlay</div>
+        </section>
+        <section class="chart-card" data-chart-shell>
+          <div class="chart-header">
+            <div class="chart-copy">
+              <div class="chart-title">Revenue vs Share - Bubble</div>
+              <div class="chart-subtitle">8 categories Â· revenue/share from flat bubble reference</div>
+            </div>
+            <div class="chart-controls">
+              <button class="chart-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-btn active" type="button" data-chart-mode>Light</button>
+            </div>
+          </div>
+          <div class="chart-stage">
+            <div class="chart-frame" data-chart-frame data-chart-key="bubble-echarts"></div>
+          </div>
+          <div class="chart-footer">Revenue vs share Â· ECharts prototype Â· flat-reference palette and legend Â· staggered bubble reveal</div>
         </section>
         <section class="chart-card" data-chart-shell>
           <div class="chart-header">
@@ -181,7 +286,7 @@
             </div>
           </div>
           <div class="chart-stage">
-            <iframe class="chart-frame" src="./charts/stacked-bar-echarts.html" data-chart-frame></iframe>
+            <div class="chart-frame" data-chart-frame data-chart-key="stacked-bar-echarts"></div>
           </div>
           <div class="chart-footer">Quarterly revenue mix Â· ECharts prototype Â· staged column reveal Â· stacked tooltip summary</div>
         </section>
@@ -197,9 +302,57 @@
             </div>
           </div>
           <div class="chart-stage">
-            <iframe class="chart-frame" src="./charts/pie-echarts.html" data-chart-frame></iframe>
+            <div class="chart-frame" data-chart-frame data-chart-key="pie-echarts"></div>
           </div>
           <div class="chart-footer">Segment share Â· ECharts prototype Â· ring pie treatment Â· custom tooltip</div>
+        </section>
+        <section class="chart-card" data-chart-shell>
+          <div class="chart-header">
+            <div class="chart-copy">
+              <div class="chart-title">Revenue Sunburst by Category &amp; Quarter - Sunburst</div>
+              <div class="chart-subtitle">Inner ring = category Â· outer ring = quarterly breakdown</div>
+            </div>
+            <div class="chart-controls">
+              <button class="chart-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-btn active" type="button" data-chart-mode>Light</button>
+            </div>
+          </div>
+          <div class="chart-stage">
+            <div class="chart-frame" data-chart-frame data-chart-key="sunburst-echarts"></div>
+          </div>
+          <div class="chart-footer">Hierarchical revenue split Â· flat sunburst reference data Â· category and quarter rings Â· shared legend overlay</div>
+        </section>
+        <section class="chart-card" data-chart-shell>
+          <div class="chart-header">
+            <div class="chart-copy">
+              <div class="chart-title">Flare Visualization Toolkit - Icicle</div>
+              <div class="chart-subtitle">5 levels Â· area by source lines of code Â· depth-tinted hierarchy</div>
+            </div>
+            <div class="chart-controls">
+              <button class="chart-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-btn active" type="button" data-chart-mode>Light</button>
+            </div>
+          </div>
+          <div class="chart-stage">
+            <div class="chart-frame" data-chart-frame data-chart-key="icicle-echarts"></div>
+          </div>
+          <div class="chart-footer">Icicle hierarchy Â· flat flare reference data Â· depth-column layout with tinted modules Â· shared scrollable legend</div>
+        </section>
+        <section class="chart-card" data-chart-shell>
+          <div class="chart-header">
+            <div class="chart-copy">
+              <div class="chart-title">Product Organisation - Tree</div>
+              <div class="chart-subtitle">14 nodes Â· 4 depths Â· hover to inspect</div>
+            </div>
+            <div class="chart-controls">
+              <button class="chart-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-btn active" type="button" data-chart-mode>Light</button>
+            </div>
+          </div>
+          <div class="chart-stage">
+            <div class="chart-frame" data-chart-frame data-chart-key="tree-echarts"></div>
+          </div>
+          <div class="chart-footer">Organisation tree Â· flat tree reference Â· rounded department cards with branch tinting Â· shared legend overlay</div>
         </section>
         <section class="chart-card" data-chart-shell>
           <div class="chart-header">
@@ -213,7 +366,7 @@
             </div>
           </div>
           <div class="chart-stage">
-            <iframe class="chart-frame" src="./charts/radar-echarts.html" data-chart-frame></iframe>
+            <div class="chart-frame" data-chart-frame data-chart-key="radar-echarts"></div>
           </div>
           <div class="chart-footer">Capability comparison Â· ECharts prototype Â· staggered series reveal Â· custom tooltip</div>
         </section>
@@ -229,9 +382,25 @@
             </div>
           </div>
           <div class="chart-stage">
-            <iframe class="chart-frame" src="./charts/line-echarts.html" data-chart-frame></iframe>
+            <div class="chart-frame" data-chart-frame data-chart-key="line-echarts"></div>
           </div>
           <div class="chart-footer">Trend comparison Â· ECharts prototype Â· path reveal feel Â· focus-on-hover interaction</div>
+        </section>
+        <section class="chart-card" data-chart-shell>
+          <div class="chart-header">
+            <div class="chart-copy">
+              <div class="chart-title">Quarterly Waves - Area</div>
+              <div class="chart-subtitle">5 series Â· flat area reference Â· hover to inspect</div>
+            </div>
+            <div class="chart-controls">
+              <button class="chart-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-btn active" type="button" data-chart-mode>Light</button>
+            </div>
+          </div>
+          <div class="chart-stage">
+            <div class="chart-frame" data-chart-frame data-chart-key="area-echarts"></div>
+          </div>
+          <div class="chart-footer">Flat area reference Â· overlapping area fills Â· quarter hover tooltip Â· right-side series legend</div>
         </section>
         <section class="chart-card" data-chart-shell>
           <div class="chart-header">
@@ -245,9 +414,89 @@
             </div>
           </div>
           <div class="chart-stage">
-            <iframe class="chart-frame" src="./charts/stacked-line-echarts.html" data-chart-frame></iframe>
+            <div class="chart-frame" data-chart-frame data-chart-key="stacked-line-echarts"></div>
           </div>
           <div class="chart-footer">Quarterly revenue mix · ECharts prototype · stacked area-line treatment · cumulative tooltip summary</div>
+        </section>
+        <section class="chart-card" data-chart-shell>
+          <div class="chart-header">
+            <div class="chart-copy">
+              <div class="chart-title">Federal Funds Rate - Step Line</div>
+              <div class="chart-subtitle">6 rate cycles · historical steps · hover to inspect</div>
+            </div>
+            <div class="chart-controls">
+              <button class="chart-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-btn active" type="button" data-chart-mode>Light</button>
+            </div>
+          </div>
+          <div class="chart-stage">
+            <div class="chart-frame" data-chart-frame data-chart-key="stepline-echarts"></div>
+          </div>
+          <div class="chart-footer">US Federal Funds Rate · flat step line reference · six tightening and easing cycles · shared legend overlay</div>
+        </section>
+        <section class="chart-card" data-chart-shell>
+          <div class="chart-header">
+            <div class="chart-copy">
+              <div class="chart-title">Benchmark Rates by Region - Jump Line</div>
+              <div class="chart-subtitle">3 series · quarterly · hover to inspect</div>
+            </div>
+            <div class="chart-controls">
+              <button class="chart-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-btn active" type="button" data-chart-mode>Light</button>
+            </div>
+          </div>
+          <div class="chart-stage">
+            <div class="chart-frame" data-chart-frame data-chart-key="jumpline-echarts"></div>
+          </div>
+          <div class="chart-footer">Benchmark rates by region · flat jump line reference · 3 quarterly series · shared legend overlay</div>
+        </section>
+        <section class="chart-card" data-chart-shell>
+          <div class="chart-header">
+            <div class="chart-copy">
+              <div class="chart-title">Cloud Spend by Department - Step Area</div>
+              <div class="chart-subtitle">4 series · monthly · hover to inspect</div>
+            </div>
+            <div class="chart-controls">
+              <button class="chart-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-btn active" type="button" data-chart-mode>Light</button>
+            </div>
+          </div>
+          <div class="chart-stage">
+            <div class="chart-frame" data-chart-frame data-chart-key="steparea-echarts"></div>
+          </div>
+          <div class="chart-footer">Cloud spend by department · flat step area reference · monthly stepped fills · shared legend overlay</div>
+        </section>
+        <section class="chart-card" data-chart-shell>
+          <div class="chart-header">
+            <div class="chart-copy">
+              <div class="chart-title">Quarterly Mix - Stacked Area</div>
+              <div class="chart-subtitle">5 series · flat stacked area reference · hover to inspect</div>
+            </div>
+            <div class="chart-controls">
+              <button class="chart-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-btn active" type="button" data-chart-mode>Light</button>
+            </div>
+          </div>
+          <div class="chart-stage">
+            <div class="chart-frame" data-chart-frame data-chart-key="stacked-area-echarts"></div>
+          </div>
+          <div class="chart-footer">Flat stacked area reference · cumulative area bands · quarter tooltip summary · right-side legend</div>
+        </section>
+        <section class="chart-card" data-chart-shell>
+          <div class="chart-header">
+            <div class="chart-copy">
+              <div class="chart-title">Market Pulse - Candle</div>
+              <div class="chart-subtitle">12 months · OHLC candles · flat reference styling</div>
+            </div>
+            <div class="chart-controls">
+              <button class="chart-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-btn active" type="button" data-chart-mode>Light</button>
+            </div>
+          </div>
+          <div class="chart-stage">
+            <div class="chart-frame" data-chart-frame data-chart-key="candle-echarts"></div>
+          </div>
+          <div class="chart-footer">Flat candle reference · bullish/bearish monthly OHLC · custom tooltip · right-side info panel</div>
         </section>
         <section class="chart-card" data-chart-shell>
           <div class="chart-header">
@@ -261,7 +510,7 @@
             </div>
           </div>
           <div class="chart-stage">
-            <iframe class="chart-frame" src="./charts/funnel-echarts.html" data-chart-frame></iframe>
+            <div class="chart-frame" data-chart-frame data-chart-key="funnel-echarts"></div>
           </div>
           <div class="chart-footer">Conversion flow Â· ECharts prototype Â· staged funnel growth Â· dim-on-hover focus</div>
         </section>
@@ -277,44 +526,75 @@
             </div>
           </div>
           <div class="chart-stage">
-            <iframe class="chart-frame" src="./charts/treemap-echarts.html" data-chart-frame></iframe>
+            <div class="chart-frame" data-chart-frame data-chart-key="treemap-echarts"></div>
           </div>
           <div class="chart-footer">Hierarchical allocation Â· ECharts prototype Â· built-in tile expansion Â· container-style hover focus</div>
+        </section>
+        <section class="chart-card" data-chart-shell>
+          <div class="chart-header">
+            <div class="chart-copy">
+              <div class="chart-title">Sales by Product - Marimekko</div>
+              <div class="chart-subtitle">4 products Â· width by product share Â· height by country share</div>
+            </div>
+            <div class="chart-controls">
+              <button class="chart-btn" type="button" data-chart-open>Open</button>
+              <button class="chart-btn active" type="button" data-chart-mode>Light</button>
+            </div>
+          </div>
+          <div class="chart-stage">
+            <div class="chart-frame" data-chart-frame data-chart-key="marimekko-echarts"></div>
+          </div>
+          <div class="chart-footer">Sales by product and country Â· marimekko chart Â· flat reference widths and shares Â· hover to inspect</div>
         </section>
       </div>
     </div>
   </div>
 <script>
   const defaultPalette = ['#00D4E8', '#00B87A', '#F59E0B', '#F43F5E', '#8B5CF6', '#3B82F6', '#0D9488', '#64748B'];
+  const chartInstances = [];
   document.querySelectorAll('[data-chart-shell]').forEach(function(card) {
     const frame = card.querySelector('[data-chart-frame]');
     const modeBtn = card.querySelector('[data-chart-mode]');
     const openBtn = card.querySelector('[data-chart-open]');
+    const chartKey = frame ? frame.getAttribute('data-chart-key') : null;
     const state = { dark: true };
+    if (frame) frame.setAttribute('data-initial-dark', state.dark ? '1' : '0');
+    let chartInstance = null;
+    if (frame && chartKey) {
+      try {
+        chartInstance = window.LookfeelCharts.mount(frame, chartKey);
+      } catch (error) {
+        console.error('Failed to mount chart:', chartKey, error);
+        frame.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:rgba(138,153,176,0.9);font:500 11px Roboto, Helvetica Neue, Arial, sans-serif;text-align:center;padding:16px;">Chart failed to load</div>';
+      }
+    }
+    if (chartInstance) chartInstances.push(chartInstance);
     function paintButtons() {
       card.classList.toggle('light', !state.dark);
       modeBtn.classList.toggle('active', state.dark);
       modeBtn.textContent = state.dark ? 'Light' : 'Dark';
     }
-    function syncFrame() {
-      if (!frame || !frame.contentWindow) return;
-      frame.contentWindow.postMessage({ type: 'setPalette', colors: defaultPalette }, '*');
-      frame.contentWindow.postMessage({ type: 'setMode', dark: state.dark }, '*');
+    function syncChart() {
+      if (!chartInstance) return;
+      chartInstance.setPalette(defaultPalette);
+      chartInstance.setMode(state.dark);
     }
     modeBtn.addEventListener('click', function() {
       state.dark = !state.dark;
+      if (frame) frame.setAttribute('data-initial-dark', state.dark ? '1' : '0');
       paintButtons();
-      syncFrame();
+      syncChart();
     });
     openBtn.addEventListener('click', function() {
-      if (!frame) return;
-      const src = frame.getAttribute('src');
-      if (!src) return;
-      const viewerUrl = './chart-viewer.html?src=' + encodeURIComponent(src) + '&dark=' + (state.dark ? '1' : '0');
+      if (!chartKey) return;
+      const viewerUrl = './chart-viewer.html?key=' + encodeURIComponent(chartKey) + '&dark=' + (state.dark ? '1' : '0');
       window.open(viewerUrl, '_blank', 'noopener');
     });
-    frame.addEventListener('load', syncFrame);
     paintButtons();
+    syncChart();
+  });
+  window.addEventListener('resize', function() {
+    chartInstances.forEach(function(instance) { instance.resize(); });
   });
 </script>
 </body>
