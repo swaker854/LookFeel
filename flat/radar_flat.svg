@@ -72,9 +72,11 @@
     .tip-bg     { fill:#FFFBFE; }
     .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
     .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
-    .tip-pct    { fill:#79747E; font-size:10px; font-weight:400; }
+    .tip-value  { fill:#1C1B1F; font-size:28px; font-weight:700; }
+    .tip-label  { fill:#49454F; font-size:22px; font-weight:400; }
+    .tip-pct    { fill:#79747E; font-size:22px; font-weight:400; }
+    svg.dark .tip-value { fill:#E6E0E9; }
+    svg.dark .tip-label { fill:#CAC4D0; }
 
     svg.dark .card-bg    { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
     svg.dark .card-title { fill:#E6E0E9; }
@@ -238,152 +240,152 @@
 <!-- ── Bubble overlay — drawn above all series ── -->
 <g id="bubble-overlay">
   <!-- Emerald bubbles (canonical positions = dot coords in .data-layer) -->
-  <g class="data-tip" id="b3d1-bub" transform="translate(430.0,177.0)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+  <g class="data-tip" id="b3d1-bub" transform="translate(430,196)">
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">64</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Revenue · Emerald</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">64</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Revenue · Emerald</text>
   </g>
   <g class="data-tip" id="b3d2-bub" transform="translate(508.2,242.7)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">50</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Growth · Emerald</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">50</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Growth · Emerald</text>
   </g>
   <g class="data-tip" id="b3d3-bub" transform="translate(595.7,342.8)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">85</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Margin · Emerald</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">85</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Margin · Emerald</text>
   </g>
   <g class="data-tip" id="b3d4-bub" transform="translate(491.6,432.9)">
-    <rect x="-50" y="-52" width="100" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L41,-14 Q50,-14 50,-23 L50,-43 Q50,-52 41,-52 L-41,-52 Q-50,-52 -50,-43 L-50,-23 Q-50,-14 -41,-14 L-8,-14" class="tip-border"/>
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">71</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Satisfaction · Emerald</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">71</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Satisfaction · Emerald</text>
   </g>
   <g class="data-tip" id="b3d5-bub" transform="translate(358.8,452.8)">
-    <rect x="-44" y="-52" width="88" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L35,-14 Q44,-14 44,-23 L44,-43 Q44,-52 35,-52 L-35,-52 Q-44,-52 -44,-43 L-44,-23 Q-44,-14 -35,-14 L-8,-14" class="tip-border"/>
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">82</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Retention · Emerald</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">82</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Retention · Emerald</text>
   </g>
   <g class="data-tip" id="b3d6-bub" transform="translate(309.1,332.6)">
-    <rect x="-48" y="-52" width="96" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L39,-14 Q48,-14 48,-23 L48,-43 Q48,-52 39,-52 L-39,-52 Q-48,-52 -48,-43 L-48,-23 Q-48,-14 -39,-14 L-8,-14" class="tip-border"/>
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">62</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Innovation · Emerald</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">62</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Innovation · Emerald</text>
   </g>
-  <g class="data-tip" id="b3d7-bub" transform="translate(289.3,192.8)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+  <g class="data-tip" id="b3d7-bub" transform="translate(289.3,196)">
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">90</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Quality · Emerald</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">90</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Quality · Emerald</text>
   </g>
   <g class="data-tip" id="b2d1-bub" transform="translate(430.0,195.0)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">55</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Revenue · Violet</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">55</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Revenue · Violet</text>
   </g>
   <g class="data-tip" id="b2d2-bub" transform="translate(558.2,202.7)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">82</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Growth · Violet</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">82</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Growth · Violet</text>
   </g>
   <g class="data-tip" id="b2d3-bub" transform="translate(566.5,336.2)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">70</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Margin · Violet</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">70</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Margin · Violet</text>
   </g>
   <g class="data-tip" id="b2d4-bub" transform="translate(484.7,418.5)">
-    <rect x="-46" y="-52" width="92" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L37,-14 Q46,-14 46,-23 L46,-43 Q46,-52 37,-52 L-37,-52 Q-46,-52 -46,-43 L-46,-23 Q-46,-14 -37,-14 L-8,-14" class="tip-border"/>
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">63</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Satisfaction · Violet</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">63</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Satisfaction · Violet</text>
   </g>
   <g class="data-tip" id="b2d5-bub" transform="translate(379.7,409.5)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">58</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Retention · Violet</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">58</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Retention · Violet</text>
   </g>
   <g class="data-tip" id="b2d6-bub" transform="translate(258.4,344.2)">
-    <rect x="-44" y="-52" width="88" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L35,-14 Q44,-14 44,-23 L44,-43 Q44,-52 35,-52 L-35,-52 Q-44,-52 -44,-43 L-44,-23 Q-44,-14 -35,-14 L-8,-14" class="tip-border"/>
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">88</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Innovation · Violet</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">88</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Innovation · Violet</text>
   </g>
   <g class="data-tip" id="b2d7-bub" transform="translate(317.4,215.2)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">72</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Quality · Violet</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">72</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Quality · Violet</text>
   </g>
-  <g class="data-tip" id="b1d1-bub" transform="translate(430.0,161.0)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+  <g class="data-tip" id="b1d1-bub" transform="translate(430,196)">
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">72</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Revenue · Cyan</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">72</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Revenue · Cyan</text>
   </g>
   <g class="data-tip" id="b1d2-bub" transform="translate(531.6,223.9)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">65</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Growth · Cyan</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">65</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Growth · Cyan</text>
   </g>
   <g class="data-tip" id="b1d3-bub" transform="translate(543.1,330.8)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">58</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Margin · Cyan</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">58</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Margin · Cyan</text>
   </g>
   <g class="data-tip" id="b1d4-bub" transform="translate(499.4,449.2)">
-    <rect x="-50" y="-52" width="100" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L41,-14 Q50,-14 50,-23 L50,-43 Q50,-52 41,-52 L-41,-52 Q-50,-52 -50,-43 L-50,-23 Q-50,-14 -41,-14 L-8,-14" class="tip-border"/>
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">80</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Satisfaction · Cyan</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">80</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Satisfaction · Cyan</text>
   </g>
   <g class="data-tip" id="b1d5-bub" transform="translate(365.8,438.3)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">74</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Retention · Cyan</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">74</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Retention · Cyan</text>
   </g>
   <g class="data-tip" id="b1d6-bub" transform="translate(322.8,329.5)">
-    <rect x="-44" y="-52" width="88" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L35,-14 Q44,-14 44,-23 L44,-43 Q44,-52 35,-52 L-35,-52 Q-44,-52 -44,-43 L-44,-23 Q-44,-14 -35,-14 L-8,-14" class="tip-border"/>
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">55</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Innovation · Cyan</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">55</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Innovation · Cyan</text>
   </g>
   <g class="data-tip" id="b1d7-bub" transform="translate(323.7,220.2)">
-    <rect x="-40" y="-52" width="80" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,-14 L31,-14 Q40,-14 40,-23 L40,-43 Q40,-52 31,-52 L-31,-52 Q-40,-52 -40,-43 L-40,-23 Q-40,-14 -31,-14 L-8,-14" class="tip-border"/>
+    <rect x="-125" y="-114" width="250" height="100" rx="12" class="tip-bg"/>
+    <path d="M8,-14 L113,-14 Q125,-14 125,-26 L125,-102 Q125,-114 113,-114 L-113,-114 Q-125,-114 -125,-102 L-125,-26 Q-125,-14 -113,-14 L-8,-14" class="tip-border"/>
     <path d="M8,-14 L0,0 L-8,-14" class="tip-tail"/>
-    <text x="0" y="-40" text-anchor="middle" dominant-baseline="central" class="tip-value">68</text>
-    <text x="0" y="-24" text-anchor="middle" dominant-baseline="central" class="tip-label">Quality · Cyan</text>
+    <text x="0" y="-84" text-anchor="middle" dominant-baseline="central" class="tip-value">68</text>
+    <text x="0" y="-44" text-anchor="middle" dominant-baseline="central" class="tip-label">Quality · Cyan</text>
   </g>
 </g><!-- /bubble-overlay -->
 

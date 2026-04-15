@@ -76,9 +76,11 @@
     .tip-bg      { fill:#FFFBFE; }
     .tip-border  { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
     .tip-tail    { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-value   { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .tip-label   { fill:#49454F; font-size:10px; font-weight:400; }
-    .tip-percent { fill:#8B5CF6; font-size:10px; font-weight:500; }
+    .tip-value   { fill:#1C1B1F; font-size:28px; font-weight:700; }
+    .tip-label   { fill:#49454F; font-size:22px; font-weight:400; }
+    .tip-percent { fill:#8B5CF6; font-size:22px; font-weight:500; }
+    svg.dark .tip-value { fill:#E6E0E9; }
+    svg.dark .tip-label { fill:#CAC4D0; }
 
     svg.dark .card-bg           { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
     svg.dark .card-title        { fill:#E6E0E9; }
@@ -436,7 +438,7 @@ var svg         = document.getElementById('root');
   });
 
   function initTooltips() {
-    var pad = 20, bh = 68, rx = 9, tw = 8, tail = 8;
+    var pad = 20, bh = 120, rx = 12, tw = 10, tail = 12;
     Array.prototype.slice.call(document.querySelectorAll('#tip-overlay .data-tip')).forEach(function(g) {
       var itemCx  = parseFloat(g.getAttribute('data-item-cx'));
       var itemTop = parseFloat(g.getAttribute('data-item-top'));
@@ -485,9 +487,9 @@ var svg         = document.getElementById('root');
       );
 
       /* text positions — evenly distributed in bubble */
-      texts[0].setAttribute('x', tx); texts[0].setAttribute('y', bT + bh * 0.25);
+      texts[0].setAttribute('x', tx); texts[0].setAttribute('y', bT + bh * 0.22);
       texts[1].setAttribute('x', tx); texts[1].setAttribute('y', bT + bh * 0.52);
-      texts[2].setAttribute('x', tx); texts[2].setAttribute('y', bT + bh * 0.78);
+      texts[2].setAttribute('x', tx); texts[2].setAttribute('y', bT + bh * 0.80);
     });
   }
   initTooltips();

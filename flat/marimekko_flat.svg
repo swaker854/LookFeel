@@ -60,9 +60,12 @@
     .tip-bg     { fill:#FFFBFE; }
     .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
     .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
-    .tip-pct    { fill:#79747E; font-size:10px; font-weight:400; }
+    .tip-value  { fill:#1C1B1F; font-size:28px; font-weight:700; }
+    .tip-label  { fill:#49454F; font-size:22px; font-weight:400; }
+    .tip-pct    { fill:#79747E; font-size:22px; font-weight:400; }
+    svg.dark .tip-value { fill:#E6E0E9; }
+    svg.dark .tip-label { fill:#CAC4D0; }
+    svg.dark .tip-pct   { fill:#CAC4D0; }
 
     .border-dark  { display:none; }
     .border-light { display:block; }
@@ -91,7 +94,7 @@
     svg.dark .tip-tail   { fill:#1C1B1F; stroke:#938F99; }
     svg.dark .tip-value  { fill:#E6E0E9; }
     svg.dark .tip-label  { fill:#CAC4D0; }
-    svg.dark .tip-pct    { fill:#938F99; }
+    svg.dark .tip-pct    { fill:#CAC4D0; }
     svg.dark .border-dark  { display:block; }
     svg.dark .border-light { display:none; }
     .card-bg, .border-light, .border-dark, .card-title, .card-subtitle, .footer, .toggle-wrap { display:none !important; }
@@ -355,7 +358,7 @@ var svg         = document.getElementById('root');
   setTimeout(function() { dataLayerEl.classList.add('ready'); }, (lastDelay + duration + 0.1) * 1000);
 
   /* §4 — Tooltip (JS-driven, 3-element tip-bg + tip-border + tip-tail) */
-  var BH = 58, TH = 10, RX = 8, TW = 8;
+  var BH = 120, TH = 12, RX = 12, TW = 10;
   var tip    = document.getElementById('tip');
   var tipBg  = document.getElementById('tip-bg');
   var tipBdr = document.getElementById('tip-bdr');
@@ -421,10 +424,9 @@ var svg         = document.getElementById('root');
     tipTip.setAttribute('d', tailD);
 
     /* text positions */
-    var textY = boxY + 14;
-    tipVal.setAttribute('x', tx); tipVal.setAttribute('y', textY);
-    tipLbl.setAttribute('x', tx); tipLbl.setAttribute('y', textY + 18);
-    tipPct.setAttribute('x', tx); tipPct.setAttribute('y', textY + 34);
+    tipVal.setAttribute('x', tx); tipVal.setAttribute('y', boxY + BH * 0.22);
+    tipLbl.setAttribute('x', tx); tipLbl.setAttribute('y', boxY + BH * 0.52);
+    tipPct.setAttribute('x', tx); tipPct.setAttribute('y', boxY + BH * 0.80);
   }
 
   /* §4 — Hover: .hovering on container, .hovered on item */

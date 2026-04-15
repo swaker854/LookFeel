@@ -9,8 +9,11 @@
     #pie.ready.hovering .slice-g.active { opacity:1;    transition:opacity .2s ease; }
     .tip           { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     svg.print .tip { opacity:0 !important; }
-    .tip-pct    { fill:#79747E; font-size:10px; font-weight:400; }
-    svg.dark .tip-pct { fill:#938F99; }
+    /* tip-sub and tip-pct come from chart-shared.css */
+    .tip-label { fill:#1C1B1F; font-size:22px; font-weight:700; }
+    .tip-value { fill:#1C1B1F; font-size:28px; font-weight:700; }
+    svg.dark .tip-label { fill:#E6E0E9; }
+    svg.dark .tip-value { fill:#E6E0E9; }
   </style>
 </defs>
 
@@ -35,9 +38,10 @@
       <rect id="tip-bg"  class="tip-bg" rx="9"/>
       <path id="tip-bdr" class="tip-border"/>
       <path id="tip-arr" class="tip-tail"/>
-      <text id="tip-val" class="tip-value" text-anchor="middle" dominant-baseline="central"/>
-      <text id="tip-lbl" class="tip-label" text-anchor="middle" dominant-baseline="central"/>
-      <text id="tip-pct" class="tip-pct"   text-anchor="middle" dominant-baseline="central"/>
+      <text id="tip-lbl" class="tip-label" text-anchor="start" dominant-baseline="central"/>
+      <text id="tip-sub" class="tip-sub"   text-anchor="start" dominant-baseline="central"/>
+      <text id="tip-val" class="tip-value" text-anchor="start" dominant-baseline="central"/>
+      <text id="tip-pct" class="tip-pct"   text-anchor="start" dominant-baseline="central"/>
     </g>
   </g>
 </g>
@@ -103,8 +107,9 @@
     var tipBg  = svgEl.querySelector('#tip-bg');
     var tipBdr = svgEl.querySelector('#tip-bdr');
     var tipArr = svgEl.querySelector('#tip-arr');
-    var tipVal = svgEl.querySelector('#tip-val');
     var tipLbl = svgEl.querySelector('#tip-lbl');
+    var tipSub = svgEl.querySelector('#tip-sub');
+    var tipVal = svgEl.querySelector('#tip-val');
     var tipPct = svgEl.querySelector('#tip-pct');
 
     function showTip(g) {
@@ -114,54 +119,30 @@
       var pct    = g.getAttribute('data-pct');
       var midRad = midDeg * Math.PI / 180;
       var dx = Math.cos(midRad), dy = Math.sin(midRad);
-      var tipX = CX + dx * R, tipY = CY + dy * R;
+      var ancX = CX + dx * (R + PUSH), ancY = CY + dy * (R + PUSH);
 
-      tipVal.textContent = val; tipLbl.textContent = label; tipPct.textContent = pct;
-      var pad = 20;
-      var hw = Math.max(tipVal.getBBox().width+pad, tipLbl.getBBox().width+pad, tipPct.getBBox().width+pad, 60) / 2;
-      var bh = 56, rx9 = 9, tw = 10, TAIL = 8;
+      tipLbl.textContent = label;
+      tipSub.textContent = 'Share of total';
+      tipVal.textContent = val;
+      tipPct.textContent = pct;
 
-      var bCx = tipX;
-      if (bCx - hw < 8)    bCx = 8 + hw;
-      if (bCx + hw > FRAME_W - 8) bCx = FRAME_W - 8 - hw;
-      var flip = dy > 0;
-      var bT, bB;
-      var tailTipY;
-      if (!flip) { bT = tipY - TAIL - bh; bB = tipY - TAIL; }
-      else       { bT = tipY + TAIL;      bB = tipY + TAIL + bh; }
-      if (bT < 8)   { bT = 8;   bB = bT + bh; }
-      if (bB > FRAME_H - 8) { bB = FRAME_H - 8; bT = bB - bh; }
-      if (tipY <= bT) {
-        flip = true;
-      } else if (tipY >= bB) {
-        flip = false;
-      } else if (!flip) {
-        bT = Math.min(FRAME_H - 8 - bh, tipY + TAIL);
-        bB = bT + bh;
-        flip = true;
-      } else {
-        bB = Math.max(8 + bh, tipY - TAIL);
-        bT = bB - bh;
-        flip = false;
-      }
-      tailTipY = flip ? Math.min(tipY, bT - 4) : Math.max(tipY, bB + 4);
-      var bL = bCx - hw, bR = bCx + hw;
+      var padH = 20, padV = 16;
+      var ROW = [34, 22, 42, 26];
+      var bh  = padV + ROW[0] + ROW[1] + ROW[2] + ROW[3] + padV;
+      var contentW = Math.max(tipLbl.getBBox().width, tipSub.getBBox().width, tipVal.getBBox().width, tipPct.getBBox().width);
+      var bw = Math.max(contentW + padH * 2, 300);
 
-      tipBg.setAttribute('x', bL); tipBg.setAttribute('y', bT);
-      tipBg.setAttribute('width', hw*2); tipBg.setAttribute('height', bh);
+      var t = ctx.buildTip(ancX, ancY, bw, bh, 4, 440, 4, FRAME_H - 4);
 
-      var openPath, tailPath;
-      if (flip) {
-        openPath = 'M'+(bCx-tw)+','+bT+' L'+(bL+rx9)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+rx9)+' L'+bL+','+(bB-rx9)+' Q'+bL+','+bB+' '+(bL+rx9)+','+bB+' L'+(bR-rx9)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-rx9)+' L'+bR+','+(bT+rx9)+' Q'+bR+','+bT+' '+(bR-rx9)+','+bT+' L'+(bCx+tw)+','+bT;
-        tailPath = 'M'+(bCx+tw)+','+bT+' L'+bCx+','+tailTipY+' L'+(bCx-tw)+','+bT;
-      } else {
-        openPath = 'M'+(bCx+tw)+','+bB+' L'+(bR-rx9)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-rx9)+' L'+bR+','+(bT+rx9)+' Q'+bR+','+bT+' '+(bR-rx9)+','+bT+' L'+(bL+rx9)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+rx9)+' L'+bL+','+(bB-rx9)+' Q'+bL+','+bB+' '+(bL+rx9)+','+bB+' L'+(bCx-tw)+','+bB;
-        tailPath = 'M'+(bCx-tw)+','+bB+' L'+bCx+','+tailTipY+' L'+(bCx+tw)+','+bB;
-      }
-      tipBdr.setAttribute('d', openPath); tipArr.setAttribute('d', tailPath);
-      tipVal.setAttribute('x', bCx); tipVal.setAttribute('y', bT + bh*0.28);
-      tipLbl.setAttribute('x', bCx); tipLbl.setAttribute('y', bT + bh*0.54);
-      tipPct.setAttribute('x', bCx); tipPct.setAttribute('y', bT + bh*0.78);
+      tipBg.setAttribute('x', t.bL); tipBg.setAttribute('y', t.bT);
+      tipBg.setAttribute('width', bw); tipBg.setAttribute('height', bh);
+      tipBdr.setAttribute('d', t.borderPath); tipArr.setAttribute('d', t.tailPath);
+
+      var tTx = t.bL + padH;
+      tipLbl.setAttribute('x', tTx); tipLbl.setAttribute('y', t.bT + padV + ROW[0]*0.5);
+      tipSub.setAttribute('x', tTx); tipSub.setAttribute('y', t.bT + padV + ROW[0] + ROW[1]*0.5);
+      tipVal.setAttribute('x', tTx); tipVal.setAttribute('y', t.bT + padV + ROW[0] + ROW[1] + ROW[2]*0.5);
+      tipPct.setAttribute('x', tTx); tipPct.setAttribute('y', t.bT + padV + ROW[0] + ROW[1] + ROW[2] + ROW[3]*0.5);
       tip.style.opacity = '1';
     }
 

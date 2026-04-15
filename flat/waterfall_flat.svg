@@ -73,8 +73,10 @@
     .tip-bg    { fill:#FFFBFE; }
     .tip-border   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
     .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-value   { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .tip-label   { fill:#49454F; font-size:10px; font-weight:400; }
+    .tip-value   { fill:#1C1B1F; font-size:28px; font-weight:700; }
+    .tip-label   { fill:#49454F; font-size:22px; font-weight:400; }
+    svg.dark .tip-value { fill:#E6E0E9; }
+    svg.dark .tip-label { fill:#CAC4D0; }
 
     svg.dark .card-bg   { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
     svg.dark .card-title        { fill:#E6E0E9; }
@@ -183,11 +185,11 @@
     <rect x="68" y="442.4" width="56" height="57.6" rx="10" class="series-1"/>
   </g>
   <g class="data-tip" transform="translate(96,434)">
-    <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-    <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-    <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-    <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">+$72M</text>
-    <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">Cyan</text>
+    <rect x="-85" y="-112" width="170" height="100" rx="12" class="tip-bg"/>
+    <path d="M10,-12 L73,-12 Q85,-12 85,-24 L85,-100 Q85,-112 73,-112 L-73,-112 Q-85,-112 -85,-100 L-85,-24 Q-85,-12 -73,-12 L-10,-12" class="tip-border"/>
+    <path d="M-10,-12 L0,12 L10,-12" class="tip-tail"/>
+    <text x="0" y="-82" text-anchor="middle" dominant-baseline="central" class="tip-value">+$72M</text>
+    <text x="0" y="-42" text-anchor="middle" dominant-baseline="central" class="tip-label">Cyan</text>
   </g>
 </g>
 
@@ -197,11 +199,11 @@
     <rect x="152" y="388" width="56" height="54.4" rx="10" class="series-2"/>
   </g>
   <g class="data-tip" transform="translate(180,380)">
-    <rect x="-42" y="-44" width="84" height="38" rx="9" class="tip-bg"/>
-    <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
-    <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-    <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">+$68M</text>
-    <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">Emerald</text>
+    <rect x="-95" y="-112" width="190" height="100" rx="12" class="tip-bg"/>
+    <path d="M10,-12 L83,-12 Q95,-12 95,-24 L95,-100 Q95,-112 83,-112 L-83,-112 Q-95,-112 -95,-100 L-95,-24 Q-95,-12 -83,-12 L-10,-12" class="tip-border"/>
+    <path d="M-10,-12 L0,12 L10,-12" class="tip-tail"/>
+    <text x="0" y="-82" text-anchor="middle" dominant-baseline="central" class="tip-value">+$68M</text>
+    <text x="0" y="-42" text-anchor="middle" dominant-baseline="central" class="tip-label">Emerald</text>
   </g>
 </g>
 
@@ -211,11 +213,11 @@
     <rect x="236" y="340" width="56" height="48" rx="10" class="series-3"/>
   </g>
   <g class="data-tip" transform="translate(264,332)">
-    <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-    <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-    <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-    <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">+$60M</text>
-    <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">Amber</text>
+    <rect x="-85" y="-112" width="170" height="100" rx="12" class="tip-bg"/>
+    <path d="M10,-12 L73,-12 Q85,-12 85,-24 L85,-100 Q85,-112 73,-112 L-73,-112 Q-85,-112 -85,-100 L-85,-24 Q-85,-12 -73,-12 L-10,-12" class="tip-border"/>
+    <path d="M-10,-12 L0,12 L10,-12" class="tip-tail"/>
+    <text x="0" y="-82" text-anchor="middle" dominant-baseline="central" class="tip-value">+$60M</text>
+    <text x="0" y="-42" text-anchor="middle" dominant-baseline="central" class="tip-label">Amber</text>
   </g>
 </g>
 
@@ -225,11 +227,11 @@
     <rect x="320" y="296" width="56" height="44" rx="10" class="series-4"/>
   </g>
   <g class="data-tip" transform="translate(348,288)">
-    <rect x="-36" y="-44" width="72" height="38" rx="9" class="tip-bg"/>
-    <path d="M-8,-6 L-27,-6 Q-36,-6 -36,-15 L-36,-35 Q-36,-44 -27,-44 L27,-44 Q36,-44 36,-35 L36,-15 Q36,-6 27,-6 L8,-6" class="tip-border"/>
-    <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-    <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">+$55M</text>
-    <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">Rose</text>
+    <rect x="-80" y="-112" width="160" height="100" rx="12" class="tip-bg"/>
+    <path d="M10,-12 L68,-12 Q80,-12 80,-24 L80,-100 Q80,-112 68,-112 L-68,-112 Q-80,-112 -80,-100 L-80,-24 Q-80,-12 -68,-12 L-10,-12" class="tip-border"/>
+    <path d="M-10,-12 L0,12 L10,-12" class="tip-tail"/>
+    <text x="0" y="-82" text-anchor="middle" dominant-baseline="central" class="tip-value">+$55M</text>
+    <text x="0" y="-42" text-anchor="middle" dominant-baseline="central" class="tip-label">Rose</text>
   </g>
 </g>
 
@@ -239,11 +241,11 @@
     <rect x="404" y="232.8" width="56" height="63.2" rx="10" class="series-5"/>
   </g>
   <g class="data-tip" transform="translate(432,225)">
-    <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-    <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-    <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-    <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">+$79M</text>
-    <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">Violet</text>
+    <rect x="-85" y="-112" width="170" height="100" rx="12" class="tip-bg"/>
+    <path d="M10,-12 L73,-12 Q85,-12 85,-24 L85,-100 Q85,-112 73,-112 L-73,-112 Q-85,-112 -85,-100 L-85,-24 Q-85,-12 -73,-12 L-10,-12" class="tip-border"/>
+    <path d="M-10,-12 L0,12 L10,-12" class="tip-tail"/>
+    <text x="0" y="-82" text-anchor="middle" dominant-baseline="central" class="tip-value">+$79M</text>
+    <text x="0" y="-42" text-anchor="middle" dominant-baseline="central" class="tip-label">Violet</text>
   </g>
 </g>
 
@@ -252,12 +254,12 @@
   <g class="data-body stagger-6">
     <rect x="488" y="181.6" width="56" height="51.2" rx="10" class="series-6"/>
   </g>
-  <g class="data-tip" transform="translate(516,174)">
-    <rect x="-36" y="-44" width="72" height="38" rx="9" class="tip-bg"/>
-    <path d="M-8,-6 L-27,-6 Q-36,-6 -36,-15 L-36,-35 Q-36,-44 -27,-44 L27,-44 Q36,-44 36,-35 L36,-15 Q36,-6 27,-6 L8,-6" class="tip-border"/>
-    <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-    <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">+$64M</text>
-    <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">Blue</text>
+  <g class="data-tip" transform="translate(516,195)">
+    <rect x="-80" y="-112" width="160" height="100" rx="12" class="tip-bg"/>
+    <path d="M10,-12 L68,-12 Q80,-12 80,-24 L80,-100 Q80,-112 68,-112 L-68,-112 Q-80,-112 -80,-100 L-80,-24 Q-80,-12 -68,-12 L-10,-12" class="tip-border"/>
+    <path d="M-10,-12 L0,12 L10,-12" class="tip-tail"/>
+    <text x="0" y="-82" text-anchor="middle" dominant-baseline="central" class="tip-value">+$64M</text>
+    <text x="0" y="-42" text-anchor="middle" dominant-baseline="central" class="tip-label">Blue</text>
   </g>
 </g>
 
@@ -266,12 +268,12 @@
   <g class="data-body stagger-7">
     <rect x="572" y="132.8" width="56" height="48.8" rx="10" class="series-7"/>
   </g>
-  <g class="data-tip" transform="translate(600,125)">
-    <rect x="-36" y="-44" width="72" height="38" rx="9" class="tip-bg"/>
-    <path d="M-8,-6 L-27,-6 Q-36,-6 -36,-15 L-36,-35 Q-36,-44 -27,-44 L27,-44 Q36,-44 36,-35 L36,-15 Q36,-6 27,-6 L8,-6" class="tip-border"/>
-    <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-    <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">+$61M</text>
-    <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">Teal</text>
+  <g class="data-tip" transform="translate(600,181)">
+    <rect x="-80" y="12" width="160" height="100" rx="12" class="tip-bg"/>
+    <path d="M-10,12 L-68,12 Q-80,12 -80,24 L-80,100 Q-80,112 -68,112 L68,112 Q80,112 80,100 L80,24 Q80,12 68,12 L10,12" class="tip-border"/>
+    <path d="M-10,12 L0,-12 L10,12" class="tip-tail"/>
+    <text x="0" y="42" text-anchor="middle" dominant-baseline="central" class="tip-value">+$61M</text>
+    <text x="0" y="78" text-anchor="middle" dominant-baseline="central" class="tip-label">Teal</text>
   </g>
 </g>
 
@@ -280,12 +282,12 @@
   <g class="data-body stagger-8">
     <rect x="656" y="94.4" width="56" height="38.4" rx="10" class="series-8"/>
   </g>
-  <g class="data-tip" transform="translate(684,141)">
-    <rect x="-38" y="6" width="76" height="38" rx="9" class="tip-bg"/>
-    <path d="M8,6 L29,6 Q38,6 38,15 L38,35 Q38,44 29,44 L-29,44 Q-38,44 -38,35 L-38,15 Q-38,6 -29,6 L-8,6" class="tip-border"/>
-    <path d="M-8,6 L0,-8 L8,6" class="tip-tail"/>
-    <text x="0" y="18" text-anchor="middle" dominant-baseline="central" class="tip-value">+$48M</text>
-    <text x="0" y="34" text-anchor="middle" dominant-baseline="central" class="tip-label">Other</text>
+  <g class="data-tip" transform="translate(684,133)">
+    <rect x="-80" y="12" width="160" height="100" rx="12" class="tip-bg"/>
+    <path d="M-10,12 L-68,12 Q-80,12 -80,24 L-80,100 Q-80,112 -68,112 L68,112 Q80,112 80,100 L80,24 Q80,12 68,12 L10,12" class="tip-border"/>
+    <path d="M-10,12 L0,-12 L10,12" class="tip-tail"/>
+    <text x="0" y="42" text-anchor="middle" dominant-baseline="central" class="tip-value">+$48M</text>
+    <text x="0" y="78" text-anchor="middle" dominant-baseline="central" class="tip-label">Other</text>
   </g>
 </g>
 
@@ -295,11 +297,11 @@
     <rect x="740" y="94.4" width="56" height="405.6" rx="10" class="series-total"/>
   </g>
   <g class="data-tip" transform="translate(768,270)">
-    <rect x="-40" y="-44" width="80" height="38" rx="9" class="tip-bg"/>
-    <path d="M-8,-6 L-31,-6 Q-40,-6 -40,-15 L-40,-35 Q-40,-44 -31,-44 L31,-44 Q40,-44 40,-35 L40,-15 Q40,-6 31,-6 L8,-6" class="tip-border"/>
-    <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-    <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">$507M</text>
-    <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">Total</text>
+    <rect x="-85" y="-112" width="170" height="100" rx="12" class="tip-bg"/>
+    <path d="M10,-12 L73,-12 Q85,-12 85,-24 L85,-100 Q85,-112 73,-112 L-73,-112 Q-85,-112 -85,-100 L-85,-24 Q-85,-12 -73,-12 L-10,-12" class="tip-border"/>
+    <path d="M-10,-12 L0,12 L10,-12" class="tip-tail"/>
+    <text x="0" y="-82" text-anchor="middle" dominant-baseline="central" class="tip-value">$507M</text>
+    <text x="0" y="-42" text-anchor="middle" dominant-baseline="central" class="tip-label">Total</text>
   </g>
 </g>
 

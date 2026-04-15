@@ -90,8 +90,10 @@
     .tip-bg     { fill:#FFFBFE; }
     .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
     .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
+    .tip-value  { fill:#1C1B1F; font-size:28px; font-weight:700; }
+    .tip-label  { fill:#49454F; font-size:22px; font-weight:400; }
+    svg.dark .tip-value { fill:#E6E0E9; }
+    svg.dark .tip-label { fill:#CAC4D0; }
     svg.dark .tip-bg     { fill:#1C1B1F; }
     svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; }
     svg.dark .tip-tail   { fill:#1C1B1F; stroke:#938F99; }
@@ -327,10 +329,10 @@ var svg         = document.getElementById('root');
   /* §2 — isDark hoisted before all build and animation code */
 
   var pad  = 20;   // horizontal padding each side
-  var bh   = 52;   // bubble body height
-  var rx   = 9;    // corner radius (matches reference)
-  var tail = 8;    // tail length
-  var tw   = 8;    // half-width of tail opening
+  var bh   = 90;   // bubble body height
+  var rx   = 12;   // corner radius
+  var tail = 12;   // tail length
+  var tw   = 10;   // half-width of tail opening
 
   function showTip(cx, barTopY, valStr, lblStr) {
     // 1. Set text content first
@@ -401,9 +403,9 @@ var svg         = document.getElementById('root');
 
     // 8. Text positions centred vertically in the bubble body
     tipVal.setAttribute('x', 0);
-    tipVal.setAttribute('y', bh * 0.35);
+    tipVal.setAttribute('y', bh * 0.32);
     tipLbl.setAttribute('x', 0);
-    tipLbl.setAttribute('y', bh * 0.72);
+    tipLbl.setAttribute('y', bh * 0.70);
 
     tip.style.opacity = '1';
   }

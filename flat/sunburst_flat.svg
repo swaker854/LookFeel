@@ -41,9 +41,12 @@
     svg.print .tip { opacity:0 !important; }
     .tip-bg     { fill:#FFFBFE; } .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
     .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
-    .tip-pct    { fill:#79747E; font-size:10px; font-weight:400; }
+    .tip-value  { fill:#1C1B1F; font-size:28px; font-weight:700; }
+    .tip-label  { fill:#49454F; font-size:22px; font-weight:400; }
+    .tip-pct    { fill:#79747E; font-size:22px; font-weight:400; }
+    svg.dark .tip-value { fill:#E6E0E9; }
+    svg.dark .tip-label { fill:#CAC4D0; }
+    svg.dark .tip-pct   { fill:#CAC4D0; }
     svg.dark .card-bg    { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
     svg.dark .card-title { fill:#E6E0E9; } svg.dark .card-subtitle { fill:#938F99; }
     svg.dark .legend-label { fill:#E6E0E9; } svg.dark .legend-value { fill:#E6E0E9; }
@@ -287,7 +290,7 @@ var svg    = document.getElementById('root');
   var tipVal = document.getElementById('tip-val');
   var tipLbl = document.getElementById('tip-lbl');
   var tipPct = document.getElementById('tip-pct');
-  var BH=56, TAIL=10, rx9=9, tw=10;
+  var BH=120, TAIL=12, rx9=12, tw=10;
 
   function showTip(pathEl) {
     var tipX = parseFloat(pathEl.getAttribute('data-tip-x')) + 390;
@@ -327,9 +330,9 @@ var svg    = document.getElementById('root');
       tp='M'+(bCx+tw)+','+bT+' L'+bCx+','+tipY+' L'+(bCx-tw)+','+bT;
     }
     tipBdr.setAttribute('d',op); tipArr.setAttribute('d',tp);
-    tipVal.setAttribute('x',bCx); tipVal.setAttribute('y',bT+BH*0.28);
-    tipLbl.setAttribute('x',bCx); tipLbl.setAttribute('y',bT+BH*0.54);
-    tipPct.setAttribute('x',bCx); tipPct.setAttribute('y',bT+BH*0.78);
+    tipVal.setAttribute('x',bCx); tipVal.setAttribute('y',bT+BH*0.22);
+    tipLbl.setAttribute('x',bCx); tipLbl.setAttribute('y',bT+BH*0.52);
+    tipPct.setAttribute('x',bCx); tipPct.setAttribute('y',bT+BH*0.80);
     tip.style.opacity='1';
   }
 

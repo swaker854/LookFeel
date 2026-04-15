@@ -56,9 +56,12 @@
   .tip-bg     { fill:#FFFBFE; }
   .tip-border { fill:#FFFBFE;stroke:#79747E;stroke-width:1; }
   .tip-tail   { fill:#FFFBFE;stroke:#79747E;stroke-width:1; }
-  .tip-value  { fill:#1C1B1F;font-size:13px;font-weight:500; }
-  .tip-label  { fill:#49454F;font-size:10px;font-weight:400; }
-  .tip-pct    { fill:#79747E;font-size:10px;font-weight:400; }
+  .tip-value  { fill:#1C1B1F;font-size:28px;font-weight:700; }
+  .tip-label  { fill:#49454F;font-size:22px;font-weight:400; }
+  .tip-pct    { fill:#79747E;font-size:22px;font-weight:400; }
+  svg.dark .tip-value { fill:#E6E0E9; }
+  svg.dark .tip-label { fill:#CAC4D0; }
+  svg.dark .tip-pct   { fill:#CAC4D0; }
 
   svg.dark .card-bg      { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
   svg.dark .card-title   { fill:#E6E0E9; } svg.dark .card-subtitle  { fill:#938F99; }
@@ -74,7 +77,7 @@
   svg.dark .tip-border { fill:#1C1B1F;stroke:#938F99; }
   svg.dark .tip-tail   { fill:#1C1B1F;stroke:#938F99; }
   svg.dark .tip-value  { fill:#E6E0E9; } svg.dark .tip-label { fill:#CAC4D0; }
-  svg.dark .tip-pct    { fill:#938F99; }
+  svg.dark .tip-pct    { fill:#CAC4D0; }
   .border-dark  { display:none; } .border-light { display:block; }
   svg.dark .border-dark  { display:block; } svg.dark .border-light { display:none; }
   .card-bg, .border-light, .border-dark, .card-title, .card-subtitle, .footer, .toggle-wrap { display:none !important; }
@@ -358,7 +361,7 @@ var svg        = document.getElementById('root');
       tipBg=document.getElementById('tip-bg'),tipBdr=document.getElementById('tip-bdr'),
       tipArr=document.getElementById('tip-arr'),tipName=document.getElementById('tip-name'),
       tipVal=document.getElementById('tip-val'),tipPct=document.getElementById('tip-pct');
-  var BH=58,TAIL=10;
+  var BH=120,TAIL=12;
 
   function posTip(mx,my,name,val){
     /* set text first so getBBox measures real rendered width */
@@ -375,7 +378,7 @@ var svg        = document.getElementById('root');
       60
     )/2;
 
-    var rx9=9, tw=8;
+    var rx9=12, tw=10;
     var tx=Math.max(hw+8,Math.min(mx,1092-hw));
     var flip=my<BH+TAIL+20;
     var bT,bB;
@@ -414,9 +417,9 @@ var svg        = document.getElementById('root');
     tipBdr.setAttribute('d',openPath);
     tipArr.setAttribute('d',tailPath);
 
-    tipName.setAttribute('x',tx);tipName.setAttribute('y',bT+BH*0.28);
-    tipVal.setAttribute('x',tx); tipVal.setAttribute('y',bT+BH*0.54);
-    tipPct.setAttribute('x',tx); tipPct.setAttribute('y',bT+BH*0.78);
+    tipName.setAttribute('x',tx);tipName.setAttribute('y',bT+BH*0.22);
+    tipVal.setAttribute('x',tx); tipVal.setAttribute('y',bT+BH*0.52);
+    tipPct.setAttribute('x',tx); tipPct.setAttribute('y',bT+BH*0.80);
   }
 
   function attachHover(){

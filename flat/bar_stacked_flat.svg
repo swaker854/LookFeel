@@ -28,6 +28,10 @@
     svg.dark .crosshair { stroke:#938F99; }
     .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     svg.print .tip { opacity:0 !important; }
+    .tip-value { fill:#1C1B1F; font-size:28px; font-weight:700; }
+    .tip-label { fill:#49454F; font-size:22px; font-weight:400; }
+    svg.dark .tip-value { fill:#E6E0E9; }
+    svg.dark .tip-label { fill:#CAC4D0; }
 
     .data-item .seg { transition:opacity 0.2s ease; }
     .chart-container.hovering .data-item .seg        { opacity:0.20; }
@@ -216,10 +220,10 @@
     }
 
     xs.forEach(function(x, qi) {
-      var PAD = 16, DOT_R = 4, DOT_X = 14, LBL_X = 24;
-      var rowH = 18, hdrH = 22, divH = 8, totH = 20;
+      var PAD = 14, DOT_R = 5, DOT_X = 16, LBL_X = 28;
+      var rowH = 34, hdrH = 30, divH = 8, totH = 36;
       var bh = hdrH + divH + series.length * rowH + divH + totH + PAD;
-      var rx = 10;
+      var rx = 12;
 
       var tipG = el('g', {'class':'tip', id:'tip_'+qi});
       tipLayer.appendChild(tipG);
@@ -237,7 +241,7 @@
         var sLbl = el('text', {x:LBL_X, y:rowY, 'dominant-baseline':'central', 'class':'tip-label'});
         sLbl.textContent = s.label;
         var sVal = el('text', {x:0, y:rowY, 'text-anchor':'end',
-          'dominant-baseline':'central', 'class':'tip-value', 'font-size':'11'});
+          'dominant-baseline':'central', 'class':'tip-value', 'font-size':'16'});
         sVal.textContent = '$' + s.vals[qi] + 'M';
         tipG.appendChild(dot); tipG.appendChild(sLbl); tipG.appendChild(sVal);
         rowEls.push({dot:dot, sLbl:sLbl, sVal:sVal});
@@ -257,12 +261,28 @@
       var maxValW = 0;
       rowEls.forEach(function(r) { maxValW = Math.max(maxValW, r.sVal.getBBox().width); });
       maxValW = Math.max(maxValW, totVal.getBBox().width);
-      var hw = Math.max((maxLblW + maxValW) / 2 + PAD, 80);
+      var hw = Math.max((maxLblW + maxValW) / 2 + PAD, 160);
 
-      var bCx = Math.max(hw + 8, Math.min(x, 1092 - hw));
-      var bCy = 195;
-      var bT = bCy - PAD / 2, bB = bT + bh;
-      var bL = bCx - hw, bR = bCx + hw;
+      var bw = hw * 2;
+      var barHW = 36;
+      var TAIL = 14, tw = 10;
+      var spaceR = 850 - (x + barHW);
+      var spaceL = (x - barHW) - 68;
+      var goRight = spaceR >= spaceL;
+      var ancX, bL, bR;
+      if (goRight) {
+        ancX = x + barHW; bL = ancX + TAIL; bR = bL + bw;
+      } else {
+        ancX = x - barHW; bR = ancX - TAIL; bL = bR - bw;
+      }
+      var bCx = (bL + bR) / 2;
+
+      /* vertical: center on chart area [100, 508] */
+      var bT = 304 - bh / 2, bB = bT + bh;
+      if (bT < 100) { bT = 100; bB = bT + bh; }
+      if (bB > 508) { bB = 508; bT = bB - bh; }
+      var ancY = (bT + bB) / 2;
+      var tY = Math.max(bT + rx + tw, Math.min(bB - rx - tw, ancY));
 
       qLbl.setAttribute('x', String(bCx));
       qLbl.setAttribute('y', String(bT + hdrH / 2));
@@ -286,14 +306,28 @@
       tipG.insertBefore(el('line', {x1:bL+8, y1:div1Y, x2:bR-8, y2:div1Y, 'class':'tip-div'}), qLbl.nextSibling);
       tipG.appendChild(el('line', {x1:bL+8, y1:div2Y, x2:bR-8, y2:div2Y, 'class':'tip-div'}));
 
-      tipG.insertBefore(el('rect', {x:bL, y:bT, width:hw*2, height:bh, rx:rx, 'class':'tip-bg'}), tipG.firstChild);
+      tipG.insertBefore(el('rect', {x:bL, y:bT, width:bw, height:bh, rx:rx, 'class':'tip-bg'}), tipG.firstChild);
 
-      var borderPath = 'M'+(bL+rx)+','+bT
-        +' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)
-        +' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB
-        +' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)
-        +' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+' Z';
+      var borderPath, tailPath;
+      if (goRight) {
+        borderPath = 'M'+bL+','+(tY-tw)+
+          ' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+
+          ' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+
+          ' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+
+          ' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+
+          ' L'+bL+','+(tY+tw);
+        tailPath = 'M'+bL+','+(tY+tw)+' L'+ancX+','+ancY+' L'+bL+','+(tY-tw);
+      } else {
+        borderPath = 'M'+bR+','+(tY+tw)+
+          ' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+
+          ' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+
+          ' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+
+          ' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+
+          ' L'+bR+','+(tY-tw);
+        tailPath = 'M'+bR+','+(tY-tw)+' L'+ancX+','+ancY+' L'+bR+','+(tY+tw);
+      }
       tipG.insertBefore(el('path', {d:borderPath, 'class':'tip-border'}), tipG.children[1]);
+      tipG.insertBefore(el('path', {d:tailPath, 'class':'tip-tail'}), tipG.children[2]);
 
       var hit = el('rect', {x:x-colW, y:100, width:colW*2, height:408, fill:'transparent', cursor:'crosshair'});
       hitLayer.appendChild(hit);

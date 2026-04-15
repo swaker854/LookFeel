@@ -39,6 +39,11 @@
     .data-layer.ready.hovering .line-path.active       { opacity:1; }
     .data-layer.ready.hovering .area-path.active       { opacity:1; }
     .data-layer.ready.hovering .dot-inner.visible.active { opacity:1; }
+
+    .tip-value { fill:#1C1B1F; font-size:28px; font-weight:700; }
+    .tip-label { fill:#49454F; font-size:22px; font-weight:400; }
+    svg.dark .tip-value { fill:#E6E0E9; }
+    svg.dark .tip-label { fill:#CAC4D0; }
   </style>
 </defs>
 
@@ -73,19 +78,19 @@
 <!-- .data-layer wraps all chart elements so .data-layer.ready.hovering scopes correctly -->
 <g class="data-layer" id="data-layer">
   <!-- Band below stagger-5 (Slate) to baseline — owned by Slate (upper line), series-5, data-series="5" -->
-  <path id="band-base" class="area-path series-5" data-series="5" stroke="none"
+  <path id="band-base" class="area-path series-5" data-series="5" stroke="none" fill-opacity="0.17"
     d="M68,482.2 L180,476.9 L291,480.4 L403,473.3 L515,476.9 L627,469.8 L738,473.3 L850,466.2 L850,500 L68,500 Z"/>
   <!-- Band stagger-4↔stagger-5 — owned by Amber (upper line), series-4, data-series="4" -->
-  <path id="band-4-5" class="area-path series-4" data-series="4" stroke="none"
+  <path id="band-4-5" class="area-path series-4" data-series="4" stroke="none" fill-opacity="0.24"
     d="M68,460.9 L180,450.2 L291,448.4 L403,448.4 L515,446.7 L627,434.2 L738,444.9 L850,427.1 L850,466.2 L738,473.3 L627,469.8 L515,476.9 L403,473.3 L291,480.4 L180,476.9 L68,482.2 Z"/>
   <!-- Band stagger-3↔stagger-4 — owned by Emerald (upper line), series-3, data-series="3" -->
-  <path id="band-3-4" class="area-path series-3" data-series="3" stroke="none"
+  <path id="band-3-4" class="area-path series-3" data-series="3" stroke="none" fill-opacity="0.33"
     d="M68,428.9 L180,411.1 L291,404.0 L403,396.9 L515,402.2 L627,384.4 L738,389.8 L850,364.9 L850,427.1 L738,444.9 L627,434.2 L515,446.7 L403,448.4 L291,448.4 L180,450.2 L68,460.9 Z"/>
   <!-- Band stagger-2↔stagger-3 — owned by Violet (upper line), series-2, data-series="2" -->
-  <path id="band-2-3" class="area-path series-2" data-series="2" stroke="none"
+  <path id="band-2-3" class="area-path series-2" data-series="2" stroke="none" fill-opacity="0.43"
     d="M68,379.1 L180,356.0 L291,341.8 L403,325.8 L515,324.0 L627,297.3 L738,292.0 L850,254.7 L850,364.9 L738,389.8 L627,384.4 L515,402.2 L403,396.9 L291,404.0 L180,411.1 L68,428.9 Z"/>
   <!-- Band stagger-1↔stagger-2 — owned by Cyan (upper line), series-1, data-series="1" -->
-  <path id="band-1-2" class="area-path series-1" data-series="1" stroke="none"
+  <path id="band-1-2" class="area-path series-1" data-series="1" stroke="none" fill-opacity="0.55"
     d="M68,322.2 L180,288.4 L291,268.9 L403,240.4 L515,231.6 L627,188.9 L738,171.1 L850,126.7 L850,254.7 L738,292.0 L627,297.3 L515,324.0 L403,325.8 L291,341.8 L180,356.0 L68,379.1 Z"/>
 
   <path id="line-5" class="line-path series-5 stagger-5" data-series="5" style="--len:900;fill:none" stroke-width="2"   stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7,4" d="M68,482.2 L180,476.9 L291,480.4 L403,473.3 L515,476.9 L627,469.8 L738,473.3 L850,466.2"/>
@@ -130,59 +135,16 @@
     var tipLayer     = svgEl.querySelector('#tip-layer');
 
     var series = [
-      { id:1, cls:'series-1', label:'Cyan',    vals:[100,119,130,146,151,175,185,210], ys:[322.2,288.4,268.9,240.4,231.6,188.9,171.1,126.7] },
-      { id:2, cls:'series-2', label:'Violet',  vals:[68,81,89,98,99,114,117,138],      ys:[379.1,356.0,341.8,325.8,324.0,297.3,292.0,254.7] },
-      { id:3, cls:'series-3', label:'Emerald', vals:[40,50,54,58,55,65,62,76],         ys:[428.9,411.1,404.0,396.9,402.2,384.4,389.8,364.9] },
-      { id:4, cls:'series-4', label:'Amber',   vals:[22,28,29,29,30,37,31,41],         ys:[460.9,450.2,448.4,448.4,446.7,434.2,444.9,427.1] },
-      { id:5, cls:'series-5', label:'Slate',   vals:[10,13,11,15,13,17,15,19],         ys:[482.2,476.9,480.4,473.3,476.9,469.8,473.3,466.2] },
+      { id:1, cls:'series-1', label:'Cyan',    color:'#00D4E8', darkColor:'#22D3EE', vals:[100,119,130,146,151,175,185,210], ys:[322.2,288.4,268.9,240.4,231.6,188.9,171.1,126.7] },
+      { id:2, cls:'series-2', label:'Violet',  color:'#8B5CF6', darkColor:'#A78BFA', vals:[68,81,89,98,99,114,117,138],      ys:[379.1,356.0,341.8,325.8,324.0,297.3,292.0,254.7] },
+      { id:3, cls:'series-3', label:'Emerald', color:'#00B87A', darkColor:'#10B981', vals:[40,50,54,58,55,65,62,76],         ys:[428.9,411.1,404.0,396.9,402.2,384.4,389.8,364.9] },
+      { id:4, cls:'series-4', label:'Amber',   color:'#F59E0B', darkColor:'#FBB724', vals:[22,28,29,29,30,37,31,41],         ys:[460.9,450.2,448.4,448.4,446.7,434.2,444.9,427.1] },
+      { id:5, cls:'series-5', label:'Slate',   color:'#64748B', darkColor:'#94A3B8', vals:[10,13,11,15,13,17,15,19],         ys:[482.2,476.9,480.4,473.3,476.9,469.8,473.3,466.2] },
     ];
 
     var quarters = ["Q1 '22","Q2 '22","Q3 '22","Q4 '22","Q1 '23","Q2 '23","Q3 '23","Q4 '23"];
     var xs = [68,180,291,403,515,627,738,850];
     var allTips = {};
-
-    var _probe = null;
-    function probeColor(cls) {
-      if (!_probe) {
-        _probe = document.createElementNS(ns, 'rect');
-        _probe.style.visibility = 'hidden';
-        _probe.style.position   = 'absolute';
-        svgEl.appendChild(_probe);
-      }
-      _probe.setAttribute('class', cls);
-      var fill = window.getComputedStyle(_probe).fill;
-      var m = fill.match(/[\d.]+/g);
-      return m ? [+m[0],+m[1],+m[2]] : [0,0,0];
-    }
-
-    function hexToRgb(h) {
-      var n = parseInt(h.replace('#',''), 16);
-      return [(n>>16)&255, (n>>8)&255, n&255];
-    }
-
-    function blendRgb(base, bgHex, t) {
-      var bg = hexToRgb(bgHex);
-      return 'rgb('+[0,1,2].map(function(i){
-        return Math.round(base[i] + (bg[i] - base[i]) * t);
-      }).join(',')+')';
-    }
-
-    function getBandTint(seriesCls) {
-      var base = probeColor(seriesCls);
-      var t    = 0.68;
-      var bg   = svgEl.classList.contains('dark') ? '#1C1B1F' : '#FFFBFE';
-      return blendRgb(base, bg, t);
-    }
-
-    function recolor() {
-      var seriesClsMap = {1:'series-1', 2:'series-2', 3:'series-3', 4:'series-4', 5:'series-5'};
-      dataLayerEl.querySelectorAll('.area-path').forEach(function(band) {
-        var sid = +band.getAttribute('data-series');
-        if (seriesClsMap[sid]) {
-          band.style.fill = getBandTint(seriesClsMap[sid]);
-        }
-      });
-    }
 
     function el(tag, attrs) {
       var e = document.createElementNS(ns, tag);
@@ -247,57 +209,58 @@
         var dot=el('circle',{cx:x,cy:y,r:5,'class':s.cls,stroke:'none'});
         inner.appendChild(dot); dg.appendChild(inner); dotsLayer.appendChild(dg);
 
-        var TAIL=14, bh=44, rx=8, tw=10, PAD=20;
+        var TAIL=14, bh=200, rx=12, tw=10, PAD=20;
 
         var tipG=el('g',{'class':'tip',id:'t'+key});
         tipLayer.appendChild(tipG); allTips[key]=tipG;
 
-        var tv=el('text',{x:0,y:12,'text-anchor':'middle','dominant-baseline':'central','class':'tip-value'});
+        var tv=el('text',{x:0,y:0,'text-anchor':'middle','dominant-baseline':'central','class':'tip-value'});
         tv.textContent='$'+s.vals[qi]+'M total'; tipG.appendChild(tv);
-        var tl=el('text',{x:0,y:30,'text-anchor':'middle','dominant-baseline':'central','class':'tip-label'});
+        var tl=el('text',{x:0,y:0,'text-anchor':'middle','dominant-baseline':'central','class':'tip-label'});
         tl.textContent=s.label+' · '+quarters[qi]; tipG.appendChild(tl);
 
-        var valW = tv.getBBox().width + PAD;
-        var lblW = tl.getBBox().width + PAD;
-        var hw   = Math.max(valW, lblW, 60) / 2;
-        var bw   = hw * 2;
+        var bw = Math.max(tv.getBBox().width + PAD, tl.getBBox().width + PAD, 220);
 
-        var bCx = Math.max(hw + 8, Math.min(x, 1100 - hw - 8));
-        var flip = (y - bh - TAIL - 10) < 100;
-        var bCy  = flip ? (y + TAIL + 6) : (y - bh - TAIL - 6);
+        /* side placement: go whichever side has more room */
+        var spaceR = 850 - x, spaceL = x - 68;
+        var goRight = spaceR >= spaceL;
+        var bL, bR;
+        if (goRight) { bL = x + TAIL; bR = bL + bw; }
+        else          { bR = x - TAIL; bL = bR - bw; }
 
-        tipG.setAttribute('transform','translate('+bCx+','+bCy+')');
+        /* vertical: center on dot, clamp to chart */
+        var bT = y - bh / 2, bB = bT + bh;
+        if (bT < 100) { bT = 100; bB = bT + bh; }
+        if (bB > 500) { bB = 500; bT = bB - bh; }
+        var tY = Math.max(bT + rx + tw, Math.min(bB - rx - tw, y));
 
-        var bgRect = el('rect',{x:-hw,y:0,width:bw,height:bh,rx:rx,'class':'tip-bg'});
-        tipG.insertBefore(bgRect, tv);
+        tv.setAttribute('x', String(bL + bw / 2));
+        tv.setAttribute('y', String(bT + bh * 0.35));
+        tl.setAttribute('x', String(bL + bw / 2));
+        tl.setAttribute('y', String(bT + bh * 0.65));
 
-        function makeBorderPath(hw, bh, rx, tw, flip) {
-          if (!flip) {
-            return 'M'+tw+','+bh
-              +' L'+(hw-rx)+','+bh+' Q'+hw+','+bh+' '+hw+','+(bh-rx)
-              +' L'+hw+','+rx+' Q'+hw+',0 '+(hw-rx)+',0'
-              +' L'+(-(hw-rx))+',0 Q'+(-hw)+',0 '+(-hw)+','+rx
-              +' L'+(-hw)+','+(bh-rx)+' Q'+(-hw)+','+bh+' '+(-(hw-rx))+','+bh
-              +' L'+(-tw)+','+bh;
-          } else {
-            return 'M'+(-tw)+',0'
-              +' L'+(-(hw-rx))+',0 Q'+(-hw)+',0 '+(-hw)+','+rx
-              +' L'+(-hw)+','+(bh-rx)+' Q'+(-hw)+','+bh+' '+(-(hw-rx))+','+bh
-              +' L'+(hw-rx)+','+bh+' Q'+hw+','+bh+' '+hw+','+(bh-rx)
-              +' L'+hw+','+rx+' Q'+hw+',0 '+(hw-rx)+',0'
-              +' L'+tw+',0';
-          }
-        }
-        var borderPath = el('path',{d:makeBorderPath(hw,bh,rx,tw,flip),'class':'tip-border'});
-        tipG.insertBefore(borderPath, tv);
+        tipG.insertBefore(el('rect',{x:String(bL),y:String(bT),width:String(bw),height:String(bh),rx:String(rx),'class':'tip-bg'}), tv);
 
-        var tailPath;
-        if (!flip) {
-          tailPath = el('path',{d:'M'+tw+','+bh+' L0,'+(bh+TAIL)+' L'+(-tw)+','+bh,'class':'tip-tail'});
+        var op, tp;
+        if (goRight) {
+          op = 'M'+bL+','+(tY-tw)+
+               ' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+
+               ' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+
+               ' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+
+               ' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+
+               ' L'+bL+','+(tY+tw);
+          tp = 'M'+bL+','+(tY+tw)+' L'+x+','+y+' L'+bL+','+(tY-tw);
         } else {
-          tailPath = el('path',{d:'M'+(-tw)+',0 L0,'+(-TAIL)+' L'+tw+',0','class':'tip-tail'});
+          op = 'M'+bR+','+(tY+tw)+
+               ' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+
+               ' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+
+               ' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+
+               ' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+
+               ' L'+bR+','+(tY-tw);
+          tp = 'M'+bR+','+(tY-tw)+' L'+x+','+y+' L'+bR+','+(tY+tw);
         }
-        tipG.insertBefore(tailPath, tv);
+        tipG.insertBefore(el('path',{d:op,'class':'tip-border'}), tv);
+        tipG.insertBefore(el('path',{d:tp,'class':'tip-tail'}), tv);
 
         var ch=svgEl.querySelector('#ch'+qi);
         dg.addEventListener('mouseenter',function(){
@@ -318,8 +281,6 @@
     var lastDelay=(series.length-1)*0.25+(xs.length-1)*0.06;
     setTimeout(function(){ dataLayerEl.classList.add('ready'); },(lastDelay+0.35)*1000+100);
 
-    svgEl._onModeChange = function() { recolor(); };
-    recolor();
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());

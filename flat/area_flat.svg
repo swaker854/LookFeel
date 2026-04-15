@@ -45,6 +45,11 @@
     .data-layer.ready.hovering .area-fill.visible.active          { opacity: 1; }
     .col-dot { opacity:0; transition:opacity 0.2s ease; pointer-events:none; }
     .data-layer.ready.hovering .col-dot.active { opacity:1; }
+
+    .tip-value { fill:#1C1B1F; font-size:28px; font-weight:700; }
+    .tip-label { fill:#49454F; font-size:22px; font-weight:400; }
+    svg.dark .tip-value { fill:#E6E0E9; }
+    svg.dark .tip-label { fill:#CAC4D0; }
   </style>
 </defs>
 
@@ -200,36 +205,35 @@
     });
 
     xs.forEach(function(x, qi) {
-      var PAD = 16, DOT_R = 4, DOT_X = 14, LBL_X = 26, bCy = 200, rxB = 10;
-      var rowH = 18, hdrH = 20, divH = 8, totH = 20;
+      var PAD = 14, DOT_R = 5, DOT_X = 16, LBL_X = 28, rx = 12;
+      var rowH = 34, hdrH = 30, divH = 8, totH = 36;
+      var TAIL = 14, tw = 10;
       var bh = hdrH + divH + series.length * rowH + divH + totH + PAD;
 
       var tipG = el('g', { 'class':'tip', id:'tip_'+qi });
       tipLayer.appendChild(tipG);
       allTips[qi] = tipG;
 
-      var qLbl = el('text', { x:0, y:bCy + hdrH/2,
+      var qLbl = el('text', { x:'0', y:'0',
         'text-anchor':'middle', 'dominant-baseline':'central', 'class':'tip-label' });
       qLbl.textContent = quarters[qi];
       tipG.appendChild(qLbl);
 
       var rowEls = [];
       series.forEach(function(s, si) {
-        var rowY = bCy + hdrH + divH + si * rowH + rowH/2;
-        var dot  = el('circle', { cx:0, cy:rowY, r:DOT_R, 'class':s.cls, style:'stroke:none' });
-        var sLbl = el('text', { x:LBL_X, y:rowY, 'dominant-baseline':'central', 'class':'tip-label' });
+        var dot  = el('circle', { cx:'0', cy:'0', r:DOT_R, 'class':s.cls, style:'stroke:none' });
+        var sLbl = el('text', { x:'0', y:'0', 'dominant-baseline':'central', 'class':'tip-label' });
         sLbl.textContent = s.label;
-        var sVal = el('text', { x:0, y:rowY, 'text-anchor':'end', 'dominant-baseline':'central',
-          'class':'tip-value', 'font-size':'11' });
+        var sVal = el('text', { x:'0', y:'0', 'text-anchor':'end', 'dominant-baseline':'central',
+          'class':'tip-value', 'font-size':'16' });
         sVal.textContent = '$'+s.vals[qi]+'M';
         tipG.appendChild(dot); tipG.appendChild(sLbl); tipG.appendChild(sVal);
         rowEls.push({ dot:dot, sLbl:sLbl, sVal:sVal });
       });
 
-      var totY = bCy + hdrH + divH + series.length * rowH + divH + totH/2;
-      var totLbl = el('text', { x:LBL_X, y:totY, 'dominant-baseline':'central', 'class':'tip-label' });
+      var totLbl = el('text', { x:'0', y:'0', 'dominant-baseline':'central', 'class':'tip-label' });
       totLbl.textContent = 'Total';
-      var totVal = el('text', { x:0, y:totY, 'text-anchor':'end', 'dominant-baseline':'central', 'class':'tip-value' });
+      var totVal = el('text', { x:'0', y:'0', 'text-anchor':'end', 'dominant-baseline':'central', 'class':'tip-value' });
       totVal.textContent = '$'+totals[qi]+'M';
       tipG.appendChild(totLbl); tipG.appendChild(totVal);
 
@@ -239,34 +243,65 @@
       var maxValW = 0;
       rowEls.forEach(function(r) { maxValW = Math.max(maxValW, r.sVal.getBBox().width); });
       maxValW = Math.max(maxValW, totVal.getBBox().width);
-      var hw = Math.max((maxLblW + maxValW) / 2 + PAD, 80);
+      var hw = Math.max((maxLblW + maxValW) / 2 + PAD, 160);
+      var bw = hw * 2;
 
-      var bCx = Math.max(hw + 8, Math.min(x, 1100 - hw - 8));
+      var spaceR = 850 - x, spaceL = x - 68;
+      var goRight = spaceR >= spaceL;
+      var bL, bR;
+      if (goRight) { bL = x + TAIL; bR = bL + bw; }
+      else          { bR = x - TAIL; bL = bR - bw; }
 
-      tipG.setAttribute('transform', 'translate('+bCx+',0)');
-      qLbl.setAttribute('x', '0');
-      rowEls.forEach(function(r) {
-        r.dot.setAttribute('cx',  String(-hw + DOT_X));
-        r.sLbl.setAttribute('x', String(-hw + LBL_X));
-        r.sVal.setAttribute('x', String(hw - 8));
+      var bT = 300 - bh / 2, bB = bT + bh;
+      if (bT < 100) { bT = 100; bB = bT + bh; }
+      if (bB > 500) { bB = 500; bT = bB - bh; }
+      var ancY = 300;
+      var tY = Math.max(bT + rx + tw, Math.min(bB - rx - tw, ancY));
+
+      qLbl.setAttribute('x', String(bL + hw));
+      qLbl.setAttribute('y', String(bT + hdrH / 2));
+      rowEls.forEach(function(r, si) {
+        var rowY = bT + hdrH + divH + si * rowH + rowH / 2;
+        r.dot.setAttribute('cx', String(bL + DOT_X));
+        r.dot.setAttribute('cy', String(rowY));
+        r.sLbl.setAttribute('x', String(bL + LBL_X));
+        r.sLbl.setAttribute('y', String(rowY));
+        r.sVal.setAttribute('x', String(bR - 8));
+        r.sVal.setAttribute('y', String(rowY));
       });
-      totLbl.setAttribute('x', String(-hw + LBL_X));
-      totVal.setAttribute('x', String(hw - 8));
+      var totY = bT + hdrH + divH + series.length * rowH + divH + totH / 2;
+      totLbl.setAttribute('x', String(bL + LBL_X));
+      totLbl.setAttribute('y', String(totY));
+      totVal.setAttribute('x', String(bR - 8));
+      totVal.setAttribute('y', String(totY));
 
-      var div1Y = bCy + hdrH + divH/2;
-      var div2Y = bCy + hdrH + divH + series.length * rowH + divH/2;
-      tipG.insertBefore(el('line', { x1:-hw+8, y1:div1Y, x2:hw-8, y2:div1Y, 'class':'tip-divider' }), qLbl.nextSibling);
-      tipG.appendChild(el('line',  { x1:-hw+8, y1:div2Y, x2:hw-8, y2:div2Y, 'class':'tip-divider' }));
+      var div1Y = bT + hdrH + divH / 2;
+      var div2Y = bT + hdrH + divH + series.length * rowH + divH / 2;
+      tipG.insertBefore(el('line', { x1:bL+8, y1:div1Y, x2:bR-8, y2:div1Y, 'class':'tip-divider' }), qLbl.nextSibling);
+      tipG.appendChild(el('line',  { x1:bL+8, y1:div2Y, x2:bR-8, y2:div2Y, 'class':'tip-divider' }));
 
-      var ty = bCy - PAD/2, by = ty + bh;
-      tipG.insertBefore(el('rect', { x:-hw, y:ty, width:hw*2, height:bh, rx:rxB, 'class':'tip-bg' }), tipG.firstChild);
+      tipG.insertBefore(el('rect', { x:bL, y:bT, width:bw, height:bh, rx:rx, 'class':'tip-bg' }), tipG.firstChild);
 
-      var borderPath = 'M'+(-(hw-rxB))+','+ty
-        +' L'+(hw-rxB)+','+ty+' Q'+hw+','+ty+' '+hw+','+(ty+rxB)
-        +' L'+hw+','+(by-rxB)+' Q'+hw+','+by+' '+(hw-rxB)+','+by
-        +' L'+(-(hw-rxB))+','+by+' Q'+(-hw)+','+by+' '+(-hw)+','+(by-rxB)
-        +' L'+(-hw)+','+(ty+rxB)+' Q'+(-hw)+','+ty+' '+(-(hw-rxB))+','+ty+' Z';
+      var borderPath, tailPath;
+      if (goRight) {
+        borderPath = 'M'+bL+','+(tY-tw)
+          +' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT
+          +' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)
+          +' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB
+          +' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)
+          +' L'+bL+','+(tY+tw);
+        tailPath = 'M'+bL+','+(tY+tw)+' L'+x+','+ancY+' L'+bL+','+(tY-tw);
+      } else {
+        borderPath = 'M'+bR+','+(tY+tw)
+          +' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB
+          +' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)
+          +' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT
+          +' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)
+          +' L'+bR+','+(tY-tw);
+        tailPath = 'M'+bR+','+(tY-tw)+' L'+x+','+ancY+' L'+bR+','+(tY+tw);
+      }
       tipG.insertBefore(el('path', { d:borderPath, 'class':'tip-border' }), tipG.children[1]);
+      tipG.insertBefore(el('path', { d:tailPath,   'class':'tip-tail' }),   tipG.children[2]);
 
       var hx1 = Math.max(68,  x - colW);
       var hx2 = Math.min(850, x + colW);

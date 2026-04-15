@@ -25,6 +25,11 @@
     .tip-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
     svg.dark .tip-divider { stroke:#938F99; }
 
+    .tip-value { fill:#1C1B1F; font-size:28px; font-weight:700; }
+    .tip-label { fill:#49454F; font-size:22px; font-weight:400; }
+    svg.dark .tip-value { fill:#E6E0E9; }
+    svg.dark .tip-label { fill:#CAC4D0; }
+
     @keyframes drawWave { from{stroke-dashoffset:var(--len,900);} to{stroke-dashoffset:0;} }
     .wave-edge         { stroke-dasharray:var(--len,900); stroke-dashoffset:var(--len,900);
                          opacity:0; transition:opacity 0.2s ease; }
@@ -84,15 +89,15 @@
 
 <g class="data-layer" id="data-layer">
 <g clip-path="url(#chartclip)">
-  <path id="area-5" class="area-fill f5"
+  <path id="area-5" class="area-fill series-5 f5" data-series="5" fill-opacity="0.17"
     d="M68,504 L68,487.8 C124,487.8 124,483.0 180,483.0 C235,483.0 235,486.2 291,486.2 C347,486.2 347,480.2 403,480.2 C459,480.2 459,483.0 515,483.0 C571,483.0 571,477.5 627,477.5 C682,477.5 682,480.2 738,480.2 C794,480.2 794,473.3 850,473.3 L850,504 Z"/>
-  <path id="area-4" class="area-fill f4"
+  <path id="area-4" class="area-fill series-4 f4" data-series="4" fill-opacity="0.24"
     d="M68,487.8 C124,487.8 124,483.0 180,483.0 C235,483.0 235,486.2 291,486.2 C347,486.2 347,480.2 403,480.2 C459,480.2 459,483.0 515,483.0 C571,483.0 571,477.5 627,477.5 C682,477.5 682,480.2 738,480.2 C794,480.2 794,473.3 850,473.3 L850,437.7 C794,437.7 794,453.9 738,453.9 C682,453.9 682,444.2 627,444.2 C571,444.2 571,455.5 515,455.5 C459,455.5 459,457.1 403,457.1 C347,457.1 347,457.1 291,457.1 C235,457.1 235,459.3 180,459.3 C124,459.3 124,468.3 68,468.3 Z"/>
-  <path id="area-3" class="area-fill f3"
+  <path id="area-3" class="area-fill series-3 f3" data-series="3" fill-opacity="0.33"
     d="M68,468.3 C124,468.3 124,459.3 180,459.3 C235,459.3 235,457.1 291,457.1 C347,457.1 347,457.1 403,457.1 C459,457.1 459,455.5 515,455.5 C571,455.5 571,444.2 627,444.2 C682,444.2 682,453.9 738,453.9 C794,453.9 794,437.7 850,437.7 L850,381.6 C794,381.6 794,403.8 738,403.8 C682,403.8 682,399.6 627,399.6 C571,399.6 571,415.3 515,415.3 C459,415.3 459,410.5 403,410.5 C347,410.5 347,416.9 291,416.9 C235,416.9 235,423.2 180,423.2 C124,423.2 124,439.4 68,439.4 Z"/>
-  <path id="area-2" class="area-fill f2"
+  <path id="area-2" class="area-fill series-2 f2" data-series="2" fill-opacity="0.43"
     d="M68,439.4 C124,439.4 124,423.2 180,423.2 C235,423.2 235,416.9 291,416.9 C347,416.9 347,410.5 403,410.5 C459,410.5 459,415.3 515,415.3 C571,415.3 571,399.6 627,399.6 C682,399.6 682,403.8 738,403.8 C794,403.8 794,381.6 850,381.6 L850,281.4 C794,281.4 794,315.6 738,315.6 C682,315.6 682,320.2 627,320.2 C571,320.2 571,344.2 515,344.2 C459,344.2 459,346.4 403,346.4 C347,346.4 347,360.8 291,360.8 C235,360.8 235,373.9 180,373.9 C124,373.9 124,394.1 68,394.1 Z"/>
-  <path id="area-1" class="area-fill f1"
+  <path id="area-1" class="area-fill series-1 f1" data-series="1" fill-opacity="0.55"
     d="M68,394.1 C124,394.1 124,373.9 180,373.9 C235,373.9 235,360.8 291,360.8 C347,360.8 347,346.4 403,346.4 C459,346.4 459,344.2 515,344.2 C571,344.2 571,320.2 627,320.2 C682,320.2 682,315.6 738,315.6 C794,315.6 794,281.4 850,281.4 L850,165.6 C794,165.6 794,205.0 738,205.0 C682,205.0 682,221.8 627,221.8 C571,221.8 571,261.2 515,261.2 C459,261.2 459,268.1 403,268.1 C347,268.1 347,294.1 291,294.1 C235,294.1 235,311.7 180,311.7 C124,311.7 124,342.4 68,342.4 Z"/>
 
   <!-- style="fill:none" overrides .series-N fill on stroke-only paths -->
@@ -150,7 +155,6 @@
     var dotsL       = svgEl.querySelector('#dots-layer');
     var hitLayer    = svgEl.querySelector('#hit-layer');
     var tipLayer    = svgEl.querySelector('#tip-layer');
-    var defs        = svgEl.querySelector('defs');
 
     var series = [
       { id:1, cls:'series-1', label:'Cyan',
@@ -165,7 +169,6 @@
         vals:[10,11,12,13,14,16,17,19], ys:[487.8,483.0,486.2,480.2,483.0,477.5,480.2,473.3] },
     ];
 
-    var aOpacity = [0.85, 0.75, 0.65, 0.55, 0.45];
     var quarters = ["Q1 '22","Q2 '22","Q3 '22","Q4 '22","Q1 '23","Q2 '23","Q3 '23","Q4 '23"];
     var xs   = [68,180,291,403,515,627,738,850];
     var colW = 56;
@@ -181,30 +184,6 @@
       return e;
     }
 
-    function buildGradients() {
-      var probe = document.createElementNS(ns, 'rect');
-      probe.style.visibility = 'hidden';
-      svgEl.appendChild(probe);
-      series.forEach(function(s, i) {
-        probe.setAttribute('class', s.cls);
-        var color = window.getComputedStyle(probe).fill;
-        var gradId = 'ag' + s.id;
-        var existing = svgEl.querySelector('#' + gradId);
-        if (existing) existing.parentNode.removeChild(existing);
-        var grad = document.createElementNS(ns, 'linearGradient');
-        grad.setAttribute('id', gradId);
-        var stop = document.createElementNS(ns, 'stop');
-        stop.setAttribute('offset', '0%');
-        stop.setAttribute('stop-color', color);
-        stop.setAttribute('stop-opacity', aOpacity[i]);
-        grad.appendChild(stop);
-        defs.appendChild(grad);
-        var area = svgEl.querySelector('#area-' + s.id);
-        if (area) area.setAttribute('fill', 'url(#' + gradId + ')');
-      });
-      svgEl.removeChild(probe);
-    }
-
     xs.forEach(function(x, qi) {
       series.forEach(function(s) {
         var dot = el('circle', {
@@ -217,36 +196,35 @@
     });
 
     xs.forEach(function(x, qi) {
-      var PAD = 16, DOT_R = 4, DOT_X = 14, LBL_X = 26, bCy = 200, rxB = 10;
-      var rowH = 18, hdrH = 20, divH = 8, totH = 20;
+      var PAD = 14, DOT_R = 5, DOT_X = 16, LBL_X = 28, rx = 12;
+      var rowH = 34, hdrH = 30, divH = 8, totH = 36;
+      var TAIL = 14, tw = 10;
       var bh = hdrH + divH + series.length * rowH + divH + totH + PAD;
 
       var tipG = el('g', { 'class':'tip', id:'tip_'+qi });
       tipLayer.appendChild(tipG);
       allTips[qi] = tipG;
 
-      var qLbl = el('text', { x:0, y:bCy + hdrH/2,
+      var qLbl = el('text', { x:'0', y:'0',
         'text-anchor':'middle', 'dominant-baseline':'central', 'class':'tip-label' });
       qLbl.textContent = quarters[qi];
       tipG.appendChild(qLbl);
 
       var rowEls = [];
       series.forEach(function(s, si) {
-        var rowY = bCy + hdrH + divH + si * rowH + rowH/2;
-        var dot  = el('circle', { cx:0, cy:rowY, r:DOT_R, 'class':s.cls, style:'stroke:none' });
-        var sLbl = el('text', { x:LBL_X, y:rowY, 'dominant-baseline':'central', 'class':'tip-label' });
+        var dot  = el('circle', { cx:'0', cy:'0', r:DOT_R, 'class':s.cls, style:'stroke:none' });
+        var sLbl = el('text', { x:'0', y:'0', 'dominant-baseline':'central', 'class':'tip-label' });
         sLbl.textContent = s.label;
-        var sVal = el('text', { x:0, y:rowY, 'text-anchor':'end', 'dominant-baseline':'central',
-          'class':'tip-value', 'font-size':'11' });
+        var sVal = el('text', { x:'0', y:'0', 'text-anchor':'end', 'dominant-baseline':'central',
+          'class':'tip-value', 'font-size':'16' });
         sVal.textContent = '$'+s.vals[qi]+'M';
         tipG.appendChild(dot); tipG.appendChild(sLbl); tipG.appendChild(sVal);
         rowEls.push({ dot:dot, sLbl:sLbl, sVal:sVal });
       });
 
-      var totY = bCy + hdrH + divH + series.length * rowH + divH + totH/2;
-      var totLbl = el('text', { x:LBL_X, y:totY, 'dominant-baseline':'central', 'class':'tip-label' });
+      var totLbl = el('text', { x:'0', y:'0', 'dominant-baseline':'central', 'class':'tip-label' });
       totLbl.textContent = 'Total';
-      var totVal = el('text', { x:0, y:totY, 'text-anchor':'end', 'dominant-baseline':'central', 'class':'tip-value' });
+      var totVal = el('text', { x:'0', y:'0', 'text-anchor':'end', 'dominant-baseline':'central', 'class':'tip-value' });
       totVal.textContent = '$'+totals[qi]+'M';
       tipG.appendChild(totLbl); tipG.appendChild(totVal);
 
@@ -256,34 +234,65 @@
       var maxValW = 0;
       rowEls.forEach(function(r) { maxValW = Math.max(maxValW, r.sVal.getBBox().width); });
       maxValW = Math.max(maxValW, totVal.getBBox().width);
-      var hw = Math.max((maxLblW + maxValW) / 2 + PAD, 80);
+      var hw = Math.max((maxLblW + maxValW) / 2 + PAD, 160);
+      var bw = hw * 2;
 
-      var bCx = Math.max(hw + 8, Math.min(x, 1100 - hw - 8));
+      var spaceR = 850 - x, spaceL = x - 68;
+      var goRight = spaceR >= spaceL;
+      var bL, bR;
+      if (goRight) { bL = x + TAIL; bR = bL + bw; }
+      else          { bR = x - TAIL; bL = bR - bw; }
 
-      tipG.setAttribute('transform', 'translate('+bCx+',0)');
-      qLbl.setAttribute('x', '0');
-      rowEls.forEach(function(r) {
-        r.dot.setAttribute('cx',  String(-hw + DOT_X));
-        r.sLbl.setAttribute('x', String(-hw + LBL_X));
-        r.sVal.setAttribute('x', String(hw - 8));
+      var bT = 302 - bh / 2, bB = bT + bh;
+      if (bT < 100) { bT = 100; bB = bT + bh; }
+      if (bB > 504) { bB = 504; bT = bB - bh; }
+      var ancY = 302;
+      var tY = Math.max(bT + rx + tw, Math.min(bB - rx - tw, ancY));
+
+      qLbl.setAttribute('x', String(bL + hw));
+      qLbl.setAttribute('y', String(bT + hdrH / 2));
+      rowEls.forEach(function(r, si) {
+        var rowY = bT + hdrH + divH + si * rowH + rowH / 2;
+        r.dot.setAttribute('cx', String(bL + DOT_X));
+        r.dot.setAttribute('cy', String(rowY));
+        r.sLbl.setAttribute('x', String(bL + LBL_X));
+        r.sLbl.setAttribute('y', String(rowY));
+        r.sVal.setAttribute('x', String(bR - 8));
+        r.sVal.setAttribute('y', String(rowY));
       });
-      totLbl.setAttribute('x', String(-hw + LBL_X));
-      totVal.setAttribute('x', String(hw - 8));
+      var totY = bT + hdrH + divH + series.length * rowH + divH + totH / 2;
+      totLbl.setAttribute('x', String(bL + LBL_X));
+      totLbl.setAttribute('y', String(totY));
+      totVal.setAttribute('x', String(bR - 8));
+      totVal.setAttribute('y', String(totY));
 
-      var div1Y = bCy + hdrH + divH/2;
-      var div2Y = bCy + hdrH + divH + series.length * rowH + divH/2;
-      tipG.insertBefore(el('line', { x1:-hw+8, y1:div1Y, x2:hw-8, y2:div1Y, 'class':'tip-divider' }), qLbl.nextSibling);
-      tipG.appendChild(el('line',  { x1:-hw+8, y1:div2Y, x2:hw-8, y2:div2Y, 'class':'tip-divider' }));
+      var div1Y = bT + hdrH + divH / 2;
+      var div2Y = bT + hdrH + divH + series.length * rowH + divH / 2;
+      tipG.insertBefore(el('line', { x1:bL+8, y1:div1Y, x2:bR-8, y2:div1Y, 'class':'tip-divider' }), qLbl.nextSibling);
+      tipG.appendChild(el('line',  { x1:bL+8, y1:div2Y, x2:bR-8, y2:div2Y, 'class':'tip-divider' }));
 
-      var ty = bCy - PAD/2, by = ty + bh;
-      tipG.insertBefore(el('rect', { x:-hw, y:ty, width:hw*2, height:bh, rx:rxB, 'class':'tip-bg' }), tipG.firstChild);
+      tipG.insertBefore(el('rect', { x:bL, y:bT, width:bw, height:bh, rx:rx, 'class':'tip-bg' }), tipG.firstChild);
 
-      var borderPath = 'M'+(-(hw-rxB))+','+ty
-        +' L'+(hw-rxB)+','+ty+' Q'+hw+','+ty+' '+hw+','+(ty+rxB)
-        +' L'+hw+','+(by-rxB)+' Q'+hw+','+by+' '+(hw-rxB)+','+by
-        +' L'+(-(hw-rxB))+','+by+' Q'+(-hw)+','+by+' '+(-hw)+','+(by-rxB)
-        +' L'+(-hw)+','+(ty+rxB)+' Q'+(-hw)+','+ty+' '+(-(hw-rxB))+','+ty+' Z';
+      var borderPath, tailPath;
+      if (goRight) {
+        borderPath = 'M'+bL+','+(tY-tw)
+          +' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT
+          +' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)
+          +' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB
+          +' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)
+          +' L'+bL+','+(tY+tw);
+        tailPath = 'M'+bL+','+(tY+tw)+' L'+x+','+ancY+' L'+bL+','+(tY-tw);
+      } else {
+        borderPath = 'M'+bR+','+(tY+tw)
+          +' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB
+          +' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)
+          +' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT
+          +' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)
+          +' L'+bR+','+(tY-tw);
+        tailPath = 'M'+bR+','+(tY-tw)+' L'+x+','+ancY+' L'+bR+','+(tY+tw);
+      }
       tipG.insertBefore(el('path', { d:borderPath, 'class':'tip-border' }), tipG.children[1]);
+      tipG.insertBefore(el('path', { d:tailPath,   'class':'tip-tail' }),   tipG.children[2]);
 
       var hx1 = Math.max(68,  x - colW);
       var hx2 = Math.min(850, x + colW);
@@ -308,9 +317,6 @@
         if (ch) ch.style.opacity = '';
       });
     });
-
-    svgEl._onModeChange = function() { buildGradients(); };
-    buildGradients();
 
     /* wave-edges are ordered we5,we4,we3,we2,we1 in markup — stagger bottom-to-top */
     var waveEls    = svgEl.querySelectorAll('.wave-edge');

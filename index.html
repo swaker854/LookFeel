@@ -3,61 +3,299 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>My Home Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flat Design Gallery</title>
   <style>
+    :root {
+      --page-bg: #f3efe8;
+      --surface: #fffaf2;
+      --surface-strong: #f7f0e6;
+      --ink: #1f1d1a;
+      --muted: #6c655d;
+      --line: rgba(31, 29, 26, 0.14);
+      --accent: #e46f2f;
+      --accent-soft: rgba(228, 111, 47, 0.12);
+      --shadow: 0 18px 40px rgba(31, 29, 26, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
     body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 100px;
-
-      /* Added Side Padding & Centering */
-      padding: 0 10%;
-      /* 10% space on left and right */
-      max-width: 900px;
-      /* Limits width on large screens */
-      margin-left: auto;
-      /* Centers the container */
-      margin-right: auto;
-      /* Centers the container */
-      line-height: 1.6;
-      /* Bonus: adds a bit of space between lines for readability */
+      min-height: 100%;
     }
 
-    a {
-      display: inline-block;
-      /* Changed to inline-block so it's not a full-width bar */
-      margin: 10px 20px;
-      font-size: 20px;
+    body {
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(228, 111, 47, 0.1), transparent 28%),
+        linear-gradient(180deg, #f8f2ea 0%, var(--page-bg) 100%);
+      color: var(--ink);
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 48px 0 56px;
+    }
+
+    .section {
+      margin-top: 26px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .section-heading h2 {
+      font-size: 1.35rem;
+      letter-spacing: -0.03em;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .portal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .portal-card {
+      display: grid;
+      gap: 14px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
       text-decoration: none;
-      color: #0366d6;
+      color: inherit;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
     }
 
-    h2 {
-      margin-top: 40px;
-      /* Adds a bit of space above section headers */
+    .portal-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(228, 111, 47, 0.35);
+      background: #fffdf8;
+    }
+
+    .portal-card.dark {
+      background: linear-gradient(180deg, #25222d 0%, #1c1a22 100%);
+      color: #f3f0f8;
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .portal-card.dark .card-meta,
+    .portal-card.dark .card-copy {
+      color: rgba(243, 240, 248, 0.72);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .card-tag {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--surface-strong);
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .portal-card.dark .card-tag {
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(243, 240, 248, 0.78);
+    }
+
+    .card-index {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .portal-card.dark .card-index {
+      color: #7fe0ff;
+    }
+
+    .card-title {
+      font-size: 1.35rem;
+      letter-spacing: -0.03em;
+    }
+
+    .card-copy {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+    }
+
+    .portal-card.dark .card-meta {
+      border-top-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.95em;
+    }
+
+    @media (max-width: 920px) {
+      .portal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading {
+        display: grid;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 24px, 1120px);
+        padding: 24px 0 36px;
+      }
+
+      .portal-card {
+        padding: 18px;
+        border-radius: 18px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <h1>Flat portal in two modes</h1>
-  <p>
-    Each linked page contains 9 charts so that it's easy to see on load animation.
-    Map, contour, map countour charts are not included in the desing because they are specialized drawing, 
-    no normal styling and no animation is needed for them. 
-  </p>
+  <main class="page">
+    <section class="section">
+      <div class="section-heading">
+        <h2>Dark Portals</h2>
+        <p>Higher contrast framing for the darker flat portal variants.</p>
+      </div>
+      <div class="portal-grid">
+        <a class="portal-card dark" href="flat/portal-dark.html">
+          <div class="card-top">
+            <span class="card-tag">Dark Mode</span>
+            <span class="card-index">01</span>
+          </div>
+          <h3 class="card-title">Portal Dark 1</h3>
+          <p class="card-copy">Primary gallery page for the first 9-chart flat set.</p>
+          <div class="card-meta">
+            <span>Charts: 9</span>
+            <span>flat/portal-dark.html</span>
+          </div>
+        </a>
 
-  <h2>Dark</h2>
-  <a href="flat/portal-dark.html">Page 1</a>
-  <a href="flat/portal-dark2.html">Page 2</a>
-  <a href="flat/portal-dark2.html">Page 3</a>
+        <a class="portal-card dark" href="flat/portal-dark2.html">
+          <div class="card-top">
+            <span class="card-tag">Dark Mode</span>
+            <span class="card-index">02</span>
+          </div>
+          <h3 class="card-title">Portal Dark 2</h3>
+          <p class="card-copy">Second dark portal page covering the mid-gallery chart group.</p>
+          <div class="card-meta">
+            <span>Charts: 9</span>
+            <span>flat/portal-dark2.html</span>
+          </div>
+        </a>
 
-  <h2>Light</h2>
-  <a href="flat/portal-light.html">Page 1</a>
-  <a href="flat/portal-light2.html">Page 2</a>
-  <a href="flat/portal-light2.html">Page 3</a>
+        <a class="portal-card dark" href="flat/portal-dark3.html">
+          <div class="card-top">
+            <span class="card-tag">Dark Mode</span>
+            <span class="card-index">03</span>
+          </div>
+          <h3 class="card-title">Portal Dark 3</h3>
+          <p class="card-copy">Final dark portal page for the remaining flat chart layouts.</p>
+          <div class="card-meta">
+            <span>Charts: 9</span>
+            <span>flat/portal-dark3.html</span>
+          </div>
+        </a>
+      </div>
+    </section>
 
+    <section class="section">
+      <div class="section-heading">
+        <h2>Light Portals</h2>
+        <p>Softer surface treatment for the lighter flat portal variants.</p>
+      </div>
+      <div class="portal-grid">
+        <a class="portal-card" href="flat/portal-light.html">
+          <div class="card-top">
+            <span class="card-tag">Light Mode</span>
+            <span class="card-index">01</span>
+          </div>
+          <h3 class="card-title">Portal Light 1</h3>
+          <p class="card-copy">Primary light portal page for the first 9-chart flat set.</p>
+          <div class="card-meta">
+            <span>Charts: 9</span>
+            <span>flat/portal-light.html</span>
+          </div>
+        </a>
 
+        <a class="portal-card" href="flat/portal-light2.html">
+          <div class="card-top">
+            <span class="card-tag">Light Mode</span>
+            <span class="card-index">02</span>
+          </div>
+          <h3 class="card-title">Portal Light 2</h3>
+          <p class="card-copy">Second light portal page covering the mid-gallery chart group.</p>
+          <div class="card-meta">
+            <span>Charts: 9</span>
+            <span>flat/portal-light2.html</span>
+          </div>
+        </a>
+
+        <a class="portal-card" href="flat/portal-light3.html">
+          <div class="card-top">
+            <span class="card-tag">Light Mode</span>
+            <span class="card-index">03</span>
+          </div>
+          <h3 class="card-title">Portal Light 3</h3>
+          <p class="card-copy">Final light portal page for the remaining flat chart layouts.</p>
+          <div class="card-meta">
+            <span>Charts: 9</span>
+            <span>flat/portal-light3.html</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <p class="footer-note">
+      Map and contour-style charts are still excluded from this launcher because they follow a different rendering
+      pattern than the standard flat chart cards.
+    </p>
+  </main>
 </body>
 
 </html>

@@ -24,6 +24,77 @@
     return Math.min(max, Math.max(min, value));
   }
 
+  /*
+   * buildChartTip(ancX, ancY, bw, bh, plotL, plotR, plotT, plotB)
+   *
+   * Computes a smart tooltip position that:
+   *  - stays inside the plot area (plotL/R/T/B)
+   *  - places the box above or below the anchor, choosing the side with more room
+   *  - generates the rounded-rect border path (with tail gap) and tail triangle path
+   *
+   * Returns { bL, bT, bR, bB, bCx, tailUp, borderPath, tailPath }
+   *   bL/bT/bR/bB  – absolute SVG coords of the tooltip box corners
+   *   tailUp        – true when tail is at the top of the box (box below anchor)
+   *   borderPath    – SVG path d string for the open-sided rounded rect
+   *   tailPath      – SVG path d string for the tail triangle
+   *
+   * Internal geometry constants (not exposed so callers stay simple):
+   *   rx=12  corner radius
+   *   tw=10  half-width of the tail opening on the box edge
+   *   TAIL=12  length of the tail triangle
+   */
+  function buildChartTip(ancX, ancY, bw, bh, plotL, plotR, plotT, plotB) {
+    var rx = 12, tw = 10, TAIL = 12;
+    var hw = bw / 2;
+
+    // Horizontal: center on anchor, clamp to plot bounds
+    var bCx = Math.min(Math.max(ancX, plotL + hw), plotR - hw);
+
+    // Vertical: prefer the side with more room
+    var tailUp = (plotB - ancY) >= (ancY - plotT);
+    var bT, bB;
+    if (tailUp) {
+      bT = ancY + TAIL; bB = bT + bh;
+      if (bB > plotB) { bB = plotB; bT = bB - bh; }
+      if (bT < plotT) { bT = plotT; bB = bT + bh; }
+    } else {
+      bB = ancY - TAIL; bT = bB - bh;
+      if (bT < plotT) { bT = plotT; bB = bT + bh; }
+      if (bB > plotB) { bB = plotB; bT = bB - bh; }
+    }
+    // Safety flip if clamping caused the box to engulf the anchor
+    if (tailUp && ancY >= bT) {
+      tailUp = false; bB = ancY - TAIL; bT = bB - bh;
+      if (bT < plotT) { bT = plotT; bB = bT + bh; }
+    } else if (!tailUp && ancY <= bB) {
+      tailUp = true; bT = ancY + TAIL; bB = bT + bh;
+      if (bB > plotB) { bB = plotB; bT = bB - bh; }
+    }
+
+    var bL = bCx - hw, bR = bCx + hw;
+    // Tail X: track anchor but stay clear of rounded corners
+    var tX = Math.max(bL + rx + tw, Math.min(bR - rx - tw, ancX));
+
+    var op, tp;
+    if (tailUp) {
+      // Tail at top of box, pointing up to anchor
+      op = 'M'+(tX-tw)+','+bT+' L'+(bL+rx)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+rx)+
+           ' L'+bL+','+(bB-rx)+' Q'+bL+','+bB+' '+(bL+rx)+','+bB+
+           ' L'+(bR-rx)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-rx)+
+           ' L'+bR+','+(bT+rx)+' Q'+bR+','+bT+' '+(bR-rx)+','+bT+' L'+(tX+tw)+','+bT;
+      tp = 'M'+(tX+tw)+','+bT+' L'+tX+','+ancY+' L'+(tX-tw)+','+bT;
+    } else {
+      // Tail at bottom of box, pointing down to anchor
+      op = 'M'+(tX+tw)+','+bB+' L'+(bR-rx)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-rx)+
+           ' L'+bR+','+(bT+rx)+' Q'+bR+','+bT+' '+(bR-rx)+','+bT+
+           ' L'+(bL+rx)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+rx)+
+           ' L'+bL+','+(bB-rx)+' Q'+bL+','+bB+' '+(bL+rx)+','+bB+' L'+(tX-tw)+','+bB;
+      tp = 'M'+(tX-tw)+','+bB+' L'+tX+','+ancY+' L'+(tX+tw)+','+bB;
+    }
+
+    return { bL: bL, bT: bT, bR: bR, bB: bB, bCx: bCx, tailUp: tailUp, borderPath: op, tailPath: tp };
+  }
+
   function hexToRgb(hex) {
     var raw = (hex || '').replace('#', '').trim();
     if (raw.length === 3) raw = raw.replace(/(.)/g, '$1$1');
@@ -213,7 +284,7 @@
     if (pt) pt.addEventListener('click', function () { setPrint(!isPrint); });
 
     if (typeof svgEl._chartInit === 'function') {
-      svgEl._chartInit(svgEl, { $$: $$, $$all: $$all });
+      svgEl._chartInit(svgEl, { $$: $$, $$all: $$all, buildTip: buildChartTip });
     }
 
     applyPalette(svgEl, svgEl.__chartPalette, svgEl.classList.contains('dark'));
@@ -245,6 +316,7 @@
   global.initChart = initChart;
   global.bootstrapChart = bootstrapChart;
   global.applyChartPalette = applyPalette;
+  global.buildChartTip = buildChartTip;
 
   window.addEventListener('load', function () {
     bootstrapChart(document.documentElement);

@@ -22,6 +22,11 @@
     .stagger-3 { animation-delay:0.50s; } .stagger-4 { animation-delay:0.75s; }
     .stagger-5 { animation-delay:1.00s; } .stagger-6 { animation-delay:1.25s; }
     .stagger-7 { animation-delay:1.50s; } .stagger-8 { animation-delay:1.75s; }
+
+    .tip-value { fill:#1C1B1F; font-size:28px; font-weight:700; }
+    .tip-label { fill:#49454F; font-size:22px; font-weight:400; }
+    svg.dark .tip-value { fill:#E6E0E9; }
+    svg.dark .tip-label { fill:#CAC4D0; }
   </style>
 </defs>
 
@@ -156,49 +161,51 @@
 
 </g>
 
+<g id="tip-layer"></g>
+
 <!-- LEGEND -->
-<rect x="870" y="100" width="210" height="370" rx="14" class="legend-bg" stroke-width="1"/>
-<text x="888" y="124" class="legend-title">SERIES</text>
-<g transform="translate(888,140)">
+<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg" stroke-width="1"/>
+<text x="878" y="118" class="legend-title">SERIES</text>
+<g transform="translate(878,146)">
   <rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="legend-label">Cyan</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$72M</text>
+  <text x="174" y="11" class="legend-value" text-anchor="end">$72M</text>
 </g>
-<g transform="translate(888,170)">
+<g transform="translate(878,194)">
   <rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="legend-label">Emerald</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$68M</text>
+  <text x="174" y="11" class="legend-value" text-anchor="end">$68M</text>
 </g>
-<g transform="translate(888,200)">
+<g transform="translate(878,242)">
   <rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="legend-label">Amber</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$60M</text>
+  <text x="174" y="11" class="legend-value" text-anchor="end">$60M</text>
 </g>
-<g transform="translate(888,230)">
+<g transform="translate(878,290)">
   <rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="legend-label">Rose</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$55M</text>
+  <text x="174" y="11" class="legend-value" text-anchor="end">$55M</text>
 </g>
-<g transform="translate(888,260)">
+<g transform="translate(878,338)">
   <rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="legend-label">Violet</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$79M</text>
+  <text x="174" y="11" class="legend-value" text-anchor="end">$79M</text>
 </g>
-<g transform="translate(888,290)">
+<g transform="translate(878,386)">
   <rect class="series-6" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="legend-label">Blue</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$64M</text>
+  <text x="174" y="11" class="legend-value" text-anchor="end">$64M</text>
 </g>
-<g transform="translate(888,320)">
+<g transform="translate(878,434)">
   <rect class="series-7" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="legend-label">Teal</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$61M</text>
+  <text x="174" y="11" class="legend-value" text-anchor="end">$61M</text>
 </g>
-<line x1="888" y1="352" x2="1062" y2="352" class="legend-divider"/>
-<g transform="translate(888,364)">
+<line x1="878" y1="482" x2="1050" y2="482" class="legend-divider"/>
+<g transform="translate(878,498)">
   <rect class="series-8" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="legend-label">Other</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$48M</text>
+  <text x="174" y="11" class="legend-value" text-anchor="end">$48M</text>
 </g>
 
 <script href="chart-shared.js"></script>
@@ -210,47 +217,103 @@
 
     /* Position tooltip bubbles via getBBox(); CSS owns show/hide */
     function initBubbles() {
-      var pad = 20, bh = 38, rx = 9, tw = 8, tail = 8;
+      var tipLayerEl = svgEl.querySelector('#tip-layer');
+      var TAIL = 14, tw = 10, rx = 12;
+      var barHW = 28;  /* half of bar width=56 */
+      var bh = 200;
+      var plotL = 68, plotR = 850, plotT = 100, plotB = 500;
+
       ctx.$$all('.data-item').forEach(function (dataItem) {
-        var itemCx = parseFloat(dataItem.getAttribute('data-item-cx'));
+        var itemCx  = parseFloat(dataItem.getAttribute('data-item-cx'));
         var itemTop = parseFloat(dataItem.getAttribute('data-item-top'));
         var tip = dataItem.querySelector('.data-tip');
         var texts = tip.querySelectorAll('text');
         var bgRect = tip.querySelector('rect');
-        var paths = tip.querySelectorAll('path');
-        var borderPath = paths[0], tailPath = paths[1];
+        var paths  = tip.querySelectorAll('path');
+        var bdrPath = paths[0], tlPath = paths[1];
+
+        /* measure text at origin */
         Array.prototype.forEach.call(texts, function (t) {
           t.setAttribute('x', '0'); t.setAttribute('y', '0');
         });
-        var hw = Math.max(texts[0].getBBox().width + pad, texts[1].getBBox().width + pad, 60) / 2;
-        var tx = Math.max(hw + 8, Math.min(itemCx, 1092 - hw - 8));
-        var bB = itemTop - tail, bT = bB - bh, bL = tx - hw, bR = tx + hw;
-        bgRect.setAttribute('x', bL); bgRect.setAttribute('y', bT);
-        bgRect.setAttribute('width', hw * 2); bgRect.setAttribute('height', bh);
-        borderPath.setAttribute('d',
-          'M'+(tx+tw)+','+bB+
-          ' L'+(bR-rx)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-rx)+
-          ' L'+bR+','+(bT+rx)+' Q'+bR+','+bT+' '+(bR-rx)+','+bT+
-          ' L'+(bL+rx)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+rx)+
-          ' L'+bL+','+(bB-rx)+' Q'+bL+','+bB+' '+(bL+rx)+','+bB+
-          ' L'+(tx-tw)+','+bB);
-        tailPath.setAttribute('d', 'M'+(tx-tw)+','+bB+' L'+tx+','+itemTop+' L'+(tx+tw)+','+bB);
-        texts[0].setAttribute('x', tx); texts[0].setAttribute('y', bT + bh * 0.32);
-        texts[1].setAttribute('x', tx); texts[1].setAttribute('y', bT + bh * 0.72);
+        var bw = Math.max(
+          texts[0].getBBox().width + 40,
+          texts[1].getBBox().width + 40,
+          220
+        );
+
+        /* horizontal: go whichever side has more room */
+        var spaceR = plotR - (itemCx + barHW);
+        var spaceL = (itemCx - barHW) - plotL;
+        var goRight = spaceR >= spaceL;
+        var ancX, bL, bR;
+        if (goRight) {
+          ancX = itemCx + barHW; bL = ancX + TAIL; bR = bL + bw;
+        } else {
+          ancX = itemCx - barHW; bR = ancX - TAIL; bL = bR - bw;
+        }
+
+        /* vertical: center on bar top, clamp to chart */
+        var ancY = itemTop;
+        var bT = ancY - bh / 2;
+        var bB = bT + bh;
+        if (bT < plotT) { bT = plotT; bB = bT + bh; }
+        if (bB > plotB) { bB = plotB; bT = bB - bh; }
+        var tY = Math.max(bT + rx + tw, Math.min(bB - rx - tw, ancY));
+
+        /* open-sided border and tail */
+        var op, tp;
+        if (goRight) {
+          /* gap on left edge */
+          op = 'M'+bL+','+(tY-tw)+
+               ' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+
+               ' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+
+               ' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+
+               ' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+
+               ' L'+bL+','+(tY+tw);
+          tp = 'M'+bL+','+(tY+tw)+' L'+ancX+','+ancY+' L'+bL+','+(tY-tw);
+        } else {
+          /* gap on right edge */
+          op = 'M'+bR+','+(tY+tw)+
+               ' L'+bR+','+(bB-rx)+' Q'+bR+','+bB+' '+(bR-rx)+','+bB+
+               ' L'+(bL+rx)+','+bB+' Q'+bL+','+bB+' '+bL+','+(bB-rx)+
+               ' L'+bL+','+(bT+rx)+' Q'+bL+','+bT+' '+(bL+rx)+','+bT+
+               ' L'+(bR-rx)+','+bT+' Q'+bR+','+bT+' '+bR+','+(bT+rx)+
+               ' L'+bR+','+(tY-tw);
+          tp = 'M'+bR+','+(tY-tw)+' L'+ancX+','+ancY+' L'+bR+','+(tY+tw);
+        }
+
+        bgRect.setAttribute('x', String(bL)); bgRect.setAttribute('y', String(bT));
+        bgRect.setAttribute('width', String(bw)); bgRect.setAttribute('height', String(bh));
+        bgRect.setAttribute('rx', String(rx));
+        bdrPath.setAttribute('d', op);
+        tlPath.setAttribute('d', tp);
+        texts[0].setAttribute('x', String(bL + bw / 2));
+        texts[0].setAttribute('y', String(bT + bh * 0.35));
+        texts[1].setAttribute('x', String(bL + bw / 2));
+        texts[1].setAttribute('y', String(bT + bh * 0.65));
+        /* lift tip above all bars */
+        tipLayerEl.appendChild(tip);
+        dataItem._tip = tip;
       });
     }
     initBubbles();
 
-    /* Hover — CSS drives opacity; JS manages .active and .hovering */
+    /* Hover — data layer dims; tips live in #tip-layer so JS controls opacity directly */
     var dataItemEls = ctx.$$all('.data-item');
     dataItemEls.forEach(function (dataItem) {
       dataItem.addEventListener('mouseenter', function () {
         dataLayerEl.classList.add('hovering');
-        dataItemEls.forEach(function (x) { x.classList.remove('active'); });
+        dataItemEls.forEach(function (x) {
+          x.classList.remove('active');
+          if (x._tip) x._tip.style.opacity = '';
+        });
         dataItem.classList.add('active');
+        if (dataItem._tip) dataItem._tip.style.opacity = '1';
       });
       dataItem.addEventListener('mouseleave', function () {
         dataItem.classList.remove('active');
+        if (dataItem._tip) dataItem._tip.style.opacity = '';
         dataLayerEl.classList.remove('hovering');
       });
     });
@@ -259,5 +322,4 @@
 }());
 ]]></script>
 </svg>
-
 

@@ -100,6 +100,9 @@ svg.print .print-track  { fill:#d97316; }
 .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
 .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
 .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
+/* Additional tip text roles — used by charts with richer tooltip layouts */
+.tip-sub    { fill:#79747E; font-size:13px; font-weight:400; }
+.tip-pct    { fill:#79747E; font-size:14px; font-weight:400; }
 
 /* ── Tooltip visibility — per-item trigger ── */
 .data-item { cursor:pointer; }
@@ -148,6 +151,8 @@ svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; }
 svg.dark .tip-tail   { fill:#1C1B1F; stroke:#938F99; }
 svg.dark .tip-value  { fill:#E6E0E9; }
 svg.dark .tip-label  { fill:#CAC4D0; }
+svg.dark .tip-sub    { fill:#938F99; }
+svg.dark .tip-pct    { fill:#938F99; }
 
 svg.dark .border-dark  { display:block; }
 svg.dark .border-light { display:none; }
