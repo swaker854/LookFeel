@@ -995,6 +995,158 @@
     });
   }
 
+  function makeCirclePackingChart(container) {
+    const shippingClasses = [
+      { id: 'standard', name: 'Standard Class', shortLabel: ['Standard', 'Class'], value: 5968, pct: 54, colorIndex: 1, depth: 1, offsetX: -77, offsetY: -20, radius: 120, fontSize: 13 },
+      { id: 'first', name: 'First Class', shortLabel: ['First Class'], value: 1992, pct: 18, colorIndex: 5, depth: 1, offsetX: 115, offsetY: -51, radius: 75, fontSize: 12 },
+      { id: 'second', name: 'Second Class', shortLabel: ['Second Class'], value: 1945, pct: 18, colorIndex: 4, depth: 1, offsetX: 61, offsetY: 112, radius: 72, fontSize: 12 },
+      { id: 'same-day', name: 'Same Day', shortLabel: ['Same Day'], value: 543, pct: 5, colorIndex: 2, depth: 2, offsetX: 153, offsetY: 55, radius: 37, fontSize: 10 }
+    ];
+    const totalOrders = 10447;
+
+    function blendToward(baseHex, targetHex, ratio) {
+      const from = echarts.color.parse(baseHex);
+      const to = echarts.color.parse(targetHex);
+      const mixed = [0, 1, 2].map(function(i) {
+        return Math.round(from[i] + (to[i] - from[i]) * ratio);
+      });
+      return 'rgb(' + mixed.join(',') + ')';
+    }
+
+    function depthTint(baseHex, depth, dark) {
+      const bg = dark ? '#2C2B30' : '#FFFBFE';
+      const blend = depth <= 1 ? 0 : 0.45;
+      return blendToward(baseHex, bg, blend);
+    }
+
+    function tooltip(state, param) {
+      const dark = state.dark;
+      const meta = (param.data && param.data.meta) || {};
+      return tooltipCard(dark,
+        '<div style="color:' + (dark ? '#E6E0E9' : '#1C1B1F') + ';font-size:13px;font-weight:600;">' + (meta.value || 0).toLocaleString() + '</div>' +
+        '<div style="margin-top:4px;color:' + (dark ? '#CAC4D0' : '#49454F') + ';font-size:10px;">' + (meta.name || '') + ' · ' + (meta.pct || 0) + '% of orders</div>',
+        '148px'
+      );
+    }
+
+    return createManagedChart(container, function(chart, state, containerEl) {
+      const dark = state.dark;
+      const compact = isCompactChart(chart);
+      const medium = isMediumChart(chart);
+      const darkPalette = ['#22D3EE', '#10B981', '#FBB724', '#FB6181', '#A78BFA', '#60A5FA', '#2DD4BF', '#94A3B8'];
+      const palette = dark ? darkPalette : state.colors;
+      const legendLayout = legendOverlayLayout(chart);
+      const plotLeft = compact ? 20 : (medium ? 28 : 36);
+      const plotRight = legendGridRight(chart) + (compact ? 8 : 10);
+      const plotTop = compact ? 16 : 18;
+      const plotBottom = compact ? 18 : 22;
+      const plotWidth = Math.max(180, chart.getWidth() - plotLeft - plotRight);
+      const plotHeight = Math.max(160, chart.getHeight() - plotTop - plotBottom);
+      const rootR = Math.min(plotHeight / 2, plotWidth / 2) - (compact ? 8 : 12);
+      const rootX = plotLeft + plotWidth / 2;
+      const rootY = plotTop + plotHeight / 2;
+      const scale = rootR / 200;
+      const outerStroke = dark ? '#49454F' : '#E7E0EC';
+      const labelColor = dark ? '#E6E0E9' : '#1C1B1F';
+      const data = shippingClasses.map(function(item) {
+        return {
+          id: item.id,
+          value: [
+            rootX + item.offsetX * scale,
+            rootY + item.offsetY * scale,
+            item.radius * scale
+          ],
+          meta: {
+            name: item.name,
+            pct: item.pct,
+            value: item.value,
+            depth: item.depth,
+            labels: item.shortLabel,
+            fill: depthTint(palette[item.colorIndex], item.depth, dark),
+            fontSize: Math.max(8, item.fontSize * scale * (compact ? 0.92 : 1))
+          }
+        };
+      });
+
+      setLegendOverlayConfig(containerEl, {
+        dark: dark,
+        layout: legendLayout,
+        items: shippingClasses.map(function(item) {
+          return { name: item.name + ' ' + item.value.toLocaleString(), color: palette[item.colorIndex] };
+        }).concat([{ name: 'Total Orders ' + totalOrders.toLocaleString(), color: dark ? '#938F99' : '#79747E' }])
+      });
+
+      function renderNode(params, api) {
+        const item = data[params.dataIndex];
+        const x = api.value(0);
+        const y = api.value(1);
+        const r = api.value(2);
+        const meta = item.meta;
+        const children = [{
+          type: 'circle',
+          shape: { cx: x, cy: y, r: r },
+          style: { fill: meta.fill },
+          transition: ['shape', 'style']
+        }];
+        const lineOffset = meta.labels.length > 1 ? Math.min(10, r * 0.14) : 0;
+        meta.labels.forEach(function(line, idx) {
+          children.push({
+            type: 'text',
+            silent: true,
+            style: {
+              x: x,
+              y: y + (idx === 0 ? -lineOffset : lineOffset),
+              text: line,
+              textAlign: 'center',
+              textVerticalAlign: 'middle',
+              fill: labelColor,
+              font: '500 ' + Math.max(8, meta.fontSize) + 'px Roboto, Helvetica Neue, Arial, sans-serif'
+            }
+          });
+        });
+        return { type: 'group', children: children };
+      }
+
+      const graphics = [{
+        type: 'circle',
+        silent: true,
+        shape: { cx: rootX, cy: rootY, r: rootR },
+        style: { stroke: outerStroke, lineWidth: compact ? 1 : 1.5, fill: 'transparent' }
+      }];
+
+      return {
+        animationDuration: 900,
+        animationDurationUpdate: 250,
+        animationEasing: 'cubicOut',
+        backgroundColor: 'transparent',
+        tooltip: {
+          trigger: 'item',
+          confine: true,
+          backgroundColor: 'transparent',
+          borderWidth: 0,
+          padding: 0,
+          extraCssText: 'box-shadow:none;background:transparent;',
+          formatter: function(param) { return tooltip(state, param); },
+          position: function(pos, params, dom, rect, size) { return smartTooltipPosition(pos, rect, size, dom, dark, true, 20); }
+        },
+        xAxis: { type: 'value', min: 0, max: chart.getWidth(), show: false },
+        yAxis: { type: 'value', min: 0, max: chart.getHeight(), show: false },
+        grid: { left: 0, right: 0, top: 0, bottom: 0 },
+        graphic: graphics,
+        series: [{
+          type: 'custom',
+          coordinateSystem: 'cartesian2d',
+          renderItem: renderNode,
+          data: data,
+          z: 3,
+          animationDelay: function(idx) { return idx * 140; },
+          emphasis: { focus: 'self' },
+          blur: { itemStyle: { opacity: 0.2 } }
+        }]
+      };
+    });
+  }
+
   function makeIcicleChart(container) {
     let introPlayed = false;
     let introTimer = null;
@@ -2230,6 +2382,533 @@
             itemStyle: { opacity: 0.96, shadowBlur: dark ? 14 : 10, shadowColor: dark ? 'rgba(21,24,37,0.28)' : 'rgba(28,27,31,0.10)' }
           };
         })
+      };
+    });
+  }
+
+  function makeNetworkChart(container) {
+    const nodes = [
+      { id: 'web-app', label: 'Web App', cluster: 0, x: 148, y: 220 },
+      { id: 'mobile', label: 'Mobile', cluster: 0, x: 148, y: 360 },
+      { id: 'cdn', label: 'CDN', cluster: 0, x: 220, y: 290 },
+      { id: 'api-gw', label: 'API GW', cluster: 1, x: 360, y: 210 },
+      { id: 'user-svc', label: 'User Svc', cluster: 1, x: 360, y: 300 },
+      { id: 'order-svc', label: 'Order Svc', cluster: 1, x: 360, y: 390 },
+      { id: 'notify', label: 'Notify', cluster: 1, x: 460, y: 450 },
+      { id: 'postgres', label: 'Postgres', cluster: 2, x: 530, y: 290 },
+      { id: 'redis', label: 'Redis', cluster: 2, x: 530, y: 390 },
+      { id: 'kafka', label: 'Kafka', cluster: 2, x: 610, y: 200 },
+      { id: 'analytics', label: 'Analytics', cluster: 2, x: 660, y: 340 },
+      { id: 'k8s', label: 'K8s', cluster: 3, x: 750, y: 240 },
+      { id: 'monitor', label: 'Monitor', cluster: 3, x: 760, y: 370 },
+      { id: 'cicd', label: 'CI/CD', cluster: 3, x: 810, y: 160 },
+      { id: 'auth-svc', label: 'Auth Svc', cluster: 4, x: 450, y: 135 },
+      { id: 'oauth', label: 'OAuth', cluster: 4, x: 560, y: 130 }
+    ];
+    const links = [
+      { source: 'web-app', target: 'cdn' },
+      { source: 'mobile', target: 'cdn' },
+      { source: 'cdn', target: 'api-gw' },
+      { source: 'web-app', target: 'api-gw' },
+      { source: 'api-gw', target: 'user-svc' },
+      { source: 'api-gw', target: 'order-svc' },
+      { source: 'order-svc', target: 'notify' },
+      { source: 'user-svc', target: 'notify' },
+      { source: 'user-svc', target: 'postgres' },
+      { source: 'order-svc', target: 'postgres' },
+      { source: 'user-svc', target: 'redis' },
+      { source: 'order-svc', target: 'redis' },
+      { source: 'notify', target: 'kafka' },
+      { source: 'api-gw', target: 'kafka' },
+      { source: 'kafka', target: 'analytics' },
+      { source: 'postgres', target: 'analytics' },
+      { source: 'auth-svc', target: 'api-gw' },
+      { source: 'auth-svc', target: 'oauth' },
+      { source: 'oauth', target: 'k8s' },
+      { source: 'k8s', target: 'api-gw' },
+      { source: 'k8s', target: 'postgres' },
+      { source: 'k8s', target: 'monitor' },
+      { source: 'cicd', target: 'k8s' },
+      { source: 'monitor', target: 'analytics' }
+    ];
+    const clusterNames = ['Frontend', 'Backend', 'Data', 'Infra', 'Auth'];
+    const byId = {};
+    nodes.forEach(function(node) {
+      byId[node.id] = Object.assign({}, node, { degree: 0, neighbors: [] });
+    });
+    links.forEach(function(link) {
+      byId[link.source].degree += 1;
+      byId[link.target].degree += 1;
+      byId[link.source].neighbors.push(link.target);
+      byId[link.target].neighbors.push(link.source);
+    });
+
+    function hexToRgb(hex) {
+      const parsed = echarts.color.parse(hex) || [0, 0, 0, 1];
+      return [parsed[0], parsed[1], parsed[2]];
+    }
+
+    function rgbToHex(rgb) {
+      return '#' + rgb.map(function(channel) {
+        const value = Math.max(0, Math.min(255, Math.round(channel)));
+        return value.toString(16).padStart(2, '0');
+      }).join('');
+    }
+
+    function mixColor(baseHex, bgHex, ratio) {
+      const base = hexToRgb(baseHex);
+      const bg = hexToRgb(bgHex);
+      return rgbToHex(base.map(function(channel, index) {
+        return bg[index] + (channel - bg[index]) * ratio;
+      }));
+    }
+
+    function tooltip(state, param) {
+      const dark = state.dark;
+      const meta = param.data || {};
+      return tooltipCard(dark,
+        '<div style="color:' + (dark ? '#E6E0E9' : '#1C1B1F') + ';font-size:13px;font-weight:600;">' + meta.label + '</div>' +
+        '<div style="margin-top:4px;color:' + (dark ? '#CAC4D0' : '#49454F') + ';font-size:10px;">' + clusterNames[meta.cluster] + ' cluster</div>' +
+        '<div style="margin-top:6px;color:' + (dark ? '#E6E0E9' : '#1C1B1F') + ';font-size:11px;font-weight:600;">' + meta.degree + ' connection' + (meta.degree === 1 ? '' : 's') + '</div>' +
+        '<div style="margin-top:4px;color:' + (dark ? '#938F99' : '#79747E') + ';font-size:10px;">' + meta.neighbors.join(' · ') + '</div>',
+        '188px'
+      );
+    }
+
+    return createManagedChart(container, function(chart, state, containerEl) {
+      const dark = state.dark;
+      const compact = isCompactChart(chart);
+      const medium = isMediumChart(chart);
+      const darkPalette = ['#22D3EE', '#10B981', '#FBB724', '#FB6181', '#A78BFA', '#60A5FA', '#2DD4BF', '#94A3B8'];
+      const colors = dark ? darkPalette : state.colors;
+      const bg = dark ? '#1C1B1F' : '#FFFBFE';
+      const legendLayout = Object.assign({}, legendOverlayLayout(chart), {
+        width: compact ? 92 : (medium ? 102 : 122),
+        right: compact ? 6 : 8
+      });
+      const legendReserve = legendLayout.width + legendLayout.right + (compact ? 26 : (medium ? 34 : 42));
+      setLegendOverlayConfig(containerEl, {
+        dark: dark,
+        layout: legendLayout,
+        items: clusterNames.map(function(name, idx) {
+          return { name: name, color: colors[idx] };
+        })
+      });
+
+      const nodeSize = compact ? 13 : (medium ? 16 : 18);
+      const edgeOpacity = dark ? 0.78 : 0.9;
+      const plotLeft = compact ? 28 : (medium ? 38 : 52);
+      const plotRight = compact ? (legendReserve + 10) : (legendReserve + (medium ? 16 : 24));
+      const plotTop = compact ? 14 : (medium ? 18 : 22);
+      const plotBottom = compact ? 22 : (medium ? 26 : 30);
+      const plotWidth = Math.max(150, chart.getWidth() - plotLeft - plotRight);
+      const plotHeight = Math.max(130, chart.getHeight() - plotTop - plotBottom);
+      const sourceMinX = 68;
+      const sourceMaxX = 850;
+      const sourceMinY = 100;
+      const sourceMaxY = 500;
+      const plotNodes = nodes.map(function(node) {
+        const source = byId[node.id];
+        const fill = mixColor(colors[node.cluster], bg, dark ? 0.9 : 1);
+        const stroke = mixColor(colors[node.cluster], bg, dark ? 0.96 : 0.72);
+        const symbolSize = nodeSize + Math.min(source.degree, 6) * (compact ? 1.1 : (medium ? 1.35 : 1.55));
+        const radius = symbolSize / 2;
+        const x = plotLeft + ((node.x - sourceMinX) / (sourceMaxX - sourceMinX)) * plotWidth;
+        const y = plotTop + ((node.y - sourceMinY) / (sourceMaxY - sourceMinY)) * plotHeight;
+        const xClampMin = plotLeft + radius + 10;
+        const xClampMax = plotLeft + plotWidth - radius - 8;
+        const yClampMin = plotTop + radius + 4;
+        const yClampMax = plotTop + plotHeight - radius - (compact ? 16 : 20);
+        return {
+          id: node.id,
+          name: node.label,
+          x: Math.max(xClampMin, Math.min(xClampMax, x)),
+          y: Math.max(yClampMin, Math.min(yClampMax, y)),
+          symbolSize: symbolSize,
+          label: node.label,
+          cluster: node.cluster,
+          degree: source.degree,
+          neighbors: source.neighbors.map(function(id) { return byId[id].label; }),
+          itemStyle: {
+            color: fill,
+            borderColor: stroke,
+            borderWidth: 2
+          },
+          labelCfg: {
+            color: dark ? '#E6E0E9' : '#1C1B1F',
+            fontSize: compact ? 8 : 9.5
+          }
+        };
+      });
+      const plotLinks = links.map(function(link) {
+        return {
+          source: link.source,
+          target: link.target,
+          lineStyle: {
+            color: colors[byId[link.source].cluster],
+            width: 1.5,
+            opacity: edgeOpacity
+          }
+        };
+      });
+
+      return {
+        animationDuration: 900,
+        animationDurationUpdate: 250,
+        animationEasing: 'cubicOut',
+        backgroundColor: 'transparent',
+        tooltip: {
+          trigger: 'item',
+          confine: true,
+          backgroundColor: 'transparent',
+          borderWidth: 0,
+          padding: 0,
+          extraCssText: 'box-shadow:none;background:transparent;',
+          formatter: function(param) {
+            if (param.dataType === 'edge') return '';
+            return tooltip(state, param);
+          },
+          position: function(pos, params, dom, rect, size) {
+            return smartTooltipPosition(pos, rect || { x: pos[0], y: pos[1], width: 0, height: 0 }, size, dom, dark, true, 20);
+          }
+        },
+        series: [{
+          type: 'graph',
+          coordinateSystem: null,
+          layout: 'none',
+          left: plotLeft,
+          top: plotTop,
+          right: plotRight,
+          bottom: plotBottom,
+          roam: false,
+          nodeScaleRatio: 1,
+          data: plotNodes.map(function(node) {
+            return {
+              id: node.id,
+              name: node.name,
+              x: node.x,
+              y: node.y,
+              value: node.degree,
+              symbol: 'circle',
+              symbolSize: node.symbolSize,
+              itemStyle: node.itemStyle,
+              meta: {
+                label: node.label,
+                cluster: node.cluster,
+                degree: node.degree,
+                neighbors: node.neighbors
+              },
+              label: {
+                show: true,
+                position: 'bottom',
+                distance: compact ? 4 : 6,
+                color: node.labelCfg.color,
+                fontSize: node.labelCfg.fontSize
+              },
+              emphasis: {
+                itemStyle: {
+                  borderColor: dark ? '#E6E0E9' : '#1C1B1F',
+                  borderWidth: 2
+                }
+              }
+            };
+          }),
+          links: plotLinks,
+          lineStyle: {
+            curveness: 0,
+            opacity: edgeOpacity
+          },
+          edgeSymbol: ['none', 'none'],
+          edgeLabel: { show: false },
+          animationDelay: function(idx) { return idx * 42; },
+          emphasis: {
+            focus: 'adjacency',
+            lineStyle: { width: 2, opacity: 1 }
+          },
+          blur: {
+            itemStyle: { opacity: 0.2 },
+            lineStyle: { opacity: 0.08 }
+          },
+          draggable: false,
+          z: 3
+        }]
+      };
+    });
+  }
+
+  function makeCircularNetworkChart(container) {
+    const nodes = [
+      { id: 'web-app', label: 'Web App', cluster: 0 },
+      { id: 'mobile', label: 'Mobile', cluster: 0 },
+      { id: 'cdn', label: 'CDN', cluster: 0 },
+      { id: 'api-gw', label: 'API GW', cluster: 1 },
+      { id: 'user-svc', label: 'User Svc', cluster: 1 },
+      { id: 'order-svc', label: 'Order Svc', cluster: 1 },
+      { id: 'notify', label: 'Notify', cluster: 1 },
+      { id: 'postgres', label: 'Postgres', cluster: 2 },
+      { id: 'redis', label: 'Redis', cluster: 2 },
+      { id: 'kafka', label: 'Kafka', cluster: 2 },
+      { id: 'analytics', label: 'Analytics', cluster: 2 },
+      { id: 'k8s', label: 'K8s', cluster: 3 },
+      { id: 'monitor', label: 'Monitor', cluster: 3 },
+      { id: 'cicd', label: 'CI/CD', cluster: 3 },
+      { id: 'auth-svc', label: 'Auth Svc', cluster: 4 },
+      { id: 'oauth', label: 'OAuth', cluster: 4 }
+    ];
+    const links = [
+      { source: 'web-app', target: 'cdn' },
+      { source: 'mobile', target: 'cdn' },
+      { source: 'cdn', target: 'api-gw' },
+      { source: 'web-app', target: 'api-gw' },
+      { source: 'api-gw', target: 'user-svc' },
+      { source: 'api-gw', target: 'order-svc' },
+      { source: 'order-svc', target: 'notify' },
+      { source: 'user-svc', target: 'notify' },
+      { source: 'user-svc', target: 'postgres' },
+      { source: 'order-svc', target: 'postgres' },
+      { source: 'user-svc', target: 'redis' },
+      { source: 'order-svc', target: 'redis' },
+      { source: 'notify', target: 'kafka' },
+      { source: 'api-gw', target: 'kafka' },
+      { source: 'kafka', target: 'analytics' },
+      { source: 'postgres', target: 'analytics' },
+      { source: 'auth-svc', target: 'api-gw' },
+      { source: 'auth-svc', target: 'oauth' },
+      { source: 'oauth', target: 'k8s' },
+      { source: 'k8s', target: 'api-gw' },
+      { source: 'k8s', target: 'postgres' },
+      { source: 'k8s', target: 'monitor' },
+      { source: 'cicd', target: 'k8s' },
+      { source: 'monitor', target: 'analytics' }
+    ];
+    const clusterNames = ['Frontend', 'Backend', 'Data', 'Infra', 'Auth'];
+    const byId = {};
+    nodes.forEach(function(node) {
+      byId[node.id] = Object.assign({}, node, { degree: 0, neighbors: [] });
+    });
+    links.forEach(function(link) {
+      byId[link.source].degree += 1;
+      byId[link.target].degree += 1;
+      byId[link.source].neighbors.push(link.target);
+      byId[link.target].neighbors.push(link.source);
+    });
+
+    function hexToRgb(hex) {
+      const parsed = echarts.color.parse(hex) || [0, 0, 0, 1];
+      return [parsed[0], parsed[1], parsed[2]];
+    }
+
+    function rgbToHex(rgb) {
+      return '#' + rgb.map(function(channel) {
+        const value = Math.max(0, Math.min(255, Math.round(channel)));
+        return value.toString(16).padStart(2, '0');
+      }).join('');
+    }
+
+    function mixColor(baseHex, bgHex, ratio) {
+      const base = hexToRgb(baseHex);
+      const bg = hexToRgb(bgHex);
+      return rgbToHex(base.map(function(channel, index) {
+        return bg[index] + (channel - bg[index]) * ratio;
+      }));
+    }
+
+    function tooltip(state, param) {
+      const dark = state.dark;
+      const meta = param.data || {};
+      return tooltipCard(dark,
+        '<div style="color:' + (dark ? '#E6E0E9' : '#1C1B1F') + ';font-size:13px;font-weight:600;">' + meta.label + '</div>' +
+        '<div style="margin-top:4px;color:' + (dark ? '#CAC4D0' : '#49454F') + ';font-size:10px;">' + clusterNames[meta.cluster] + ' cluster</div>' +
+        '<div style="margin-top:6px;color:' + (dark ? '#E6E0E9' : '#1C1B1F') + ';font-size:11px;font-weight:600;">' + meta.degree + ' connection' + (meta.degree === 1 ? '' : 's') + '</div>' +
+        '<div style="margin-top:4px;color:' + (dark ? '#938F99' : '#79747E') + ';font-size:10px;">' + meta.neighbors.join(' · ') + '</div>',
+        '192px'
+      );
+    }
+
+    return createManagedChart(container, function(chart, state, containerEl) {
+      const dark = state.dark;
+      const compact = isCompactChart(chart);
+      const medium = isMediumChart(chart);
+      const darkPalette = ['#22D3EE', '#10B981', '#FBB724', '#FB6181', '#A78BFA', '#60A5FA', '#2DD4BF', '#94A3B8'];
+      const colors = dark ? darkPalette : state.colors;
+      const bg = dark ? '#1C1B1F' : '#FFFBFE';
+      const legendLayout = Object.assign({}, legendOverlayLayout(chart), {
+        width: compact ? 92 : (medium ? 102 : 122),
+        right: compact ? 6 : 8
+      });
+      const legendReserve = legendLayout.width + legendLayout.right + (compact ? 14 : (medium ? 20 : 28));
+
+      setLegendOverlayConfig(containerEl, {
+        dark: dark,
+        layout: legendLayout,
+        items: clusterNames.map(function(name, idx) {
+          return { name: name, color: colors[idx] };
+        })
+      });
+
+      const plotLeft = compact ? 34 : (medium ? 44 : 56);
+      const plotRight = compact ? (legendReserve + 12) : (legendReserve + 18);
+      const plotTop = compact ? 14 : (medium ? 18 : 22);
+      const plotBottom = compact ? 18 : (medium ? 22 : 28);
+      const plotWidth = Math.max(140, chart.getWidth() - plotLeft - plotRight);
+      const plotHeight = Math.max(140, chart.getHeight() - plotTop - plotBottom);
+      const centerX = plotLeft + plotWidth / 2;
+      const centerY = plotTop + plotHeight / 2;
+      const ringRadius = Math.max(72, Math.min(plotWidth, plotHeight) / 2 - (compact ? 12 : (medium ? 16 : 22)));
+      const labelRadius = ringRadius + (compact ? 18 : 22);
+      const gapDeg = compact ? 8 : 10;
+      const totalGapDeg = clusterNames.length * gapDeg;
+      const nodeArcDeg = 360 - totalGapDeg;
+      const degPerNode = nodeArcDeg / nodes.length;
+      let angleDeg = -90 - nodeArcDeg / 2;
+      let previousCluster = null;
+
+      const nodeData = nodes.map(function(node) {
+        if (previousCluster !== null && node.cluster !== previousCluster) angleDeg += gapDeg;
+        const angle = angleDeg + degPerNode / 2;
+        angleDeg += degPerNode;
+        previousCluster = node.cluster;
+        const rad = angle * Math.PI / 180;
+        const source = byId[node.id];
+        const symbolSize = (compact ? 13 : (medium ? 16 : 18)) + Math.min(source.degree, 6) * (compact ? 1.1 : (medium ? 1.3 : 1.55));
+        const radius = symbolSize / 2;
+        const x = centerX + Math.cos(rad) * ringRadius;
+        const y = centerY + Math.sin(rad) * ringRadius;
+        const labelX = centerX + Math.cos(rad) * labelRadius;
+        const labelY = centerY + Math.sin(rad) * labelRadius;
+        const fill = mixColor(colors[node.cluster], bg, dark ? 0.9 : 1);
+        const stroke = mixColor(colors[node.cluster], bg, dark ? 0.96 : 0.72);
+        return {
+          id: node.id,
+          value: [x, y, radius, labelX, labelY],
+          meta: {
+            label: node.label,
+            cluster: node.cluster,
+            degree: source.degree,
+            neighbors: source.neighbors.map(function(id) { return byId[id].label; }),
+            fill: fill,
+            stroke: stroke,
+            align: Math.cos(rad) > 0.12 ? 'left' : (Math.cos(rad) < -0.12 ? 'right' : 'center'),
+            fontSize: compact ? 8 : 9.5
+          }
+        };
+      });
+
+      const nodeIndex = {};
+      nodeData.forEach(function(node) { nodeIndex[node.id] = node; });
+      const edgeData = links.map(function(link, idx) {
+        return {
+          id: link.source + '-' + link.target,
+          value: idx,
+          meta: {
+            source: link.source,
+            target: link.target,
+            color: colors[byId[link.source].cluster]
+          }
+        };
+      });
+
+      function renderEdge(params, api) {
+        const item = edgeData[params.dataIndex];
+        const source = nodeIndex[item.meta.source];
+        const target = nodeIndex[item.meta.target];
+        if (!source || !target) return null;
+        return {
+          type: 'line',
+          silent: true,
+          shape: {
+            x1: source.value[0],
+            y1: source.value[1],
+            x2: target.value[0],
+            y2: target.value[1]
+          },
+          style: {
+            stroke: item.meta.color,
+            lineWidth: 1.5,
+            opacity: dark ? 0.78 : 0.9
+          },
+          transition: ['shape', 'style']
+        };
+      }
+
+      function renderNode(params, api) {
+        const item = nodeData[params.dataIndex];
+        const x = api.value(0);
+        const y = api.value(1);
+        const r = api.value(2);
+        const labelX = api.value(3);
+        const labelY = api.value(4);
+        const meta = item.meta;
+        return {
+          type: 'group',
+          children: [
+            {
+              type: 'circle',
+              shape: { cx: x, cy: y, r: r },
+              style: { fill: meta.fill, stroke: meta.stroke, lineWidth: 2 },
+              transition: ['shape', 'style']
+            },
+            {
+              type: 'text',
+              silent: true,
+              style: {
+                x: labelX,
+                y: labelY,
+                text: meta.label,
+                textAlign: meta.align,
+                textVerticalAlign: 'middle',
+                fill: dark ? '#E6E0E9' : '#1C1B1F',
+                font: '500 ' + meta.fontSize + 'px Roboto, Helvetica Neue, Arial, sans-serif'
+              }
+            }
+          ]
+        };
+      }
+
+      return {
+        animationDuration: 900,
+        animationDurationUpdate: 250,
+        animationEasing: 'cubicOut',
+        backgroundColor: 'transparent',
+        tooltip: {
+          trigger: 'item',
+          confine: true,
+          backgroundColor: 'transparent',
+          borderWidth: 0,
+          padding: 0,
+          extraCssText: 'box-shadow:none;background:transparent;',
+          formatter: function(param) { return tooltip(state, param); },
+          position: function(pos, params, dom, rect, size) {
+            return smartTooltipPosition(pos, rect || { x: pos[0], y: pos[1], width: 0, height: 0 }, size, dom, dark, true, 20);
+          }
+        },
+        xAxis: { type: 'value', min: 0, max: chart.getWidth(), show: false },
+        yAxis: { type: 'value', min: 0, max: chart.getHeight(), inverse: true, show: false },
+        grid: { left: 0, right: 0, top: 0, bottom: 0 },
+        series: [
+          {
+            type: 'custom',
+            coordinateSystem: 'cartesian2d',
+            renderItem: renderEdge,
+            data: edgeData,
+            silent: true,
+            animationDelay: function(idx) { return idx * 35; },
+            progressive: 0,
+            z: 1
+          },
+          {
+            type: 'custom',
+            coordinateSystem: 'cartesian2d',
+            renderItem: renderNode,
+            data: nodeData,
+            animationDelay: function(idx) { return edgeData.length * 35 + idx * 45; },
+            progressive: 0,
+            z: 3,
+            encode: { x: 0, y: 1, tooltip: 2 },
+            emphasis: { focus: 'self' },
+            blur: { itemStyle: { opacity: 0.15 } }
+          }
+        ]
       };
     });
   }
@@ -3870,6 +4549,8 @@
     'waterfall-echarts': makeWaterfallChart,
     'gantt-echarts': makeGanttChart,
     'bubble-echarts': makeBubbleChart,
+    'network-echarts': makeNetworkChart,
+    'circular-network-echarts': makeCircularNetworkChart,
     'stacked-bar-echarts': makeStackedBarChart,
     'stepline-echarts': makeStepLineChart,
     'jumpline-echarts': makeJumpLineChart,
@@ -3881,6 +4562,7 @@
     'candle-echarts': makeCandleChart,
     'pie-echarts': makePieChart,
     'sunburst-echarts': makeSunburstChart,
+    'circle-packing-echarts': makeCirclePackingChart,
     'icicle-echarts': makeIcicleChart,
     'tree-echarts': makeTreeChart,
     'boxplot-echarts': makeBoxplotChart,
