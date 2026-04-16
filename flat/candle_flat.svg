@@ -2,26 +2,40 @@
 
 
 <svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto',Arial,sans-serif">
+  <script type="text/javascript">
+    <![CDATA[
+    (function () {
+      if (window.location.href.indexOf('theme=dark') !== -1) {
+       document.documentElement.classList.add('dark');
+      }
+    }());
+    ]]>
+  </script>
 <defs>
   <style>
     @import url('chart-shared.css');
+    /* prevent first paint in wrong color before shared css load */
+    svg {
+    --critical-tick-fill: #79747E;
+    --critical-grid-stroke: #E7E0EC;
+    --critical-axis-stroke: #79747E;
+    }
+    svg.dark {
+    --critical-tick-fill: #938F99;
+    --critical-grid-stroke: #3A3940;
+    --critical-axis-stroke: #938F99;
+    }
+    .tick-label, .category-label { fill: var(--critical-tick-fill); }
+    .grid-line { stroke: var(--critical-grid-stroke); }
+    .axis-line { stroke: var(--critical-axis-stroke); }
 
     .c-bull { fill:var(--series-2); }
     .c-bear { fill:var(--series-4); }
     .w-bull { stroke:var(--series-2); stroke-width:1.5; fill:none; }
     .w-bear { stroke:var(--series-4); stroke-width:1.5; fill:none; }
+    .data-body { opacity:0; }
+    .data-body.visible { opacity:1; }
 
-    @keyframes dataFadeIn { from{opacity:0} to{opacity:1} }
-    .data-body { animation:dataFadeIn 0.8s ease-out both; }
-    .stagger-1  { animation-delay:0.00s; } .stagger-2  { animation-delay:0.16s; }
-    .stagger-3  { animation-delay:0.32s; } .stagger-4  { animation-delay:0.48s; }
-    .stagger-5  { animation-delay:0.64s; } .stagger-6  { animation-delay:0.80s; }
-    .stagger-7  { animation-delay:0.96s; } .stagger-8  { animation-delay:1.12s; }
-    .stagger-9  { animation-delay:1.28s; } .stagger-10 { animation-delay:1.44s; }
-    .stagger-11 { animation-delay:1.60s; } .stagger-12 { animation-delay:1.76s; }
-
-    .legend-value { opacity:0; transition:opacity 0.3s; }
-    svg.print .legend-value { opacity:1; }
   </style>
 </defs>
 
@@ -50,18 +64,18 @@
 <text x="790" y="530" class="category-label" text-anchor="middle">Sep</text>
 
 <g class="data-layer" id="chart-area">
-  <g class="data-item" id="cw1"  data-tip="data-tip-1" data-month="Oct" data-open="$132" data-high="$148" data-low="$125" data-close="$144" data-trend="Bullish"><g class="data-body stagger-1" ><line x1="128" y1="228" x2="128" y2="320" class="w-bull"/><rect class="c-bull" x="110" y="244" width="36" height="48"/></g></g>
-  <g class="data-item" id="cw2"  data-tip="data-tip-2" data-month="Nov" data-open="$144" data-high="$155" data-low="$138" data-close="$139" data-trend="Bearish"><g class="data-body stagger-2" ><line x1="188" y1="200" x2="188" y2="268" class="w-bear"/><rect class="c-bear" x="170" y="244" width="36" height="20"/></g></g>
-  <g class="data-item" id="cw3"  data-tip="data-tip-3" data-month="Dec" data-open="$139" data-high="$142" data-low="$118" data-close="$122" data-trend="Bearish"><g class="data-body stagger-3" ><line x1="249" y1="252" x2="249" y2="348" class="w-bear"/><rect class="c-bear" x="231" y="264" width="36" height="68"/></g></g>
-  <g class="data-item" id="cw4"  data-tip="data-tip-4" data-month="Jan" data-open="$122" data-high="$135" data-low="$115" data-close="$131" data-trend="Bullish"><g class="data-body stagger-4" ><line x1="309" y1="280" x2="309" y2="360" class="w-bull"/><rect class="c-bull" x="291" y="296" width="36" height="36"/></g></g>
-  <g class="data-item" id="cw5"  data-tip="data-tip-5" data-month="Feb" data-open="$131" data-high="$150" data-low="$128" data-close="$148" data-trend="Bullish"><g class="data-body stagger-5" ><line x1="369" y1="220" x2="369" y2="308" class="w-bull"/><rect class="c-bull" x="351" y="228" width="36" height="68"/></g></g>
-  <g class="data-item" id="cw6"  data-tip="data-tip-6" data-month="Mar" data-open="$148" data-high="$162" data-low="$143" data-close="$158" data-trend="Bullish"><g class="data-body stagger-6" ><line x1="429" y1="172" x2="429" y2="248" class="w-bull"/><rect class="c-bull" x="411" y="188" width="36" height="40"/></g></g>
-  <g class="data-item" id="cw7"  data-tip="data-tip-7" data-month="Apr" data-open="$158" data-high="$165" data-low="$144" data-close="$147" data-trend="Bearish"><g class="data-body stagger-7" ><line x1="489" y1="160" x2="489" y2="244" class="w-bear"/><rect class="c-bear" x="471" y="188" width="36" height="44"/></g></g>
-  <g class="data-item" id="cw8"  data-tip="data-tip-8" data-month="May" data-open="$147" data-high="$152" data-low="$130" data-close="$134" data-trend="Bearish"><g class="data-body stagger-8" ><line x1="549" y1="212" x2="549" y2="300" class="w-bear"/><rect class="c-bear" x="531" y="232" width="36" height="52"/></g></g>
-  <g class="data-item" id="cw9"  data-tip="data-tip-9" data-month="Jun" data-open="$134" data-high="$149" data-low="$129" data-close="$146" data-trend="Bullish"><g class="data-body stagger-9" ><line x1="609" y1="224" x2="609" y2="304" class="w-bull"/><rect class="c-bull" x="591" y="236" width="36" height="48"/></g></g>
-  <g class="data-item" id="cw10" data-tip="data-tip-10" data-month="Jul" data-open="$146" data-high="$168" data-low="$140" data-close="$165" data-trend="Bullish"><g class="data-body stagger-10"><line x1="670" y1="148" x2="670" y2="260" class="w-bull"/><rect class="c-bull" x="652" y="160" width="36" height="76"/></g></g>
-  <g class="data-item" id="cw11" data-tip="data-tip-11" data-month="Aug" data-open="$165" data-high="$172" data-low="$151" data-close="$155" data-trend="Bearish"><g class="data-body stagger-11"><line x1="730" y1="132" x2="730" y2="216" class="w-bear"/><rect class="c-bear" x="712" y="160" width="36" height="40"/></g></g>
-  <g class="data-item" id="cw12" data-tip="data-tip-12" data-month="Sep" data-open="$155" data-high="$160" data-low="$138" data-close="$142" data-trend="Bearish"><g class="data-body stagger-12"><line x1="790" y1="180" x2="790" y2="268" class="w-bear"/><rect class="c-bear" x="772" y="200" width="36" height="52"/></g></g>
+  <g class="data-item" id="cw1"  data-tip="data-tip-1" data-month="Oct" data-open="$132" data-high="$148" data-low="$125" data-close="$144" data-trend="Bullish"><g class="data-body"><line x1="128" y1="228" x2="128" y2="320" class="w-bull"/><rect class="c-bull" x="110" y="244" width="36" height="48"/></g></g>
+  <g class="data-item" id="cw2"  data-tip="data-tip-2" data-month="Nov" data-open="$144" data-high="$155" data-low="$138" data-close="$139" data-trend="Bearish"><g class="data-body"><line x1="188" y1="200" x2="188" y2="268" class="w-bear"/><rect class="c-bear" x="170" y="244" width="36" height="20"/></g></g>
+  <g class="data-item" id="cw3"  data-tip="data-tip-3" data-month="Dec" data-open="$139" data-high="$142" data-low="$118" data-close="$122" data-trend="Bearish"><g class="data-body"><line x1="249" y1="252" x2="249" y2="348" class="w-bear"/><rect class="c-bear" x="231" y="264" width="36" height="68"/></g></g>
+  <g class="data-item" id="cw4"  data-tip="data-tip-4" data-month="Jan" data-open="$122" data-high="$135" data-low="$115" data-close="$131" data-trend="Bullish"><g class="data-body"><line x1="309" y1="280" x2="309" y2="360" class="w-bull"/><rect class="c-bull" x="291" y="296" width="36" height="36"/></g></g>
+  <g class="data-item" id="cw5"  data-tip="data-tip-5" data-month="Feb" data-open="$131" data-high="$150" data-low="$128" data-close="$148" data-trend="Bullish"><g class="data-body"><line x1="369" y1="220" x2="369" y2="308" class="w-bull"/><rect class="c-bull" x="351" y="228" width="36" height="68"/></g></g>
+  <g class="data-item" id="cw6"  data-tip="data-tip-6" data-month="Mar" data-open="$148" data-high="$162" data-low="$143" data-close="$158" data-trend="Bullish"><g class="data-body"><line x1="429" y1="172" x2="429" y2="248" class="w-bull"/><rect class="c-bull" x="411" y="188" width="36" height="40"/></g></g>
+  <g class="data-item" id="cw7"  data-tip="data-tip-7" data-month="Apr" data-open="$158" data-high="$165" data-low="$144" data-close="$147" data-trend="Bearish"><g class="data-body"><line x1="489" y1="160" x2="489" y2="244" class="w-bear"/><rect class="c-bear" x="471" y="188" width="36" height="44"/></g></g>
+  <g class="data-item" id="cw8"  data-tip="data-tip-8" data-month="May" data-open="$147" data-high="$152" data-low="$130" data-close="$134" data-trend="Bearish"><g class="data-body"><line x1="549" y1="212" x2="549" y2="300" class="w-bear"/><rect class="c-bear" x="531" y="232" width="36" height="52"/></g></g>
+  <g class="data-item" id="cw9"  data-tip="data-tip-9" data-month="Jun" data-open="$134" data-high="$149" data-low="$129" data-close="$146" data-trend="Bullish"><g class="data-body"><line x1="609" y1="224" x2="609" y2="304" class="w-bull"/><rect class="c-bull" x="591" y="236" width="36" height="48"/></g></g>
+  <g class="data-item" id="cw10" data-tip="data-tip-10" data-month="Jul" data-open="$146" data-high="$168" data-low="$140" data-close="$165" data-trend="Bullish"><g class="data-body"><line x1="670" y1="148" x2="670" y2="260" class="w-bull"/><rect class="c-bull" x="652" y="160" width="36" height="76"/></g></g>
+  <g class="data-item" id="cw11" data-tip="data-tip-11" data-month="Aug" data-open="$165" data-high="$172" data-low="$151" data-close="$155" data-trend="Bearish"><g class="data-body"><line x1="730" y1="132" x2="730" y2="216" class="w-bear"/><rect class="c-bear" x="712" y="160" width="36" height="40"/></g></g>
+  <g class="data-item" id="cw12" data-tip="data-tip-12" data-month="Sep" data-open="$155" data-high="$160" data-low="$138" data-close="$142" data-trend="Bearish"><g class="data-body"><line x1="790" y1="180" x2="790" y2="268" class="w-bear"/><rect class="c-bear" x="772" y="200" width="36" height="52"/></g></g>
 </g>
 
 <!-- tooltips â€” each uses standard .tip-* classes.
@@ -182,10 +196,19 @@
   svg._chartInit = function (svgEl, ctx) {
     var chartArea   = svgEl.querySelector('#chart-area');
     var dataItemEls = ctx.$$all('.data-item');
+    var dataBodyEls = ctx.$$all('.data-body');
     var plotL = 42;
     var plotR = 840;
     var plotT = 100;
     var plotB = 500;
+
+    dataBodyEls.forEach(function (dataBody, index) {
+      var delay = ctx.getStaggerDelay(index, dataBodyEls.length, null, svgEl);
+      ctx.animateAndMarkVisible(
+        dataBody,
+        'dataFadeIn var(--chart-fade-duration, 0.8s) ease-out ' + delay + 's'
+      );
+    });
 
     function placeTip(itemEl, tipEl) {
       var wickEl = itemEl.querySelector('line');
@@ -213,22 +236,14 @@
       tipEl.removeAttribute('transform');
     }
 
-    /* Hover dimming + tooltip via data-tip attribute */
-    dataItemEls.forEach(function (itemEl) {
-      var tipEl = svgEl.querySelector('#' + itemEl.getAttribute('data-tip'));
-      itemEl.addEventListener('mouseenter', function () {
-        ctx.activateExclusive(dataItemEls, itemEl);
-        chartArea.classList.add('hovering');
-        if (tipEl) {
-          placeTip(itemEl, tipEl);
-          ctx.setOpacity(tipEl, 1);
-        }
-      });
-      itemEl.addEventListener('mouseleave', function () {
-        chartArea.classList.remove('hovering');
-        itemEl.classList.remove('active');
-        ctx.setOpacity(tipEl, null);
-      });
+    ctx.initExclusiveHoverTips(chartArea, dataItemEls, {
+      leaveTarget: chartArea,
+      resolveTip: function (itemEl) {
+        return svgEl.querySelector('#' + itemEl.getAttribute('data-tip'));
+      },
+      beforeShow: function (itemEl, tipEl) {
+        if (tipEl) placeTip(itemEl, tipEl);
+      }
     });
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }

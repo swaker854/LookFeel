@@ -109,6 +109,8 @@ svg.print .legend-row-value { opacity:1; }
 .data-item { cursor:pointer; }
 .data-tip  { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
 .data-item.active .data-tip { opacity:1; }
+.structural-overlay { opacity:0; pointer-events:none; }
+.structural-overlay.visible { opacity:1; }
 .crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
 .radial-slice { cursor:pointer; }
 .radial-chart.ready.hovering .radial-slice { opacity:0.20; transition:opacity 0.2s ease; }
@@ -116,6 +118,8 @@ svg.print .legend-row-value { opacity:1; }
 @keyframes tileFade { from{opacity:0} to{opacity:1} }
 .tile-label { font-size:13px; font-weight:500; fill:#fff; pointer-events:none; }
 .tile-sub { font-size:10px; font-weight:400; fill:rgba(255,255,255,0.80); pointer-events:none; }
+.inset-value { font-size:13px; font-weight:500; fill:#fff; text-anchor:middle; dominant-baseline:central; pointer-events:none; }
+.inset-value-compact { font-size:10px; font-weight:400; fill:rgba(255,255,255,0.9); text-anchor:middle; dominant-baseline:central; pointer-events:none; }
 .tile-node { opacity:0; cursor:pointer; }
 .tile-node.visible { opacity:1; }
 .tile-grid { opacity:0; pointer-events:none; }

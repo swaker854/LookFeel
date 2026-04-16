@@ -261,18 +261,8 @@
 
     /* Hover data layer dims; tips live in #tip-layer so JS controls opacity directly */
     var dataItemEls = ctx.$$all('.data-item');
-    dataItemEls.forEach(function (dataItem) {
-      dataItem.addEventListener('mouseenter', function () {
-        dataLayerEl.classList.add('hovering');
-        ctx.activateExclusive(dataItemEls, dataItem);
-        dataItemEls.forEach(function (x) { ctx.setOpacity(x._tip, null); });
-        ctx.setOpacity(dataItem._tip, 1);
-      });
-      dataItem.addEventListener('mouseleave', function () {
-        dataItem.classList.remove('active');
-        ctx.setOpacity(dataItem._tip, null);
-        dataLayerEl.classList.remove('hovering');
-      });
+    ctx.initExclusiveHoverTips(dataLayerEl, dataItemEls, {
+      leaveTarget: dataLayerEl
     });
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }

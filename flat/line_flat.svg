@@ -155,8 +155,7 @@
           duration: 1200
         });
       }
-      if (line) line.style.animationDelay = revealDelay + 's';
-      if (line) line.classList.add('visible');
+      if (line) ctx.initStrokeReveal(line, { delay: revealDelay });
     });
 
     ctx.initPointSeriesHover({

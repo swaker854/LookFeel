@@ -1,222 +1,147 @@
-<svg id="root" class="chart-standard" viewBox="40 80 1040 463" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<script type="text/javascript"><![CDATA[
+(function () {
+  if (window.location.href.indexOf('theme=dark') !== -1) {
+    document.documentElement.classList.add('dark');
+  }
+}());
+]]></script>
 <defs>
   <style>
     @import url('chart-shared.css');
-  .chart-shell-hidden { display:none; }
-  .card-bg, .border-light, .border-dark { display:none; }
-    .card-bg      { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    .card-title       { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .card-subtitle       { font-size:11px; fill:#79747E; font-weight:400; }
-    .tick-label       { font-size:10px; fill:#79747E; font-weight:400; }
-    .category-label       { font-size:12px; fill:#1C1B1F; font-weight:500; }
-    .category-sub     { font-size:11px; fill:#79747E; font-weight:400; }
-    .chart-total     { font-size:13px; fill:#1C1B1F; font-weight:600; }
-    .axis-line       { stroke:#79747E; stroke-width:1.5; }
-    .footer   { font-size:10px; fill:#79747E; font-weight:400; }
-    .toggle-wrap   { cursor:pointer; }
-    .toggle-track  { fill:#E7E0EC; }
-    .toggle-thumb  { fill:#ffffff; }
-    .toggle-label  { font-size:11px; font-weight:500; fill:#49454F; }
-    .print-track { fill:#E7E0EC; transition:fill 0.3s; }
-    .print-thumb { fill:#ffffff; }
-    .print-label { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.print .print-track { fill:#d97316; }
+    svg {
+      --critical-chart-total: #1C1B1F;
+      --critical-category-sub: #79747E;
+      --critical-axis: #79747E;
+    }
+    svg.dark {
+      --critical-chart-total: #E6E0E9;
+      --critical-category-sub: #938F99;
+      --critical-axis: #938F99;
+    }
+    .category-label { fill:var(--critical-chart-total); }
+    .category-sub { font-size:11px; fill:var(--critical-category-sub); font-weight:400; }
+    .chart-total { font-size:13px; fill:var(--critical-chart-total); font-weight:600; }
+    .axis-line { stroke:var(--critical-axis); stroke-width:1.5; }
 
-    /* Cell value labels */
-    .cv    { font-size:13px; font-weight:500; fill:white; text-anchor:middle; dominant-baseline:central; pointer-events:none; }
-    .cv-sm { font-size:10px; font-weight:400; fill:rgba(255,255,255,0.9); text-anchor:middle; dominant-baseline:central; pointer-events:none; }
-
-    /* Column dividers */
-    .cdiv { stroke:white; stroke-width:2; }
-
-    /* Ãƒâ€šÃ‚Â§1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Standard palette */
-    .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
-    .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
-    .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
-    .series-7 { fill:#0D9488; } .series-8 { fill:#64748B; }
-    svg.dark .series-1 { fill:#22D3EE; } svg.dark .series-2 { fill:#10B981; }
-    svg.dark .series-3 { fill:#FBB724; } svg.dark .series-4 { fill:#FB6181; }
-    svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
-    svg.dark .series-7 { fill:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; }
-
-    /* Ãƒâ€šÃ‚Â§3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Method A1 animation + hover (same element animated and dimmed) */
-    @keyframes cellFade { from{opacity:0} to{opacity:1} }
-    .mcell         { opacity:0; cursor:pointer; transition:opacity .2s ease; }
-    .mcell.visible { opacity:1; }
+    .data-item { opacity:0; }
+    .data-item.visible { opacity:1; }
     .structural-overlay         { opacity:0; pointer-events:none; }
     .structural-overlay.visible { opacity:1; }
-    .data-layer.ready.hovering .mcell.visible         { opacity:0.20; transition:opacity .2s ease; }
-    .data-layer.ready.hovering .mcell.visible.hovered { opacity:1;    transition:opacity .2s ease; }
 
-    /* Ãƒâ€šÃ‚Â§4 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Tooltip bubble */
-    .data-tip  { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    svg.print .data-tip { opacity:0 !important; }
-    .tip-bg     { fill:#FFFBFE; }
-    .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-value  { fill:#1C1B1F; font-size:28px; font-weight:700; }
-    .tip-label  { fill:#49454F; font-size:22px; font-weight:400; }
-    .tip-pct    { fill:#79747E; font-size:22px; font-weight:400; }
-    svg.dark .tip-value { fill:#E6E0E9; }
-    svg.dark .tip-label { fill:#CAC4D0; }
-    svg.dark .tip-pct   { fill:#CAC4D0; }
-
-    .border-dark  { display:none; }
-    .border-light { display:block; }
-
-    svg.dark .card-bg      { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-    svg.dark .card-title       { fill:#E6E0E9; }
-    svg.dark .card-subtitle       { fill:#938F99; }
-    svg.dark .tick-label       { fill:#938F99; }
-    svg.dark .category-label       { fill:#E6E0E9; }
-    svg.dark .category-sub     { fill:#938F99; }
-    svg.dark .chart-total     { fill:#E6E0E9; }
-    svg.dark .axis-line       { stroke:#938F99; }
-    svg.dark .footer   { fill:#938F99; }
-    svg.dark .toggle-track  { fill:#49454F; }
-    svg.dark .toggle-label  { fill:#CAC4D0; }
-    svg.dark .print-track { fill:#49454F; }
-    svg.dark .print-label { fill:#CAC4D0; }
-    svg.dark.print .print-track { fill:#d97316; }
-    svg.dark .tip-bg     { fill:#1C1B1F; }
-    svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .tip-tail   { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .tip-value  { fill:#E6E0E9; }
-    svg.dark .tip-label  { fill:#CAC4D0; }
-    svg.dark .tip-pct    { fill:#CAC4D0; }
-    svg.dark .border-dark  { display:block; }
-    svg.dark .border-light { display:none; }
-    .card-bg, .border-light, .border-dark, .card-title, .card-subtitle, .footer, .toggle-wrap { display:none !important; }
   </style>
 </defs>
 
 
-<text x="459" y="84" class="chart-total" text-anchor="middle">Total = 1,366</text>
+<text id="chart-total" x="459" y="84" class="chart-total" text-anchor="middle">Total = 1,366</text>
 
 
-<!--
-  CHART AREA: x=68..850 y=92..512  W=782 H=420
-  Product A: x=68.0   w=198.1  Product B: x=266.1  w=246.2
-  Product C: x=512.2  w=149.4  Product D: x=661.7  w=188.3
-  Colors (topÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢bottom): USA(series-1) China(series-2) UK(series-3) Germany(series-4) France(series-5) India(series-6)
--->
 
 <g class="data-layer" id="data-layer">
 
-<!-- ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Product A ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ -->
-<g class="mcell" id="tgAUSA" data-name="USA Ãƒâ€šÃ‚Â· Product A" data-val="97" data-pct="28%" data-delay="0.00">
-  <rect class="series-1" x="68.0" y="92.0" width="198.1" height="117.7" rx="0"/>
-  <text x="167.0" y="150.8" class="cv">97</text>
+<g class="data-item" id="tgAUSA" data-name="USA  Product A" data-val="97" data-pct="28%">
+  <rect class="series-1" x="68.0" y="92.0" width="197.1" height="117.7" rx="0"/>
+  <text x="166.6" y="150.8" class="inset-value">97</text>
 </g>
-<g class="mcell" id="tgAChina" data-name="China Ãƒâ€šÃ‚Â· Product A" data-val="14" data-pct="4%" data-delay="0.05">
-  <rect class="series-2" x="68.0" y="209.7" width="198.1" height="17.0" rx="0"/>
-  <text x="167.0" y="218.2" class="cv-sm">14</text>
+<g class="data-item" id="tgAChina" data-name="China  Product A" data-val="14" data-pct="4%">
+  <rect class="series-2" x="68.0" y="209.7" width="197.1" height="17.0" rx="0"/>
+  <text x="166.6" y="218.2" class="inset-value-compact">14</text>
 </g>
-<g class="mcell" id="tgAUK" data-name="UK Ãƒâ€šÃ‚Â· Product A" data-val="63" data-pct="18%" data-delay="0.10">
-  <rect class="series-3" x="68.0" y="226.7" width="198.1" height="76.5" rx="0"/>
-  <text x="167.0" y="264.9" class="cv">63</text>
+<g class="data-item" id="tgAUK" data-name="UK  Product A" data-val="63" data-pct="18%">
+  <rect class="series-3" x="68.0" y="226.7" width="197.1" height="76.5" rx="0"/>
+  <text x="166.6" y="264.9" class="inset-value">63</text>
 </g>
-<g class="mcell" id="tgAGermany" data-name="Germany Ãƒâ€šÃ‚Â· Product A" data-val="97" data-pct="28%" data-delay="0.15">
-  <rect class="series-4" x="68.0" y="303.2" width="198.1" height="117.7" rx="0"/>
-  <text x="167.0" y="362.1" class="cv">97</text>
+<g class="data-item" id="tgAGermany" data-name="Germany  Product A" data-val="97" data-pct="28%">
+  <rect class="series-4" x="68.0" y="303.2" width="197.1" height="117.7" rx="0"/>
+  <text x="166.6" y="362.1" class="inset-value">97</text>
 </g>
-<g class="mcell" id="tgAFrance" data-name="France Ãƒâ€šÃ‚Â· Product A" data-val="26" data-pct="8%" data-delay="0.20">
-  <rect class="series-5" x="68.0" y="420.9" width="198.1" height="31.6" rx="0"/>
-  <text x="167.0" y="436.7" class="cv">26</text>
+<g class="data-item" id="tgAFrance" data-name="France  Product A" data-val="26" data-pct="8%">
+  <rect class="series-5" x="68.0" y="420.9" width="197.1" height="31.6" rx="0"/>
+  <text x="166.6" y="436.7" class="inset-value">26</text>
 </g>
-<g class="mcell" id="tgAIndia" data-name="India Ãƒâ€šÃ‚Â· Product A" data-val="49" data-pct="14%" data-delay="0.25">
-  <rect class="series-6" x="68.0" y="452.5" width="198.1" height="59.5" rx="0"/>
-  <text x="167.0" y="482.2" class="cv">49</text>
-</g>
-
-<!-- ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Product B ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ -->
-<g class="mcell" id="tgBUSA" data-name="USA Ãƒâ€šÃ‚Â· Product B" data-val="97" data-pct="23%" data-delay="0.08">
-  <rect class="series-1" x="266.1" y="92.0" width="246.2" height="94.7" rx="0"/>
-  <text x="390.2" y="139.3" class="cv">97</text>
-</g>
-<g class="mcell" id="tgBChina" data-name="China Ãƒâ€šÃ‚Â· Product B" data-val="87" data-pct="20%" data-delay="0.13">
-  <rect class="series-2" x="266.1" y="186.7" width="246.2" height="85.0" rx="0"/>
-  <text x="390.2" y="229.2" class="cv">87</text>
-</g>
-<g class="mcell" id="tgBUK" data-name="UK Ãƒâ€šÃ‚Â· Product B" data-val="67" data-pct="16%" data-delay="0.18">
-  <rect class="series-3" x="266.1" y="271.7" width="246.2" height="65.4" rx="0"/>
-  <text x="390.2" y="304.4" class="cv">67</text>
-</g>
-<g class="mcell" id="tgBGermany" data-name="Germany Ãƒâ€šÃ‚Â· Product B" data-val="65" data-pct="15%" data-delay="0.23">
-  <rect class="series-4" x="266.1" y="337.1" width="246.2" height="63.5" rx="0"/>
-  <text x="390.2" y="368.9" class="cv">65</text>
-</g>
-<g class="mcell" id="tgBFrance" data-name="France Ãƒâ€šÃ‚Â· Product B" data-val="29" data-pct="7%" data-delay="0.28">
-  <rect class="series-5" x="266.1" y="400.6" width="246.2" height="28.3" rx="0"/>
-  <text x="390.2" y="414.8" class="cv-sm">29</text>
-</g>
-<g class="mcell" id="tgBIndia" data-name="India Ãƒâ€šÃ‚Â· Product B" data-val="85" data-pct="20%" data-delay="0.33">
-  <rect class="series-6" x="266.1" y="428.9" width="246.2" height="83.1" rx="0"/>
-  <text x="390.2" y="470.4" class="cv">85</text>
+<g class="data-item" id="tgAIndia" data-name="India  Product A" data-val="49" data-pct="14%">
+  <rect class="series-6" x="68.0" y="452.5" width="197.1" height="59.5" rx="0"/>
+  <text x="166.6" y="482.2" class="inset-value">49</text>
 </g>
 
-<!-- ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Product C ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ -->
-<g class="mcell" id="tgCUSA" data-name="USA Ãƒâ€šÃ‚Â· Product C" data-val="45" data-pct="17%" data-delay="0.16">
-  <rect class="series-1" x="512.2" y="92.0" width="149.4" height="72.4" rx="0"/>
-  <text x="587.9" y="128.2" class="cv">45</text>
+<g class="data-item" id="tgBUSA" data-name="USA  Product B" data-val="97" data-pct="23%">
+  <rect class="series-1" x="267.1" y="92.0" width="244.1" height="94.7" rx="0"/>
+  <text x="389.2" y="139.3" class="inset-value">97</text>
 </g>
-<g class="mcell" id="tgCChina" data-name="China Ãƒâ€šÃ‚Â· Product C" data-val="54" data-pct="21%" data-delay="0.21">
-  <rect class="series-2" x="512.2" y="164.4" width="149.4" height="86.9" rx="0"/>
-  <text x="587.9" y="207.9" class="cv">54</text>
+<g class="data-item" id="tgBChina" data-name="China  Product B" data-val="87" data-pct="20%">
+  <rect class="series-2" x="267.1" y="186.7" width="244.1" height="85.0" rx="0"/>
+  <text x="389.2" y="229.2" class="inset-value">87</text>
 </g>
-<g class="mcell" id="tgCUK" data-name="UK Ãƒâ€šÃ‚Â· Product C" data-val="18" data-pct="7%" data-delay="0.26">
-  <rect class="series-3" x="512.2" y="251.3" width="149.4" height="29.0" rx="0"/>
-  <text x="587.9" y="265.8" class="cv-sm">18</text>
+<g class="data-item" id="tgBUK" data-name="UK  Product B" data-val="67" data-pct="16%">
+  <rect class="series-3" x="267.1" y="271.7" width="244.1" height="65.4" rx="0"/>
+  <text x="389.2" y="304.4" class="inset-value">67</text>
 </g>
-<g class="mcell" id="tgCGermany" data-name="Germany Ãƒâ€šÃ‚Â· Product C" data-val="36" data-pct="14%" data-delay="0.31">
-  <rect class="series-4" x="512.2" y="280.3" width="149.4" height="57.9" rx="0"/>
-  <text x="587.9" y="309.2" class="cv">36</text>
+<g class="data-item" id="tgBGermany" data-name="Germany  Product B" data-val="65" data-pct="15%">
+  <rect class="series-4" x="267.1" y="337.1" width="244.1" height="63.5" rx="0"/>
+  <text x="389.2" y="368.9" class="inset-value">65</text>
 </g>
-<g class="mcell" id="tgCFrance" data-name="France Ãƒâ€šÃ‚Â· Product C" data-val="24" data-pct="9%" data-delay="0.36">
-  <rect class="series-5" x="512.2" y="338.2" width="149.4" height="38.6" rx="0"/>
-  <text x="587.9" y="357.5" class="cv-sm">24</text>
+<g class="data-item" id="tgBFrance" data-name="France  Product B" data-val="29" data-pct="7%">
+  <rect class="series-5" x="267.1" y="400.6" width="244.1" height="28.3" rx="0"/>
+  <text x="389.2" y="414.8" class="inset-value-compact">29</text>
 </g>
-<g class="mcell" id="tgCIndia" data-name="India Ãƒâ€šÃ‚Â· Product C" data-val="84" data-pct="32%" data-delay="0.41">
-  <rect class="series-6" x="512.2" y="376.8" width="149.4" height="135.2" rx="0"/>
-  <text x="587.9" y="444.4" class="cv">84</text>
+<g class="data-item" id="tgBIndia" data-name="India  Product B" data-val="85" data-pct="20%">
+  <rect class="series-6" x="267.1" y="428.9" width="244.1" height="83.1" rx="0"/>
+  <text x="389.2" y="470.4" class="inset-value">85</text>
 </g>
 
-<!-- ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Product D ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ -->
-<g class="mcell" id="tgDUSA" data-name="USA Ãƒâ€šÃ‚Â· Product D" data-val="61" data-pct="19%" data-delay="0.24">
-  <rect class="series-1" x="661.7" y="92.0" width="188.3" height="77.9" rx="0"/>
-  <text x="756.9" y="130.9" class="cv">61</text>
+<g class="data-item" id="tgCUSA" data-name="USA  Product C" data-val="45" data-pct="17%">
+  <rect class="series-1" x="513.2" y="92.0" width="147.5" height="72.4" rx="0"/>
+  <text x="587.0" y="128.2" class="inset-value">45</text>
 </g>
-<g class="mcell" id="tgDChina" data-name="China Ãƒâ€šÃ‚Â· Product D" data-val="32" data-pct="10%" data-delay="0.29">
-  <rect class="series-2" x="661.7" y="169.9" width="188.3" height="40.9" rx="0"/>
-  <text x="756.9" y="190.3" class="cv-sm">32</text>
+<g class="data-item" id="tgCChina" data-name="China  Product C" data-val="54" data-pct="21%">
+  <rect class="series-2" x="513.2" y="164.4" width="147.5" height="86.9" rx="0"/>
+  <text x="587.0" y="207.9" class="inset-value">54</text>
 </g>
-<g class="mcell" id="tgDUK" data-name="UK Ãƒâ€šÃ‚Â· Product D" data-val="66" data-pct="20%" data-delay="0.34">
-  <rect class="series-3" x="661.7" y="210.8" width="188.3" height="84.3" rx="0"/>
-  <text x="756.9" y="253.0" class="cv">66</text>
+<g class="data-item" id="tgCUK" data-name="UK  Product C" data-val="18" data-pct="7%">
+  <rect class="series-3" x="513.2" y="251.3" width="147.5" height="29.0" rx="0"/>
+  <text x="587.0" y="265.8" class="inset-value-compact">18</text>
 </g>
-<g class="mcell" id="tgDGermany" data-name="Germany Ãƒâ€šÃ‚Â· Product D" data-val="73" data-pct="22%" data-delay="0.39">
-  <rect class="series-4" x="661.7" y="295.1" width="188.3" height="93.2" rx="0"/>
-  <text x="756.9" y="341.7" class="cv">73</text>
+<g class="data-item" id="tgCGermany" data-name="Germany  Product C" data-val="36" data-pct="14%">
+  <rect class="series-4" x="513.2" y="280.3" width="147.5" height="57.9" rx="0"/>
+  <text x="587.0" y="309.2" class="inset-value">36</text>
 </g>
-<g class="mcell" id="tgDFrance" data-name="France Ãƒâ€šÃ‚Â· Product D" data-val="47" data-pct="14%" data-delay="0.44">
-  <rect class="series-5" x="661.7" y="388.3" width="188.3" height="60.0" rx="0"/>
-  <text x="756.9" y="418.3" class="cv">47</text>
+<g class="data-item" id="tgCFrance" data-name="France  Product C" data-val="24" data-pct="9%">
+  <rect class="series-5" x="513.2" y="338.2" width="147.5" height="38.6" rx="0"/>
+  <text x="587.0" y="357.5" class="inset-value-compact">24</text>
 </g>
-<g class="mcell" id="tgDIndia" data-name="India Ãƒâ€šÃ‚Â· Product D" data-val="50" data-pct="15%" data-delay="0.49">
-  <rect class="series-6" x="661.7" y="448.3" width="188.3" height="63.7" rx="0"/>
-  <text x="756.9" y="480.2" class="cv">50</text>
+<g class="data-item" id="tgCIndia" data-name="India  Product C" data-val="84" data-pct="32%">
+  <rect class="series-6" x="513.2" y="376.8" width="147.5" height="135.2" rx="0"/>
+  <text x="587.0" y="444.4" class="inset-value">84</text>
+</g>
+
+<g class="data-item" id="tgDUSA" data-name="USA  Product D" data-val="61" data-pct="19%">
+  <rect class="series-1" x="662.7" y="92.0" width="187.3" height="77.9" rx="0"/>
+  <text x="756.4" y="130.9" class="inset-value">61</text>
+</g>
+<g class="data-item" id="tgDChina" data-name="China  Product D" data-val="32" data-pct="10%">
+  <rect class="series-2" x="662.7" y="169.9" width="187.3" height="40.9" rx="0"/>
+  <text x="756.4" y="190.3" class="inset-value-compact">32</text>
+</g>
+<g class="data-item" id="tgDUK" data-name="UK  Product D" data-val="66" data-pct="20%">
+  <rect class="series-3" x="662.7" y="210.8" width="187.3" height="84.3" rx="0"/>
+  <text x="756.4" y="253.0" class="inset-value">66</text>
+</g>
+<g class="data-item" id="tgDGermany" data-name="Germany  Product D" data-val="73" data-pct="22%">
+  <rect class="series-4" x="662.7" y="295.1" width="187.3" height="93.2" rx="0"/>
+  <text x="756.4" y="341.7" class="inset-value">73</text>
+</g>
+<g class="data-item" id="tgDFrance" data-name="France  Product D" data-val="47" data-pct="14%">
+  <rect class="series-5" x="662.7" y="388.3" width="187.3" height="60.0" rx="0"/>
+  <text x="756.4" y="418.3" class="inset-value">47</text>
+</g>
+<g class="data-item" id="tgDIndia" data-name="India  Product D" data-val="50" data-pct="15%">
+  <rect class="series-6" x="662.7" y="448.3" width="187.3" height="63.7" rx="0"/>
+  <text x="756.4" y="480.2" class="inset-value">50</text>
 </g>
 
 </g><!-- end .data-layer -->
 
-<!-- Ãƒâ€šÃ‚Â§6 Layer 3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â structural overlays (column dividers + chart border)
-     Intentionally after .data-layer so white cdiv lines paint over tile fills.
-     Placed before #tip-overlay so tooltips always appear on top. -->
 <g id="structural-overlay" class="structural-overlay">
-  <!-- Column dividers -->
-  <line x1="266.1" y1="92" x2="266.1" y2="512" class="cdiv"/>
-  <line x1="512.2" y1="92" x2="512.2" y2="512" class="cdiv"/>
-  <line x1="661.7" y1="92" x2="661.7" y2="512" class="cdiv"/>
   <!-- Chart border -->
   <line x1="68" y1="92"  x2="850" y2="92"  class="axis-line"/>
   <line x1="68" y1="512" x2="850" y2="512" class="axis-line"/>
@@ -225,21 +150,23 @@
 </g>
 
 <!-- X-axis labels -->
-<text x="167.0" y="530" class="category-label" text-anchor="middle">Product A</text>
-<text x="167.0" y="547" class="category-sub" text-anchor="middle">346</text>
-<text x="167.0" y="562" class="category-sub" text-anchor="middle">25%</text>
+<g id="x-axis-labels">
+<text x="166.6" y="542" class="category-label" text-anchor="middle">Product A</text>
+<text x="166.6" y="559" class="category-sub" text-anchor="middle">346</text>
+<text x="166.6" y="574" class="category-sub" text-anchor="middle">25%</text>
 
-<text x="390.2" y="530" class="category-label" text-anchor="middle">Product B</text>
-<text x="390.2" y="547" class="category-sub" text-anchor="middle">430</text>
-<text x="390.2" y="562" class="category-sub" text-anchor="middle">31%</text>
+<text x="389.2" y="542" class="category-label" text-anchor="middle">Product B</text>
+<text x="389.2" y="559" class="category-sub" text-anchor="middle">430</text>
+<text x="389.2" y="574" class="category-sub" text-anchor="middle">31%</text>
 
-<text x="587.9" y="530" class="category-label" text-anchor="middle">Product C</text>
-<text x="587.9" y="547" class="category-sub" text-anchor="middle">261</text>
-<text x="587.9" y="562" class="category-sub" text-anchor="middle">19%</text>
+<text x="587.0" y="542" class="category-label" text-anchor="middle">Product C</text>
+<text x="587.0" y="559" class="category-sub" text-anchor="middle">261</text>
+<text x="587.0" y="574" class="category-sub" text-anchor="middle">19%</text>
 
-<text x="756.9" y="530" class="category-label" text-anchor="middle">Product D</text>
-<text x="756.9" y="547" class="category-sub" text-anchor="middle">329</text>
-<text x="756.9" y="562" class="category-sub" text-anchor="middle">24%</text>
+<text x="756.4" y="542" class="category-label" text-anchor="middle">Product D</text>
+<text x="756.4" y="559" class="category-sub" text-anchor="middle">329</text>
+<text x="756.4" y="574" class="category-sub" text-anchor="middle">24%</text>
+</g>
 
 <!-- Legend -->
 <rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg legend-panel"/>
@@ -296,129 +223,129 @@
 (function () {
   var svg = document.documentElement;
   svg._chartInit = function (svgEl, ctx) {
-var svg         = document.getElementById('root');
-  var dataLayerEl = document.getElementById('data-layer');
-  var structuralOverlayEl = document.getElementById('structural-overlay');
-  var cells = Array.prototype.slice.call(dataLayerEl.querySelectorAll('.mcell'));
+  var dataLayerEl = ctx.$$('#data-layer');
+  var structuralOverlayEl = ctx.$$('#structural-overlay');
+  var xAxisLabelsEl = ctx.$$('#x-axis-labels');
+  var chartTotalEl = ctx.$$('#chart-total');
+  var legendPanelEl = ctx.$$('.legend-panel');
+  var cells = ctx.$$all('.data-item');
 
-  /* Ãƒâ€šÃ‚Â§3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Method A1: animationend + .visible, setTimeout gates .ready */
-  var duration = 0.8;
-  var lastDelay = 0;
-  cells.forEach(function(cell) {
-    var delay = parseFloat(cell.getAttribute('data-delay') || '0');
-    if (delay > lastDelay) lastDelay = delay;
-    cell.style.animation = 'cellFade ' + duration + 's ease-out ' + delay.toFixed(2) + 's';
-    cell.addEventListener('animationend', function() {
-      cell.style.animation = 'none';
-      cell.classList.add('visible');
-    }, { once: true });
+  ctx.rebalancePlotArea({
+    legendEl: legendPanelEl,
+    measureNodes: [dataLayerEl, structuralOverlayEl, xAxisLabelsEl],
+    moveNodes: [dataLayerEl, structuralOverlayEl, xAxisLabelsEl, chartTotalEl],
+    outerLeft: 24,
+    legendGap: 32
+  });
+
+  var timing = ctx.getStaggerTiming(cells.length, null, svgEl);
+  var duration = timing.duration;
+  var delays = cells.map(function (_, index) {
+    return ctx.getStaggerDelay(index, cells.length, null, svgEl);
+  });
+  ctx.initRevealSequence(cells, {
+    animationName: 'dataFadeIn',
+    duration: duration,
+    easing: 'ease-out',
+    delays: delays
   });
   if (structuralOverlayEl) {
-    structuralOverlayEl.style.animation = 'cellFade ' + duration + 's ease-out 0s';
-    structuralOverlayEl.addEventListener('animationend', function() {
-      structuralOverlayEl.style.animation = 'none';
-      structuralOverlayEl.classList.add('visible');
-    }, { once: true });
+    ctx.animateAndMarkVisible(structuralOverlayEl, 'dataFadeIn ' + duration + 's ease-out 0s');
   }
-  setTimeout(function() { dataLayerEl.classList.add('ready'); }, (lastDelay + duration + 0.1) * 1000);
+  setTimeout(function() { dataLayerEl.classList.add('ready'); }, ctx.getRevealReadyDelayMs({ delays: delays, duration: duration, buffer: 0.1 }));
 
-  /* Ãƒâ€šÃ‚Â§4 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Tooltip (JS-driven, 3-element tip-bg + tip-border + tip-tail) */
-  var BH = 120, TH = 12, RX = 12, TW = 10;
-  var tip    = document.getElementById('tip');
-  var tipBg  = document.getElementById('tip-bg');
-  var tipBdr = document.getElementById('tip-bdr');
-  var tipTip = document.getElementById('tip-tip');
-  var tipVal = document.getElementById('tip-val');
-  var tipLbl = document.getElementById('tip-lbl');
-  var tipPct = document.getElementById('tip-pct');
+  var BH = 120;
+  var tip    = ctx.$$('#tip');
+  var tipBg  = ctx.$$('#tip-bg');
+  var tipBdr = ctx.$$('#tip-bdr');
+  var tipTip = ctx.$$('#tip-tip');
+  var tipVal = ctx.$$('#tip-val');
+  var tipLbl = ctx.$$('#tip-lbl');
+  var tipPct = ctx.$$('#tip-pct');
 
   function positionTip(mx, my, name, val, pct) {
-    /* 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â set text content first so getBBox() measures real rendered width */
-    var parts = name.split(' Ãƒâ€šÃ‚Â· ');
-    tipVal.textContent = parts[0];
-    tipLbl.textContent = parts[1] || '';
-    tipPct.textContent = 'Value: ' + val + '  Ãƒâ€šÃ‚Â·  ' + pct + ' of product';
+    var productMatch = /Product\s+[A-Z]/.exec(name || '');
+    var country = productMatch ? name.slice(0, productMatch.index) : String(name || '');
+    country = country.replace(/[^\w\s]+$/g, '').trim();
+    tipVal.textContent = country;
+    tipLbl.textContent = productMatch ? productMatch[0] : '';
+    tipPct.textContent = 'Value: ' + val + ' - ' + pct + ' of product';
 
     /* 2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â measure widest line, derive hw (half-width), minimum 60px total */
     var pad = 20;
-    var hw = Math.max(
+    var BW = Math.max(
       tipVal.getBBox().width + pad,
       tipLbl.getBBox().width + pad,
       tipPct.getBBox().width + pad,
       60
-    ) / 2;
-    var BW = hw * 2;
+    );
+    var box = ctx.buildChartTip(mx, my, BW, BH, 8, 1080, 92, 543);
 
     /* 3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â clamp tx so bubble stays inside viewBox */
-    var tx = Math.max(hw + 8, Math.min(mx, 1100 - hw - 8));
+    tipBg.setAttribute('x',      box.bL);
 
     /* 4 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â flip: show below cursor when near top */
-    var flip = my < BH + TH + 20;
-    var boxY = flip ? my + TH : my - TH - BH;
-    var L = tx - hw, R = tx + hw, T = boxY, B = boxY + BH;
+    tipBg.setAttribute('y',      box.bT);
 
     /* tip-bg rect */
-    tipBg.setAttribute('x',      L);
-    tipBg.setAttribute('y',      T);
     tipBg.setAttribute('width',  BW);
     tipBg.setAttribute('height', BH);
 
     /* tip-border open path ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â all absolute, 1px inset at tail root to close seam */
-    var openD, tailD;
-    if (!flip) {
-      /* tail points down: gap in bottom edge */
-      openD = 'M'+(tx+TW)+','+B+
-              ' L'+(R-RX)+','+B+' Q'+R+','+B+' '+R+','+(B-RX)+
-              ' L'+R+','+(T+RX)+' Q'+R+','+T+' '+(R-RX)+','+T+
-              ' L'+(L+RX)+','+T+' Q'+L+','+T+' '+L+','+(T+RX)+
-              ' L'+L+','+(B-RX)+' Q'+L+','+B+' '+(L+RX)+','+B+
-              ' L'+(tx-TW)+','+B;
-      tailD = 'M'+(tx-TW)+','+B+' L'+tx+','+(B+TH)+' L'+(tx+TW)+','+B;
-    } else {
-      /* tail points up: gap in top edge */
-      openD = 'M'+(tx-TW)+','+T+
-              ' L'+(L+RX)+','+T+' Q'+L+','+T+' '+L+','+(T+RX)+
-              ' L'+L+','+(B-RX)+' Q'+L+','+B+' '+(L+RX)+','+B+
-              ' L'+(R-RX)+','+B+' Q'+R+','+B+' '+R+','+(B-RX)+
-              ' L'+R+','+(T+RX)+' Q'+R+','+T+' '+(R-RX)+','+T+
-              ' L'+(tx+TW)+','+T;
-      tailD = 'M'+(tx+TW)+','+T+' L'+tx+','+(T-TH)+' L'+(tx-TW)+','+T;
-    }
     tipBdr.removeAttribute('transform');
-    tipBdr.setAttribute('d', openD);
-    tipTip.setAttribute('d', tailD);
+    tipBdr.setAttribute('d', box.borderPath);
+    tipTip.setAttribute('d', box.tailPath);
 
     /* text positions */
-    tipVal.setAttribute('x', tx); tipVal.setAttribute('y', boxY + BH * 0.22);
-    tipLbl.setAttribute('x', tx); tipLbl.setAttribute('y', boxY + BH * 0.52);
-    tipPct.setAttribute('x', tx); tipPct.setAttribute('y', boxY + BH * 0.80);
+    tipVal.setAttribute('x', box.bCx); tipVal.setAttribute('y', box.bT + BH * 0.22);
+    tipLbl.setAttribute('x', box.bCx); tipLbl.setAttribute('y', box.bT + BH * 0.52);
+    tipPct.setAttribute('x', box.bCx); tipPct.setAttribute('y', box.bT + BH * 0.80);
   }
 
-  /* Ãƒâ€šÃ‚Â§4 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Hover: .hovering on container, .hovered on item */
+  function updatePointer(cell, event) {
+    var sp = ctx.eventToSvgPoint(svgEl, event);
+    cell.__tipPoint = { x: sp.x, y: sp.y };
+    if (cell.classList.contains('active')) {
+      positionTip(
+        sp.x,
+        sp.y,
+        cell.getAttribute('data-name'),
+        cell.getAttribute('data-val'),
+        cell.getAttribute('data-pct')
+      );
+    }
+  }
+
   cells.forEach(function(cell) {
-    var name = cell.getAttribute('data-name');
-    var val  = cell.getAttribute('data-val');
-    var pct  = cell.getAttribute('data-pct');
-    cell.addEventListener('mouseenter', function(e) {
-      cells.forEach(function(c) { c.classList.remove('hovered'); });
-      dataLayerEl.classList.add('hovering');
-      cell.classList.add('hovered');
-      tip.style.opacity = '1';
-      var sp = ctx.eventToSvgPoint(svg, e);
-      positionTip(sp.x, sp.y, name, val, pct);
-    });
-    cell.addEventListener('mousemove', function(e) {
-      var sp = ctx.eventToSvgPoint(svg, e);
-      positionTip(sp.x, sp.y, name, val, pct);
-    });
-    cell.addEventListener('mouseleave', function() {
-      dataLayerEl.classList.remove('hovering');
-      cell.classList.remove('hovered');
-      tip.style.opacity = '';
-    });
+    cell.addEventListener('mouseenter', function(event) { updatePointer(cell, event); });
+    cell.addEventListener('mousemove', function(event) { updatePointer(cell, event); });
   });
 
-  /* Ãƒâ€šÃ‚Â§2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Dark mode toggle: isDark boolean, CSS handles palette swap */
+  ctx.initExclusiveHoverTips(dataLayerEl, cells, {
+    leaveTarget: dataLayerEl,
+    resolveTip: function () {
+      return tip;
+    },
+    beforeShow: function (cell) {
+      var point = cell.__tipPoint;
+      var cellBox;
+      if (!point) {
+        cellBox = cell.getBBox();
+        point = { x: cellBox.x + cellBox.width / 2, y: cellBox.y + cellBox.height / 2 };
+      }
+      positionTip(
+        point.x,
+        point.y,
+        cell.getAttribute('data-name'),
+        cell.getAttribute('data-val'),
+        cell.getAttribute('data-pct')
+      );
+    },
+    afterHide: function () {
+      tipBdr.removeAttribute('transform');
+    }
+  });
+
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());

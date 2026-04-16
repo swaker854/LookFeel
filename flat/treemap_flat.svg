@@ -1,175 +1,109 @@
 
 
-<svg id="root" class="chart-standard" viewBox="40 80 1040 463" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<script type="text/javascript">
+  <![CDATA[
+  (function () {
+    if (window.location.href.indexOf('theme=dark') !== -1) {
+      document.documentElement.classList.add('dark');
+    }
+  }());
+  ]]>
+</script>
 <defs>
 <style>
   @import url('chart-shared.css');
-  .chart-shell-hidden { display:none; }
-  .card-bg, .border-light, .border-dark { display:none; }
-  .card-bg  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-  .card-title       { font-size:18px;font-weight:500;fill:#1C1B1F;letter-spacing:-.2px; }
-  .card-subtitle       { font-size:11px;fill:#79747E;font-weight:400; }
-  .legend-label       { font-size:11px;fill:#1C1B1F;font-weight:400; }
-  .legend-value       { font-size:11px;fill:#1C1B1F;font-weight:500;opacity:0;transition:opacity .2s; }
-  .legend-bg   { fill:#E7E0EC;stroke:#79747E;stroke-width:.5; }
-  .legend-divider  { stroke:#79747E;stroke-width:.5;opacity:.3; }
-  .legend-title  { font-size:10px;fill:#79747E;font-weight:500;letter-spacing:.4px; }
-  .footer   { font-size:10px;fill:#79747E;font-weight:400; }
-  .toggle-wrap   { cursor:pointer; }
-  .toggle-track  { fill:#E7E0EC; } .toggle-thumb { fill:#fff; }
-  .toggle-label  { font-size:11px;font-weight:500;fill:#49454F; }
-  .print-track { fill:#E7E0EC;transition:fill .3s; } .print-thumb { fill:#fff; }
-  .print-label { font-size:11px;font-weight:500;fill:#49454F; }
-  svg.print .legend-value  { opacity:1; }
-  svg.print .print-track { fill:#d97316; }
-
-  .series-1{fill:#00D4E8;} .series-2{fill:#00B87A;}
-  .series-3{fill:#F59E0B;} .series-4{fill:#F43F5E;}
-  .series-5{fill:#8B5CF6;} .series-6{fill:#3B82F6;}
-  .series-7{fill:#0D9488;} .series-8{fill:#64748B;}
-  svg.dark .series-1{fill:#22D3EE;} svg.dark .series-2{fill:#10B981;}
-  svg.dark .series-3{fill:#FBB724;} svg.dark .series-4{fill:#FB6181;}
-  svg.dark .series-5{fill:#A78BFA;} svg.dark .series-6{fill:#60A5FA;}
-  svg.dark .series-7{fill:#2DD4BF;} svg.dark .series-8{fill:#94A3B8;}
-
-  .tm-lbl { font-size:13px;font-weight:500;fill:#fff;pointer-events:none; }
-  .tm-sub { font-size:10px;font-weight:400;fill:rgba(255,255,255,0.80);pointer-events:none; }
-
-  @keyframes tileFade { from{opacity:0} to{opacity:1} }
-  /* §3 A1 canonical: opacity:0 base; animation fired via inline style.animation (no fill-mode).
-     animationend sets style.animation='none' then adds .visible; CSS .tm-tile.visible owns opacity:1.
-     Hover rules gate on .ready and target .tm-tile.visible — no conflict, no !important needed. */
-  .tm-tile                              { opacity:0; cursor:pointer; }
-  .tm-tile.visible                      { opacity:1; }
-  .tm-grid                              { opacity:0; pointer-events:none; }
-  .tm-grid.visible                      { opacity:1; }
-  .data-layer.ready.hovering .tm-tile.visible         { opacity:0.20; transition:opacity .2s ease; }
-  .data-layer.ready.hovering .tm-tile.visible.hovered { opacity:1;    transition:opacity .2s ease; }
-
-  .data-tip    { opacity:0;pointer-events:none;transition:opacity 0.15s ease; }
-  svg.print .data-tip { opacity:0 !important; }
-  .tip-bg  { fill:#FFFBFE; }
-  .tip-border { fill:#FFFBFE;stroke:#79747E;stroke-width:1; }
-  .tip-tail { fill:#FFFBFE;stroke:#79747E;stroke-width:1; }
-  .tip-value { fill:#1C1B1F;font-size:28px;font-weight:700; }
-  .tip-label { fill:#49454F;font-size:22px;font-weight:400; }
-  .tip-pct { fill:#79747E;font-size:22px;font-weight:400; }
-  svg.dark .tip-value { fill:#E6E0E9; }
-  svg.dark .tip-label { fill:#CAC4D0; }
-  svg.dark .tip-pct { fill:#CAC4D0; }
-  svg.dark .tip-bg  { fill:#1C1B1F; }
-  svg.dark .tip-border { fill:#1C1B1F;stroke:#938F99; }
-  svg.dark .tip-tail { fill:#1C1B1F;stroke:#938F99; }
-  svg.dark .tip-value { fill:#E6E0E9; }
-  svg.dark .tip-label { fill:#CAC4D0; }
-  svg.dark .tip-pct { fill:#CAC4D0; }
-
-  svg.dark .card-bg  { fill:#1C1B1F;filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-  svg.dark .card-title       { fill:#E6E0E9; } svg.dark .card-subtitle { fill:#938F99; }
-  svg.dark .legend-label       { fill:#E6E0E9; } svg.dark .legend-value { fill:#E6E0E9; }
-  svg.dark .legend-bg   { fill:#49454F;stroke:#938F99; }
-  svg.dark .legend-divider  { stroke:#938F99; } svg.dark .legend-title { fill:#938F99; }
-  svg.dark .footer   { fill:#938F99; }
-  svg.dark .toggle-track  { fill:#49454F; } svg.dark .toggle-label  { fill:#CAC4D0; }
-  svg.dark .print-track { fill:#49454F; } svg.dark .print-label { fill:#CAC4D0; }
-  svg.dark.print .print-track { fill:#d97316; }
-  .border-dark  { display:none; } .border-light { display:block; }
-  svg.dark .border-dark  { display:block; } svg.dark .border-light { display:none; }
-  .card-bg, .border-light, .border-dark, .card-title, .card-subtitle, .footer, .toggle-wrap { display:none !important; }
+  /* prevent first paint in wrong color before shared css load */
+  svg {
+    --critical-legend-text: #1C1B1F;
+    --critical-legend-muted: #79747E;
+    --critical-legend-panel: #E7E0EC;
+    --critical-legend-stroke: #79747E;
+    --critical-tile-label: #FFFFFF;
+    --critical-tile-sub: rgba(255,255,255,0.80);
+  }
+  svg.dark {
+    --critical-legend-text: #E6E0E9;
+    --critical-legend-muted: #938F99;
+    --critical-legend-panel: #49454F;
+    --critical-legend-stroke: #938F99;
+    --critical-tile-label: #FFFFFF;
+    --critical-tile-sub: rgba(255,255,255,0.80);
+  }
+  .legend-bg, .legend-panel { fill: var(--critical-legend-panel); stroke: var(--critical-legend-stroke); }
+  .legend-title, .legend-heading { fill: var(--critical-legend-muted); }
+  .legend-label, .legend-value, .legend-row-label, .legend-row-value { fill: var(--critical-legend-text); }
+  .tile-label { fill: var(--critical-tile-label); }
+  .tile-sub { fill: var(--critical-tile-sub); }
+  .tile-node { opacity: 0; }
+  .tile-node.visible { opacity: 1; }
 </style>
 </defs>
 
-<rect class="card-bg" width="1100" height="620" rx="18"/>
-<g class="border-light"><rect x=".75" y=".75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,.10)" stroke-width="1.5"/></g>
-<g class="border-dark"><rect x=".75" y=".75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,.22)" stroke-width="1.5"/></g>
-
-<text x="68" y="50" class="card-title">Revenue by Category - Treemap</text>
-<text x="68" y="70" class="card-subtitle">8 segments · area ∝ revenue · hover to inspect</text>
-
-<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
-  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
-</g>
-<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
-  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
-</g>
 
 <!--
-  Plot: x=40 y=100 W=810 H=400 bottom=500  [matches bar chart right edge x=850]
+  Plot: x=24 y=100 W=810 H=400 bottom=500
   Top gap (subtitle baseline 66 → plot top 100) = 34px
   Bottom gap (plot bottom 500 → footer baseline 600) = 100px
 
-  STRIP 1  h=207  y=100..307   Violet x=40 w=488 | Cyan x=528 w=322
-  STRIP 2  h=106  y=307..413   Emerald x=40 w=450 | Amber x=490 w=360
-  STRIP 3  h=87   y=413..500   Blue x=40 w=306 | Teal x=346 w=234 | Rose x=580 w=162 | Other x=742 w=108
+  STRIP 1  h=207  y=100..307   Violet x=24 w=488 | Cyan x=512 w=322
+  STRIP 2  h=106  y=307..413   Emerald x=24 w=450 | Amber x=474 w=360
+  STRIP 3  h=87   y=413..500   Blue x=24 w=306 | Teal x=330 w=234 | Rose x=564 w=162 | Other x=726 w=108
 -->
 
 <g class="data-layer" id="data-layer">
-  <g class="tm-tile" id="tg1" data-bubble="bub1">
-    <rect class="series-5" x="68"  y="100" width="471" height="207" rx="0"/>
-    <text x="303" y="194" text-anchor="middle" class="tm-lbl">Violet</text>
-    <text x="303" y="212" text-anchor="middle" class="tm-sub">$320M · 31.2%</text>
+  <g class="data-item tile-node" id="tg1" data-bubble="bub1">
+    <rect class="series-5" x="52"  y="100" width="470" height="206" rx="0"/>
+    <text x="287" y="194" text-anchor="middle" class="tile-label">Violet</text>
+    <text x="287" y="212" text-anchor="middle" class="tile-sub">$320M · 31.2%</text>
   </g>
-  <g class="tm-tile" id="tg2" data-bubble="bub2">
-    <rect class="series-1" x="539" y="100" width="311" height="207" rx="0"/>
-    <text x="694" y="194" text-anchor="middle" class="tm-lbl">Cyan</text>
-    <text x="694" y="212" text-anchor="middle" class="tm-sub">$210M · 20.5%</text>
+  <g class="data-item tile-node" id="tg2" data-bubble="bub2">
+    <rect class="series-1" x="524" y="100" width="310" height="206" rx="0"/>
+    <text x="679" y="194" text-anchor="middle" class="tile-label">Cyan</text>
+    <text x="678" y="212" text-anchor="middle" class="tile-sub">$210M · 20.5%</text>
   </g>
-  <g class="tm-tile" id="tg3" data-bubble="bub3">
-    <rect class="series-2" x="68"  y="307" width="434" height="106" rx="0"/>
-    <text x="285" y="351" text-anchor="middle" class="tm-lbl">Emerald</text>
-    <text x="285" y="369" text-anchor="middle" class="tm-sub">$150M · 14.6%</text>
+  <g class="data-item tile-node" id="tg3" data-bubble="bub3">
+    <rect class="series-2" x="52"  y="308" width="433" height="104" rx="0"/>
+    <text x="269" y="351" text-anchor="middle" class="tile-label">Emerald</text>
+    <text x="269" y="369" text-anchor="middle" class="tile-sub">$150M · 14.6%</text>
   </g>
-  <g class="tm-tile" id="tg4" data-bubble="bub4">
-    <rect class="series-3" x="502" y="307" width="348" height="106" rx="0"/>
-    <text x="676" y="351" text-anchor="middle" class="tm-lbl">Amber</text>
-    <text x="676" y="369" text-anchor="middle" class="tm-sub">$120M · 11.7%</text>
+  <g class="data-item tile-node" id="tg4" data-bubble="bub4">
+    <rect class="series-3" x="487" y="308" width="347" height="104" rx="0"/>
+    <text x="661" y="351" text-anchor="middle" class="tile-label">Amber</text>
+    <text x="660" y="369" text-anchor="middle" class="tile-sub">$120M · 11.7%</text>
   </g>
-  <g class="tm-tile" id="tg5" data-bubble="bub5">
-    <rect class="series-6" x="68"  y="413" width="295" height="87" rx="0"/>
-    <text x="215" y="447" text-anchor="middle" class="tm-lbl">Blue</text>
-    <text x="215" y="465" text-anchor="middle" class="tm-sub">$85M · 8.3%</text>
+  <g class="data-item tile-node" id="tg5" data-bubble="bub5">
+    <rect class="series-6" x="52"  y="414" width="294" height="86" rx="0"/>
+    <text x="199" y="447" text-anchor="middle" class="tile-label">Blue</text>
+    <text x="199" y="465" text-anchor="middle" class="tile-sub">$85M · 8.3%</text>
   </g>
-  <g class="tm-tile" id="tg6" data-bubble="bub6">
-    <rect class="series-7" x="363" y="413" width="226" height="87" rx="0"/>
-    <text x="476" y="447" text-anchor="middle" class="tm-lbl">Teal</text>
-    <text x="476" y="465" text-anchor="middle" class="tm-sub">$65M · 6.3%</text>
+  <g class="data-item tile-node" id="tg6" data-bubble="bub6">
+    <rect class="series-7" x="348" y="414" width="224" height="86" rx="0"/>
+    <text x="460" y="447" text-anchor="middle" class="tile-label">Teal</text>
+    <text x="460" y="465" text-anchor="middle" class="tile-sub">$65M · 6.3%</text>
   </g>
-  <g class="tm-tile" id="tg7" data-bubble="bub7">
-    <rect class="series-4" x="589" y="413" width="156" height="87" rx="0"/>
-    <text x="667" y="447" text-anchor="middle" class="tm-lbl">Rose</text>
-    <text x="667" y="465" text-anchor="middle" class="tm-sub">$45M · 4.4%</text>
+  <g class="data-item tile-node" id="tg7" data-bubble="bub7">
+    <rect class="series-4" x="574" y="414" width="154" height="86" rx="0"/>
+    <text x="651" y="447" text-anchor="middle" class="tile-label">Rose</text>
+    <text x="651" y="465" text-anchor="middle" class="tile-sub">$45M · 4.4%</text>
   </g>
-  <g class="tm-tile" id="tg8" data-bubble="bub8">
-    <rect class="series-8" x="745" y="413" width="105" height="87" rx="0"/>
-    <text x="797" y="447" text-anchor="middle" class="tm-lbl">Other</text>
-    <text x="797" y="465" text-anchor="middle" class="tm-sub">$30M</text>
+  <g class="data-item tile-node" id="tg8" data-bubble="bub8">
+    <rect class="series-8" x="730" y="414" width="104" height="86" rx="0"/>
+    <text x="782" y="447" text-anchor="middle" class="tile-label">Other</text>
+    <text x="782" y="465" text-anchor="middle" class="tile-sub">$30M</text>
   </g>
 </g>
 
-<g id="tm-grid" class="tm-grid" stroke="white" stroke-width="2" fill="none">
-  <line x1="68"  y1="307" x2="850" y2="307"/>
-  <line x1="68"  y1="413" x2="850" y2="413"/>
-  <line x1="539" y1="100" x2="539" y2="307"/>
-  <line x1="502" y1="307" x2="502" y2="413"/>
-  <line x1="363" y1="413" x2="363" y2="500"/>
-  <line x1="589" y1="413" x2="589" y2="500"/>
-  <line x1="745" y1="413" x2="745" y2="500"/>
-</g>
-
-<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg legend-panel"/>
-<text x="878" y="118" class="legend-title legend-heading">SERIES</text>
-<g class="legend-row" transform="translate(878,146)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Violet</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$320M</text></g>
-<g class="legend-row" transform="translate(878,188)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Cyan</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$210M</text></g>
-<g class="legend-row" transform="translate(878,230)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Emerald</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$150M</text></g>
-<g class="legend-row" transform="translate(878,272)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Amber</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$120M</text></g>
-<g class="legend-row" transform="translate(878,314)"><rect class="series-6" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Blue</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$85M</text></g>
-<g class="legend-row" transform="translate(878,356)"><rect class="series-7" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Teal</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$65M</text></g>
-<g class="legend-row" transform="translate(878,398)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Rose</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$45M</text></g>
-<g class="legend-row" transform="translate(878,440)"><rect class="series-8" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Other</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$30M</text></g>
+<rect x="864" y="88" width="208" height="455" rx="18" class="legend-bg legend-panel"/>
+<text x="884" y="118" class="legend-title legend-heading">SERIES</text>
+<g class="legend-row" transform="translate(884,146)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Violet</text><text x="168" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$320M</text></g>
+<g class="legend-row" transform="translate(884,188)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Cyan</text><text x="168" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$210M</text></g>
+<g class="legend-row" transform="translate(884,230)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Emerald</text><text x="168" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$150M</text></g>
+<g class="legend-row" transform="translate(884,272)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Amber</text><text x="168" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$120M</text></g>
+<g class="legend-row" transform="translate(884,314)"><rect class="series-6" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Blue</text><text x="168" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$85M</text></g>
+<g class="legend-row" transform="translate(884,356)"><rect class="series-7" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Teal</text><text x="168" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$65M</text></g>
+<g class="legend-row" transform="translate(884,398)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Rose</text><text x="168" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$45M</text></g>
+<g class="legend-row" transform="translate(884,440)"><rect class="series-8" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Other</text><text x="168" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$30M</text></g>
 
 <!--
   Bubble construction — identical pattern to bar chart:
@@ -180,7 +114,7 @@
 <g id="bubble-overlay">
 
   <!-- Violet $320M — anchor (284,100) -->
-  <g class="data-tip" id="bub1" transform="translate(303,170)">
+  <g class="data-tip" id="bub1" transform="translate(287,170)">
     <rect class="tip-bg"  x="-110" y="12" width="220" height="100" rx="12"/>
     <path class="tip-border" d="M-10,12 L-98,12 Q-110,12 -110,24 L-110,100 Q-110,112 -98,112 L98,112 Q110,112 110,100 L110,24 Q110,12 98,12 L10,12"/>
     <path class="tip-tail" d="M-10,12 L0,0 L10,12"/>
@@ -189,7 +123,7 @@
   </g>
 
   <!-- Cyan $210M — anchor (689,100) -->
-  <g class="data-tip" id="bub2" transform="translate(694,170)">
+  <g class="data-tip" id="bub2" transform="translate(679,170)">
     <rect class="tip-bg"  x="-95" y="12" width="190" height="100" rx="12"/>
     <path class="tip-border" d="M-10,12 L-83,12 Q-95,12 -95,24 L-95,100 Q-95,112 -83,112 L83,112 Q95,112 95,100 L95,24 Q95,12 83,12 L10,12"/>
     <path class="tip-tail" d="M-10,12 L0,0 L10,12"/>
@@ -198,7 +132,7 @@
   </g>
 
   <!-- Emerald $150M — anchor (265,307) -->
-  <g class="data-tip" id="bub3" transform="translate(285,307)">
+  <g class="data-tip" id="bub3" transform="translate(269,307)">
     <rect class="tip-bg"  x="-115" y="-112" width="230" height="100" rx="12"/>
     <path class="tip-border" d="M10,-12 L103,-12 Q115,-12 115,-24 L115,-100 Q115,-112 103,-112 L-103,-112 Q-115,-112 -115,-100 L-115,-24 Q-115,-12 -103,-12 L-10,-12"/>
     <path class="tip-tail" d="M-10,-12 L0,0 L10,-12"/>
@@ -207,7 +141,7 @@
   </g>
 
   <!-- Amber $120M — anchor (670,307) -->
-  <g class="data-tip" id="bub4" transform="translate(676,307)">
+  <g class="data-tip" id="bub4" transform="translate(661,307)">
     <rect class="tip-bg"  x="-105" y="-112" width="210" height="100" rx="12"/>
     <path class="tip-border" d="M10,-12 L93,-12 Q105,-12 105,-24 L105,-100 Q105,-112 93,-112 L-93,-112 Q-105,-112 -105,-100 L-105,-24 Q-105,-12 -93,-12 L-10,-12"/>
     <path class="tip-tail" d="M-10,-12 L0,0 L10,-12"/>
@@ -216,7 +150,7 @@
   </g>
 
   <!-- Blue $85M — anchor (193,413) -->
-  <g class="data-tip" id="bub5" transform="translate(215,413)">
+  <g class="data-tip" id="bub5" transform="translate(199,413)">
     <rect class="tip-bg"  x="-90" y="-112" width="180" height="100" rx="12"/>
     <path class="tip-border" d="M10,-12 L78,-12 Q90,-12 90,-24 L90,-100 Q90,-112 78,-112 L-78,-112 Q-90,-112 -90,-100 L-90,-24 Q-90,-12 -78,-12 L-10,-12"/>
     <path class="tip-tail" d="M-10,-12 L0,0 L10,-12"/>
@@ -225,7 +159,7 @@
   </g>
 
   <!-- Teal $65M — anchor (463,413) -->
-  <g class="data-tip" id="bub6" transform="translate(476,413)">
+  <g class="data-tip" id="bub6" transform="translate(460,413)">
     <rect class="tip-bg"  x="-85" y="-112" width="170" height="100" rx="12"/>
     <path class="tip-border" d="M10,-12 L73,-12 Q85,-12 85,-24 L85,-100 Q85,-112 73,-112 L-73,-112 Q-85,-112 -85,-100 L-85,-24 Q-85,-12 -73,-12 L-10,-12"/>
     <path class="tip-tail" d="M-10,-12 L0,0 L10,-12"/>
@@ -234,7 +168,7 @@
   </g>
 
   <!-- Rose $45M — anchor (661,413) -->
-  <g class="data-tip" id="bub7" transform="translate(667,413)">
+  <g class="data-tip" id="bub7" transform="translate(651,413)">
     <rect class="tip-bg"  x="-85" y="-112" width="170" height="100" rx="12"/>
     <path class="tip-border" d="M10,-12 L73,-12 Q85,-12 85,-24 L85,-100 Q85,-112 73,-112 L-73,-112 Q-85,-112 -85,-100 L-85,-24 Q-85,-12 -73,-12 L-10,-12"/>
     <path class="tip-tail" d="M-10,-12 L0,0 L10,-12"/>
@@ -243,7 +177,7 @@
   </g>
 
   <!-- Other $30M — anchor (796,413) -->
-  <g class="data-tip" id="bub8" transform="translate(797,413)">
+  <g class="data-tip" id="bub8" transform="translate(782,413)">
     <rect class="tip-bg"  x="-70" y="-112" width="140" height="100" rx="12"/>
     <path class="tip-border" d="M10,-12 L58,-12 Q70,-12 70,-24 L70,-100 Q70,-112 58,-112 L-58,-112 Q-70,-112 -70,-100 L-70,-24 Q-70,-12 -58,-12 L-10,-12"/>
     <path class="tip-tail" d="M-10,-12 L0,0 L10,-12"/>
@@ -253,76 +187,53 @@
 
 </g>
 
-<text x="68" y="600" class="footer">Revenue by Category · 8 segments · treemap · area ∝ revenue</text>
-
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
 (function () {
   var svg = document.documentElement;
   svg._chartInit = function (svgEl, ctx) {
-var svg   = document.getElementById('root');
-  var dataLayerEl = document.getElementById('data-layer');
-  var gridEl = document.getElementById('tm-grid');
+    var dataLayerEl = ctx.$$("#data-layer");
+    var bubbleOverlayEl = ctx.$$("#bubble-overlay");
+    var legendPanelEl = ctx.$$(".legend-panel");
+    var tiles = ctx.$$all(".tile-node");
+    if (!dataLayerEl || !tiles.length) return;
 
-  /* §2 isDark before all build/animation code */
-
-  var tiles = Array.prototype.slice.call(dataLayerEl.querySelectorAll('.tm-tile'));
-
-  /* §3 A1 canonical — animation fired via inline style.animation (no fill-mode).
-     animationend clears style.animation and adds .visible; CSS .tm-tile.visible { opacity:1 }
-     owns the stable state. Hover gates on .ready. No .tm-pre class, no !important.
-     Duration: 0.8s (fixed). Stagger: min(0.25, 1/count). Easing: ease-out. */
-  var count      = tiles.length;
-  var stagger    = Math.min(0.25, 1.0 / count);
-  var lastDelay  = (count - 1) * stagger;
-  var readyDelay = (lastDelay + 0.8 + 0.1) * 1000;
-
-  tiles.forEach(function(tile, i) {
-    tile.style.animation = 'tileFade 0.8s ease-out ' + (i * stagger).toFixed(3) + 's';
-    tile.addEventListener('animationend', function handler() {
-      tile.removeEventListener('animationend', handler);
-      tile.style.animation = 'none';
-      tile.classList.add('visible');
-    }, { once: true });
-  });
-
-  if (gridEl) {
-    gridEl.style.animation = 'tileFade 0.8s ease-out 0s';
-    gridEl.addEventListener('animationend', function handler() {
-      gridEl.removeEventListener('animationend', handler);
-      gridEl.style.animation = 'none';
-      gridEl.classList.add('visible');
-    }, { once: true });
-  }
-
-  setTimeout(function() { dataLayerEl.classList.add('ready'); }, readyDelay);
-
-  /* §4 hover — adjacent tiles: container-level mouseleave prevents flicker.
-     Stale-clear on every mouseenter. */
-  tiles.forEach(function(tile) {
-    var bub = document.getElementById(tile.getAttribute('data-bubble'));
-    tile.addEventListener('mouseenter', function() {
-      tiles.forEach(function(t) {
-        t.classList.remove('hovered');
-        var b = document.getElementById(t.getAttribute('data-bubble'));
-        if (b) b.style.opacity = '';
-      });
-      dataLayerEl.classList.add('hovering');
-      tile.classList.add('hovered');
-      if (bub) bub.style.opacity = '1';
+    ctx.rebalancePlotArea({
+      legendEl: legendPanelEl,
+      measureNodes: [dataLayerEl],
+      moveNodes: [dataLayerEl, bubbleOverlayEl],
+      outerLeft: 24,
+      legendGap: 32
     });
-  });
-  dataLayerEl.addEventListener('mouseleave', function() {
-    tiles.forEach(function(t) {
-      t.classList.remove('hovered');
-      var b = document.getElementById(t.getAttribute('data-bubble'));
-      if (b) b.style.opacity = '';
+
+    var tileTiming = ctx.getStaggerTiming(tiles.length, null, svgEl);
+    var tileDelays = tiles.map(function (_, index) {
+      return ctx.getStaggerDelay(index, tiles.length, null, svgEl);
     });
-    dataLayerEl.classList.remove('hovering');
-  });
+    ctx.initRevealSequence(tiles, {
+      animationName: 'tileFade',
+      duration: tileTiming.duration,
+      easing: 'ease-out',
+      delays: tileDelays
+    });
+
+    setTimeout(function() {
+      dataLayerEl.classList.add('ready');
+    }, ctx.getRevealReadyDelayMs({
+      delays: tileDelays,
+      duration: tileTiming.duration,
+      buffer: tileTiming.buffer
+    }));
+
+    ctx.initExclusiveHoverTips(dataLayerEl, tiles, {
+      leaveTarget: dataLayerEl,
+      resolveTip: function (tile) {
+        var bubbleId = tile && tile.getAttribute('data-bubble');
+        return bubbleId ? svgEl.querySelector('#' + bubbleId) : null;
+      }
+    });
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());
 ]]></script>
 </svg>
-

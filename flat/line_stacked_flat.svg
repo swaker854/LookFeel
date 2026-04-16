@@ -149,10 +149,7 @@
           duration: 1200
         });
       }
-      if (line) {
-        line.style.animationDelay = revealDelay + 's';
-        line.classList.add('visible');
-      }
+      if (line) ctx.initStrokeReveal(line, { delay: revealDelay });
     });
 
     series.forEach(function(s) {
@@ -172,6 +169,7 @@
       });
     });
 
+    // Activate the nearest series for a hovered quarter and sync stacked-only dot states.
     function setColumnHover(qi, mouseY) {
       var bestSid = ctx.getNearestSeriesIdAtColumn(series, qi, mouseY);
       dataLayerEl.classList.add('hovering');
@@ -189,6 +187,7 @@
       });
     }
 
+    // Clear stacked-line hover state for both the series traces and the column markers.
     function clearColumnHover() {
       dataLayerEl.classList.remove('hovering');
       ctx.setSeriesHoverState({

@@ -149,7 +149,9 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
     var xs   = [68,171,274,377,480,583,686,789];
     var colW = 56;
     var plotT = 100, plotB = 504;
-    var waveDelays = [0, 0.25, 0.50, 0.75, 1.00];
+    var waveDelays = series.map(function(_, i) {
+      return ctx.getStaggerDelay(i, series.length, null, svgEl);
+    });
 
     var totals = xs.map(function(_,qi){
       return series.reduce(function(s,sr){ return s + sr.vals[qi]; }, 0);
@@ -157,6 +159,7 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
 
     var el = ctx.el;
 
+    // Highlight the nearest stacked area boundary for the hovered quarter.
     function setSeriesActive(qi, mouseY) {
       var bestSid = ctx.getNearestSeriesIdAtColumn(series, qi, mouseY);
       ctx.setSeriesHoverState({
@@ -166,6 +169,7 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
         areaSelector: '.area-path[data-series="{id}"]'
       });
     }
+    // Remove the stacked-area series highlight after the column hover ends.
     function clearSeriesActive() {
       ctx.setSeriesHoverState({
         activeSid: null,
@@ -240,15 +244,13 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
       });
     });
 
-    /* wave-edges are ordered we5,we4,we3,we2,we1 in markup ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â stagger bottom-to-top */
-    var waveEls    = svgEl.querySelectorAll('.line-path');
-    waveEls.forEach(function(el, i) {
-      var delay = waveDelays[waveEls.length - 1 - i];
-      el.style.animation = 'drawWave 1.2s cubic-bezier(0.4,0,0.2,1) ' + delay.toFixed(2) + 's';
-      el.addEventListener('animationend', function() {
-        el.style.animation = 'none';
-        el.classList.add('visible');
-      }, { once: true });
+   /* Bottom-to-top wave reveal to match the stacked layer order. */
+    ctx.initRevealSequence(svgEl.querySelectorAll('.line-path'), {
+      animationName: 'drawWave',
+      duration: 1.2,
+      easing: 'cubic-bezier(0.4,0,0.2,1)',
+      delays: waveDelays,
+      reverse: true
     });
 
     setTimeout(function() {

@@ -209,6 +209,120 @@
     node.style.opacity = value == null ? '' : String(value);
   }
 
+  function getViewBoxRect(svgEl) {
+    var viewBox = svgEl && svgEl.viewBox && svgEl.viewBox.baseVal;
+    if (viewBox && (viewBox.width || viewBox.height)) {
+      return { x: viewBox.x, y: viewBox.y, width: viewBox.width, height: viewBox.height };
+    }
+
+    var raw = svgEl && svgEl.getAttribute ? svgEl.getAttribute('viewBox') : '';
+    var parts = raw ? raw.trim().split(/[\s,]+/) : [];
+    if (parts.length === 4) {
+      return {
+        x: Number(parts[0]) || 0,
+        y: Number(parts[1]) || 0,
+        width: Number(parts[2]) || 0,
+        height: Number(parts[3]) || 0
+      };
+    }
+
+    return { x: 0, y: 0, width: 0, height: 0 };
+  }
+
+  function getCombinedBBox(nodes) {
+    var minX = Infinity;
+    var minY = Infinity;
+    var maxX = -Infinity;
+    var maxY = -Infinity;
+
+    Array.prototype.slice.call(nodes || []).forEach(function (node) {
+      var box;
+      if (!node || typeof node.getBBox !== 'function') return;
+      try {
+        box = node.getBBox();
+      } catch (error) {
+        return;
+      }
+      if (!box || !(box.width || box.height)) return;
+      minX = Math.min(minX, box.x);
+      minY = Math.min(minY, box.y);
+      maxX = Math.max(maxX, box.x + box.width);
+      maxY = Math.max(maxY, box.y + box.height);
+    });
+
+    if (!isFinite(minX) || !isFinite(maxX)) return null;
+    return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
+  }
+
+  function setTranslateX(node, dx) {
+    var base;
+    if (!node) return;
+    if (node.__chartBaseTransform == null) {
+      node.__chartBaseTransform = node.getAttribute('transform') || '';
+    }
+    base = node.__chartBaseTransform;
+    if (!dx) {
+      node.setAttribute('transform', base);
+      return;
+    }
+    node.setAttribute('transform', (base ? base + ' ' : '') + 'translate(' + dx + ' 0)');
+  }
+
+  function rebalancePlotArea(svgEl, options) {
+    var opts = options || {};
+    var measureNodes = opts.measureNodes || opts.nodes || [];
+    var moveNodes = opts.moveNodes || measureNodes;
+    var legendEl = opts.legendEl || null;
+    var bounds = getCombinedBBox(measureNodes);
+    var viewBox;
+    var legendBox;
+    var slotLeft;
+    var slotRight;
+    var plotCenter;
+    var slotCenter;
+    var minShift;
+    var maxShift;
+    var shiftX;
+
+    if (!svgEl || !bounds) return { shiftX: 0, bounds: bounds };
+    if (!legendEl && opts.legendSelector) legendEl = svgEl.querySelector(opts.legendSelector);
+    if (!legendEl || typeof legendEl.getBBox !== 'function') return { shiftX: 0, bounds: bounds };
+
+    try {
+      legendBox = legendEl.getBBox();
+    } catch (error) {
+      return { shiftX: 0, bounds: bounds };
+    }
+
+    viewBox = getViewBoxRect(svgEl);
+    slotLeft = opts.slotLeft != null ? Number(opts.slotLeft) : viewBox.x + (opts.outerLeft != null ? Number(opts.outerLeft) : 24);
+    slotRight = opts.slotRight != null ? Number(opts.slotRight) : legendBox.x - (opts.legendGap != null ? Number(opts.legendGap) : 32);
+    if (!(slotRight > slotLeft)) return { shiftX: 0, bounds: bounds };
+
+    plotCenter = bounds.x + bounds.width / 2;
+    slotCenter = (slotLeft + slotRight) / 2;
+    shiftX = slotCenter - plotCenter;
+
+    if (opts.clamp !== false) {
+      minShift = slotLeft - bounds.x;
+      maxShift = slotRight - (bounds.x + bounds.width);
+      shiftX = clamp(shiftX, minShift, maxShift);
+    }
+
+    if (opts.round !== false) shiftX = Math.round(shiftX);
+    Array.prototype.slice.call(moveNodes || []).forEach(function (node) {
+      setTranslateX(node, shiftX);
+    });
+
+    return {
+      shiftX: shiftX,
+      bounds: bounds,
+      slotLeft: slotLeft,
+      slotRight: slotRight,
+      legendBox: legendBox
+    };
+  }
+
   function animateAndMarkVisible(node, animationValue, visibleClass) {
     if (!node) return;
     var cls = visibleClass || 'visible';
@@ -218,6 +332,46 @@
       node.style.animation = 'none';
       node.classList.add(cls);
     }, { once: true });
+  }
+
+  /*
+   * Reveal helpers intentionally stop at the mechanical layer:
+   * - assign animation / delay
+   * - clean up inline animation
+   * - add the stable post-reveal class
+   *
+   * Each chart still owns reveal ordering and sequencing so we do not
+   * accidentally change chart feel while sharing the plumbing.
+   */
+  function initRevealSequence(nodes, options) {
+    var opts = options || {};
+    var items = Array.prototype.slice.call(nodes || []);
+    var delays = Array.isArray(opts.delays) ? opts.delays : [];
+    var reverse = !!opts.reverse;
+    var duration = opts.duration == null ? 0.8 : Math.max(0, Number(opts.duration) || 0);
+    var easing = opts.easing || 'cubic-bezier(0.4,0,0.2,1)';
+    var animationName = opts.animationName || '';
+    var visibleClass = opts.visibleClass || 'visible';
+
+    items.forEach(function (node, index) {
+      var delayIndex = reverse ? (items.length - 1 - index) : index;
+      var delay = Math.max(0, Number(delays[delayIndex]) || 0);
+      if (!node || !animationName) return;
+      animateAndMarkVisible(node, animationName + ' ' + duration + 's ' + easing + ' ' + delay + 's', visibleClass);
+    });
+
+    return items;
+  }
+
+  function initStrokeReveal(node, options) {
+    var opts = options || {};
+    var delay = Math.max(0, Number(opts.delay) || 0);
+    var visibleClass = opts.visibleClass || 'visible';
+
+    if (!node) return null;
+    node.style.animationDelay = delay + 's';
+    node.classList.add(visibleClass);
+    return node;
   }
 
   function animateClipRevealRect(rect, opts) {
@@ -575,6 +729,71 @@
     });
 
     return slices;
+  }
+
+  function initExclusiveHover(chartEl, itemEls, options) {
+    var opts = options || {};
+    var items = Array.prototype.slice.call(itemEls || []);
+    var activeClass = opts.activeClass || 'active';
+    var hoverClass = opts.hoverClass === false ? '' : (opts.hoverClass || 'hovering');
+    var leaveTarget = opts.leaveTarget || chartEl;
+    var onActivate = typeof opts.onActivate === 'function' ? opts.onActivate : null;
+    var onDeactivate = typeof opts.onDeactivate === 'function' ? opts.onDeactivate : null;
+
+    function clearHover() {
+      setClassState(items, activeClass, false);
+      if (chartEl && hoverClass) chartEl.classList.remove(hoverClass);
+      if (onDeactivate) onDeactivate();
+    }
+
+    items.forEach(function (itemEl) {
+      itemEl.addEventListener('mouseenter', function () {
+        clearHover();
+        if (chartEl && hoverClass) chartEl.classList.add(hoverClass);
+        activateExclusive(items, itemEl, activeClass);
+        if (onActivate) onActivate(itemEl);
+      });
+    });
+
+    if (leaveTarget && leaveTarget.addEventListener) {
+      leaveTarget.addEventListener('mouseleave', clearHover);
+    }
+
+    return { items: items, clearHover: clearHover };
+  }
+
+  function initExclusiveHoverTips(chartEl, itemEls, options) {
+    var opts = options || {};
+    var items = Array.prototype.slice.call(itemEls || []);
+    var resolveTip = typeof opts.resolveTip === 'function'
+      ? opts.resolveTip
+      : function (itemEl) { return itemEl && itemEl._tip ? itemEl._tip : null; };
+    var beforeShow = typeof opts.beforeShow === 'function' ? opts.beforeShow : null;
+    var afterHide = typeof opts.afterHide === 'function' ? opts.afterHide : null;
+
+    function clearTips() {
+      items.forEach(function (itemEl) {
+        setOpacity(resolveTip(itemEl), null);
+      });
+    }
+
+    return initExclusiveHover(chartEl, items, {
+      activeClass: opts.activeClass,
+      hoverClass: opts.hoverClass,
+      leaveTarget: opts.leaveTarget,
+      onActivate: function (itemEl) {
+        var tipEl = resolveTip(itemEl);
+        clearTips();
+        if (beforeShow) beforeShow(itemEl, tipEl);
+        setOpacity(tipEl, 1);
+        if (typeof opts.onActivate === 'function') opts.onActivate(itemEl, tipEl);
+      },
+      onDeactivate: function () {
+        clearTips();
+        if (afterHide) afterHide();
+        if (typeof opts.onDeactivate === 'function') opts.onDeactivate();
+      }
+    });
   }
 
   function buildStackedSideTooltip(tipLayer, opts) {
@@ -1093,6 +1312,8 @@
         layoutSideTooltip: layoutSideTooltip,
         initSideBubbles: function (options) { return initSideBubbles(svgEl, { $$: $$, $$all: $$all }, options); },
         initRadialHover: initRadialHover,
+        initExclusiveHover: initExclusiveHover,
+        initExclusiveHoverTips: initExclusiveHoverTips,
         buildStackedSideTooltip: buildStackedSideTooltip,
         initStackedColumnHover: function (options) { return initStackedColumnHover(svgEl, options); },
         initPointSeriesHover: function (options) { return initPointSeriesHover(svgEl, options); },
@@ -1100,17 +1321,21 @@
         getStaggerDelay: function (index, count, totalWindow) { return getStaggerDelay(index, count, totalWindow, svgEl); },
         getStaggerTiming: function (count, options) { return getStaggerTiming(count, options, svgEl); },
         getRevealReadyDelayMs: getRevealReadyDelayMs,
+        buildChartTip: buildChartTip,
         activateExclusive: activateExclusive,
         setElementsActive: setElementsActive,
         setClassState: setClassState,
         setOpacity: setOpacity,
         animateAndMarkVisible: animateAndMarkVisible,
+        initRevealSequence: initRevealSequence,
+        initStrokeReveal: initStrokeReveal,
         animateClipRevealRect: animateClipRevealRect,
         initAreaClipReveal: function (options) { return initAreaClipReveal(svgEl, options); },
         getNearestSeriesIdAtColumn: getNearestSeriesIdAtColumn,
         setSeriesHoverState: function (options) { return setSeriesHoverState(svgEl, options); },
         eventToSvgPoint: eventToSvgPoint,
-        initSeriesVerticalGradients: function (options) { return initSeriesVerticalGradients(svgEl, options); }
+        initSeriesVerticalGradients: function (options) { return initSeriesVerticalGradients(svgEl, options); },
+        rebalancePlotArea: function (options) { return rebalancePlotArea(svgEl, options); }
       });
     }
 

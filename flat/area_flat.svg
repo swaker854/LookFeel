@@ -149,7 +149,9 @@
 
     var quarters = ["Q1 '22","Q2 '22","Q3 '22","Q4 '22","Q1 '23","Q2 '23","Q3 '23","Q4 '23"];
     var xs   = [68,171,274,377,480,583,686,789];
-    var waveDelays = [0, 0.25, 0.50, 0.75, 1.00];
+    var waveDelays = series.map(function(_, i) {
+      return ctx.getStaggerDelay(i, series.length, null, svgEl);
+    });
     var plotL = 42, plotR = 840, plotT = 100, plotB = 500;
 
     var el = ctx.el;
@@ -184,14 +186,11 @@
       });
     });
 
-    /* wire animationend + .visible for line paths */
-    var waveEls = svgEl.querySelectorAll('.line-path');
-    waveEls.forEach(function(el, i) {
-      el.style.animation = 'drawWave 1.2s cubic-bezier(0.4,0,0.2,1) ' + waveDelays[i] + 's';
-      el.addEventListener('animationend', function() {
-        el.style.animation = 'none';
-        el.classList.add('visible');
-      }, { once: true });
+    ctx.initRevealSequence(svgEl.querySelectorAll('.line-path'), {
+      animationName: 'drawWave',
+      duration: 1.2,
+      easing: 'cubic-bezier(0.4,0,0.2,1)',
+      delays: waveDelays
     });
 
     setTimeout(function() {

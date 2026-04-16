@@ -1,14 +1,33 @@
 <svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+  <script type="text/javascript">
+    <![CDATA[
+    (function () {
+      if (window.location.href.indexOf('theme=dark') !== -1) {
+       document.documentElement.classList.add('dark');
+      }
+    }());
+    ]]>
+  </script>
 <defs>
   <style>
     @import url('chart-shared.css');
+    /* prevent first paint in wrong color before shared css load */
+    svg {
+    --critical-tick-fill: #79747E;
+    --critical-grid-stroke: #E7E0EC;
+    --critical-axis-stroke: #79747E;
+    }
+    svg.dark {
+    --critical-tick-fill: #938F99;
+    --critical-grid-stroke: #3A3940;
+    --critical-axis-stroke: #938F99;
+    }
+    .tick-label, .category-label { fill: var(--critical-tick-fill); }
+    .grid-line { stroke: var(--critical-grid-stroke); }
+    .axis-line { stroke: var(--critical-axis-stroke); }
 
     .bub-g { opacity:0; }
-    .tip { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    svg.print .tip { opacity:0 !important; }
-
-    .data-layer.ready.hovering .data-item { opacity:0.20; transition:opacity 0.2s ease; }
-    .data-layer.ready.hovering .data-item.active { opacity:1; }
+    .bub-g.visible { opacity:1; }
   </style>
 </defs>
 
@@ -92,10 +111,6 @@
       bw8: { label:'Other', value:'$48M', share:'12%' }
     };
 
-    function easeInOutCubic(t) {
-      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    }
-
     function showTip(itemEl) {
       var circle = itemEl.querySelector('circle');
       var m = meta[itemEl.id];
@@ -125,42 +140,30 @@
 
     function hideTip() { ctx.setOpacity(tip, null); }
 
-    var FADE_DUR = 800, STAGGER = 250;
-    var bubGrps = [1,2,3,4,5,6,7,8].map(function (i) {
-      return svgEl.querySelector('#bg' + i);
+    var fadeDurationSeconds = parseFloat(getComputedStyle(svgEl).getPropertyValue('--chart-fade-duration')) || 0.8;
+    var bubGrps = ctx.$$all('.bub-g');
+    var revealTiming = ctx.getStaggerTiming(bubGrps.length, { duration: fadeDurationSeconds }, svgEl);
+    ctx.initRevealSequence(bubGrps, {
+      animationName: 'dataFadeIn',
+      duration: fadeDurationSeconds,
+      easing: 'ease-out',
+      delays: bubGrps.map(function (_, i) {
+        return ctx.getStaggerDelay(i, bubGrps.length, null, svgEl);
+      })
     });
-
-    var startTime = null;
-    function animBubbles(ts) {
-      if (!startTime) startTime = ts;
-      var elapsed = ts - startTime;
-      var done = true;
-      bubGrps.forEach(function (g, i) {
-        var t = Math.max(0, Math.min(1, (elapsed - i * STAGGER) / FADE_DUR));
-        g.style.opacity = easeInOutCubic(t).toFixed(3);
-        if (t < 1) done = false;
-      });
-      if (!done) {
-        requestAnimationFrame(animBubbles);
-      } else {
-        bubGrps.forEach(function (g) { g.style.opacity = '1'; });
-        chartArea.classList.add('ready');
-      }
-    }
-    requestAnimationFrame(animBubbles);
+    setTimeout(function () {
+      chartArea.classList.add('ready');
+    }, revealTiming.readyDelayMs);
 
     var dataItemEls = ctx.$$all('.data-item');
-    dataItemEls.forEach(function (itemEl) {
-      itemEl.addEventListener('mouseenter', function () {
-        chartArea.classList.add('hovering');
-        ctx.activateExclusive(dataItemEls, itemEl);
+    ctx.initExclusiveHover(chartArea, dataItemEls, {
+      leaveTarget: chartArea,
+      onActivate: function (itemEl) {
         showTip(itemEl);
-      });
-      itemEl.addEventListener('mouseleave', function () {
-        itemEl.classList.remove('active');
-        chartArea.classList.remove('hovering');
+      },
+      onDeactivate: function () {
         hideTip();
-      });
+      }
     });
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
