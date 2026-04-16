@@ -1,181 +1,222 @@
+<svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%"
+  preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
+  font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+  <script type="text/javascript"><![CDATA[
+(function () {
+  if (window.location.href.indexOf('theme=dark') !== -1) {
+    document.documentElement.classList.add('dark');
+  }
+}());
+  ]]></script>
+  <defs>
+    <clipPath id="chartclip">
+      <rect x="68" y="96" width="782" height="412" />
+    </clipPath>
+    <style>
+      @import url('chart-shared.css');
+      svg {
+        --critical-tick-fill: #79747E;
+        --critical-grid-stroke: #E7E0EC;
+        --critical-axis-stroke: #79747E;
+      }
+      svg.dark {
+        --critical-tick-fill: #938F99;
+        --critical-grid-stroke: #3A3940;
+        --critical-axis-stroke: #938F99;
+      }
+      .tick-label, .category-label { fill: var(--critical-tick-fill); }
+      .grid-line { stroke: var(--critical-grid-stroke); }
+      .axis-line { stroke: var(--critical-axis-stroke); }
 
+      .data-body { opacity:0; }
+      .data-body.visible { opacity:1; }
+    </style>
+  </defs>
 
-<svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
-<defs>
-  <clipPath id="chartclip">
-    <rect x="68" y="96" width="782" height="412"/>
-  </clipPath>
-  <style>
-    @import url('chart-shared.css');
+  <line x1="68" y1="508" x2="850" y2="508" class="axis-line" />
+  <line x1="68" y1="426" x2="850" y2="426" class="grid-line" />
+  <line x1="68" y1="344" x2="850" y2="344" class="grid-line" />
+  <line x1="68" y1="262" x2="850" y2="262" class="grid-line" />
+  <line x1="68" y1="181" x2="850" y2="181" class="grid-line" />
+  <line x1="68" y1="100" x2="850" y2="100" class="grid-line" />
+  <line x1="68" y1="100" x2="68" y2="508" class="axis-line" />
 
-    @keyframes dataFadeIn { from{opacity:0} to{opacity:1} }
-    .data-body { animation:dataFadeIn 0.8s ease-out both; }
-    .stagger-1 { animation-delay:0.00s; } .stagger-2 { animation-delay:0.25s; }
-    .stagger-3 { animation-delay:0.50s; } .stagger-4 { animation-delay:0.75s; }
-    .stagger-5 { animation-delay:1.00s; } .stagger-6 { animation-delay:1.25s; }
-    .stagger-7 { animation-delay:1.50s; } .stagger-8 { animation-delay:1.75s; }
-    .crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
-    svg.dark .crosshair { stroke:#938F99; }
-    .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    svg.print .tip { opacity:0 !important; }
+  <text x="56" y="512" class="tick-label" text-anchor="end">$0</text>
+  <text x="56" y="430" class="tick-label" text-anchor="end">$50M</text>
+  <text x="56" y="348" class="tick-label" text-anchor="end">$100M</text>
+  <text x="56" y="266" class="tick-label" text-anchor="end">$150M</text>
+  <text x="56" y="185" class="tick-label" text-anchor="end">$200M</text>
+  <text x="56" y="104" class="tick-label" text-anchor="end">$250M</text>
 
-    .data-item .seg { transition:opacity 0.2s ease; }
-    .chart-container.hovering .data-item .seg        { opacity:0.20; }
-    .chart-container.hovering .data-item.active .seg { opacity:1; }
-    svg.print .chart-container.hovering .data-item .seg { opacity:1 !important; }
-  </style>
-</defs>
+  <text x="126.9" y="534" class="category-label" text-anchor="middle">Q1 '22</text>
+  <text x="221.8" y="534" class="category-label" text-anchor="middle">Q2 '22</text>
+  <text x="316.7" y="534" class="category-label" text-anchor="middle">Q3 '22</text>
+  <text x="411.6" y="534" class="category-label" text-anchor="middle">Q4 '22</text>
+  <text x="506.4" y="534" class="category-label" text-anchor="middle">Q1 '23</text>
+  <text x="601.3" y="534" class="category-label" text-anchor="middle">Q2 '23</text>
+  <text x="696.2" y="534" class="category-label" text-anchor="middle">Q3 '23</text>
+  <text x="791.1" y="534" class="category-label" text-anchor="middle">Q4 '23</text>
 
-<line x1="68" y1="508" x2="850" y2="508" class="axis-line"/>
-<line x1="68" y1="426" x2="850" y2="426" class="grid-line"/>
-<line x1="68" y1="344" x2="850" y2="344" class="grid-line"/>
-<line x1="68" y1="262" x2="850" y2="262" class="grid-line"/>
-<line x1="68" y1="181" x2="850" y2="181" class="grid-line"/>
-<line x1="68" y1="100" x2="850" y2="100" class="grid-line"/>
-<line x1="68" y1="100" x2="68"  y2="508" class="axis-line"/>
+  <line x1="459" y1="100" x2="459" y2="518" stroke="#c0b8a8" stroke-width="1" stroke-dasharray="5,4"
+    opacity="0.6" />
+  <text x="269.2" y="90" class="tick-label" text-anchor="middle">2022</text>
+  <text x="648.8" y="90" class="tick-label" text-anchor="middle">2023</text>
 
-<text x="56" y="512" class="tick-label" text-anchor="end">$0</text>
-<text x="56" y="430" class="tick-label" text-anchor="end">$50M</text>
-<text x="56" y="348" class="tick-label" text-anchor="end">$100M</text>
-<text x="56" y="266" class="tick-label" text-anchor="end">$150M</text>
-<text x="56" y="185" class="tick-label" text-anchor="end">$200M</text>
-<text x="56" y="104" class="tick-label" text-anchor="end">$250M</text>
+  <g class="data-layer chart-container" clip-path="url(#chartclip)">
 
-<text x="126.9" y="534" class="category-label" text-anchor="middle">Q1 '22</text>
-<text x="221.8" y="534" class="category-label" text-anchor="middle">Q2 '22</text>
-<text x="316.7" y="534" class="category-label" text-anchor="middle">Q3 '22</text>
-<text x="411.6" y="534" class="category-label" text-anchor="middle">Q4 '22</text>
-<text x="506.4" y="534" class="category-label" text-anchor="middle">Q1 '23</text>
-<text x="601.3" y="534" class="category-label" text-anchor="middle">Q2 '23</text>
-<text x="696.2" y="534" class="category-label" text-anchor="middle">Q3 '23</text>
-<text x="791.1" y="534" class="category-label" text-anchor="middle">Q4 '23</text>
+    <!-- Q1 '22 -->
+    <g class="data-item data-body" id="data-item-0">
+      <rect class="seg stack-seg series-5" x="90.9" y="491.68" width="72" height="16.32" rx="6" />
+      <rect class="seg stack-seg series-5" x="90.9" y="491.68" width="72" height="10" />
+      <rect class="seg stack-seg series-4" x="90.9" y="473.73" width="72" height="17.95" />
+      <rect class="seg stack-seg series-3" x="90.9" y="444.35" width="72" height="29.38" />
+      <rect class="seg stack-seg series-2" x="90.9" y="392.13" width="72" height="52.22" />
+      <rect class="seg stack-seg series-1" x="90.9" y="330.11" width="72" height="62.02" rx="6" />
+      <rect class="seg stack-seg series-1" x="90.9" y="336.11" width="72" height="56.02" />
+    </g>
 
-<line x1="459" y1="100" x2="459" y2="518" stroke="#c0b8a8" stroke-width="1" stroke-dasharray="5,4" opacity="0.6"/>
-<text x="269.2" y="90" class="tick-label" text-anchor="middle">2022</text>
-<text x="648.8" y="90" class="tick-label" text-anchor="middle">2023</text>
+    <!-- Q2 '22 -->
+    <g class="data-item data-body" id="data-item-1">
+      <rect class="seg stack-seg series-5" x="185.8" y="490.05" width="72" height="17.95" rx="6" />
+      <rect class="seg stack-seg series-5" x="185.8" y="490.05" width="72" height="10" />
+      <rect class="seg stack-seg series-4" x="185.8" y="470.47" width="72" height="19.58" />
+      <rect class="seg stack-seg series-3" x="185.8" y="437.82" width="72" height="32.64" />
+      <rect class="seg stack-seg series-2" x="185.8" y="380.70" width="72" height="57.12" />
+      <rect class="seg stack-seg series-1" x="185.8" y="312.16" width="72" height="68.54" rx="6" />
+      <rect class="seg stack-seg series-1" x="185.8" y="318.16" width="72" height="62.54" />
+    </g>
 
-<g class="data-layer chart-container" clip-path="url(#chartclip)">
+    <!-- Q3 '22 -->
+    <g class="data-item data-body" id="data-item-2">
+      <rect class="seg stack-seg series-5" x="280.7" y="488.42" width="72" height="19.58" rx="6" />
+      <rect class="seg stack-seg series-5" x="280.7" y="488.42" width="72" height="10" />
+      <rect class="seg stack-seg series-4" x="280.7" y="467.20" width="72" height="21.22" />
+      <rect class="seg stack-seg series-3" x="280.7" y="432.93" width="72" height="34.27" />
+      <rect class="seg stack-seg series-2" x="280.7" y="370.91" width="72" height="62.02" />
+      <rect class="seg stack-seg series-1" x="280.7" y="295.84" width="72" height="75.07" rx="6" />
+      <rect class="seg stack-seg series-1" x="280.7" y="301.84" width="72" height="69.07" />
+    </g>
 
-<!-- Q1 '22 -->
-<g class="data-item data-body stagger-1" id="data-item-0">
-  <rect class="seg series-5" x="90.9" y="491.68" width="72" height="16.32" rx="6"/>
-  <rect class="seg series-5" x="90.9" y="491.68" width="72" height="10"/>
-  <rect class="seg series-4" x="90.9" y="473.73" width="72" height="17.95"/>
-  <rect class="seg series-3" x="90.9" y="444.35" width="72" height="29.38"/>
-  <rect class="seg series-2" x="90.9" y="392.13" width="72" height="52.22"/>
-  <rect class="seg series-1" x="90.9" y="330.11" width="72" height="62.02" rx="6"/>
-  <rect class="seg series-1" x="90.9" y="336.11" width="72" height="56.02"/>
-</g>
+    <!-- Q4 '22 -->
+    <g class="data-item data-body" id="data-item-3">
+      <rect class="seg stack-seg series-5" x="375.6" y="486.78" width="72" height="21.22" rx="6" />
+      <rect class="seg stack-seg series-5" x="375.6" y="486.78" width="72" height="10" />
+      <rect class="seg stack-seg series-4" x="375.6" y="463.93" width="72" height="22.85" />
+      <rect class="seg stack-seg series-3" x="375.6" y="426.40" width="72" height="37.54" />
+      <rect class="seg stack-seg series-2" x="375.6" y="359.49" width="72" height="66.91" />
+      <rect class="seg stack-seg series-1" x="375.6" y="277.89" width="72" height="81.60" rx="6" />
+      <rect class="seg stack-seg series-1" x="375.6" y="283.89" width="72" height="75.60" />
+    </g>
 
-<!-- Q2 '22 -->
-<g class="data-item data-body stagger-2" id="data-item-1">
-  <rect class="seg series-5" x="185.8" y="490.05" width="72" height="17.95" rx="6"/>
-  <rect class="seg series-5" x="185.8" y="490.05" width="72" height="10"/>
-  <rect class="seg series-4" x="185.8" y="470.47" width="72" height="19.58"/>
-  <rect class="seg series-3" x="185.8" y="437.82" width="72" height="32.64"/>
-  <rect class="seg series-2" x="185.8" y="380.70" width="72" height="57.12"/>
-  <rect class="seg series-1" x="185.8" y="312.16" width="72" height="68.54" rx="6"/>
-  <rect class="seg series-1" x="185.8" y="318.16" width="72" height="62.54"/>
-</g>
+    <!-- Q1 '23 -->
+    <g class="data-item data-body" id="data-item-4">
+      <rect class="seg stack-seg series-5" x="470.4" y="485.15" width="72" height="22.85" rx="6" />
+      <rect class="seg stack-seg series-5" x="470.4" y="485.15" width="72" height="10" />
+      <rect class="seg stack-seg series-4" x="470.4" y="460.67" width="72" height="24.48" />
+      <rect class="seg stack-seg series-3" x="470.4" y="419.87" width="72" height="40.80" />
+      <rect class="seg stack-seg series-2" x="470.4" y="346.43" width="72" height="73.44" />
+      <rect class="seg stack-seg series-1" x="470.4" y="256.67" width="72" height="89.76" rx="6" />
+      <rect class="seg stack-seg series-1" x="470.4" y="262.67" width="72" height="83.76" />
+    </g>
 
-<!-- Q3 '22 -->
-<g class="data-item data-body stagger-3" id="data-item-2">
-  <rect class="seg series-5" x="280.7" y="488.42" width="72" height="19.58" rx="6"/>
-  <rect class="seg series-5" x="280.7" y="488.42" width="72" height="10"/>
-  <rect class="seg series-4" x="280.7" y="467.20" width="72" height="21.22"/>
-  <rect class="seg series-3" x="280.7" y="432.93" width="72" height="34.27"/>
-  <rect class="seg series-2" x="280.7" y="370.91" width="72" height="62.02"/>
-  <rect class="seg series-1" x="280.7" y="295.84" width="72" height="75.07" rx="6"/>
-  <rect class="seg series-1" x="280.7" y="301.84" width="72" height="69.07"/>
-</g>
+    <!-- Q2 '23 -->
+    <g class="data-item data-body" id="data-item-5">
+      <rect class="seg stack-seg series-5" x="565.3" y="481.89" width="72" height="26.11" rx="6" />
+      <rect class="seg stack-seg series-5" x="565.3" y="481.89" width="72" height="10" />
+      <rect class="seg stack-seg series-4" x="565.3" y="454.15" width="72" height="27.74" />
+      <rect class="seg stack-seg series-3" x="565.3" y="410.08" width="72" height="44.06" />
+      <rect class="seg stack-seg series-2" x="565.3" y="328.48" width="72" height="81.60" />
+      <rect class="seg stack-seg series-1" x="565.3" y="230.56" width="72" height="97.92" rx="6" />
+      <rect class="seg stack-seg series-1" x="565.3" y="236.56" width="72" height="91.92" />
+    </g>
 
-<!-- Q4 '22 -->
-<g class="data-item data-body stagger-4" id="data-item-3">
-  <rect class="seg series-5" x="375.6" y="486.78" width="72" height="21.22" rx="6"/>
-  <rect class="seg series-5" x="375.6" y="486.78" width="72" height="10"/>
-  <rect class="seg series-4" x="375.6" y="463.93" width="72" height="22.85"/>
-  <rect class="seg series-3" x="375.6" y="426.40" width="72" height="37.54"/>
-  <rect class="seg series-2" x="375.6" y="359.49" width="72" height="66.91"/>
-  <rect class="seg series-1" x="375.6" y="277.89" width="72" height="81.60" rx="6"/>
-  <rect class="seg series-1" x="375.6" y="283.89" width="72" height="75.60"/>
-</g>
+    <!-- Q3 '23 -->
+    <g class="data-item data-body" id="data-item-6">
+      <rect class="seg stack-seg series-5" x="660.2" y="480.26" width="72" height="27.74" rx="6" />
+      <rect class="seg stack-seg series-5" x="660.2" y="480.26" width="72" height="10" />
+      <rect class="seg stack-seg series-4" x="660.2" y="449.25" width="72" height="31.01" />
+      <rect class="seg stack-seg series-3" x="660.2" y="398.66" width="72" height="50.59" />
+      <rect class="seg stack-seg series-2" x="660.2" y="307.27" width="72" height="91.39" />
+      <rect class="seg stack-seg series-1" x="660.2" y="199.55" width="72" height="107.71" rx="6" />
+      <rect class="seg stack-seg series-1" x="660.2" y="205.55" width="72" height="101.71" />
+    </g>
 
-<!-- Q1 '23 -->
-<g class="data-item data-body stagger-5" id="data-item-4">
-  <rect class="seg series-5" x="470.4" y="485.15" width="72" height="22.85" rx="6"/>
-  <rect class="seg series-5" x="470.4" y="485.15" width="72" height="10"/>
-  <rect class="seg series-4" x="470.4" y="460.67" width="72" height="24.48"/>
-  <rect class="seg series-3" x="470.4" y="419.87" width="72" height="40.80"/>
-  <rect class="seg series-2" x="470.4" y="346.43" width="72" height="73.44"/>
-  <rect class="seg series-1" x="470.4" y="256.67" width="72" height="89.76" rx="6"/>
-  <rect class="seg series-1" x="470.4" y="262.67" width="72" height="83.76"/>
-</g>
+    <!-- Q4 '23 -->
+    <g class="data-item data-body" id="data-item-7">
+      <rect class="seg stack-seg series-5" x="755.1" y="476.99" width="72" height="31.01" rx="6" />
+      <rect class="seg stack-seg series-5" x="755.1" y="476.99" width="72" height="10" />
+      <rect class="seg stack-seg series-4" x="755.1" y="441.09" width="72" height="35.90" />
+      <rect class="seg stack-seg series-3" x="755.1" y="383.97" width="72" height="57.12" />
+      <rect class="seg stack-seg series-2" x="755.1" y="282.79" width="72" height="101.18" />
+      <rect class="seg stack-seg series-1" x="755.1" y="165.28" width="72" height="117.50" rx="6" />
+      <rect class="seg stack-seg series-1" x="755.1" y="171.28" width="72" height="111.50" />
+    </g>
 
-<!-- Q2 '23 -->
-<g class="data-item data-body stagger-6" id="data-item-5">
-  <rect class="seg series-5" x="565.3" y="481.89" width="72" height="26.11" rx="6"/>
-  <rect class="seg series-5" x="565.3" y="481.89" width="72" height="10"/>
-  <rect class="seg series-4" x="565.3" y="454.15" width="72" height="27.74"/>
-  <rect class="seg series-3" x="565.3" y="410.08" width="72" height="44.06"/>
-  <rect class="seg series-2" x="565.3" y="328.48" width="72" height="81.60"/>
-  <rect class="seg series-1" x="565.3" y="230.56" width="72" height="97.92" rx="6"/>
-  <rect class="seg series-1" x="565.3" y="236.56" width="72" height="91.92"/>
-</g>
+  </g>
 
-<!-- Q3 '23 -->
-<g class="data-item data-body stagger-7" id="data-item-6">
-  <rect class="seg series-5" x="660.2" y="480.26" width="72" height="27.74" rx="6"/>
-  <rect class="seg series-5" x="660.2" y="480.26" width="72" height="10"/>
-  <rect class="seg series-4" x="660.2" y="449.25" width="72" height="31.01"/>
-  <rect class="seg series-3" x="660.2" y="398.66" width="72" height="50.59"/>
-  <rect class="seg series-2" x="660.2" y="307.27" width="72" height="91.39"/>
-  <rect class="seg series-1" x="660.2" y="199.55" width="72" height="107.71" rx="6"/>
-  <rect class="seg series-1" x="660.2" y="205.55" width="72" height="101.71"/>
-</g>
+  <g id="crosshairs">
+    <line id="ch0" class="crosshair" x1="126.9" y1="100" x2="126.9" y2="508" />
+    <line id="ch1" class="crosshair" x1="221.8" y1="100" x2="221.8" y2="508" />
+    <line id="ch2" class="crosshair" x1="316.7" y1="100" x2="316.7" y2="508" />
+    <line id="ch3" class="crosshair" x1="411.6" y1="100" x2="411.6" y2="508" />
+    <line id="ch4" class="crosshair" x1="506.4" y1="100" x2="506.4" y2="508" />
+    <line id="ch5" class="crosshair" x1="601.3" y1="100" x2="601.3" y2="508" />
+    <line id="ch6" class="crosshair" x1="696.2" y1="100" x2="696.2" y2="508" />
+    <line id="ch7" class="crosshair" x1="791.1" y1="100" x2="791.1" y2="508" />
+  </g>
 
-<!-- Q4 '23 -->
-<g class="data-item data-body stagger-8" id="data-item-7">
-  <rect class="seg series-5" x="755.1" y="476.99" width="72" height="31.01" rx="6"/>
-  <rect class="seg series-5" x="755.1" y="476.99" width="72" height="10"/>
-  <rect class="seg series-4" x="755.1" y="441.09" width="72" height="35.90"/>
-  <rect class="seg series-3" x="755.1" y="383.97" width="72" height="57.12"/>
-  <rect class="seg series-2" x="755.1" y="282.79" width="72" height="101.18"/>
-  <rect class="seg series-1" x="755.1" y="165.28" width="72" height="117.50" rx="6"/>
-  <rect class="seg series-1" x="755.1" y="171.28" width="72" height="111.50"/>
-</g>
+  <g id="hit-layer"></g>
+  <g id="tip-layer"></g>
 
-</g>
+  <rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg legend-panel" />
+  <text x="878" y="118" class="legend-title legend-heading">SERIES</text>
+  <g class="legend-row" transform="translate(878,146)">
+    <rect class="series-1" x="0" y="0" width="14" height="14" rx="3" />
+    <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Cyan</text>
+    <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end"
+      dominant-baseline="middle">$72M</text>
+  </g>
+  <g class="legend-row" transform="translate(878,194)">
+    <rect class="series-2" x="0" y="0" width="14" height="14" rx="3" />
+    <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Emerald</text>
+    <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end"
+      dominant-baseline="middle">$62M</text>
+  </g>
+  <g class="legend-row" transform="translate(878,242)">
+    <rect class="series-3" x="0" y="0" width="14" height="14" rx="3" />
+    <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Amber</text>
+    <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end"
+      dominant-baseline="middle">$35M</text>
+  </g>
+  <g class="legend-row" transform="translate(878,290)">
+    <rect class="series-4" x="0" y="0" width="14" height="14" rx="3" />
+    <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Rose</text>
+    <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end"
+      dominant-baseline="middle">$22M</text>
+  </g>
+  <g class="legend-row" transform="translate(878,338)">
+    <rect class="series-5" x="0" y="0" width="14" height="14" rx="3" />
+    <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Violet</text>
+    <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end"
+      dominant-baseline="middle">$19M</text>
+  </g>
 
-<g id="crosshairs">
-  <line id="ch0" class="crosshair" x1="126.9" y1="100" x2="126.9" y2="508"/>
-  <line id="ch1" class="crosshair" x1="221.8" y1="100" x2="221.8" y2="508"/>
-  <line id="ch2" class="crosshair" x1="316.7" y1="100" x2="316.7" y2="508"/>
-  <line id="ch3" class="crosshair" x1="411.6" y1="100" x2="411.6" y2="508"/>
-  <line id="ch4" class="crosshair" x1="506.4" y1="100" x2="506.4" y2="508"/>
-  <line id="ch5" class="crosshair" x1="601.3" y1="100" x2="601.3" y2="508"/>
-  <line id="ch6" class="crosshair" x1="696.2" y1="100" x2="696.2" y2="508"/>
-  <line id="ch7" class="crosshair" x1="791.1" y1="100" x2="791.1" y2="508"/>
-</g>
-
-<g id="hit-layer"></g>
-<g id="tip-layer"></g>
-
-<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg"/>
-<text x="878" y="118" class="legend-title">SERIES</text>
-<g transform="translate(878,146)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Cyan</text>    <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$72M</text></g>
-<g transform="translate(878,194)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Emerald</text> <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$62M</text></g>
-<g transform="translate(878,242)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Amber</text>   <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$35M</text></g>
-<g transform="translate(878,290)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Rose</text>    <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$22M</text></g>
-<g transform="translate(878,338)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Violet</text>  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$19M</text></g>
-
-<script href="chart-shared.js"></script>
-<script type="text/javascript"><![CDATA[
+  <script href="chart-shared.js"></script>
+  <script type="text/javascript"><![CDATA[
 (function () {
   var svg = document.documentElement;
   svg._chartInit = function (svgEl, ctx) {
-    var ns          = 'http://www.w3.org/2000/svg';
     var dataLayerEl = svgEl.querySelector('.data-layer');
     var dataItemEls = ctx.$$all('.data-item');
+    var dataBodyEls = ctx.$$all('.data-body');
+
+    dataBodyEls.forEach(function (dataBody, index) {
+      var delay = ctx.getStaggerDelay(index, dataBodyEls.length, null, svgEl);
+      ctx.animateAndMarkVisible(
+        dataBody,
+        'dataFadeIn var(--chart-fade-duration, 0.8s) ease-out ' + delay + 's'
+      );
+    });
 
     var quarters = ["Q1 '22","Q2 '22","Q3 '22","Q4 '22","Q1 '23","Q2 '23","Q3 '23","Q4 '23"];
     var xs   = [126.9, 221.8, 316.7, 411.6, 506.4, 601.3, 696.2, 791.1];

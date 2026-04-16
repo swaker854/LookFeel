@@ -19,7 +19,7 @@
     svg.dark .card-subtitle { fill:#938F99; }
     svg.dark .footer        { fill:#938F99; }
 
-    /* §1 palette */
+    /* Ã‚Â§1 palette */
     .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
     .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
     .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
@@ -27,7 +27,7 @@
     svg.dark .series-3 { fill:#FBB724; } svg.dark .series-4 { fill:#FB6181; }
     svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
 
-    /* §6 depth-tinting CSS variables — blend ratios per depth */
+    /* Ã‚Â§6 depth-tinting CSS variables Ã¢â‚¬â€ blend ratios per depth */
     :root {
       --tint-d0: 1.00;
       --tint-d1: 0.72;
@@ -58,7 +58,7 @@
     svg.dark .border-dark  { display:block; }
     svg.dark .border-light { display:none; }
 
-    /* edges — decorative, never hover targets → A2-safe */
+    /* edges Ã¢â‚¬â€ decorative, never hover targets Ã¢â€ â€™ A2-safe */
     .edge {
       fill: none;
       stroke: #CAC4D0;
@@ -68,13 +68,13 @@
     .edge.visible { animation: nodeFadeIn 0.8s ease-out both; }
     svg.dark .edge { stroke: #49454F; }
 
-    /* §3 A1 — node group is the hover target */
+    /* Ã‚Â§3 A1 Ã¢â‚¬â€ node group is the hover target */
     @keyframes nodeFadeIn { from { opacity:0 } to { opacity:1 } }
 
     .node-g { opacity: 0; cursor: pointer; }
     .node-g.visible { animation: nodeFadeIn 0.8s ease-out both; }
 
-    /* node rect — filled by JS with computed tint color via inline style */
+    /* node rect Ã¢â‚¬â€ filled by JS with computed tint color via inline style */
     .node-rect {
       rx: 8px;
       stroke-width: 1.5;
@@ -85,7 +85,7 @@
     svg.dark .node-title { fill:#E6E0E9; }
     svg.dark .node-sub   { fill:#CAC4D0; }
 
-    /* §4 hover — A1 chart, gated on .ready */
+    /* Ã‚Â§4 hover Ã¢â‚¬â€ A1 chart, gated on .ready */
     /* establish opacity:1 baseline after animation so clearing inline style doesn't revert to start state */
     .data-layer.ready .node-g                   { opacity:1; }
     .data-layer.ready .edge                     { opacity:1; }
@@ -94,7 +94,7 @@
     .data-layer.ready.hovering .edge            { opacity:0.06; transition:opacity 0.2s ease; }
     .data-layer.ready.hovering .edge.hovered    { opacity:1; }
 
-    /* §5 JS-driven tooltip */
+    /* Ã‚Â§5 JS-driven tooltip */
     .tip-bg     { fill:#FFFBFE; }
     .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
     .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
@@ -109,35 +109,15 @@
   </style>
 </defs>
 
-<rect class="card-bg" width="1100" height="620" rx="18"/>
-<g class="border-light">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
-</g>
-<g class="border-dark">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
-</g>
 
-<text x="68" y="50" class="card-title">Product Organisation - Tree</text>
-<text x="68" y="70" class="card-subtitle">14 nodes · 4 depths · hover to inspect · print to export</text>
 
-<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
-  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
-</g>
-<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
-  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
-</g>
-
-<!-- §7 DATA LAYER — edges then nodes, both built by JS -->
+<!-- Ã‚Â§7 DATA LAYER Ã¢â‚¬â€ edges then nodes, both built by JS -->
 <g class="data-layer" id="data-layer">
   <g id="edge-layer"></g>
   <g id="node-layer"></g>
 </g>
 
-<!-- §7 tooltip last -->
+<!-- Ã‚Â§7 tooltip last -->
 <g id="tip-layer">
   <rect class="tip-bg"     id="tip-bg"  rx="9" opacity="0"/>
   <path class="tip-border" id="tip-bdr" opacity="0"/>
@@ -146,7 +126,6 @@
   <text class="tip-label"  id="tip-lbl" opacity="0" text-anchor="middle" dominant-baseline="central"/>
 </g>
 
-<text x="68" y="600" class="footer">Product Organisation · org tree · 14 nodes</text>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -158,9 +137,9 @@ var svg       = document.getElementById('root');
   var edgeLayer = document.getElementById('edge-layer');
   var nodeLayer = document.getElementById('node-layer');
 
-  /* §2 isDark before all build code */
+  /* Ã‚Â§2 isDark before all build code */
 
-  /* ── TREE DATA ──────────────────────────────────────────────────────────
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ TREE DATA Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
      Each node: id, label, sublabel, parentId, colorBranch (palette index 1-6)
      colorBranch propagates down from depth-1 nodes; root uses series-1.
      depth computed automatically during layout.                           */
@@ -186,7 +165,7 @@ var svg       = document.getElementById('root');
     { id:'api',  label:'API',            sub:'9 engineers',     parent:'be',  branch:2 },
   ];
 
-  /* ── BUILD TREE STRUCTURE ──────────────────────────────────────────────*/
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ BUILD TREE STRUCTURE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬*/
   var byId = {};
   nodes.forEach(function(n) { byId[n.id] = n; n.children = []; });
   var root;
@@ -199,7 +178,7 @@ var svg       = document.getElementById('root');
   function setDepth(n, d) { n.depth = d; n.children.forEach(function(c) { setDepth(c, d+1); }); }
   setDepth(root, 0);
 
-  /* ── LAYOUT ─────────────────────────────────────────────────────────────
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ LAYOUT Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
      Plot area: left=68 right=850 top=100 bottom=500
      Left-to-right: x position by depth, y by vertical rank within depth.  */
   var plotL = 68, plotR = 850, plotT = 100, plotB = 500;
@@ -233,11 +212,11 @@ var svg       = document.getElementById('root');
     n.cx = plotL + (n.depth + 0.5) * colW;
   });
 
-  /* ── COLOUR / DEPTH TINT ─────────────────────────────────────────────────
-     §6: tint computed from palette base colour + background, never hardcoded.
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ COLOUR / DEPTH TINT Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+     Ã‚Â§6: tint computed from palette base colour + background, never hardcoded.
      We store the base hex per branch and blend toward bg at each depth.     */
 
-  /* §6 depth-tinting: probe live computed fill from .series-N via getComputedStyle —
+  /* Ã‚Â§6 depth-tinting: probe live computed fill from .series-N via getComputedStyle Ã¢â‚¬â€
      never hardcode hex. This way palette updates and dark-mode swaps propagate
      automatically without maintaining duplicate color maps.                    */
   var bgLight = '#FFFBFE';
@@ -283,7 +262,7 @@ var svg       = document.getElementById('root');
     };
   }
 
-  /* recolor() — called on dark-mode toggle; mutates node rect styles in-place */
+  /* recolor() Ã¢â‚¬â€ called on dark-mode toggle; mutates node rect styles in-place */
   function recolor() {
     nodes.forEach(function(n) {
       if (!n._rect) return;
@@ -293,8 +272,8 @@ var svg       = document.getElementById('root');
     });
   }
 
-  /* ── BUILD DOM ───────────────────────────────────────────────────────────
-     §7 paint order: edges first, nodes on top.                             */
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ BUILD DOM Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+     Ã‚Â§7 paint order: edges first, nodes on top.                             */
 
   /* count total animated elements for stagger */
   var totalEls = nodes.length + nodes.filter(function(n) { return n.parent; }).length;
@@ -324,7 +303,7 @@ var svg       = document.getElementById('root');
 
   /* nodes */
   var nodeIdx = 0;
-  /* stagger nodes after edges complete — offset by edge count */
+  /* stagger nodes after edges complete Ã¢â‚¬â€ offset by edge count */
   var edgeCount = edgeIdx;
 
   nodes.forEach(function(n) {
@@ -369,7 +348,7 @@ var svg       = document.getElementById('root');
     nodeIdx++;
   });
 
-  /* ── §3 A1 ANIMATION ──────────────────────────────────────────────────── */
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§3 A1 ANIMATION Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
   var lastDelay  = (edgeCount + nodeIdx - 1) * stagger;
   var readyDelay = (lastDelay + 0.8 + 0.1) * 1000;
 
@@ -388,7 +367,7 @@ var svg       = document.getElementById('root');
     Array.prototype.forEach.call(nodeLayer.querySelectorAll('.node-g'), function(el) { el.style.animation = 'none'; el.style.opacity = ''; });
   }, readyDelay);
 
-  /* ── §5 TOOLTIP ───────────────────────────────────────────────────────── */
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§5 TOOLTIP Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
   var tipBg  = document.getElementById('tip-bg');
   var tipBdr = document.getElementById('tip-bdr');
   var tipTip = document.getElementById('tip-tip');
@@ -435,7 +414,7 @@ var svg       = document.getElementById('root');
     [tipBg, tipBdr, tipTip, tipVal, tipLbl].forEach(function(el) { el.setAttribute('opacity','0'); });
   }
 
-  /* ── §4 HOVER ──────────────────────────────────────────────────────────
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§4 HOVER Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
      Highlight the hovered node + its direct parent + direct children.
      Connected edges (to parent and to each child) stay full opacity too.
      Stale-clear on every mouseenter is non-optional.                      */
@@ -472,7 +451,7 @@ var svg       = document.getElementById('root');
     });
   });
 
-  /* ── §2 DARK MODE ─────────────────────────────────────────────────────── */
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§2 DARK MODE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 
   svgEl._onModeChange = function () { recolor(); };
   recolor();

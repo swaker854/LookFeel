@@ -1,0 +1,28 @@
+/* Critical first-paint inline block for wrapper-hosted flat charts.
+   Paste this at the top of each SVG <style> block before relying on
+   chart-shared.css for the full styling system. It prevents bright
+   browser-default first paint before the external stylesheet applies.
+   Keep only the minimum tokens inline, then map shared class selectors
+   to those tokens.
+
+   For dark-mode wrapper embeds, pair this with an early inline script
+   before <defs> that pre-seeds `document.documentElement.classList.add('dark')`
+   when `window.location.href` contains `theme=dark`, otherwise the chart can
+   still flash light-mode primitives before bootstrap runs. */
+
+svg {
+  --critical-tick-fill: #79747E;
+  --critical-grid-stroke: #E7E0EC;
+  --critical-axis-stroke: #79747E;
+}
+
+svg.dark {
+  --critical-tick-fill: #938F99;
+  --critical-grid-stroke: #3A3940;
+  --critical-axis-stroke: #938F99;
+}
+
+.tick-label,
+.category-label { fill: var(--critical-tick-fill); }
+.grid-line { stroke: var(--critical-grid-stroke); }
+.axis-line { stroke: var(--critical-axis-stroke); }

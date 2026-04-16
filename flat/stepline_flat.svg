@@ -51,7 +51,7 @@
     /* Step line paths */
     .sline { fill:none; stroke-width:2.5; stroke-linejoin:miter; stroke-linecap:square; }
 
-    /* §3 A1 canonical — animation fired via inline style.animation (no fill-mode).
+    /* Ã‚Â§3 A1 canonical Ã¢â‚¬â€ animation fired via inline style.animation (no fill-mode).
        animationend sets style.animation='none' then adds .visible;
        .sg.visible { opacity:1 } owns the stable state. */
     @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
@@ -65,7 +65,7 @@
     .data-tip          { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     .dw.active .data-tip { opacity:1; }
 
-    /* §3/§4 hover: gated on .ready so dimming never fires during animation.
+    /* Ã‚Â§3/Ã‚Â§4 hover: gated on .ready so dimming never fires during animation.
        Dimmed opacity: 0.20 (fixed). Transition: 0.2s ease (fixed). */
     .data-layer.ready.hovering .sline        { opacity:0.20; transition:opacity 0.2s ease; }
     .data-layer.ready.hovering .dot-visible  { opacity:0.20; transition:opacity 0.2s ease; }
@@ -113,31 +113,11 @@
 </defs>
 
 <!-- Card shell -->
-<rect class="card-bg" width="1100" height="620" rx="18"/>
-<g class="border-dark">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
-</g>
-<g class="border-light">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
-</g>
-
 <!-- Title -->
-<text x="68" y="50" class="card-title">Federal Funds Rate — Historical Steps - Step Line</text>
-<text x="68" y="70" class="card-subtitle">6 rate cycles · step line · hover to inspect</text>
 
 <!-- Dark / Print toggles -->
-<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
-  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
-</g>
-<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
-  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
-</g>
 
-<!-- Grid & axes — plot area L:68 R:850 T:100 B:500 -->
+<!-- Grid & axes Ã¢â‚¬â€ plot area L:68 R:850 T:100 B:500 -->
 <line x1="68" y1="500" x2="850" y2="500" class="axis-line"/>
 <line x1="68" y1="420" x2="850" y2="420" class="grid-line"/>
 <line x1="68" y1="340" x2="850" y2="340" class="grid-line"/>
@@ -146,7 +126,7 @@
 <line x1="68" y1="100" x2="850" y2="100" class="grid-line"/>
 <line x1="68" y1="100" x2="68"  y2="500" class="axis-line"/>
 
-<!-- Y-axis labels  (0–10%, 80px per 2%) -->
+<!-- Y-axis labels  (0Ã¢â‚¬â€œ10%, 80px per 2%) -->
 <text x="56" y="504" class="tick-label" text-anchor="end">0%</text>
 <text x="56" y="424" class="tick-label" text-anchor="end">2%</text>
 <text x="56" y="344" class="tick-label" text-anchor="end">4%</text>
@@ -154,7 +134,7 @@
 <text x="56" y="184" class="tick-label" text-anchor="end">8%</text>
 <text x="56" y="104" class="tick-label" text-anchor="end">10%</text>
 
-<!-- X-axis labels (years, 7 ticks spanning 68→850, step=130.33) -->
+<!-- X-axis labels (years, 7 ticks spanning 68Ã¢â€ â€™850, step=130.33) -->
 <text x="68"  y="522" class="category-label" text-anchor="middle">1994</text>
 <text x="198" y="522" class="category-label" text-anchor="middle">1997</text>
 <text x="328" y="522" class="category-label" text-anchor="middle">2001</text>
@@ -164,38 +144,38 @@
 <text x="850" y="522" class="category-label" text-anchor="middle">2023</text>
 
 <!--
-  DATA — 6 Fed rate tightening/easing cycles
+  DATA Ã¢â‚¬â€ 6 Fed rate tightening/easing cycles
   Y mapping: y = 500 - (rate / 10) * 400
-    0%  → 500
-    2%  → 420
-    4%  → 340
-    5%  → 300
-    5.25%→ 290
-    5.5% → 280
-    6%  → 260
-    6.5% → 240
-    7.5% → 200
-  X mapping: 68 (1994) → 850 (2023), 782px / 29yr = 26.97px/yr
-    1994→68  1995→96  1997→152  1998→179  1999→206  2000→233  2001→260
-    2002→287 2003→314 2004→341  2005→368  2006→395  2007→422  2008→449
-    2009→476 2015→638 2016→665  2017→692  2018→719  2019→746  2020→773
-    2022→800 2023→827
+    0%  Ã¢â€ â€™ 500
+    2%  Ã¢â€ â€™ 420
+    4%  Ã¢â€ â€™ 340
+    5%  Ã¢â€ â€™ 300
+    5.25%Ã¢â€ â€™ 290
+    5.5% Ã¢â€ â€™ 280
+    6%  Ã¢â€ â€™ 260
+    6.5% Ã¢â€ â€™ 240
+    7.5% Ã¢â€ â€™ 200
+  X mapping: 68 (1994) Ã¢â€ â€™ 850 (2023), 782px / 29yr = 26.97px/yr
+    1994Ã¢â€ â€™68  1995Ã¢â€ â€™96  1997Ã¢â€ â€™152  1998Ã¢â€ â€™179  1999Ã¢â€ â€™206  2000Ã¢â€ â€™233  2001Ã¢â€ â€™260
+    2002Ã¢â€ â€™287 2003Ã¢â€ â€™314 2004Ã¢â€ â€™341  2005Ã¢â€ â€™368  2006Ã¢â€ â€™395  2007Ã¢â€ â€™422  2008Ã¢â€ â€™449
+    2009Ã¢â€ â€™476 2015Ã¢â€ â€™638 2016Ã¢â€ â€™665  2017Ã¢â€ â€™692  2018Ã¢â€ â€™719  2019Ã¢â€ â€™746  2020Ã¢â€ â€™773
+    2022Ã¢â€ â€™800 2023Ã¢â€ â€™827
 
-  Cycle 1 (series-1 Cyan): 1994 tightening 3%→6%, 1995 cut →5.5%, 1998 cut →4.75%, 1999 hike →5.5%
-  Cycle 2 (series-2 Emerald): 2000–2003 easing 6.5%→1%
-  Cycle 3 (series-3 Amber): 2004–2006 tightening 1%→5.25%
-  Cycle 4 (series-4 Rose): 2007–2009 cutting 5.25%→0%
-  Cycle 5 (series-5 Violet): 2015–2019 hike 0%→2.5%, 2020 cut →0%
-  Cycle 6 (series-6 Blue): 2022–2023 hike 0%→5.25%
+  Cycle 1 (series-1 Cyan): 1994 tightening 3%Ã¢â€ â€™6%, 1995 cut Ã¢â€ â€™5.5%, 1998 cut Ã¢â€ â€™4.75%, 1999 hike Ã¢â€ â€™5.5%
+  Cycle 2 (series-2 Emerald): 2000Ã¢â‚¬â€œ2003 easing 6.5%Ã¢â€ â€™1%
+  Cycle 3 (series-3 Amber): 2004Ã¢â‚¬â€œ2006 tightening 1%Ã¢â€ â€™5.25%
+  Cycle 4 (series-4 Rose): 2007Ã¢â‚¬â€œ2009 cutting 5.25%Ã¢â€ â€™0%
+  Cycle 5 (series-5 Violet): 2015Ã¢â‚¬â€œ2019 hike 0%Ã¢â€ â€™2.5%, 2020 cut Ã¢â€ â€™0%
+  Cycle 6 (series-6 Blue): 2022Ã¢â‚¬â€œ2023 hike 0%Ã¢â€ â€™5.25%
 -->
 
 <g class="data-layer">
 
-<!-- ═══════════════════════════════════════════════════
-     SERIES 1 — 1994–1999 Tightening/Easing (Cyan)
-     Points: (68,380) 3%  →(179,260) 6%  →(206,280) 5.5%  →(287,320) 4.75%  →(314,280) 5.5%
+<!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+     SERIES 1 Ã¢â‚¬â€ 1994Ã¢â‚¬â€œ1999 Tightening/Easing (Cyan)
+     Points: (68,380) 3%  Ã¢â€ â€™(179,260) 6%  Ã¢â€ â€™(206,280) 5.5%  Ã¢â€ â€™(287,320) 4.75%  Ã¢â€ â€™(314,280) 5.5%
      Step path: horizontal then vertical
-     ════════════════════════════════════════════════════ -->
+     Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
 <g class="sg sl-1" id="sg1">
   <path class="sline line-1"
         d="M68,380 H179 V260 H206 V280 H287 V320 H314 V280"/>
@@ -206,65 +186,65 @@
   <circle class="dot-visible series-1" cx="287" cy="320" r="4"/>
   <circle class="dot-visible series-1" cx="314" cy="280" r="4"/>
   <!-- Hover hit areas with tooltips -->
-  <g class="dw" data-val="3.0%" data-lbl="1994 · Cycle 1">
+  <g class="dw" data-val="3.0%" data-lbl="1994 Ã‚Â· Cycle 1">
     <circle class="dot-hit" cx="68" cy="380" r="12"/>
     <g class="data-tip" transform="translate(68,356)">
       <rect x="-40" y="-44" width="80" height="38" rx="9" class="tip-bg"/>
       <path d="M-8,-6 L-31,-6 Q-40,-6 -40,-15 L-40,-35 Q-40,-44 -31,-44 L31,-44 Q40,-44 40,-35 L40,-15 Q40,-6 31,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">3.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1994 · Start</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1994 Ã‚Â· Start</text>
     </g>
   </g>
-  <g class="dw" data-val="6.0%" data-lbl="1995 · Peak">
+  <g class="dw" data-val="6.0%" data-lbl="1995 Ã‚Â· Peak">
     <circle class="dot-hit" cx="179" cy="260" r="12"/>
     <g class="data-tip" transform="translate(179,236)">
       <rect x="-40" y="-44" width="80" height="38" rx="9" class="tip-bg"/>
       <path d="M-8,-6 L-31,-6 Q-40,-6 -40,-15 L-40,-35 Q-40,-44 -31,-44 L31,-44 Q40,-44 40,-35 L40,-15 Q40,-6 31,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">6.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1995 · Peak</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1995 Ã‚Â· Peak</text>
     </g>
   </g>
-  <g class="dw" data-val="5.5%" data-lbl="1996 · Cut">
+  <g class="dw" data-val="5.5%" data-lbl="1996 Ã‚Â· Cut">
     <circle class="dot-hit" cx="206" cy="280" r="12"/>
     <g class="data-tip" transform="translate(206,256)">
       <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
       <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">5.5%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1996 · Cut</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1996 Ã‚Â· Cut</text>
     </g>
   </g>
-  <g class="dw" data-val="4.75%" data-lbl="1998 · Easing">
+  <g class="dw" data-val="4.75%" data-lbl="1998 Ã‚Â· Easing">
     <circle class="dot-hit" cx="287" cy="320" r="12"/>
     <g class="data-tip" transform="translate(287,296)">
       <rect x="-42" y="-44" width="84" height="38" rx="9" class="tip-bg"/>
       <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">4.75%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1998 · Easing</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1998 Ã‚Â· Easing</text>
     </g>
   </g>
-  <g class="dw" data-val="5.5%" data-lbl="1999 · Rehike">
+  <g class="dw" data-val="5.5%" data-lbl="1999 Ã‚Â· Rehike">
     <circle class="dot-hit" cx="314" cy="280" r="12"/>
     <g class="data-tip" transform="translate(314,256)">
       <rect x="-40" y="-44" width="80" height="38" rx="9" class="tip-bg"/>
       <path d="M-8,-6 L-31,-6 Q-40,-6 -40,-15 L-40,-35 Q-40,-44 -31,-44 L31,-44 Q40,-44 40,-35 L40,-15 Q40,-6 31,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">5.5%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1999 · Rehike</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1999 Ã‚Â· Rehike</text>
     </g>
   </g>
 </g>
 
-<!-- ═══════════════════════════════════════════════════
-     SERIES 2 — 2000–2003 Easing Cycle (Emerald)
-     6.5%→1%: (341,240)→(368,260)→(395,340)→(422,380)→(449,460)→(476,500) wait that's 0% let me recompute
+<!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+     SERIES 2 Ã¢â‚¬â€ 2000Ã¢â‚¬â€œ2003 Easing Cycle (Emerald)
+     6.5%Ã¢â€ â€™1%: (341,240)Ã¢â€ â€™(368,260)Ã¢â€ â€™(395,340)Ã¢â€ â€™(422,380)Ã¢â€ â€™(449,460)Ã¢â€ â€™(476,500) wait that's 0% let me recompute
      Y: 500 - (rate/10)*400
-     6.5% → 500-260=240  1% → 500-40=460  0.25% → ~490
+     6.5% Ã¢â€ â€™ 500-260=240  1% Ã¢â€ â€™ 500-40=460  0.25% Ã¢â€ â€™ ~490
      Points (x,y): 2000:(341,240), 2001:(368,340), 2002:(395,420), 2003:(422,460)
-     ════════════════════════════════════════════════════ -->
+     Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
 <g class="sg sl-2" id="sg2">
   <path class="sline line-2"
         d="M314,240 H368 V340 H395 V420 H422 V460"/>
@@ -279,7 +259,7 @@
       <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">6.5%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2000 · Peak</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2000 Ã‚Â· Peak</text>
     </g>
   </g>
   <g class="dw">
@@ -289,7 +269,7 @@
       <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">4.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2001 · Cutting</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2001 Ã‚Â· Cutting</text>
     </g>
   </g>
   <g class="dw">
@@ -299,7 +279,7 @@
       <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">2.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2002 · Easing</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2002 Ã‚Â· Easing</text>
     </g>
   </g>
   <g class="dw">
@@ -309,16 +289,16 @@
       <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">1.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2003 · Low</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2003 Ã‚Â· Low</text>
     </g>
   </g>
 </g>
 
-<!-- ═══════════════════════════════════════════════════
-     SERIES 3 — 2004–2006 Tightening (Amber)
-     1%→5.25%: y 460→290
-     (422,460)→(449,420)→(476,340)→(503,300)→(530,292)
-     ════════════════════════════════════════════════════ -->
+<!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+     SERIES 3 Ã¢â‚¬â€ 2004Ã¢â‚¬â€œ2006 Tightening (Amber)
+     1%Ã¢â€ â€™5.25%: y 460Ã¢â€ â€™290
+     (422,460)Ã¢â€ â€™(449,420)Ã¢â€ â€™(476,340)Ã¢â€ â€™(503,300)Ã¢â€ â€™(530,292)
+     Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
 <g class="sg sl-3" id="sg3">
   <path class="sline line-3"
         d="M426,460 H449 V420 H476 V340 H503 V300 H530 V292"/>
@@ -333,7 +313,7 @@
       <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">2.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2004 · Hiking</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2004 Ã‚Â· Hiking</text>
     </g>
   </g>
   <g class="dw">
@@ -343,7 +323,7 @@
       <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">4.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2005 · Hiking</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2005 Ã‚Â· Hiking</text>
     </g>
   </g>
   <g class="dw">
@@ -353,7 +333,7 @@
       <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">5.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2006 · Hiking</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2006 Ã‚Â· Hiking</text>
     </g>
   </g>
   <g class="dw">
@@ -363,16 +343,16 @@
       <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">5.25%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2006 · Peak</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2006 Ã‚Â· Peak</text>
     </g>
   </g>
 </g>
 
-<!-- ═══════════════════════════════════════════════════
-     SERIES 4 — 2007–2009 GFC Cutting (Rose)
-     5.25%→0.25%: y 292→490
-     (530,292)→(557,340)→(584,420)→(611,480)→(638,490)
-     ════════════════════════════════════════════════════ -->
+<!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+     SERIES 4 Ã¢â‚¬â€ 2007Ã¢â‚¬â€œ2009 GFC Cutting (Rose)
+     5.25%Ã¢â€ â€™0.25%: y 292Ã¢â€ â€™490
+     (530,292)Ã¢â€ â€™(557,340)Ã¢â€ â€™(584,420)Ã¢â€ â€™(611,480)Ã¢â€ â€™(638,490)
+     Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
 <g class="sg sl-4" id="sg4">
   <path class="sline line-4"
         d="M534,292 H557 V340 H584 V420 H611 V480 H638 V490"/>
@@ -387,7 +367,7 @@
       <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">4.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2007 · Cutting</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2007 Ã‚Â· Cutting</text>
     </g>
   </g>
   <g class="dw">
@@ -397,7 +377,7 @@
       <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">2.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2008 · GFC</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2008 Ã‚Â· GFC</text>
     </g>
   </g>
   <g class="dw">
@@ -407,7 +387,7 @@
       <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">0.5%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2008 · Crisis</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2008 Ã‚Â· Crisis</text>
     </g>
   </g>
   <g class="dw">
@@ -417,16 +397,16 @@
       <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">0.25%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2009 · Floor</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2009 Ã‚Â· Floor</text>
     </g>
   </g>
 </g>
 
-<!-- ═══════════════════════════════════════════════════
-     SERIES 5 — 2015–2020 Hike then COVID cut (Violet)
-     0.25%→2.5%→0.25%: y 490→400→490
-     (638,490)→(665,460)→(692,430)→(719,400)→(746,490)
-     ════════════════════════════════════════════════════ -->
+<!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+     SERIES 5 Ã¢â‚¬â€ 2015Ã¢â‚¬â€œ2020 Hike then COVID cut (Violet)
+     0.25%Ã¢â€ â€™2.5%Ã¢â€ â€™0.25%: y 490Ã¢â€ â€™400Ã¢â€ â€™490
+     (638,490)Ã¢â€ â€™(665,460)Ã¢â€ â€™(692,430)Ã¢â€ â€™(719,400)Ã¢â€ â€™(746,490)
+     Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
 <g class="sg sl-5" id="sg5">
   <path class="sline line-5"
         d="M642,490 H665 V460 H692 V430 H719 V400 H746 V490"/>
@@ -441,7 +421,7 @@
       <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">1.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2016 · Liftoff</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2016 Ã‚Â· Liftoff</text>
     </g>
   </g>
   <g class="dw">
@@ -451,7 +431,7 @@
       <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">1.75%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2017 · Hiking</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2017 Ã‚Â· Hiking</text>
     </g>
   </g>
   <g class="dw">
@@ -461,7 +441,7 @@
       <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">2.5%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2018 · Peak</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2018 Ã‚Â· Peak</text>
     </g>
   </g>
   <g class="dw">
@@ -471,16 +451,16 @@
       <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">0.25%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2020 · COVID</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2020 Ã‚Â· COVID</text>
     </g>
   </g>
 </g>
 
-<!-- ═══════════════════════════════════════════════════
-     SERIES 6 — 2022–2023 Inflation Hike (Blue)
-     0.25%→5.25%: y 490→292
-     (746,490)→(773,440)→(800,340)→(827,292)→(850,292)
-     ════════════════════════════════════════════════════ -->
+<!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+     SERIES 6 Ã¢â‚¬â€ 2022Ã¢â‚¬â€œ2023 Inflation Hike (Blue)
+     0.25%Ã¢â€ â€™5.25%: y 490Ã¢â€ â€™292
+     (746,490)Ã¢â€ â€™(773,440)Ã¢â€ â€™(800,340)Ã¢â€ â€™(827,292)Ã¢â€ â€™(850,292)
+     Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
 <g class="sg sl-6" id="sg6">
   <path class="sline line-6"
         d="M750,490 H773 V440 H800 V340 H827 V292 H850"/>
@@ -495,7 +475,7 @@
       <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">1.5%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2022 · Hiking</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2022 Ã‚Â· Hiking</text>
     </g>
   </g>
   <g class="dw">
@@ -505,7 +485,7 @@
       <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">4.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2022 · Hiking</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2022 Ã‚Â· Hiking</text>
     </g>
   </g>
   <g class="dw">
@@ -515,7 +495,7 @@
       <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">5.25%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2023 · Peak</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2023 Ã‚Â· Peak</text>
     </g>
   </g>
   <!-- Right-edge tooltip flips left -->
@@ -526,7 +506,7 @@
       <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
       <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
       <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">5.25%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2023 · Hold</text>
+      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2023 Ã‚Â· Hold</text>
     </g>
   </g>
 </g>
@@ -534,41 +514,40 @@
 </g><!-- end .data-layer -->
 
 <!-- LEGEND -->
-<rect x="870" y="100" width="210" height="220" rx="14" class="legend-bg"/>
-<text x="888" y="124" class="legend-title">CYCLE</text>
+<rect x="870" y="100" width="210" height="220" rx="14" class="legend-bg legend-panel"/>
+<text x="888" y="124" class="legend-title legend-heading">CYCLE</text>
 <g transform="translate(888,140)">
   <line x1="0" y1="7" x2="14" y2="7" class="line-1" stroke-width="2.5"/>
   <circle cx="7" cy="7" r="3" class="series-1"/>
-  <text x="22" y="11" class="legend-label">1994–99 Cycle</text>
+  <text x="22" y="11" class="legend-label">1994Ã¢â‚¬â€œ99 Cycle</text>
 </g>
 <g transform="translate(888,168)">
   <line x1="0" y1="7" x2="14" y2="7" class="line-2" stroke-width="2.5"/>
   <circle cx="7" cy="7" r="3" class="series-2"/>
-  <text x="22" y="11" class="legend-label">2000–03 Easing</text>
+  <text x="22" y="11" class="legend-label">2000Ã¢â‚¬â€œ03 Easing</text>
 </g>
 <g transform="translate(888,196)">
   <line x1="0" y1="7" x2="14" y2="7" class="line-3" stroke-width="2.5"/>
   <circle cx="7" cy="7" r="3" class="series-3"/>
-  <text x="22" y="11" class="legend-label">2004–06 Hiking</text>
+  <text x="22" y="11" class="legend-label">2004Ã¢â‚¬â€œ06 Hiking</text>
 </g>
 <g transform="translate(888,224)">
   <line x1="0" y1="7" x2="14" y2="7" class="line-4" stroke-width="2.5"/>
   <circle cx="7" cy="7" r="3" class="series-4"/>
-  <text x="22" y="11" class="legend-label">2007–09 GFC Cut</text>
+  <text x="22" y="11" class="legend-label">2007Ã¢â‚¬â€œ09 GFC Cut</text>
 </g>
 <g transform="translate(888,252)">
   <line x1="0" y1="7" x2="14" y2="7" class="line-5" stroke-width="2.5"/>
   <circle cx="7" cy="7" r="3" class="series-5"/>
-  <text x="22" y="11" class="legend-label">2015–20 Cycle</text>
+  <text x="22" y="11" class="legend-label">2015Ã¢â‚¬â€œ20 Cycle</text>
 </g>
 <g transform="translate(888,280)">
   <line x1="0" y1="7" x2="14" y2="7" class="line-6" stroke-width="2.5"/>
   <circle cx="7" cy="7" r="3" class="series-6"/>
-  <text x="22" y="11" class="legend-label">2022–23 Inflation</text>
+  <text x="22" y="11" class="legend-label">2022Ã¢â‚¬â€œ23 Inflation</text>
 </g>
 
 <!-- Footer -->
-<text x="68" y="600" class="footer">US Federal Funds Rate · 6 tightening/easing cycles · step line chart</text>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -578,9 +557,9 @@
 var svg   = document.getElementById('root');
   var caEl  = document.querySelector('.data-layer');
 
-  /* §2 — isDark hoisted before all build/animation code */
+  /* Ã‚Â§2 Ã¢â‚¬â€ isDark hoisted before all build/animation code */
 
-  /* §3 A1 canonical — inline style.animation per series with computed stagger.
+  /* Ã‚Â§3 A1 canonical Ã¢â‚¬â€ inline style.animation per series with computed stagger.
      animationend clears style.animation and adds .visible;
      .sg.visible { opacity:1 } owns the stable state. No class removal needed.
      Stagger: min(0.25, 1.0/6)=0.167s. Last delay: 0.835s. */
@@ -601,9 +580,9 @@ var svg   = document.getElementById('root');
 
   setTimeout(function() { caEl.classList.add('ready'); }, readyDelay);
 
-  /* §4 — Dot hover: container-level mouseleave (dot hit areas from different series
-     share pixel positions — adjacent/overlapping targets need container removal).
-     Stale-clear on every mouseenter — not optional. */
+  /* Ã‚Â§4 Ã¢â‚¬â€ Dot hover: container-level mouseleave (dot hit areas from different series
+     share pixel positions Ã¢â‚¬â€ adjacent/overlapping targets need container removal).
+     Stale-clear on every mouseenter Ã¢â‚¬â€ not optional. */
   var allDws = Array.prototype.slice.call(document.querySelectorAll('.dw'));
   var allSgs = Array.prototype.slice.call(document.querySelectorAll('.sg'));
   allDws.forEach(function(dw) {
@@ -623,7 +602,7 @@ var svg   = document.getElementById('root');
     caEl.classList.remove('hovering');
   });
 
-  /* ── Dark mode ── */
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ Dark mode Ã¢â€â‚¬Ã¢â€â‚¬ */
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());

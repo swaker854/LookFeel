@@ -1,4 +1,4 @@
-<svg id="root" viewBox="40 80 1040 463" width="100%" height="100%"
+<svg id="root" class="chart-standard" viewBox="40 80 1040 463" width="100%" height="100%"
      preserveAspectRatio="xMidYMid meet"
      xmlns="http://www.w3.org/2000/svg"
      font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
@@ -11,10 +11,6 @@
     .card-bg        { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
     .card-title     { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
     .card-subtitle  { font-size:11px; fill:#79747E; font-weight:400; }
-    .legend-label   { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    .legend-bg      { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .legend-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .legend-title   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
     .footer         { font-size:10px; fill:#79747E; font-weight:400; }
 
     .toggle-wrap    { cursor:pointer; }
@@ -25,8 +21,6 @@
     .print-thumb    { fill:#ffffff; }
     .print-label    { font-size:11px; font-weight:500; fill:#49454F; }
 
-    .legend-value            { font-size:11px; fill:#1C1B1F; font-weight:500; opacity:0; transition:opacity 0.2s; }
-    svg.print .legend-value  { opacity:1; }
     svg.print .print-track   { fill:#d97316; }
     svg.print .today-line    { display:none; }
     svg.print .today-lbl     { display:none; }
@@ -49,11 +43,6 @@
     svg.dark .card-bg        { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
     svg.dark .card-title     { fill:#E6E0E9; }
     svg.dark .card-subtitle  { fill:#938F99; }
-    svg.dark .legend-label   { fill:#E6E0E9; }
-    svg.dark .legend-value   { fill:#E6E0E9; }
-    svg.dark .legend-bg      { fill:#49454F; stroke:#938F99; }
-    svg.dark .legend-divider { stroke:#938F99; }
-    svg.dark .legend-title   { fill:#938F99; }
     svg.dark .footer         { fill:#938F99; }
     svg.dark .toggle-track   { fill:#49454F; }
     svg.dark .toggle-label   { fill:#CAC4D0; }
@@ -68,7 +57,7 @@
     .row-stripe { fill:#79747E; opacity:0.04; }
     svg.dark .row-stripe { fill:#ffffff; opacity:0.04; }
 
-    /* §3 A2 — .data-body child of .data-item; both fill-mode safe, no hover conflict
+    /* Ãƒâ€šÃ‚Â§3 A2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â .data-body child of .data-item; both fill-mode safe, no hover conflict
        Adaptive stagger: Math.min(0.25, 1.0/11) = 0.09s */
     @keyframes dataFadeIn { from{opacity:0} to{opacity:1} }
     .data-body    { animation: dataFadeIn 0.8s ease-out both; }
@@ -83,10 +72,10 @@
     .data-layer.ready.hovering .data-item        { opacity:0.20; transition:opacity .2s ease; }
     .data-layer.ready.hovering .data-item.active { opacity:1; }
 
-    /* Tooltip — three-layer construction matching reference:
-       1. tip-bg     : filled rect, no stroke — paints interior
-       2. tip-border : open-bottom path — border that stops at tail opening
-       3. tip-tail   : tail triangle — shares endpoints with tip-border gap, no crossing stroke */
+    /* Tooltip ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â three-layer construction matching reference:
+       1. tip-bg     : filled rect, no stroke ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â paints interior
+       2. tip-border : open-bottom path ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â border that stops at tail opening
+       3. tip-tail   : tail triangle ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â shares endpoints with tip-border gap, no crossing stroke */
     .tip-bg     { fill:#FFFBFE; }
     .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
     .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
@@ -118,29 +107,8 @@
   </marker>
 </defs>
 
-<rect class="card-bg" width="1100" height="620" rx="18"/>
-<g class="border-light">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
-</g>
-<g class="border-dark">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
-</g>
 
-<text x="68" y="50" class="card-title">Artemis Platform — Q2 / Q3 2026 Roadmap - Gantt</text>
-<text x="68" y="70" class="card-subtitle">Apr 2026 – Sep 2026 · 6 teams · hover to inspect · print for durations</text>
 
-<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
-  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
-</g>
-<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
-  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
-</g>
-
-<text x="68" y="600" class="footer">Artemis Platform · Apr–Sep 2026 · timelines subject to change · internal use only</text>
 
 <rect class="row-stripe" x="68" y="120" width="782" height="36"/>
 <rect class="row-stripe" x="68" y="192" width="782" height="36"/>
@@ -190,68 +158,68 @@
 
 <g class="data-layer" id="data-layer">
 
-  <g class="data-item stagger-1" data-cx="133" data-barty="129" data-val="Apr 1 – Apr 30" data-lbl="User Research · 30 days">
+  <g class="data-item stagger-1" data-cx="133" data-barty="129" data-val="Apr 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Apr 30" data-lbl="User Research Ãƒâ€šÃ‚Â· 30 days">
     <g class="data-body stagger-1"><rect x="70" y="129" width="126" height="18" rx="4" class="series-1"/>
     <text x="133" y="141" text-anchor="middle" font-size="9" font-weight="500" fill="#1C1B1F" opacity="0.75">User Research</text></g>
   </g>
 
-  <g class="data-item stagger-2" data-cx="150" data-barty="147" data-val="Apr 10 – May 10" data-lbl="Competitive Analysis · 30 days">
+  <g class="data-item stagger-2" data-cx="150" data-barty="147" data-val="Apr 10 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ May 10" data-lbl="Competitive Analysis Ãƒâ€šÃ‚Â· 30 days">
     <g class="data-body stagger-2"><rect x="106" y="147" width="88" height="9" rx="3" class="series-8" opacity="0.6"/>
     <text x="150" y="154" text-anchor="middle" font-size="8" fill="#1C1B1F" opacity="0.6">Competitive Analysis</text></g>
   </g>
 
-  <g class="data-item stagger-3" data-cx="255" data-barty="201" data-val="Apr 28 – May 31" data-lbl="UX Wireframes · 33 days">
+  <g class="data-item stagger-3" data-cx="255" data-barty="201" data-val="Apr 28 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ May 31" data-lbl="UX Wireframes Ãƒâ€šÃ‚Â· 33 days">
     <g class="data-body stagger-3"><rect x="183" y="201" width="145" height="18" rx="4" class="series-2"/>
     <text x="255" y="213" text-anchor="middle" font-size="9" font-weight="500" fill="#fff" opacity="0.9">UX Wireframes</text></g>
   </g>
 
-  <g class="data-item stagger-4" data-cx="392" data-barty="219" data-val="May 15 – Jul 15" data-lbl="Visual Design System · 61 days">
+  <g class="data-item stagger-4" data-cx="392" data-barty="219" data-val="May 15 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Jul 15" data-lbl="Visual Design System Ãƒâ€šÃ‚Â· 61 days">
     <g class="data-body stagger-4"><rect x="262" y="219" width="260" height="9" rx="3" class="series-5" opacity="0.7"/>
     <text x="392" y="226" text-anchor="middle" font-size="8" fill="#fff" opacity="0.85">Visual Design System</text></g>
   </g>
 
-  <g class="data-item stagger-5" data-cx="329" data-barty="273" data-val="May 1 – Jun 30" data-lbl="Component Library · 61 days">
+  <g class="data-item stagger-5" data-cx="329" data-barty="273" data-val="May 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Jun 30" data-lbl="Component Library Ãƒâ€šÃ‚Â· 61 days">
     <g class="data-body stagger-5"><rect x="198" y="273" width="261" height="18" rx="4" class="series-6"/>
     <text x="329" y="285" text-anchor="middle" font-size="9" font-weight="500" fill="#fff" opacity="0.9">Component Library</text></g>
   </g>
 
-  <g class="data-item stagger-6" data-cx="568" data-barty="291" data-val="Jun 15 – Aug 31" data-lbl="App Integration &amp; E2E · 77 days">
+  <g class="data-item stagger-6" data-cx="568" data-barty="291" data-val="Jun 15 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Aug 31" data-lbl="App Integration &amp; E2E Ãƒâ€šÃ‚Â· 77 days">
     <g class="data-body stagger-6"><rect x="394" y="291" width="349" height="9" rx="3" class="series-3" opacity="0.8"/>
     <text x="568" y="298" text-anchor="middle" font-size="8" fill="#1C1B1F" opacity="0.75">App Integration &amp; E2E</text></g>
   </g>
 
-  <g class="data-item stagger-7" data-cx="295" data-barty="345" data-val="Apr 15 – Jun 30" data-lbl="API Development · 76 days">
+  <g class="data-item stagger-7" data-cx="295" data-barty="345" data-val="Apr 15 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Jun 30" data-lbl="API Development Ãƒâ€šÃ‚Â· 76 days">
     <g class="data-body stagger-7"><rect x="132" y="345" width="327" height="18" rx="4" class="series-7"/>
     <text x="295" y="357" text-anchor="middle" font-size="9" font-weight="500" fill="#fff" opacity="0.9">API Development</text></g>
   </g>
 
-  <g class="data-item stagger-8" data-cx="480" data-barty="363" data-val="Jun 1 – Aug 15" data-lbl="Data Pipeline &amp; ML Models · 75 days">
+  <g class="data-item stagger-8" data-cx="480" data-barty="363" data-val="Jun 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Aug 15" data-lbl="Data Pipeline &amp; ML Models Ãƒâ€šÃ‚Â· 75 days">
     <g class="data-body stagger-8"><rect x="329" y="363" width="303" height="9" rx="3" class="series-1" opacity="0.75"/>
     <text x="480" y="370" text-anchor="middle" font-size="8" fill="#1C1B1F" opacity="0.7">Data Pipeline &amp; ML Models</text></g>
   </g>
 
-  <g class="data-item stagger-9" data-cx="556" data-barty="417" data-val="Jul 1 – Aug 15" data-lbl="Integration Testing · 46 days">
+  <g class="data-item stagger-9" data-cx="556" data-barty="417" data-val="Jul 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Aug 15" data-lbl="Integration Testing Ãƒâ€šÃ‚Â· 46 days">
     <g class="data-body stagger-9"><rect x="459" y="417" width="194" height="18" rx="4" class="series-4"/>
     <text x="556" y="429" text-anchor="middle" font-size="9" font-weight="500" fill="#fff" opacity="0.9">Integration Testing</text></g>
   </g>
 
-  <g class="data-item stagger-10" data-cx="695" data-barty="435" data-val="Aug 15 – Sep 15" data-lbl="UAT &amp; Acceptance · 31 days">
+  <g class="data-item stagger-10" data-cx="695" data-barty="435" data-val="Aug 15 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Sep 15" data-lbl="UAT &amp; Acceptance Ãƒâ€šÃ‚Â· 31 days">
     <g class="data-body stagger-10"><rect x="631" y="435" width="128" height="9" rx="3" class="series-3" opacity="0.65"/>
     <text x="695" y="442" text-anchor="middle" font-size="8" fill="#1C1B1F" opacity="0.7">UAT &amp; Acceptance</text></g>
   </g>
 
-  <g class="data-item stagger-11" data-cx="167" data-barty="452" data-val="Apr 1 – May 15" data-lbl="Cloud Provisioning · 45 days">
+  <g class="data-item stagger-11" data-cx="167" data-barty="452" data-val="Apr 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ May 15" data-lbl="Cloud Provisioning Ãƒâ€šÃ‚Â· 45 days">
     <g class="data-body stagger-11"><rect x="70" y="452" width="194" height="8" rx="3" class="series-8" opacity="0.6"/>
     <text x="167" y="458" text-anchor="middle" font-size="8" fill="#1C1B1F" opacity="0.6">Cloud Provisioning</text></g>
   </g>
 
 </g>
 
-<!-- JS-driven tooltip layer — painted last, always on top.
+<!-- JS-driven tooltip layer ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â painted last, always on top.
      Three elements per the reference pattern:
-       tip-bg     : filled rect (no stroke) — solid interior
-       tip-border : open-bottom rounded-rect path — border with gap at tail root
-       tip-tail   : tail triangle — plugs the gap seamlessly -->
+       tip-bg     : filled rect (no stroke) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â solid interior
+       tip-border : open-bottom rounded-rect path ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â border with gap at tail root
+       tip-tail   : tail triangle ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â plugs the gap seamlessly -->
 <g id="tip-layer" class="tip">
   <rect  id="tip-bg"  class="tip-bg"/>
   <path  id="tip-bdr" class="tip-border"/>
@@ -262,54 +230,44 @@
 
 <!-- Milestones -->
 <g transform="translate(459,300)"><polygon class="milestone" points="0,-8 8,0 0,8 -8,0"/></g>
-<text x="461" y="293" class="today-lbl" font-size="9">α Alpha</text>
+<text x="461" y="293" class="today-lbl" font-size="9">ÃƒÅ½Ã‚Â± Alpha</text>
 <g transform="translate(631,372)"><polygon class="milestone" points="0,-8 8,0 0,8 -8,0"/></g>
-<text x="633" y="365" class="today-lbl" font-size="9">β Beta</text>
+<text x="633" y="365" class="today-lbl" font-size="9">ÃƒÅ½Ã‚Â² Beta</text>
 <g transform="translate(843,492)"><polygon class="milestone" points="0,-7 7,0 0,7 -7,0"/></g>
-<text x="790" y="497" class="today-lbl" font-size="9" text-anchor="middle">GA Launch · Sep 30</text>
+<text x="790" y="497" class="today-lbl" font-size="9" text-anchor="middle">GA Launch Ãƒâ€šÃ‚Â· Sep 30</text>
 
 <!-- LEGEND -->
-<rect x="870" y="100" width="210" height="310" rx="14" class="legend-bg"/>
-<text x="888" y="124" class="legend-title">WORKSTREAM</text>
-<g transform="translate(888,140)">
+<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg legend-panel"/>
+<text x="878" y="118" class="legend-title legend-heading">WORKSTREAM</text>
+<g class="legend-row" transform="translate(878,146)">
   <rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="legend-label">User Research</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">30 days</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">User Research</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">30d</text>
 </g>
-<g transform="translate(888,170)">
+<g class="legend-row" transform="translate(878,188)">
   <rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="legend-label">UX Wireframes</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">33 days</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">UX Wireframes</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">33d</text>
 </g>
-<g transform="translate(888,200)">
+<g class="legend-row" transform="translate(878,230)">
   <rect class="series-6" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="legend-label">Component Library</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">61 days</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Component Library</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">61d</text>
 </g>
-<g transform="translate(888,230)">
+<g class="legend-row" transform="translate(878,272)">
   <rect class="series-7" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="legend-label">API Development</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">76 days</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">API Development</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">76d</text>
 </g>
-<g transform="translate(888,260)">
+<g class="legend-row" transform="translate(878,314)">
   <rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="legend-label">Integration Testing</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">46 days</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Integration Testing</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">46d</text>
 </g>
-<g transform="translate(888,290)">
+<g class="legend-row" transform="translate(878,356)">
   <rect class="series-8" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="legend-label">Infrastructure</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">45 days</text>
-</g>
-<line x1="888" y1="318" x2="1062" y2="318" class="legend-divider"/>
-<text x="888" y="334" class="legend-title">MARKERS</text>
-<g transform="translate(888,348)">
-  <line x1="0" y1="7" x2="14" y2="7" stroke="#F43F5E" stroke-width="1.5" stroke-dasharray="3 2"/>
-  <text x="22" y="11" class="legend-label">Today</text>
-</g>
-<g transform="translate(888,370)">
-  <polygon class="milestone" points="7,-7 14,0 7,7 0,0"/>
-  <text x="22" y="4" class="legend-label">Milestone</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Infrastructure</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">45d</text>
 </g>
 
 <script href="chart-shared.js"></script>
@@ -326,7 +284,7 @@ var svg         = document.getElementById('root');
   var tipVal = document.getElementById('tip-val');
   var tipLbl = document.getElementById('tip-lbl');
 
-  /* §2 — isDark hoisted before all build and animation code */
+  /* Ãƒâ€šÃ‚Â§2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â isDark hoisted before all build and animation code */
 
   var pad  = 20;   // horizontal padding each side
   var bh   = 90;   // bubble body height
@@ -349,10 +307,10 @@ var svg         = document.getElementById('root');
 
     // 4. Bubble sits ABOVE the bar by default (tail points down toward bar).
     var ty = barTopY - tail - bh - 4;
-    var flip = ty < 90;   // not enough headroom — flip below bar
+    var flip = ty < 90;   // not enough headroom ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â flip below bar
     if (flip) ty = barTopY + tail + 4;
 
-    // 5. Position group at (tx, ty) — local y=0 is top of bubble body
+    // 5. Position group at (tx, ty) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â local y=0 is top of bubble body
     tip.setAttribute('transform', 'translate(' + tx + ',' + ty + ')');
 
     // 6. Background rect
@@ -364,7 +322,7 @@ var svg         = document.getElementById('root');
 
     var bdrPath, tipPath;
     if (!flip) {
-      // tail below — gap on bottom edge
+      // tail below ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â gap on bottom edge
       bdrPath =
         'M' + tw + ',' + bh +
         ' L' + (hw - rx) + ',' + bh +
@@ -381,7 +339,7 @@ var svg         = document.getElementById('root');
         ' L0,' + (bh + tail) +
         ' L' + (-tw) + ',' + bh;
     } else {
-      // tail above — gap on top edge (flipped)
+      // tail above ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â gap on top edge (flipped)
       bdrPath =
         'M' + (-tw) + ',0' +
         ' L' + -(hw - rx) + ',0' +
@@ -418,7 +376,7 @@ var svg         = document.getElementById('root');
   dataItemEls.forEach(function(itemEl) {
     itemEl.addEventListener('mouseenter', function() {
       if (dataLayerEl) dataLayerEl.classList.add('hovering');
-      dataItemEls.forEach(function(x) { x.classList.remove('active'); }); /* §4 clear stale */
+      dataItemEls.forEach(function(x) { x.classList.remove('active'); }); /* Ãƒâ€šÃ‚Â§4 clear stale */
       itemEl.classList.add('active');
       showTip(
         parseFloat(itemEl.getAttribute('data-cx')),
@@ -434,7 +392,7 @@ var svg         = document.getElementById('root');
     });
   });
 
-  /* §3/§4 — gate hover on .ready after last bar animation completes */
+  /* Ãƒâ€šÃ‚Â§3/Ãƒâ€šÃ‚Â§4 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â gate hover on .ready after last bar animation completes */
   var BAR_COUNT   = 11;
   var BAR_STAGGER = Math.min(0.25, 1.0 / BAR_COUNT); /* adaptive: ~0.091s */
   var BAR_DUR     = 0.8;

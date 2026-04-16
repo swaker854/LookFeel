@@ -9,7 +9,7 @@
     .chart-shell-hidden { display:none; }
     .card-bg, .border-light, .border-dark, .card-title, .card-subtitle, .footer, .toggle-wrap { display:none !important; }
 
-    /* §9 — Card shell */
+    /* Ã‚Â§9 Ã¢â‚¬â€ Card shell */
     .card-bg  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
     .card-title       { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
     .card-subtitle       { font-size:11px; fill:#79747E; font-weight:400; }
@@ -30,7 +30,7 @@
     svg.print .legend-value  { opacity:1; }
     svg.print .print-track { fill:#d97316; }
 
-    /* §1 — Standard palette */
+    /* Ã‚Â§1 Ã¢â‚¬â€ Standard palette */
     .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
     .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
     .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
@@ -40,14 +40,14 @@
     svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
     svg.dark .series-7 { fill:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; }
 
-    /* §3 — Method A1: animationend + .visible, .ready gates hover */
+    /* Ã‚Â§3 Ã¢â‚¬â€ Method A1: animationend + .visible, .ready gates hover */
     @keyframes stageFade { from{opacity:0} to{opacity:1} }
     .fstage         { opacity:0; cursor:pointer; transition:opacity .2s ease; }
     .fstage.visible { opacity:1; }
     .data-layer.ready.hovering .fstage.visible         { opacity:0.20; transition:opacity .2s ease; }
     .data-layer.ready.hovering .fstage.visible.hovered { opacity:1;    transition:opacity .2s ease; }
 
-    /* §5 — Tooltip bubble classes */
+    /* Ã‚Â§5 Ã¢â‚¬â€ Tooltip bubble classes */
     .tip-bg     { fill:#FFFBFE; }
     .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
     .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
@@ -57,11 +57,11 @@
     .tip           { opacity:0; pointer-events:none; transition:opacity .15s ease; }
     svg.print .tip { opacity:0 !important; }
 
-    /* §9 — Border rings */
+    /* Ã‚Â§9 Ã¢â‚¬â€ Border rings */
     .border-dark  { display:none; }
     .border-light { display:block; }
 
-    /* §9 — Dark mode overrides */
+    /* Ã‚Â§9 Ã¢â‚¬â€ Dark mode overrides */
     svg.dark .card-bg  { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
     svg.dark .card-title       { fill:#E6E0E9; }
     svg.dark .card-subtitle       { fill:#938F99; }
@@ -88,31 +88,10 @@
   </style>
 </defs>
 
-<!-- §9 — Card shell -->
-<rect class="card-bg" width="1100" height="620" rx="18"/>
-<g class="border-light">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
-</g>
-<g class="border-dark">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
-</g>
+<!-- Ã‚Â§9 Ã¢â‚¬â€ Card shell -->
+<!-- Ã‚Â§9 Ã¢â‚¬â€ Typography -->
 
-<!-- §9 — Typography -->
-<text x="68" y="50" class="card-title">Sales Conversion Funnel - Funnel</text>
-<text x="68" y="70" class="card-subtitle">Marketing → Revenue pipeline · Q1 2026</text>
-<text x="68" y="600" class="footer">Source: CRM &amp; Analytics Platform · April 2026</text>
-
-<!-- §9 — Toggles -->
-<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
-  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
-</g>
-<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
-  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
-</g>
+<!-- Ã‚Â§9 Ã¢â‚¬â€ Toggles -->
 
 <!--
   Plot area: x=68..850 y=100..500
@@ -121,7 +100,7 @@
   y_tops: 100,166,232,298,364,430  y_bots: 160,226,292,358,424,490
 -->
 
-<!-- §7 Layer 2 — Data (.data-layer) -->
+<!-- Ã‚Â§7 Layer 2 Ã¢â‚¬â€ Data (.data-layer) -->
 <g class="data-layer" id="data-layer">
 
   <!-- fi0: Awareness  hw_top=350 hw_bot=210  y=100..160 -->
@@ -135,7 +114,7 @@
 
   <!-- fi1: Interest  hw_top=210 hw_bot=106  y=166..226 -->
   <g class="fstage" id="fi1"
-     data-name="Interest" data-val="28,900" data-pct="59.9%" data-dropoff="↓ 40.1%"
+     data-name="Interest" data-val="28,900" data-pct="59.9%" data-dropoff="Ã¢â€ â€œ 40.1%"
      data-cx="459" data-cy="196" data-delay="0.13">
     <polygon class="series-2" points="249,166 669,166 565,226 353,226"/>
     <text x="459" y="190" text-anchor="middle" class="tip-value" font-size="13" pointer-events="none">28,900</text>
@@ -144,7 +123,7 @@
 
   <!-- fi2: Consideration  hw_top=106 hw_bot=57  y=232..292 -->
   <g class="fstage" id="fi2"
-     data-name="Consideration" data-val="14,600" data-pct="30.3%" data-dropoff="↓ 49.5%"
+     data-name="Consideration" data-val="14,600" data-pct="30.3%" data-dropoff="Ã¢â€ â€œ 49.5%"
      data-cx="459" data-cy="262" data-delay="0.25">
     <polygon class="series-3" points="353,232 565,232 516,292 402,292"/>
     <text x="459" y="256" text-anchor="middle" class="tip-value" font-size="13" pointer-events="none">14,600</text>
@@ -153,7 +132,7 @@
 
   <!-- fi3: Intent  hw_top=57 hw_bot=28  y=298..358 -->
   <g class="fstage" id="fi3"
-     data-name="Intent" data-val="7,840" data-pct="16.3%" data-dropoff="↓ 46.3%"
+     data-name="Intent" data-val="7,840" data-pct="16.3%" data-dropoff="Ã¢â€ â€œ 46.3%"
      data-cx="459" data-cy="328" data-delay="0.38">
     <polygon class="series-4" points="402,298 516,298 487,358 431,358"/>
     <text x="459" y="322" text-anchor="middle" class="tip-value" font-size="12" pointer-events="none">7,840</text>
@@ -162,7 +141,7 @@
 
   <!-- fi4: Evaluation  hw_top=28 hw_bot=14  y=364..424 -->
   <g class="fstage" id="fi4"
-     data-name="Evaluation" data-val="3,920" data-pct="8.1%" data-dropoff="↓ 50.0%"
+     data-name="Evaluation" data-val="3,920" data-pct="8.1%" data-dropoff="Ã¢â€ â€œ 50.0%"
      data-cx="459" data-cy="394" data-delay="0.50">
     <polygon class="series-5" points="431,364 487,364 473,424 445,424"/>
     <text x="459" y="390" text-anchor="middle" class="tip-value" font-size="11" pointer-events="none">3,920</text>
@@ -171,7 +150,7 @@
 
   <!-- fi5: Purchase  hw=14 rect  y=430..490 -->
   <g class="fstage" id="fi5"
-     data-name="Purchase" data-val="1,960" data-pct="4.1%" data-dropoff="↓ 50.0%"
+     data-name="Purchase" data-val="1,960" data-pct="4.1%" data-dropoff="Ã¢â€ â€œ 50.0%"
      data-cx="459" data-cy="460" data-delay="0.63">
     <polygon class="series-6" points="445,430 473,430 473,490 445,490"/>
     <text x="459" y="456" text-anchor="middle" class="tip-value" font-size="10" pointer-events="none">1,960</text>
@@ -180,18 +159,18 @@
 
 </g><!-- end .data-layer -->
 
-<!-- §7 Layer 3 — Drop-off labels (structural overlay, paints above funnel) -->
+<!-- Ã‚Â§7 Layer 3 Ã¢â‚¬â€ Drop-off labels (structural overlay, paints above funnel) -->
 <g id="dropoff-labels">
-  <text x="820" y="137" class="tick-label">↓ 40.1%</text>
-  <text x="820" y="203" class="tick-label">↓ 49.5%</text>
-  <text x="820" y="269" class="tick-label">↓ 46.3%</text>
-  <text x="820" y="330" class="tick-label">↓ 50.0%</text>
-  <text x="820" y="396" class="tick-label">↓ 50.0%</text>
+  <text x="820" y="137" class="tick-label">Ã¢â€ â€œ 40.1%</text>
+  <text x="820" y="203" class="tick-label">Ã¢â€ â€œ 49.5%</text>
+  <text x="820" y="269" class="tick-label">Ã¢â€ â€œ 46.3%</text>
+  <text x="820" y="330" class="tick-label">Ã¢â€ â€œ 50.0%</text>
+  <text x="820" y="396" class="tick-label">Ã¢â€ â€œ 50.0%</text>
 </g>
 
-<!-- §9 — Legend -->
-<rect x="870" y="100" width="210" height="248" rx="14" class="legend-bg"/>
-<text x="888" y="124" class="legend-title">FUNNEL STAGES</text>
+<!-- Ã‚Â§9 Ã¢â‚¬â€ Legend -->
+<rect x="870" y="100" width="210" height="248" rx="14" class="legend-bg legend-panel"/>
+<text x="888" y="124" class="legend-title legend-heading">FUNNEL STAGES</text>
 <g transform="translate(888,140)">
   <rect x="0" y="0" width="14" height="14" rx="3" class="series-1"/>
   <text x="22" y="11" class="legend-label">Awareness</text>
@@ -224,11 +203,11 @@
   <text x="188" y="11" class="legend-value" text-anchor="end">1,960</text>
 </g>
 
-<rect x="870" y="362" width="210" height="46" rx="14" class="legend-bg"/>
-<text x="888" y="382" class="legend-title">OVERALL CONVERSION</text>
-<text x="888" y="398" class="legend-label">Top → Purchase <tspan font-weight="500">4.1%</tspan></text>
+<rect x="870" y="362" width="210" height="46" rx="14" class="legend-bg legend-panel"/>
+<text x="888" y="382" class="legend-title legend-heading">OVERALL CONVERSION</text>
+<text x="888" y="398" class="legend-label">Top Ã¢â€ â€™ Purchase <tspan font-weight="500">4.1%</tspan></text>
 
-<!-- §7 Layer 4 — Tooltip (JS-driven, always last) -->
+<!-- Ã‚Â§7 Layer 4 Ã¢â‚¬â€ Tooltip (JS-driven, always last) -->
 <g class="tip" id="tip">
   <rect id="tip-bg"  class="tip-bg"     rx="9"/>
   <path id="tip-bdr" class="tip-border"/>
@@ -247,9 +226,9 @@ var svg         = document.getElementById('root');
   var dataLayerEl = document.getElementById('data-layer');
   var stages = Array.prototype.slice.call(dataLayerEl.querySelectorAll('.fstage'));
 
-  /* §2 — isDark declared before all other code */
+  /* Ã‚Â§2 Ã¢â‚¬â€ isDark declared before all other code */
 
-  /* §3 — Method A1: animationend + .visible, adaptive stagger, .ready gate */
+  /* Ã‚Â§3 Ã¢â‚¬â€ Method A1: animationend + .visible, adaptive stagger, .ready gate */
   var duration = 0.8;
   var stagger  = Math.min(0.25, 1.0 / stages.length);
   var lastDelay = 0;
@@ -268,7 +247,7 @@ var svg         = document.getElementById('root');
     dataLayerEl.classList.add('ready');
   }, (lastDelay + duration + 0.1) * 1000);
 
-  /* §5 — JS-driven tooltip */
+  /* Ã‚Â§5 Ã¢â‚¬â€ JS-driven tooltip */
   var tip    = document.getElementById('tip');
   var tipBg  = document.getElementById('tip-bg');
   var tipBdr = document.getElementById('tip-bdr');
@@ -279,12 +258,12 @@ var svg         = document.getElementById('root');
   var BH = 62, TAIL = 10, RX = 9, TW = 8;
 
   function posTip(cx, cy, name, val, pct, dropoff) {
-    /* 1 — set text first so getBBox measures real widths */
+    /* 1 Ã¢â‚¬â€ set text first so getBBox measures real widths */
     tipVal.textContent = val;
     tipLbl.textContent = name;
-    tipPct.textContent = pct + (dropoff ? '  ·  ' + dropoff : '');
+    tipPct.textContent = pct + (dropoff ? '  Ã‚Â·  ' + dropoff : '');
 
-    /* 2 — measure, derive hw */
+    /* 2 Ã¢â‚¬â€ measure, derive hw */
     var pad = 20;
     var hw = Math.max(
       tipVal.getBBox().width + pad,
@@ -293,10 +272,10 @@ var svg         = document.getElementById('root');
       60
     ) / 2;
 
-    /* 3 — clamp tx */
+    /* 3 Ã¢â‚¬â€ clamp tx */
     var tx = Math.max(hw + 8, Math.min(cx, 1100 - hw - 8));
 
-    /* 4 — flip: bubble below when near top */
+    /* 4 Ã¢â‚¬â€ flip: bubble below when near top */
     var flip = cy < BH + TAIL + 20;
     var bT = flip ? cy + TAIL      : cy - TAIL - BH;
     var bB = flip ? cy + TAIL + BH : cy - TAIL;
@@ -304,11 +283,11 @@ var svg         = document.getElementById('root');
     if (bB > 610) { bB = 610; bT = bB - BH; }
     var bL = tx - hw, bR = tx + hw;
 
-    /* 5 — background rect */
+    /* 5 Ã¢â‚¬â€ background rect */
     tipBg.setAttribute('x', bL);      tipBg.setAttribute('y', bT);
     tipBg.setAttribute('width', hw*2); tipBg.setAttribute('height', BH);
 
-    /* 6 — open border path + tail */
+    /* 6 Ã¢â‚¬â€ open border path + tail */
     var openD, tailD;
     if (!flip) {
       openD = 'M'+(tx+TW)+','+bB+
@@ -330,13 +309,13 @@ var svg         = document.getElementById('root');
     tipBdr.setAttribute('d', openD);
     tipArr.setAttribute('d', tailD);
 
-    /* 7 — text positions */
+    /* 7 Ã¢â‚¬â€ text positions */
     tipVal.setAttribute('x', tx); tipVal.setAttribute('y', bT + BH * 0.26);
     tipLbl.setAttribute('x', tx); tipLbl.setAttribute('y', bT + BH * 0.52);
     tipPct.setAttribute('x', tx); tipPct.setAttribute('y', bT + BH * 0.78);
   }
 
-  /* §4 — Hover: A1 pattern, container mouseleave (adjacent trapezoids) */
+  /* Ã‚Â§4 Ã¢â‚¬â€ Hover: A1 pattern, container mouseleave (adjacent trapezoids) */
   stages.forEach(function(g) {
     g.addEventListener('mouseenter', function() {
       dataLayerEl.classList.add('hovering');
@@ -357,12 +336,12 @@ var svg         = document.getElementById('root');
     });
   });
 
-  /* container mouseleave for .hovering — prevents flicker between adjacent trapezoids */
+  /* container mouseleave for .hovering Ã¢â‚¬â€ prevents flicker between adjacent trapezoids */
   dataLayerEl.addEventListener('mouseleave', function() {
     dataLayerEl.classList.remove('hovering');
   });
 
-  /* §2 — Dark mode toggle */
+  /* Ã‚Â§2 Ã¢â‚¬â€ Dark mode toggle */
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());

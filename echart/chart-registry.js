@@ -4233,6 +4233,8 @@
 
   function makeTreemapChart(container) {
     const data = [{ name: 'Violet', value: 320 }, { name: 'Cyan', value: 210 }, { name: 'Emerald', value: 150 }, { name: 'Amber', value: 120 }, { name: 'Blue', value: 85 }, { name: 'Teal', value: 65 }, { name: 'Rose', value: 45 }, { name: 'Other', value: 30 }];
+    const treemapOuterPad = 8;
+    const treemapTileGap = 4;
     let introPlayed = false;
     let introTimer = null;
     function tooltip(state, param) {
@@ -4261,7 +4263,7 @@
       return {
         animationDuration: 1200, animationDurationUpdate: 1200, animationEasing: 'quarticOut', color: colors, backgroundColor: 'transparent',
         tooltip: { trigger: 'item', confine: true, backgroundColor: 'transparent', borderWidth: 0, padding: 0, extraCssText: 'box-shadow:none;background:transparent;', formatter: function(param) { return tooltip(state, param); }, position: function(pos, params, dom, rect, size) { return smartTooltipPosition(pos, rect, size, dom, dark, true, 20); } },
-        series: [{ type: 'treemap', left: 12, right: legendGridRight(chart), top: 12, bottom: 12, roam: false, nodeClick: false, animation: true, animationDuration: 1200, animationDurationUpdate: 1200, animationDelay: function(idx) { return idx * 180; }, animationDelayUpdate: function(idx) { return idx * 180; }, breadcrumb: { show: false }, label: { show: introPlayed, formatter: function(param) { return param.name || ''; }, color: dark ? '#E6E0E9' : '#1C1B1F', fontSize: 11, lineHeight: 14 }, upperLabel: { show: false, height: 22, color: dark ? '#E6E0E9' : '#1C1B1F', fontSize: 11, fontWeight: '600' }, itemStyle: { borderColor: dark ? '#151825' : '#f8f5fb', borderWidth: 1, gapWidth: 1, borderRadius: 0 }, emphasis: { focus: 'self', itemStyle: { borderColor: dark ? '#E6E0E9' : '#1C1B1F', borderWidth: 1 } }, blur: { itemStyle: { opacity: 0.2 } }, levels: [{ color: [colors[4], colors[0], colors[1], colors[2], colors[5], colors[6], colors[3], colors[7]], itemStyle: { borderColor: dark ? '#151825' : '#f8f5fb', borderWidth: 1, gapWidth: 1, borderRadius: 0 } }], data: liveData }]
+        series: [{ type: 'treemap', left: treemapOuterPad, right: legendGridRight(chart) - 4, top: treemapOuterPad, bottom: treemapOuterPad, roam: false, nodeClick: false, animation: true, animationDuration: 1200, animationDurationUpdate: 1200, animationDelay: function(idx) { return idx * 180; }, animationDelayUpdate: function(idx) { return idx * 180; }, breadcrumb: { show: false }, label: { show: introPlayed, formatter: function(param) { return param.name || ''; }, color: dark ? '#E6E0E9' : '#1C1B1F', fontSize: 11, lineHeight: 14 }, upperLabel: { show: false, height: 22, color: dark ? '#E6E0E9' : '#1C1B1F', fontSize: 11, fontWeight: '600' }, itemStyle: { borderColor: dark ? '#151825' : '#f8f5fb', borderWidth: treemapTileGap, gapWidth: treemapTileGap, borderRadius: 12 }, emphasis: { focus: 'self', itemStyle: { borderColor: dark ? '#E6E0E9' : '#1C1B1F', borderWidth: 2 } }, blur: { itemStyle: { opacity: 0.2 } }, levels: [{ color: [colors[4], colors[0], colors[1], colors[2], colors[5], colors[6], colors[3], colors[7]], itemStyle: { borderColor: dark ? '#151825' : '#f8f5fb', borderWidth: treemapTileGap, gapWidth: treemapTileGap, borderRadius: 14 } }], data: liveData }]
       };
     }, function(chart, state) {
       if (introPlayed || introTimer) return;

@@ -3,39 +3,38 @@
 
 
 <svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+  <script type="text/javascript">
+    <![CDATA[
+    (function () {
+      if (window.location.href.indexOf('theme=dark') !== -1) {
+       document.documentElement.classList.add('dark');
+      }
+    }());
+    ]]>
+  </script>
 <defs>
   <clipPath id="chartclip">
     <rect x="68" y="100" width="772" height="400"/>
   </clipPath>
   <style>
     @import url('chart-shared.css');
+    /* prevent first paint in wrong color before shared css load */
+    svg {
+    --critical-tick-fill: #79747E;
+    --critical-grid-stroke: #E7E0EC;
+    --critical-axis-stroke: #79747E;
+    }
+    svg.dark {
+    --critical-tick-fill: #938F99;
+    --critical-grid-stroke: #3A3940;
+    --critical-axis-stroke: #938F99;
+    }
+    .tick-label, .category-label { fill: var(--critical-tick-fill); }
+    .grid-line { stroke: var(--critical-grid-stroke); }
+    .axis-line { stroke: var(--critical-axis-stroke); }
 
-    .crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
-    svg.dark .crosshair { stroke:#938F99; }
-    .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    svg.print .tip { opacity:0 !important; }
-
-    @keyframes drawWave { from{stroke-dashoffset:var(--len,900);} to{stroke-dashoffset:0;} }
-    .wave-edge         { stroke-dasharray:var(--len,900); stroke-dashoffset:var(--len,900);
-                         opacity:0; transition: opacity 0.2s ease; }
-    .wave-edge.visible { opacity:1; stroke-dashoffset:0; }
-    .w1{animation-delay:0.00s;} .w2{animation-delay:0.25s;}
-    .w3{animation-delay:0.50s;} .w4{animation-delay:0.75s;} .w5{animation-delay:1.00s;}
-
-    .area-fill         { opacity:0; transition:opacity 0.2s ease; }
-    .area-fill.visible { opacity:1; }
-    .f1{animation-delay:0.00s;} .f2{animation-delay:0.25s;}
-    .f3{animation-delay:0.50s;} .f4{animation-delay:0.75s;} .f5{animation-delay:1.00s;}
-
-    .dot-g     { cursor:pointer; }
-    @keyframes popDot { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
-    .dot-inner         { opacity:0; cursor:pointer; transition:opacity 0.2s ease; }
     .dot-inner.visible { opacity:0; }
-    .area-fill  { pointer-events: none; }
-    .data-layer.ready.hovering .wave-edge.visible                 { opacity: 0.20; }
-    .data-layer.ready.hovering .wave-edge.visible.active          { opacity: 1; }
-    .data-layer.ready.hovering .area-fill.visible                 { opacity: 0.20; }
-    .data-layer.ready.hovering .area-fill.visible.active          { opacity: 1; }
+    .area-path  { pointer-events: none; }
     .data-layer.ready.hovering .dot-inner.visible                 { opacity: 0; }
     .data-layer.ready.hovering .dot-inner.visible.active          { opacity: 0; }
 
@@ -71,31 +70,31 @@
 <g class="data-layer" id="data-layer">
 <g clip-path="url(#chartclip)">
   <!-- Areas: Cyan starts Q3'22, Emerald ends Q3'23, others full range -->
-  <path id="area-1" class="area-fill series-1 f1" data-series="1" fill-opacity="0.20" stroke="none"
+  <path id="area-1" class="area-path series-1" data-series="1" fill-opacity="0.20" stroke="none"
     d="M274,504 L274,504.0 C325.5,504.0 325.5,281.8 377,281.8 C428.5,281.8 428.5,180.8 480,180.8 C531.5,180.8 531.5,221.2 583,221.2 C634.5,221.2 634.5,302.0 686,302.0 C737.5,302.0 737.5,241.4 789,241.4 L789,504 Z"/>
-  <path id="area-2" class="area-fill series-2 f2" data-series="2" fill-opacity="0.20" stroke="none"
+  <path id="area-2" class="area-path series-2" data-series="2" fill-opacity="0.20" stroke="none"
     d="M68,504 L68,423.2 C119.5,423.2 119.5,322.2 171,322.2 C222.5,322.2 222.5,221.2 274,221.2 C325.5,221.2 325.5,281.8 377,281.8 C428.5,281.8 428.5,362.6 480,362.6 C531.5,362.6 531.5,201.0 583,201.0 C634.5,201.0 634.5,160.6 686,160.6 C737.5,160.6 737.5,213.1 789,213.1 L789,504 Z"/>
-  <path id="area-3" class="area-fill series-3 f3" data-series="3" fill-opacity="0.20" stroke="none"
+  <path id="area-3" class="area-path series-3" data-series="3" fill-opacity="0.20" stroke="none"
     d="M68,504 L68,504.0 C119.5,504.0 119.5,382.8 171,382.8 C222.5,382.8 222.5,281.8 274,281.8 C325.5,281.8 325.5,180.8 377,180.8 C428.5,180.8 428.5,261.6 480,261.6 C531.5,261.6 531.5,342.4 583,342.4 C634.5,342.4 634.5,504.0 686,504.0 L686,504 Z"/>
-  <path id="area-4" class="area-fill series-4 f4" data-series="4" fill-opacity="0.20" stroke="none"
+  <path id="area-4" class="area-path series-4" data-series="4" fill-opacity="0.20" stroke="none"
     d="M68,504 L68,443.4 C119.5,443.4 119.5,302.0 171,302.0 C222.5,302.0 222.5,431.3 274,431.3 C325.5,431.3 325.5,403.0 377,403.0 C428.5,403.0 428.5,281.8 480,281.8 C531.5,281.8 531.5,382.8 583,382.8 C634.5,382.8 634.5,322.2 686,322.2 C737.5,322.2 737.5,261.6 789,261.6 L789,504 Z"/>
-  <path id="area-5" class="area-fill series-5 f5" data-series="5" fill-opacity="0.20" stroke="none"
+  <path id="area-5" class="area-path series-5" data-series="5" fill-opacity="0.20" stroke="none"
     d="M68,504 L68,281.8 C119.5,281.8 119.5,403.0 171,403.0 C222.5,403.0 222.5,411.1 274,411.1 C325.5,411.1 325.5,399.0 377,399.0 C428.5,399.0 428.5,407.0 480,407.0 C531.5,407.0 531.5,394.9 583,394.9 C634.5,394.9 634.5,415.1 686,415.1 C737.5,415.1 737.5,403.0 789,403.0 L789,504 Z"/>
 
-  <!-- Wave edges â€” all stroke-width 2 for consistency -->
-<path id="we1" class="wave-edge series-1 use-series-stroke w1" data-series="1" style="fill:none"
+  <!-- Wave edges Ã¢â‚¬â€ all stroke-width 2 for consistency -->
+<path id="we1" class="line-path series-1 use-series-stroke" data-series="1" style="fill:none"
     stroke-width="2" stroke-linecap="round"
     d="M377,281.8 C428.5,281.8 428.5,180.8 480,180.8 C531.5,180.8 531.5,221.2 583,221.2 C634.5,221.2 634.5,302.0 686,302.0 C737.5,302.0 737.5,241.4 789,241.4"/>
-<path id="we2" class="wave-edge series-2 use-series-stroke w2" data-series="2" style="fill:none"
+<path id="we2" class="line-path series-2 use-series-stroke" data-series="2" style="fill:none"
     stroke-width="2" stroke-linecap="round"
     d="M68,423.2 C119.5,423.2 119.5,322.2 171,322.2 C222.5,322.2 222.5,221.2 274,221.2 C325.5,221.2 325.5,281.8 377,281.8 C428.5,281.8 428.5,362.6 480,362.6 C531.5,362.6 531.5,201.0 583,201.0 C634.5,201.0 634.5,160.6 686,160.6 C737.5,160.6 737.5,213.1 789,213.1"/>
-<path id="we3" class="wave-edge series-3 use-series-stroke w3" data-series="3" style="fill:none"
+<path id="we3" class="line-path series-3 use-series-stroke" data-series="3" style="fill:none"
     stroke-width="2" stroke-linecap="round"
     d="M171,382.8 C222.5,382.8 222.5,281.8 274,281.8 C325.5,281.8 325.5,180.8 377,180.8 C428.5,180.8 428.5,261.6 480,261.6 C531.5,261.6 531.5,342.4 583,342.4 C634.5,342.4 634.5,504.0 686,504.0"/>
-<path id="we4" class="wave-edge series-4 use-series-stroke w4" data-series="4" style="fill:none"
+<path id="we4" class="line-path series-4 use-series-stroke" data-series="4" style="fill:none"
     stroke-width="2" stroke-linecap="round"
     d="M68,443.4 C119.5,443.4 119.5,302.0 171,302.0 C222.5,302.0 222.5,431.3 274,431.3 C325.5,431.3 325.5,403.0 377,403.0 C428.5,403.0 428.5,281.8 480,281.8 C531.5,281.8 531.5,382.8 583,382.8 C634.5,382.8 634.5,322.2 686,322.2 C737.5,322.2 737.5,261.6 789,261.6"/>
-<path id="we5" class="wave-edge series-5 use-series-stroke w5" data-series="5" style="fill:none"
+<path id="we5" class="line-path series-5 use-series-stroke" data-series="5" style="fill:none"
     stroke-width="2" stroke-linecap="round" stroke-dasharray="7,4"
     d="M68,281.8 C119.5,281.8 119.5,403.0 171,403.0 C222.5,403.0 222.5,411.1 274,411.1 C325.5,411.1 325.5,399.0 377,399.0 C428.5,399.0 428.5,407.0 480,407.0 C531.5,407.0 531.5,394.9 583,394.9 C634.5,394.9 634.5,415.1 686,415.1 C737.5,415.1 737.5,403.0 789,403.0"/>
 </g>
@@ -115,13 +114,13 @@
 <g id="tip-layer"></g>
 </g>
 
-<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg"/>
-<text x="878" y="118" class="legend-title">SERIES</text>
-<g transform="translate(878,146)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Cyan</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$65M</text></g>
-<g transform="translate(878,194)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Emerald</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$72M</text></g>
-<g transform="translate(878,242)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Amber</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$50M</text></g>
-<g transform="translate(878,290)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Rose</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$60M</text></g>
-<g transform="translate(878,338)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Violet</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$25M</text></g>
+<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg legend-panel"/>
+<text x="878" y="118" class="legend-title legend-heading">SERIES</text>
+<g class="legend-row" transform="translate(878,146)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Cyan</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$65M</text></g>
+<g class="legend-row" transform="translate(878,194)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Emerald</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$72M</text></g>
+<g class="legend-row" transform="translate(878,242)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Amber</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$50M</text></g>
+<g class="legend-row" transform="translate(878,290)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Rose</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$60M</text></g>
+<g class="legend-row" transform="translate(878,338)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Violet</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$25M</text></g>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -157,40 +156,27 @@
     var el = ctx.el;
 
     function setHover(activeSid) {
-      dataLayerEl.classList.add('hovering');
-      series.forEach(function(s) {
-        var wave = svgEl.querySelector('.wave-edge[data-series="'+s.id+'"]');
-        var area = svgEl.querySelector('.area-fill[data-series="'+s.id+'"]');
-        if (wave) wave.classList.remove('active');
-        if (area) area.classList.remove('active');
-        xs.forEach(function(_, qi) {
-          var inner = svgEl.querySelector('#d'+s.id+'_'+qi+' .dot-inner');
-          if (inner) inner.classList.remove('active');
-        });
-      });
-      series.forEach(function(s) {
-        var isActive = (s.id === activeSid);
-        var wave = svgEl.querySelector('.wave-edge[data-series="'+s.id+'"]');
-        var area = svgEl.querySelector('.area-fill[data-series="'+s.id+'"]');
-        if (wave) wave.classList.toggle('active', isActive);
-        if (area) area.classList.toggle('active', isActive);
-        xs.forEach(function(_, qi) {
-          var inner = svgEl.querySelector('#d'+s.id+'_'+qi+' .dot-inner');
-          if (inner) inner.classList.toggle('active', isActive);
-        });
+      ctx.setSeriesHoverState({
+        hoverLayer: dataLayerEl,
+        hovering: true,
+        activeSid: activeSid,
+        seriesIds: series.map(function(s) { return s.id; }),
+        pointCount: xs.length,
+        lineSelector: '.line-path[data-series="{id}"]',
+        areaSelector: '.area-path[data-series="{id}"]',
+        dotSelector: '#d{id}_{qi} .dot-inner'
       });
     }
     function clearHover() {
-      dataLayerEl.classList.remove('hovering');
-      series.forEach(function(s) {
-        var wave = svgEl.querySelector('.wave-edge[data-series="'+s.id+'"]');
-        var area = svgEl.querySelector('.area-fill[data-series="'+s.id+'"]');
-        if (wave) wave.classList.remove('active');
-        if (area) area.classList.remove('active');
-        xs.forEach(function(_, qi) {
-          var inner = svgEl.querySelector('#d'+s.id+'_'+qi+' .dot-inner');
-          if (inner) inner.classList.remove('active');
-        });
+      ctx.setSeriesHoverState({
+        hoverLayer: dataLayerEl,
+        hovering: false,
+        activeSid: null,
+        seriesIds: series.map(function(s) { return s.id; }),
+        pointCount: xs.length,
+        lineSelector: '.line-path[data-series="{id}"]',
+        areaSelector: '.area-path[data-series="{id}"]',
+        dotSelector: '#d{id}_{qi} .dot-inner'
       });
     }
 
@@ -243,40 +229,18 @@
     series.forEach(function(s, i) {
       var area = svgEl.querySelector('#area-' + s.id);
       if (!area) return;
-      var areaClip = el('clipPath', { id:'area-reveal-' + s.id, clipPathUnits:'userSpaceOnUse' });
-      var revealRect = el('rect', {
-        x:clipRect.getAttribute('x'),
-        y:clipRect.getAttribute('y'),
-        width:clipRect.getAttribute('width'),
-        height:clipRect.getAttribute('height')
+      ctx.initAreaClipReveal({
+        defs: defs,
+        area: area,
+        clipId: 'area-reveal-' + s.id,
+        clipRect: clipRect,
+        delay: waveDelays[i],
+        duration: 1200
       });
-      revealRect.setAttribute('width', '0');
-      areaClip.appendChild(revealRect);
-      defs.appendChild(areaClip);
-      area.setAttribute('clip-path', 'url(#area-reveal-' + s.id + ')');
-      area.classList.add('visible');
-      (function(rect, delay) {
-        var startAt = performance.now() + delay * 1000;
-        var duration = 1200;
-        var fullWidth = parseFloat(clipRect.getAttribute('width'));
-        function ease(t) {
-          return 1 - Math.pow(1 - t, 3);
-        }
-        function tick(now) {
-          if (now < startAt) {
-            requestAnimationFrame(tick);
-            return;
-          }
-          var p = Math.min((now - startAt) / duration, 1);
-          rect.setAttribute('width', String(fullWidth * ease(p)));
-          if (p < 1) requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
-      }(revealRect, waveDelays[i]));
     });
 
-    /* wire animationend + .visible for wave-edges */
-    var waveEls = svgEl.querySelectorAll('.wave-edge');
+    /* wire animationend + .visible for line paths */
+    var waveEls = svgEl.querySelectorAll('.line-path');
     waveEls.forEach(function(el, i) {
       el.style.animation = 'drawWave 1.2s cubic-bezier(0.4,0,0.2,1) ' + waveDelays[i] + 's';
       el.addEventListener('animationend', function() {

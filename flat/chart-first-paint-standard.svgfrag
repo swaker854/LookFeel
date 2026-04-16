@@ -1,0 +1,29 @@
+<!-- Copy this snippet into standard axis-based chart SVGs. -->
+<!-- Keep it inline in the SVG so it can apply before chart-shared.css loads. -->
+
+<script type="text/javascript">
+  <![CDATA[
+  (function () {
+    if (window.location.href.indexOf('theme=dark') !== -1) {
+     document.documentElement.classList.add('dark');
+    }
+  }());
+  ]]>
+</script>
+
+<style>
+  /* prevent first paint in wrong color before shared css load */
+  svg {
+  --critical-tick-fill: #79747E;
+  --critical-grid-stroke: #E7E0EC;
+  --critical-axis-stroke: #79747E;
+  }
+  svg.dark {
+  --critical-tick-fill: #938F99;
+  --critical-grid-stroke: #3A3940;
+  --critical-axis-stroke: #938F99;
+  }
+  .tick-label, .category-label { fill: var(--critical-tick-fill); }
+  .grid-line { stroke: var(--critical-grid-stroke); }
+  .axis-line { stroke: var(--critical-axis-stroke); }
+</style>

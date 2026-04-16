@@ -1,239 +1,265 @@
-﻿
+<svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%"
+  preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
+  font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+  <script type="text/javascript">
+    <![CDATA[
+    (function () {
+      if (window.location.href.indexOf('theme=dark') !== -1) {
+       document.documentElement.classList.add('dark');
+      }
+    }());
+    ]]>
+  </script>
 
+  <defs>
+    <style>
+      @import url('chart-shared.css');
+      /* prevent first paint in wrong color before shared css load */
+      svg {
+      --critical-tick-fill: #79747E;
+      --critical-grid-stroke: #E7E0EC;
+      --critical-axis-stroke: #79747E;
+      }
+      svg.dark {
+      --critical-tick-fill: #938F99;
+      --critical-grid-stroke: #3A3940;
+      --critical-axis-stroke: #938F99;
+      }
+      .tick-label, .category-label { fill: var(--critical-tick-fill); }
+      .grid-line { stroke: var(--critical-grid-stroke); }
+      .axis-line { stroke: var(--critical-axis-stroke); }
+      
+      /* animation */
+      .data-body { opacity:0; }
+      .data-body.visible { opacity:1; }
+    </style>
+  </defs>
 
-<svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
-<defs>
-  <style>
-    @import url('chart-shared.css');
+  <line x1="42" y1="500" x2="840" y2="500" class="axis-line" />
+  <line x1="42" y1="400" x2="840" y2="400" class="grid-line" />
+  <line x1="42" y1="300" x2="840" y2="300" class="grid-line" />
+  <line x1="42" y1="200" x2="840" y2="200" class="grid-line" />
+  <line x1="42" y1="100" x2="840" y2="100" class="grid-line" />
+  <line x1="42" y1="100" x2="42" y2="500" class="axis-line" />
 
-    @keyframes dataFadeIn { from{opacity:0} to{opacity:1} }
-    .data-body { animation: dataFadeIn 0.8s ease-out both; }
-    .stagger-1 { animation-delay:0.00s; } .stagger-2 { animation-delay:0.25s; }
-    .stagger-3 { animation-delay:0.50s; } .stagger-4 { animation-delay:0.75s; }
-    .stagger-5 { animation-delay:1.00s; } .stagger-6 { animation-delay:1.25s; }
-    .stagger-7 { animation-delay:1.50s; } .stagger-8 { animation-delay:1.75s; }
-  </style>
-</defs>
+  <text x="40" y="504" class="tick-label" text-anchor="end">$0</text>
+  <text x="40" y="404" class="tick-label" text-anchor="end">$25M</text>
+  <text x="40" y="304" class="tick-label" text-anchor="end">$50M</text>
+  <text x="40" y="204" class="tick-label" text-anchor="end">$75M</text>
+  <text x="40" y="104" class="tick-label" text-anchor="end">$100M</text>
 
-<line x1="42" y1="500" x2="840" y2="500" class="axis-line"/>
-<line x1="42" y1="400" x2="840" y2="400" class="grid-line"/>
-<line x1="42" y1="300" x2="840" y2="300" class="grid-line"/>
-<line x1="42" y1="200" x2="840" y2="200" class="grid-line"/>
-<line x1="42" y1="100" x2="840" y2="100" class="grid-line"/>
-<line x1="42" y1="100" x2="42"  y2="500" class="axis-line"/>
+  <text x="96" y="530" class="category-label" text-anchor="middle">Cyan</text>
+  <text x="195" y="530" class="category-label" text-anchor="middle">Emerald</text>
+  <text x="294" y="530" class="category-label" text-anchor="middle">Amber</text>
+  <text x="393" y="530" class="category-label" text-anchor="middle">Rose</text>
+  <text x="492" y="530" class="category-label" text-anchor="middle">Violet</text>
+  <text x="591" y="530" class="category-label" text-anchor="middle">Blue</text>
+  <text x="690" y="530" class="category-label" text-anchor="middle">Teal</text>
+  <text x="789" y="530" class="category-label" text-anchor="middle">Other</text>
 
-<text x="40" y="504" class="tick-label" text-anchor="end">$0</text>
-<text x="40" y="404" class="tick-label" text-anchor="end">$25M</text>
-<text x="40" y="304" class="tick-label" text-anchor="end">$50M</text>
-<text x="40" y="204" class="tick-label" text-anchor="end">$75M</text>
-<text x="40" y="104" class="tick-label" text-anchor="end">$100M</text>
+  <!-- bars only, no tooltips -->
+  <g class="data-layer" id="data-layer">
+    <!-- Cyan $72M h=288 -->
+    <g class="data-item" id="data-item-1" data-item-cx="96" data-item-top="212">
+      <g class="data-body">
+        <rect class="series-1" x="64" y="212" width="64" height="288" rx="10" />
+      </g>
+      <g class="data-tip" id="data-tip-1">
+        <rect class="tip-bg" rx="9" />
+        <path class="tip-border" />
+        <path class="tip-tail" />
+        <text text-anchor="middle" dominant-baseline="central" class="tip-value">$72M</text>
+        <text text-anchor="middle" dominant-baseline="central" class="tip-label">Cyan</text>
+      </g>
+    </g>
 
-<text x="96" y="530" class="category-label" text-anchor="middle">Cyan</text>
-<text x="195" y="530" class="category-label" text-anchor="middle">Emerald</text>
-<text x="294" y="530" class="category-label" text-anchor="middle">Amber</text>
-<text x="393" y="530" class="category-label" text-anchor="middle">Rose</text>
-<text x="492" y="530" class="category-label" text-anchor="middle">Violet</text>
-<text x="591" y="530" class="category-label" text-anchor="middle">Blue</text>
-<text x="690" y="530" class="category-label" text-anchor="middle">Teal</text>
-<text x="789" y="530" class="category-label" text-anchor="middle">Other</text>
+    <!-- Emerald $68M h=272 -->
+    <g class="data-item" id="data-item-2" data-item-cx="195" data-item-top="228">
+      <g class="data-body">
+        <rect class="series-2" x="163" y="228" width="64" height="272" rx="10" />
+      </g>
+      <g class="data-tip" id="data-tip-2">
+        <rect class="tip-bg" rx="9" />
+        <path class="tip-border" />
+        <path class="tip-tail" />
+        <text text-anchor="middle" dominant-baseline="central" class="tip-value">$68M</text>
+        <text text-anchor="middle" dominant-baseline="central" class="tip-label">Emerald</text>
+      </g>
+    </g>
 
-<!-- DATA LAYER Ã¢â‚¬â€ bars only, no tooltips -->
-<g class="data-layer" id="data-layer">
+    <!-- Amber $60M h=240 -->
+    <g class="data-item" id="data-item-3" data-item-cx="294" data-item-top="260">
+      <g class="data-body">
+        <rect class="series-3" x="262" y="260" width="64" height="240" rx="10" />
+      </g>
+      <g class="data-tip" id="data-tip-3">
+        <rect class="tip-bg" rx="9" />
+        <path class="tip-border" />
+        <path class="tip-tail" />
+        <text text-anchor="middle" dominant-baseline="central" class="tip-value">$60M</text>
+        <text text-anchor="middle" dominant-baseline="central" class="tip-label">Amber</text>
+      </g>
+    </g>
 
-<!-- Cyan $72M h=288 -->
-<g class="data-item" id="data-item-1" data-item-cx="96" data-item-top="212">
-  <g class="data-body stagger-1">
-    <rect class="series-1" x="64" y="212" width="64" height="288" rx="10"/>
+    <!-- Rose $55M h=220 -->
+    <g class="data-item" id="data-item-4" data-item-cx="393" data-item-top="280">
+      <g class="data-body">
+        <rect class="series-4" x="361" y="280" width="64" height="220" rx="10" />
+      </g>
+      <g class="data-tip" id="data-tip-4">
+        <rect class="tip-bg" rx="9" />
+        <path class="tip-border" />
+        <path class="tip-tail" />
+        <text text-anchor="middle" dominant-baseline="central" class="tip-value">$55M</text>
+        <text text-anchor="middle" dominant-baseline="central" class="tip-label">Rose</text>
+      </g>
+    </g>
+
+    <!-- Violet $79M h=316 -->
+    <g class="data-item" id="data-item-5" data-item-cx="492" data-item-top="184">
+      <g class="data-body">
+        <rect class="series-5" x="460" y="184" width="64" height="316" rx="10" />
+      </g>
+      <g class="data-tip" id="data-tip-5">
+        <rect class="tip-bg" rx="9" />
+        <path class="tip-border" />
+        <path class="tip-tail" />
+        <text text-anchor="middle" dominant-baseline="central" class="tip-value">$79M</text>
+        <text text-anchor="middle" dominant-baseline="central" class="tip-label">Violet</text>
+      </g>
+    </g>
+
+    <!-- Blue $64M h=256 -->
+    <g class="data-item" id="data-item-6" data-item-cx="591" data-item-top="244">
+      <g class="data-body">
+        <rect class="series-6" x="559" y="244" width="64" height="256" rx="10" />
+      </g>
+      <g class="data-tip" id="data-tip-6">
+        <rect class="tip-bg" rx="9" />
+        <path class="tip-border" />
+        <path class="tip-tail" />
+        <text text-anchor="middle" dominant-baseline="central" class="tip-value">$64M</text>
+        <text text-anchor="middle" dominant-baseline="central" class="tip-label">Blue</text>
+      </g>
+    </g>
+
+    <!-- Teal $61M h=244 -->
+    <g class="data-item" id="data-item-7" data-item-cx="690" data-item-top="256">
+      <g class="data-body">
+        <rect class="series-7" x="658" y="256" width="64" height="244" rx="10" />
+      </g>
+      <g class="data-tip" id="data-tip-7">
+        <rect class="tip-bg" rx="9" />
+        <path class="tip-border" />
+        <path class="tip-tail" />
+        <text text-anchor="middle" dominant-baseline="central" class="tip-value">$61M</text>
+        <text text-anchor="middle" dominant-baseline="central" class="tip-label">Teal</text>
+      </g>
+    </g>
+
+    <!-- Other $48M h=192 -->
+    <g class="data-item" id="data-item-8" data-item-cx="789" data-item-top="308">
+      <g class="data-body">
+        <rect class="series-8" x="757" y="308" width="64" height="192" rx="10" />
+      </g>
+      <g class="data-tip" id="data-tip-8">
+        <rect class="tip-bg" rx="9" />
+        <path class="tip-border" />
+        <path class="tip-tail" />
+        <text text-anchor="middle" dominant-baseline="central" class="tip-value">$48M</text>
+        <text text-anchor="middle" dominant-baseline="central" class="tip-label">Other</text>
+      </g>
+    </g>
   </g>
-  <g class="data-tip" id="data-tip-1">
-    <rect class="tip-bg" rx="9"/>
-    <path class="tip-border"/><path class="tip-tail"/>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-value">$72M</text>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Cyan</text>
-  </g>
-</g>
 
-<!-- Emerald $68M h=272 -->
-<g class="data-item" id="data-item-2" data-item-cx="195" data-item-top="228">
-  <g class="data-body stagger-2">
-    <rect class="series-2" x="163" y="228" width="64" height="272" rx="10"/>
-  </g>
-  <g class="data-tip" id="data-tip-2">
-    <rect class="tip-bg" rx="9"/>
-    <path class="tip-border"/><path class="tip-tail"/>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-value">$68M</text>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Emerald</text>
-  </g>
-</g>
+  <g id="tip-layer"></g>
 
-<!-- Amber $60M h=240 -->
-<g class="data-item" id="data-item-3" data-item-cx="294" data-item-top="260">
-  <g class="data-body stagger-3">
-    <rect class="series-3" x="262" y="260" width="64" height="240" rx="10"/>
+  <!-- LEGEND -->
+  <rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg legend-panel" />
+  <text x="878" y="118" class="legend-title legend-heading">SERIES</text>
+  <g class="legend-row" transform="translate(878,146)">
+    <rect class="series-1" x="0" y="0" width="14" height="14" rx="3" />
+    <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Cyan</text>
+    <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end"
+      dominant-baseline="middle">$72M</text>
   </g>
-  <g class="data-tip" id="data-tip-3">
-    <rect class="tip-bg" rx="9"/>
-    <path class="tip-border"/><path class="tip-tail"/>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-value">$60M</text>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Amber</text>
+  <g class="legend-row" transform="translate(878,188)">
+    <rect class="series-2" x="0" y="0" width="14" height="14" rx="3" />
+    <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Emerald</text>
+    <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end"
+      dominant-baseline="middle">$68M</text>
   </g>
-</g>
+  <g class="legend-row" transform="translate(878,230)">
+    <rect class="series-3" x="0" y="0" width="14" height="14" rx="3" />
+    <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Amber</text>
+    <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end"
+      dominant-baseline="middle">$60M</text>
+  </g>
+  <g class="legend-row" transform="translate(878,272)">
+    <rect class="series-4" x="0" y="0" width="14" height="14" rx="3" />
+    <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Rose</text>
+    <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end"
+      dominant-baseline="middle">$55M</text>
+  </g>
+  <g class="legend-row" transform="translate(878,314)">
+    <rect class="series-5" x="0" y="0" width="14" height="14" rx="3" />
+    <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Violet</text>
+    <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end"
+      dominant-baseline="middle">$79M</text>
+  </g>
+  <g class="legend-row" transform="translate(878,356)">
+    <rect class="series-6" x="0" y="0" width="14" height="14" rx="3" />
+    <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Blue</text>
+    <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end"
+      dominant-baseline="middle">$64M</text>
+  </g>
+  <g class="legend-row" transform="translate(878,398)">
+    <rect class="series-7" x="0" y="0" width="14" height="14" rx="3" />
+    <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Teal</text>
+    <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end"
+      dominant-baseline="middle">$61M</text>
+  </g>
+  <g class="legend-row" transform="translate(878,440)">
+    <rect class="series-8" x="0" y="0" width="14" height="14" rx="3" />
+    <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Other</text>
+    <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end"
+      dominant-baseline="middle">$48M</text>
+  </g>
 
-<!-- Rose $55M h=220 -->
-<g class="data-item" id="data-item-4" data-item-cx="393" data-item-top="280">
-  <g class="data-body stagger-4">
-    <rect class="series-4" x="361" y="280" width="64" height="220" rx="10"/>
-  </g>
-  <g class="data-tip" id="data-tip-4">
-    <rect class="tip-bg" rx="9"/>
-    <path class="tip-border"/><path class="tip-tail"/>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-value">$55M</text>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Rose</text>
-  </g>
-</g>
-
-<!-- Violet $79M h=316 -->
-<g class="data-item" id="data-item-5" data-item-cx="492" data-item-top="184">
-  <g class="data-body stagger-5">
-    <rect class="series-5" x="460" y="184" width="64" height="316" rx="10"/>
-  </g>
-  <g class="data-tip" id="data-tip-5">
-    <rect class="tip-bg" rx="9"/>
-    <path class="tip-border"/><path class="tip-tail"/>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-value">$79M</text>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Violet</text>
-  </g>
-</g>
-
-<!-- Blue $64M h=256 -->
-<g class="data-item" id="data-item-6" data-item-cx="591" data-item-top="244">
-  <g class="data-body stagger-6">
-    <rect class="series-6" x="559" y="244" width="64" height="256" rx="10"/>
-  </g>
-  <g class="data-tip" id="data-tip-6">
-    <rect class="tip-bg" rx="9"/>
-    <path class="tip-border"/><path class="tip-tail"/>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-value">$64M</text>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Blue</text>
-  </g>
-</g>
-
-<!-- Teal $61M h=244 -->
-<g class="data-item" id="data-item-7" data-item-cx="690" data-item-top="256">
-  <g class="data-body stagger-7">
-    <rect class="series-7" x="658" y="256" width="64" height="244" rx="10"/>
-  </g>
-  <g class="data-tip" id="data-tip-7">
-    <rect class="tip-bg" rx="9"/>
-    <path class="tip-border"/><path class="tip-tail"/>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-value">$61M</text>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Teal</text>
-  </g>
-</g>
-
-<!-- Other $48M h=192 -->
-<g class="data-item" id="data-item-8" data-item-cx="789" data-item-top="308">
-  <g class="data-body stagger-8">
-    <rect class="series-8" x="757" y="308" width="64" height="192" rx="10"/>
-  </g>
-  <g class="data-tip" id="data-tip-8">
-    <rect class="tip-bg" rx="9"/>
-    <path class="tip-border"/><path class="tip-tail"/>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-value">$48M</text>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Other</text>
-  </g>
-</g>
-
-</g>
-
-<g id="tip-layer"></g>
-
-<!-- LEGEND -->
-<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg" stroke-width="1"/>
-<text x="878" y="118" class="legend-title">SERIES</text>
-<g transform="translate(878,146)">
-  <rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label" dominant-baseline="middle">Cyan</text>
-  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$72M</text>
-</g>
-<g transform="translate(878,194)">
-  <rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label" dominant-baseline="middle">Emerald</text>
-  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$68M</text>
-</g>
-<g transform="translate(878,242)">
-  <rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label" dominant-baseline="middle">Amber</text>
-  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$60M</text>
-</g>
-<g transform="translate(878,290)">
-  <rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label" dominant-baseline="middle">Rose</text>
-  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$55M</text>
-</g>
-<g transform="translate(878,338)">
-  <rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label" dominant-baseline="middle">Violet</text>
-  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$79M</text>
-</g>
-<g transform="translate(878,386)">
-  <rect class="series-6" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label" dominant-baseline="middle">Blue</text>
-  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$64M</text>
-</g>
-<g transform="translate(878,434)">
-  <rect class="series-7" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label" dominant-baseline="middle">Teal</text>
-  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$61M</text>
-</g>
-<line x1="878" y1="482" x2="1050" y2="482" class="legend-divider"/>
-<g transform="translate(878,498)">
-  <rect class="series-8" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label" dominant-baseline="middle">Other</text>
-  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$48M</text>
-</g>
-
-<script href="chart-shared.js"></script>
-<script type="text/javascript"><![CDATA[
+  <script href="chart-shared.js"></script>
+  <script type="text/javascript"><![CDATA[
 (function () {
   var svg = document.documentElement;
   svg._chartInit = function (svgEl, ctx) {
     var dataLayerEl = svgEl.querySelector('.data-layer');
+    var dataBodyEls = ctx.$$all('.data-body');
 
-    /* Position tooltip bubbles via getBBox(); CSS owns show/hide */
-    function initBubbles() {
-      var tipLayerEl = svgEl.querySelector('#tip-layer');
-      var barHW = 32;
-      var plotL = 42, plotR = 840, plotT = 100, plotB = 500;
+    dataBodyEls.forEach(function (dataBody, index) {
+      var delay = ctx.getStaggerDelay(index, dataBodyEls.length, null, svgEl);
+      ctx.animateAndMarkVisible(
+        dataBody,
+        'dataFadeIn var(--chart-fade-duration, 0.8s) ease-out ' + delay + 's'
+      );
+    });
 
-      ctx.$$all('.data-item').forEach(function (dataItem) {
-        var itemCx  = parseFloat(dataItem.getAttribute('data-item-cx'));
-        var itemTop = parseFloat(dataItem.getAttribute('data-item-top'));
-        var tip = dataItem.querySelector('.data-tip');
-        ctx.layoutSideTooltip(tip, {
-          anchorX: itemCx,
-          anchorY: itemTop,
-          anchorInset: barHW,
-          plotL: plotL,
-          plotR: plotR,
-          plotT: plotT,
-          plotB: plotB,
-          lines: [
-            { text: tip.querySelector('.tip-value').textContent, className: 'tip-value' },
-            { text: tip.querySelector('.tip-label').textContent, className: 'tip-label' }
-          ],
-          lineHeights: [70, 70],
-          minWidth: 220,
-          paddingX: 20,
-          paddingY: 30
-        });
-        tipLayerEl.appendChild(tip);
-        dataItem._tip = tip;
-      });
-    }
-    initBubbles();
+    ctx.initSideBubbles({
+      itemSelector: '.data-item',
+      tipSelector: '.data-tip',
+      tipLayerSelector: '#tip-layer',
+      anchorXAttr: 'data-item-cx',
+      anchorYAttr: 'data-item-top',
+      anchorInset: 32,
+      plotL: 42,
+      plotR: 840,
+      plotT: 100,
+      plotB: 500,
+      lineHeights: [70, 70],
+      minWidth: 220,
+      paddingX: 20,
+      paddingY: 30
+    });
 
-    /* Hover Ã¢â‚¬â€ data layer dims; tips live in #tip-layer so JS controls opacity directly */
+    /* Hover data layer dims; tips live in #tip-layer so JS controls opacity directly */
     var dataItemEls = ctx.$$all('.data-item');
     dataItemEls.forEach(function (dataItem) {
       dataItem.addEventListener('mouseenter', function () {
@@ -253,4 +279,3 @@
 }());
 ]]></script>
 </svg>
-

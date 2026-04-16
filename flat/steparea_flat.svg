@@ -29,7 +29,7 @@
     svg.dark .grid-line { stroke:#49454F; }
     svg.dark .axis-line { stroke:#938F99; }
 
-    /* §1 palette — series-N for fills and strokes */
+    /* Ã‚Â§1 palette Ã¢â‚¬â€ series-N for fills and strokes */
     .series-1 { fill:#00D4E8; stroke:#00D4E8; } .series-2 { fill:#00B87A; stroke:#00B87A; }
     .series-3 { fill:#F59E0B; stroke:#F59E0B; } .series-4 { fill:#F43F5E; stroke:#F43F5E; }
     .series-5 { fill:#8B5CF6; stroke:#8B5CF6; } .series-6 { fill:#3B82F6; stroke:#3B82F6; }
@@ -72,7 +72,7 @@
     svg.dark .border-dark  { display:block; }
     svg.dark .border-light { display:none; }
 
-    /* §3 A1 animation — area+stroke path is the hover target; use A1 */
+    /* Ã‚Â§3 A1 animation Ã¢â‚¬â€ area+stroke path is the hover target; use A1 */
     @keyframes areaFadeIn { from{opacity:0} to{opacity:1} }
 
     /* area fill paths */
@@ -87,7 +87,7 @@
     .dot-g { opacity:0; }
     .dot-g.visible { animation: areaFadeIn 0.8s ease-out both; }
 
-    /* §4 hover: dim non-hovered series */
+    /* Ã‚Â§4 hover: dim non-hovered series */
     .data-layer.hovering .sg          { opacity:0.20; transition:opacity 0.2s ease; }
     .data-layer.hovering .sg.hovered  { opacity:1; }
 
@@ -95,15 +95,15 @@
     .sg.hovered .dot-g          { opacity:0.30; transition:opacity 0.15s ease; }
     .sg.hovered .dot-g.hovered  { opacity:1 !important; }
 
-    /* fills and strokes are visual only — hit layer handles pointer events */
+    /* fills and strokes are visual only Ã¢â‚¬â€ hit layer handles pointer events */
     .area-fill   { pointer-events:none; }
     .area-stroke { pointer-events:none; }
 
-    /* dot styling — declared after series-N so white fill overrides series fill on dots */
+    /* dot styling Ã¢â‚¬â€ declared after series-N so white fill overrides series fill on dots */
     .dot-circle { stroke-width:2; fill:#FFFBFE; }
     svg.dark .dot-circle { fill:#1C1B1F; }
 
-    /* §5 tooltip */
+    /* Ã‚Â§5 tooltip */
     .tip-bg     { fill:#FFFBFE; }
     .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
     .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
@@ -118,30 +118,10 @@
   </style>
 </defs>
 
-<!-- §9 card shell -->
-<rect class="card-bg" width="1100" height="620" rx="18"/>
-<g class="border-light">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
-</g>
-<g class="border-dark">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
-</g>
+<!-- Ã‚Â§9 card shell -->
 
-<text x="68" y="50" class="card-title">Cloud Spend by Department - Step Area</text>
-<text x="68" y="70" class="card-subtitle">4 series · monthly · hover to inspect · print for values</text>
 
-<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
-  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
-</g>
-<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
-  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
-</g>
-
-<!-- §9 grid — plot area: left=68 right=850 top=100 bottom=500 -->
+<!-- Ã‚Â§9 grid Ã¢â‚¬â€ plot area: left=68 right=850 top=100 bottom=500 -->
 <line x1="68" y1="500" x2="850" y2="500" class="axis-line"/>
 <line x1="68" y1="100" x2="68"  y2="500" class="axis-line"/>
 <line x1="68" y1="400" x2="850" y2="400" class="grid-line"/>
@@ -156,7 +136,7 @@
 <text x="56" y="204" class="tick-label" text-anchor="end">$150k</text>
 <text x="56" y="104" class="tick-label" text-anchor="end">$200k</text>
 
-<!-- x-axis labels: 10 months Jan–Oct -->
+<!-- x-axis labels: 10 months JanÃ¢â‚¬â€œOct -->
 <text x="134" y="522" class="category-label" text-anchor="middle">Jan</text>
 <text x="212" y="522" class="category-label" text-anchor="middle">Feb</text>
 <text x="290" y="522" class="category-label" text-anchor="middle">Mar</text>
@@ -168,10 +148,10 @@
 <text x="758" y="522" class="category-label" text-anchor="middle">Sep</text>
 <text x="836" y="522" class="category-label" text-anchor="middle">Oct</text>
 
-<!-- §7 DATA LAYER — built by JS -->
+<!-- Ã‚Â§7 DATA LAYER Ã¢â‚¬â€ built by JS -->
 <g class="data-layer" id="data-layer"></g>
 
-<!-- §7 tooltip always last -->
+<!-- Ã‚Â§7 tooltip always last -->
 <g id="tip-layer">
   <rect class="tip-bg"     id="tip-bg"  rx="9" opacity="0"/>
   <path class="tip-border" id="tip-bdr" opacity="0"/>
@@ -181,30 +161,29 @@
 </g>
 
 <!-- legend -->
-<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg"/>
-<text x="878" y="118" class="legend-title">DEPARTMENT</text>
-<g transform="translate(878,146)">
+<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg legend-panel"/>
+<text x="878" y="118" class="legend-title legend-heading">DEPARTMENT</text>
+<g class="legend-row" transform="translate(878,146)">
   <rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label" dominant-baseline="middle">Engineering</text>
-  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$182k</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Engineering</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$182k</text>
 </g>
-<g transform="translate(878,194)">
+<g class="legend-row" transform="translate(878,194)">
   <rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label" dominant-baseline="middle">Data &amp; ML</text>
-  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$143k</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Data &amp; ML</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$143k</text>
 </g>
-<g transform="translate(878,242)">
+<g class="legend-row" transform="translate(878,242)">
   <rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label" dominant-baseline="middle">Product</text>
-  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$67k</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Product</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$67k</text>
 </g>
-<g transform="translate(878,290)">
+<g class="legend-row" transform="translate(878,290)">
   <rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label" dominant-baseline="middle">Marketing</text>
-  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$44k</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Marketing</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$44k</text>
 </g>
 
-<text x="68" y="600" class="footer">Cloud Spend by Department · 4 series · step area chart</text>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -214,7 +193,7 @@
 var svg         = document.getElementById('root');
   var dataLayerEl = document.getElementById('data-layer');
 
-  /* §2 isDark hoisted before all build code */
+  /* Ã‚Â§2 isDark hoisted before all build code */
 
   /* DATA */
   var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct'];
@@ -246,7 +225,7 @@ var svg         = document.getElementById('root');
     return d;
   }
 
-  /* top stroke only (no close) — drawn on top of fill for crisp edge */
+  /* top stroke only (no close) Ã¢â‚¬â€ drawn on top of fill for crisp edge */
   function strokePath(values) {
     var d = 'M' + xAt(0) + ',' + yAt(values[0]);
     for (var i = 1; i < values.length; i++) {
@@ -255,7 +234,7 @@ var svg         = document.getElementById('root');
     return d;
   }
 
-  /* §3 STAGGER — 4 series; dots per series */
+  /* Ã‚Â§3 STAGGER Ã¢â‚¬â€ 4 series; dots per series */
   var seriesStagger = 0.20;
   var dotStagger    = Math.min(0.25, 1.0 / n);
   var lastDelay     = (series.length - 1) * seriesStagger + (n - 1) * dotStagger;
@@ -383,7 +362,7 @@ var svg         = document.getElementById('root');
     [tipBg, tipBdr, tipTip, tipVal, tipLbl].forEach(function(el) { el.setAttribute('opacity', '0'); });
   }
 
-  /* §4 HOVER — area fills are large adjacent targets → container-level mouseleave */
+  /* Ã‚Â§4 HOVER Ã¢â‚¬â€ area fills are large adjacent targets Ã¢â€ â€™ container-level mouseleave */
   function svgMouseX(e) {
     var pt = svg.createSVGPoint();
     pt.x = e.clientX; pt.y = e.clientY;
@@ -394,7 +373,7 @@ var svg         = document.getElementById('root');
     return Math.max(0, Math.min(n - 1, Math.round((mx - plotL) / step)));
   }
 
-  /* HIT LAYER — built after all series, painted on top.
+  /* HIT LAYER Ã¢â‚¬â€ built after all series, painted on top.
      Smallest series (highest index) appended last = topmost in SVG = wins hit-test.
      Each hit path uses the top-stroke geometry with a wide transparent stroke.
      This way hovering near any series' step edge is always reachable regardless
@@ -452,7 +431,7 @@ var svg         = document.getElementById('root');
 
   /* PRINT TOGGLE */
 
-  /* §2 DARK MODE */
+  /* Ã‚Â§2 DARK MODE */
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());

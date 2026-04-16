@@ -1,35 +1,55 @@
 <svg id="root" class="chart-standard" viewBox="0 0 1040 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<script type="text/javascript"><![CDATA[
+(function () {
+  /* prevent dark-mode first-paint flash before bootstrap */
+  if (window.location.href.indexOf('theme=dark') !== -1) {
+    document.documentElement.classList.add('dark');
+  }
+}());
+]]></script>
 <defs>
   <style>
     @import url('chart-shared.css');
 
-    .slice-g  { cursor:pointer; }
+    /* prevent first paint in wrong color before shared css load */
+    svg {
+      --critical-center-fill: #FFFBFE;
+      --critical-center-label: #79747E;
+      --critical-center-value: #1C1B1F;
+      --critical-center-ring: rgba(0,0,0,0.12);
+      --critical-center-shadow: drop-shadow(0 1px 2px rgba(0,0,0,0.10));
+    }
+    svg.dark {
+      --critical-center-fill: #1C1B1F;
+      --critical-center-label: #938F99;
+      --critical-center-value: #E6E0E9;
+      --critical-center-ring: rgba(147,143,153,0.42);
+      --critical-center-shadow: drop-shadow(0 1px 4px rgba(0,0,0,0.25));
+    }
     #pie      { shape-rendering:geometricPrecision; }
-    #pie.ready.hovering .slice-g        { opacity:0.20; transition:opacity .2s ease; }
-    #pie.ready.hovering .slice-g.active { opacity:1;    transition:opacity .2s ease; }
-    .tip           { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    svg.print .tip { opacity:0 !important; }
     /* tip-sub and tip-pct come from chart-shared.css */
-    .card-subtitle { font-size:24px; font-weight:500; }
-    .card-title { font-size:42px; font-weight:700; }
+    .center-hole-bg { fill:var(--critical-center-fill); filter:var(--critical-center-shadow); }
+    .center-hole-ring { stroke:var(--critical-center-ring); }
+    .center-hole-label { font-size:24px; font-weight:500; fill:var(--critical-center-label); }
+    .center-hole-value { font-size:42px; font-weight:700; fill:var(--critical-center-value); }
   </style>
 </defs>
 
-<g class="data-layer" id="pie" transform="translate(416,228)">
-  <g class="slice-g" id="sl1" data-label="Royal Blue" data-val="$220M" data-pct="18.3%" data-mid="32.95"  data-span="65.9"><path id="sp1" d="M0,0 L195.00,0.00 A195,195 0 0,1 79.62,178.00 Z" class="series-1"/></g>
-  <g class="slice-g" id="sl2" data-label="Emerald"    data-val="$180M" data-pct="15.0%" data-mid="92.90"  data-span="54.0"><path id="sp2" d="M0,0 L79.62,178.00 A195,195 0 0,1 -97.21,169.04 Z" class="series-2"/></g>
-  <g class="slice-g" id="sl3" data-label="Amber"      data-val="$150M" data-pct="12.5%" data-mid="142.40" data-span="45.0"><path id="sp3" d="M0,0 L-97.21,169.04 A195,195 0 0,1 -188.27,50.80 Z" class="series-3"/></g>
-  <g class="slice-g" id="sl4" data-label="Rose"       data-val="$130M" data-pct="10.8%" data-mid="184.35" data-span="38.9"><path id="sp4" d="M0,0 L-188.27,50.80 A195,195 0 0,1 -178.42,-78.69 Z" class="series-4"/></g>
-  <g class="slice-g" id="sl5" data-label="Violet"     data-val="$100M" data-pct="8.3%"  data-mid="218.80" data-span="30.0"><path id="sp5" d="M0,0 L-178.42,-78.69 A195,195 0 0,1 -115.17,-157.36 Z" class="series-5"/></g>
-  <g class="slice-g" id="sl6" data-label="Blue"       data-val="$90M"  data-pct="7.5%"  data-mid="247.30" data-span="27.0"><path id="sp6" d="M0,0 L-115.17,-157.36 A195,195 0 0,1 -31.18,-192.49 Z" class="series-6"/></g>
-  <g class="slice-g" id="sl7" data-label="Teal"       data-val="$70M"  data-pct="5.8%"  data-mid="271.40" data-span="21.2"><path id="sp7" d="M0,0 L-31.18,-192.49 A195,195 0 0,1 40.54,-190.74 Z" class="series-7"/></g>
-  <g class="slice-g" id="sl8" data-label="Slate"      data-val="$60M"  data-pct="5.0%"  data-mid="291.00" data-span="18.0"><path id="sp8" d="M0,0 L40.54,-190.74 A195,195 0 0,1 97.50,-168.87 Z" class="series-8"/></g>
-  <g class="slice-g" id="sl9" data-label="Other"      data-val="$200M" data-pct="16.7%" data-mid="330.00" data-span="60.0"><path id="sp9" d="M0,0 L97.50,-168.87 A195,195 0 0,1 195.00,-0.00 Z" class="series-8"/></g>
-  <g id="hole-group">
-    <circle cx="0" cy="0" r="88" class="card-bg"/>
-    <path class="border-light" d="M-62,-62 A88,88 0 0,1 62,-62" fill="none" stroke="rgba(0,0,0,0.12)" stroke-width="1.5" stroke-linecap="round"/>
-    <text x="0" y="-22" text-anchor="middle" class="card-subtitle">Total</text>
-    <text x="0" y="22"  text-anchor="middle" class="card-title">$1.2B</text>
+<g class="data-layer radial-chart" id="pie" transform="translate(416,228)">
+  <g class="slice-g radial-slice" id="sl1" data-label="Royal Blue" data-val="$220M" data-pct="18.3%" data-mid="32.95"  data-span="65.9" style="opacity:0"><path id="sp1" d="M0,0 L195.00,0.00 A195,195 0 0,1 79.62,178.00 Z" class="series-1"/></g>
+  <g class="slice-g radial-slice" id="sl2" data-label="Emerald"    data-val="$180M" data-pct="15.0%" data-mid="92.90"  data-span="54.0" style="opacity:0"><path id="sp2" d="M0,0 L79.62,178.00 A195,195 0 0,1 -97.21,169.04 Z" class="series-2"/></g>
+  <g class="slice-g radial-slice" id="sl3" data-label="Amber"      data-val="$150M" data-pct="12.5%" data-mid="142.40" data-span="45.0" style="opacity:0"><path id="sp3" d="M0,0 L-97.21,169.04 A195,195 0 0,1 -188.27,50.80 Z" class="series-3"/></g>
+  <g class="slice-g radial-slice" id="sl4" data-label="Rose"       data-val="$130M" data-pct="10.8%" data-mid="184.35" data-span="38.9" style="opacity:0"><path id="sp4" d="M0,0 L-188.27,50.80 A195,195 0 0,1 -178.42,-78.69 Z" class="series-4"/></g>
+  <g class="slice-g radial-slice" id="sl5" data-label="Violet"     data-val="$100M" data-pct="8.3%"  data-mid="218.80" data-span="30.0" style="opacity:0"><path id="sp5" d="M0,0 L-178.42,-78.69 A195,195 0 0,1 -115.17,-157.36 Z" class="series-5"/></g>
+  <g class="slice-g radial-slice" id="sl6" data-label="Blue"       data-val="$90M"  data-pct="7.5%"  data-mid="247.30" data-span="27.0" style="opacity:0"><path id="sp6" d="M0,0 L-115.17,-157.36 A195,195 0 0,1 -31.18,-192.49 Z" class="series-6"/></g>
+  <g class="slice-g radial-slice" id="sl7" data-label="Teal"       data-val="$70M"  data-pct="5.8%"  data-mid="271.40" data-span="21.2" style="opacity:0"><path id="sp7" d="M0,0 L-31.18,-192.49 A195,195 0 0,1 40.54,-190.74 Z" class="series-7"/></g>
+  <g class="slice-g radial-slice" id="sl8" data-label="Slate"      data-val="$60M"  data-pct="5.0%"  data-mid="291.00" data-span="18.0" style="opacity:0"><path id="sp8" d="M0,0 L40.54,-190.74 A195,195 0 0,1 97.50,-168.87 Z" class="series-8"/></g>
+  <g class="slice-g radial-slice" id="sl9" data-label="Other"      data-val="$200M" data-pct="16.7%" data-mid="330.00" data-span="60.0" style="opacity:0"><path id="sp9" d="M0,0 L97.50,-168.87 A195,195 0 0,1 195.00,-0.00 Z" class="series-8"/></g>
+  <g id="hole-group" style="opacity:0">
+    <circle cx="0" cy="0" r="88" class="center-hole-bg"/>
+    <path class="center-hole-ring" d="M-62,-62 A88,88 0 0,1 62,-62" fill="none" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="0" y="-22" text-anchor="middle" class="center-hole-label">Total</text>
+    <text x="0" y="22"  text-anchor="middle" class="center-hole-value">$1.2B</text>
   </g>
   <g id="tip-layer" transform="translate(-416,-228)" pointer-events="none">
     <g class="tip" id="tip" style="opacity:0;pointer-events:none;">
@@ -44,13 +64,13 @@
   </g>
 </g>
 
-<rect x="818" y="0" width="214" height="455" rx="18" class="legend-bg"/>
-<text x="838" y="30" class="legend-title">SERIES</text>
-<g transform="translate(838,58)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Royal Blue</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$220M</text></g>
-<g transform="translate(838,106)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Emerald</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$180M</text></g>
-<g transform="translate(838,154)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Amber</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$150M</text></g>
-<g transform="translate(838,202)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Rose</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$130M</text></g>
-<g transform="translate(838,250)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Violet</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$100M</text></g>
+<rect x="818" y="0" width="214" height="455" rx="18" class="legend-bg legend-panel"/>
+<text x="838" y="30" class="legend-title legend-heading">SERIES</text>
+<g class="legend-row" transform="translate(838,58)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Royal Blue</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$220M</text></g>
+<g class="legend-row" transform="translate(838,106)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Emerald</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$180M</text></g>
+<g class="legend-row" transform="translate(838,154)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Amber</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$150M</text></g>
+<g class="legend-row" transform="translate(838,202)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Rose</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$130M</text></g>
+<g class="legend-row" transform="translate(838,250)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Violet</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$100M</text></g>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -135,26 +155,23 @@
 
     function hideTip() { ctx.setOpacity(tip, null); }
 
-    sliceEls.forEach(function (g) {
-      var midDeg = parseFloat(g.getAttribute('data-mid'));
-      var midRad = midDeg * Math.PI / 180;
-      var dx = Math.cos(midRad), dy = Math.sin(midRad);
-      var pathEl = svgEl.querySelector('#sp' + g.id.replace('sl', ''));
-
-      g.addEventListener('mouseenter', function () {
-        pie.classList.add('hovering');
-        ctx.activateExclusive(sliceEls, g);
+    ctx.initRadialHover(pie, sliceEls, {
+      onActivate: function (g) {
+        var midDeg = parseFloat(g.getAttribute('data-mid'));
+        var midRad = midDeg * Math.PI / 180;
+        var dx = Math.cos(midRad), dy = Math.sin(midRad);
+        var pathEl = svgEl.querySelector('#sp' + g.id.replace('sl', ''));
         if (pathEl) pathEl.setAttribute('transform', 'translate('+(dx*PUSH).toFixed(1)+','+(dy*PUSH).toFixed(1)+')');
         showTip(g);
-      });
-      g.addEventListener('mouseleave', function () {
-        g.classList.remove('active');
-        if (pathEl) pathEl.removeAttribute('transform');
+      },
+      onDeactivate: function () {
+        sliceEls.forEach(function (g) {
+          var pathEl = svgEl.querySelector('#sp' + g.id.replace('sl', ''));
+          if (pathEl) pathEl.removeAttribute('transform');
+        });
         hideTip();
-      });
+      }
     });
-
-    pie.addEventListener('mouseleave', function () { pie.classList.remove('hovering'); });
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());

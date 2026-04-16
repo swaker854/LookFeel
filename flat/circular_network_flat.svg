@@ -15,7 +15,7 @@
     svg.dark .card-subtitle { fill:#938F99; }
     svg.dark .footer       { fill:#938F99; }
 
-    /* §1 palette */
+    /* Ã‚Â§1 palette */
     .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
     .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
     .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
@@ -70,7 +70,7 @@
     }
     svg.dark .ring-guide { stroke: #49454F; }
 
-    /* §3 A1 edges — decorative, never hover targets */
+    /* Ã‚Â§3 A1 edges Ã¢â‚¬â€ decorative, never hover targets */
     @keyframes edgeFadeIn { from{opacity:0} to{opacity:1} }
     .edge {
       fill: none;
@@ -79,7 +79,7 @@
     }
     .edge.visible { opacity:1; }
 
-    /* §3 A1 — node-g is the hover target */
+    /* Ã‚Â§3 A1 Ã¢â‚¬â€ node-g is the hover target */
     @keyframes nodeFadeIn { from{opacity:0} to{opacity:1} }
     .node-g { opacity:0; cursor:pointer; }
     .node-g.visible { opacity:1; }
@@ -88,7 +88,7 @@
     .node-lbl { font-size:9.5px; font-weight:500; fill:#1C1B1F; pointer-events:none; }
     svg.dark .node-lbl { fill:#E6E0E9; }
 
-    /* §4 hover — gated on .ready
+    /* Ã‚Â§4 hover Ã¢â‚¬â€ gated on .ready
        Baseline: .data-layer.ready re-establishes opacity:1 after animation is killed.
        Hover rules sit at higher specificity and override cleanly.            */
     .data-layer.ready .node-g                    { opacity:1; }
@@ -101,7 +101,7 @@
     .data-layer.ready.hovering .edge             { opacity:0.05; transition:opacity 0.2s ease; }
     .data-layer.ready.hovering .edge.connected   { opacity:1; }
 
-    /* §5 JS-driven tooltip */
+    /* Ã‚Â§5 JS-driven tooltip */
     .tip-bg     { fill:#FFFBFE; }
     .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
     .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
@@ -118,36 +118,16 @@
   </style>
 </defs>
 
-<rect class="card-bg" width="1100" height="620" rx="18"/>
-<g class="border-light">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
-</g>
-<g class="border-dark">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
-</g>
 
-<text x="68" y="50" class="card-title">Service Dependency Graph - Circular Network</text>
-<text x="68" y="70" class="card-subtitle">16 nodes · 24 edges · circular layout · hover to explore neighbourhood</text>
 
-<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
-  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
-</g>
-<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
-  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
-</g>
-
-<!-- §7 DATA LAYER — built entirely by JS -->
+<!-- Ã‚Â§7 DATA LAYER Ã¢â‚¬â€ built entirely by JS -->
 <g class="data-layer" id="data-layer">
   <g id="ring-layer"></g>
   <g id="edge-layer"></g>
   <g id="node-layer"></g>
 </g>
 
-<!-- §7 tooltip always last -->
+<!-- Ã‚Â§7 tooltip always last -->
 <g id="tip-layer">
   <g class="tip" id="tip">
     <rect class="tip-bg"     id="tip-bg"  rx="9"/>
@@ -158,9 +138,9 @@
   </g>
 </g>
 
-<!-- legend — right panel -->
-<rect x="870" y="100" width="210" height="190" rx="14" class="legend-bg"/>
-<text x="888" y="124" class="legend-title">CLUSTER</text>
+<!-- legend Ã¢â‚¬â€ right panel -->
+<rect x="870" y="100" width="210" height="190" rx="14" class="legend-bg legend-panel"/>
+<text x="888" y="124" class="legend-title legend-heading">CLUSTER</text>
 <g transform="translate(888,140)">
   <circle class="series-1" cx="7" cy="7" r="7"/>
   <text x="22" y="11" class="legend-label">Frontend</text>
@@ -182,7 +162,6 @@
   <text x="22" y="11" class="legend-label">Auth</text>
 </g>
 
-<text x="68" y="600" class="footer">Service Dependency Graph · 16 nodes · 24 edges · circular network chart</text>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -195,9 +174,9 @@ var svg          = document.getElementById('root');
   var edgeLayer    = document.getElementById('edge-layer');
   var nodeLayer    = document.getElementById('node-layer');
 
-  /* §2 isDark before all build code */
+  /* Ã‚Â§2 isDark before all build code */
 
-  /* ── DATA ─────────────────────────────────────────────────────────────
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ DATA Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
      cluster: 1=Frontend 2=Backend 3=Data 4=Infra 5=Auth
      Nodes ordered by cluster so they group together on the ring.        */
   var nodes = [
@@ -251,7 +230,7 @@ var svg          = document.getElementById('root');
     { a:'monitor',   b:'analytics' },
   ];
 
-  /* ── BUILD LOOKUP + DEGREE ──────────────────────────────────────────── */
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ BUILD LOOKUP + DEGREE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
   var byId = {};
   nodes.forEach(function(n) { byId[n.id] = n; n.neighbours = []; n.edgeEls = []; });
   edges.forEach(function(e) {
@@ -264,10 +243,10 @@ var svg          = document.getElementById('root');
     n.r = 11 + Math.min(n.neighbours.length - 1, 5) * 2.2;
   });
 
-  /* ── CIRCULAR LAYOUT ────────────────────────────────────────────────
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ CIRCULAR LAYOUT Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
      Plot area: left=68 right=850 top=100 bottom=500
      Centre the circle within the plot area.
-     Gap of ~14° between each cluster group.                            */
+     Gap of ~14Ã‚Â° between each cluster group.                            */
   var plotL = 68, plotR = 850, plotT = 100, plotB = 500;
   var cx = (plotL + plotR) / 2;   /* 459 */
   var cy = (plotT + plotB) / 2;   /* 300 */
@@ -304,20 +283,20 @@ var svg          = document.getElementById('root');
     n.x = cx + ringR * Math.cos(rad);
     n.y = cy + ringR * Math.sin(rad);
 
-    /* label position — pushed outward, anchor based on side */
+    /* label position Ã¢â‚¬â€ pushed outward, anchor based on side */
     var lx = cx + labelR * Math.cos(rad);
     var ly = cy + labelR * Math.sin(rad);
     var anchor = (Math.cos(rad) > 0.1) ? 'start' : (Math.cos(rad) < -0.1) ? 'end' : 'middle';
     n.lx = lx; n.ly = ly; n.anchor = anchor;
   });
 
-  /* ── STAGGER ────────────────────────────────────────────────────────── */
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ STAGGER Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
   var totalEls  = edges.length + nodes.length;
   var stagger   = Math.min(0.25, 1.0 / totalEls);
   var lastDelay = (totalEls - 1) * stagger;
   var readyDelay = (lastDelay + 0.8 + 0.1) * 1000;
 
-  /* ── DRAW RING GUIDE ────────────────────────────────────────────────── */
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ DRAW RING GUIDE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
   var ringGuide = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
   ringGuide.setAttribute('cx', cx);
   ringGuide.setAttribute('cy', cy);
@@ -325,7 +304,7 @@ var svg          = document.getElementById('root');
   ringGuide.setAttribute('class', 'ring-guide');
   ringLayer.appendChild(ringGuide);
 
-  /* ── BUILD EDGES ────────────────────────────────────────────────────── */
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ BUILD EDGES Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
   edges.forEach(function(e, i) {
     var na = byId[e.a], nb = byId[e.b];
 
@@ -349,7 +328,7 @@ var svg          = document.getElementById('root');
     nb.edgeEls.push(path);
   });
 
-  /* ── BUILD NODES ────────────────────────────────────────────────────── */
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ BUILD NODES Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
   nodes.forEach(function(n, i) {
     var ng = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     ng.setAttribute('class', 'node-g');
@@ -373,7 +352,7 @@ var svg          = document.getElementById('root');
     n._ng = ng;
   });
 
-  /* ── §3 A1 ANIMATION — animationend per element, .visible provides resting opacity ── */
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§3 A1 ANIMATION Ã¢â‚¬â€ animationend per element, .visible provides resting opacity Ã¢â€â‚¬Ã¢â€â‚¬ */
   Array.prototype.forEach.call(edgeLayer.querySelectorAll('.edge'), function(el) {
     el.style.animation = 'edgeFadeIn 0.8s ease-out ' + el.style.animationDelay;
     el.addEventListener('animationend', function() {
@@ -393,7 +372,7 @@ var svg          = document.getElementById('root');
     dataLayerEl.classList.add('ready');
   }, readyDelay);
 
-  /* ── §5 TOOLTIP ──────────────────────────────────────────────────────── */
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§5 TOOLTIP Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
   var tip    = document.getElementById('tip');
   var tipBg  = document.getElementById('tip-bg');
   var tipBdr = document.getElementById('tip-bdr');
@@ -441,8 +420,8 @@ var svg          = document.getElementById('root');
     tip.style.opacity = '';
   }
 
-  /* ── §4 HOVER ────────────────────────────────────────────────────────
-     Nodes sit on a ring with clear gaps → element-level mouseleave.
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§4 HOVER Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+     Nodes sit on a ring with clear gaps Ã¢â€ â€™ element-level mouseleave.
      Stale-clear on every mouseenter is non-optional.                   */
   var allNodeGs = Array.prototype.slice.call(nodeLayer.querySelectorAll('.node-g'));
   var allEdges  = Array.prototype.slice.call(edgeLayer.querySelectorAll('.edge'));
@@ -483,9 +462,9 @@ var svg          = document.getElementById('root');
     });
   });
 
-  /* ── PRINT TOGGLE ─────────────────────────────────────────────────────── */
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ PRINT TOGGLE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 
-  /* ── §2 DARK MODE ─────────────────────────────────────────────────────── */
+  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§2 DARK MODE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());

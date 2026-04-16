@@ -2,34 +2,40 @@
 
 
 <svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+  <script type="text/javascript">
+    <![CDATA[
+    (function () {
+      if (window.location.href.indexOf('theme=dark') !== -1) {
+       document.documentElement.classList.add('dark');
+      }
+    }());
+    ]]>
+  </script>
+
 <defs>
+  <clipPath id="chartclip">
+    <rect x="68" y="100" width="772" height="400"/>
+  </clipPath>
   <style>
     @import url('chart-shared.css');
+    /* prevent first paint in wrong color before shared css load */
+    svg {
+    --critical-tick-fill: #79747E;
+    --critical-grid-stroke: #E7E0EC;
+    --critical-axis-stroke: #79747E;
+    }
+    svg.dark {
+    --critical-tick-fill: #938F99;
+    --critical-grid-stroke: #3A3940;
+    --critical-axis-stroke: #938F99;
+    }
+    .tick-label, .category-label { fill: var(--critical-tick-fill); }
+    .grid-line { stroke: var(--critical-grid-stroke); }
+    .axis-line { stroke: var(--critical-axis-stroke); }
 
-    .dot-g     { cursor:pointer; }
-    .crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
-    svg.dark .crosshair { stroke:#938F99; }
-    .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    svg.print .tip { opacity:0 !important; }
-
-    @keyframes drawLine { from{stroke-dashoffset:var(--len,900)} to{stroke-dashoffset:0} }
-    .line-path { stroke-dasharray:var(--len,900); stroke-dashoffset:var(--len,900);
-                 animation:drawLine 1.2s cubic-bezier(0.4,0,0.2,1) both; }
-    .stagger-1 { animation-delay:0.00s; } .stagger-2 { animation-delay:0.25s; }
-    .stagger-3 { animation-delay:0.50s; } .stagger-4 { animation-delay:0.75s; } .stagger-5 { animation-delay:1.00s; }
-
-    @keyframes popDot { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
-    .dot-inner         { opacity:0; cursor:pointer; transition:opacity 0.2s ease; }
-    .dot-inner.visible { opacity:1; }
-
-    .line-path { transition:opacity 0.2s ease; }
-    .area-path { transition:opacity 0.2s ease; }
-    .data-layer.ready.hovering .line-path              { opacity:0.20; }
-    .data-layer.ready.hovering .area-path              { opacity:0.20; }
-    .data-layer.ready.hovering .dot-inner.visible      { opacity:0.20; }
-    .data-layer.ready.hovering .line-path.active       { opacity:1; }
-    .data-layer.ready.hovering .area-path.active       { opacity:1; }
-    .data-layer.ready.hovering .dot-inner.visible.active { opacity:1; }
+    .line-path {
+      animation:drawLine 1.2s cubic-bezier(0.4,0,0.2,1) both;
+    }
 
   </style>
 </defs>
@@ -68,11 +74,11 @@
   <path id="area-2" class="area-path" data-series="2" d="M68,500 L68,388 L171,376 L274,360 L377,340 L480,324 L583,304 L686,280 L789,252 L789,500 Z" fill="url(#a2)"/>
   <path id="area-1" class="area-path" data-series="1" d="M68,500 L68,372 L171,348 L274,336 L377,308 L480,292 L583,256 L686,228 L789,212 L789,500 Z" fill="url(#a1)"/>
 
-<path id="line-5" class="line-path series-5 use-series-stroke stagger-5" data-series="5" style="--len:900;fill:none" stroke-width="2"   stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7,4" d="M68,460 L171,448 L274,456 L377,440 L480,448 L583,432 L686,440 L789,424"/>
-<path id="line-4" class="line-path series-4 use-series-stroke stagger-4" data-series="4" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,452 L171,440 L274,428 L377,444 L480,432 L583,420 L686,436 L789,412"/>
-<path id="line-3" class="line-path series-3 use-series-stroke stagger-3" data-series="3" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,428 L171,412 L274,400 L377,384 L480,400 L583,388 L686,376 L789,360"/>
-<path id="line-2" class="line-path series-2 use-series-stroke stagger-2" data-series="2" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,388 L171,376 L274,360 L377,340 L480,324 L583,304 L686,280 L789,252"/>
-<path id="line-1" class="line-path series-1 use-series-stroke stagger-1" data-series="1" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,372 L171,348 L274,336 L377,308 L480,292 L583,256 L686,228 L789,212"/>
+<path id="line-5" class="line-path series-5 use-series-stroke" data-series="5" style="--len:900;fill:none" stroke-width="2"   stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7,4" d="M68,460 L171,448 L274,456 L377,440 L480,448 L583,432 L686,440 L789,424"/>
+<path id="line-4" class="line-path series-4 use-series-stroke" data-series="4" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,452 L171,440 L274,428 L377,444 L480,432 L583,420 L686,436 L789,412"/>
+<path id="line-3" class="line-path series-3 use-series-stroke" data-series="3" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,428 L171,412 L274,400 L377,384 L480,400 L583,388 L686,376 L789,360"/>
+<path id="line-2" class="line-path series-2 use-series-stroke" data-series="2" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,388 L171,376 L274,360 L377,340 L480,324 L583,304 L686,280 L789,252"/>
+<path id="line-1" class="line-path series-1 use-series-stroke" data-series="1" style="--len:900;fill:none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M68,372 L171,348 L274,336 L377,308 L480,292 L583,256 L686,228 L789,212"/>
 
   <g id="crosshairs">
     <line id="ch0" class="crosshair" x1="68"  y1="100" x2="68"  y2="500"/>
@@ -88,13 +94,13 @@
   <g id="tip-layer"></g>
 </g>
 
-<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg"/>
-<text x="878" y="118" class="legend-title">SERIES</text>
-<g transform="translate(878,146)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Cyan</text>    <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$72M</text></g>
-<g transform="translate(878,194)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Emerald</text> <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$62M</text></g>
-<g transform="translate(878,242)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Amber</text>   <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$35M</text></g>
-<g transform="translate(878,290)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Rose</text>    <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$22M</text></g>
-<g transform="translate(878,338)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Violet</text>  <text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$19M</text></g>
+<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg legend-panel"/>
+<text x="878" y="118" class="legend-title legend-heading">SERIES</text>
+<g class="legend-row" transform="translate(878,146)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Cyan</text>    <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$72M</text></g>
+<g class="legend-row" transform="translate(878,194)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Emerald</text> <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$62M</text></g>
+<g class="legend-row" transform="translate(878,242)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Amber</text>   <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$35M</text></g>
+<g class="legend-row" transform="translate(878,290)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Rose</text>    <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$22M</text></g>
+<g class="legend-row" transform="translate(878,338)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Violet</text>  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$19M</text></g>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -102,7 +108,6 @@
   var svg = document.documentElement;
   svg._chartInit = function (svgEl, ctx) {
     var dataLayerEl  = svgEl.querySelector('#data-layer');
-    var ns           = 'http://www.w3.org/2000/svg';
     var dotsLayer    = svgEl.querySelector('#dots-layer');
     var tipLayer     = svgEl.querySelector('#tip-layer');
 
@@ -114,127 +119,80 @@
       { id:5, cls:'series-5', label:'Violet',  vals:[10,13,11,15,13,17,15,19], ys:[460,448,456,440,448,432,440,424] },
     ];
 
-    var aOpacity = [0.28, 0.24, 0.20, 0.18, 0.14];
-
     var defs = svgEl.querySelector('defs');
     var plot = { x:68, y:100, width:772, height:400 };
-    var revealDelays = [0, 0.25, 0.50, 0.75, 1.00];
-    series.forEach(function(s, i) {
-      var grad = document.createElementNS(ns, 'linearGradient');
-      grad.setAttribute('id', 'a'+s.id);
-      grad.setAttribute('x1','0'); grad.setAttribute('y1','0');
-      grad.setAttribute('x2','0'); grad.setAttribute('y2','1');
-      var s0 = document.createElementNS(ns, 'stop');
-      s0.setAttribute('id','a'+s.id+'s0'); s0.setAttribute('offset','0%');
-      s0.setAttribute('stop-opacity', aOpacity[i]);
-      var s1 = document.createElementNS(ns, 'stop');
-      s1.setAttribute('id','a'+s.id+'s1'); s1.setAttribute('offset','100%');
-      s1.setAttribute('stop-opacity','0.02');
-      grad.appendChild(s0); grad.appendChild(s1); defs.appendChild(grad);
-      var area = svgEl.querySelector('#area-'+s.id);
-      if (area) area.setAttribute('fill','url(#a'+s.id+')');
+    var syncGradients = ctx.initSeriesVerticalGradients({
+      defs: defs,
+      series: series,
+      topOpacities: [0.28, 0.24, 0.20, 0.18, 0.14],
+      bottomOpacity: 0.02,
+      gradientIdPrefix: 'a',
+      areaIdPrefix: 'area-'
     });
-
-    function syncGradients() {
-      var probe = document.createElementNS(ns, 'rect');
-      probe.style.visibility='hidden'; probe.style.position='absolute';
-      svgEl.appendChild(probe);
-      series.forEach(function(s) {
-        probe.setAttribute('class', s.cls);
-        var color = window.getComputedStyle(probe).fill;
-        var s0=svgEl.querySelector('#a'+s.id+'s0'), s1=svgEl.querySelector('#a'+s.id+'s1');
-        if (s0) s0.setAttribute('stop-color', color);
-        if (s1) s1.setAttribute('stop-color', color);
-        var area=svgEl.querySelector('#area-'+s.id);
-        if (area) area.setAttribute('fill','url(#a'+s.id+')');
-      });
-      svgEl.removeChild(probe);
-    }
+    var revealTiming = ctx.getStaggerTiming(series.length, { duration: 1.2 }, svgEl);
 
     var quarters = ["Q1 '22","Q2 '22","Q3 '22","Q4 '22","Q1 '23","Q2 '23","Q3 '23","Q4 '23"];
     var xs = [68,171,274,377,480,583,686,789];
     var allTips = {};
     var plotL = 42, plotR = 840, plotT = 100, plotB = 500;
+    var dotTravelSeconds = 0.96;
 
     var el = ctx.el;
 
     series.forEach(function(s, i) {
       var area = svgEl.querySelector('#area-' + s.id);
+      var line = svgEl.querySelector('#line-' + s.id);
+      var revealDelay = ctx.getStaggerDelay(i, series.length, null, svgEl);
       if (!area) return;
-      var areaClip = el('clipPath', { id:'line-area-reveal-' + s.id, clipPathUnits:'userSpaceOnUse' });
-      var revealRect = el('rect', { x:plot.x, y:plot.y, width:0, height:plot.height });
-      areaClip.appendChild(revealRect);
-      defs.appendChild(areaClip);
-      area.setAttribute('clip-path', 'url(#line-area-reveal-' + s.id + ')');
-      (function(rect, delay) {
-        var startAt = performance.now() + delay * 1000;
-        var duration = 1200;
-        function ease(t) {
-          return 1 - Math.pow(1 - t, 3);
-        }
-        function tick(now) {
-          if (now < startAt) {
-            requestAnimationFrame(tick);
-            return;
-          }
-          var p = Math.min((now - startAt) / duration, 1);
-          rect.setAttribute('width', String(plot.width * ease(p)));
-          if (p < 1) requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
-      }(revealRect, revealDelays[i]));
+      ctx.initAreaClipReveal({
+        defs: defs,
+        area: area,
+        clipId: 'line-area-reveal-' + s.id,
+        x: plot.x,
+        y: plot.y,
+        width: plot.width,
+        height: plot.height,
+        delay: revealDelay,
+        duration: 1200
+      });
+      if (line) line.style.animationDelay = revealDelay + 's';
+      if (line) line.classList.add('visible');
     });
 
     function setHover(activeSid) {
-      dataLayerEl.classList.add('hovering');
-      series.forEach(function(s) {
-        var line = svgEl.querySelector('#line-'+s.id);
-        var area = svgEl.querySelector('#area-'+s.id);
-        if (line) line.classList.remove('active');
-        if (area) area.classList.remove('active');
-        xs.forEach(function(_, qi) {
-          var inner = svgEl.querySelector('#d'+s.id+'_'+qi+' .dot-inner');
-          if (inner) inner.classList.remove('active');
-        });
-      });
-      series.forEach(function(s) {
-        var isActive = (s.id === activeSid);
-        var line = svgEl.querySelector('#line-'+s.id);
-        var area = svgEl.querySelector('#area-'+s.id);
-        if (line) line.classList.toggle('active', isActive);
-        if (area) area.classList.toggle('active', isActive);
-        xs.forEach(function(_, qi) {
-          var inner = svgEl.querySelector('#d'+s.id+'_'+qi+' .dot-inner');
-          if (inner) inner.classList.toggle('active', isActive);
-        });
+      ctx.setSeriesHoverState({
+        hoverLayer: dataLayerEl,
+        hovering: true,
+        activeSid: activeSid,
+        seriesIds: series.map(function(s) { return s.id; }),
+        pointCount: xs.length,
+        lineSelector: '#line-{id}',
+        areaSelector: '#area-{id}',
+        dotSelector: '#d{id}_{qi} .dot-inner'
       });
     }
 
     function clearHover() {
-      dataLayerEl.classList.remove('hovering');
-      series.forEach(function(s) {
-        var line=svgEl.querySelector('#line-'+s.id), area=svgEl.querySelector('#area-'+s.id);
-        if (line) line.classList.remove('active');
-        if (area) area.classList.remove('active');
-        xs.forEach(function(_, qi) {
-          var inner=svgEl.querySelector('#d'+s.id+'_'+qi+' .dot-inner');
-          if (inner) inner.classList.remove('active');
-        });
+      ctx.setSeriesHoverState({
+        hoverLayer: dataLayerEl,
+        hovering: false,
+        activeSid: null,
+        seriesIds: series.map(function(s) { return s.id; }),
+        pointCount: xs.length,
+        lineSelector: '#line-{id}',
+        areaSelector: '#area-{id}',
+        dotSelector: '#d{id}_{qi} .dot-inner'
       });
     }
 
     series.forEach(function(s) {
       xs.forEach(function(x, qi) {
         var y=s.ys[qi], key=s.id+'_'+qi;
-        var delay=((s.id-1)*0.25+qi*0.06)+'s';
+        var delaySeconds = ctx.getStaggerDelay(s.id - 1, series.length, null, svgEl) + qi * (dotTravelSeconds / Math.max(1, xs.length - 1));
 
         var dg=el('g',{'class':'dot-g',id:'d'+key});
         var inner=el('g',{'class':'dot-inner',style:'transform-origin:'+x+'px '+y+'px'});
-        inner.style.animation='popDot 0.35s cubic-bezier(0.34,1.4,0.64,1) '+delay;
-        inner.addEventListener('animationend',function(){
-          inner.style.animation='none';
-          inner.classList.add('visible');
-        },{once:true});
+        ctx.animateAndMarkVisible(inner, 'popDot 0.35s cubic-bezier(0.34,1.4,0.64,1) ' + delaySeconds + 's');
         var dot=el('circle',{cx:x,cy:y,r:5,'class':s.cls,stroke:'none'});
         inner.appendChild(dot); dg.appendChild(inner); dotsLayer.appendChild(dg);
 
@@ -273,8 +231,9 @@
       });
     });
 
-    var lastDelay=(series.length-1)*0.25+(xs.length-1)*0.06;
-    setTimeout(function(){ dataLayerEl.classList.add('ready'); },(lastDelay+0.35)*1000+100);
+    var dotLastDelay = ctx.getStaggerDelay(series.length - 1, series.length, null, svgEl) + dotTravelSeconds;
+    var readyDelayMs = Math.max(revealTiming.readyDelayMs, (dotLastDelay + 0.35 + 0.1) * 1000);
+    setTimeout(function(){ dataLayerEl.classList.add('ready'); }, readyDelayMs);
 
     svgEl._onModeChange = function() { syncGradients(); };
     syncGradients();

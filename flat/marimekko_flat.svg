@@ -1,4 +1,4 @@
-<svg id="root" viewBox="40 80 1040 463" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<svg id="root" class="chart-standard" viewBox="40 80 1040 463" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
     @import url('chart-shared.css');
@@ -11,12 +11,7 @@
     .category-label       { font-size:12px; fill:#1C1B1F; font-weight:500; }
     .category-sub     { font-size:11px; fill:#79747E; font-weight:400; }
     .chart-total     { font-size:13px; fill:#1C1B1F; font-weight:600; }
-    .legend-label       { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    .legend-value       { font-size:11px; fill:#1C1B1F; font-weight:500; opacity:0; transition:opacity 0.2s; }
     .axis-line       { stroke:#79747E; stroke-width:1.5; }
-    .legend-bg   { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .legend-divider  { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .legend-title  { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
     .footer   { font-size:10px; fill:#79747E; font-weight:400; }
     .toggle-wrap   { cursor:pointer; }
     .toggle-track  { fill:#E7E0EC; }
@@ -25,7 +20,6 @@
     .print-track { fill:#E7E0EC; transition:fill 0.3s; }
     .print-thumb { fill:#ffffff; }
     .print-label { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.print .legend-value  { opacity:1; }
     svg.print .print-track { fill:#d97316; }
 
     /* Cell value labels */
@@ -35,7 +29,7 @@
     /* Column dividers */
     .cdiv { stroke:white; stroke-width:2; }
 
-    /* §1 — Standard palette */
+    /* Ãƒâ€šÃ‚Â§1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Standard palette */
     .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
     .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
     .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
@@ -45,7 +39,7 @@
     svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
     svg.dark .series-7 { fill:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; }
 
-    /* §3 — Method A1 animation + hover (same element animated and dimmed) */
+    /* Ãƒâ€šÃ‚Â§3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Method A1 animation + hover (same element animated and dimmed) */
     @keyframes cellFade { from{opacity:0} to{opacity:1} }
     .mcell         { opacity:0; cursor:pointer; transition:opacity .2s ease; }
     .mcell.visible { opacity:1; }
@@ -54,7 +48,7 @@
     .data-layer.ready.hovering .mcell.visible         { opacity:0.20; transition:opacity .2s ease; }
     .data-layer.ready.hovering .mcell.visible.hovered { opacity:1;    transition:opacity .2s ease; }
 
-    /* §4 — Tooltip bubble */
+    /* Ãƒâ€šÃ‚Â§4 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Tooltip bubble */
     .data-tip  { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     svg.print .data-tip { opacity:0 !important; }
     .tip-bg     { fill:#FFFBFE; }
@@ -77,12 +71,7 @@
     svg.dark .category-label       { fill:#E6E0E9; }
     svg.dark .category-sub     { fill:#938F99; }
     svg.dark .chart-total     { fill:#E6E0E9; }
-    svg.dark .legend-label       { fill:#E6E0E9; }
-    svg.dark .legend-value       { fill:#E6E0E9; }
     svg.dark .axis-line       { stroke:#938F99; }
-    svg.dark .legend-bg   { fill:#49454F; stroke:#938F99; }
-    svg.dark .legend-divider  { stroke:#938F99; }
-    svg.dark .legend-title  { fill:#938F99; }
     svg.dark .footer   { fill:#938F99; }
     svg.dark .toggle-track  { fill:#49454F; }
     svg.dark .toggle-label  { fill:#CAC4D0; }
@@ -101,142 +90,126 @@
   </style>
 </defs>
 
-<rect class="card-bg" width="1100" height="620" rx="18"/>
-<g class="border-light"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/></g>
-<g class="border-dark"><rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/></g>
-
-<text x="68" y="50" class="card-title">Sales by Product &amp; Country - Marimekko</text>
-<text x="68" y="62" class="card-subtitle">Marimekko chart · column width ∝ product share · segment height ∝ country share · hover to inspect</text>
 
 <text x="459" y="84" class="chart-total" text-anchor="middle">Total = 1,366</text>
 
-<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
-  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
-</g>
-<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
-  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
-</g>
 
 <!--
   CHART AREA: x=68..850 y=92..512  W=782 H=420
   Product A: x=68.0   w=198.1  Product B: x=266.1  w=246.2
   Product C: x=512.2  w=149.4  Product D: x=661.7  w=188.3
-  Colors (top→bottom): USA(series-1) China(series-2) UK(series-3) Germany(series-4) France(series-5) India(series-6)
+  Colors (topÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢bottom): USA(series-1) China(series-2) UK(series-3) Germany(series-4) France(series-5) India(series-6)
 -->
 
 <g class="data-layer" id="data-layer">
 
-<!-- ── Product A ── -->
-<g class="mcell" id="tgAUSA" data-name="USA · Product A" data-val="97" data-pct="28%" data-delay="0.00">
+<!-- ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Product A ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ -->
+<g class="mcell" id="tgAUSA" data-name="USA Ãƒâ€šÃ‚Â· Product A" data-val="97" data-pct="28%" data-delay="0.00">
   <rect class="series-1" x="68.0" y="92.0" width="198.1" height="117.7" rx="0"/>
   <text x="167.0" y="150.8" class="cv">97</text>
 </g>
-<g class="mcell" id="tgAChina" data-name="China · Product A" data-val="14" data-pct="4%" data-delay="0.05">
+<g class="mcell" id="tgAChina" data-name="China Ãƒâ€šÃ‚Â· Product A" data-val="14" data-pct="4%" data-delay="0.05">
   <rect class="series-2" x="68.0" y="209.7" width="198.1" height="17.0" rx="0"/>
   <text x="167.0" y="218.2" class="cv-sm">14</text>
 </g>
-<g class="mcell" id="tgAUK" data-name="UK · Product A" data-val="63" data-pct="18%" data-delay="0.10">
+<g class="mcell" id="tgAUK" data-name="UK Ãƒâ€šÃ‚Â· Product A" data-val="63" data-pct="18%" data-delay="0.10">
   <rect class="series-3" x="68.0" y="226.7" width="198.1" height="76.5" rx="0"/>
   <text x="167.0" y="264.9" class="cv">63</text>
 </g>
-<g class="mcell" id="tgAGermany" data-name="Germany · Product A" data-val="97" data-pct="28%" data-delay="0.15">
+<g class="mcell" id="tgAGermany" data-name="Germany Ãƒâ€šÃ‚Â· Product A" data-val="97" data-pct="28%" data-delay="0.15">
   <rect class="series-4" x="68.0" y="303.2" width="198.1" height="117.7" rx="0"/>
   <text x="167.0" y="362.1" class="cv">97</text>
 </g>
-<g class="mcell" id="tgAFrance" data-name="France · Product A" data-val="26" data-pct="8%" data-delay="0.20">
+<g class="mcell" id="tgAFrance" data-name="France Ãƒâ€šÃ‚Â· Product A" data-val="26" data-pct="8%" data-delay="0.20">
   <rect class="series-5" x="68.0" y="420.9" width="198.1" height="31.6" rx="0"/>
   <text x="167.0" y="436.7" class="cv">26</text>
 </g>
-<g class="mcell" id="tgAIndia" data-name="India · Product A" data-val="49" data-pct="14%" data-delay="0.25">
+<g class="mcell" id="tgAIndia" data-name="India Ãƒâ€šÃ‚Â· Product A" data-val="49" data-pct="14%" data-delay="0.25">
   <rect class="series-6" x="68.0" y="452.5" width="198.1" height="59.5" rx="0"/>
   <text x="167.0" y="482.2" class="cv">49</text>
 </g>
 
-<!-- ── Product B ── -->
-<g class="mcell" id="tgBUSA" data-name="USA · Product B" data-val="97" data-pct="23%" data-delay="0.08">
+<!-- ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Product B ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ -->
+<g class="mcell" id="tgBUSA" data-name="USA Ãƒâ€šÃ‚Â· Product B" data-val="97" data-pct="23%" data-delay="0.08">
   <rect class="series-1" x="266.1" y="92.0" width="246.2" height="94.7" rx="0"/>
   <text x="390.2" y="139.3" class="cv">97</text>
 </g>
-<g class="mcell" id="tgBChina" data-name="China · Product B" data-val="87" data-pct="20%" data-delay="0.13">
+<g class="mcell" id="tgBChina" data-name="China Ãƒâ€šÃ‚Â· Product B" data-val="87" data-pct="20%" data-delay="0.13">
   <rect class="series-2" x="266.1" y="186.7" width="246.2" height="85.0" rx="0"/>
   <text x="390.2" y="229.2" class="cv">87</text>
 </g>
-<g class="mcell" id="tgBUK" data-name="UK · Product B" data-val="67" data-pct="16%" data-delay="0.18">
+<g class="mcell" id="tgBUK" data-name="UK Ãƒâ€šÃ‚Â· Product B" data-val="67" data-pct="16%" data-delay="0.18">
   <rect class="series-3" x="266.1" y="271.7" width="246.2" height="65.4" rx="0"/>
   <text x="390.2" y="304.4" class="cv">67</text>
 </g>
-<g class="mcell" id="tgBGermany" data-name="Germany · Product B" data-val="65" data-pct="15%" data-delay="0.23">
+<g class="mcell" id="tgBGermany" data-name="Germany Ãƒâ€šÃ‚Â· Product B" data-val="65" data-pct="15%" data-delay="0.23">
   <rect class="series-4" x="266.1" y="337.1" width="246.2" height="63.5" rx="0"/>
   <text x="390.2" y="368.9" class="cv">65</text>
 </g>
-<g class="mcell" id="tgBFrance" data-name="France · Product B" data-val="29" data-pct="7%" data-delay="0.28">
+<g class="mcell" id="tgBFrance" data-name="France Ãƒâ€šÃ‚Â· Product B" data-val="29" data-pct="7%" data-delay="0.28">
   <rect class="series-5" x="266.1" y="400.6" width="246.2" height="28.3" rx="0"/>
   <text x="390.2" y="414.8" class="cv-sm">29</text>
 </g>
-<g class="mcell" id="tgBIndia" data-name="India · Product B" data-val="85" data-pct="20%" data-delay="0.33">
+<g class="mcell" id="tgBIndia" data-name="India Ãƒâ€šÃ‚Â· Product B" data-val="85" data-pct="20%" data-delay="0.33">
   <rect class="series-6" x="266.1" y="428.9" width="246.2" height="83.1" rx="0"/>
   <text x="390.2" y="470.4" class="cv">85</text>
 </g>
 
-<!-- ── Product C ── -->
-<g class="mcell" id="tgCUSA" data-name="USA · Product C" data-val="45" data-pct="17%" data-delay="0.16">
+<!-- ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Product C ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ -->
+<g class="mcell" id="tgCUSA" data-name="USA Ãƒâ€šÃ‚Â· Product C" data-val="45" data-pct="17%" data-delay="0.16">
   <rect class="series-1" x="512.2" y="92.0" width="149.4" height="72.4" rx="0"/>
   <text x="587.9" y="128.2" class="cv">45</text>
 </g>
-<g class="mcell" id="tgCChina" data-name="China · Product C" data-val="54" data-pct="21%" data-delay="0.21">
+<g class="mcell" id="tgCChina" data-name="China Ãƒâ€šÃ‚Â· Product C" data-val="54" data-pct="21%" data-delay="0.21">
   <rect class="series-2" x="512.2" y="164.4" width="149.4" height="86.9" rx="0"/>
   <text x="587.9" y="207.9" class="cv">54</text>
 </g>
-<g class="mcell" id="tgCUK" data-name="UK · Product C" data-val="18" data-pct="7%" data-delay="0.26">
+<g class="mcell" id="tgCUK" data-name="UK Ãƒâ€šÃ‚Â· Product C" data-val="18" data-pct="7%" data-delay="0.26">
   <rect class="series-3" x="512.2" y="251.3" width="149.4" height="29.0" rx="0"/>
   <text x="587.9" y="265.8" class="cv-sm">18</text>
 </g>
-<g class="mcell" id="tgCGermany" data-name="Germany · Product C" data-val="36" data-pct="14%" data-delay="0.31">
+<g class="mcell" id="tgCGermany" data-name="Germany Ãƒâ€šÃ‚Â· Product C" data-val="36" data-pct="14%" data-delay="0.31">
   <rect class="series-4" x="512.2" y="280.3" width="149.4" height="57.9" rx="0"/>
   <text x="587.9" y="309.2" class="cv">36</text>
 </g>
-<g class="mcell" id="tgCFrance" data-name="France · Product C" data-val="24" data-pct="9%" data-delay="0.36">
+<g class="mcell" id="tgCFrance" data-name="France Ãƒâ€šÃ‚Â· Product C" data-val="24" data-pct="9%" data-delay="0.36">
   <rect class="series-5" x="512.2" y="338.2" width="149.4" height="38.6" rx="0"/>
   <text x="587.9" y="357.5" class="cv-sm">24</text>
 </g>
-<g class="mcell" id="tgCIndia" data-name="India · Product C" data-val="84" data-pct="32%" data-delay="0.41">
+<g class="mcell" id="tgCIndia" data-name="India Ãƒâ€šÃ‚Â· Product C" data-val="84" data-pct="32%" data-delay="0.41">
   <rect class="series-6" x="512.2" y="376.8" width="149.4" height="135.2" rx="0"/>
   <text x="587.9" y="444.4" class="cv">84</text>
 </g>
 
-<!-- ── Product D ── -->
-<g class="mcell" id="tgDUSA" data-name="USA · Product D" data-val="61" data-pct="19%" data-delay="0.24">
+<!-- ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Product D ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ -->
+<g class="mcell" id="tgDUSA" data-name="USA Ãƒâ€šÃ‚Â· Product D" data-val="61" data-pct="19%" data-delay="0.24">
   <rect class="series-1" x="661.7" y="92.0" width="188.3" height="77.9" rx="0"/>
   <text x="756.9" y="130.9" class="cv">61</text>
 </g>
-<g class="mcell" id="tgDChina" data-name="China · Product D" data-val="32" data-pct="10%" data-delay="0.29">
+<g class="mcell" id="tgDChina" data-name="China Ãƒâ€šÃ‚Â· Product D" data-val="32" data-pct="10%" data-delay="0.29">
   <rect class="series-2" x="661.7" y="169.9" width="188.3" height="40.9" rx="0"/>
   <text x="756.9" y="190.3" class="cv-sm">32</text>
 </g>
-<g class="mcell" id="tgDUK" data-name="UK · Product D" data-val="66" data-pct="20%" data-delay="0.34">
+<g class="mcell" id="tgDUK" data-name="UK Ãƒâ€šÃ‚Â· Product D" data-val="66" data-pct="20%" data-delay="0.34">
   <rect class="series-3" x="661.7" y="210.8" width="188.3" height="84.3" rx="0"/>
   <text x="756.9" y="253.0" class="cv">66</text>
 </g>
-<g class="mcell" id="tgDGermany" data-name="Germany · Product D" data-val="73" data-pct="22%" data-delay="0.39">
+<g class="mcell" id="tgDGermany" data-name="Germany Ãƒâ€šÃ‚Â· Product D" data-val="73" data-pct="22%" data-delay="0.39">
   <rect class="series-4" x="661.7" y="295.1" width="188.3" height="93.2" rx="0"/>
   <text x="756.9" y="341.7" class="cv">73</text>
 </g>
-<g class="mcell" id="tgDFrance" data-name="France · Product D" data-val="47" data-pct="14%" data-delay="0.44">
+<g class="mcell" id="tgDFrance" data-name="France Ãƒâ€šÃ‚Â· Product D" data-val="47" data-pct="14%" data-delay="0.44">
   <rect class="series-5" x="661.7" y="388.3" width="188.3" height="60.0" rx="0"/>
   <text x="756.9" y="418.3" class="cv">47</text>
 </g>
-<g class="mcell" id="tgDIndia" data-name="India · Product D" data-val="50" data-pct="15%" data-delay="0.49">
+<g class="mcell" id="tgDIndia" data-name="India Ãƒâ€šÃ‚Â· Product D" data-val="50" data-pct="15%" data-delay="0.49">
   <rect class="series-6" x="661.7" y="448.3" width="188.3" height="63.7" rx="0"/>
   <text x="756.9" y="480.2" class="cv">50</text>
 </g>
 
 </g><!-- end .data-layer -->
 
-<!-- §6 Layer 3 — structural overlays (column dividers + chart border)
+<!-- Ãƒâ€šÃ‚Â§6 Layer 3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â structural overlays (column dividers + chart border)
      Intentionally after .data-layer so white cdiv lines paint over tile fills.
      Placed before #tip-overlay so tooltips always appear on top. -->
 <g id="structural-overlay" class="structural-overlay">
@@ -269,50 +242,42 @@
 <text x="756.9" y="562" class="category-sub" text-anchor="middle">24%</text>
 
 <!-- Legend -->
-<rect x="870" y="92" width="210" height="310" rx="14" class="legend-bg"/>
-<text x="888" y="116" class="legend-title">COUNTRY</text>
-<g transform="translate(888,140)">
+<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg legend-panel"/>
+<text x="878" y="118" class="legend-title legend-heading">COUNTRY</text>
+<g class="legend-row" transform="translate(878,146)">
   <rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="legend-label">USA</text>
-  <text x="186" y="11" class="legend-value" text-anchor="end">300 (22%)</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">USA</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">300</text>
 </g>
-<g transform="translate(888,170)">
+<g class="legend-row" transform="translate(878,188)">
   <rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="legend-label">China</text>
-  <text x="186" y="11" class="legend-value" text-anchor="end">187 (14%)</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">China</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">187</text>
 </g>
-<g transform="translate(888,200)">
+<g class="legend-row" transform="translate(878,230)">
   <rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="legend-label">UK</text>
-  <text x="186" y="11" class="legend-value" text-anchor="end">214 (16%)</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">UK</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">214</text>
 </g>
-<g transform="translate(888,230)">
+<g class="legend-row" transform="translate(878,272)">
   <rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="legend-label">Germany</text>
-  <text x="186" y="11" class="legend-value" text-anchor="end">271 (20%)</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Germany</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">271</text>
 </g>
-<g transform="translate(888,260)">
+<g class="legend-row" transform="translate(878,314)">
   <rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="legend-label">France</text>
-  <text x="186" y="11" class="legend-value" text-anchor="end">126 (9%)</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">France</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">126</text>
 </g>
-<line x1="888" y1="288" x2="1062" y2="288" class="legend-divider"/>
-<g transform="translate(888,300)">
+<g class="legend-row" transform="translate(878,356)">
   <rect class="series-6" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="11" class="legend-label">India</text>
-  <text x="186" y="11" class="legend-value" text-anchor="end">268 (20%)</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">India</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">268</text>
 </g>
 
-<rect x="870" y="416" width="210" height="80" rx="14" class="legend-bg"/>
-<text x="888" y="440" class="legend-title">AXES</text>
-<text x="888" y="458" class="legend-label" font-size="10">Column width = product share</text>
-<text x="888" y="474" class="legend-label" font-size="10">Segment height = country share</text>
-<text x="888" y="490" class="legend-label" font-size="10">within each product</text>
-
-<text x="68" y="604" class="footer">Sales by Product &amp; Country · 4 products × 6 countries · Marimekko / Mekko chart · Total = 1,366</text>
 
 <!--
-  Tooltip overlay — JS-driven, 3-element pattern (tip-bg + tip-border + tip-tail)
+  Tooltip overlay ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â JS-driven, 3-element pattern (tip-bg + tip-border + tip-tail)
   Anchor follows cursor. Box W=120 H=58 TH=10 RX=8 G=8
 -->
 <g id="tip-overlay">
@@ -336,7 +301,7 @@ var svg         = document.getElementById('root');
   var structuralOverlayEl = document.getElementById('structural-overlay');
   var cells = Array.prototype.slice.call(dataLayerEl.querySelectorAll('.mcell'));
 
-  /* §3 — Method A1: animationend + .visible, setTimeout gates .ready */
+  /* Ãƒâ€šÃ‚Â§3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Method A1: animationend + .visible, setTimeout gates .ready */
   var duration = 0.8;
   var lastDelay = 0;
   cells.forEach(function(cell) {
@@ -357,7 +322,7 @@ var svg         = document.getElementById('root');
   }
   setTimeout(function() { dataLayerEl.classList.add('ready'); }, (lastDelay + duration + 0.1) * 1000);
 
-  /* §4 — Tooltip (JS-driven, 3-element tip-bg + tip-border + tip-tail) */
+  /* Ãƒâ€šÃ‚Â§4 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Tooltip (JS-driven, 3-element tip-bg + tip-border + tip-tail) */
   var BH = 120, TH = 12, RX = 12, TW = 10;
   var tip    = document.getElementById('tip');
   var tipBg  = document.getElementById('tip-bg');
@@ -368,13 +333,13 @@ var svg         = document.getElementById('root');
   var tipPct = document.getElementById('tip-pct');
 
   function positionTip(mx, my, name, val, pct) {
-    /* 1 — set text content first so getBBox() measures real rendered width */
-    var parts = name.split(' · ');
+    /* 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â set text content first so getBBox() measures real rendered width */
+    var parts = name.split(' Ãƒâ€šÃ‚Â· ');
     tipVal.textContent = parts[0];
     tipLbl.textContent = parts[1] || '';
-    tipPct.textContent = 'Value: ' + val + '  ·  ' + pct + ' of product';
+    tipPct.textContent = 'Value: ' + val + '  Ãƒâ€šÃ‚Â·  ' + pct + ' of product';
 
-    /* 2 — measure widest line, derive hw (half-width), minimum 60px total */
+    /* 2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â measure widest line, derive hw (half-width), minimum 60px total */
     var pad = 20;
     var hw = Math.max(
       tipVal.getBBox().width + pad,
@@ -384,10 +349,10 @@ var svg         = document.getElementById('root');
     ) / 2;
     var BW = hw * 2;
 
-    /* 3 — clamp tx so bubble stays inside viewBox */
+    /* 3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â clamp tx so bubble stays inside viewBox */
     var tx = Math.max(hw + 8, Math.min(mx, 1100 - hw - 8));
 
-    /* 4 — flip: show below cursor when near top */
+    /* 4 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â flip: show below cursor when near top */
     var flip = my < BH + TH + 20;
     var boxY = flip ? my + TH : my - TH - BH;
     var L = tx - hw, R = tx + hw, T = boxY, B = boxY + BH;
@@ -398,7 +363,7 @@ var svg         = document.getElementById('root');
     tipBg.setAttribute('width',  BW);
     tipBg.setAttribute('height', BH);
 
-    /* tip-border open path — all absolute, 1px inset at tail root to close seam */
+    /* tip-border open path ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â all absolute, 1px inset at tail root to close seam */
     var openD, tailD;
     if (!flip) {
       /* tail points down: gap in bottom edge */
@@ -429,7 +394,7 @@ var svg         = document.getElementById('root');
     tipPct.setAttribute('x', tx); tipPct.setAttribute('y', boxY + BH * 0.80);
   }
 
-  /* §4 — Hover: .hovering on container, .hovered on item */
+  /* Ãƒâ€šÃ‚Â§4 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Hover: .hovering on container, .hovered on item */
   cells.forEach(function(cell) {
     var name = cell.getAttribute('data-name');
     var val  = cell.getAttribute('data-val');
@@ -439,15 +404,11 @@ var svg         = document.getElementById('root');
       dataLayerEl.classList.add('hovering');
       cell.classList.add('hovered');
       tip.style.opacity = '1';
-      var pt = svg.createSVGPoint();
-      pt.x = e.clientX; pt.y = e.clientY;
-      var sp = pt.matrixTransform(svg.getScreenCTM().inverse());
+      var sp = ctx.eventToSvgPoint(svg, e);
       positionTip(sp.x, sp.y, name, val, pct);
     });
     cell.addEventListener('mousemove', function(e) {
-      var pt = svg.createSVGPoint();
-      pt.x = e.clientX; pt.y = e.clientY;
-      var sp = pt.matrixTransform(svg.getScreenCTM().inverse());
+      var sp = ctx.eventToSvgPoint(svg, e);
       positionTip(sp.x, sp.y, name, val, pct);
     });
     cell.addEventListener('mouseleave', function() {
@@ -457,7 +418,7 @@ var svg         = document.getElementById('root');
     });
   });
 
-  /* §2 — Dark mode toggle: isDark boolean, CSS handles palette swap */
+  /* Ãƒâ€šÃ‚Â§2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Dark mode toggle: isDark boolean, CSS handles palette swap */
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());

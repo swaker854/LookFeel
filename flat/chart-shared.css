@@ -6,6 +6,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 svg {
+  --chart-fade-duration: 0.8s;
+  --chart-stagger-window: 2s;
   --series-1: #00D4E8;
   --series-2: #00B87A;
   --series-3: #F59E0B;
@@ -69,11 +71,6 @@ svg.dark {
 .series-24 { --series-color: var(--series-24); fill: var(--series-color); }
 .use-series-stroke { stroke: var(--series-color); }
 
-/* ── Card chrome ── */
-.card-bg        { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-.card-title     { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-.card-subtitle  { font-size:11px; fill:#79747E; font-weight:400; }
-
 /* ── Axes & grid ── */
 .tick-label     { font-size:10px; fill:#79747E; font-weight:400; }
 .category-label { font-size:10px; fill:#79747E; font-weight:500; }
@@ -87,26 +84,17 @@ svg.dark {
 .legend-bg      { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
 .legend-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
 .legend-title   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-
-/* ── Footer ── */
-.footer { font-size:10px; fill:#79747E; font-weight:400; }
-
-/* ── Dark/Light mode toggle ── */
-.toggle-wrap  { cursor:pointer; }
-.toggle-track { fill:#E7E0EC; }
-.toggle-thumb { fill:#ffffff; }
-.toggle-label { font-size:11px; font-weight:500; fill:#49454F; }
-
-/* ── Print toggle ── */
-.print-track { fill:#E7E0EC; transition:fill 0.3s; }
-.print-thumb { fill:#ffffff; }
-.print-label { font-size:11px; font-weight:500; fill:#49454F; }
+.legend-panel   { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
+.legend-heading { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.8px; }
+.legend-row-label { font-size:11px; fill:#1C1B1F; font-weight:400; dominant-baseline:middle; }
+.legend-row-value { font-size:11px; fill:#1C1B1F; font-weight:500; text-anchor:end; dominant-baseline:middle; opacity:0; transition:opacity 0.2s; }
 
 /* ── Print-mode overrides ── */
 svg.print .legend-value { opacity:1; }
-svg.print .print-track  { fill:#d97316; }
+svg.print .legend-row-value { opacity:1; }
 
 /* ── Tooltip geometry — inner elements shared across chart types ── */
+.tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
 .tip-bg     { fill:#FFFBFE; }
 .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
 .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
@@ -121,13 +109,65 @@ svg.print .print-track  { fill:#d97316; }
 .data-item { cursor:pointer; }
 .data-tip  { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
 .data-item.active .data-tip { opacity:1; }
+.crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
+.radial-slice { cursor:pointer; }
+.radial-chart.ready.hovering .radial-slice { opacity:0.20; transition:opacity 0.2s ease; }
+.radial-chart.ready.hovering .radial-slice.active { opacity:1; transition:opacity 0.2s ease; }
+@keyframes tileFade { from{opacity:0} to{opacity:1} }
+.tile-label { font-size:13px; font-weight:500; fill:#fff; pointer-events:none; }
+.tile-sub { font-size:10px; font-weight:400; fill:rgba(255,255,255,0.80); pointer-events:none; }
+.tile-node { opacity:0; cursor:pointer; }
+.tile-node.visible { opacity:1; }
+.tile-grid { opacity:0; pointer-events:none; }
+.tile-grid.visible { opacity:1; }
+.data-layer.ready.hovering .data-item.visible.tile-node { opacity:0.20; transition:opacity 0.2s ease; }
+.data-layer.ready.hovering .data-item.visible.tile-node.active { opacity:1; transition:opacity 0.2s ease; }
+.data-item .stack-seg { transition:opacity 0.2s ease; }
+.chart-container.hovering .data-item .stack-seg { opacity:0.20; }
+.chart-container.hovering .data-item.active .stack-seg { opacity:1; }
+svg.print .chart-container.hovering .data-item .stack-seg { opacity:1 !important; }
 svg.print .data-tip { opacity:0 !important; }
+svg.print .tip { opacity:0 !important; }
+svg.print .radial-chart.ready.hovering .radial-slice { opacity:1 !important; }
+
+/* Line / area family primitives */
+@keyframes dataFadeIn { from{opacity:0} to{opacity:1} }
+@keyframes popDot { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+@keyframes drawLine { from{stroke-dashoffset:var(--len,900)} to{stroke-dashoffset:0} }
+@keyframes drawWave { from{stroke-dashoffset:var(--len,900)} to{stroke-dashoffset:0} }
+.dot-g { cursor:pointer; }
+.line-path,
+.area-path { opacity:0; transition:opacity 0.2s ease; }
+.line-path { stroke-dasharray:var(--len,900); stroke-dashoffset:var(--len,900); }
+.line-path.visible,
+.area-path.visible { opacity:1; }
+.line-path.visible { stroke-dashoffset:0; }
+.dot-inner { opacity:0; cursor:pointer; transition:opacity 0.2s ease; }
+.dot-inner.visible { opacity:1; }
+.col-dot { opacity:0; transition:opacity 0.2s ease; pointer-events:none; }
+.data-layer.ready.hovering .line-path,
+.data-layer.ready.hovering .area-path { opacity:0.20; }
+.data-layer.ready.hovering .dot-inner.visible { opacity:0.20; }
+.data-layer.ready.hovering .line-path.active,
+.data-layer.ready.hovering .area-path.active { opacity:1; }
+.data-layer.ready.hovering .dot-inner.visible.active { opacity:1; }
+.line-path.weight-2.visible { opacity:0.90; }
+.line-path.weight-3.visible { opacity:0.82; }
+.line-path.weight-4.visible { opacity:0.72; }
+.line-path.weight-5.visible { opacity:0.55; }
+.data-layer.ready.hovering .line-path.visible.active.weight-2 { opacity:0.90; }
+.data-layer.ready.hovering .line-path.visible.active.weight-3 { opacity:0.82; }
+.data-layer.ready.hovering .line-path.visible.active.weight-4 { opacity:0.72; }
+.data-layer.ready.hovering .line-path.visible.active.weight-5 { opacity:0.55; }
 
 svg.chart-standard .tick-label     { font-size:22px; font-weight:500; }
 svg.chart-standard .category-label { font-size:22px; font-weight:500; }
-svg.chart-standard .legend-title   { font-size:22px; font-weight:700; letter-spacing:0.8px; }
+svg.chart-standard .legend-title,
+svg.chart-standard .legend-heading { font-size:22px; font-weight:700; letter-spacing:0.8px; }
 svg.chart-standard .legend-label   { font-size:22px; font-weight:500; }
 svg.chart-standard .legend-value   { font-size:22px; font-weight:600; }
+svg.chart-standard .legend-row-label { font-size:22px; font-weight:500; }
+svg.chart-standard .legend-row-value { font-size:22px; font-weight:600; }
 svg.chart-standard .legend-note    { font-size:22px; }
 svg.chart-standard .tip-value      { font-size:28px; font-weight:700; }
 svg.chart-standard .tip-label      { font-size:22px; font-weight:400; }
@@ -137,17 +177,9 @@ svg.chart-standard .tip-label      { font-size:22px; font-weight:400; }
 .data-layer.hovering .data-item.active { opacity:1; }
 svg.print .data-layer.hovering .data-item { opacity:1 !important; }
 
-/* ── Border visibility toggle ── */
-.border-dark  { display:none; }
-.border-light { display:block; }
-
 /* ══════════════════════════════════════════════════════════════════════════════
    Dark-mode overrides  (svg.dark .*)
    ══════════════════════════════════════════════════════════════════════════════ */
-svg.dark .card-bg       { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-svg.dark .card-title    { fill:#E6E0E9; }
-svg.dark .card-subtitle { fill:#938F99; }
-
 svg.dark .tick-label     { fill:#938F99; }
 svg.dark .category-label { fill:#938F99; }
 svg.dark .grid-line      { stroke:#49454F; }
@@ -159,14 +191,10 @@ svg.dark .legend-note    { fill:#938F99; }
 svg.dark .legend-bg      { fill:#49454F; stroke:#938F99; }
 svg.dark .legend-divider { stroke:#938F99; }
 svg.dark .legend-title   { fill:#938F99; }
-
-svg.dark .footer { fill:#938F99; }
-
-svg.dark .toggle-track { fill:#49454F; }
-svg.dark .toggle-label { fill:#CAC4D0; }
-svg.dark .print-track  { fill:#49454F; }
-svg.dark .print-label  { fill:#CAC4D0; }
-svg.dark.print .print-track { fill:#d97316; }
+svg.dark .legend-panel   { fill:#49454F; stroke:#938F99; }
+svg.dark .legend-heading { fill:#938F99; }
+svg.dark .legend-row-label { fill:#E6E0E9; }
+svg.dark .legend-row-value { fill:#E6E0E9; }
 
 svg.dark .tip-bg     { fill:#1C1B1F; }
 svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; }
@@ -176,6 +204,4 @@ svg.dark .tip-value  { fill:#E6E0E9; }
 svg.dark .tip-label  { fill:#CAC4D0; }
 svg.dark .tip-sub    { fill:#938F99; }
 svg.dark .tip-pct    { fill:#938F99; }
-
-svg.dark .border-dark  { display:block; }
-svg.dark .border-light { display:none; }
+svg.dark .crosshair  { stroke:#938F99; }

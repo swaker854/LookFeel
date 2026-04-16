@@ -13,7 +13,7 @@ A single source of truth for all chart colors using CSS classes.
 ### Core rules (non-negotiable)
 
 * Use `.series-N` classes for all categorical colors — never inline hex
-* Use `svg.dark .series-N` overrides for dark mode — **not** `#root.dark .series-N`. For a pure SVG file (`<svg id="root">`), `svg.dark` matches the element itself and is the correct selector. `#root.dark` is only correct when the SVG is inlined inside an HTML document. All card shell dark overrides follow the same `svg.dark` pattern.
+* Use `svg.dark .series-N` overrides for dark mode — **not** `#root.dark .series-N`. For a pure SVG file (`<svg id="root">`), `svg.dark` matches the element itself and is the correct selector. `#root.dark` is only correct when the SVG is inlined inside an HTML document.
 * Semantic colors (e.g. bull/bear) must map to existing palette values, not invent new hex
 
 ### What to avoid (anti-patterns)
@@ -73,30 +73,30 @@ The method depends on **what is animated** and **whether the animated element is
 
 ### Timing constants (non-negotiable)
 
-Duration and easing are fixed for all charts. Stagger has a maximum of 0.25s but scales down for large element counts:
+Duration and easing are fixed for all charts. Stagger is distributed across a fixed 2.0s window so the final element always begins by 2.0s regardless of count:
 
 | Parameter | Value | Notes |
 |---|---|---|
 | Duration | `0.8s` | Fixed — all methods |
-| Stagger | `min(0.25, 1.0 / count)` | 0.25s max; scale down when count is large |
+| Stagger | `count > 1 ? 2.0 / (count - 1) : 0` | Last element starts by 2.0s |
 | Easing | `ease-out` | Fixed — all methods |
 | `.ready` delay | `(lastDelay + duration + 0.1) * 1000` ms | 100ms buffer after last animation |
 
-**Adaptive stagger rule:** `0.25s` is the maximum stagger, correct for small element counts (e.g. 8 bars = 1.75s total spread). When element count is large, cap the total spread at ~1s by scaling the stagger down:
+**Fixed spread stagger rule:** the total stagger spread is always 2.0s. Fewer elements produce larger gaps; more elements produce smaller gaps:
 
 ```js
-var stagger = Math.min(0.25, 1.0 / count);
+var stagger = count > 1 ? 2.0 / (count - 1) : 0;
 var lastDelay = (count - 1) * stagger;
 ```
 
-This keeps the feel consistent — small charts animate at the full 0.25s cadence, large charts (30-bar, dense icicle columns) complete in roughly the same wall-clock window. Duration and easing never change.
+This keeps the stagger window consistent across all charts. Duration and easing never change.
 
 ### What to avoid (anti-patterns)
 
 * ❌ SMIL animations (`<animate fill="freeze">`) — deprecated and blocks hover overrides
 * ❌ `animation-fill-mode: forwards` when animation and hover target the same element
 * ❌ Using rAF for a bar chart — bar animation is opacity-only with nested elements; A2 is correct
-* ❌ Using a fixed 0.25s stagger regardless of element count — a 50-element chart will animate for 12+ seconds
+* ❌ Using hardcoded per-chart stagger delays that do not derive from the shared 2.0s spread rule
 
 ### Reference implementation
 
@@ -253,44 +253,11 @@ Rules for consistent rendering in embedded contexts.
 
 ---
 
-## Appendix B. Card Shell & Layout Grid
+## Appendix B. Layout Grid
 
 ### What it defines
 
-Standard layout boundaries and spacing system for the standalone demo shell.
-
-### Wrapper portal variant
-
-There are now two valid shell patterns in this repo:
-
-* **Standalone SVG shell** - title, subtitle, footer, card background, border rings, dark toggle, and print toggle live inside the SVG itself
-* **Wrapper portal shell** - those shell elements live in the host HTML card, and the embedded SVG is cropped down to the chart-focused viewport
-
-For wrapper portals such as `portal-dark*.html` / `portal-light*.html`:
-
-* The host card owns title, subtitle, footer, `Open`, light/dark, and print controls
-* The iframe source may still include `?theme=light` / `?theme=dark`, but the host is authoritative and may override mode via `postMessage`
-* Embedded SVGs may intentionally hide `.card-bg`, `.border-light`, `.border-dark`, `.card-title`, `.card-subtitle`, `.footer`, and `.toggle-wrap`
-* In wrapper portals, any leftover internal shell element is a bug
-
-Treat the standalone SVG shell layout below as the reference for standalone chart files, not a requirement for wrapper-embedded variants.
-
-### Typography positions (fixed - audit these directly)
-
-| Element | x | y | Class |
-|---|---|---|---|
-| Title | 68 | 50 | `.card-title` |
-| Subtitle | 68 | 70 | `.card-subtitle` |
-| Footer | 68 | **600** | `.footer` |
-
-### Card shell CSS values (required - must match exactly)
-
-```css
-.card-bg { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-svg.dark .card-bg { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-```
-
-The `drop-shadow` filter is required on `.card-bg` in both modes. Omitting it removes the card's elevation entirely.
+Standard plot boundaries and spacing system for wrapper-hosted charts. The shell belongs to the host HTML, not the SVG.
 
 ### Core rules (non-negotiable)
 
@@ -306,15 +273,15 @@ The `drop-shadow` filter is required on `.card-bg` in both modes. Omitting it re
 * x=850 is an **outer boundary**, not a fill target. The data area may end before x=850 when layout requires it - for example, a dual-axis chart may run gridlines and bars only to x=820, using the x=820-850 corridor for the secondary axis line and its labels. All elements including those labels must still stay within x=850.
 
 * Reserved zones outside the plot area:
-  * Top (y < 100) - title, subtitle, toggles
-  * Bottom (y > 500) - x-axis labels, footer
+  * Top (y < 100) - host-owned header space
+  * Bottom (y > 500) - x-axis labels and host-owned footer space
   * Right (x > 850) - legend panel (x: 870-1080)
 
 * **For axisless charts (donut, treemap, circle packing):** the full plot area box is the layout constraint. Center circular charts at the plot area midpoint (x ~ 459, y ~ 300). The legend always sits at x: 870-1080 regardless of chart type - never expand the chart horizontally to fill the legend zone.
 
 ### What to avoid (anti-patterns)
 
-* x Plot area overlapping title, footer, or legend
+* x Plot area overlapping host header, footer, or legend
 * x Dynamically changing layout bounds at runtime
 * x Spreading a circular or axisless chart across the full card width - the legend zone (x > 850) is always reserved
 * x Treating x=850 as a strict data-area right edge on dual-axis charts - secondary axis labels between x=820 and x=850 are correct, not a violation

@@ -27,6 +27,8 @@
     { name: 'Rose', value: 45 },
     { name: 'Other', value: 30 }
   ];
+  const treemapOuterPad = 8;
+  const treemapTileGap = 4;
 
   function tooltip(param) {
     const dark = state.dark;
@@ -68,6 +70,10 @@
       },
       series: [{
         type: 'treemap',
+        left: treemapOuterPad,
+        right: treemapOuterPad,
+        top: treemapOuterPad,
+        bottom: treemapOuterPad,
         roam: false,
         nodeClick: false,
         animationDelay: function(idx) { return idx * 110; },
@@ -91,8 +97,8 @@
         },
         itemStyle: {
           borderColor: dark ? '#151825' : '#f8f5fb',
-          borderWidth: 4,
-          gapWidth: 4,
+          borderWidth: treemapTileGap,
+          gapWidth: treemapTileGap,
           borderRadius: 12
         },
         emphasis: {
@@ -105,7 +111,7 @@
         levels: [
           {
             color: [colors[4], colors[0], colors[1], colors[2], colors[5], colors[6], colors[3], colors[7]],
-            itemStyle: { borderColor: dark ? '#151825' : '#f8f5fb', borderWidth: 4, gapWidth: 4, borderRadius: 14 }
+            itemStyle: { borderColor: dark ? '#151825' : '#f8f5fb', borderWidth: treemapTileGap, gapWidth: treemapTileGap, borderRadius: 14 }
           }
         ],
         data: data

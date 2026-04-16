@@ -1,5 +1,5 @@
 
-<svg id="root" viewBox="40 80 1040 463" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<svg id="root" class="chart-standard" viewBox="40 80 1040 463" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
 <defs>
   <style>
     @import url('chart-shared.css');
@@ -11,14 +11,9 @@
     .tick-label      { font-size:10px; fill:#79747E; font-weight:400; }
     .tick-label-right { font-size:10px; fill:#8B5CF6; font-weight:500; }
     .category-label  { font-size:10px; fill:#79747E; font-weight:500; }
-    .legend-label    { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    .legend-value    { font-size:11px; fill:#1C1B1F; font-weight:500; opacity:0; transition:opacity 0.2s; }
     .grid-line       { stroke:#E7E0EC; stroke-width:1; }
     .grid-line-right { stroke:#C7B8F5; stroke-width:1; stroke-dasharray:4 3; opacity:0.7; }
     .axis-line       { stroke:#79747E; stroke-width:1.5; }
-    .legend-bg       { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .legend-divider  { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .legend-title    { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
     .legend-insight  { font-size:10px; fill:#1C1B1F; font-weight:400; }
     .footer          { font-size:10px; fill:#79747E; font-weight:400; }
     .toggle-wrap     { cursor:pointer; }
@@ -28,10 +23,9 @@
     .print-track     { fill:#E7E0EC; transition:fill 0.3s; }
     .print-thumb     { fill:#ffffff; }
     .print-label     { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.print .legend-value { opacity:1; }
     svg.print .print-track  { fill:#d97316; }
 
-    /* §1 — Standard palette */
+    /* Ãƒâ€šÃ‚Â§1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Standard palette */
     .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
     .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
     .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
@@ -41,13 +35,13 @@
     svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
     svg.dark .series-7 { fill:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; }
 
-    /* §1 — Semantic: pareto line aligned to series-5 (violet family) */
+    /* Ãƒâ€šÃ‚Â§1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Semantic: pareto line aligned to series-5 (violet family) */
     .c-pareto        { fill:#8B5CF6; stroke:#8B5CF6; }
     .c-pareto-stroke { fill:none;    stroke:#8B5CF6; }
     svg.dark .c-pareto        { fill:#A78BFA; stroke:#A78BFA; }
     svg.dark .c-pareto-stroke { stroke:#A78BFA; }
 
-    /* §3 — A2: .data-body is child of .data-item; both fill-mode safe, no hover conflict */
+    /* Ãƒâ€šÃ‚Â§3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â A2: .data-body is child of .data-item; both fill-mode safe, no hover conflict */
     @keyframes dataFadeIn { from{opacity:0} to{opacity:1} }
     .data-body { animation: dataFadeIn 0.8s ease-out both; }
     .stagger-1 { animation-delay:0.00s; } .stagger-2 { animation-delay:0.12s; }
@@ -55,7 +49,7 @@
     .stagger-5 { animation-delay:0.50s; } .stagger-6 { animation-delay:0.62s; }
     .stagger-7 { animation-delay:0.75s; } .stagger-8 { animation-delay:0.87s; }
 
-    /* §4 — Hover: CSS-driven dim on .data-item; overlay tooltips shown via JS inline style */
+    /* Ãƒâ€šÃ‚Â§4 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Hover: CSS-driven dim on .data-item; overlay tooltips shown via JS inline style */
     .data-item  { cursor:pointer; }
     .data-tip   { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
     .data-layer.hovering .data-item         { opacity:0.20; transition:opacity 0.2s ease; }
@@ -63,7 +57,7 @@
     svg.print .data-tip                     { opacity:0 !important; }
     svg.print .data-layer.hovering .data-item { opacity:1 !important; }
 
-    /* §3 — Pareto line + dots: @keyframes + animationend + .visible (no fill-mode, no inline opacity left in place) */
+    /* Ãƒâ€šÃ‚Â§3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Pareto line + dots: @keyframes + animationend + .visible (no fill-mode, no inline opacity left in place) */
     @keyframes paretoFade { from{opacity:0} to{opacity:1} }
     .pareto-line         { opacity:0; fill:none; stroke-width:2.5; stroke-linejoin:round; stroke-linecap:round; }
     .pareto-line.visible { opacity:1; transition:none; }
@@ -72,7 +66,7 @@
     .p80-line    { stroke-width:1.2; stroke-dasharray:5 4; opacity:0.55; }
     .pareto-line, .pareto-dot, .p80-line, .grid-line-right { pointer-events:none; }
 
-    /* §4 — Tooltip classes */
+    /* Ãƒâ€šÃ‚Â§4 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Tooltip classes */
     .tip-bg      { fill:#FFFBFE; }
     .tip-border  { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
     .tip-tail    { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
@@ -88,15 +82,10 @@
     svg.dark .tick-label        { fill:#938F99; }
     svg.dark .tick-label-right  { fill:#A78BFA; }
     svg.dark .category-label    { fill:#938F99; }
-    svg.dark .legend-label      { fill:#E6E0E9; }
-    svg.dark .legend-value      { fill:#E6E0E9; }
     svg.dark .legend-insight    { fill:#E6E0E9; }
     svg.dark .grid-line         { stroke:#49454F; }
     svg.dark .grid-line-right   { stroke:#4F4A8A; }
     svg.dark .axis-line         { stroke:#938F99; }
-    svg.dark .legend-bg         { fill:#49454F; stroke:#938F99; }
-    svg.dark .legend-divider    { stroke:#938F99; }
-    svg.dark .legend-title      { fill:#938F99; }
     svg.dark .footer            { fill:#938F99; }
     svg.dark .toggle-track      { fill:#49454F; }
     svg.dark .toggle-label      { fill:#CAC4D0; }
@@ -117,27 +106,7 @@
   </style>
 </defs>
 
-<rect class="card-bg" width="1100" height="620" rx="18"/>
-<g class="border-dark">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
-</g>
-<g class="border-light">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
-</g>
 
-<text x="68" y="50" class="card-title">Revenue Pareto by Category - Pareto</text>
-<text x="68" y="70" class="card-subtitle">Sorted descending · cumulative % line · hover to inspect · print for values</text>
-
-<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
-  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
-</g>
-<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
-  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
-</g>
 
 <!--
   Plot: x=68..820 y=100..500  Left axis $0-$100M  Right axis 0-100%
@@ -183,7 +152,7 @@
 <text x="670" y="522" class="category-label" text-anchor="middle">Rose</text>
 <text x="760" y="522" class="category-label" text-anchor="middle">Other</text>
 
-<!-- ── Bars (Method A2: .data-body inside .data-item) ── -->
+<!-- ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Bars (Method A2: .data-body inside .data-item) ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ -->
 <g class="data-layer" id="data-layer">
 
 <!-- Violet $79M h=316 -->
@@ -242,7 +211,7 @@
   </g>
 </g>
 
-<!-- Pareto cumulative % line — inside #data-layer, after bars, so it paints above them -->
+<!-- Pareto cumulative % line ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â inside #data-layer, after bars, so it paints above them -->
 <polyline id="pareto-line" class="pareto-line c-pareto-stroke"
   points="158,438 248,381 338,327 428,277 518,229 608,181 698,138 788,100"/>
 <circle id="pd1" class="pareto-dot c-pareto" cx="158" cy="438" r="5"/>
@@ -256,123 +225,111 @@
 
 </g><!-- end .data-layer -->
 
-<!-- Tooltip overlay — drawn last so tooltips appear above line -->
+<!-- Tooltip overlay ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â drawn last so tooltips appear above line -->
 <!-- Geometry (widths, paths, positions) set by initTooltips() via getBBox() -->
 <g id="tip-overlay">
   <g class="data-tip" id="data-tip-1" data-item-cx="130" data-item-top="184">
     <rect class="tip-bg" rx="9"/>
     <path class="tip-border"/><path class="tip-tail"/>
     <text text-anchor="middle" dominant-baseline="central" class="tip-value">$79M</text>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Violet · 15.6%</text>
+    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Violet Ãƒâ€šÃ‚Â· 15.6%</text>
     <text text-anchor="middle" dominant-baseline="central" class="tip-percent">cum. 15.6%</text>
   </g>
   <g class="data-tip" id="data-tip-2" data-item-cx="220" data-item-top="212">
     <rect class="tip-bg" rx="9"/>
     <path class="tip-border"/><path class="tip-tail"/>
     <text text-anchor="middle" dominant-baseline="central" class="tip-value">$72M</text>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Cyan · 14.2%</text>
+    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Cyan Ãƒâ€šÃ‚Â· 14.2%</text>
     <text text-anchor="middle" dominant-baseline="central" class="tip-percent">cum. 29.8%</text>
   </g>
   <g class="data-tip" id="data-tip-3" data-item-cx="310" data-item-top="228">
     <rect class="tip-bg" rx="9"/>
     <path class="tip-border"/><path class="tip-tail"/>
     <text text-anchor="middle" dominant-baseline="central" class="tip-value">$68M</text>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Emerald · 13.4%</text>
+    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Emerald Ãƒâ€šÃ‚Â· 13.4%</text>
     <text text-anchor="middle" dominant-baseline="central" class="tip-percent">cum. 43.2%</text>
   </g>
   <g class="data-tip" id="data-tip-4" data-item-cx="400" data-item-top="244">
     <rect class="tip-bg" rx="9"/>
     <path class="tip-border"/><path class="tip-tail"/>
     <text text-anchor="middle" dominant-baseline="central" class="tip-value">$64M</text>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Blue · 12.6%</text>
+    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Blue Ãƒâ€šÃ‚Â· 12.6%</text>
     <text text-anchor="middle" dominant-baseline="central" class="tip-percent">cum. 55.8%</text>
   </g>
   <g class="data-tip" id="data-tip-5" data-item-cx="490" data-item-top="256">
     <rect class="tip-bg" rx="9"/>
     <path class="tip-border"/><path class="tip-tail"/>
     <text text-anchor="middle" dominant-baseline="central" class="tip-value">$61M</text>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Teal · 12.0%</text>
+    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Teal Ãƒâ€šÃ‚Â· 12.0%</text>
     <text text-anchor="middle" dominant-baseline="central" class="tip-percent">cum. 67.9%</text>
   </g>
   <g class="data-tip" id="data-tip-6" data-item-cx="580" data-item-top="260">
     <rect class="tip-bg" rx="9"/>
     <path class="tip-border"/><path class="tip-tail"/>
     <text text-anchor="middle" dominant-baseline="central" class="tip-value">$60M</text>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Amber · 11.8%</text>
+    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Amber Ãƒâ€šÃ‚Â· 11.8%</text>
     <text text-anchor="middle" dominant-baseline="central" class="tip-percent">cum. 79.7%</text>
   </g>
   <g class="data-tip" id="data-tip-7" data-item-cx="670" data-item-top="280">
     <rect class="tip-bg" rx="9"/>
     <path class="tip-border"/><path class="tip-tail"/>
     <text text-anchor="middle" dominant-baseline="central" class="tip-value">$55M</text>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Rose · 10.8%</text>
+    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Rose Ãƒâ€šÃ‚Â· 10.8%</text>
     <text text-anchor="middle" dominant-baseline="central" class="tip-percent">cum. 90.5%</text>
   </g>
   <g class="data-tip" id="data-tip-8" data-item-cx="760" data-item-top="308">
     <rect class="tip-bg" rx="9"/>
     <path class="tip-border"/><path class="tip-tail"/>
     <text text-anchor="middle" dominant-baseline="central" class="tip-value">$48M</text>
-    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Other · 9.5%</text>
+    <text text-anchor="middle" dominant-baseline="central" class="tip-label">Other Ãƒâ€šÃ‚Â· 9.5%</text>
     <text text-anchor="middle" dominant-baseline="central" class="tip-percent">cum. 100%</text>
   </g>
 </g>
 
 <!-- Legend -->
-<rect x="870" y="100" width="210" height="390" rx="14" class="legend-bg" stroke-width="1"/>
-<text x="888" y="124" class="legend-title">SERIES (sorted)</text>
-<g transform="translate(888,140)">
+<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg legend-panel"/>
+<text x="878" y="118" class="legend-title legend-heading">SERIES</text>
+<g class="legend-row" transform="translate(878,146)">
   <rect x="0" y="0" width="14" height="14" rx="3" class="series-5"/>
-  <text x="22" y="11" class="legend-label">Violet</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$79M</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Violet</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$79M</text>
 </g>
-<g transform="translate(888,170)">
+<g class="legend-row" transform="translate(878,188)">
   <rect x="0" y="0" width="14" height="14" rx="3" class="series-1"/>
-  <text x="22" y="11" class="legend-label">Cyan</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$72M</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Cyan</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$72M</text>
 </g>
-<g transform="translate(888,200)">
+<g class="legend-row" transform="translate(878,230)">
   <rect x="0" y="0" width="14" height="14" rx="3" class="series-2"/>
-  <text x="22" y="11" class="legend-label">Emerald</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$68M</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Emerald</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$68M</text>
 </g>
-<g transform="translate(888,230)">
+<g class="legend-row" transform="translate(878,272)">
   <rect x="0" y="0" width="14" height="14" rx="3" class="series-6"/>
-  <text x="22" y="11" class="legend-label">Blue</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$64M</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Blue</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$64M</text>
 </g>
-<g transform="translate(888,260)">
+<g class="legend-row" transform="translate(878,314)">
   <rect x="0" y="0" width="14" height="14" rx="3" class="series-7"/>
-  <text x="22" y="11" class="legend-label">Teal</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$61M</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Teal</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$61M</text>
 </g>
-<g transform="translate(888,290)">
+<g class="legend-row" transform="translate(878,356)">
   <rect x="0" y="0" width="14" height="14" rx="3" class="series-3"/>
-  <text x="22" y="11" class="legend-label">Amber</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$60M</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Amber</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$60M</text>
 </g>
-<g transform="translate(888,320)">
+<g class="legend-row" transform="translate(878,398)">
   <rect x="0" y="0" width="14" height="14" rx="3" class="series-4"/>
-  <text x="22" y="11" class="legend-label">Rose</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$55M</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Rose</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$55M</text>
 </g>
-<line x1="888" y1="352" x2="1062" y2="352" class="legend-divider"/>
-<g transform="translate(888,364)">
+<g class="legend-row" transform="translate(878,440)">
   <rect x="0" y="0" width="14" height="14" rx="3" class="series-8"/>
-  <text x="22" y="11" class="legend-label">Other</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">$48M</text>
+  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Other</text>
+  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$48M</text>
 </g>
-<line x1="888" y1="392" x2="1062" y2="392" class="legend-divider"/>
-<g transform="translate(888,406)">
-  <line x1="0" y1="7" x2="14" y2="7" class="c-pareto-stroke" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="7" cy="7" r="3.5" class="c-pareto"/>
-  <text x="22" y="11" class="legend-label c-pareto">Cumulative %</text>
-</g>
-<line x1="888" y1="432" x2="1062" y2="432" class="legend-divider"/>
-<text x="888" y="449" class="legend-title">PARETO INSIGHT</text>
-<text x="888" y="466" class="legend-insight">Top 6 of 8 = 79.7%</text>
-<text x="888" y="481" class="legend-insight">of total revenue</text>
 
-<text x="68" y="600" class="footer">Revenue by Category · sorted descending · Pareto 80/20 analysis · total $507M</text>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -382,17 +339,17 @@
 var svg         = document.getElementById('root');
   var dataLayerEl = document.querySelector('.data-layer');
 
-  /* §2 — isDark hoisted before all animation and build code */
+  /* Ãƒâ€šÃ‚Â§2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â isDark hoisted before all animation and build code */
 
-  /* §3 — A2 CSS @keyframes drives bar entrance; no JS needed for data items */
-  /* §3 — Pareto line + dots fade in after last bar completes */
+  /* Ãƒâ€šÃ‚Â§3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â A2 CSS @keyframes drives bar entrance; no JS needed for data items */
+  /* Ãƒâ€šÃ‚Â§3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Pareto line + dots fade in after last bar completes */
   var BAR_COUNT    = 8;
   var BAR_STAGGER  = Math.min(0.25, 1.0 / BAR_COUNT); // 0.125s adaptive
   var BAR_DURATION = 0.8;
   var lastBarDelay = (BAR_COUNT - 1) * BAR_STAGGER;
   var lastBarEnd   = (lastBarDelay + BAR_DURATION + 0.1) * 1000;
 
-  /* §3 — Pareto line + dots fade in after last bar completes, using @keyframes + animationend + .visible */
+  /* Ãƒâ€šÃ‚Â§3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Pareto line + dots fade in after last bar completes, using @keyframes + animationend + .visible */
   setTimeout(function() {
     var line = document.getElementById('pareto-line');
     if (line) {
@@ -416,7 +373,7 @@ var svg         = document.getElementById('root');
     }
   }, lastBarEnd);
 
-  /* §4 — Hover: .active on .data-item for dim; JS inline style on overlay tooltip */
+  /* Ãƒâ€šÃ‚Â§4 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Hover: .active on .data-item for dim; JS inline style on overlay tooltip */
   var dataItemEls = Array.prototype.slice.call(document.querySelectorAll('.data-item'));
   var activeTip = null;
   dataItemEls.forEach(function(itemEl) {
@@ -471,7 +428,7 @@ var svg         = document.getElementById('root');
       bgRect.setAttribute('x', bL); bgRect.setAttribute('y', bT);
       bgRect.setAttribute('width', hw * 2); bgRect.setAttribute('height', bh);
 
-      /* open-path border — gap of ±tw at bottom centre */
+      /* open-path border ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â gap of Ãƒâ€šÃ‚Â±tw at bottom centre */
       borderPath.setAttribute('d',
         'M'+(tx+tw)+','+bB+
         ' L'+(bR-rx)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-rx)+
@@ -481,12 +438,12 @@ var svg         = document.getElementById('root');
         ' L'+(tx-tw)+','+bB
       );
 
-      /* tail — root at bB, tip at itemTop */
+      /* tail ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â root at bB, tip at itemTop */
       tailPath.setAttribute('d',
         'M'+(tx-tw)+','+bB+' L'+tx+','+itemTop+' L'+(tx+tw)+','+bB
       );
 
-      /* text positions — evenly distributed in bubble */
+      /* text positions ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â evenly distributed in bubble */
       texts[0].setAttribute('x', tx); texts[0].setAttribute('y', bT + bh * 0.22);
       texts[1].setAttribute('x', tx); texts[1].setAttribute('y', bT + bh * 0.52);
       texts[2].setAttribute('x', tx); texts[2].setAttribute('y', bT + bh * 0.80);
@@ -494,7 +451,7 @@ var svg         = document.getElementById('root');
   }
   initTooltips();
 
-  /* §2 — Dark mode: isDark boolean, CSS handles palette swap automatically */
+  /* Ãƒâ€šÃ‚Â§2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Dark mode: isDark boolean, CSS handles palette swap automatically */
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());

@@ -25,7 +25,7 @@ svg.dark .series-7 { fill:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; }
 > element itself because the selector targets `<svg>` elements that also
 > have the `dark` class. Use `#root.dark .series-N` only when the SVG is
 > inlined inside an HTML document where `svg` as a selector might match
-> outer SVG elements unexpectedly. All card shell dark overrides follow
+> outer SVG elements unexpectedly. All dark overrides follow
 > the same `svg.dark` pattern — never mix `#root.dark` and `svg.dark`
 > in the same chart.
 
@@ -750,23 +750,23 @@ var tx = Math.max(hw + 8, Math.min(cx, 1100 - hw - 8));
 
 ## 8. Animation Timing Reference
 
-Duration and easing are fixed for all charts. Stagger has a maximum of `0.25s` but must scale down when element count is large.
+Duration and easing are fixed for all charts. Stagger is distributed across a fixed 2.0s window so the final element always begins by 2.0s regardless of count.
 
 | Parameter      | Value  | Notes                                      |
 |----------------|--------|--------------------------------------------|
 | Duration       | `0.8s` | Fixed — `itemFade` / `dataFadeIn` duration  |
-| Stagger        | `min(0.25, 1.0 / count)` | 0.25s max; scale down for large counts |
+| Stagger        | `count > 1 ? 2.0 / (count - 1) : 0` | Last element starts by 2.0s |
 | Easing         | `ease-out` | Fixed — consistent across all charts   |
 | `.ready` delay | `(lastDelay + duration + 0.1) * 1000` ms | 100ms buffer after last animation |
 
-### Standard case — small element count
+### Standard case
 
-For charts with few elements (e.g. 8-bar chart), the full `0.25s` stagger applies and produces the intended cadence (1.75s total spread):
+All charts use the same fixed 2.0s stagger spread regardless of count:
 
 ```js
-// Standard — small count, full stagger
 var duration  = 0.8;
-var stagger   = 0.25;
+var count     = items.length;
+var stagger   = count > 1 ? 2.0 / (count - 1) : 0;
 var lastDelay = (items.length - 1) * stagger;
 
 items.forEach(function(el, i) {
@@ -782,31 +782,7 @@ setTimeout(function() {
 }, (lastDelay + duration + 0.1) * 1000);
 ```
 
-### Adaptive case — large element count
-
-When element count is large (e.g. a 30-bar chart, or a dense icicle column with 50+ cells), a fixed `0.25s` stagger produces an unacceptably long animation — 50 elements × 0.25s = 12.5s before the last element appears. Cap the total spread at ~1s by scaling the stagger down:
-
-```js
-// Adaptive — large count, stagger scales to fit ~1s window
-var duration  = 0.8;
-var WINDOW    = 1.0;  // max spread duration in seconds
-var stagger   = Math.min(0.25, WINDOW / items.length);
-var lastDelay = (items.length - 1) * stagger;
-
-items.forEach(function(el, i) {
-  el.style.animation = 'itemFade ' + duration + 's ease-out ' + (i * stagger).toFixed(2) + 's';
-  el.addEventListener('animationend', function() {
-    el.style.animation = 'none';
-    el.classList.add('visible');
-  }, { once: true });
-});
-
-setTimeout(function() {
-  container.classList.add('ready');
-}, (lastDelay + duration + 0.1) * 1000);
-```
-
-This formula is self-correcting: for 8 elements `min(0.25, 1.0/8) = 0.125` — still fast and comfortable. For 50 elements `min(0.25, 1.0/50) = 0.02` — the full column spreads in 1s. Duration and easing never change.
+This keeps the stagger window consistent across all charts: fewer elements get larger gaps, while dense charts get proportionally smaller gaps. Duration and easing never change.
 
 **Do not shorten duration** — only stagger adapts. The 0.8s per-element fade is a deliberate design choice that remains consistent regardless of element count.
 
@@ -849,106 +825,20 @@ and will cause a parse error (`EntityRef: expecting ';'`). Always escape it.
 
 ### Wrapper-hosted portals
 
-The repo now also uses wrapper-hosted portal pages (`portal-dark*.html`, `portal-light*.html`) that own the card shell outside the SVG.
+The repo uses wrapper-hosted portal pages (`portal-dark*.html`, `portal-light*.html`) where the host HTML owns title, subtitle, footer, and controls.
 
 In that pattern:
 
-* The host HTML owns title, subtitle, footer, and controls
 * Controls may include `Open`, light/dark mode, and print/screen
 * The iframe `src` query (`?theme=light` / `?theme=dark`) is only an initial hint
 * The host may immediately send `setMode`, `setPrint`, and `setPalette` messages after iframe load
-* Embedded SVGs may hide internal shell classes:
-  * `.card-bg`
-  * `.border-light`
-  * `.border-dark`
-  * `.card-title`
-  * `.card-subtitle`
-  * `.footer`
-  * `.toggle-wrap`
-
-Do not assume an embedded chart should visibly retain its internal shell when used inside a wrapper portal.
+* The embedded SVG should contain only chart, legend, axes, tooltip, and interaction content
 
 ---
 
-## Appendix B. Card Shell & Layout Grid
+## Appendix B. Layout Grid
 
-Every chart uses an identical card shell and layout grid. Copy verbatim — never invent new dimensions.
-
-### Important scope note
-
-This section describes the **standalone SVG shell** pattern.
-
-For wrapper portals:
-
-* the host HTML card replaces the visible shell
-* the embedded SVG is typically cropped to the plot region
-* the internal shell geometry may remain in the file for standalone use, but can be hidden by CSS when embedded
-* wrapper controls may sit beside each other in the host header:
-  * `Open`
-  * light/dark toggle
-  * print/screen toggle
-
-### SVG root
-
-```svg
-<svg id="root" viewBox="0 0 1100 620" width="100%" height="100%"
-     preserveAspectRatio="xMidYMid meet"
-     xmlns="http://www.w3.org/2000/svg"
-     font-family="'Inter','Helvetica Neue',Arial,sans-serif">
-```
-
-### Card background + border rings
-
-```svg
-<rect class="card-bg" width="1100" height="620" rx="18"/>
-<g class="border-dark">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5"
-        fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
-</g>
-<g class="border-light">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5"
-        fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
-</g>
-```
-
-The `border-dark` ring is hidden in light mode and shown in dark mode via CSS (see dark mode overrides). Never use a single border rect — the two-ring pattern is required so each mode gets its own stroke colour.
-
-```css
-.border-dark  { display:none; }
-.border-light { display:block; }
-svg.dark .border-dark  { display:block; }
-svg.dark .border-light { display:none; }
-```
-
-### Typography positions
-
-| Element      | x   | y   | Class  | Notes                        |
-|--------------|-----|-----|--------|------------------------------|
-| Title        | 68  | 50  | `.card-title`  | 18px / 500 / −0.2px tracking |
-| Subtitle     | 68  | 70  | `.card-subtitle`  | 11px / 400 / muted           |
-| Footer       | 68  | 600 | `.footer` | 10px / 400 / muted        |
-
-### Toggle positions
-
-| Toggle  | transform          | id            |
-|---------|--------------------|---------------|
-| Dark    | translate(930, 52) | `dark-toggle` |
-| Print   | translate(1012, 52)| `print-toggle`|
-
-Each toggle is a `<g class="toggle-wrap">` containing a track rect, thumb circle, and label. Dark uses `.toggle-track`/`.toggle-thumb`/`.toggle-label`. Print uses `.print-track`/`.print-thumb`/`.print-label`.
-
-```svg
-<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
-  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
-</g>
-<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
-  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
-</g>
-```
+Every chart uses an identical layout grid inside a wrapper-hosted card. Copy the chart geometry verbatim — never invent new dimensions.
 
 ### Plot area
 
@@ -965,6 +855,18 @@ This gives 782 × 400 px. All data elements must fit within this box.
 For charts without a y-axis (circle packing, donut, etc.) the full box is still the layout constraint — no element edge should cross these bounds. Center circular charts at the plot area midpoint (`x ≈ 459, y ≈ 300`).
 
 **`x=850` is an outer boundary, not a fill target.** The data area may end before `x=850` when layout requires it — for example, a dual-axis chart may run gridlines and bars only to `x=820`, reserving the `x=820–850` corridor for the secondary axis line and its labels. All elements including those labels must still stay within `x=850`. Secondary axis labels in that corridor are correct, not a violation.
+
+### Reserved zones
+
+The host owns the shell outside the charted plot area:
+
+| Zone | Bounds | Owner |
+|------|--------|-------|
+| Header | `y < 100` | Host HTML shell |
+| Footer / x-label corridor | `y > 500` | SVG x-axis labels plus host footer below |
+| Legend | `x > 850` | SVG legend panel |
+
+No host-shell UI elements should remain inside wrapper-hosted chart SVGs.
 
 ### Legend
 
@@ -988,79 +890,6 @@ Divider lines between legend sections:
 <line x1="888" y1="[y]" x2="1062" y2="[y]" class="lgd-div"/>
 ```
 
-### CSS for card shell classes
+### CSS focus
 
-```css
-.card-bg  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-.card-title       { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-.card-subtitle       { font-size:11px; fill:#79747E; font-weight:400; }
-.legend-label       { font-size:11px; fill:#1C1B1F; font-weight:400; }
-.legend-value       { font-size:11px; fill:#1C1B1F; font-weight:500; }
-.legend-bg   { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-.legend-divider  { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-.legend-title  { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-.footer   { font-size:10px; fill:#79747E; font-weight:400; }
-.toggle-wrap   { cursor:pointer; }
-.toggle-track  { fill:#E7E0EC; }
-.toggle-thumb  { fill:#ffffff; }
-.toggle-label  { font-size:11px; font-weight:500; fill:#49454F; }
-.print-track { fill:#E7E0EC; transition:fill 0.3s; }
-.print-thumb { fill:#ffffff; }
-.print-label { font-size:11px; font-weight:500; fill:#49454F; }
-.legend-value  { opacity:0; transition:opacity 0.2s; }
-svg.print .legend-value  { opacity:1; }
-svg.print .print-track { fill:#d97316; }
-
-/* Dark overrides for card shell */
-svg.dark .card-bg  { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-svg.dark .card-title       { fill:#E6E0E9; }
-svg.dark .card-subtitle       { fill:#938F99; }
-svg.dark .legend-label       { fill:#E6E0E9; }
-svg.dark .legend-value       { fill:#E6E0E9; }
-svg.dark .legend-bg   { fill:#49454F; stroke:#938F99; }
-svg.dark .legend-divider  { stroke:#938F99; }
-svg.dark .legend-title  { fill:#938F99; }
-svg.dark .footer   { fill:#938F99; }
-svg.dark .toggle-track  { fill:#49454F; }
-svg.dark .toggle-label  { fill:#CAC4D0; }
-svg.dark .print-track { fill:#49454F; }
-svg.dark .print-label { fill:#CAC4D0; }
-svg.dark.print .print-track { fill:#d97316; }
-```
-
-### Full JS toggle pattern (both toggles)
-
-```js
-var isDark = false;
-
-function setMode(wantDark) {
-  if (wantDark === isDark) return;
-  isDark = wantDark;
-  var thumb = document.getElementById('tthumb');
-  var lbl   = document.getElementById('tlabel');
-  if (wantDark) {
-    svg.classList.add('dark');
-    if (thumb) thumb.setAttribute('cx', '52');
-    if (lbl)   lbl.textContent = 'Light';
-  } else {
-    svg.classList.remove('dark');
-    if (thumb) thumb.setAttribute('cx', '16');
-    if (lbl)   lbl.textContent = 'Dark';
-  }
-  // hierarchical charts also call recolor() here
-}
-
-document.getElementById('dark-toggle').addEventListener('click', function() { setMode(!isDark); });
-document.getElementById('print-toggle').addEventListener('click', function() {
-  var thumb = document.getElementById('pthumb'), lbl = document.getElementById('plabel');
-  if (svg.classList.toggle('print')) { thumb.setAttribute('cx','52'); lbl.textContent='Screen'; }
-  else                               { thumb.setAttribute('cx','16'); lbl.textContent='Print'; }
-});
-
-// Inter-frame dark mode sync (for iframe embeds)
-window.setMode = setMode;
-window.addEventListener('message', function(e) {
-  if (e.data && e.data.type === 'setMode') setMode(e.data.dark);
-});
-setMode(window.location.href.indexOf('theme=dark') !== -1);
-```
+The SVG owns chart, legend, axes, tooltip, and palette styling. The wrapper host owns shell styling and controls.

@@ -3,42 +3,36 @@
 
 
 <svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+  <script type="text/javascript">
+    <![CDATA[
+    (function () {
+      if (window.location.href.indexOf('theme=dark') !== -1) {
+       document.documentElement.classList.add('dark');
+      }
+    }());
+    ]]>
+  </script>
 <defs>
   <clipPath id="chartclip">
     <rect x="68" y="96" width="772" height="412"/>
   </clipPath>
   <style>
     @import url('chart-shared.css');
+    /* prevent first paint in wrong color before shared css load */
+    svg {
+    --critical-tick-fill: #79747E;
+    --critical-grid-stroke: #E7E0EC;
+    --critical-axis-stroke: #79747E;
+    }
+    svg.dark {
+    --critical-tick-fill: #938F99;
+    --critical-grid-stroke: #3A3940;
+    --critical-axis-stroke: #938F99;
+    }
+    .tick-label, .category-label { fill: var(--critical-tick-fill); }
+    .grid-line { stroke: var(--critical-grid-stroke); }
+    .axis-line { stroke: var(--critical-axis-stroke); }
 
-    .crosshair { stroke:#79747E; stroke-width:1; stroke-dasharray:4,3; opacity:0; transition:opacity 0.15s; }
-    svg.dark .crosshair { stroke:#938F99; }
-    .tip       { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    svg.print .tip { opacity:0 !important; }
-
-    @keyframes drawWave { from{stroke-dashoffset:var(--len,900);} to{stroke-dashoffset:0;} }
-    .wave-edge         { stroke-dasharray:var(--len,900); stroke-dashoffset:var(--len,900);
-                         opacity:0; transition:opacity 0.2s ease; }
-    .wave-edge.visible { stroke-dashoffset:0; }
-    .we-w1.visible { opacity:1.00; }
-    .we-w2.visible { opacity:0.90; }
-    .we-w3.visible { opacity:0.82; }
-    .we-w4.visible { opacity:0.72; }
-    .we-w5.visible { opacity:0.55; }
-
-    .area-fill         { opacity:0; transition:opacity 0.2s ease; }
-    .area-fill.visible { opacity:1; }
-    .f1{animation-delay:0.00s;} .f2{animation-delay:0.25s;}
-    .f3{animation-delay:0.50s;} .f4{animation-delay:0.75s;} .f5{animation-delay:1.00s;}
-
-    .data-layer.ready.hovering .wave-edge.visible              { opacity: 0.20; }
-    .data-layer.ready.hovering .wave-edge.visible.active       { opacity: 1; }
-    .data-layer.ready.hovering .wave-edge.visible.we-w2.active { opacity: 0.90; }
-    .data-layer.ready.hovering .wave-edge.visible.we-w3.active { opacity: 0.82; }
-    .data-layer.ready.hovering .wave-edge.visible.we-w4.active { opacity: 0.72; }
-    .data-layer.ready.hovering .wave-edge.visible.we-w5.active { opacity: 0.55; }
-    .data-layer.ready.hovering .area-fill.visible              { opacity: 0.20; }
-    .data-layer.ready.hovering .area-fill.visible.active       { opacity: 1; }
-    .col-dot { opacity:0; transition:opacity 0.2s ease; pointer-events:none; }
     .data-layer.ready.hovering .col-dot.active { opacity:0; }
   </style>
 </defs>
@@ -73,31 +67,31 @@
 
 <g class="data-layer" id="data-layer">
 <g clip-path="url(#chartclip)">
-  <path id="area-5" class="area-fill series-5 f5" data-series="5" fill-opacity="0.17"
+  <path id="area-5" class="area-path series-5" data-series="5" fill-opacity="0.17"
 d="M68,504 L68,487.8 C119.5,487.8 119.5,483.0 171,483.0 C222.5,483.0 222.5,486.2 274,486.2 C325.5,486.2 325.5,480.2 377,480.2 C428.5,480.2 428.5,483.0 480,483.0 C531.5,483.0 531.5,477.5 583,477.5 C634.5,477.5 634.5,480.2 686,480.2 C737.5,480.2 737.5,473.3 789,473.3 L789,504 Z"/>
-  <path id="area-4" class="area-fill series-4 f4" data-series="4" fill-opacity="0.24"
+  <path id="area-4" class="area-path series-4" data-series="4" fill-opacity="0.24"
 d="M68,487.8 C119.5,487.8 119.5,483.0 171,483.0 C222.5,483.0 222.5,486.2 274,486.2 C325.5,486.2 325.5,480.2 377,480.2 C428.5,480.2 428.5,483.0 480,483.0 C531.5,483.0 531.5,477.5 583,477.5 C634.5,477.5 634.5,480.2 686,480.2 C737.5,480.2 737.5,473.3 789,473.3 L789,437.7 C737.5,437.7 737.5,453.9 686,453.9 C634.5,453.9 634.5,444.2 583,444.2 C531.5,444.2 531.5,455.5 480,455.5 C428.5,455.5 428.5,457.1 377,457.1 C325.5,457.1 325.5,457.1 274,457.1 C222.5,457.1 222.5,459.3 171,459.3 C119.5,459.3 119.5,468.3 68,468.3 Z"/>
-  <path id="area-3" class="area-fill series-3 f3" data-series="3" fill-opacity="0.33"
+  <path id="area-3" class="area-path series-3" data-series="3" fill-opacity="0.33"
 d="M68,468.3 C119.5,468.3 119.5,459.3 171,459.3 C222.5,459.3 222.5,457.1 274,457.1 C325.5,457.1 325.5,457.1 377,457.1 C428.5,457.1 428.5,455.5 480,455.5 C531.5,455.5 531.5,444.2 583,444.2 C634.5,444.2 634.5,453.9 686,453.9 C737.5,453.9 737.5,437.7 789,437.7 L789,381.6 C737.5,381.6 737.5,403.8 686,403.8 C634.5,403.8 634.5,399.6 583,399.6 C531.5,399.6 531.5,415.3 480,415.3 C428.5,415.3 428.5,410.5 377,410.5 C325.5,410.5 325.5,416.9 274,416.9 C222.5,416.9 222.5,423.2 171,423.2 C119.5,423.2 119.5,439.4 68,439.4 Z"/>
-  <path id="area-2" class="area-fill series-2 f2" data-series="2" fill-opacity="0.43"
+  <path id="area-2" class="area-path series-2" data-series="2" fill-opacity="0.43"
 d="M68,439.4 C119.5,439.4 119.5,423.2 171,423.2 C222.5,423.2 222.5,416.9 274,416.9 C325.5,416.9 325.5,410.5 377,410.5 C428.5,410.5 428.5,415.3 480,415.3 C531.5,415.3 531.5,399.6 583,399.6 C634.5,399.6 634.5,403.8 686,403.8 C737.5,403.8 737.5,381.6 789,381.6 L789,281.4 C737.5,281.4 737.5,315.6 686,315.6 C634.5,315.6 634.5,320.2 583,320.2 C531.5,320.2 531.5,344.2 480,344.2 C428.5,344.2 428.5,346.4 377,346.4 C325.5,346.4 325.5,360.8 274,360.8 C222.5,360.8 222.5,373.9 171,373.9 C119.5,373.9 119.5,394.1 68,394.1 Z"/>
-  <path id="area-1" class="area-fill series-1 f1" data-series="1" fill-opacity="0.55"
+  <path id="area-1" class="area-path series-1" data-series="1" fill-opacity="0.55"
 d="M68,394.1 C119.5,394.1 119.5,373.9 171,373.9 C222.5,373.9 222.5,360.8 274,360.8 C325.5,360.8 325.5,346.4 377,346.4 C428.5,346.4 428.5,344.2 480,344.2 C531.5,344.2 531.5,320.2 583,320.2 C634.5,320.2 634.5,315.6 686,315.6 C737.5,315.6 737.5,281.4 789,281.4 L789,165.6 C737.5,165.6 737.5,205.0 686,205.0 C634.5,205.0 634.5,221.8 583,221.8 C531.5,221.8 531.5,261.2 480,261.2 C428.5,261.2 428.5,268.1 377,268.1 C325.5,268.1 325.5,294.1 274,294.1 C222.5,294.1 222.5,311.7 171,311.7 C119.5,311.7 119.5,342.4 68,342.4 Z"/>
 
   <!-- style="fill:none" overrides .series-N fill on stroke-only paths -->
-  <path id="we5" class="wave-edge we-w5 series-5 use-series-stroke w5" style="fill:none"
+  <path id="we5" class="line-path weight-5 series-5 use-series-stroke" data-series="5" style="fill:none"
     stroke-width="1.5" stroke-linecap="round" stroke-dasharray="7,4"
 d="M68,487.8 C119.5,487.8 119.5,483.0 171,483.0 C222.5,483.0 222.5,486.2 274,486.2 C325.5,486.2 325.5,480.2 377,480.2 C428.5,480.2 428.5,483.0 480,483.0 C531.5,483.0 531.5,477.5 583,477.5 C634.5,477.5 634.5,480.2 686,480.2 C737.5,480.2 737.5,473.3 789,473.3"/>
-  <path id="we4" class="wave-edge we-w4 series-4 use-series-stroke w4" style="fill:none"
+  <path id="we4" class="line-path weight-4 series-4 use-series-stroke" data-series="4" style="fill:none"
     stroke-width="2" stroke-linecap="round"
 d="M68,468.3 C119.5,468.3 119.5,459.3 171,459.3 C222.5,459.3 222.5,457.1 274,457.1 C325.5,457.1 325.5,457.1 377,457.1 C428.5,457.1 428.5,455.5 480,455.5 C531.5,455.5 531.5,444.2 583,444.2 C634.5,444.2 634.5,453.9 686,453.9 C737.5,453.9 737.5,437.7 789,437.7"/>
-  <path id="we3" class="wave-edge we-w3 series-3 use-series-stroke w3" style="fill:none"
+  <path id="we3" class="line-path weight-3 series-3 use-series-stroke" data-series="3" style="fill:none"
     stroke-width="2.5" stroke-linecap="round"
 d="M68,439.4 C119.5,439.4 119.5,423.2 171,423.2 C222.5,423.2 222.5,416.9 274,416.9 C325.5,416.9 325.5,410.5 377,410.5 C428.5,410.5 428.5,415.3 480,415.3 C531.5,415.3 531.5,399.6 583,399.6 C634.5,399.6 634.5,403.8 686,403.8 C737.5,403.8 737.5,381.6 789,381.6"/>
-  <path id="we2" class="wave-edge we-w2 series-2 use-series-stroke w2" style="fill:none"
+  <path id="we2" class="line-path weight-2 series-2 use-series-stroke" data-series="2" style="fill:none"
     stroke-width="2.5" stroke-linecap="round"
 d="M68,394.1 C119.5,394.1 119.5,373.9 171,373.9 C222.5,373.9 222.5,360.8 274,360.8 C325.5,360.8 325.5,346.4 377,346.4 C428.5,346.4 428.5,344.2 480,344.2 C531.5,344.2 531.5,320.2 583,320.2 C634.5,320.2 634.5,315.6 686,315.6 C737.5,315.6 737.5,281.4 789,281.4"/>
-  <path id="we1" class="wave-edge we-w1 series-1 use-series-stroke w1" style="fill:none"
+  <path id="we1" class="line-path weight-1 series-1 use-series-stroke" data-series="1" style="fill:none"
     stroke-width="3.5" stroke-linecap="round"
 d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294.1 C325.5,294.1 325.5,268.1 377,268.1 C428.5,268.1 428.5,261.2 480,261.2 C531.5,261.2 531.5,221.8 583,221.8 C634.5,221.8 634.5,205.0 686,205.0 C737.5,205.0 737.5,165.6 789,165.6"/>
 </g>
@@ -117,13 +111,13 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
 <g id="tip-layer"></g>
 </g>
 
-<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg"/>
-<text x="878" y="118" class="legend-title">SERIES</text>
-<g transform="translate(878,146)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Cyan</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$72M</text></g>
-<g transform="translate(878,194)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Emerald</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$62M</text></g>
-<g transform="translate(878,242)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Amber</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$35M</text></g>
-<g transform="translate(878,290)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Rose</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$22M</text></g>
-<g transform="translate(878,338)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label" dominant-baseline="middle">Violet</text><text x="174" y="7" class="legend-value" text-anchor="end" dominant-baseline="middle">$19M</text></g>
+<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg legend-panel"/>
+<text x="878" y="118" class="legend-title legend-heading">SERIES</text>
+<g class="legend-row" transform="translate(878,146)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Cyan</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$72M</text></g>
+<g class="legend-row" transform="translate(878,194)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Emerald</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$62M</text></g>
+<g class="legend-row" transform="translate(878,242)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Amber</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$35M</text></g>
+<g class="legend-row" transform="translate(878,290)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Rose</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$22M</text></g>
+<g class="legend-row" transform="translate(878,338)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Violet</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$19M</text></g>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -165,19 +159,21 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
     var el = ctx.el;
 
     function setSeriesActive(qi, mouseY) {
-      svgEl.querySelectorAll('.wave-edge, .area-fill').forEach(function(el) { el.classList.remove('active'); });
-      var bestSid = series[0].id, bestDist = Infinity;
-      series.forEach(function(s) {
-        var dist = Math.abs(s.ys[qi] - mouseY);
-        if (dist < bestDist) { bestDist = dist; bestSid = s.id; }
+      var bestSid = ctx.getNearestSeriesIdAtColumn(series, qi, mouseY);
+      ctx.setSeriesHoverState({
+        activeSid: bestSid,
+        seriesIds: series.map(function(s) { return s.id; }),
+        lineSelector: '.line-path.series-{id}',
+        areaSelector: '.area-path[data-series="{id}"]'
       });
-      var wave = svgEl.querySelector('.wave-edge.series-' + bestSid);
-      var area = svgEl.querySelector('.area-fill[data-series="' + bestSid + '"]');
-      if (wave) wave.classList.add('active');
-      if (area) area.classList.add('active');
     }
     function clearSeriesActive() {
-      svgEl.querySelectorAll('.wave-edge, .area-fill').forEach(function(el) { el.classList.remove('active'); });
+      ctx.setSeriesHoverState({
+        activeSid: null,
+        seriesIds: series.map(function(s) { return s.id; }),
+        lineSelector: '.line-path.series-{id}',
+        areaSelector: '.area-path[data-series="{id}"]'
+      });
     }
 
     xs.forEach(function(x, qi) {
@@ -244,40 +240,18 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
     series.forEach(function(s, i) {
       var area = svgEl.querySelector('#area-' + s.id);
       if (!area) return;
-      var areaClip = el('clipPath', { id:'area-reveal-' + s.id, clipPathUnits:'userSpaceOnUse' });
-      var revealRect = el('rect', {
-        x:clipRect.getAttribute('x'),
-        y:clipRect.getAttribute('y'),
-        width:clipRect.getAttribute('width'),
-        height:clipRect.getAttribute('height')
+      ctx.initAreaClipReveal({
+        defs: defs,
+        area: area,
+        clipId: 'area-reveal-' + s.id,
+        clipRect: clipRect,
+        delay: waveDelays[i],
+        duration: 1200
       });
-      revealRect.setAttribute('width', '0');
-      areaClip.appendChild(revealRect);
-      defs.appendChild(areaClip);
-      area.setAttribute('clip-path', 'url(#area-reveal-' + s.id + ')');
-      area.classList.add('visible');
-      (function(rect, delay) {
-        var startAt = performance.now() + delay * 1000;
-        var duration = 1200;
-        var fullWidth = parseFloat(clipRect.getAttribute('width'));
-        function ease(t) {
-          return 1 - Math.pow(1 - t, 3);
-        }
-        function tick(now) {
-          if (now < startAt) {
-            requestAnimationFrame(tick);
-            return;
-          }
-          var p = Math.min((now - startAt) / duration, 1);
-          rect.setAttribute('width', String(fullWidth * ease(p)));
-          if (p < 1) requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
-      }(revealRect, waveDelays[i]));
     });
 
-    /* wave-edges are ordered we5,we4,we3,we2,we1 in markup Ã¢â‚¬â€ stagger bottom-to-top */
-    var waveEls    = svgEl.querySelectorAll('.wave-edge');
+    /* wave-edges are ordered we5,we4,we3,we2,we1 in markup ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â stagger bottom-to-top */
+    var waveEls    = svgEl.querySelectorAll('.line-path');
     waveEls.forEach(function(el, i) {
       var delay = waveDelays[waveEls.length - 1 - i];
       el.style.animation = 'drawWave 1.2s cubic-bezier(0.4,0,0.2,1) ' + delay.toFixed(2) + 's';

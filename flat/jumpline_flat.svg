@@ -65,14 +65,14 @@
     svg.dark .border-dark  { display:block; }
     svg.dark .border-light { display:none; }
 
-    /* §3 A1 — animationend per element clears animation + adds .visible; no both fill-mode */
+    /* Ã‚Â§3 A1 Ã¢â‚¬â€ animationend per element clears animation + adds .visible; no both fill-mode */
     @keyframes lineFadeIn { from{opacity:0} to{opacity:1} }
     .series-path         { opacity:0; }
     .series-path.visible { opacity:1; }
     .dot-g               { opacity:0; }
     .dot-g.visible       { opacity:1; }
 
-    /* hover: dim other series groups — gated on .ready */
+    /* hover: dim other series groups Ã¢â‚¬â€ gated on .ready */
     .data-layer.ready.hovering .sg          { opacity:0.20; transition:opacity 0.2s ease; }
     .data-layer.ready.hovering .sg.hovered  { opacity:1; }
 
@@ -102,27 +102,7 @@
   </style>
 </defs>
 
-<rect class="card-bg" width="1100" height="620" rx="18"/>
-<g class="border-light">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,0,0,0.10)" stroke-width="1.5"/>
-</g>
-<g class="border-dark">
-  <rect x="0.75" y="0.75" width="1098.5" height="618.5" rx="17.5" fill="none" stroke="rgba(0,242,255,0.22)" stroke-width="1.5"/>
-</g>
 
-<text x="68" y="50" class="card-title">Benchmark Rates by Region - Jump Line</text>
-<text x="68" y="70" class="card-subtitle">3 series · quarterly · hover to inspect · print for values</text>
-
-<g class="toggle-wrap" id="dark-toggle" transform="translate(930,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="toggle-track"/>
-  <circle id="tthumb" cx="16" cy="0" r="10" class="toggle-thumb"/>
-  <text id="tlabel" x="44" y="4" class="toggle-label" text-anchor="middle">Dark</text>
-</g>
-<g class="toggle-wrap" id="print-toggle" transform="translate(1012,52)">
-  <rect x="0" y="-13" width="68" height="26" rx="13" class="print-track"/>
-  <circle id="pthumb" cx="16" cy="0" r="10" class="print-thumb"/>
-  <text id="plabel" x="44" y="4" class="print-label" text-anchor="middle">Print</text>
-</g>
 
 <line x1="68" y1="500" x2="850" y2="500" class="axis-line"/>
 <line x1="68" y1="100" x2="68"  y2="500" class="axis-line"/>
@@ -158,8 +138,8 @@
   </g>
 </g>
 
-<rect x="870" y="100" width="210" height="140" rx="14" class="legend-bg"/>
-<text x="888" y="124" class="legend-title">SERIES</text>
+<rect x="870" y="100" width="210" height="140" rx="14" class="legend-bg legend-panel"/>
+<text x="888" y="124" class="legend-title legend-heading">SERIES</text>
 <g transform="translate(888,140)">
   <rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/>
   <text x="22" y="11" class="legend-label">North America</text>
@@ -176,7 +156,6 @@
   <text x="188" y="11" class="legend-value" text-anchor="end">3.00%</text>
 </g>
 
-<text x="68" y="600" class="footer">Benchmark Rates by Region · 3 series · jump line chart</text>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -220,7 +199,7 @@ var svg = document.getElementById('root');
     sg.setAttribute('class', 'sg');
     sg.setAttribute('id', 'sg' + si);
 
-    /* hit path — painted first so it sits under the visible line */
+    /* hit path Ã¢â‚¬â€ painted first so it sits under the visible line */
     var hitPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     hitPath.setAttribute('class', 'series-hit');
     hitPath.setAttribute('d', jumpPath(s.values));
@@ -259,7 +238,7 @@ var svg = document.getElementById('root');
 
     dataLayerEl.appendChild(sg);
 
-    /* §3 A1 — per-element animationend wires .visible; no both fill-mode needed */
+    /* Ã‚Â§3 A1 Ã¢â‚¬â€ per-element animationend wires .visible; no both fill-mode needed */
     path.style.animation = 'lineFadeIn 0.8s ease-out ' + (si * seriesStagger).toFixed(2) + 's';
     path.addEventListener('animationend', function() {
       path.style.animation = 'none';
@@ -276,7 +255,7 @@ var svg = document.getElementById('root');
     });
   });
 
-  /* §3/§4 — gate hover on .ready after last animation completes */
+  /* Ã‚Â§3/Ã‚Â§4 Ã¢â‚¬â€ gate hover on .ready after last animation completes */
   setTimeout(function() {
     dataLayerEl.classList.add('ready');
   }, readyDelay);
@@ -328,7 +307,7 @@ var svg = document.getElementById('root');
     tip.style.opacity = '';
   }
 
-  /* HOVER — sg-level; hit path captures every segment */
+  /* HOVER Ã¢â‚¬â€ sg-level; hit path captures every segment */
   function svgMouseX(e) {
     var pt = svg.createSVGPoint();
     pt.x = e.clientX; pt.y = e.clientY;
