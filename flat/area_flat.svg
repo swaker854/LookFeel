@@ -149,81 +149,26 @@
 
     var quarters = ["Q1 '22","Q2 '22","Q3 '22","Q4 '22","Q1 '23","Q2 '23","Q3 '23","Q4 '23"];
     var xs   = [68,171,274,377,480,583,686,789];
-    var allTips = {};
     var waveDelays = [0, 0.25, 0.50, 0.75, 1.00];
     var plotL = 42, plotR = 840, plotT = 100, plotB = 500;
 
     var el = ctx.el;
 
-    function setHover(activeSid) {
-      ctx.setSeriesHoverState({
-        hoverLayer: dataLayerEl,
-        hovering: true,
-        activeSid: activeSid,
-        seriesIds: series.map(function(s) { return s.id; }),
-        pointCount: xs.length,
-        lineSelector: '.line-path[data-series="{id}"]',
-        areaSelector: '.area-path[data-series="{id}"]',
-        dotSelector: '#d{id}_{qi} .dot-inner'
-      });
-    }
-    function clearHover() {
-      ctx.setSeriesHoverState({
-        hoverLayer: dataLayerEl,
-        hovering: false,
-        activeSid: null,
-        seriesIds: series.map(function(s) { return s.id; }),
-        pointCount: xs.length,
-        lineSelector: '.line-path[data-series="{id}"]',
-        areaSelector: '.area-path[data-series="{id}"]',
-        dotSelector: '#d{id}_{qi} .dot-inner'
-      });
-    }
-
-    series.forEach(function(s) {
-      xs.forEach(function(x, qi) {
-        var y=s.ys[qi], key=s.id+'_'+qi;
-        var delay=((s.id-1)*0.25+qi*0.06)+'s';
-
-        var dg=el('g',{'class':'dot-g',id:'d'+key});
-        var inner=el('g',{'class':'dot-inner',style:'transform-origin:'+x+'px '+y+'px'});
-        inner.classList.add('visible');
-        var dot=el('circle',{cx:x,cy:y,r:5,'class':s.cls,stroke:'none'});
-        inner.appendChild(dot); dg.appendChild(inner); dotsL.appendChild(dg);
-
-        var tipG=el('g',{'class':'tip',id:'t'+key});
-        tipLayer.appendChild(tipG); allTips[key]=tipG;
-        ctx.layoutSideTooltip(tipG, {
-          anchorX: x,
-          anchorY: y,
-          plotL: plotL,
-          plotR: plotR,
-          plotT: plotT,
-          plotB: plotB,
-          lines: [
-            { text: '$'+s.vals[qi]+'M', className: 'tip-value' },
-            { text: s.label+' - '+quarters[qi], className: 'tip-label' }
-          ],
-          lineHeights: [70, 70],
-          minWidth: 220,
-          paddingX: 20,
-          paddingY: 30
-        });
-
-        var ch=svgEl.querySelector('#ch'+qi);
-        dg.addEventListener('mouseenter',function(){
-          allTips[key].style.opacity='1';
-          if(ch) ch.style.opacity='1';
-          dot.setAttribute('r','7');
-          setHover(s.id);
-        });
-        dg.addEventListener('mouseleave',function(){
-          allTips[key].style.opacity='';
-          if(ch) ch.style.opacity='';
-          dot.setAttribute('r','5');
-          clearHover();
-        });
-      });
+    ctx.initPointSeriesHover({
+      series: series,
+      xs: xs,
+      dotsLayer: dotsL,
+      tipLayer: tipLayer,
+      hoverLayer: dataLayerEl,
+      plotL: plotL,
+      plotR: plotR,
+      plotT: plotT,
+      plotB: plotB,
+      quarters: quarters,
+      lineSelector: '.line-path[data-series="{id}"]',
+      areaSelector: '.area-path[data-series="{id}"]',
+      dotSelector: '#d{id}_{qi} .dot-inner',
+      animateDots: false
     });
 
     series.forEach(function(s, i) {
@@ -249,7 +194,9 @@
       }, { once: true });
     });
 
-    setTimeout(function() { dataLayerEl.classList.add('ready'); }, (1.00 + 1.2) * 1000 + 100);
+    setTimeout(function() {
+      dataLayerEl.classList.add('ready');
+    }, ctx.getRevealReadyDelayMs({ delays: waveDelays, duration: 1.2, buffer: 0.1 }));
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());

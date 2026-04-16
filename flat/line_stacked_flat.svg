@@ -124,8 +124,6 @@
     });
     var dotTravelSeconds = 0.96;
     var revealTiming = ctx.getStaggerTiming(series.length, { duration: 1.2 }, svgEl);
-    var allTips = {};
-
     var el = ctx.el;
 
     [
@@ -138,18 +136,19 @@
       var area = svgEl.querySelector(band.selector);
       var line = svgEl.querySelector('#line-' + band.id);
       var revealDelay = ctx.getStaggerDelay(i, series.length, null, svgEl);
-      if (!area) return;
-      ctx.initAreaClipReveal({
-        defs: defs,
-        area: area,
-        clipId: 'line-stack-reveal-' + band.id,
-        x: plot.x,
-        y: plot.y,
-        width: plot.width,
-        height: plot.height,
-        delay: revealDelay,
-        duration: 1200
-      });
+      if (area) {
+        ctx.initAreaClipReveal({
+          defs: defs,
+          area: area,
+          clipId: 'line-stack-reveal-' + band.id,
+          x: plot.x,
+          y: plot.y,
+          width: plot.width,
+          height: plot.height,
+          delay: revealDelay,
+          duration: 1200
+        });
+      }
       if (line) {
         line.style.animationDelay = revealDelay + 's';
         line.classList.add('visible');
@@ -203,45 +202,36 @@
       dotsLayer.querySelectorAll('.col-dot').forEach(function(dot) { dot.classList.remove('active'); });
     }
 
-    xs.forEach(function(x, qi) {
-      var tipG = ctx.buildStackedSideTooltip(tipLayer, {
-        id: 'tip_' + qi,
-        header: quarters[qi],
-        rows: series.map(function(s) {
-          return { cls: s.cls, label: s.label, value: '$' + s.vals[qi] + 'M' };
-        }),
-        totalLabel: 'Total',
-        totalValue: '$' + totals[qi] + 'M',
-        anchorX: x,
-        anchorY: 300,
-        plotL: plotL,
-        plotR: plotR,
-        plotT: plotT,
-        plotB: 500
-      });
-      allTips[qi] = tipG;
-
-      var hx1 = Math.max(68, x - 56);
-      var hx2 = Math.min(832, x + 56);
-      var hit = el('rect', {x:hx1, y:100, width:hx2-hx1, height:400, fill:'transparent', cursor:'crosshair'});
-      hitLayer.appendChild(hit);
-      var ch = svgEl.querySelector('#ch'+qi);
-
-      hit.addEventListener('mouseenter', function(e) {
-        var sp = ctx.eventToSvgPoint(svgEl, e);
+    ctx.initStackedColumnHover({
+      xs: xs,
+      quarters: quarters,
+      series: series,
+      totals: totals,
+      tipLayer: tipLayer,
+      hitLayer: hitLayer,
+      plotL: plotL,
+      plotR: plotR,
+      plotT: plotT,
+      plotB: 500,
+      anchorY: 300,
+      hitTop: 100,
+      hitHeight: 400,
+      hitHalfWidth: 56,
+      hitMinX: 68,
+      hitMaxX: 832,
+      onEnter: function(qi, sp, tipG, ch) {
         setColumnHover(qi, sp.y);
-        ctx.setOpacity(allTips[qi], 1);
+        ctx.setOpacity(tipG, 1);
         ctx.setOpacity(ch, 1);
-      });
-      hit.addEventListener('mousemove', function(e) {
-        var sp = ctx.eventToSvgPoint(svgEl, e);
+      },
+      onMove: function(qi, sp) {
         setColumnHover(qi, sp.y);
-      });
-      hit.addEventListener('mouseleave', function() {
+      },
+      onLeave: function(qi, tipG, ch) {
         clearColumnHover();
-        ctx.setOpacity(allTips[qi], null);
+        ctx.setOpacity(tipG, null);
         ctx.setOpacity(ch, null);
-      });
+      }
     });
 
     var dotLastDelay = ctx.getStaggerDelay(series.length - 1, series.length, null, svgEl) + dotTravelSeconds;

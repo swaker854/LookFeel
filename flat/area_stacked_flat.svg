@@ -149,7 +149,6 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
     var xs   = [68,171,274,377,480,583,686,789];
     var colW = 56;
     var plotT = 100, plotB = 504;
-    var allTips = {};
     var waveDelays = [0, 0.25, 0.50, 0.75, 1.00];
 
     var totals = xs.map(function(_,qi){
@@ -187,54 +186,45 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
       });
     });
 
-    xs.forEach(function(x, qi) {
-      var tipG = ctx.buildStackedSideTooltip(tipLayer, {
-        id: 'tip_' + qi,
-        header: quarters[qi],
-        rows: series.map(function(s) {
-          return { cls: s.cls, label: s.label, value: '$' + s.vals[qi] + 'M' };
-        }),
-        totalLabel: 'Total',
-        totalValue: '$' + totals[qi] + 'M',
-        anchorX: x,
-        anchorY: 304,
-        plotL: 42,
-        plotR: 840,
-        plotT: plotT,
-        plotB: plotB
-      });
-      allTips[qi] = tipG;
-
-      var hx1 = Math.max(68,  x - colW);
-      var hx2 = Math.min(832, x + colW);
-      var hit = el('rect', { x:hx1, y:100, width:hx2-hx1, height:404,
-        fill:'transparent', cursor:'crosshair', id:'hit'+qi });
-      hitLayer.appendChild(hit);
-
-      var ch = svgEl.querySelector('#ch' + qi);
-      var colDots = dotsL.querySelectorAll('.col-dot[data-col="'+qi+'"]');
-
-      hit.addEventListener('mouseenter', function(e) {
-        var sp = ctx.eventToSvgPoint(svgEl, e);
+    ctx.initStackedColumnHover({
+      xs: xs,
+      quarters: quarters,
+      series: series,
+      totals: totals,
+      tipLayer: tipLayer,
+      hitLayer: hitLayer,
+      plotL: 42,
+      plotR: 840,
+      plotT: plotT,
+      plotB: plotB,
+      anchorY: 304,
+      hitTop: 100,
+      hitHeight: 404,
+      hitHalfWidth: colW,
+      hitMinX: 68,
+      hitMaxX: 832,
+      hitIdPrefix: 'hit',
+      onEnter: function(qi, sp, tipG, ch) {
+        var colDots = dotsL.querySelectorAll('.col-dot[data-col="'+qi+'"]');
         dataLayerEl.classList.add('hovering');
         ctx.setElementsActive(dotsL.querySelectorAll('.col-dot'), function(d) {
           return Array.prototype.indexOf.call(colDots, d) !== -1;
         });
         setSeriesActive(qi, sp.y);
-        ctx.setOpacity(allTips[qi], 1);
+        ctx.setOpacity(tipG, 1);
         ctx.setOpacity(ch, 1);
-      });
-      hit.addEventListener('mousemove', function(e) {
-        var sp = ctx.eventToSvgPoint(svgEl, e);
+      },
+      onMove: function(qi, sp) {
         setSeriesActive(qi, sp.y);
-      });
-      hit.addEventListener('mouseleave', function() {
+      },
+      onLeave: function(qi, tipG, ch) {
+        var colDots = dotsL.querySelectorAll('.col-dot[data-col="'+qi+'"]');
         clearSeriesActive();
         dataLayerEl.classList.remove('hovering');
         ctx.setClassState(colDots, 'active', false);
-        ctx.setOpacity(allTips[qi], null);
+        ctx.setOpacity(tipG, null);
         ctx.setOpacity(ch, null);
-      });
+      }
     });
 
     series.forEach(function(s, i) {
@@ -261,7 +251,9 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
       }, { once: true });
     });
 
-    setTimeout(function() { dataLayerEl.classList.add('ready'); }, (1.00 + 1.2) * 1000 + 100);
+    setTimeout(function() {
+      dataLayerEl.classList.add('ready');
+    }, ctx.getRevealReadyDelayMs({ delays: waveDelays, duration: 1.2, buffer: 0.1 }));
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());

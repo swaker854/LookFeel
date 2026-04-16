@@ -87,6 +87,21 @@
     };
   }
 
+  function getRevealReadyDelayMs(options) {
+    var opts = options || {};
+    var delays = Array.isArray(opts.delays) ? opts.delays : [];
+    var duration = opts.duration == null ? DEFAULT_ANIMATION_DURATION : Math.max(0, Number(opts.duration) || 0);
+    var buffer = opts.buffer == null ? DEFAULT_READY_BUFFER : Math.max(0, Number(opts.buffer) || 0);
+    var lastDelay = 0;
+
+    delays.forEach(function (value) {
+      var delay = Math.max(0, Number(value) || 0);
+      if (delay > lastDelay) lastDelay = delay;
+    });
+
+    return (lastDelay + duration + buffer) * 1000;
+  }
+
   /*
    * buildChartTip(ancX, ancY, bw, bh, plotL, plotR, plotT, plotB)
    *
@@ -639,6 +654,194 @@
     return tipG;
   }
 
+  function initStackedColumnHover(svgEl, options) {
+    var opts = options || {};
+    var xs = Array.isArray(opts.xs) ? opts.xs : [];
+    var quarters = Array.isArray(opts.quarters) ? opts.quarters : [];
+    var series = Array.isArray(opts.series) ? opts.series : [];
+    var totals = Array.isArray(opts.totals) ? opts.totals : [];
+    var tipLayer = opts.tipLayer || null;
+    var hitLayer = opts.hitLayer || null;
+    var plotL = opts.plotL == null ? 0 : opts.plotL;
+    var plotR = opts.plotR == null ? 0 : opts.plotR;
+    var plotT = opts.plotT == null ? 0 : opts.plotT;
+    var plotB = opts.plotB == null ? 0 : opts.plotB;
+    var anchorY = opts.anchorY == null ? plotT : opts.anchorY;
+    var hitTop = opts.hitTop == null ? plotT : opts.hitTop;
+    var hitHeight = opts.hitHeight == null ? Math.max(0, plotB - plotT) : opts.hitHeight;
+    var hitHalfWidth = opts.hitHalfWidth == null ? 56 : opts.hitHalfWidth;
+    var hitMinX = opts.hitMinX == null ? plotL : opts.hitMinX;
+    var hitMaxX = opts.hitMaxX == null ? plotR : opts.hitMaxX;
+    var hitIdPrefix = opts.hitIdPrefix || '';
+    var crosshairSelector = opts.crosshairSelector || '#ch{qi}';
+    var onEnter = typeof opts.onEnter === 'function' ? opts.onEnter : null;
+    var onMove = typeof opts.onMove === 'function' ? opts.onMove : null;
+    var onLeave = typeof opts.onLeave === 'function' ? opts.onLeave : null;
+    var tips = {};
+    var hits = {};
+    var crosshairs = {};
+
+    if (!svgEl || !tipLayer || !hitLayer || !xs.length) {
+      return { tips: tips, hits: hits, crosshairs: crosshairs };
+    }
+
+    xs.forEach(function (x, qi) {
+      var tipG = buildStackedSideTooltip(tipLayer, {
+        id: 'tip_' + qi,
+        header: quarters[qi],
+        rows: series.map(function (entry) {
+          return { cls: entry.cls, label: entry.label, value: '$' + entry.vals[qi] + 'M' };
+        }),
+        totalLabel: 'Total',
+        totalValue: '$' + totals[qi] + 'M',
+        anchorX: x,
+        anchorY: anchorY,
+        plotL: plotL,
+        plotR: plotR,
+        plotT: plotT,
+        plotB: plotB
+      });
+      var hx1 = Math.max(hitMinX, x - hitHalfWidth);
+      var hx2 = Math.min(hitMaxX, x + hitHalfWidth);
+      var hit = createSvgEl('rect', {
+        x: hx1,
+        y: hitTop,
+        width: hx2 - hx1,
+        height: hitHeight,
+        fill: 'transparent',
+        cursor: 'crosshair'
+      });
+      if (hitIdPrefix) hit.setAttribute('id', hitIdPrefix + qi);
+      var ch = svgEl.querySelector(crosshairSelector.replace(/\{qi\}/g, String(qi)));
+
+      tipLayer.appendChild(tipG);
+      hitLayer.appendChild(hit);
+      tips[qi] = tipG;
+      hits[qi] = hit;
+      crosshairs[qi] = ch;
+
+      hit.addEventListener('mouseenter', function (event) {
+        var sp = eventToSvgPoint(svgEl, event);
+        if (onEnter) onEnter(qi, sp, tipG, ch, hit);
+      });
+      hit.addEventListener('mousemove', function (event) {
+        var sp = eventToSvgPoint(svgEl, event);
+        if (onMove) onMove(qi, sp, tipG, ch, hit);
+      });
+      hit.addEventListener('mouseleave', function () {
+        if (onLeave) onLeave(qi, tipG, ch, hit);
+      });
+    });
+
+    return { tips: tips, hits: hits, crosshairs: crosshairs };
+  }
+
+  function initPointSeriesHover(svgEl, options) {
+    var opts = options || {};
+    var series = Array.isArray(opts.series) ? opts.series : [];
+    var xs = Array.isArray(opts.xs) ? opts.xs : [];
+    var dotsLayer = opts.dotsLayer || null;
+    var tipLayer = opts.tipLayer || null;
+    var hoverLayer = opts.hoverLayer || null;
+    var plotL = opts.plotL == null ? 0 : opts.plotL;
+    var plotR = opts.plotR == null ? 0 : opts.plotR;
+    var plotT = opts.plotT == null ? 0 : opts.plotT;
+    var plotB = opts.plotB == null ? 0 : opts.plotB;
+    var quarters = Array.isArray(opts.quarters) ? opts.quarters : [];
+    var lineSelector = opts.lineSelector || null;
+    var areaSelector = opts.areaSelector || null;
+    var dotSelector = opts.dotSelector || '#d{id}_{qi} .dot-inner';
+    var animateDots = opts.animateDots !== false;
+    var animateDot = typeof opts.animateDot === 'function' ? opts.animateDot : null;
+    var dotDelay = typeof opts.dotDelay === 'function' ? opts.dotDelay : null;
+    var baseRadius = opts.baseRadius == null ? 5 : opts.baseRadius;
+    var hoverRadius = opts.hoverRadius == null ? 7 : opts.hoverRadius;
+    var tips = {};
+    var dots = {};
+
+    if (!svgEl || !dotsLayer || !tipLayer || !series.length || !xs.length) {
+      return { tips: tips, dots: dots, setHover: function () {}, clearHover: function () {} };
+    }
+
+    function applyHover(activeSid, hovering) {
+      setSeriesHoverState(svgEl, {
+        hoverLayer: hoverLayer,
+        hovering: hovering,
+        activeSid: activeSid,
+        seriesIds: series.map(function (entry) { return entry.id; }),
+        pointCount: xs.length,
+        lineSelector: lineSelector,
+        areaSelector: areaSelector,
+        dotSelector: dotSelector
+      });
+    }
+
+    series.forEach(function (entry) {
+      xs.forEach(function (x, qi) {
+        var y = entry.ys[qi];
+        var key = entry.id + '_' + qi;
+        var dg = createSvgEl('g', { 'class': 'dot-g', id: 'd' + key });
+        var inner = createSvgEl('g', { 'class': 'dot-inner', style: 'transform-origin:' + x + 'px ' + y + 'px' });
+        var dot = createSvgEl('circle', { cx: x, cy: y, r: baseRadius, 'class': entry.cls, stroke: 'none' });
+        var tipG = createSvgEl('g', { 'class': 'tip', id: 't' + key });
+        var ch = svgEl.querySelector('#ch' + qi);
+        var delaySeconds = dotDelay ? dotDelay(entry, qi) : 0;
+
+        if (animateDot) {
+          animateDot(inner, delaySeconds, entry, qi);
+        } else if (animateDots) {
+          animateAndMarkVisible(inner, 'popDot 0.35s cubic-bezier(0.34,1.4,0.64,1) ' + delaySeconds + 's');
+        } else {
+          inner.classList.add('visible');
+        }
+
+        inner.appendChild(dot);
+        dg.appendChild(inner);
+        dotsLayer.appendChild(dg);
+        tipLayer.appendChild(tipG);
+        dots[key] = dg;
+        tips[key] = tipG;
+
+        layoutSideTooltip(tipG, {
+          anchorX: x,
+          anchorY: y,
+          plotL: plotL,
+          plotR: plotR,
+          plotT: plotT,
+          plotB: plotB,
+          lines: [
+            { text: '$' + entry.vals[qi] + 'M', className: 'tip-value' },
+            { text: entry.label + ' - ' + quarters[qi], className: 'tip-label' }
+          ],
+          lineHeights: [70, 70],
+          minWidth: 220,
+          paddingX: 20,
+          paddingY: 30
+        });
+
+        dg.addEventListener('mouseenter', function () {
+          setOpacity(tipG, 1);
+          setOpacity(ch, 1);
+          dot.setAttribute('r', String(hoverRadius));
+          applyHover(entry.id, true);
+        });
+        dg.addEventListener('mouseleave', function () {
+          setOpacity(tipG, null);
+          setOpacity(ch, null);
+          dot.setAttribute('r', String(baseRadius));
+          applyHover(null, false);
+        });
+      });
+    });
+
+    return {
+      tips: tips,
+      dots: dots,
+      setHover: function (activeSid) { applyHover(activeSid, true); },
+      clearHover: function () { applyHover(null, false); }
+    };
+  }
+
   function initSeriesVerticalGradients(svgEl, options) {
     var opts = options || {};
     var defs = opts.defs || (svgEl && svgEl.querySelector ? svgEl.querySelector('defs') : null);
@@ -891,9 +1094,12 @@
         initSideBubbles: function (options) { return initSideBubbles(svgEl, { $$: $$, $$all: $$all }, options); },
         initRadialHover: initRadialHover,
         buildStackedSideTooltip: buildStackedSideTooltip,
+        initStackedColumnHover: function (options) { return initStackedColumnHover(svgEl, options); },
+        initPointSeriesHover: function (options) { return initPointSeriesHover(svgEl, options); },
         getStaggerStep: function (count, totalWindow) { return getStaggerStep(count, totalWindow, svgEl); },
         getStaggerDelay: function (index, count, totalWindow) { return getStaggerDelay(index, count, totalWindow, svgEl); },
         getStaggerTiming: function (count, options) { return getStaggerTiming(count, options, svgEl); },
+        getRevealReadyDelayMs: getRevealReadyDelayMs,
         activateExclusive: activateExclusive,
         setElementsActive: setElementsActive,
         setClassState: setClassState,
