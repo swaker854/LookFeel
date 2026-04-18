@@ -1,460 +1,400 @@
-
-
-
-
 <svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<script type="text/javascript"><![CDATA[
+(function () {
+  if (window.location.href.indexOf('theme=dark') !== -1) {
+    document.documentElement.classList.add('dark');
+  }
+}());
+]]></script>
 <defs>
   <style>
     @import url('chart-shared.css');
-    .chart-shell-hidden { display:none; }
-    .card-bg, .border-light, .border-dark, .card-title, .card-subtitle, .footer, .toggle-wrap { display:none !important; }
 
-    .card-bg { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    svg.dark .card-bg { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-
-    .card-title    { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .card-subtitle { font-size:11px; fill:#79747E; font-weight:400; }
-    .footer        { font-size:10px; fill:#79747E; font-weight:400; }
-    svg.dark .card-title    { fill:#E6E0E9; }
-    svg.dark .card-subtitle { fill:#938F99; }
-    svg.dark .footer        { fill:#938F99; }
-
-    /* Ã‚Â§1 palette */
-    .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
-    .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
-    .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
-    svg.dark .series-1 { fill:#22D3EE; } svg.dark .series-2 { fill:#10B981; }
-    svg.dark .series-3 { fill:#FBB724; } svg.dark .series-4 { fill:#FB6181; }
-    svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
-
-    /* Ã‚Â§6 depth-tinting CSS variables Ã¢â‚¬â€ blend ratios per depth */
-    :root {
-      --tint-d0: 1.00;
-      --tint-d1: 0.72;
-      --tint-d2: 0.48;
-      --tint-d3: 0.28;
-    }
-
-    /* toggles */
-    .toggle-wrap  { cursor:pointer; }
-    .toggle-track { fill:#E7E0EC; }
-    .toggle-thumb { fill:#ffffff; }
-    .toggle-label { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.dark .toggle-track { fill:#49454F; }
-    svg.dark .toggle-label { fill:#CAC4D0; }
-
-    .print-track { fill:#E7E0EC; transition:fill 0.3s; }
-    .print-thumb { fill:#ffffff; }
-    .print-label { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.dark .print-track { fill:#49454F; }
-    svg.dark .print-label { fill:#CAC4D0; }
-    svg.print .print-track { fill:#d97316; }
-    svg.dark.print .print-track { fill:#d97316; }
-    svg.print #tip-layer { display:none; }
-
-    /* borders */
-    .border-dark  { display:none; }
-    .border-light { display:block; }
-    svg.dark .border-dark  { display:block; }
-    svg.dark .border-light { display:none; }
-
-    /* edges Ã¢â‚¬â€ decorative, never hover targets Ã¢â€ â€™ A2-safe */
     .edge {
       fill: none;
       stroke: #CAC4D0;
       stroke-width: 1.5;
       opacity: 0;
+      pointer-events: none;
     }
-    .edge.visible { animation: nodeFadeIn 0.8s ease-out both; }
-    svg.dark .edge { stroke: #49454F; }
+    .edge.visible {
+      opacity: 1;
+    }
+    svg.dark .edge {
+      stroke: #49454F;
+    }
 
-    /* Ã‚Â§3 A1 Ã¢â‚¬â€ node group is the hover target */
-    @keyframes nodeFadeIn { from { opacity:0 } to { opacity:1 } }
-
-    .node-g { opacity: 0; cursor: pointer; }
-    .node-g.visible { animation: nodeFadeIn 0.8s ease-out both; }
-
-    /* node rect Ã¢â‚¬â€ filled by JS with computed tint color via inline style */
+    .node-g {
+      opacity: 0;
+      cursor: pointer;
+    }
+    .node-g.visible {
+      opacity: 1;
+    }
     .node-rect {
-      rx: 8px;
       stroke-width: 1.5;
+      rx: 8px;
     }
-    /* node text */
-    .node-title { font-size:11px; font-weight:600; fill:#1C1B1F; }
-    .node-sub   { font-size:10px; font-weight:400; fill:#49454F; }
-    svg.dark .node-title { fill:#E6E0E9; }
-    svg.dark .node-sub   { fill:#CAC4D0; }
+    .node-title {
+      font-size: 11px;
+      font-weight: 600;
+      fill: #1C1B1F;
+    }
+    .node-sub {
+      font-size: 10px;
+      font-weight: 400;
+      fill: #49454F;
+    }
+    svg.dark .node-title {
+      fill: #E6E0E9;
+    }
+    svg.dark .node-sub {
+      fill: #CAC4D0;
+    }
 
-    /* Ã‚Â§4 hover Ã¢â‚¬â€ A1 chart, gated on .ready */
-    /* establish opacity:1 baseline after animation so clearing inline style doesn't revert to start state */
-    .data-layer.ready .node-g                   { opacity:1; }
-    .data-layer.ready .edge                     { opacity:1; }
-    .data-layer.ready.hovering .node-g          { opacity:0.20; transition:opacity 0.2s ease; }
-    .data-layer.ready.hovering .node-g.hovered  { opacity:1; }
-    .data-layer.ready.hovering .edge            { opacity:0.06; transition:opacity 0.2s ease; }
-    .data-layer.ready.hovering .edge.hovered    { opacity:1; }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
-    /* Ã‚Â§5 JS-driven tooltip */
-    .tip-bg     { fill:#FFFBFE; }
-    .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
-    svg.dark .tip-bg     { fill:#1C1B1F; }
-    svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .tip-tail   { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .tip-value  { fill:#E6E0E9; }
-    svg.dark .tip-label  { fill:#CAC4D0; }
-    #tip-layer { pointer-events:none; }
   </style>
 </defs>
 
-
-
-<!-- Ã‚Â§7 DATA LAYER Ã¢â‚¬â€ edges then nodes, both built by JS -->
-<g class="data-layer" id="data-layer">
+<g class="data-layer relation-chart" id="data-layer">
   <g id="edge-layer"></g>
   <g id="node-layer"></g>
 </g>
-
-<!-- Ã‚Â§7 tooltip last -->
-<g id="tip-layer">
-  <rect class="tip-bg"     id="tip-bg"  rx="9" opacity="0"/>
-  <path class="tip-border" id="tip-bdr" opacity="0"/>
-  <path class="tip-tail"   id="tip-tip" opacity="0"/>
-  <text class="tip-value"  id="tip-val" opacity="0" text-anchor="middle" dominant-baseline="central"/>
-  <text class="tip-label"  id="tip-lbl" opacity="0" text-anchor="middle" dominant-baseline="central"/>
+<g id="legend-root"></g>
+<g class="tip" id="tip" style="opacity:0;pointer-events:none;">
+  <rect id="tip-bg" class="tip-bg" rx="9"/>
+  <path id="tip-bdr" class="tip-border"/>
+  <path id="tip-tail" class="tip-tail"/>
+  <text id="tip-val" class="tip-value" text-anchor="middle" dominant-baseline="central"/>
+  <text id="tip-lbl" class="tip-label" text-anchor="middle" dominant-baseline="central"/>
+  <text id="tip-meta" class="tip-pct" text-anchor="middle" dominant-baseline="central"/>
 </g>
-
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
 (function () {
   var svg = document.documentElement;
   svg._chartInit = function (svgEl, ctx) {
-var svg       = document.getElementById('root');
-  var dataLayerEl = document.getElementById('data-layer');
-  var edgeLayer = document.getElementById('edge-layer');
-  var nodeLayer = document.getElementById('node-layer');
+    var dataLayerEl = document.getElementById('data-layer');
+    var edgeLayer = document.getElementById('edge-layer');
+    var nodeLayer = document.getElementById('node-layer');
+    var plotShiftX = 0;
+    var legendRoot = document.getElementById('legend-root');
 
-  /* Ã‚Â§2 isDark before all build code */
+    var nodes = [
+      { id:'ceo',   label:'Chief Product', sub:'Officer',       parent:null,  branch:1 },
+      { id:'eng',   label:'Engineering',   sub:'42 engineers',  parent:'ceo', branch:2 },
+      { id:'des',   label:'Design',        sub:'11 designers',  parent:'ceo', branch:3 },
+      { id:'dat',   label:'Data & ML',     sub:'18 analysts',   parent:'ceo', branch:4 },
+      { id:'fe',    label:'Frontend',      sub:'14 engineers',  parent:'eng', branch:2 },
+      { id:'be',    label:'Backend',       sub:'18 engineers',  parent:'eng', branch:2 },
+      { id:'infra', label:'Platform',      sub:'10 engineers',  parent:'eng', branch:2 },
+      { id:'ux',    label:'UX Research',   sub:'5 researchers', parent:'des', branch:3 },
+      { id:'vis',   label:'Visual Design', sub:'6 designers',   parent:'des', branch:3 },
+      { id:'anal',  label:'Analytics',     sub:'8 analysts',    parent:'dat', branch:4 },
+      { id:'ml',    label:'ML Eng',        sub:'10 engineers',  parent:'dat', branch:4 },
+      { id:'mob',   label:'Mobile',        sub:'7 engineers',   parent:'fe',  branch:2 },
+      { id:'web',   label:'Web',           sub:'7 engineers',   parent:'fe',  branch:2 },
+      { id:'api',   label:'API',           sub:'9 engineers',   parent:'be',  branch:2 }
+    ];
 
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ TREE DATA Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
-     Each node: id, label, sublabel, parentId, colorBranch (palette index 1-6)
-     colorBranch propagates down from depth-1 nodes; root uses series-1.
-     depth computed automatically during layout.                           */
-  var nodes = [
-    { id:'ceo',  label:'Chief Product',  sub:'Officer',         parent:null,  branch:1 },
+    var byId = {};
+    var root = null;
+    var plotL = 68;
+    var plotR = 850;
+    var plotT = 100;
+    var plotB = 500;
+    var nodeW = 100;
+    var nodeH = 40;
+    var nodeItems = [];
+    var edgeItems = [];
 
-    { id:'eng',  label:'Engineering',    sub:'42 engineers',    parent:'ceo', branch:2 },
-    { id:'des',  label:'Design',         sub:'11 designers',    parent:'ceo', branch:3 },
-    { id:'dat',  label:'Data & ML',      sub:'18 analysts',     parent:'ceo', branch:4 },
+    function mixColors(colorA, colorB, ratio) {
+      var rgbA = ctx.colorToRgb(colorA);
+      var rgbB = ctx.colorToRgb(colorB);
+      var weight = Math.max(0, Math.min(1, Number(ratio) || 0));
 
-    { id:'fe',   label:'Frontend',       sub:'14 engineers',    parent:'eng', branch:2 },
-    { id:'be',   label:'Backend',        sub:'18 engineers',    parent:'eng', branch:2 },
-    { id:'infra',label:'Platform',       sub:'10 engineers',    parent:'eng', branch:2 },
+      function channel(index) {
+        return Math.round(rgbA[index] * (1 - weight) + rgbB[index] * weight);
+      }
 
-    { id:'ux',   label:'UX Research',    sub:'5 researchers',   parent:'des', branch:3 },
-    { id:'vis',  label:'Visual Design',  sub:'6 designers',     parent:'des', branch:3 },
-
-    { id:'anal', label:'Analytics',      sub:'8 analysts',      parent:'dat', branch:4 },
-    { id:'ml',   label:'ML Eng',         sub:'10 engineers',    parent:'dat', branch:4 },
-
-    { id:'mob',  label:'Mobile',         sub:'7 engineers',     parent:'fe',  branch:2 },
-    { id:'web',  label:'Web',            sub:'7 engineers',     parent:'fe',  branch:2 },
-    { id:'api',  label:'API',            sub:'9 engineers',     parent:'be',  branch:2 },
-  ];
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ BUILD TREE STRUCTURE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬*/
-  var byId = {};
-  nodes.forEach(function(n) { byId[n.id] = n; n.children = []; });
-  var root;
-  nodes.forEach(function(n) {
-    if (n.parent) { byId[n.parent].children.push(n); }
-    else { root = n; }
-  });
-
-  /* assign depth */
-  function setDepth(n, d) { n.depth = d; n.children.forEach(function(c) { setDepth(c, d+1); }); }
-  setDepth(root, 0);
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ LAYOUT Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
-     Plot area: left=68 right=850 top=100 bottom=500
-     Left-to-right: x position by depth, y by vertical rank within depth.  */
-  var plotL = 68, plotR = 850, plotT = 100, plotB = 500;
-  var nodeW = 100, nodeH = 36;
-
-  var maxDepth = 0;
-  nodes.forEach(function(n) { if (n.depth > maxDepth) maxDepth = n.depth; });
-
-  var colW = (plotR - plotL) / (maxDepth + 1);   /* width per depth column */
-
-  /* assign y positions with a post-order layout:
-     leaves get evenly spaced slots; parents are centred over their children */
-  var leafSlot = 0;
-  var totalLeaves = nodes.filter(function(n) { return n.children.length === 0; }).length;
-  var slotH = (plotB - plotT) / (totalLeaves + 1);
-
-  function assignY(n) {
-    if (n.children.length === 0) {
-      leafSlot++;
-      n.cy = plotT + leafSlot * slotH;
-    } else {
-      n.children.forEach(assignY);
-      var ys = n.children.map(function(c) { return c.cy; });
-      n.cy = (Math.min.apply(null, ys) + Math.max.apply(null, ys)) / 2;
+      return 'rgb(' + channel(0) + ', ' + channel(1) + ', ' + channel(2) + ')';
     }
-  }
-  assignY(root);
 
-  /* x = centre of each depth column */
-  nodes.forEach(function(n) {
-    n.cx = plotL + (n.depth + 0.5) * colW;
-  });
+    function getNodeColors(node) {
+      var wantDark = svgEl.classList.contains('dark');
+      var surface = wantDark ? '#1C1B1F' : '#FFFBFE';
+      var rootFill = wantDark ? '#2B2930' : '#EEE7F2';
+      var rootStroke = wantDark ? '#938F99' : '#79747E';
+      var depthBlend = [0.22, 0.42, 0.58, 0.70];
+      var strokeBlend = [0.10, 0.18, 0.28, 0.36];
+      var blendIndex = Math.min(Math.max(0, node.depth - 1), depthBlend.length - 1);
+      var baseColor;
+      var fillColor;
+      var strokeColor;
 
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ COLOUR / DEPTH TINT Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
-     Ã‚Â§6: tint computed from palette base colour + background, never hardcoded.
-     We store the base hex per branch and blend toward bg at each depth.     */
+      if (node.depth === 0) {
+        return {
+          fill: rootFill,
+          stroke: rootStroke
+        };
+      }
 
-  /* Ã‚Â§6 depth-tinting: probe live computed fill from .series-N via getComputedStyle Ã¢â‚¬â€
-     never hardcode hex. This way palette updates and dark-mode swaps propagate
-     automatically without maintaining duplicate color maps.                    */
-  var bgLight = '#FFFBFE';
-  var bgDark  = '#1C1B1F';
+      baseColor = ctx.getSeriesToneColor(node.branch, 0);
+      fillColor = mixColors(baseColor, surface, depthBlend[blendIndex]);
+      strokeColor = mixColors(baseColor, surface, strokeBlend[blendIndex]);
 
-  var tintRatio = [1.0, 0.72, 0.48, 0.28];
-
-  var _probe = null;
-  function probeColor(cls) {
-    if (!_probe) {
-      _probe = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-      _probe.style.visibility = 'hidden';
-      _probe.style.position   = 'absolute';
-      svg.appendChild(_probe);
+      return {
+        fill: fillColor,
+        stroke: strokeColor
+      };
     }
-    _probe.setAttribute('class', cls);
-    var fill = window.getComputedStyle(_probe).fill;
-    var m = fill.match(/[\d.]+/g);
-    return m ? [+m[0], +m[1], +m[2]] : [0, 0, 0];
-  }
 
-  function lerp(a, b, t) { return Math.round(a + (b - a) * t); }
-  function toHex(v) { return ('0' + v.toString(16)).slice(-2); }
+    function applyNodeColors() {
+      nodes.forEach(function (node) {
+        if (!node._rect || !node._title || !node._sub) return;
+        var colors = getNodeColors(node);
+        var textColors = ctx.getReadableTextColors(colors.fill);
 
-  function blendColor(baseRgb, bgHex, ratio) {
-    var bg = (function(h) {
-      var n = parseInt(h.replace('#',''), 16);
-      return [(n>>16)&255, (n>>8)&255, n&255];
-    })(bgHex);
-    var r = lerp(bg[0], baseRgb[0], ratio);
-    var g = lerp(bg[1], baseRgb[1], ratio);
-    var b = lerp(bg[2], baseRgb[2], ratio);
-    return '#' + toHex(r) + toHex(g) + toHex(b);
-  }
+        node._rect.style.fill = colors.fill;
+        node._rect.style.stroke = colors.stroke;
+        node._title.setAttribute('fill', textColors.title);
+        node._sub.setAttribute('fill', textColors.sub);
+      });
+    }
 
-  function getColors(branch, depth) {
-    var base  = probeColor('series-' + branch);
-    var bg    = svgEl.classList.contains('dark') ? bgDark : bgLight;
-    var ratio = tintRatio[depth] !== undefined ? tintRatio[depth] : tintRatio[tintRatio.length-1];
-    return {
-      fill:   blendColor(base, bg, ratio),
-      stroke: blendColor(base, bg, Math.min(1, ratio * 1.4))
+    nodes.forEach(function (node) {
+      byId[node.id] = node;
+      node.children = [];
+    });
+
+    nodes.forEach(function (node) {
+      if (node.parent) {
+        byId[node.parent].children.push(node);
+      } else {
+        root = node;
+      }
+    });
+
+    function setDepth(node, depth) {
+      node.depth = depth;
+      node.children.forEach(function (child) {
+        setDepth(child, depth + 1);
+      });
+    }
+    setDepth(root, 0);
+
+    var maxDepth = 0;
+    nodes.forEach(function (node) {
+      if (node.depth > maxDepth) maxDepth = node.depth;
+    });
+
+    var colW = (plotR - plotL) / (maxDepth + 1);
+    var leafSlot = 0;
+    var totalLeaves = nodes.filter(function (node) { return node.children.length === 0; }).length;
+    var slotH = (plotB - plotT) / (totalLeaves + 1);
+
+    function assignY(node) {
+      if (node.children.length === 0) {
+        leafSlot += 1;
+        node.cy = plotT + leafSlot * slotH;
+      } else {
+        node.children.forEach(assignY);
+        var ys = node.children.map(function (child) { return child.cy; });
+        node.cy = (Math.min.apply(null, ys) + Math.max.apply(null, ys)) / 2;
+      }
+    }
+    assignY(root);
+
+    nodes.forEach(function (node) {
+      node.cx = plotL + (node.depth + 0.5) * colW;
+    });
+
+    nodes.forEach(function (node) {
+      if (!node.parent) return;
+      var parent = byId[node.parent];
+      var x1 = parent.cx + nodeW / 2;
+      var x2 = node.cx - nodeW / 2;
+      var mx = (x1 + x2) / 2;
+      var y1 = parent.cy;
+      var y2 = node.cy;
+      var edge = ctx.el('path', {
+        'class': 'edge',
+        d: 'M' + x1 + ',' + y1 + ' H' + mx + ' V' + y2 + ' H' + x2
+      });
+      edgeLayer.appendChild(edge);
+      node._edge = edge;
+      edgeItems.push(edge);
+    });
+
+    nodes.forEach(function (node) {
+      var colors = getNodeColors(node);
+      var textColors = ctx.getReadableTextColors(colors.fill);
+      var group = ctx.el('g', {
+        id: 'ng-' + node.id,
+        'class': 'node-g',
+        'data-node-id': node.id,
+        'data-item-cx': String(node.cx),
+        'data-item-top': String(node.cy - nodeH / 2)
+      });
+      var rect = ctx.el('rect', {
+        x: node.cx - nodeW / 2,
+        y: node.cy - nodeH / 2,
+        width: nodeW,
+        height: nodeH,
+        rx: 8,
+        'class': 'node-rect'
+      });
+      var title = ctx.el('text', {
+        x: node.cx,
+        y: node.cy - 5,
+        'text-anchor': 'middle',
+        'class': 'node-title',
+        fill: textColors.title
+      });
+      var sub = ctx.el('text', {
+        x: node.cx,
+        y: node.cy + 11,
+        'text-anchor': 'middle',
+        'class': 'node-sub',
+        fill: textColors.sub
+      });
+
+      rect.style.fill = colors.fill;
+      rect.style.stroke = colors.stroke;
+      title.textContent = node.label;
+      sub.textContent = node.sub;
+
+      group.appendChild(rect);
+      group.appendChild(title);
+      group.appendChild(sub);
+      nodeLayer.appendChild(group);
+      node._group = group;
+      node._rect = rect;
+      node._title = title;
+      node._sub = sub;
+      nodeItems.push(group);
+    });
+
+    svgEl._onModeChange = function () {
+      applyNodeColors();
     };
-  }
 
-  /* recolor() Ã¢â‚¬â€ called on dark-mode toggle; mutates node rect styles in-place */
-  function recolor() {
-    nodes.forEach(function(n) {
-      if (!n._rect) return;
-      var c = getColors(n.branch, n.depth);
-      n._rect.style.fill   = c.fill;
-      n._rect.style.stroke = c.stroke;
+    ctx.initStandardLegend({
+      legendEl: legendRoot,
+      title: 'SERIES',
+      items: [
+        { cls: 'series-1', label: 'Leadership', value: '1 role' },
+        { cls: 'series-2', label: 'Engineering', value: '7 teams' },
+        { cls: 'series-3', label: 'Design', value: '3 teams' },
+        { cls: 'series-4', label: 'Data & ML', value: '3 teams' }
+      ]
     });
-  }
 
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ BUILD DOM Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
-     Ã‚Â§7 paint order: edges first, nodes on top.                             */
+    plotShiftX = ctx.rebalancePlotArea({
+      legendEl: legendRoot,
+      measureNodes: [dataLayerEl],
+      moveNodes: [dataLayerEl],
+      slotLeft: 0,
+      legendGap: 24,
+      clamp: true
+    }).shiftX || 0;
 
-  /* count total animated elements for stagger */
-  var totalEls = nodes.length + nodes.filter(function(n) { return n.parent; }).length;
-  var stagger  = Math.min(0.25, 1.0 / totalEls);
-
-  /* edges */
-  var edgeIdx = 0;
-  nodes.forEach(function(n) {
-    if (!n.parent) return;
-    var p = byId[n.parent];
-
-    /* elbow connector: horizontal from parent right edge, vertical, horizontal to child */
-    var x1 = p.cx + nodeW / 2;
-    var x2 = n.cx - nodeW / 2;
-    var mx = (x1 + x2) / 2;
-    var y1 = p.cy;
-    var y2 = n.cy;
-
-    var edge = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    edge.setAttribute('class', 'edge');
-    edge.setAttribute('d', 'M'+x1+','+y1+' H'+mx+' V'+y2+' H'+x2);
-    edge.style.animationDelay = (edgeIdx * stagger) + 's';
-    edgeLayer.appendChild(edge);
-    n._edge = edge;
-    edgeIdx++;
-  });
-
-  /* nodes */
-  var nodeIdx = 0;
-  /* stagger nodes after edges complete Ã¢â‚¬â€ offset by edge count */
-  var edgeCount = edgeIdx;
-
-  nodes.forEach(function(n) {
-    var c  = getColors(n.branch, n.depth);
-    var ng = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    ng.setAttribute('class', 'node-g');
-    ng.setAttribute('id',    'ng-' + n.id);
-    ng.style.animationDelay = (edgeCount * stagger + nodeIdx * stagger) + 's';
-
-    var rx = nodeW / 2, ry = nodeH / 2;
-    var nx = n.cx - rx, ny = n.cy - ry;
-
-    /* node rect */
-    var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    rect.setAttribute('x', nx); rect.setAttribute('y', ny);
-    rect.setAttribute('width', nodeW); rect.setAttribute('height', nodeH);
-    rect.setAttribute('rx', '8');
-    rect.setAttribute('class', 'node-rect');
-    rect.style.fill   = c.fill;
-    rect.style.stroke = c.stroke;
-    n._rect = rect;
-
-    /* label */
-    var title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    title.setAttribute('x', n.cx); title.setAttribute('y', n.cy - 6);
-    title.setAttribute('text-anchor', 'middle');
-    title.setAttribute('class', 'node-title');
-    title.textContent = n.label;
-
-    /* sublabel */
-    var sub = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    sub.setAttribute('x', n.cx); sub.setAttribute('y', n.cy + 9);
-    sub.setAttribute('text-anchor', 'middle');
-    sub.setAttribute('class', 'node-sub');
-    sub.textContent = n.sub;
-
-    ng.appendChild(rect);
-    ng.appendChild(title);
-    ng.appendChild(sub);
-    nodeLayer.appendChild(ng);
-    n._ng = ng;
-    nodeIdx++;
-  });
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§3 A1 ANIMATION Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
-  var lastDelay  = (edgeCount + nodeIdx - 1) * stagger;
-  var readyDelay = (lastDelay + 0.8 + 0.1) * 1000;
-
-  requestAnimationFrame(function() {
-    requestAnimationFrame(function() {
-      Array.prototype.forEach.call(edgeLayer.querySelectorAll('.edge'),     function(el) { el.classList.add('visible'); });
-      Array.prototype.forEach.call(nodeLayer.querySelectorAll('.node-g'),   function(el) { el.classList.add('visible'); });
+    ctx.initRevealSequence(edgeItems, {
+      animationName: 'fadeIn',
+      duration: 0.8,
+      easing: 'ease-out',
+      delays: edgeItems.map(function (_, index) {
+        return ctx.getStaggerDelay(index, edgeItems.length + nodeItems.length, 1.0);
+      })
     });
-  });
 
-  setTimeout(function() {
-    dataLayerEl.classList.add('ready');
-    /* Kill the animation so fill-mode:both no longer locks opacity:1 above the CSS cascade.
-       .data-layer.ready .node-g / .edge then owns the baseline opacity:1. */
-    Array.prototype.forEach.call(edgeLayer.querySelectorAll('.edge'),   function(el) { el.style.animation = 'none'; el.style.opacity = ''; });
-    Array.prototype.forEach.call(nodeLayer.querySelectorAll('.node-g'), function(el) { el.style.animation = 'none'; el.style.opacity = ''; });
-  }, readyDelay);
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§5 TOOLTIP Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
-  var tipBg  = document.getElementById('tip-bg');
-  var tipBdr = document.getElementById('tip-bdr');
-  var tipTip = document.getElementById('tip-tip');
-  var tipVal = document.getElementById('tip-val');
-  var tipLbl = document.getElementById('tip-lbl');
-
-  function showTip(cx, cyTop, cyBot, valTxt, lblTxt) {
-    tipVal.textContent = valTxt;
-    tipLbl.textContent = lblTxt;
-    var pad = 20, bh = 38, rx = 9, tw = 8, tail = 10;
-    var hw  = Math.max(tipVal.getBBox().width, tipLbl.getBBox().width) / 2 + pad / 2;
-    var tx  = Math.max(hw + 8, Math.min(cx, plotR - hw - 8));
-    /* above=true: bubble above node (tail at top edge); below: bubble below (tail at bottom edge) */
-    var above = (cyTop - tail - bh - 4) >= plotT;
-    var cy = above ? cyTop : cyBot;
-    var bT, bB;
-    if (above) { bB = cy - tail; bT = bB - bh; }
-    else        { bT = cy + tail; bB = bT + bh; }
-
-    tipBg.setAttribute('x', tx - hw); tipBg.setAttribute('y', bT);
-    tipBg.setAttribute('width', hw * 2); tipBg.setAttribute('height', bh);
-
-    if (above) {
-      tipBdr.setAttribute('d',
-        'M'+(tx+tw)+','+bB+' L'+(tx+hw-rx)+','+bB+' Q'+(tx+hw)+','+bB+' '+(tx+hw)+','+(bB-rx)+
-        ' L'+(tx+hw)+','+(bT+rx)+' Q'+(tx+hw)+','+bT+' '+(tx+hw-rx)+','+bT+
-        ' L'+(tx-hw+rx)+','+bT+' Q'+(tx-hw)+','+bT+' '+(tx-hw)+','+(bT+rx)+
-        ' L'+(tx-hw)+','+(bB-rx)+' Q'+(tx-hw)+','+bB+' '+(tx-hw+rx)+','+bB+' L'+(tx-tw)+','+bB);
-      tipTip.setAttribute('d', 'M'+(tx-tw)+','+bB+' L'+tx+','+(cy-2)+' L'+(tx+tw)+','+bB);
-    } else {
-      tipBdr.setAttribute('d',
-        'M'+(tx-tw)+','+bT+' L'+(tx-hw+rx)+','+bT+' Q'+(tx-hw)+','+bT+' '+(tx-hw)+','+(bT+rx)+
-        ' L'+(tx-hw)+','+(bB-rx)+' Q'+(tx-hw)+','+bB+' '+(tx-hw+rx)+','+bB+
-        ' L'+(tx+hw-rx)+','+bB+' Q'+(tx+hw)+','+bB+' '+(tx+hw)+','+(bB-rx)+
-        ' L'+(tx+hw)+','+(bT+rx)+' Q'+(tx+hw)+','+bT+' '+(tx+hw-rx)+','+bT+' L'+(tx+tw)+','+bT);
-      tipTip.setAttribute('d', 'M'+(tx+tw)+','+bT+' L'+tx+','+(cy+2)+' L'+(tx-tw)+','+bT);
-    }
-    tipVal.setAttribute('x', tx); tipVal.setAttribute('y', bT + bh * 0.32);
-    tipLbl.setAttribute('x', tx); tipLbl.setAttribute('y', bT + bh * 0.72);
-    [tipBg, tipBdr, tipTip, tipVal, tipLbl].forEach(function(el) { el.setAttribute('opacity','1'); });
-  }
-
-  function hideTip() {
-    [tipBg, tipBdr, tipTip, tipVal, tipLbl].forEach(function(el) { el.setAttribute('opacity','0'); });
-  }
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§4 HOVER Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
-     Highlight the hovered node + its direct parent + direct children.
-     Connected edges (to parent and to each child) stay full opacity too.
-     Stale-clear on every mouseenter is non-optional.                      */
-  var allNodeGs = Array.prototype.slice.call(nodeLayer.querySelectorAll('.node-g'));
-  var allEdges  = Array.prototype.slice.call(edgeLayer.querySelectorAll('.edge'));
-
-  nodes.forEach(function(n) {
-    var ng = n._ng;
-    ng.addEventListener('mouseenter', function() {
-      if (!dataLayerEl.classList.contains('ready')) return;
-
-      /* clear stale */
-      allNodeGs.forEach(function(el) { el.classList.remove('hovered'); });
-      allEdges.forEach(function(el)  { el.classList.remove('hovered'); });
-      dataLayerEl.classList.add('hovering');
-
-      /* build connected set: self + parent + children */
-      ng.classList.add('hovered');
-      if (n.parent && byId[n.parent]._ng) byId[n.parent]._ng.classList.add('hovered');
-      n.children.forEach(function(c) { if (c._ng) c._ng.classList.add('hovered'); });
-
-      /* connected edges: edge to my parent + edges to my children */
-      if (n._edge) n._edge.classList.add('hovered');
-      n.children.forEach(function(c) { if (c._edge) c._edge.classList.add('hovered'); });
-
-      var depthLabel = ['Root','Dept','Team','Sub-team'][n.depth] || 'Depth ' + n.depth;
-      showTip(n.cx, n.cy - nodeH / 2, n.cy + nodeH / 2, n.label, depthLabel + ' \u00b7 ' + n.sub);
+    ctx.initRevealSequence(nodeItems, {
+      animationName: 'fadeIn',
+      duration: 0.8,
+      easing: 'ease-out',
+      delays: nodeItems.map(function (_, index) {
+        return ctx.getStaggerDelay(edgeItems.length + index, edgeItems.length + nodeItems.length, 1.0);
+      })
     });
-    ng.addEventListener('mouseleave', function() {
-      allNodeGs.forEach(function(el) { el.classList.remove('hovered'); });
-      allEdges.forEach(function(el)  { el.classList.remove('hovered'); });
-      dataLayerEl.classList.remove('hovering');
-      hideTip();
+
+    var connectedHover = ctx.initConnectedHover(dataLayerEl, nodeItems, {
+      allNodes: nodeItems,
+      allEdges: edgeItems,
+      getRelatedItems: function (itemEl) {
+        var node = byId[itemEl.getAttribute('data-node-id')];
+        var related = [];
+        if (!node) return related;
+        if (node.parent && byId[node.parent] && byId[node.parent]._group) {
+          related.push(byId[node.parent]._group);
+        }
+        node.children.forEach(function (child) {
+          if (child._group) related.push(child._group);
+        });
+        return related;
+      },
+      getRelatedEdges: function (itemEl) {
+        var node = byId[itemEl.getAttribute('data-node-id')];
+        var related = [];
+        if (!node) return related;
+        if (node._edge) related.push(node._edge);
+        node.children.forEach(function (child) {
+          if (child._edge) related.push(child._edge);
+        });
+        return related;
+      }
     });
-  });
 
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§2 DARK MODE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+    ctx.initStandardTooltip(dataLayerEl, nodeItems, {
+      tip: document.getElementById('tip'),
+      plotL: plotL,
+      plotR: plotR,
+      plotT: plotT,
+      plotB: plotB,
+      placement: 'side',
+      minWidth: 220,
+      paddingX: 20,
+      paddingY: 18,
+      lineHeights: [42, 32, 32],
+      trackPointer: false,
+      getAnchor: function (itemEl) {
+        return {
+          x: (Number(itemEl.getAttribute('data-item-cx')) || 0) + plotShiftX,
+          y: Number(itemEl.getAttribute('data-item-top')) || 0
+        };
+      },
+      getContent: function (itemEl) {
+        var node = byId[itemEl.getAttribute('data-node-id')];
+        var depthLabel = ['Root', 'Dept', 'Team', 'Sub-team'][node ? node.depth : 0] || ('Depth ' + (node ? node.depth : 0));
+        return {
+          primary: node ? node.label : '',
+          label: depthLabel,
+          meta: node ? node.sub : ''
+        };
+      },
+      onActivate: function (itemEl) {
+        connectedHover.activate(itemEl);
+      },
+      onDeactivate: function () {
+        connectedHover.clear();
+      },
+      leaveTarget: dataLayerEl
+    });
 
-  svgEl._onModeChange = function () { recolor(); };
-  recolor();
+    ctx.markReadyAfterReveal(dataLayerEl, {
+      delays: nodeItems.map(function (_, index) {
+        return ctx.getStaggerDelay(edgeItems.length + index, edgeItems.length + nodeItems.length, 1.0);
+      }).concat(edgeItems.map(function (_, index) {
+        return ctx.getStaggerDelay(index, edgeItems.length + nodeItems.length, 1.0);
+      })),
+      duration: 0.8,
+      buffer: 0.1
+    });
+
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());

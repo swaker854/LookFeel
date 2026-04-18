@@ -1,332 +1,556 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<title>Dashboard Portal</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <title>Dashboard Portal</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  /* CSS tokens matching chart dark mode */
-  :root {
-    --bg:           #151825;
-    --bg-surface:   #222840;
-    --bg-surface-2: #252B3E;
-    --border:       rgba(255,255,255,0.12);
-    --border-cyan:  rgba(0,242,255,0.22);
-    --text-primary: #EEF2F7;
-    --text-sec:     #8A99B0;
-    --text-muted:   #7A8EA8;
-    --text-dim:     #3E4E62;
-    --accent:       #22D3EE;
-    --active-bg:    rgba(0,242,255,0.08);
-    --hover-bg:     rgba(255,255,255,0.04);
-  }
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    }
 
-  .portal {
-    width: 100%; height: 100vh;
-    display: flex; flex-direction: column;
-    background: var(--bg);
-    color: var(--text-sec);
-  }
+    /* CSS tokens matching chart dark mode */
+    :root {
+      --bg: #151825;
+      --bg-surface: #222840;
+      --bg-surface-2: #252B3E;
+      --border: rgba(255, 255, 255, 0.12);
+      --border-cyan: rgba(0, 242, 255, 0.22);
+      --text-primary: #EEF2F7;
+      --text-sec: #8A99B0;
+      --text-muted: #7A8EA8;
+      --text-dim: #3E4E62;
+      --accent: #22D3EE;
+      --active-bg: rgba(0, 242, 255, 0.08);
+      --hover-bg: rgba(255, 255, 255, 0.04);
+    }
 
-  /* Top nav — flat, no shadows or glows */
-  .topnav {
-    display: flex; align-items: center;
-    height: 44px; padding: 0 12px;
-    flex-shrink: 0; gap: 4px;
-    background: var(--bg-surface-2);
-    border-bottom: 1px solid var(--border);
-  }
+    .portal {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      color: var(--text-sec);
+    }
 
-  .nav-logo {
-    width: 28px; height: 28px;
-    display: flex; align-items: center; justify-content: center;
-    margin-right: 4px; flex-shrink: 0;
-  }
-  .nav-logo svg { width: 20px; height: 20px; }
+    /* Top nav â€” flat, no shadows or glows */
+    .topnav {
+      display: flex;
+      align-items: center;
+      height: 44px;
+      padding: 0 12px;
+      flex-shrink: 0;
+      gap: 4px;
+      background: var(--bg-surface-2);
+      border-bottom: 1px solid var(--border);
+    }
 
-  .nav-btn {
-    width: 30px; height: 30px;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 6px; cursor: pointer; flex-shrink: 0;
-    transition: background 0.15s;
-  }
-  .nav-btn:hover { background: var(--hover-bg); }
-  .nav-btn svg { width: 14px; height: 14px; }
+    .nav-logo {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 4px;
+      flex-shrink: 0;
+    }
 
-  /* Active state — flat, border only, no inset shadow or glow */
-  .nav-btn.active {
-    background: var(--active-bg);
-    border: 0.5px solid var(--border-cyan);
-  }
+    .nav-logo svg {
+      width: 20px;
+      height: 20px;
+    }
 
-  .nav-spacer { flex: 1; }
+    .nav-btn {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
 
-  .nav-right { display: flex; align-items: center; gap: 4px; }
-  .nav-right-btn {
-    width: 26px; height: 26px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: background 0.15s;
-  }
-  .nav-right-btn:hover { background: var(--hover-bg); }
-  .nav-right-btn svg { width: 13px; height: 13px; }
+    .nav-btn:hover {
+      background: var(--hover-bg);
+    }
 
-  .nav-avatar {
-    width: 26px; height: 26px; border-radius: 50%;
-    background: var(--bg-surface-2);
-    border: 0.5px solid var(--border-cyan);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-  }
-  .nav-avatar svg { width: 14px; height: 14px; fill: var(--text-sec); }
+    .nav-btn svg {
+      width: 14px;
+      height: 14px;
+    }
 
-  /* Breadcrumb bar */
-  .breadcrumb-bar {
-    display: flex; align-items: center; gap: 6px;
-    padding: 0 12px; height: 32px; flex-shrink: 0;
-    background: var(--bg-surface);
-    border-bottom: 1px solid var(--border);
-  }
-  .breadcrumb-label { font-size: 11px; font-weight: 500; color: var(--text-sec); }
-  .breadcrumb-sep   { color: var(--text-dim); font-size: 11px; }
-  .breadcrumb-spacer { flex: 1; }
-  .breadcrumb-action {
-    width: 22px; height: 22px; border-radius: 4px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: background 0.15s;
-  }
-  .breadcrumb-action:hover { background: var(--hover-bg); }
-  .breadcrumb-action svg { width: 12px; height: 12px; }
+    /* Active state â€” flat, border only, no inset shadow or glow */
+    .nav-btn.active {
+      background: var(--active-bg);
+      border: 0.5px solid var(--border-cyan);
+    }
 
-  /* Body */
-  .body { display: flex; flex: 1; overflow: hidden; min-height: 0; }
+    .nav-spacer {
+      flex: 1;
+    }
 
-  /* Left panel */
-  .left-panel {
-    width: 220px; flex-shrink: 0;
-    background: var(--bg-surface);
-    border-right: 1px solid var(--border);
-    display: flex; flex-direction: column; overflow: hidden;
-  }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
 
-  .panel-search-row {
-    display: flex; align-items: center; gap: 6px;
-    padding: 8px 10px;
-    border-bottom: 1px solid var(--border);
-  }
-  .panel-search {
-    flex: 1; font-size: 11px; font-family: inherit;
-    padding: 4px 8px; border-radius: 5px;
-    border: 0.5px solid var(--border);
-    background: rgba(255,255,255,0.05);
-    color: var(--text-sec); outline: none; min-width: 0;
-  }
-  .panel-search::placeholder { color: var(--text-muted); }
-  .panel-search:focus { border-color: var(--border-cyan); }
+    .nav-right-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
 
-  .panel-icon-btn {
-    width: 24px; height: 24px; border-radius: 5px;
-    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-    background: var(--bg-surface);
-    border: 0.5px solid var(--border);
-    cursor: pointer; transition: background 0.15s;
-  }
-  .panel-icon-btn:hover { background: var(--hover-bg); }
-  .panel-icon-btn svg { width: 11px; height: 11px; }
+    .nav-right-btn:hover {
+      background: var(--hover-bg);
+    }
 
-  /* Tree */
-  .tree { flex: 1; overflow-y: auto; padding: 4px 0; }
-  .tree::-webkit-scrollbar { width: 3px; }
-  .tree::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .nav-right-btn svg {
+      width: 13px;
+      height: 13px;
+    }
 
-  .tree-section {
-    display: flex; align-items: center; gap: 5px;
-    padding: 3px 10px; font-size: 11px;
-    color: var(--text-muted); cursor: pointer;
-    transition: background 0.12s;
-  }
-  .tree-section:hover { background: var(--hover-bg); color: var(--text-sec); }
-  .tree-chevron { font-size: 8px; color: var(--text-dim); flex-shrink: 0; }
-  .tree-section svg { width: 12px; height: 12px; flex-shrink: 0; opacity: 0.5; }
+    .nav-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--bg-surface-2);
+      border: 0.5px solid var(--border-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
 
-  .tree-item {
-    display: flex; align-items: center; gap: 6px;
-    padding: 3px 10px 3px 24px; font-size: 11px;
-    color: var(--text-muted); cursor: pointer;
-    transition: background 0.12s; position: relative;
-  }
-  .tree-item:hover { background: var(--hover-bg); color: var(--text-sec); }
-  .tree-item svg { width: 10px; height: 10px; flex-shrink: 0; opacity: 0.4; }
+    .nav-avatar svg {
+      width: 14px;
+      height: 14px;
+      fill: var(--text-sec);
+    }
 
-  .tree-item.active {
-    background: var(--active-bg);
-    color: var(--text-primary);
-    font-weight: 500;
-  }
-  /* Flat accent bar — no glow */
-  .tree-item.active::before {
-    content: '';
-    position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
-    background: var(--accent);
-  }
-  .tree-item.active svg { opacity: 0.9; }
+    /* Breadcrumb bar */
+    .breadcrumb-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 12px;
+      height: 32px;
+      flex-shrink: 0;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+    }
 
- /* Content grid - Fixed row behavior */
-  .content {
-    flex: 1;
-    overflow-y: auto; /* Enable vertical scrolling for the grid */
-    padding: 12px;    /* Add a little breathing room */
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-auto-rows: max-content; /* Row height matches the card height */
-    gap: 12px;       /* Added a gap to prevent visual touching */
-    background: var(--bg);
-  }
+    .breadcrumb-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-sec);
+    }
 
-  
-  .chart-card {
-    position: relative;
-    border-radius: 12px; /* Slightly tighter radius for the portal look */
-    overflow: hidden;
-    width: 100%;
-    aspect-ratio: 1100 / 620; /* This defines the height based on width */
-    background: var(--bg-surface); /* Helps visualize the card bounds */
-    border: 1px solid var(--border);
-  }
+    .breadcrumb-sep {
+      color: var(--text-dim);
+      font-size: 11px;
+    }
 
-  .chart-frame {
-    width: 100%; height: 100%;
-    border: none; outline: none;
-    background: transparent;
-    border-radius: 18px;
-    display: block;
-  }
+    .breadcrumb-spacer {
+      flex: 1;
+    }
 
-  .chart-card-shell {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    padding: 0;
-    background: var(--bg-surface);
-  }
+    .breadcrumb-action {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
 
-  .chart-card-shell.light {
-    background: #f8f5fb;
-    border-color: rgba(121, 116, 126, 0.28);
-    box-shadow: 0 18px 40px rgba(28, 27, 31, 0.08);
-  }
+    .breadcrumb-action:hover {
+      background: var(--hover-bg);
+    }
 
-  .chart-shell-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 15px 18px 10px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
+    .breadcrumb-action svg {
+      width: 12px;
+      height: 12px;
+    }
 
-  .chart-card-shell.light .chart-shell-header {
-    border-bottom-color: rgba(121, 116, 126, 0.18);
-  }
+    /* Body */
+    .body {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      min-height: 0;
+    }
 
-  .chart-shell-copy {
-    min-width: 0;
-    display: grid;
-    gap: 2px;
-  }
+    /* Left panel */
+    .left-panel {
+      width: 220px;
+      flex-shrink: 0;
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
 
-  .chart-shell-title {
-    font-size: 14px;
-    line-height: 1.2;
-    font-weight: 600;
-    color: var(--text-primary);
-    letter-spacing: -0.01em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+    .panel-search-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+    }
 
-  .chart-card-shell.light .chart-shell-title {
-    color: #1c1b1f;
-  }
+    .panel-search {
+      flex: 1;
+      font-size: 11px;
+      font-family: inherit;
+      padding: 4px 8px;
+      border-radius: 5px;
+      border: 0.5px solid var(--border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-sec);
+      outline: none;
+      min-width: 0;
+    }
 
-  .chart-shell-subtitle {
-    font-size: 10px;
-    line-height: 1.3;
-    color: rgba(138, 153, 176, 0.9);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+    .panel-search::placeholder {
+      color: var(--text-muted);
+    }
 
-  .chart-card-shell.light .chart-shell-subtitle {
-    color: #79747e;
-  }
+    .panel-search:focus {
+      border-color: var(--border-cyan);
+    }
 
-  .chart-shell-controls {
-    flex-shrink: 0;
-    display: flex;
-    gap: 6px;
-  }
+    .panel-icon-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
 
-  .chart-shell-btn {
-    min-width: 56px;
-    height: 24px;
-    padding: 0 8px;
-    border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.12);
-    background: rgba(255,255,255,0.02);
-    color: var(--text-sec);
-    font: inherit;
-    font-size: 9px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s, color 0.15s;
-  }
+    .panel-icon-btn:hover {
+      background: var(--hover-bg);
+    }
 
-  .chart-card-shell.light .chart-shell-btn {
-    border-color: rgba(121, 116, 126, 0.28);
-    background: rgba(121, 116, 126, 0.06);
-    color: #49454f;
-  }
+    .panel-icon-btn svg {
+      width: 11px;
+      height: 11px;
+    }
 
-  .chart-shell-btn:hover {
-    background: rgba(255, 255, 255, 0.06);
-  }
+    /* Tree */
+    .tree {
+      flex: 1;
+      overflow-y: auto;
+      padding: 4px 0;
+    }
 
-  .chart-card-shell.light .chart-shell-btn:hover {
-    background: rgba(121, 116, 126, 0.12);
-  }
+    .tree::-webkit-scrollbar {
+      width: 3px;
+    }
 
-  .chart-shell-btn.active {
-    color: var(--text-primary);
-    border-color: var(--border-cyan);
-    background: rgba(0, 242, 255, 0.08);
-  }
+    .tree::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 2px;
+    }
 
-  .chart-card-shell.light .chart-shell-btn.active {
-    color: #1c1b1f;
-    border-color: rgba(0, 184, 122, 0.42);
-    background: rgba(0, 184, 122, 0.12);
-  }
+    .tree-section {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: background 0.12s;
+    }
 
-  .chart-shell-body {
-    min-height: 0;
-    padding: 12px 10px 8px;
-  }
+    .tree-section:hover {
+      background: var(--hover-bg);
+      color: var(--text-sec);
+    }
 
-  .chart-card-shell.light .chart-shell-body {
-    background: linear-gradient(180deg, rgba(255, 251, 254, 0.96), rgba(245, 240, 248, 0.94));
-  }
+    .tree-chevron {
+      font-size: 8px;
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
 
-  .chart-card-shell .chart-frame {
-    border-radius: 0;
-    height: 100%;
-  }
+    .tree-section svg {
+      width: 12px;
+      height: 12px;
+      flex-shrink: 0;
+      opacity: 0.5;
+    }
+
+    .tree-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px 3px 24px;
+      font-size: 11px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: background 0.12s;
+      position: relative;
+    }
+
+    .tree-item:hover {
+      background: var(--hover-bg);
+      color: var(--text-sec);
+    }
+
+    .tree-item svg {
+      width: 10px;
+      height: 10px;
+      flex-shrink: 0;
+      opacity: 0.4;
+    }
+
+    .tree-item.active {
+      background: var(--active-bg);
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* Flat accent bar â€” no glow */
+    .tree-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--accent);
+    }
+
+    .tree-item.active svg {
+      opacity: 0.9;
+    }
+
+    /* Content grid - Fixed row behavior */
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      /* Enable vertical scrolling for the grid */
+      padding: 12px;
+      /* Add a little breathing room */
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-auto-rows: max-content;
+      /* Row height matches the card height */
+      gap: 12px;
+      /* Added a gap to prevent visual touching */
+      background: var(--bg);
+    }
+
+
+    .chart-card {
+      position: relative;
+      border-radius: 12px;
+      /* Slightly tighter radius for the portal look */
+      overflow: hidden;
+      width: 100%;
+      aspect-ratio: 1100 / 620;
+      /* This defines the height based on width */
+      background: var(--bg-surface);
+      /* Helps visualize the card bounds */
+      border: 1px solid var(--border);
+    }
+
+    .chart-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      border-radius: 18px;
+      display: block;
+    }
+
+    .chart-card-shell {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: 0;
+      background: var(--bg-surface);
+    }
+
+    .chart-card-shell.light {
+      background: #f8f5fb;
+      border-color: rgba(121, 116, 126, 0.28);
+      box-shadow: 0 18px 40px rgba(28, 27, 31, 0.08);
+    }
+
+    .chart-shell-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 18px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.035);
+    }
+
+    .chart-card-shell.light .chart-shell-header {
+      border-bottom-color: rgba(121, 116, 126, 0.18);
+    }
+
+    .chart-shell-copy {
+      min-width: 0;
+      display: grid;
+      gap: 2px;
+    }
+
+    .chart-shell-title {
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.18;
+      color: var(--text-primary);
+      letter-spacing: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .chart-card-shell.light .chart-shell-title {
+      color: #1c1b1f;
+    }
+
+    .chart-shell-subtitle {
+      font-size: 10px;
+      line-height: 1.35;
+      color: rgba(138, 153, 176, 0.92);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .chart-card-shell.light .chart-shell-subtitle {
+      color: #79747e;
+    }
+
+    .chart-shell-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .chart-shell-btn {
+      min-width: 56px;
+      height: 24px;
+      padding: 0 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-sec);
+      font: inherit;
+      font-size: 9px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+
+    .chart-card-shell.light .chart-shell-btn {
+      border-color: rgba(121, 116, 126, 0.28);
+      background: rgba(121, 116, 126, 0.06);
+      color: #49454f;
+    }
+
+    .chart-shell-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .chart-card-shell.light .chart-shell-btn:hover {
+      background: rgba(121, 116, 126, 0.12);
+    }
+
+    .chart-shell-btn.active {
+      color: var(--text-primary);
+      border-color: var(--border-cyan);
+      background: rgba(0, 242, 255, 0.08);
+    }
+
+    .chart-card-shell.light .chart-shell-btn.active {
+      color: #1c1b1f;
+      border-color: rgba(0, 184, 122, 0.42);
+      background: rgba(0, 184, 122, 0.12);
+    }
+
+    .chart-shell-body {
+      min-height: 0;
+      padding: 12px 10px 8px;
+    }
+
+    .chart-card-shell {
+      aspect-ratio: 1100 / 720;
+    }
+
+    .chart-card-shell .chart-shell-header {
+      padding: 14px 16px 8px;
+    }
+
+    .chart-card-shell .chart-shell-title {
+      font-size: 14px;
+    }
+
+    .chart-card-shell .chart-shell-subtitle {
+      font-size: 10px;
+    }
+
+    .chart-card-shell .chart-shell-body {
+      padding: 6px 22px 2px;
+      min-height: 132px;
+    }
+
+    .chart-card-shell .chart-frame {
+      width: 100%;
+      margin-left: 0;
+    }
+
+    .chart-card-shell .chart-shell-footer {
+      padding: 8px 16px 12px;
+      font-size: 9px;
+      line-height: 1.35;
+    }
+
+    .chart-card-shell.light .chart-shell-body {
+      background: linear-gradient(180deg, rgba(255, 251, 254, 0.96), rgba(245, 240, 248, 0.94));
+    }
+
+    .chart-card-shell .chart-frame {
+      border-radius: 0;
+      height: 100%;
+    }
 
     .chart-shell-footer {
       padding: 12px 20px 16px;
@@ -339,362 +563,464 @@
       text-overflow: ellipsis;
     }
 
-  .chart-card-shell.light .chart-shell-footer {
-    color: #79747e;
-  }
-</style>
-</head>
-<body>
-<div class="portal">
-
-  <svg width="0" height="0" style="position:absolute">
-    <defs>
-      <!-- Flat single-color fills — no gradients -->
-      <linearGradient id="accentFill"><stop offset="0%" stop-color="#22D3EE"/></linearGradient>
-      <linearGradient id="emeraldFill"><stop offset="0%" stop-color="#10B981"/></linearGradient>
-    </defs>
-  </svg>
-
-  <!-- Top Nav -->
-  <div class="topnav">
-    <div class="nav-logo">
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M12 2C12 2 7 7 7 12.5C7 15.5 9.5 18 12 18C14.5 18 17 15.5 17 12.5C17 10 15.5 8 14 7C14.5 9 13.5 10.5 12 11C10.5 11 9.5 9.5 10 8C8.5 9.5 8 11 8 12.5C8 15 9.8 17 12 17C14.2 17 16 15 16 12.5C16 10.5 14.5 8.5 12 2Z"
-          fill="#22D3EE"/>
-      </svg>
-    </div>
-    <div class="nav-btn active">
-      <svg viewBox="0 0 16 16" fill="none">
-        <path d="M8 2L2 7v7h4v-4h4v4h4V7L8 2z" fill="#22D3EE"/>
-      </svg>
-    </div>
-    <div class="nav-btn">
-      <svg viewBox="0 0 16 16">
-        <rect x="1" y="1" width="4" height="3" rx="0.5" fill="rgba(255,255,255,0.28)"/>
-        <rect x="1" y="6" width="4" height="3" rx="0.5" fill="rgba(255,255,255,0.28)"/>
-        <rect x="1" y="11" width="4" height="3" rx="0.5" fill="rgba(255,255,255,0.28)"/>
-        <rect x="7" y="1" width="4" height="3" rx="0.5" fill="rgba(255,255,255,0.28)"/>
-      </svg>
-    </div>
-    <div class="nav-btn">
-      <svg viewBox="0 0 16 16">
-        <rect x="3" y="1" width="10" height="14" rx="1.5" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1"/>
-      </svg>
-    </div>
-    <div class="nav-spacer"></div>
-    <div class="nav-right">
-      <div class="nav-right-btn">
-        <svg viewBox="0 0 16 16">
-          <circle cx="7" cy="7" r="4" fill="none" stroke="rgba(255,255,255,0.32)" stroke-width="1.3"/>
-          <line x1="10.5" y1="10.5" x2="14" y2="14" stroke="rgba(255,255,255,0.32)" stroke-width="1.3" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="nav-right-btn">
-        <svg viewBox="0 0 16 16">
-          <rect x="2" y="3" width="12" height="9" rx="1.5" fill="none" stroke="rgba(255,255,255,0.32)" stroke-width="1.3"/>
-          <path d="M5 12v2M11 12v2" stroke="rgba(255,255,255,0.32)" stroke-width="1.3" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="nav-right-btn">
-        <svg viewBox="0 0 16 16">
-          <circle cx="8" cy="8" r="6" fill="none" stroke="rgba(255,255,255,0.32)" stroke-width="1.3"/>
-          <line x1="8" y1="7" x2="8" y2="11" stroke="rgba(255,255,255,0.32)" stroke-width="1.3" stroke-linecap="round"/>
-          <circle cx="8" cy="5.2" r="0.8" fill="rgba(255,255,255,0.32)"/>
-        </svg>
-      </div>
-      <div class="nav-avatar">
-        <svg viewBox="0 0 16 16">
-          <circle cx="8" cy="6" r="3" fill="rgba(255,255,255,0.5)"/>
-          <path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.3"/>
-        </svg>
-      </div>
-    </div>
-  </div>
-
-  <!-- Breadcrumb bar -->
-  <div class="breadcrumb-bar">
-    <svg viewBox="0 0 12 12" width="12" height="12" style="flex-shrink:0">
-      <rect x="0.5" y="0.5" width="4.5" height="4.5" rx="0.5" fill="#22D3EE" opacity="0.8"/>
-      <rect x="7"   y="0.5" width="4.5" height="4.5" rx="0.5" fill="#22D3EE" opacity="0.8"/>
-      <rect x="0.5" y="7"   width="4.5" height="4.5" rx="0.5" fill="#22D3EE" opacity="0.8"/>
-      <rect x="7"   y="7"   width="4.5" height="4.5" rx="0.5" fill="#22D3EE" opacity="0.8"/>
-    </svg>
-    <span class="breadcrumb-label" style="color:var(--text-muted)">Repository</span>
-    <span class="breadcrumb-sep">/</span>
-    <span class="breadcrumb-label">111</span>
-    <div class="breadcrumb-spacer"></div>
-    <div class="breadcrumb-action">
-      <svg viewBox="0 0 14 16">
-        <path d="M2 1h10a1 1 0 011 1v13l-6-4-6 4V2a1 1 0 011-1z"
-          fill="none" stroke="rgba(0,242,255,0.5)" stroke-width="1.5" stroke-linejoin="round"/>
-      </svg>
-    </div>
-  </div>
-
-  <!-- Body -->
-  <div class="body">
-
-    <!-- Left panel -->
-    <div class="left-panel">
-      <div class="panel-search-row">
-        <input class="panel-search" placeholder="Search"/>
-        <div class="panel-icon-btn">
-          <svg viewBox="0 0 12 12">
-            <circle cx="5" cy="5" r="3.5" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.2"/>
-            <line x1="7.8" y1="7.8" x2="10.5" y2="10.5" stroke="rgba(255,255,255,0.35)" stroke-width="1.2" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="panel-icon-btn">
-          <svg viewBox="0 0 12 12">
-            <path d="M6 1l1.2 3.6H11L8.2 6.9l1 3.6L6 8.4 2.8 10.5l1-3.6L1 4.6h3.8z"
-              fill="#10B981" opacity="0.7"/>
-          </svg>
-        </div>
-      </div>
-
-      <div class="tree">
-        <div class="tree-section">
-          <span class="tree-chevron">&#9660;</span>
-          <svg viewBox="0 0 13 13"><path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="0.8"/></svg>
-          <span style="font-weight:500;color:#E0E8F0">Repository</span>
-        </div>
-        <div class="tree-section"><span style="margin-left:10px" class="tree-chevron">&#9654;</span><svg viewBox="0 0 13 13"><path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/></svg><span>My Dashboards</span></div>
-        <div class="tree-section"><span style="margin-left:10px" class="tree-chevron">&#9654;</span><svg viewBox="0 0 13 13"><path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/></svg><span>Customer Service</span></div>
-        <div class="tree-section"><span style="margin-left:10px" class="tree-chevron">&#9654;</span><svg viewBox="0 0 13 13"><path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/></svg><span>Customers</span></div>
-        <div class="tree-section"><span style="margin-left:10px" class="tree-chevron">&#9654;</span><svg viewBox="0 0 13 13"><path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/></svg><span>Dashboards</span></div>
-        <div class="tree-section"><span style="margin-left:10px" class="tree-chevron">&#9654;</span><svg viewBox="0 0 13 13"><path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/></svg><span>Enfusion</span></div>
-        <div class="tree-section"><span style="margin-left:10px" class="tree-chevron">&#9654;</span><svg viewBox="0 0 13 13"><path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/></svg><span>Examples</span></div>
-        <div class="tree-section"><span style="margin-left:10px" class="tree-chevron">&#9654;</span><svg viewBox="0 0 13 13"><path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/></svg><span>gallery</span></div>
-        <div class="tree-section"><span style="margin-left:10px" class="tree-chevron">&#9654;</span><svg viewBox="0 0 13 13"><path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/></svg><span>Marketing</span></div>
-        <div class="tree-section"><span style="margin-left:10px" class="tree-chevron">&#9654;</span><svg viewBox="0 0 13 13"><path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/></svg><span>Shiftconnector</span></div>
-        <div class="tree-item active">
-          <svg viewBox="0 0 11 11">
-            <rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="#22D3EE"/>
-            <rect x="6"   y="0.5" width="4" height="4" rx="0.5" fill="#22D3EE"/>
-            <rect x="0.5" y="6"   width="4" height="4" rx="0.5" fill="#22D3EE"/>
-            <rect x="6"   y="6"   width="4" height="4" rx="0.5" fill="#22D3EE"/>
-          </svg>
-          111
-        </div>
-        <div class="tree-item"><svg viewBox="0 0 11 11"><rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/></svg>AITesting</div>
-        <div class="tree-item"><svg viewBox="0 0 11 11"><rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/></svg>base</div>
-        <div class="tree-item"><svg viewBox="0 0 11 11"><rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/></svg>Bold,Italic</div>
-        <div class="tree-item"><svg viewBox="0 0 11 11"><rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/></svg>BulletDash</div>
-        <div class="tree-item"><svg viewBox="0 0 11 11"><rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/></svg>chargeeBen</div>
-        <div class="tree-item"><svg viewBox="0 0 11 11"><rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/></svg>chart_variablebanding</div>
-        <div class="tree-item"><svg viewBox="0 0 11 11"><rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/></svg>dash1</div>
-        <div class="tree-item"><svg viewBox="0 0 11 11"><rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/></svg>dash2</div>
-        <div class="tree-item"><svg viewBox="0 0 11 11"><rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/></svg>DocTest</div>
-        <div class="tree-item"><svg viewBox="0 0 11 11"><rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/></svg>embedded vs</div>
-        <div class="tree-item"><svg viewBox="0 0 11 11"><rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/></svg>EmbedTable</div>
-        <div class="tree-item"><svg viewBox="0 0 11 11"><rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/><rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)"/></svg>Enrollment</div>
-      </div>
-    </div>
-
-    <!-- Chart content grid — filenames match final SVG outputs, consistent order with light portal -->
-    <div class="content">
-     <div class="chart-card">
-        <iframe class="chart-frame" src="stepline_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
-      </div>
-     <div class="chart-card">
-        <iframe class="chart-frame" src="jumpline_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
-      </div>
-     <div class="chart-card">
-        <iframe class="chart-frame" src="steparea_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
-      </div>
-     <div class="chart-card">
-        <iframe class="chart-frame" src="tree_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
-      </div>
-     <div class="chart-card">
-        <iframe class="chart-frame" src="network_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
-      </div>
-     <div class="chart-card">
-        <iframe class="chart-frame" src="circular_network_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
-      </div>
-       <div class="chart-card">
-        <iframe class="chart-frame" src="circle_packing_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
-      </div>
-             <div class="chart-card">
-        <iframe class="chart-frame" src="gantt_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
-      </div>
-                   <div class="chart-card">
-        <iframe class="chart-frame" src="funnel_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
-      </div>
-    </div>
-  </div>
-</div>
-<script>
-  var defaultPalette = ['#00D4E8', '#00B87A', '#F59E0B', '#F43F5E', '#8B5CF6', '#3B82F6', '#0D9488', '#64748B'];
-  var chartShellMeta = {
-    'stepline_flat.svg': {
-      title: 'Federal Funds Rate - Step Line',
-      subtitle: '6 rate cycles · step line · hover to inspect',
-      footer: 'Federal funds rate · step line chart · hover to inspect · print mode reveals values'
-    },
-    'jumpline_flat.svg': {
-      title: 'Benchmark Rates by Region - Jump Line',
-      subtitle: '3 series · quarterly · hover to inspect',
-      footer: 'Benchmark rates by region · jump line chart · hover to inspect · print mode reveals values'
-    },
-    'steparea_flat.svg': {
-      title: 'Cloud Spend by Department - Step Area',
-      subtitle: '4 series · monthly · hover to inspect',
-      footer: 'Cloud spend by department · step area chart · hover to inspect · print mode reveals values'
-    },
-    'tree_flat.svg': {
-      title: 'Product Organisation - Tree',
-      subtitle: '14 nodes · 4 levels · hover to inspect',
-      footer: 'Product organisation · tree chart · hover to inspect · print mode reveals values'
-    },
-    'network_flat.svg': {
-      title: 'Service Dependency Graph - Network',
-      subtitle: '16 nodes · 24 edges · hover to explore',
-      footer: 'Service dependency graph · network chart · hover to explore neighbourhood'
-    },
-    'circular_network_flat.svg': {
-      title: 'Service Dependency Graph - Circular',
-      subtitle: '16 nodes · 24 edges · circular layout',
-      footer: 'Service dependency graph · circular network chart · hover to explore neighbourhood'
-    },
-    'circle_packing_flat.svg': {
-      title: 'Shipping Mode by Orders - Packing',
-      subtitle: '4 shipping classes · hover to inspect',
-      footer: 'Shipping mode by orders · circle packing chart · hover to inspect · print mode reveals values'
-    },
-    'gantt_flat.svg': {
-      title: 'Artemis Platform Roadmap - Gantt',
-      subtitle: 'Apr-Sep 2026 · 6 teams · hover to inspect',
-      footer: 'Artemis platform roadmap · gantt chart · hover to inspect · print mode reveals durations'
-    },
-    'funnel_flat.svg': {
-      title: 'Sales Conversion Funnel',
-      subtitle: 'Marketing to revenue pipeline · Q1 2026',
-      footer: 'Sales conversion funnel · hover to inspect · print mode reveals values'
+    .chart-card-shell.light .chart-shell-footer {
+      color: #79747e;
     }
-  };
+  </style>
+</head>
 
-  function shellMarkup(title, subtitle, footer, src) {
-    return '' +
-      '<div class="chart-shell-header">' +
-        '<div class="chart-shell-copy">' +
-          '<div class="chart-shell-title">' + title + '</div>' +
-          '<div class="chart-shell-subtitle">' + subtitle + '</div>' +
-        '</div>' +
+<body>
+  <div class="portal">
+
+    <svg width="0" height="0" style="position:absolute">
+      <defs>
+        <!-- Flat single-color fills â€” no gradients -->
+        <linearGradient id="accentFill">
+          <stop offset="0%" stop-color="#22D3EE" />
+        </linearGradient>
+        <linearGradient id="emeraldFill">
+          <stop offset="0%" stop-color="#10B981" />
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <!-- Top Nav -->
+    <div class="topnav">
+      <div class="nav-logo">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M12 2C12 2 7 7 7 12.5C7 15.5 9.5 18 12 18C14.5 18 17 15.5 17 12.5C17 10 15.5 8 14 7C14.5 9 13.5 10.5 12 11C10.5 11 9.5 9.5 10 8C8.5 9.5 8 11 8 12.5C8 15 9.8 17 12 17C14.2 17 16 15 16 12.5C16 10.5 14.5 8.5 12 2Z"
+            fill="#22D3EE" />
+        </svg>
+      </div>
+      <div class="nav-btn active">
+        <svg viewBox="0 0 16 16" fill="none">
+          <path d="M8 2L2 7v7h4v-4h4v4h4V7L8 2z" fill="#22D3EE" />
+        </svg>
+      </div>
+      <div class="nav-btn">
+        <svg viewBox="0 0 16 16">
+          <rect x="1" y="1" width="4" height="3" rx="0.5" fill="rgba(255,255,255,0.28)" />
+          <rect x="1" y="6" width="4" height="3" rx="0.5" fill="rgba(255,255,255,0.28)" />
+          <rect x="1" y="11" width="4" height="3" rx="0.5" fill="rgba(255,255,255,0.28)" />
+          <rect x="7" y="1" width="4" height="3" rx="0.5" fill="rgba(255,255,255,0.28)" />
+        </svg>
+      </div>
+      <div class="nav-btn">
+        <svg viewBox="0 0 16 16">
+          <rect x="3" y="1" width="10" height="14" rx="1.5" fill="none" stroke="rgba(255,255,255,0.28)"
+            stroke-width="1" />
+        </svg>
+      </div>
+      <div class="nav-spacer"></div>
+      <div class="nav-right">
+        <div class="nav-right-btn">
+          <svg viewBox="0 0 16 16">
+            <circle cx="7" cy="7" r="4" fill="none" stroke="rgba(255,255,255,0.32)" stroke-width="1.3" />
+            <line x1="10.5" y1="10.5" x2="14" y2="14" stroke="rgba(255,255,255,0.32)" stroke-width="1.3"
+              stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="nav-right-btn">
+          <svg viewBox="0 0 16 16">
+            <rect x="2" y="3" width="12" height="9" rx="1.5" fill="none" stroke="rgba(255,255,255,0.32)"
+              stroke-width="1.3" />
+            <path d="M5 12v2M11 12v2" stroke="rgba(255,255,255,0.32)" stroke-width="1.3" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="nav-right-btn">
+          <svg viewBox="0 0 16 16">
+            <circle cx="8" cy="8" r="6" fill="none" stroke="rgba(255,255,255,0.32)" stroke-width="1.3" />
+            <line x1="8" y1="7" x2="8" y2="11" stroke="rgba(255,255,255,0.32)" stroke-width="1.3"
+              stroke-linecap="round" />
+            <circle cx="8" cy="5.2" r="0.8" fill="rgba(255,255,255,0.32)" />
+          </svg>
+        </div>
+        <div class="nav-avatar">
+          <svg viewBox="0 0 16 16">
+            <circle cx="8" cy="6" r="3" fill="rgba(255,255,255,0.5)" />
+            <path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.3" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Breadcrumb bar -->
+    <div class="breadcrumb-bar">
+      <svg viewBox="0 0 12 12" width="12" height="12" style="flex-shrink:0">
+        <rect x="0.5" y="0.5" width="4.5" height="4.5" rx="0.5" fill="#22D3EE" opacity="0.8" />
+        <rect x="7" y="0.5" width="4.5" height="4.5" rx="0.5" fill="#22D3EE" opacity="0.8" />
+        <rect x="0.5" y="7" width="4.5" height="4.5" rx="0.5" fill="#22D3EE" opacity="0.8" />
+        <rect x="7" y="7" width="4.5" height="4.5" rx="0.5" fill="#22D3EE" opacity="0.8" />
+      </svg>
+      <span class="breadcrumb-label" style="color:var(--text-muted)">Repository</span>
+      <span class="breadcrumb-sep">/</span>
+      <span class="breadcrumb-label">111</span>
+      <div class="breadcrumb-spacer"></div>
+      <div class="breadcrumb-action">
+        <svg viewBox="0 0 14 16">
+          <path d="M2 1h10a1 1 0 011 1v13l-6-4-6 4V2a1 1 0 011-1z" fill="none" stroke="rgba(0,242,255,0.5)"
+            stroke-width="1.5" stroke-linejoin="round" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="body">
+
+      <!-- Left panel -->
+      <div class="left-panel">
+        <div class="panel-search-row">
+          <input class="panel-search" placeholder="Search" />
+          <div class="panel-icon-btn">
+            <svg viewBox="0 0 12 12">
+              <circle cx="5" cy="5" r="3.5" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.2" />
+              <line x1="7.8" y1="7.8" x2="10.5" y2="10.5" stroke="rgba(255,255,255,0.35)" stroke-width="1.2"
+                stroke-linecap="round" />
+            </svg>
+          </div>
+          <div class="panel-icon-btn">
+            <svg viewBox="0 0 12 12">
+              <path d="M6 1l1.2 3.6H11L8.2 6.9l1 3.6L6 8.4 2.8 10.5l1-3.6L1 4.6h3.8z" fill="#10B981" opacity="0.7" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="tree">
+          <div class="tree-section">
+            <span class="tree-chevron">&#9660;</span>
+            <svg viewBox="0 0 13 13">
+              <path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none"
+                stroke="rgba(255,255,255,0.25)" stroke-width="0.8" />
+            </svg>
+            <span style="font-weight:500;color:#E0E8F0">Repository</span>
+          </div>
+          <div class="tree-section"><span style="margin-left:10px" class="tree-chevron">&#9654;</span><svg
+              viewBox="0 0 13 13">
+              <path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none"
+                stroke="rgba(255,255,255,0.2)" stroke-width="0.8" />
+            </svg><span>My Dashboards</span></div>
+          <div class="tree-section"><span style="margin-left:10px" class="tree-chevron">&#9654;</span><svg
+              viewBox="0 0 13 13">
+              <path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none"
+                stroke="rgba(255,255,255,0.2)" stroke-width="0.8" />
+            </svg><span>Customer Service</span></div>
+          <div class="tree-section"><span style="margin-left:10px" class="tree-chevron">&#9654;</span><svg
+              viewBox="0 0 13 13">
+              <path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none"
+                stroke="rgba(255,255,255,0.2)" stroke-width="0.8" />
+            </svg><span>Customers</span></div>
+          <div class="tree-section"><span style="margin-left:10px" class="tree-chevron">&#9654;</span><svg
+              viewBox="0 0 13 13">
+              <path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none"
+                stroke="rgba(255,255,255,0.2)" stroke-width="0.8" />
+            </svg><span>Dashboards</span></div>
+          <div class="tree-section"><span style="margin-left:10px" class="tree-chevron">&#9654;</span><svg
+              viewBox="0 0 13 13">
+              <path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none"
+                stroke="rgba(255,255,255,0.2)" stroke-width="0.8" />
+            </svg><span>Enfusion</span></div>
+          <div class="tree-section"><span style="margin-left:10px" class="tree-chevron">&#9654;</span><svg
+              viewBox="0 0 13 13">
+              <path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none"
+                stroke="rgba(255,255,255,0.2)" stroke-width="0.8" />
+            </svg><span>Examples</span></div>
+          <div class="tree-section"><span style="margin-left:10px" class="tree-chevron">&#9654;</span><svg
+              viewBox="0 0 13 13">
+              <path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none"
+                stroke="rgba(255,255,255,0.2)" stroke-width="0.8" />
+            </svg><span>gallery</span></div>
+          <div class="tree-section"><span style="margin-left:10px" class="tree-chevron">&#9654;</span><svg
+              viewBox="0 0 13 13">
+              <path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none"
+                stroke="rgba(255,255,255,0.2)" stroke-width="0.8" />
+            </svg><span>Marketing</span></div>
+          <div class="tree-section"><span style="margin-left:10px" class="tree-chevron">&#9654;</span><svg
+              viewBox="0 0 13 13">
+              <path d="M1 3a1 1 0 011-1h3.5l1 1.5H11a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1V3z" fill="none"
+                stroke="rgba(255,255,255,0.2)" stroke-width="0.8" />
+            </svg><span>Shiftconnector</span></div>
+          <div class="tree-item active">
+            <svg viewBox="0 0 11 11">
+              <rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="#22D3EE" />
+              <rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="#22D3EE" />
+              <rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="#22D3EE" />
+              <rect x="6" y="6" width="4" height="4" rx="0.5" fill="#22D3EE" />
+            </svg>
+            111
+          </div>
+          <div class="tree-item"><svg viewBox="0 0 11 11">
+              <rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+            </svg>AITesting</div>
+          <div class="tree-item"><svg viewBox="0 0 11 11">
+              <rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+            </svg>base</div>
+          <div class="tree-item"><svg viewBox="0 0 11 11">
+              <rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+            </svg>Bold,Italic</div>
+          <div class="tree-item"><svg viewBox="0 0 11 11">
+              <rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+            </svg>BulletDash</div>
+          <div class="tree-item"><svg viewBox="0 0 11 11">
+              <rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+            </svg>chargeeBen</div>
+          <div class="tree-item"><svg viewBox="0 0 11 11">
+              <rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+            </svg>chart_variablebanding</div>
+          <div class="tree-item"><svg viewBox="0 0 11 11">
+              <rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+            </svg>dash1</div>
+          <div class="tree-item"><svg viewBox="0 0 11 11">
+              <rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+            </svg>dash2</div>
+          <div class="tree-item"><svg viewBox="0 0 11 11">
+              <rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+            </svg>DocTest</div>
+          <div class="tree-item"><svg viewBox="0 0 11 11">
+              <rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+            </svg>embedded vs</div>
+          <div class="tree-item"><svg viewBox="0 0 11 11">
+              <rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+            </svg>EmbedTable</div>
+          <div class="tree-item"><svg viewBox="0 0 11 11">
+              <rect x="0.5" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="0.5" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="0.5" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+              <rect x="6" y="6" width="4" height="4" rx="0.5" fill="rgba(255,255,255,0.2)" />
+            </svg>Enrollment</div>
+        </div>
+      </div>
+
+      <!-- Chart content grid â€” filenames match final SVG outputs, consistent order with light portal -->
+      <div class="content">
+        <div class="chart-card">
+          <iframe class="chart-frame" src="stepline_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
+        </div>
+        <div class="chart-card">
+          <iframe class="chart-frame" src="jumpline_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
+        </div>
+        <div class="chart-card">
+          <iframe class="chart-frame" src="steparea_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
+        </div>
+        <div class="chart-card">
+          <iframe class="chart-frame" src="tree_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
+        </div>
+        <div class="chart-card">
+          <iframe class="chart-frame" src="network_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
+        </div>
+        <div class="chart-card">
+          <iframe class="chart-frame" src="circular_network_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
+        </div>
+        <div class="chart-card">
+          <iframe class="chart-frame" src="circle_packing_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
+        </div>
+        <div class="chart-card">
+          <iframe class="chart-frame" src="funnel_flat.svg?theme=dark" scrolling="no" frameborder="0"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    var defaultPalette = ['#00D4E8', '#00B87A', '#F59E0B', '#F43F5E', '#8B5CF6', '#3B82F6', '#0D9488', '#64748B'];
+    var chartShellMeta = {
+      'stepline_flat.svg': {
+        title: 'Federal Funds Rate - Step Line',
+        subtitle: '6 rate cycles Â· step line Â· hover to inspect',
+        footer: 'Federal funds rate Â· step line chart Â· hover to inspect Â· print mode reveals values'
+      },
+      'jumpline_flat.svg': {
+        title: 'Benchmark Rates by Region - Jump Line',
+        subtitle: '3 series Â· quarterly Â· hover to inspect',
+        footer: 'Benchmark rates by region Â· jump line chart Â· hover to inspect Â· print mode reveals values'
+      },
+      'steparea_flat.svg': {
+        title: 'Cloud Spend by Department - Step Area',
+        subtitle: '4 series Â· monthly Â· hover to inspect',
+        footer: 'Cloud spend by department Â· step area chart Â· hover to inspect Â· print mode reveals values'
+      },
+      'tree_flat.svg': {
+        title: 'Product Organisation - Tree',
+        subtitle: '14 nodes Â· 4 levels Â· hover to inspect',
+        footer: 'Product organisation Â· tree chart Â· hover to inspect Â· print mode reveals values'
+      },
+      'network_flat.svg': {
+        title: 'Service Dependency Graph - Network',
+        subtitle: '16 nodes Â· 24 edges Â· hover to explore',
+        footer: 'Service dependency graph Â· network chart Â· hover to explore neighbourhood'
+      },
+      'circular_network_flat.svg': {
+        title: 'Service Dependency Graph - Circular',
+        subtitle: '16 nodes Â· 24 edges Â· circular layout',
+        footer: 'Service dependency graph Â· circular network chart Â· hover to explore neighbourhood'
+      },
+      'circle_packing_flat.svg': {
+        title: 'Shipping Mode by Orders - Packing',
+        subtitle: '4 shipping classes Â· hover to inspect',
+        footer: 'Shipping mode by orders Â· circle packing chart Â· hover to inspect Â· print mode reveals values'
+      },
+      'funnel_flat.svg': {
+        title: 'Sales Conversion Funnel',
+        subtitle: 'Marketing to revenue pipeline Â· Q1 2026',
+        footer: 'Sales conversion funnel Â· hover to inspect Â· print mode reveals values'
+      }
+    };
+
+    function shellMarkup(title, subtitle, footer, src) {
+      return '' +
+        '<div class="chart-shell-header">' +
+          '<div class="chart-shell-copy">' +
+            '<div class="chart-shell-title">' + title + '</div>' +
+            '<div class="chart-shell-subtitle">' + subtitle + '</div>' +
+          '</div>' +
           '<div class="chart-shell-controls">' +
             '<button class="chart-shell-btn" type="button" data-chart-open>Open</button>' +
             '<button class="chart-shell-btn active" type="button" data-chart-mode>Light</button>' +
             '<button class="chart-shell-btn" type="button" data-chart-print>Print</button>' +
           '</div>' +
-      '</div>' +
-      '<div class="chart-shell-body">' +
-        '<iframe class="chart-frame" src="' + src + '" scrolling="no" frameborder="0" data-chart-frame></iframe>' +
-      '</div>' +
-      '<div class="chart-shell-footer">' + footer + '</div>';
-  }
-
-  document.querySelectorAll('.chart-card').forEach(function (card) {
-    var existingFrame = card.querySelector('iframe.chart-frame');
-    if (!existingFrame) return;
-
-    var src = existingFrame.getAttribute('src') || '';
-    var base = src.split('?')[0];
-    var meta = chartShellMeta[base];
-    if (!meta) return;
-
-    if (!card.hasAttribute('data-chart-shell')) {
-      card.classList.add('chart-card-shell');
-      card.setAttribute('data-chart-shell', '');
-      card.innerHTML = shellMarkup(meta.title, meta.subtitle, meta.footer, src);
-    }
-  });
-
-  document.querySelectorAll('[data-chart-shell]').forEach(function (card) {
-    card.dataset.dark = 'true';
-    card.dataset.print = 'false';
-    var frame = card.querySelector('[data-chart-frame], iframe.chart-frame');
-    if (frame) {
-      frame.addEventListener('load', function () {
-        syncChartCard(card);
-      });
-    }
-    paintChartCard(card);
-  });
-
-  function paintChartCard(card) {
-    var modeBtn = card.querySelector('[data-chart-mode]');
-    var printBtn = card.querySelector('[data-chart-print]');
-    var dark = card.dataset.dark !== 'false';
-    var print = card.dataset.print === 'true';
-    card.classList.toggle('light', !dark);
-    if (modeBtn) {
-      modeBtn.classList.toggle('active', dark);
-      modeBtn.textContent = dark ? 'Light' : 'Dark';
-    }
-    if (printBtn) {
-      printBtn.classList.toggle('active', print);
-      printBtn.textContent = print ? 'Screen' : 'Print';
-    }
-  }
-
-  function syncChartCard(card) {
-    var frame = card.querySelector('[data-chart-frame], iframe.chart-frame');
-    if (!frame || !frame.contentWindow) return;
-    var dark = card.dataset.dark !== 'false';
-    var print = card.dataset.print === 'true';
-    var currentSrc = frame.getAttribute('src') || '';
-    var desiredSrc = setFrameTheme(currentSrc, dark);
-    if (desiredSrc && desiredSrc !== currentSrc) {
-      frame.setAttribute('src', desiredSrc);
-      return;
-    }
-    frame.contentWindow.postMessage({ type: 'setMode', dark: dark }, '*');
-    frame.contentWindow.postMessage({ type: 'setPrint', print: print }, '*');
-  }
-
-  function setFrameTheme(src, dark) {
-    if (!src) return src;
-    var parts = src.split('#');
-    var hash = parts[1] ? '#' + parts[1] : '';
-    var queryParts = parts[0].split('?');
-    var base = queryParts[0];
-    var query = queryParts[1] || '';
-    var params = query ? query.split('&').filter(Boolean) : [];
-    var filtered = params.filter(function (part) { return part.split('=')[0] !== 'theme'; });
-    filtered.push('theme=' + (dark ? 'dark' : 'light'));
-    return base + '?' + filtered.join('&') + hash;
-  }
-
-  document.addEventListener('click', function (event) {
-    var openBtn = event.target.closest('[data-chart-open]');
-    if (openBtn) {
-      var openCard = openBtn.closest('[data-chart-shell]');
-      if (!openCard) return;
-      var targetFrame = openCard.querySelector('[data-chart-frame], iframe.chart-frame');
-      if (!targetFrame) return;
-      var targetSrc = targetFrame.getAttribute('src');
-      if (targetSrc) window.open(targetSrc, '_blank', 'noopener');
-      return;
+        '</div>' +
+        '<div class="chart-shell-body">' +
+          '<iframe class="chart-frame" src="' + src + '" scrolling="no" frameborder="0" data-chart-frame></iframe>' +
+        '</div>' +
+        '<div class="chart-shell-footer">' + footer + '</div>';
     }
 
-    var modeBtn = event.target.closest('[data-chart-mode]');
-    if (modeBtn) {
-      var modeCard = modeBtn.closest('[data-chart-shell]');
-      if (!modeCard) return;
-      modeCard.dataset.dark = modeCard.dataset.dark === 'false' ? 'true' : 'false';
-      paintChartCard(modeCard);
-      syncChartCard(modeCard);
-      return;
+    document.querySelectorAll('.chart-card').forEach(function (card) {
+      var existingFrame = card.querySelector('iframe.chart-frame');
+      if (!existingFrame) return;
+
+      var src = existingFrame.getAttribute('src') || '';
+      var base = src.split('?')[0];
+      var meta = chartShellMeta[base];
+      if (!meta) return;
+
+      if (!card.hasAttribute('data-chart-shell')) {
+        card.classList.add('chart-card-shell');
+        card.setAttribute('data-chart-shell', '');
+        card.innerHTML = shellMarkup(meta.title, meta.subtitle, meta.footer, src);
+      }
+    });
+
+    document.querySelectorAll('[data-chart-shell]').forEach(function (card) {
+      card.dataset.dark = 'true';
+      card.dataset.print = 'false';
+      var frame = card.querySelector('[data-chart-frame], iframe.chart-frame');
+      if (frame) {
+        frame.addEventListener('load', function () {
+          syncChartCard(card);
+        });
+      }
+      paintChartCard(card);
+    });
+
+    function paintChartCard(card) {
+      var modeBtn = card.querySelector('[data-chart-mode]');
+      var printBtn = card.querySelector('[data-chart-print]');
+      var dark = card.dataset.dark !== 'false';
+      var print = card.dataset.print === 'true';
+      card.classList.toggle('light', !dark);
+      if (modeBtn) {
+        modeBtn.classList.toggle('active', dark);
+        modeBtn.textContent = dark ? 'Light' : 'Dark';
+      }
+      if (printBtn) {
+        printBtn.classList.toggle('active', print);
+        printBtn.textContent = print ? 'Screen' : 'Print';
+      }
     }
 
-    var printBtn = event.target.closest('[data-chart-print]');
-    if (printBtn) {
-      var printCard = printBtn.closest('[data-chart-shell]');
-      if (!printCard) return;
-      printCard.dataset.print = printCard.dataset.print === 'true' ? 'false' : 'true';
-      paintChartCard(printCard);
-      syncChartCard(printCard);
+    function syncChartCard(card) {
+      var frame = card.querySelector('[data-chart-frame], iframe.chart-frame');
+      if (!frame || !frame.contentWindow) return;
+      var dark = card.dataset.dark !== 'false';
+      var print = card.dataset.print === 'true';
+      var currentSrc = frame.getAttribute('src') || '';
+      var desiredSrc = setFrameTheme(currentSrc, dark);
+      if (desiredSrc && desiredSrc !== currentSrc) {
+        frame.setAttribute('src', desiredSrc);
+        return;
+      }
+      frame.contentWindow.postMessage({ type: 'setMode', dark: dark }, '*');
+      frame.contentWindow.postMessage({ type: 'setPrint', print: print }, '*');
     }
-  });
-</script>
+
+    function setFrameTheme(src, dark) {
+      if (!src) return src;
+      var parts = src.split('#');
+      var hash = parts[1] ? '#' + parts[1] : '';
+      var queryParts = parts[0].split('?');
+      var base = queryParts[0];
+      var query = queryParts[1] || '';
+      var params = query ? query.split('&').filter(Boolean) : [];
+      var filtered = params.filter(function (part) { return part.split('=')[0] !== 'theme'; });
+      filtered.push('theme=' + (dark ? 'dark' : 'light'));
+      return base + '?' + filtered.join('&') + hash;
+    }
+
+    document.addEventListener('click', function (event) {
+      var openBtn = event.target.closest('[data-chart-open]');
+      if (openBtn) {
+        var openCard = openBtn.closest('[data-chart-shell]');
+        if (!openCard) return;
+        var targetFrame = openCard.querySelector('[data-chart-frame], iframe.chart-frame');
+        if (!targetFrame) return;
+        var targetSrc = targetFrame.getAttribute('src');
+        if (targetSrc) window.open(targetSrc, '_blank', 'noopener');
+        return;
+      }
+
+      var modeBtn = event.target.closest('[data-chart-mode]');
+      if (modeBtn) {
+        var modeCard = modeBtn.closest('[data-chart-shell]');
+        if (!modeCard) return;
+        modeCard.dataset.dark = modeCard.dataset.dark === 'false' ? 'true' : 'false';
+        paintChartCard(modeCard);
+        syncChartCard(modeCard);
+        return;
+      }
+
+      var printBtn = event.target.closest('[data-chart-print]');
+      if (printBtn) {
+        var printCard = printBtn.closest('[data-chart-shell]');
+        if (!printCard) return;
+        printCard.dataset.print = printCard.dataset.print === 'true' ? 'false' : 'true';
+        paintChartCard(printCard);
+        syncChartCard(printCard);
+      }
+    });
+  </script>
 </body>
+
 </html>

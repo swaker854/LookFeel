@@ -111,13 +111,7 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
 <g id="tip-layer"></g>
 </g>
 
-<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg legend-panel"/>
-<text x="878" y="118" class="legend-title legend-heading">SERIES</text>
-<g class="legend-row" transform="translate(878,146)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Cyan</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$72M</text></g>
-<g class="legend-row" transform="translate(878,194)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Emerald</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$62M</text></g>
-<g class="legend-row" transform="translate(878,242)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Amber</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$35M</text></g>
-<g class="legend-row" transform="translate(878,290)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Rose</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$22M</text></g>
-<g class="legend-row" transform="translate(878,338)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Violet</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$19M</text></g>
+<g id="legend-root"></g>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
@@ -129,6 +123,7 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
     var dotsL       = svgEl.querySelector('#dots-layer');
     var hitLayer    = svgEl.querySelector('#hit-layer');
     var tipLayer    = svgEl.querySelector('#tip-layer');
+    var legendRoot  = svgEl.querySelector('#legend-root');
     var defs        = svgEl.querySelector('defs');
     var clipRect    = svgEl.querySelector('#chartclip rect');
 
@@ -190,7 +185,7 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
       });
     });
 
-    ctx.initStackedColumnHover({
+    ctx.initStackedSummaryTooltip({
       xs: xs,
       quarters: quarters,
       series: series,
@@ -231,6 +226,19 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
       }
     });
 
+    ctx.initStandardLegend({
+      legendEl: legendRoot,
+      title: 'SERIES',
+      rowGap: 48,
+      items: [
+        { cls: 'series-1', label: 'Cyan', value: '$72M' },
+        { cls: 'series-2', label: 'Emerald', value: '$62M' },
+        { cls: 'series-3', label: 'Amber', value: '$35M' },
+        { cls: 'series-4', label: 'Rose', value: '$22M' },
+        { cls: 'series-5', label: 'Violet', value: '$19M' }
+      ]
+    });
+
     series.forEach(function(s, i) {
       var area = svgEl.querySelector('#area-' + s.id);
       if (!area) return;
@@ -253,9 +261,7 @@ d="M68,342.4 C119.5,342.4 119.5,311.7 171,311.7 C222.5,311.7 222.5,294.1 274,294
       reverse: true
     });
 
-    setTimeout(function() {
-      dataLayerEl.classList.add('ready');
-    }, ctx.getRevealReadyDelayMs({ delays: waveDelays, duration: 1.2, buffer: 0.1 }));
+    ctx.markReadyAfterReveal(dataLayerEl, { delays: waveDelays, duration: 1.2, buffer: 0.1 });
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());

@@ -1,132 +1,51 @@
-
-
 <svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<script type="text/javascript"><![CDATA[
+(function () {
+  if (window.location.href.indexOf('theme=dark') !== -1) {
+    document.documentElement.classList.add('dark');
+  }
+}());
+]]></script>
 <defs>
   <style>
     @import url('chart-shared.css');
-    .chart-shell-hidden { display:none; }
-    .card-bg, .border-light, .border-dark, .card-title, .card-subtitle, .footer, .toggle-wrap { display:none !important; }
-    .card-bg    { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    .card-title { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .card-subtitle { font-size:11px; fill:#79747E; font-weight:400; }
-    .tick-label    { font-size:10px; fill:#79747E; font-weight:400; }
-    .category-label { font-size:10px; fill:#79747E; font-weight:500; }
-    .legend-label  { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    .legend-value  { font-size:11px; fill:#1C1B1F; font-weight:500; opacity:0; transition:opacity 0.2s; }
-    .grid-line  { stroke:#E7E0EC; stroke-width:1; }
-    .axis-line  { stroke:#79747E; stroke-width:1.5; }
-    .legend-bg  { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .legend-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .legend-title   { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-    .footer    { font-size:10px; fill:#79747E; font-weight:400; }
-    .toggle-wrap  { cursor:pointer; }
-    .toggle-track { fill:#E7E0EC; }
-    .toggle-thumb { fill:#ffffff; }
-    .toggle-label { font-size:11px; font-weight:500; fill:#49454F; }
-    .print-track  { fill:#E7E0EC; transition:fill 0.3s; }
-    .print-thumb  { fill:#ffffff; }
-    .print-label  { font-size:11px; font-weight:500; fill:#49454F; }
 
-    svg.print .legend-value { opacity:1; }
-    svg.print .print-track  { fill:#d97316; }
+    .sline {
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linejoin: miter;
+      stroke-linecap: square;
+    }
+    .dot-hit {
+      cursor: pointer;
+      fill: transparent;
+    }
+    .dot-ring {
+      fill: var(--plot-dot-fill, #FFFBFE);
+      stroke-width: 2;
+    }
+    svg.dark {
+      --plot-dot-fill: #1C1B1F;
+    }
 
-    .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
-    .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
-    .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
-    .series-7 { fill:#0D9488; } .series-8 { fill:#64748B; }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
-    .line-1 { stroke:#00D4E8; } .line-2 { stroke:#00B87A; }
-    .line-3 { stroke:#F59E0B; } .line-4 { stroke:#F43F5E; }
-    .line-5 { stroke:#8B5CF6; } .line-6 { stroke:#3B82F6; }
-
-    svg.dark .series-1 { fill:#22D3EE; } svg.dark .series-2 { fill:#10B981; }
-    svg.dark .series-3 { fill:#FBB724; } svg.dark .series-4 { fill:#FB6181; }
-    svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
-    svg.dark .series-7 { fill:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; }
-
-    svg.dark .line-1 { stroke:#22D3EE; } svg.dark .line-2 { stroke:#10B981; }
-    svg.dark .line-3 { stroke:#FBB724; } svg.dark .line-4 { stroke:#FB6181; }
-    svg.dark .line-5 { stroke:#A78BFA; } svg.dark .line-6 { stroke:#60A5FA; }
-
-    /* Step line paths */
-    .sline { fill:none; stroke-width:2.5; stroke-linejoin:miter; stroke-linecap:square; }
-
-    /* Ã‚Â§3 A1 canonical Ã¢â‚¬â€ animation fired via inline style.animation (no fill-mode).
-       animationend sets style.animation='none' then adds .visible;
-       .sg.visible { opacity:1 } owns the stable state. */
-    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-    .sg         { opacity:0; }
-    .sg.visible { opacity:1; }
-
-    /* Dot hover hit areas */
-    .dot-hit { cursor:pointer; fill:transparent; }
-
-    /* Bubble tooltip */
-    .data-tip          { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    .dw.active .data-tip { opacity:1; }
-
-    /* Ã‚Â§3/Ã‚Â§4 hover: gated on .ready so dimming never fires during animation.
-       Dimmed opacity: 0.20 (fixed). Transition: 0.2s ease (fixed). */
-    .data-layer.ready.hovering .sline        { opacity:0.20; transition:opacity 0.2s ease; }
-    .data-layer.ready.hovering .dot-visible  { opacity:0.20; transition:opacity 0.2s ease; }
-    .data-layer.ready.hovering .sg.active .sline       { opacity:1; }
-    .data-layer.ready.hovering .sg.active .dot-visible { opacity:1; }
-
-    /* Dot visible markers */
-    .dot-visible { pointer-events:none; transition:opacity 0.15s; }
-
-    .tip-bg     { fill:#FFFBFE; }
-    .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
-
-    svg.dark .card-bg    { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-    svg.dark .card-title { fill:#E6E0E9; }
-    svg.dark .card-subtitle  { fill:#938F99; }
-    svg.dark .tick-label     { fill:#938F99; }
-    svg.dark .category-label { fill:#938F99; }
-    svg.dark .legend-label   { fill:#E6E0E9; }
-    svg.dark .legend-value   { fill:#E6E0E9; }
-    svg.dark .grid-line  { stroke:#49454F; }
-    svg.dark .axis-line  { stroke:#938F99; }
-    svg.dark .legend-bg  { fill:#49454F; stroke:#938F99; }
-    svg.dark .legend-divider { stroke:#938F99; }
-    svg.dark .legend-title   { fill:#938F99; }
-    svg.dark .footer    { fill:#938F99; }
-    svg.dark .toggle-track { fill:#49454F; }
-    svg.dark .toggle-label { fill:#CAC4D0; }
-    svg.dark .print-track  { fill:#49454F; }
-    svg.dark .print-label  { fill:#CAC4D0; }
-    svg.dark.print .print-track { fill:#d97316; }
-    svg.dark .tip-bg     { fill:#1C1B1F; }
-    svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
-    svg.dark .tip-tail   { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
-    svg.dark .tip-value  { fill:#E6E0E9; }
-    svg.dark .tip-label  { fill:#CAC4D0; }
-
-    .border-dark  { display:none; }
-    .border-light { display:block; }
-    svg.dark .border-dark  { display:block; }
-    svg.dark .border-light { display:none; }
+    .sg { opacity: 0; }
+    .sg.visible { opacity: 1; }
   </style>
 </defs>
 
-<!-- Card shell -->
-<!-- Title -->
+<line x1="68" y1="500" x2="832" y2="500" class="axis-line"/>
+<line x1="68" y1="420" x2="832" y2="420" class="grid-line"/>
+<line x1="68" y1="340" x2="832" y2="340" class="grid-line"/>
+<line x1="68" y1="260" x2="832" y2="260" class="grid-line"/>
+<line x1="68" y1="180" x2="832" y2="180" class="grid-line"/>
+<line x1="68" y1="100" x2="832" y2="100" class="grid-line"/>
+<line x1="68" y1="100" x2="68" y2="500" class="axis-line"/>
 
-<!-- Dark / Print toggles -->
-
-<!-- Grid & axes Ã¢â‚¬â€ plot area L:68 R:850 T:100 B:500 -->
-<line x1="68" y1="500" x2="850" y2="500" class="axis-line"/>
-<line x1="68" y1="420" x2="850" y2="420" class="grid-line"/>
-<line x1="68" y1="340" x2="850" y2="340" class="grid-line"/>
-<line x1="68" y1="260" x2="850" y2="260" class="grid-line"/>
-<line x1="68" y1="180" x2="850" y2="180" class="grid-line"/>
-<line x1="68" y1="100" x2="850" y2="100" class="grid-line"/>
-<line x1="68" y1="100" x2="68"  y2="500" class="axis-line"/>
-
-<!-- Y-axis labels  (0Ã¢â‚¬â€œ10%, 80px per 2%) -->
 <text x="56" y="504" class="tick-label" text-anchor="end">0%</text>
 <text x="56" y="424" class="tick-label" text-anchor="end">2%</text>
 <text x="56" y="344" class="tick-label" text-anchor="end">4%</text>
@@ -134,475 +53,252 @@
 <text x="56" y="184" class="tick-label" text-anchor="end">8%</text>
 <text x="56" y="104" class="tick-label" text-anchor="end">10%</text>
 
-<!-- X-axis labels (years, 7 ticks spanning 68Ã¢â€ â€™850, step=130.33) -->
-<text x="68"  y="522" class="category-label" text-anchor="middle">1994</text>
+<text x="68" y="522" class="category-label" text-anchor="middle">1994</text>
 <text x="198" y="522" class="category-label" text-anchor="middle">1997</text>
 <text x="328" y="522" class="category-label" text-anchor="middle">2001</text>
 <text x="459" y="522" class="category-label" text-anchor="middle">2004</text>
 <text x="589" y="522" class="category-label" text-anchor="middle">2007</text>
 <text x="719" y="522" class="category-label" text-anchor="middle">2015</text>
-<text x="850" y="522" class="category-label" text-anchor="middle">2023</text>
+<text x="789" y="522" class="category-label" text-anchor="middle">2023</text>
 
-<!--
-  DATA Ã¢â‚¬â€ 6 Fed rate tightening/easing cycles
-  Y mapping: y = 500 - (rate / 10) * 400
-    0%  Ã¢â€ â€™ 500
-    2%  Ã¢â€ â€™ 420
-    4%  Ã¢â€ â€™ 340
-    5%  Ã¢â€ â€™ 300
-    5.25%Ã¢â€ â€™ 290
-    5.5% Ã¢â€ â€™ 280
-    6%  Ã¢â€ â€™ 260
-    6.5% Ã¢â€ â€™ 240
-    7.5% Ã¢â€ â€™ 200
-  X mapping: 68 (1994) Ã¢â€ â€™ 850 (2023), 782px / 29yr = 26.97px/yr
-    1994Ã¢â€ â€™68  1995Ã¢â€ â€™96  1997Ã¢â€ â€™152  1998Ã¢â€ â€™179  1999Ã¢â€ â€™206  2000Ã¢â€ â€™233  2001Ã¢â€ â€™260
-    2002Ã¢â€ â€™287 2003Ã¢â€ â€™314 2004Ã¢â€ â€™341  2005Ã¢â€ â€™368  2006Ã¢â€ â€™395  2007Ã¢â€ â€™422  2008Ã¢â€ â€™449
-    2009Ã¢â€ â€™476 2015Ã¢â€ â€™638 2016Ã¢â€ â€™665  2017Ã¢â€ â€™692  2018Ã¢â€ â€™719  2019Ã¢â€ â€™746  2020Ã¢â€ â€™773
-    2022Ã¢â€ â€™800 2023Ã¢â€ â€™827
-
-  Cycle 1 (series-1 Cyan): 1994 tightening 3%Ã¢â€ â€™6%, 1995 cut Ã¢â€ â€™5.5%, 1998 cut Ã¢â€ â€™4.75%, 1999 hike Ã¢â€ â€™5.5%
-  Cycle 2 (series-2 Emerald): 2000Ã¢â‚¬â€œ2003 easing 6.5%Ã¢â€ â€™1%
-  Cycle 3 (series-3 Amber): 2004Ã¢â‚¬â€œ2006 tightening 1%Ã¢â€ â€™5.25%
-  Cycle 4 (series-4 Rose): 2007Ã¢â‚¬â€œ2009 cutting 5.25%Ã¢â€ â€™0%
-  Cycle 5 (series-5 Violet): 2015Ã¢â‚¬â€œ2019 hike 0%Ã¢â€ â€™2.5%, 2020 cut Ã¢â€ â€™0%
-  Cycle 6 (series-6 Blue): 2022Ã¢â‚¬â€œ2023 hike 0%Ã¢â€ â€™5.25%
--->
-
-<g class="data-layer">
-
-<!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
-     SERIES 1 Ã¢â‚¬â€ 1994Ã¢â‚¬â€œ1999 Tightening/Easing (Cyan)
-     Points: (68,380) 3%  Ã¢â€ â€™(179,260) 6%  Ã¢â€ â€™(206,280) 5.5%  Ã¢â€ â€™(287,320) 4.75%  Ã¢â€ â€™(314,280) 5.5%
-     Step path: horizontal then vertical
-     Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
-<g class="sg sl-1" id="sg1">
-  <path class="sline line-1"
-        d="M68,380 H179 V260 H206 V280 H287 V320 H314 V280"/>
-  <!-- dot-visible markers at each data point -->
-  <circle class="dot-visible series-1" cx="68"  cy="380" r="4"/>
-  <circle class="dot-visible series-1" cx="179" cy="260" r="4"/>
-  <circle class="dot-visible series-1" cx="206" cy="280" r="4"/>
-  <circle class="dot-visible series-1" cx="287" cy="320" r="4"/>
-  <circle class="dot-visible series-1" cx="314" cy="280" r="4"/>
-  <!-- Hover hit areas with tooltips -->
-  <g class="dw" data-val="3.0%" data-lbl="1994 Ã‚Â· Cycle 1">
-    <circle class="dot-hit" cx="68" cy="380" r="12"/>
-    <g class="data-tip" transform="translate(68,356)">
-      <rect x="-40" y="-44" width="80" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-31,-6 Q-40,-6 -40,-15 L-40,-35 Q-40,-44 -31,-44 L31,-44 Q40,-44 40,-35 L40,-15 Q40,-6 31,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">3.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1994 Ã‚Â· Start</text>
-    </g>
-  </g>
-  <g class="dw" data-val="6.0%" data-lbl="1995 Ã‚Â· Peak">
-    <circle class="dot-hit" cx="179" cy="260" r="12"/>
-    <g class="data-tip" transform="translate(179,236)">
-      <rect x="-40" y="-44" width="80" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-31,-6 Q-40,-6 -40,-15 L-40,-35 Q-40,-44 -31,-44 L31,-44 Q40,-44 40,-35 L40,-15 Q40,-6 31,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">6.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1995 Ã‚Â· Peak</text>
-    </g>
-  </g>
-  <g class="dw" data-val="5.5%" data-lbl="1996 Ã‚Â· Cut">
-    <circle class="dot-hit" cx="206" cy="280" r="12"/>
-    <g class="data-tip" transform="translate(206,256)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">5.5%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1996 Ã‚Â· Cut</text>
-    </g>
-  </g>
-  <g class="dw" data-val="4.75%" data-lbl="1998 Ã‚Â· Easing">
-    <circle class="dot-hit" cx="287" cy="320" r="12"/>
-    <g class="data-tip" transform="translate(287,296)">
-      <rect x="-42" y="-44" width="84" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">4.75%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1998 Ã‚Â· Easing</text>
-    </g>
-  </g>
-  <g class="dw" data-val="5.5%" data-lbl="1999 Ã‚Â· Rehike">
-    <circle class="dot-hit" cx="314" cy="280" r="12"/>
-    <g class="data-tip" transform="translate(314,256)">
-      <rect x="-40" y="-44" width="80" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-31,-6 Q-40,-6 -40,-15 L-40,-35 Q-40,-44 -31,-44 L31,-44 Q40,-44 40,-35 L40,-15 Q40,-6 31,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">5.5%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">1999 Ã‚Â· Rehike</text>
-    </g>
-  </g>
+<g class="data-layer series-hover-chart" id="data-layer"></g>
+<g id="legend-root"></g>
+<g class="tip" id="tip" style="opacity:0;pointer-events:none;">
+  <rect id="tip-bg" class="tip-bg" rx="9"/>
+  <path id="tip-bdr" class="tip-border"/>
+  <path id="tip-tail" class="tip-tail"/>
+  <text id="tip-val" class="tip-value" text-anchor="middle" dominant-baseline="central"/>
+  <text id="tip-lbl" class="tip-label" text-anchor="middle" dominant-baseline="central"/>
+  <text id="tip-meta" class="tip-pct" text-anchor="middle" dominant-baseline="central"/>
 </g>
-
-<!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
-     SERIES 2 Ã¢â‚¬â€ 2000Ã¢â‚¬â€œ2003 Easing Cycle (Emerald)
-     6.5%Ã¢â€ â€™1%: (341,240)Ã¢â€ â€™(368,260)Ã¢â€ â€™(395,340)Ã¢â€ â€™(422,380)Ã¢â€ â€™(449,460)Ã¢â€ â€™(476,500) wait that's 0% let me recompute
-     Y: 500 - (rate/10)*400
-     6.5% Ã¢â€ â€™ 500-260=240  1% Ã¢â€ â€™ 500-40=460  0.25% Ã¢â€ â€™ ~490
-     Points (x,y): 2000:(341,240), 2001:(368,340), 2002:(395,420), 2003:(422,460)
-     Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
-<g class="sg sl-2" id="sg2">
-  <path class="sline line-2"
-        d="M314,240 H368 V340 H395 V420 H422 V460"/>
-  <circle class="dot-visible series-2" cx="314" cy="240" r="4"/>
-  <circle class="dot-visible series-2" cx="368" cy="340" r="4"/>
-  <circle class="dot-visible series-2" cx="395" cy="420" r="4"/>
-  <circle class="dot-visible series-2" cx="422" cy="460" r="4"/>
-  <g class="dw">
-    <circle class="dot-hit" cx="314" cy="240" r="12"/>
-    <g class="data-tip" transform="translate(314,216)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">6.5%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2000 Ã‚Â· Peak</text>
-    </g>
-  </g>
-  <g class="dw">
-    <circle class="dot-hit" cx="368" cy="340" r="12"/>
-    <g class="data-tip" transform="translate(368,316)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">4.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2001 Ã‚Â· Cutting</text>
-    </g>
-  </g>
-  <g class="dw">
-    <circle class="dot-hit" cx="395" cy="420" r="12"/>
-    <g class="data-tip" transform="translate(395,396)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">2.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2002 Ã‚Â· Easing</text>
-    </g>
-  </g>
-  <g class="dw">
-    <circle class="dot-hit" cx="422" cy="460" r="12"/>
-    <g class="data-tip" transform="translate(422,436)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">1.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2003 Ã‚Â· Low</text>
-    </g>
-  </g>
-</g>
-
-<!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
-     SERIES 3 Ã¢â‚¬â€ 2004Ã¢â‚¬â€œ2006 Tightening (Amber)
-     1%Ã¢â€ â€™5.25%: y 460Ã¢â€ â€™290
-     (422,460)Ã¢â€ â€™(449,420)Ã¢â€ â€™(476,340)Ã¢â€ â€™(503,300)Ã¢â€ â€™(530,292)
-     Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
-<g class="sg sl-3" id="sg3">
-  <path class="sline line-3"
-        d="M426,460 H449 V420 H476 V340 H503 V300 H530 V292"/>
-  <circle class="dot-visible series-3" cx="449" cy="420" r="4"/>
-  <circle class="dot-visible series-3" cx="476" cy="340" r="4"/>
-  <circle class="dot-visible series-3" cx="503" cy="300" r="4"/>
-  <circle class="dot-visible series-3" cx="530" cy="292" r="4"/>
-  <g class="dw">
-    <circle class="dot-hit" cx="449" cy="420" r="12"/>
-    <g class="data-tip" transform="translate(449,396)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">2.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2004 Ã‚Â· Hiking</text>
-    </g>
-  </g>
-  <g class="dw">
-    <circle class="dot-hit" cx="476" cy="340" r="12"/>
-    <g class="data-tip" transform="translate(476,316)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">4.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2005 Ã‚Â· Hiking</text>
-    </g>
-  </g>
-  <g class="dw">
-    <circle class="dot-hit" cx="503" cy="300" r="12"/>
-    <g class="data-tip" transform="translate(503,276)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">5.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2006 Ã‚Â· Hiking</text>
-    </g>
-  </g>
-  <g class="dw">
-    <circle class="dot-hit" cx="530" cy="292" r="12"/>
-    <g class="data-tip" transform="translate(530,268)">
-      <rect x="-42" y="-44" width="84" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">5.25%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2006 Ã‚Â· Peak</text>
-    </g>
-  </g>
-</g>
-
-<!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
-     SERIES 4 Ã¢â‚¬â€ 2007Ã¢â‚¬â€œ2009 GFC Cutting (Rose)
-     5.25%Ã¢â€ â€™0.25%: y 292Ã¢â€ â€™490
-     (530,292)Ã¢â€ â€™(557,340)Ã¢â€ â€™(584,420)Ã¢â€ â€™(611,480)Ã¢â€ â€™(638,490)
-     Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
-<g class="sg sl-4" id="sg4">
-  <path class="sline line-4"
-        d="M534,292 H557 V340 H584 V420 H611 V480 H638 V490"/>
-  <circle class="dot-visible series-4" cx="557" cy="340" r="4"/>
-  <circle class="dot-visible series-4" cx="584" cy="420" r="4"/>
-  <circle class="dot-visible series-4" cx="611" cy="480" r="4"/>
-  <circle class="dot-visible series-4" cx="638" cy="490" r="4"/>
-  <g class="dw">
-    <circle class="dot-hit" cx="557" cy="340" r="12"/>
-    <g class="data-tip" transform="translate(557,316)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">4.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2007 Ã‚Â· Cutting</text>
-    </g>
-  </g>
-  <g class="dw">
-    <circle class="dot-hit" cx="584" cy="420" r="12"/>
-    <g class="data-tip" transform="translate(584,396)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">2.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2008 Ã‚Â· GFC</text>
-    </g>
-  </g>
-  <g class="dw">
-    <circle class="dot-hit" cx="611" cy="480" r="12"/>
-    <g class="data-tip" transform="translate(611,456)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">0.5%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2008 Ã‚Â· Crisis</text>
-    </g>
-  </g>
-  <g class="dw">
-    <circle class="dot-hit" cx="638" cy="490" r="12"/>
-    <g class="data-tip" transform="translate(638,466)">
-      <rect x="-42" y="-44" width="84" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">0.25%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2009 Ã‚Â· Floor</text>
-    </g>
-  </g>
-</g>
-
-<!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
-     SERIES 5 Ã¢â‚¬â€ 2015Ã¢â‚¬â€œ2020 Hike then COVID cut (Violet)
-     0.25%Ã¢â€ â€™2.5%Ã¢â€ â€™0.25%: y 490Ã¢â€ â€™400Ã¢â€ â€™490
-     (638,490)Ã¢â€ â€™(665,460)Ã¢â€ â€™(692,430)Ã¢â€ â€™(719,400)Ã¢â€ â€™(746,490)
-     Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
-<g class="sg sl-5" id="sg5">
-  <path class="sline line-5"
-        d="M642,490 H665 V460 H692 V430 H719 V400 H746 V490"/>
-  <circle class="dot-visible series-5" cx="665" cy="460" r="4"/>
-  <circle class="dot-visible series-5" cx="692" cy="430" r="4"/>
-  <circle class="dot-visible series-5" cx="719" cy="400" r="4"/>
-  <circle class="dot-visible series-5" cx="746" cy="490" r="4"/>
-  <g class="dw">
-    <circle class="dot-hit" cx="665" cy="460" r="12"/>
-    <g class="data-tip" transform="translate(665,436)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">1.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2016 Ã‚Â· Liftoff</text>
-    </g>
-  </g>
-  <g class="dw">
-    <circle class="dot-hit" cx="692" cy="430" r="12"/>
-    <g class="data-tip" transform="translate(692,406)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">1.75%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2017 Ã‚Â· Hiking</text>
-    </g>
-  </g>
-  <g class="dw">
-    <circle class="dot-hit" cx="719" cy="400" r="12"/>
-    <g class="data-tip" transform="translate(719,376)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">2.5%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2018 Ã‚Â· Peak</text>
-    </g>
-  </g>
-  <g class="dw">
-    <circle class="dot-hit" cx="746" cy="490" r="12"/>
-    <g class="data-tip" transform="translate(746,466)">
-      <rect x="-42" y="-44" width="84" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">0.25%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2020 Ã‚Â· COVID</text>
-    </g>
-  </g>
-</g>
-
-<!-- Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
-     SERIES 6 Ã¢â‚¬â€ 2022Ã¢â‚¬â€œ2023 Inflation Hike (Blue)
-     0.25%Ã¢â€ â€™5.25%: y 490Ã¢â€ â€™292
-     (746,490)Ã¢â€ â€™(773,440)Ã¢â€ â€™(800,340)Ã¢â€ â€™(827,292)Ã¢â€ â€™(850,292)
-     Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â -->
-<g class="sg sl-6" id="sg6">
-  <path class="sline line-6"
-        d="M750,490 H773 V440 H800 V340 H827 V292 H850"/>
-  <circle class="dot-visible series-6" cx="773" cy="440" r="4"/>
-  <circle class="dot-visible series-6" cx="800" cy="340" r="4"/>
-  <circle class="dot-visible series-6" cx="827" cy="292" r="4"/>
-  <circle class="dot-visible series-6" cx="850" cy="292" r="4"/>
-  <g class="dw">
-    <circle class="dot-hit" cx="773" cy="440" r="12"/>
-    <g class="data-tip" transform="translate(773,416)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">1.5%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2022 Ã‚Â· Hiking</text>
-    </g>
-  </g>
-  <g class="dw">
-    <circle class="dot-hit" cx="800" cy="340" r="12"/>
-    <g class="data-tip" transform="translate(800,316)">
-      <rect x="-38" y="-44" width="76" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-29,-6 Q-38,-6 -38,-15 L-38,-35 Q-38,-44 -29,-44 L29,-44 Q38,-44 38,-35 L38,-15 Q38,-6 29,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">4.0%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2022 Ã‚Â· Hiking</text>
-    </g>
-  </g>
-  <g class="dw">
-    <circle class="dot-hit" cx="827" cy="292" r="12"/>
-    <g class="data-tip" transform="translate(827,268)">
-      <rect x="-42" y="-44" width="84" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">5.25%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2023 Ã‚Â· Peak</text>
-    </g>
-  </g>
-  <!-- Right-edge tooltip flips left -->
-  <g class="dw">
-    <circle class="dot-hit" cx="850" cy="292" r="12"/>
-    <g class="data-tip" transform="translate(820,268)">
-      <rect x="-42" y="-44" width="84" height="38" rx="9" class="tip-bg"/>
-      <path d="M-8,-6 L-33,-6 Q-42,-6 -42,-15 L-42,-35 Q-42,-44 -33,-44 L33,-44 Q42,-44 42,-35 L42,-15 Q42,-6 33,-6 L8,-6" class="tip-border"/>
-      <path d="M8,-6 L0,8 L-8,-6" class="tip-tail"/>
-      <text x="0" y="-32" text-anchor="middle" dominant-baseline="central" class="tip-value">5.25%</text>
-      <text x="0" y="-16" text-anchor="middle" dominant-baseline="central" class="tip-label">2023 Ã‚Â· Hold</text>
-    </g>
-  </g>
-</g>
-
-</g><!-- end .data-layer -->
-
-<!-- LEGEND -->
-<rect x="870" y="100" width="210" height="220" rx="14" class="legend-bg legend-panel"/>
-<text x="888" y="124" class="legend-title legend-heading">CYCLE</text>
-<g transform="translate(888,140)">
-  <line x1="0" y1="7" x2="14" y2="7" class="line-1" stroke-width="2.5"/>
-  <circle cx="7" cy="7" r="3" class="series-1"/>
-  <text x="22" y="11" class="legend-label">1994Ã¢â‚¬â€œ99 Cycle</text>
-</g>
-<g transform="translate(888,168)">
-  <line x1="0" y1="7" x2="14" y2="7" class="line-2" stroke-width="2.5"/>
-  <circle cx="7" cy="7" r="3" class="series-2"/>
-  <text x="22" y="11" class="legend-label">2000Ã¢â‚¬â€œ03 Easing</text>
-</g>
-<g transform="translate(888,196)">
-  <line x1="0" y1="7" x2="14" y2="7" class="line-3" stroke-width="2.5"/>
-  <circle cx="7" cy="7" r="3" class="series-3"/>
-  <text x="22" y="11" class="legend-label">2004Ã¢â‚¬â€œ06 Hiking</text>
-</g>
-<g transform="translate(888,224)">
-  <line x1="0" y1="7" x2="14" y2="7" class="line-4" stroke-width="2.5"/>
-  <circle cx="7" cy="7" r="3" class="series-4"/>
-  <text x="22" y="11" class="legend-label">2007Ã¢â‚¬â€œ09 GFC Cut</text>
-</g>
-<g transform="translate(888,252)">
-  <line x1="0" y1="7" x2="14" y2="7" class="line-5" stroke-width="2.5"/>
-  <circle cx="7" cy="7" r="3" class="series-5"/>
-  <text x="22" y="11" class="legend-label">2015Ã¢â‚¬â€œ20 Cycle</text>
-</g>
-<g transform="translate(888,280)">
-  <line x1="0" y1="7" x2="14" y2="7" class="line-6" stroke-width="2.5"/>
-  <circle cx="7" cy="7" r="3" class="series-6"/>
-  <text x="22" y="11" class="legend-label">2022Ã¢â‚¬â€œ23 Inflation</text>
-</g>
-
-<!-- Footer -->
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
 (function () {
   var svg = document.documentElement;
   svg._chartInit = function (svgEl, ctx) {
-var svg   = document.getElementById('root');
-  var caEl  = document.querySelector('.data-layer');
+    var dataLayerEl = document.getElementById('data-layer');
+    var legendRoot = document.getElementById('legend-root');
+    var SERIES_REVEAL_DURATION = 0.8;
+    var seriesGroups = [];
+    var pointItems = [];
 
-  /* Ã‚Â§2 Ã¢â‚¬â€ isDark hoisted before all build/animation code */
+    var series = [
+      {
+        id: 1,
+        name: '1994-99 Cycle',
+        value: '5.50%',
+        ci: 1,
+        points: [
+          { x: 68, y: 380, value: '3.0%', label: '1994 - Start' },
+          { x: 179, y: 260, value: '6.0%', label: '1995 - Peak' },
+          { x: 206, y: 280, value: '5.5%', label: '1996 - Cut' },
+          { x: 287, y: 320, value: '4.75%', label: '1998 - Easing' },
+          { x: 314, y: 280, value: '5.5%', label: '1999 - Rehike' }
+        ]
+      },
+      {
+        id: 2,
+        name: '2000-03 Easing',
+        value: '1.00%',
+        ci: 2,
+        points: [
+          { x: 314, y: 240, value: '6.5%', label: '2000 - Peak' },
+          { x: 368, y: 340, value: '4.0%', label: '2001 - Cutting' },
+          { x: 395, y: 420, value: '2.0%', label: '2002 - Easing' },
+          { x: 422, y: 460, value: '1.0%', label: '2003 - Low' }
+        ]
+      },
+      {
+        id: 3,
+        name: '2004-06 Hiking',
+        value: '5.25%',
+        ci: 3,
+        points: [
+          { x: 449, y: 420, value: '2.0%', label: '2004 - Hiking' },
+          { x: 476, y: 340, value: '4.0%', label: '2005 - Hiking' },
+          { x: 503, y: 300, value: '5.0%', label: '2006 - Hiking' },
+          { x: 530, y: 292, value: '5.25%', label: '2006 - Peak' }
+        ]
+      },
+      {
+        id: 4,
+        name: '2007-09 GFC Cut',
+        value: '0.25%',
+        ci: 4,
+        points: [
+          { x: 557, y: 340, value: '4.0%', label: '2007 - Cutting' },
+          { x: 584, y: 420, value: '2.0%', label: '2008 - GFC' },
+          { x: 611, y: 480, value: '0.5%', label: '2008 - Crisis' },
+          { x: 638, y: 490, value: '0.25%', label: '2009 - Floor' }
+        ]
+      },
+      {
+        id: 5,
+        name: '2015-20 Cycle',
+        value: '0.25%',
+        ci: 5,
+        points: [
+          { x: 665, y: 460, value: '1.0%', label: '2016 - Liftoff' },
+          { x: 692, y: 430, value: '1.75%', label: '2017 - Hiking' },
+          { x: 719, y: 400, value: '2.5%', label: '2018 - Peak' },
+          { x: 746, y: 490, value: '0.25%', label: '2020 - COVID' }
+        ]
+      },
+      {
+        id: 6,
+        name: '2022-23 Inflation',
+        value: '5.25%',
+        ci: 6,
+        points: [
+          { x: 773, y: 440, value: '1.5%', label: '2022 - Hiking' },
+          { x: 800, y: 340, value: '4.0%', label: '2022 - Hiking' },
+          { x: 789, y: 292, value: '5.25%', label: '2023 - Peak' },
+          { x: 806, y: 292, value: '5.25%', label: '2023 - Hold' }
+        ]
+      }
+    ];
 
-  /* Ã‚Â§3 A1 canonical Ã¢â‚¬â€ inline style.animation per series with computed stagger.
-     animationend clears style.animation and adds .visible;
-     .sg.visible { opacity:1 } owns the stable state. No class removal needed.
-     Stagger: min(0.25, 1.0/6)=0.167s. Last delay: 0.835s. */
-  var sgs       = Array.prototype.slice.call(document.querySelectorAll('.sg'));
-  var count     = sgs.length;
-  var stagger   = Math.min(0.25, 1.0 / count);
-  var lastDelay = (count - 1) * stagger;
-  var readyDelay = (lastDelay + 0.8 + 0.1) * 1000;
+    var maxPointCount = Math.max.apply(null, series.map(function (entry) {
+      return entry.points.length;
+    }));
 
-  sgs.forEach(function(sg, i) {
-    sg.style.animation = 'fadeIn 0.8s ease-out ' + (i * stagger).toFixed(3) + 's';
-    sg.addEventListener('animationend', function handler() {
-      sg.removeEventListener('animationend', handler);
-      sg.style.animation = 'none';
-      sg.classList.add('visible');
-    }, { once: true });
-  });
+    function buildStepPath(points) {
+      var d = '';
+      points.forEach(function (point, index) {
+        if (index === 0) {
+          d += 'M' + point.x + ',' + point.y;
+          return;
+        }
+        d += ' H' + point.x + ' V' + point.y;
+      });
+      return d;
+    }
 
-  setTimeout(function() { caEl.classList.add('ready'); }, readyDelay);
+    series.forEach(function (entry, seriesIndex) {
+      var sg = ctx.el('g', {
+        id: 'sg-' + entry.id,
+        'class': 'sg',
+        'data-series-id': String(entry.id),
+        'data-series-index': String(seriesIndex)
+      });
+      var path = ctx.el('path', {
+        'class': 'sline series-' + entry.ci + ' use-series-stroke',
+        d: buildStepPath(entry.points)
+      });
 
-  /* Ã‚Â§4 Ã¢â‚¬â€ Dot hover: container-level mouseleave (dot hit areas from different series
-     share pixel positions Ã¢â‚¬â€ adjacent/overlapping targets need container removal).
-     Stale-clear on every mouseenter Ã¢â‚¬â€ not optional. */
-  var allDws = Array.prototype.slice.call(document.querySelectorAll('.dw'));
-  var allSgs = Array.prototype.slice.call(document.querySelectorAll('.sg'));
-  allDws.forEach(function(dw) {
-    var sg = dw.closest('.sg');
-    dw.addEventListener('mouseenter', function() {
-      /* clear all stale active state before applying new */
-      allDws.forEach(function(el) { el.classList.remove('active'); });
-      allSgs.forEach(function(el) { el.classList.remove('active'); });
-      if (caEl) caEl.classList.add('hovering');
-      if (sg)   sg.classList.add('active');
-      dw.classList.add('active');
+      sg.appendChild(path);
+      entry.points.forEach(function (point, pointIndex) {
+        var dotGroup = ctx.el('g', {
+          'class': 'dot-g',
+          'data-series-index': String(seriesIndex),
+          'data-point-index': String(pointIndex)
+        });
+        var dotRing = ctx.el('circle', {
+          cx: point.x,
+          cy: point.y,
+          r: 5,
+          'class': 'dot-ring series-' + entry.ci + ' use-series-stroke'
+        });
+        var dotCore = ctx.el('circle', {
+          cx: point.x,
+          cy: point.y,
+          r: 3,
+          'class': 'series-' + entry.ci
+        });
+        var hit = ctx.el('circle', {
+          cx: point.x,
+          cy: point.y,
+          r: 12,
+          'class': 'dot-hit',
+          'data-value': point.value,
+          'data-label': point.label,
+          'data-meta': entry.name,
+          'data-series-id': String(entry.id),
+          'data-series-index': String(seriesIndex),
+          'data-point-index': String(pointIndex),
+          'data-item-cx': String(point.x),
+          'data-item-top': String(point.y)
+        });
+
+        dotGroup.appendChild(dotRing);
+        dotGroup.appendChild(dotCore);
+        sg.appendChild(dotGroup);
+        sg.appendChild(hit);
+        hit._dotGroup = dotGroup;
+        pointItems.push(hit);
+      });
+
+      dataLayerEl.appendChild(sg);
+      seriesGroups.push(sg);
     });
-  });
-  caEl.addEventListener('mouseleave', function() {
-    allDws.forEach(function(el) { el.classList.remove('active'); });
-    allSgs.forEach(function(el) { el.classList.remove('active'); });
-    caEl.classList.remove('hovering');
-  });
 
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ Dark mode Ã¢â€â‚¬Ã¢â€â‚¬ */
+    ctx.initStandardLegend({
+      legendEl: legendRoot,
+      title: 'SERIES',
+      labelMaxWidth: 118,
+      items: series.map(function (entry) {
+        return { label: entry.name, value: entry.value, cls: 'series-' + entry.ci };
+      })
+    });
+
+    ctx.initRevealSequence(seriesGroups, {
+      animationName: 'fadeIn',
+      duration: SERIES_REVEAL_DURATION,
+      easing: 'ease-out',
+      delays: seriesGroups.map(function (_, index) {
+        return ctx.getStaggerDelay(index, seriesGroups.length, 1.0);
+      })
+    });
+
+    var seriesHover = ctx.initSeriesHoverController({
+      hoverLayer: dataLayerEl,
+      seriesIds: series.map(function (entry) { return entry.id; }),
+      pointCount: maxPointCount,
+      lineSelector: '#sg-{id}'
+    });
+
+    ctx.initStandardTooltip(dataLayerEl, pointItems, {
+      tip: document.getElementById('tip'),
+      plotL: 68,
+      plotR: 832,
+      plotT: 100,
+      plotB: 500,
+      placement: 'side',
+      minWidth: 220,
+      paddingX: 20,
+      paddingY: 18,
+      lineHeights: [42, 32, 32],
+      trackPointer: false,
+      getAnchor: function (itemEl) {
+        return {
+          x: Number(itemEl.getAttribute('data-item-cx')) || 0,
+          y: Number(itemEl.getAttribute('data-item-top')) || 0
+        };
+      },
+      getContent: function (itemEl) {
+        return {
+          primary: itemEl.getAttribute('data-value') || '',
+          label: itemEl.getAttribute('data-label') || '',
+          meta: itemEl.getAttribute('data-meta') || ''
+        };
+      },
+      onActivate: function (itemEl) {
+        seriesHover.activate(itemEl);
+      },
+      onDeactivate: function () {
+        seriesHover.clear();
+      },
+      leaveTarget: dataLayerEl
+    });
+
+    ctx.markReadyAfterReveal(dataLayerEl, {
+      delays: seriesGroups.map(function (_, index) {
+        return ctx.getStaggerDelay(index, seriesGroups.length, 1.0);
+      }),
+      duration: SERIES_REVEAL_DURATION,
+      buffer: 0.1
+    });
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());

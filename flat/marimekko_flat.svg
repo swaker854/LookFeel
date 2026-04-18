@@ -1,4 +1,4 @@
-<svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+﻿<svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
 <script type="text/javascript"><![CDATA[
 (function () {
   if (window.location.href.indexOf('theme=dark') !== -1) {
@@ -169,42 +169,11 @@
 </g>
 
 <!-- Legend -->
-<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg legend-panel"/>
-<text x="878" y="118" class="legend-title legend-heading">COUNTRY</text>
-<g class="legend-row" transform="translate(878,146)">
-  <rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">USA</text>
-  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">300</text>
-</g>
-<g class="legend-row" transform="translate(878,188)">
-  <rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">China</text>
-  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">187</text>
-</g>
-<g class="legend-row" transform="translate(878,230)">
-  <rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">UK</text>
-  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">214</text>
-</g>
-<g class="legend-row" transform="translate(878,272)">
-  <rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Germany</text>
-  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">271</text>
-</g>
-<g class="legend-row" transform="translate(878,314)">
-  <rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">France</text>
-  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">126</text>
-</g>
-<g class="legend-row" transform="translate(878,356)">
-  <rect class="series-6" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">India</text>
-  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">268</text>
-</g>
+<g id="legend-root"></g>
 
 
 <!--
-  Tooltip overlay ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â JS-driven, 3-element pattern (tip-bg + tip-border + tip-tail)
+  Tooltip overlay - JS-driven, 3-element pattern (tip-bg + tip-border + tip-tail)
   Anchor follows cursor. Box W=120 H=58 TH=10 RX=8 G=8
 -->
 <g id="tip-overlay">
@@ -227,11 +196,24 @@
   var structuralOverlayEl = ctx.$$('#structural-overlay');
   var xAxisLabelsEl = ctx.$$('#x-axis-labels');
   var chartTotalEl = ctx.$$('#chart-total');
-  var legendPanelEl = ctx.$$('.legend-panel');
+  var legendRoot = ctx.$$('#legend-root');
   var cells = ctx.$$all('.data-item');
 
+  ctx.initStandardLegend({
+    legendEl: legendRoot,
+    title: 'COUNTRY',
+    items: [
+      { cls: 'series-1', label: 'USA', value: '300' },
+      { cls: 'series-2', label: 'China', value: '187' },
+      { cls: 'series-3', label: 'UK', value: '214' },
+      { cls: 'series-4', label: 'Germany', value: '271' },
+      { cls: 'series-5', label: 'France', value: '126' },
+      { cls: 'series-6', label: 'India', value: '268' }
+    ]
+  });
+
   ctx.rebalancePlotArea({
-    legendEl: legendPanelEl,
+    legendEl: legendRoot,
     measureNodes: [dataLayerEl, structuralOverlayEl, xAxisLabelsEl],
     moveNodes: [dataLayerEl, structuralOverlayEl, xAxisLabelsEl, chartTotalEl],
     outerLeft: 24,
@@ -252,98 +234,31 @@
   if (structuralOverlayEl) {
     ctx.animateAndMarkVisible(structuralOverlayEl, 'dataFadeIn ' + duration + 's ease-out 0s');
   }
-  setTimeout(function() { dataLayerEl.classList.add('ready'); }, ctx.getRevealReadyDelayMs({ delays: delays, duration: duration, buffer: 0.1 }));
-
-  var BH = 120;
-  var tip    = ctx.$$('#tip');
-  var tipBg  = ctx.$$('#tip-bg');
-  var tipBdr = ctx.$$('#tip-bdr');
-  var tipTip = ctx.$$('#tip-tip');
-  var tipVal = ctx.$$('#tip-val');
-  var tipLbl = ctx.$$('#tip-lbl');
-  var tipPct = ctx.$$('#tip-pct');
-
-  function positionTip(mx, my, name, val, pct) {
-    var productMatch = /Product\s+[A-Z]/.exec(name || '');
-    var country = productMatch ? name.slice(0, productMatch.index) : String(name || '');
-    country = country.replace(/[^\w\s]+$/g, '').trim();
-    tipVal.textContent = country;
-    tipLbl.textContent = productMatch ? productMatch[0] : '';
-    tipPct.textContent = 'Value: ' + val + ' - ' + pct + ' of product';
-
-    /* 2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â measure widest line, derive hw (half-width), minimum 60px total */
-    var pad = 20;
-    var BW = Math.max(
-      tipVal.getBBox().width + pad,
-      tipLbl.getBBox().width + pad,
-      tipPct.getBBox().width + pad,
-      60
-    );
-    var box = ctx.buildChartTip(mx, my, BW, BH, 8, 1080, 92, 543);
-
-    /* 3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â clamp tx so bubble stays inside viewBox */
-    tipBg.setAttribute('x',      box.bL);
-
-    /* 4 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â flip: show below cursor when near top */
-    tipBg.setAttribute('y',      box.bT);
-
-    /* tip-bg rect */
-    tipBg.setAttribute('width',  BW);
-    tipBg.setAttribute('height', BH);
-
-    /* tip-border open path ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â all absolute, 1px inset at tail root to close seam */
-    tipBdr.removeAttribute('transform');
-    tipBdr.setAttribute('d', box.borderPath);
-    tipTip.setAttribute('d', box.tailPath);
-
-    /* text positions */
-    tipVal.setAttribute('x', box.bCx); tipVal.setAttribute('y', box.bT + BH * 0.22);
-    tipLbl.setAttribute('x', box.bCx); tipLbl.setAttribute('y', box.bT + BH * 0.52);
-    tipPct.setAttribute('x', box.bCx); tipPct.setAttribute('y', box.bT + BH * 0.80);
-  }
-
-  function updatePointer(cell, event) {
-    var sp = ctx.eventToSvgPoint(svgEl, event);
-    cell.__tipPoint = { x: sp.x, y: sp.y };
-    if (cell.classList.contains('active')) {
-      positionTip(
-        sp.x,
-        sp.y,
-        cell.getAttribute('data-name'),
-        cell.getAttribute('data-val'),
-        cell.getAttribute('data-pct')
-      );
-    }
-  }
-
-  cells.forEach(function(cell) {
-    cell.addEventListener('mouseenter', function(event) { updatePointer(cell, event); });
-    cell.addEventListener('mousemove', function(event) { updatePointer(cell, event); });
-  });
-
-  ctx.initExclusiveHoverTips(dataLayerEl, cells, {
-    leaveTarget: dataLayerEl,
-    resolveTip: function () {
-      return tip;
+  ctx.markReadyAfterReveal(dataLayerEl, { delays: delays, duration: duration, buffer: 0.1 });
+  ctx.initStandardTooltip(dataLayerEl, cells, {
+    tip: ctx.$$('#tip'),
+    plotL: 8,
+    plotR: 1080,
+    plotT: 92,
+    plotB: 543,
+    placement: 'side',
+    minWidth: 220,
+    paddingX: 20,
+    paddingY: 18,
+    lineHeights: [42, 32, 32],
+    trackPointer: false,
+    getContent: function (cell) {
+      var name = cell.getAttribute('data-name') || '';
+      var productMatch = /Product\s+[A-Z]/.exec(name);
+      var country = productMatch ? name.slice(0, productMatch.index) : String(name || '');
+      country = country.replace(/[^\\w\\s]+$/g, '').trim();
+      return {
+        primary: country,
+        label: productMatch ? productMatch[0] : '',
+        meta: 'Value: ' + (cell.getAttribute('data-val') || '') + ' - ' + (cell.getAttribute('data-pct') || '') + ' of product'
+      };
     },
-    beforeShow: function (cell) {
-      var point = cell.__tipPoint;
-      var cellBox;
-      if (!point) {
-        cellBox = cell.getBBox();
-        point = { x: cellBox.x + cellBox.width / 2, y: cellBox.y + cellBox.height / 2 };
-      }
-      positionTip(
-        point.x,
-        point.y,
-        cell.getAttribute('data-name'),
-        cell.getAttribute('data-val'),
-        cell.getAttribute('data-pct')
-      );
-    },
-    afterHide: function () {
-      tipBdr.removeAttribute('transform');
-    }
+    leaveTarget: dataLayerEl
   });
 
   };

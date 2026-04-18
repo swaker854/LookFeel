@@ -127,12 +127,21 @@ svg.print .legend-row-value { opacity:1; }
 .data-layer.ready.hovering .data-item.visible.tile-node { opacity:0.20; transition:opacity 0.2s ease; }
 .data-layer.ready.hovering .data-item.visible.tile-node.active { opacity:1; transition:opacity 0.2s ease; }
 .data-item .stack-seg { transition:opacity 0.2s ease; }
-.chart-container.hovering .data-item .stack-seg { opacity:0.20; }
-.chart-container.hovering .data-item.active .stack-seg { opacity:1; }
-svg.print .chart-container.hovering .data-item .stack-seg { opacity:1 !important; }
+.chart-container.ready.hovering .data-item .stack-seg { opacity:0.20; }
+.chart-container.ready.hovering .data-item.active .stack-seg { opacity:1; }
+svg.print .chart-container.ready.hovering .data-item .stack-seg { opacity:1 !important; }
 svg.print .data-tip { opacity:0 !important; }
 svg.print .tip { opacity:0 !important; }
 svg.print .radial-chart.ready.hovering .radial-slice { opacity:1 !important; }
+.relation-chart.ready.hovering .node-g { opacity:0.20; transition:opacity 0.2s ease; }
+.relation-chart.ready.hovering .node-g.active,
+.relation-chart.ready.hovering .node-g.connected { opacity:1; }
+.relation-chart.ready.hovering .edge { opacity:0.06; transition:opacity 0.2s ease; }
+.relation-chart.ready.hovering .edge.connected { opacity:1; }
+.series-hover-chart.ready.hovering .sg { opacity:0.20; transition:opacity 0.2s ease; }
+.series-hover-chart.ready.hovering .sg.active { opacity:1; }
+.series-hover-chart.ready.hovering .sg .dot-g { opacity:0.25; transition:opacity 0.15s ease; }
+.series-hover-chart.ready.hovering .dot-g.active { opacity:1; }
 
 /* Line / area family primitives */
 @keyframes dataFadeIn { from{opacity:0} to{opacity:1} }

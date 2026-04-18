@@ -1,142 +1,61 @@
-
 <svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<script type="text/javascript"><![CDATA[
+(function () {
+  if (window.location.href.indexOf('theme=dark') !== -1) {
+    document.documentElement.classList.add('dark');
+  }
+}());
+]]></script>
 <defs>
   <style>
     @import url('chart-shared.css');
-    .chart-shell-hidden { display:none; }
-    .card-bg, .border-light, .border-dark, .card-title, .card-subtitle, .footer, .toggle-wrap { display:none !important; }
 
-    .card-bg  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    svg.dark .card-bg { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+    .area-fill {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .area-fill.visible {
+      opacity: 1;
+    }
+    .sg.visible .area-fill {
+      opacity: 1;
+    }
+    .area-stroke {
+      fill: none;
+      opacity: 0;
+      pointer-events: none;
+      stroke-width: 2.5;
+      stroke-linejoin: round;
+    }
+    .area-stroke.visible {
+      opacity: 1;
+    }
+    .sg.visible .area-stroke {
+      opacity: 1;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
-    .card-title     { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .card-subtitle     { font-size:11px; fill:#79747E; font-weight:400; }
-    .tick-label     { font-size:10px; fill:#79747E; font-weight:400; }
-    .category-label     { font-size:10px; fill:#79747E; font-weight:500; }
-    .legend-label     { font-size:22px; fill:#1C1B1F; font-weight:500; }
-    .legend-value     { font-size:22px; fill:#1C1B1F; font-weight:600; opacity:0; transition:opacity 0.2s; }
-    .footer { font-size:10px; fill:#79747E; font-weight:400; }
-    svg.dark .card-title     { fill:#E6E0E9; }
-    svg.dark .card-subtitle     { fill:#938F99; }
-    svg.dark .tick-label     { fill:#938F99; }
-    svg.dark .category-label     { fill:#938F99; }
-    svg.dark .legend-label     { fill:#E6E0E9; }
-    svg.dark .legend-value     { fill:#E6E0E9; }
-    svg.dark .footer { fill:#938F99; }
-
-    .grid-line { stroke:#E7E0EC; stroke-width:1; }
-    .axis-line { stroke:#79747E; stroke-width:1.5; }
-    svg.dark .grid-line { stroke:#49454F; }
-    svg.dark .axis-line { stroke:#938F99; }
-
-    /* Ã‚Â§1 palette Ã¢â‚¬â€ series-N for fills and strokes */
-    .series-1 { fill:#00D4E8; stroke:#00D4E8; } .series-2 { fill:#00B87A; stroke:#00B87A; }
-    .series-3 { fill:#F59E0B; stroke:#F59E0B; } .series-4 { fill:#F43F5E; stroke:#F43F5E; }
-    .series-5 { fill:#8B5CF6; stroke:#8B5CF6; } .series-6 { fill:#3B82F6; stroke:#3B82F6; }
-    svg.dark .series-1 { fill:#22D3EE; stroke:#22D3EE; } svg.dark .series-2 { fill:#10B981; stroke:#10B981; }
-    svg.dark .series-3 { fill:#FBB724; stroke:#FBB724; } svg.dark .series-4 { fill:#FB6181; stroke:#FB6181; }
-    svg.dark .series-5 { fill:#A78BFA; stroke:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; stroke:#60A5FA; }
-
-    .legend-title { font-size:22px; font-weight:700; letter-spacing:0.8px; }
-
-    /* legend */
-    .legend-bg  { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .legend-divider { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .legend-title { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-    svg.dark .legend-bg  { fill:#49454F; stroke:#938F99; }
-    svg.dark .legend-divider { stroke:#938F99; }
-    svg.dark .legend-title { fill:#938F99; }
-
-    /* toggles */
-    .toggle-wrap  { cursor:pointer; }
-    .toggle-track { fill:#E7E0EC; }
-    .toggle-thumb { fill:#ffffff; }
-    .toggle-label { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.dark .toggle-track { fill:#49454F; }
-    svg.dark .toggle-label { fill:#CAC4D0; }
-
-    .print-track { fill:#E7E0EC; transition:fill 0.3s; }
-    .print-thumb { fill:#ffffff; }
-    .print-label { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.dark .print-track { fill:#49454F; }
-    svg.dark .print-label { fill:#CAC4D0; }
-    svg.print .print-track { fill:#d97316; }
-    svg.dark.print .print-track { fill:#d97316; }
-
-    svg.print .legend-value  { opacity:1; }
-    svg.print #tip-layer { display:none; }
-
-    /* borders */
-    .border-dark  { display:none; }
-    .border-light { display:block; }
-    svg.dark .border-dark  { display:block; }
-    svg.dark .border-light { display:none; }
-
-    /* Ã‚Â§3 A1 animation Ã¢â‚¬â€ area+stroke path is the hover target; use A1 */
-    @keyframes areaFadeIn { from{opacity:0} to{opacity:1} }
-
-    /* area fill paths */
-    .area-fill { opacity:0; }
-    .area-fill.visible { animation: areaFadeIn 0.8s ease-out both; }
-
-    /* top stroke paths */
-    .area-stroke { opacity:0; }
-    .area-stroke.visible { animation: areaFadeIn 0.8s ease-out both; }
-
-    /* dots */
-    .dot-g { opacity:0; }
-    .dot-g.visible { animation: areaFadeIn 0.8s ease-out both; }
-
-    /* Ã‚Â§4 hover: dim non-hovered series */
-    .data-layer.hovering .sg          { opacity:0.20; transition:opacity 0.2s ease; }
-    .data-layer.hovering .sg.hovered  { opacity:1; }
-
-    /* dot dimming within hovered series */
-    .sg.hovered .dot-g          { opacity:0.30; transition:opacity 0.15s ease; }
-    .sg.hovered .dot-g.hovered  { opacity:1 !important; }
-
-    /* fills and strokes are visual only Ã¢â‚¬â€ hit layer handles pointer events */
-    .area-fill   { pointer-events:none; }
-    .area-stroke { pointer-events:none; }
-
-    /* dot styling Ã¢â‚¬â€ declared after series-N so white fill overrides series fill on dots */
-    .dot-circle { stroke-width:2; fill:#FFFBFE; }
-    svg.dark .dot-circle { fill:#1C1B1F; }
-
-    /* Ã‚Â§5 tooltip */
-    .tip-bg     { fill:#FFFBFE; }
-    .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
-    svg.dark .tip-bg     { fill:#1C1B1F; }
-    svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .tip-tail   { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .tip-value  { fill:#E6E0E9; }
-    svg.dark .tip-label  { fill:#CAC4D0; }
-    #tip-layer { pointer-events:none; }
+    .sg { opacity: 0; }
+    .sg.visible { opacity: 1; }
   </style>
 </defs>
 
-<!-- Ã‚Â§9 card shell -->
+<line x1="68" y1="500" x2="832" y2="500" class="axis-line"/>
+<line x1="68" y1="100" x2="68" y2="500" class="axis-line"/>
+<line x1="68" y1="400" x2="832" y2="400" class="grid-line"/>
+<line x1="68" y1="300" x2="832" y2="300" class="grid-line"/>
+<line x1="68" y1="200" x2="832" y2="200" class="grid-line"/>
+<line x1="68" y1="100" x2="832" y2="100" class="grid-line"/>
 
-
-<!-- Ã‚Â§9 grid Ã¢â‚¬â€ plot area: left=68 right=850 top=100 bottom=500 -->
-<line x1="68" y1="500" x2="850" y2="500" class="axis-line"/>
-<line x1="68" y1="100" x2="68"  y2="500" class="axis-line"/>
-<line x1="68" y1="400" x2="850" y2="400" class="grid-line"/>
-<line x1="68" y1="300" x2="850" y2="300" class="grid-line"/>
-<line x1="68" y1="200" x2="850" y2="200" class="grid-line"/>
-<line x1="68" y1="100" x2="850" y2="100" class="grid-line"/>
-
-<!-- y-axis labels -->
 <text x="56" y="504" class="tick-label" text-anchor="end">$0</text>
 <text x="56" y="404" class="tick-label" text-anchor="end">$50k</text>
 <text x="56" y="304" class="tick-label" text-anchor="end">$100k</text>
 <text x="56" y="204" class="tick-label" text-anchor="end">$150k</text>
 <text x="56" y="104" class="tick-label" text-anchor="end">$200k</text>
 
-<!-- x-axis labels: 10 months JanÃ¢â‚¬â€œOct -->
 <text x="134" y="522" class="category-label" text-anchor="middle">Jan</text>
 <text x="212" y="522" class="category-label" text-anchor="middle">Feb</text>
 <text x="290" y="522" class="category-label" text-anchor="middle">Mar</text>
@@ -146,292 +65,193 @@
 <text x="602" y="522" class="category-label" text-anchor="middle">Jul</text>
 <text x="680" y="522" class="category-label" text-anchor="middle">Aug</text>
 <text x="758" y="522" class="category-label" text-anchor="middle">Sep</text>
-<text x="836" y="522" class="category-label" text-anchor="middle">Oct</text>
+<text x="789" y="522" class="category-label" text-anchor="middle">Oct</text>
 
-<!-- Ã‚Â§7 DATA LAYER Ã¢â‚¬â€ built by JS -->
-<g class="data-layer" id="data-layer"></g>
-
-<!-- Ã‚Â§7 tooltip always last -->
-<g id="tip-layer">
-  <rect class="tip-bg"     id="tip-bg"  rx="9" opacity="0"/>
-  <path class="tip-border" id="tip-bdr" opacity="0"/>
-  <path class="tip-tail"   id="tip-tip" opacity="0"/>
-  <text class="tip-value"  id="tip-val" opacity="0" text-anchor="middle" dominant-baseline="central"/>
-  <text class="tip-label"  id="tip-lbl" opacity="0" text-anchor="middle" dominant-baseline="central"/>
+<g class="data-layer series-hover-chart" id="data-layer"></g>
+<g id="crosshairs">
+  <line id="ch0" class="crosshair" x1="68" y1="100" x2="68" y2="500"/>
+  <line id="ch1" class="crosshair" x1="152.8888888889" y1="100" x2="152.8888888889" y2="500"/>
+  <line id="ch2" class="crosshair" x1="237.7777777778" y1="100" x2="237.7777777778" y2="500"/>
+  <line id="ch3" class="crosshair" x1="322.6666666667" y1="100" x2="322.6666666667" y2="500"/>
+  <line id="ch4" class="crosshair" x1="407.5555555556" y1="100" x2="407.5555555556" y2="500"/>
+  <line id="ch5" class="crosshair" x1="492.4444444444" y1="100" x2="492.4444444444" y2="500"/>
+  <line id="ch6" class="crosshair" x1="577.3333333333" y1="100" x2="577.3333333333" y2="500"/>
+  <line id="ch7" class="crosshair" x1="662.2222222222" y1="100" x2="662.2222222222" y2="500"/>
+  <line id="ch8" class="crosshair" x1="747.1111111111" y1="100" x2="747.1111111111" y2="500"/>
+  <line id="ch9" class="crosshair" x1="832" y1="100" x2="832" y2="500"/>
 </g>
-
-<!-- legend -->
-<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg legend-panel"/>
-<text x="878" y="118" class="legend-title legend-heading">DEPARTMENT</text>
-<g class="legend-row" transform="translate(878,146)">
-  <rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Engineering</text>
-  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$182k</text>
-</g>
-<g class="legend-row" transform="translate(878,194)">
-  <rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Data &amp; ML</text>
-  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$143k</text>
-</g>
-<g class="legend-row" transform="translate(878,242)">
-  <rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Product</text>
-  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$67k</text>
-</g>
-<g class="legend-row" transform="translate(878,290)">
-  <rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Marketing</text>
-  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$44k</text>
-</g>
-
+<g id="hit-layer"></g>
+<g id="tip-layer"></g>
+<g id="legend-root"></g>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
 (function () {
   var svg = document.documentElement;
   svg._chartInit = function (svgEl, ctx) {
-var svg         = document.getElementById('root');
-  var dataLayerEl = document.getElementById('data-layer');
+    var dataLayerEl = document.getElementById('data-layer');
+    var hitLayer = document.getElementById('hit-layer');
+    var tipLayer = document.getElementById('tip-layer');
+    var legendRoot = document.getElementById('legend-root');
+    var SERIES_REVEAL_DURATION = 0.8;
+    var seriesGroups = [];
 
-  /* Ã‚Â§2 isDark hoisted before all build code */
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct'];
+    var series = [
+      { id: 1, name: 'Engineering', ci: 1, values: [95, 95, 110, 110, 128, 128, 155, 155, 182, 182] },
+      { id: 2, name: 'Data & ML', ci: 2, values: [60, 72, 72, 88, 88, 105, 105, 120, 143, 143] },
+      { id: 3, name: 'Product', ci: 3, values: [38, 38, 45, 45, 52, 52, 60, 60, 67, 67] },
+      { id: 4, name: 'Marketing', ci: 4, values: [28, 28, 32, 32, 38, 38, 40, 44, 44, 44] }
+    ];
 
-  /* DATA */
-  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct'];
-  var series = [
-    { name:'Engineering', cls:'1', values:[95, 95, 110, 110, 128, 128, 155, 155, 182, 182] },
-    { name:'Data & ML',   cls:'2', values:[60, 72, 72,  88,  88,  105, 105, 120, 143, 143] },
-    { name:'Product',     cls:'3', values:[38, 38, 45,  45,  52,  52,  60,  60,  67,  67 ] },
-    { name:'Marketing',   cls:'4', values:[28, 28, 32,  32,  38,  38,  40,  44,  44,  44 ] }
-  ];
+    var plotL = 68;
+    var plotR = 832;
+    var plotT = 100;
+    var plotB = 500;
+    var n = months.length;
+    var step = (plotR - plotL) / (n - 1);
+    var hitHalfWidth = step / 2;
+    var yMin = 0;
+    var yMax = 200;
+    var totals = months.map(function (_, index) {
+      return series.reduce(function (sum, entry) {
+        return sum + entry.values[index];
+      }, 0);
+    });
 
-  /* LAYOUT */
-  var plotL = 68, plotR = 850, plotT = 100, plotB = 500;
-  var n     = months.length;
-  var step  = (plotR - plotL) / (n - 1);
-  var yMin  = 0, yMax = 200;
-
-  function xAt(i) { return plotL + i * step; }
-  function yAt(v) { return plotB - (v - yMin) / (yMax - yMin) * (plotB - plotT); }
-
-  /* step-after area path: top edge H then V, closed down to baseline */
-  function areaPath(values) {
-    /* top edge: step-after (H then V) */
-    var d = 'M' + xAt(0) + ',' + yAt(values[0]);
-    for (var i = 1; i < values.length; i++) {
-      d += ' H' + xAt(i) + ' V' + yAt(values[i]);
+    function xAt(i) { return plotL + i * step; }
+    function yAt(v) { return plotB - (v - yMin) / (yMax - yMin) * (plotB - plotT); }
+    function areaPath(values) {
+      var d = 'M' + xAt(0) + ',' + yAt(values[0]);
+      for (var i = 1; i < values.length; i += 1) d += ' H' + xAt(i) + ' V' + yAt(values[i]);
+      d += ' V' + plotB + ' H' + xAt(0) + ' Z';
+      return d;
     }
-    /* close: down to baseline, back left, up to start */
-    d += ' V' + plotB + ' H' + xAt(0) + ' Z';
-    return d;
-  }
-
-  /* top stroke only (no close) Ã¢â‚¬â€ drawn on top of fill for crisp edge */
-  function strokePath(values) {
-    var d = 'M' + xAt(0) + ',' + yAt(values[0]);
-    for (var i = 1; i < values.length; i++) {
-      d += ' H' + xAt(i) + ' V' + yAt(values[i]);
+    function strokePath(values) {
+      var d = 'M' + xAt(0) + ',' + yAt(values[0]);
+      for (var i = 1; i < values.length; i += 1) d += ' H' + xAt(i) + ' V' + yAt(values[i]);
+      return d;
     }
-    return d;
-  }
+    function setSeriesActive(qi, mouseY) {
+      var bestSid = ctx.getNearestSeriesIdAtColumn(series.map(function (entry) {
+        return {
+          id: entry.id,
+          ys: entry.values.map(function (value) { return yAt(value); })
+        };
+      }), qi, mouseY);
+      ctx.setSeriesHoverState({
+        hoverLayer: dataLayerEl,
+        hovering: true,
+        activeSid: bestSid,
+        seriesIds: series.map(function (entry) { return entry.id; }),
+        lineSelector: '#sg-{id}'
+      });
+    }
+    function clearSeriesActive() {
+      ctx.setSeriesHoverState({
+        hoverLayer: dataLayerEl,
+        hovering: false,
+        activeSid: null,
+        seriesIds: series.map(function (entry) { return entry.id; }),
+        lineSelector: '#sg-{id}'
+      });
+    }
 
-  /* Ã‚Â§3 STAGGER Ã¢â‚¬â€ 4 series; dots per series */
-  var seriesStagger = 0.20;
-  var dotStagger    = Math.min(0.25, 1.0 / n);
-  var lastDelay     = (series.length - 1) * seriesStagger + (n - 1) * dotStagger;
-  var readyDelay    = (lastDelay + 0.8 + 0.1) * 1000;
+    series.forEach(function (entry, seriesIndex) {
+      var sg = ctx.el('g', {
+        id: 'sg-' + entry.id,
+        'class': 'sg',
+        'data-series-id': String(entry.id),
+        'data-series-index': String(seriesIndex)
+      });
+      var fill = ctx.el('path', {
+        'class': 'area-fill series-' + entry.ci,
+        d: areaPath(entry.values),
+        'fill-opacity': '0.18',
+        stroke: 'none'
+      });
+      var stroke = ctx.el('path', {
+        'class': 'area-stroke series-' + entry.ci + ' use-series-stroke',
+        d: strokePath(entry.values)
+      });
 
-  /* BUILD DOM
-     Paint back-to-front so foreground series sit on top.
-     Series 0 has the highest values and is painted last (on top). */
-  var sgEls = [];
-
-  for (var si = series.length - 1; si >= 0; si--) {
-    (function(si) {
-      var s  = series[si];
-      var sg = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-      sg.setAttribute('class', 'sg');
-      sg.setAttribute('id', 'sg' + si);
-
-      /* area fill */
-      var fill = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      fill.setAttribute('class', 'area-fill series-' + s.cls);
-      fill.setAttribute('d', areaPath(s.values));
-      fill.setAttribute('fill-opacity', '0.18');
-      fill.setAttribute('stroke', 'none');
-      fill.style.animationDelay = (si * seriesStagger) + 's';
       sg.appendChild(fill);
-
-      /* top stroke */
-      var stroke = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      stroke.setAttribute('class', 'area-stroke series-' + s.cls);
-      stroke.setAttribute('d', strokePath(s.values));
-      stroke.style.fill = 'none';
-      stroke.setAttribute('stroke-width', '2.5');
-      stroke.setAttribute('stroke-linejoin', 'round');
-      stroke.style.animationDelay = (si * seriesStagger) + 's';
       sg.appendChild(stroke);
 
-      /* dots at each step */
-      s.values.forEach(function(v, i) {
-        var dg = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        dg.setAttribute('class', 'dot-g');
-        dg.style.animationDelay = (si * seriesStagger + i * dotStagger) + 's';
-
-        var dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        dot.setAttribute('cx', xAt(i)); dot.setAttribute('cy', yAt(v)); dot.setAttribute('r', '4');
-        dot.setAttribute('class', 'dot-circle series-' + s.cls);
-
-        var ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        ring.setAttribute('cx', xAt(i)); ring.setAttribute('cy', yAt(v)); ring.setAttribute('r', '4');
-        ring.style.fill = 'none';
-        ring.setAttribute('class', 'series-' + s.cls);
-        ring.setAttribute('stroke-width', '2');
-
-        dg.appendChild(dot);
-        dg.appendChild(ring);
-        sg.appendChild(dg);
-      });
-
       dataLayerEl.appendChild(sg);
-      sgEls.unshift(sg); /* restore original order for hover index lookup */
+      seriesGroups.push(sg);
+    });
 
-      /* A1: double rAF then add .visible */
-      requestAnimationFrame(function() {
-        requestAnimationFrame(function() {
-          fill.classList.add('visible');
-          stroke.classList.add('visible');
-          Array.prototype.forEach.call(sg.querySelectorAll('.dot-g'), function(dg) {
-            dg.classList.add('visible');
-          });
-        });
-      });
-    })(si);
-  }
+    ctx.initStandardLegend({
+      legendEl: legendRoot,
+      title: 'SERIES',
+      rowGap: 48,
+      items: series.map(function (entry) {
+        return {
+          label: entry.name,
+          value: '$' + entry.values[entry.values.length - 1] + 'k',
+          cls: 'series-' + entry.ci
+        };
+      })
+    });
 
-  /* A1 ready gate */
-  setTimeout(function() {
-    dataLayerEl.classList.add('ready');
-    Array.prototype.forEach.call(dataLayerEl.querySelectorAll('.area-fill'),   function(el) { el.style.opacity = ''; });
-    Array.prototype.forEach.call(dataLayerEl.querySelectorAll('.area-stroke'), function(el) { el.style.opacity = ''; });
-    Array.prototype.forEach.call(dataLayerEl.querySelectorAll('.dot-g'),       function(el) { el.style.opacity = ''; });
-  }, readyDelay);
+    ctx.initRevealSequence(seriesGroups, {
+      animationName: 'fadeIn',
+      duration: SERIES_REVEAL_DURATION,
+      easing: 'ease-out',
+      delays: seriesGroups.map(function (_, index) {
+        return ctx.getStaggerDelay(index, seriesGroups.length, 1.0);
+      })
+    });
 
-  /* TOOLTIP */
-  var tipBg  = document.getElementById('tip-bg');
-  var tipBdr = document.getElementById('tip-bdr');
-  var tipTip = document.getElementById('tip-tip');
-  var tipVal = document.getElementById('tip-val');
-  var tipLbl = document.getElementById('tip-lbl');
+    ctx.initStackedSummaryTooltip({
+      xs: months.map(function (_, index) { return xAt(index); }),
+      quarters: months,
+      series: series.map(function (entry) {
+        return {
+          id: entry.id,
+          cls: 'series-' + entry.ci,
+          label: entry.name,
+          vals: entry.values,
+          ys: entry.values.map(function (value) { return yAt(value); })
+        };
+      }),
+      totals: totals,
+      tipLayer: tipLayer,
+      hitLayer: hitLayer,
+      plotL: plotL,
+      plotR: plotR,
+      plotT: plotT,
+      plotB: plotB,
+      anchorY: (plotT + plotB) / 2,
+      hitTop: plotT,
+      hitHeight: plotB - plotT,
+      hitHalfWidth: hitHalfWidth,
+      hitMinX: plotL,
+      hitMaxX: plotR,
+      hitIdPrefix: 'hit-',
+      onEnter: function (qi, sp, tipG, ch) {
+        setSeriesActive(qi, sp.y);
+        ctx.setOpacity(tipG, 1);
+        ctx.setOpacity(ch, 1);
+      },
+      onMove: function (qi, sp) {
+        setSeriesActive(qi, sp.y);
+      },
+      onLeave: function (qi, tipG, ch) {
+        clearSeriesActive();
+        ctx.setOpacity(tipG, null);
+        ctx.setOpacity(ch, null);
+      }
+    });
 
-  function showTip(cx, cy, valTxt, lblTxt) {
-    tipVal.textContent = valTxt;
-    tipLbl.textContent = lblTxt;
-    var pad = 20, bh = 38, rx = 9, tw = 8, tail = 10;
-    var hw  = Math.max(tipVal.getBBox().width, tipLbl.getBBox().width) / 2 + pad / 2;
-    var tx  = Math.max(hw + 8, Math.min(cx, plotR - hw - 8));
-    var above = (cy - tail - bh - 4) >= plotT;
-    var bT, bB;
-    if (above) { bB = cy - tail; bT = bB - bh; }
-    else        { bT = cy + tail; bB = bT + bh; }
-
-    tipBg.setAttribute('x', tx - hw); tipBg.setAttribute('y', bT);
-    tipBg.setAttribute('width', hw * 2); tipBg.setAttribute('height', bh);
-
-    if (above) {
-      tipBdr.setAttribute('d',
-        'M'+(tx+tw)+','+bB+' L'+(tx+hw-rx)+','+bB+' Q'+(tx+hw)+','+bB+' '+(tx+hw)+','+(bB-rx)+
-        ' L'+(tx+hw)+','+(bT+rx)+' Q'+(tx+hw)+','+bT+' '+(tx+hw-rx)+','+bT+
-        ' L'+(tx-hw+rx)+','+bT+' Q'+(tx-hw)+','+bT+' '+(tx-hw)+','+(bT+rx)+
-        ' L'+(tx-hw)+','+(bB-rx)+' Q'+(tx-hw)+','+bB+' '+(tx-hw+rx)+','+bB+' L'+(tx-tw)+','+bB);
-      tipTip.setAttribute('d', 'M'+(tx-tw)+','+bB+' L'+tx+','+(cy-2)+' L'+(tx+tw)+','+bB);
-    } else {
-      tipBdr.setAttribute('d',
-        'M'+(tx-tw)+','+bT+' L'+(tx-hw+rx)+','+bT+' Q'+(tx-hw)+','+bT+' '+(tx-hw)+','+(bT+rx)+
-        ' L'+(tx-hw)+','+(bB-rx)+' Q'+(tx-hw)+','+bB+' '+(tx-hw+rx)+','+bB+
-        ' L'+(tx+hw-rx)+','+bB+' Q'+(tx+hw)+','+bB+' '+(tx+hw)+','+(bB-rx)+
-        ' L'+(tx+hw)+','+(bT+rx)+' Q'+(tx+hw)+','+bT+' '+(tx+hw-rx)+','+bT+' L'+(tx+tw)+','+bT);
-      tipTip.setAttribute('d', 'M'+(tx+tw)+','+bT+' L'+tx+','+(cy+2)+' L'+(tx-tw)+','+bT);
-    }
-
-    tipVal.setAttribute('x', tx); tipVal.setAttribute('y', bT + bh * 0.32);
-    tipLbl.setAttribute('x', tx); tipLbl.setAttribute('y', bT + bh * 0.72);
-    [tipBg, tipBdr, tipTip, tipVal, tipLbl].forEach(function(el) { el.setAttribute('opacity', '1'); });
-  }
-
-  function hideTip() {
-    [tipBg, tipBdr, tipTip, tipVal, tipLbl].forEach(function(el) { el.setAttribute('opacity', '0'); });
-  }
-
-  /* Ã‚Â§4 HOVER Ã¢â‚¬â€ area fills are large adjacent targets Ã¢â€ â€™ container-level mouseleave */
-  function svgMouseX(e) {
-    var pt = svg.createSVGPoint();
-    pt.x = e.clientX; pt.y = e.clientY;
-    return pt.matrixTransform(svg.getScreenCTM().inverse()).x;
-  }
-
-  function nearestIdx(mx) {
-    return Math.max(0, Math.min(n - 1, Math.round((mx - plotL) / step)));
-  }
-
-  /* HIT LAYER Ã¢â‚¬â€ built after all series, painted on top.
-     Smallest series (highest index) appended last = topmost in SVG = wins hit-test.
-     Each hit path uses the top-stroke geometry with a wide transparent stroke.
-     This way hovering near any series' step edge is always reachable regardless
-     of which fill area sits on top visually. */
-  var hitLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-  hitLayer.setAttribute('id', 'hit-layer');
-  dataLayerEl.appendChild(hitLayer);
-
-  /* append hit paths largest-first so smallest ends up on top */
-  for (var hi = 0; hi < series.length; hi++) {
-    (function(hi) {
-      var hp = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      hp.setAttribute('d', strokePath(series[hi].values));
-      hp.setAttribute('fill', 'none');
-      hp.setAttribute('stroke', 'transparent');
-      hp.setAttribute('stroke-width', '20');
-      hp.setAttribute('stroke-linejoin', 'round');
-      hp.setAttribute('style', 'cursor:pointer');
-      hp.setAttribute('data-si', hi);
-      hitLayer.appendChild(hp);
-    })(hi);
-  }
-
-  /* attach events to hit paths */
-  var hitPaths = Array.prototype.slice.call(hitLayer.querySelectorAll('path'));
-  /* reverse so iteration order matches series[] index */
-  hitPaths.forEach(function(hp) {
-    var si = parseInt(hp.getAttribute('data-si'));
-    var s  = series[si];
-    var sgEl = document.getElementById('sg' + si);
-
-    function onMove(e) {
-      if (!dataLayerEl.classList.contains('ready')) return;
-      sgEls.forEach(function(el) { el.classList.remove('hovered'); });
-      Array.prototype.forEach.call(dataLayerEl.querySelectorAll('.dot-g'), function(el) { el.classList.remove('hovered'); });
-      dataLayerEl.classList.add('hovering');
-      sgEl.classList.add('hovered');
-      var idx   = nearestIdx(svgMouseX(e));
-      var dotGs = sgEl.querySelectorAll('.dot-g');
-      if (dotGs[idx]) dotGs[idx].classList.add('hovered');
-      showTip(xAt(idx), yAt(s.values[idx]),
-              '$' + s.values[idx] + 'k',
-              s.name + ' \u00b7 ' + months[idx]);
-    }
-    hp.addEventListener('mouseenter', onMove);
-    hp.addEventListener('mousemove',  onMove);
-  });
-
-  dataLayerEl.addEventListener('mouseleave', function() {
-    sgEls.forEach(function(el) { el.classList.remove('hovered'); });
-    Array.prototype.forEach.call(dataLayerEl.querySelectorAll('.dot-g'), function(el) { el.classList.remove('hovered'); });
-    dataLayerEl.classList.remove('hovering');
-    hideTip();
-  });
-
-  /* PRINT TOGGLE */
-
-  /* Ã‚Â§2 DARK MODE */
+    ctx.markReadyAfterReveal(dataLayerEl, {
+      delays: seriesGroups.map(function (_, index) {
+        return ctx.getStaggerDelay(index, seriesGroups.length, 1.0);
+      }),
+      duration: SERIES_REVEAL_DURATION,
+      buffer: 0.1
+    });
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());

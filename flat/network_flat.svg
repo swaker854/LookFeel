@@ -1,435 +1,296 @@
-
-
-
-
 <svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<script type="text/javascript"><![CDATA[
+(function () {
+  if (window.location.href.indexOf('theme=dark') !== -1) {
+    document.documentElement.classList.add('dark');
+  }
+}());
+]]></script>
 <defs>
   <style>
     @import url('chart-shared.css');
-    .chart-shell-hidden { display:none; }
-    .card-bg, .border-light, .border-dark, .card-title, .card-subtitle, .footer, .toggle-wrap { display:none !important; }
 
-    .card-bg { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    svg.dark .card-bg { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-
-    .card-title   { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .card-subtitle { font-size:11px; fill:#79747E; font-weight:400; }
-    .footer { font-size:10px; fill:#79747E; font-weight:400; }
-    svg.dark .card-title   { fill:#E6E0E9; }
-    svg.dark .card-subtitle{ fill:#938F99; }
-    svg.dark .footer { fill:#938F99; }
-
-    /* Ã‚Â§1 palette */
-    .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
-    .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
-    .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
-    svg.dark .series-1 { fill:#22D3EE; } svg.dark .series-2 { fill:#10B981; }
-    svg.dark .series-3 { fill:#FBB724; } svg.dark .series-4 { fill:#FB6181; }
-    svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
-
-    .stroke-1 { stroke:#00D4E8; } .stroke-2 { stroke:#00B87A; }
-    .stroke-3 { stroke:#F59E0B; } .stroke-4 { stroke:#F43F5E; }
-    .stroke-5 { stroke:#8B5CF6; } .stroke-6 { stroke:#3B82F6; }
-    svg.dark .stroke-1 { stroke:#22D3EE; } svg.dark .stroke-2 { stroke:#10B981; }
-    svg.dark .stroke-3 { stroke:#FBB724; } svg.dark .stroke-4 { stroke:#FB6181; }
-    svg.dark .stroke-5 { stroke:#A78BFA; } svg.dark .stroke-6 { stroke:#60A5FA; }
-
-    /* toggles */
-    .toggle-wrap  { cursor:pointer; }
-    .toggle-track { fill:#E7E0EC; }
-    .toggle-thumb { fill:#ffffff; }
-    .toggle-label { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.dark .toggle-track { fill:#49454F; }
-    svg.dark .toggle-label { fill:#CAC4D0; }
-
-    .print-track { fill:#E7E0EC; transition:fill 0.3s; }
-    .print-thumb { fill:#ffffff; }
-    .print-label { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.dark .print-track { fill:#49454F; }
-    svg.dark .print-label { fill:#CAC4D0; }
-    svg.print .print-track { fill:#d97316; }
-    svg.dark.print .print-track { fill:#d97316; }
-    svg.print #tip-layer { display:none; }
-
-    /* borders */
-    .border-dark  { display:none; }
-    .border-light { display:block; }
-    svg.dark .border-dark  { display:block; }
-    svg.dark .border-light { display:none; }
-
-    /* legend */
-    .legend-bg  { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .legend-title { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-    .legend-label { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    svg.dark .legend-bg  { fill:#49454F; stroke:#938F99; }
-    svg.dark .legend-title { fill:#938F99; }
-    svg.dark .legend-label { fill:#E6E0E9; }
-
-    /* Ã‚Â§3 A1 Ã¢â‚¬â€ animationend per element clears animation + adds .visible; no both fill-mode */
-    @keyframes edgeFadeIn { from{opacity:0} to{opacity:1} }
     .edge {
       fill: none;
       stroke-width: 1.5;
       opacity: 0;
       stroke: #CAC4D0;
+      pointer-events: none;
     }
-    .edge.visible { opacity:1; }
-    /* edge colours in dark mode handled by svg.dark .stroke-N rules above */
+    .edge.visible {
+      opacity: 1;
+    }
+    .node-g {
+      opacity: 0;
+      cursor: pointer;
+    }
+    .node-g.visible {
+      opacity: 1;
+    }
+    .node-circle {
+      stroke-width: 2;
+    }
+    .node-lbl {
+      font-size: 9.5px;
+      font-weight: 500;
+      fill: #1C1B1F;
+      pointer-events: none;
+    }
+    svg.dark .node-lbl {
+      fill: #E6E0E9;
+    }
 
-    /* Ã‚Â§3 A1 Ã¢â‚¬â€ node-g is the hover target */
-    @keyframes nodeFadeIn { from{opacity:0} to{opacity:1} }
-    .node-g { opacity:0; cursor:pointer; }
-    .node-g.visible { opacity:1; }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
-    /* node circle */
-    .node-circle { stroke-width:2; }
-    /* node label */
-    .node-lbl { font-size:9.5px; font-weight:500; fill:#1C1B1F; pointer-events:none; }
-    svg.dark .node-lbl { fill:#E6E0E9; }
-
-    /* Ã‚Â§4 hover Ã¢â‚¬â€ gated on .ready
-       Neighbourhood highlight: hovered node + connected nodes/edges stay full;
-       everything else dims to 0.20.                                          */
-    /* baseline after animation: .data-layer.ready re-establishes opacity:1 so clearing
-       inline style doesn't revert to the animation start state (opacity:0).
-       CSS hover rules below have higher specificity and override cleanly.   */
-    .data-layer.ready .node-g                       { opacity:1; }
-    .data-layer.ready .edge                         { opacity:1; }
-    .data-layer.ready.hovering .node-g              { opacity:0.20; transition:opacity 0.2s ease; }
-    .data-layer.ready.hovering .node-g.hovered      { opacity:1; }
-    .data-layer.ready.hovering .node-g.connected    { opacity:1; }
-
-    .data-layer.ready.hovering .edge                { opacity:0.08; transition:opacity 0.2s ease; }
-    .data-layer.ready.hovering .edge.connected      { opacity:1; }
-
-    /* Ã‚Â§5 JS-driven tooltip */
-    .tip-bg    { fill:#FFFBFE; }
-    .tip-border{ fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-tail  { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-value { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .tip-label { fill:#49454F; font-size:10px; font-weight:400; }
-    .tip           { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    svg.print .tip { opacity:0 !important; }
-    svg.dark .tip-bg    { fill:#1C1B1F; }
-    svg.dark .tip-border{ fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .tip-tail  { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .tip-value { fill:#E6E0E9; }
-    svg.dark .tip-label { fill:#CAC4D0; }
-    #tip-layer { pointer-events:none; }
   </style>
 </defs>
 
-
-
-<!-- Ã‚Â§7 DATA LAYER Ã¢â‚¬â€ built entirely by JS -->
-<g class="data-layer" id="data-layer">
+<g class="data-layer relation-chart" id="data-layer">
   <g id="edge-layer"></g>
   <g id="node-layer"></g>
 </g>
-
-<!-- Ã‚Â§7 tooltip always last -->
-<g id="tip-layer">
-  <g class="tip" id="tip">
-    <rect class="tip-bg"     id="tip-bg"  rx="9"/>
-    <path class="tip-border" id="tip-bdr"/>
-    <path class="tip-tail"   id="tip-tip"/>
-    <text class="tip-value"  id="tip-val" text-anchor="middle" dominant-baseline="central"/>
-    <text class="tip-label"  id="tip-lbl" text-anchor="middle" dominant-baseline="central"/>
-  </g>
+<g id="legend-root"></g>
+<g class="tip" id="tip" style="opacity:0;pointer-events:none;">
+  <rect id="tip-bg" class="tip-bg" rx="9"/>
+  <path id="tip-bdr" class="tip-border"/>
+  <path id="tip-tail" class="tip-tail"/>
+  <text id="tip-val" class="tip-value" text-anchor="middle" dominant-baseline="central"/>
+  <text id="tip-lbl" class="tip-label" text-anchor="middle" dominant-baseline="central"/>
+  <text id="tip-meta" class="tip-pct" text-anchor="middle" dominant-baseline="central"/>
 </g>
-
-<!-- legend Ã¢â‚¬â€ right panel -->
-<rect x="870" y="100" width="210" height="190" rx="14" class="legend-bg legend-panel"/>
-<text x="888" y="124" class="legend-title legend-heading">CLUSTER</text>
-<g transform="translate(888,140)">
-  <circle class="series-1" cx="7" cy="7" r="7"/>
-  <text x="22" y="11" class="legend-label">Frontend</text>
-</g>
-<g transform="translate(888,168)">
-  <circle class="series-2" cx="7" cy="7" r="7"/>
-  <text x="22" y="11" class="legend-label">Backend</text>
-</g>
-<g transform="translate(888,196)">
-  <circle class="series-3" cx="7" cy="7" r="7"/>
-  <text x="22" y="11" class="legend-label">Data</text>
-</g>
-<g transform="translate(888,224)">
-  <circle class="series-4" cx="7" cy="7" r="7"/>
-  <text x="22" y="11" class="legend-label">Infra</text>
-</g>
-<g transform="translate(888,252)">
-  <circle class="series-5" cx="7" cy="7" r="7"/>
-  <text x="22" y="11" class="legend-label">Auth</text>
-</g>
-
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
 (function () {
   var svg = document.documentElement;
   svg._chartInit = function (svgEl, ctx) {
-var svg       = document.getElementById('root');
-  var dataLayerEl = document.getElementById('data-layer');
-  var edgeLayer = document.getElementById('edge-layer');
-  var nodeLayer = document.getElementById('node-layer');
+    var dataLayerEl = document.getElementById('data-layer');
+    var edgeLayer = document.getElementById('edge-layer');
+    var nodeLayer = document.getElementById('node-layer');
+    var legendRoot = document.getElementById('legend-root');
 
-  /* Ã‚Â§2 isDark before all build code */
+    var nodes = [
+      { id:'web-app',   label:'Web App',    cluster:1, x:148, y:220 },
+      { id:'mobile',    label:'Mobile',     cluster:1, x:148, y:360 },
+      { id:'cdn',       label:'CDN',        cluster:1, x:220, y:290 },
+      { id:'api-gw',    label:'API GW',     cluster:2, x:360, y:210 },
+      { id:'user-svc',  label:'User Svc',   cluster:2, x:360, y:300 },
+      { id:'order-svc', label:'Order Svc',  cluster:2, x:360, y:390 },
+      { id:'notify',    label:'Notify',     cluster:2, x:460, y:450 },
+      { id:'postgres',  label:'Postgres',   cluster:3, x:530, y:290 },
+      { id:'redis',     label:'Redis',      cluster:3, x:530, y:390 },
+      { id:'kafka',     label:'Kafka',      cluster:3, x:610, y:200 },
+      { id:'analytics', label:'Analytics',  cluster:3, x:660, y:340 },
+      { id:'k8s',       label:'K8s',        cluster:4, x:750, y:240 },
+      { id:'monitor',   label:'Monitor',    cluster:4, x:760, y:370 },
+      { id:'cicd',      label:'CI/CD',      cluster:4, x:810, y:160 },
+      { id:'auth-svc',  label:'Auth Svc',   cluster:5, x:450, y:135 },
+      { id:'oauth',     label:'OAuth',      cluster:5, x:560, y:130 }
+    ];
 
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ DATA Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
-     cluster: 1=Frontend 2=Backend 3=Data 4=Infra 5=Auth
-     x,y: hand-positioned within plot area (68Ã¢â‚¬â€œ850 Ãƒâ€” 100Ã¢â‚¬â€œ500)
-     r: node radius Ã¢â‚¬â€ encodes degree (connections), set after edges counted  */
-  var nodes = [
-    /* Frontend cluster Ã¢â‚¬â€ left-centre */
-    { id:'web-app',   label:'Web App',     cluster:1, x:148, y:220 },
-    { id:'mobile',    label:'Mobile',      cluster:1, x:148, y:360 },
-    { id:'cdn',       label:'CDN',         cluster:1, x:220, y:290 },
+    var edges = [
+      { a:'web-app',   b:'cdn' },
+      { a:'mobile',    b:'cdn' },
+      { a:'cdn',       b:'api-gw' },
+      { a:'web-app',   b:'api-gw' },
+      { a:'api-gw',    b:'user-svc' },
+      { a:'api-gw',    b:'order-svc' },
+      { a:'order-svc', b:'notify' },
+      { a:'user-svc',  b:'notify' },
+      { a:'user-svc',  b:'postgres' },
+      { a:'order-svc', b:'postgres' },
+      { a:'user-svc',  b:'redis' },
+      { a:'order-svc', b:'redis' },
+      { a:'notify',    b:'kafka' },
+      { a:'api-gw',    b:'kafka' },
+      { a:'kafka',     b:'analytics' },
+      { a:'postgres',  b:'analytics' },
+      { a:'auth-svc',  b:'api-gw' },
+      { a:'auth-svc',  b:'oauth' },
+      { a:'oauth',     b:'k8s' },
+      { a:'k8s',       b:'api-gw' },
+      { a:'k8s',       b:'postgres' },
+      { a:'k8s',       b:'monitor' },
+      { a:'cicd',      b:'k8s' },
+      { a:'monitor',   b:'analytics' }
+    ];
 
-    /* Backend cluster Ã¢â‚¬â€ centre */
-    { id:'api-gw',    label:'API GW',      cluster:2, x:360, y:210 },
-    { id:'user-svc',  label:'User Svc',    cluster:2, x:360, y:300 },
-    { id:'order-svc', label:'Order Svc',   cluster:2, x:360, y:390 },
-    { id:'notify',    label:'Notify',      cluster:2, x:460, y:450 },
+    var plotL = 68;
+    var plotR = 850;
+    var plotT = 100;
+    var plotB = 500;
+    var clusterNames = ['', 'Frontend', 'Backend', 'Data', 'Infra', 'Auth'];
+    var byId = {};
+    var nodeItems = [];
+    var plotShiftX = 0;
 
-    /* Data cluster Ã¢â‚¬â€ right-centre */
-    { id:'postgres',  label:'Postgres',    cluster:3, x:530, y:290 },
-    { id:'redis',     label:'Redis',       cluster:3, x:530, y:390 },
-    { id:'kafka',     label:'Kafka',       cluster:3, x:610, y:200 },
-    { id:'analytics', label:'Analytics',   cluster:3, x:660, y:340 },
+    nodes.forEach(function (node) {
+      byId[node.id] = node;
+      node.neighbours = [];
+      node.edgeEls = [];
+    });
 
-    /* Infra cluster Ã¢â‚¬â€ far right */
-    { id:'k8s',       label:'K8s',         cluster:4, x:750, y:240 },
-    { id:'monitor',   label:'Monitor',     cluster:4, x:760, y:370 },
-    { id:'cicd',      label:'CI/CD',       cluster:4, x:810, y:160 },
+    edges.forEach(function (edge) {
+      byId[edge.a].neighbours.push(edge.b);
+      byId[edge.b].neighbours.push(edge.a);
+    });
 
-    /* Auth cluster Ã¢â‚¬â€ top-centre */
-    { id:'auth-svc',  label:'Auth Svc',    cluster:5, x:450, y:135 },
-    { id:'oauth',     label:'OAuth',       cluster:5, x:560, y:130 },
-  ];
+    nodes.forEach(function (node) {
+      var degree = node.neighbours.length;
+      node.r = 11 + Math.min(Math.max(0, degree - 1), 5) * 2.2;
+    });
 
-  var edges = [
-    /* Frontend Ã¢â€ â€™ Backend */
-    { a:'web-app',   b:'cdn'       },
-    { a:'mobile',    b:'cdn'       },
-    { a:'cdn',       b:'api-gw'    },
-    { a:'web-app',   b:'api-gw'    },
-
-    /* Backend internal */
-    { a:'api-gw',    b:'user-svc'  },
-    { a:'api-gw',    b:'order-svc' },
-    { a:'order-svc', b:'notify'    },
-    { a:'user-svc',  b:'notify'    },
-
-    /* Backend Ã¢â€ â€™ Data */
-    { a:'user-svc',  b:'postgres'  },
-    { a:'order-svc', b:'postgres'  },
-    { a:'user-svc',  b:'redis'     },
-    { a:'order-svc', b:'redis'     },
-    { a:'notify',    b:'kafka'     },
-    { a:'api-gw',    b:'kafka'     },
-    { a:'kafka',     b:'analytics' },
-    { a:'postgres',  b:'analytics' },
-
-    /* Auth */
-    { a:'auth-svc',  b:'api-gw'    },
-    { a:'auth-svc',  b:'oauth'     },
-    { a:'oauth',     b:'k8s'       },
-
-    /* Infra */
-    { a:'k8s',       b:'api-gw'    },
-    { a:'k8s',       b:'postgres'  },
-    { a:'k8s',       b:'monitor'   },
-    { a:'cicd',      b:'k8s'       },
-    { a:'monitor',   b:'analytics' },
-  ];
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ BUILD LOOKUP + DEGREE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
-  var byId = {};
-  nodes.forEach(function(n) { byId[n.id] = n; n.neighbours = []; n.edgeEls = []; });
-
-  edges.forEach(function(e) {
-    byId[e.a].neighbours.push(e.b);
-    byId[e.b].neighbours.push(e.a);
-  });
-
-  /* radius encodes degree: r = 11 + clamp(degree-1, 0, 5) * 2.2 */
-  nodes.forEach(function(n) {
-    var deg = n.neighbours.length;
-    n.r = 11 + Math.min(deg - 1, 5) * 2.2;
-  });
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ PLOT BOUNDS Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
-  var plotL = 68, plotR = 850, plotT = 100, plotB = 500;
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ STAGGER Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
-  var totalEls = edges.length + nodes.length;
-  var stagger  = Math.min(0.25, 1.0 / totalEls);
-  var lastDelay = (totalEls - 1) * stagger;
-  var readyDelay = (lastDelay + 0.8 + 0.1) * 1000;
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ BUILD EDGES Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
-  edges.forEach(function(e, i) {
-    var na = byId[e.a], nb = byId[e.b];
-    /* edge cluster = source cluster color for visual coherence */
-    var cls = 'edge stroke-' + na.cluster;
-
-    var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute('x1', na.x); line.setAttribute('y1', na.y);
-    line.setAttribute('x2', nb.x); line.setAttribute('y2', nb.y);
-    line.setAttribute('class', cls);
-    line.setAttribute('data-a', e.a);
-    line.setAttribute('data-b', e.b);
-    line.style.animationDelay = (i * stagger) + 's';
-    edgeLayer.appendChild(line);
-
-    /* back-reference from nodes for hover */
-    na.edgeEls.push(line);
-    nb.edgeEls.push(line);
-  });
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ BUILD NODES Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
-  nodes.forEach(function(n, i) {
-    var ng = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    ng.setAttribute('class', 'node-g');
-    ng.setAttribute('id', 'ng-' + n.id);
-    ng.style.animationDelay = (edges.length * stagger + i * stagger) + 's';
-
-    /* filled circle */
-    var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    circle.setAttribute('cx', n.x); circle.setAttribute('cy', n.y);
-    circle.setAttribute('r',  n.r);
-    circle.setAttribute('class', 'node-circle series-' + n.cluster + ' stroke-' + n.cluster);
-
-    /* label: place below node if room, above if near bottom */
-    var labelY = (n.y + n.r + 13 <= plotB) ? n.y + n.r + 11 : n.y - n.r - 4;
-    var lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    lbl.setAttribute('x', n.x); lbl.setAttribute('y', labelY);
-    lbl.setAttribute('text-anchor', 'middle');
-    lbl.setAttribute('class', 'node-lbl');
-    lbl.textContent = n.label;
-
-    ng.appendChild(circle);
-    ng.appendChild(lbl);
-    nodeLayer.appendChild(ng);
-    n._ng = ng;
-  });
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§3 A1 ANIMATION Ã¢â‚¬â€ animationend per element, .visible provides resting opacity Ã¢â€â‚¬Ã¢â€â‚¬ */
-  Array.prototype.forEach.call(edgeLayer.querySelectorAll('.edge'), function(el) {
-    el.style.animation = 'edgeFadeIn 0.8s ease-out ' + el.style.animationDelay;
-    el.addEventListener('animationend', function() {
-      el.style.animation = 'none';
-      el.classList.add('visible');
-    }, { once: true });
-  });
-  Array.prototype.forEach.call(nodeLayer.querySelectorAll('.node-g'), function(el) {
-    el.style.animation = 'nodeFadeIn 0.8s ease-out ' + el.style.animationDelay;
-    el.addEventListener('animationend', function() {
-      el.style.animation = 'none';
-      el.classList.add('visible');
-    }, { once: true });
-  });
-
-  setTimeout(function() {
-    dataLayerEl.classList.add('ready');
-  }, readyDelay);
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§5 TOOLTIP Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
-  var tip    = document.getElementById('tip');
-  var tipBg  = document.getElementById('tip-bg');
-  var tipBdr = document.getElementById('tip-bdr');
-  var tipTip = document.getElementById('tip-tip');
-  var tipVal = document.getElementById('tip-val');
-  var tipLbl = document.getElementById('tip-lbl');
-
-  function showTip(cx, cy, nodeR, valTxt, lblTxt) {
-    tipVal.textContent = valTxt;
-    tipLbl.textContent = lblTxt;
-    var pad = 20, bh = 38, rx = 9, tw = 8, tail = 10;
-    var hw  = Math.max(tipVal.getBBox().width, tipLbl.getBBox().width) / 2 + pad / 2;
-    var tx  = Math.max(hw + 8, Math.min(cx, plotR - hw - 8));
-    /* anchor at top of node circle */
-    var anchorY = cy - nodeR;
-    var above = (anchorY - tail - bh - 4) >= plotT;
-    var bT, bB;
-    if (above) { bB = anchorY - tail; bT = bB - bh; }
-    else        { bT = anchorY + tail + nodeR * 2; bB = bT + bh; }
-
-    tipBg.setAttribute('x', tx - hw); tipBg.setAttribute('y', bT);
-    tipBg.setAttribute('width', hw * 2); tipBg.setAttribute('height', bh);
-
-    var tipAnchorY = above ? anchorY : anchorY + nodeR * 2;
-    if (above) {
-      tipBdr.setAttribute('d',
-        'M'+(tx+tw)+','+bB+' L'+(tx+hw-rx)+','+bB+' Q'+(tx+hw)+','+bB+' '+(tx+hw)+','+(bB-rx)+
-        ' L'+(tx+hw)+','+(bT+rx)+' Q'+(tx+hw)+','+bT+' '+(tx+hw-rx)+','+bT+
-        ' L'+(tx-hw+rx)+','+bT+' Q'+(tx-hw)+','+bT+' '+(tx-hw)+','+(bT+rx)+
-        ' L'+(tx-hw)+','+(bB-rx)+' Q'+(tx-hw)+','+bB+' '+(tx-hw+rx)+','+bB+' L'+(tx-tw)+','+bB);
-      tipTip.setAttribute('d', 'M'+(tx-tw)+','+bB+' L'+tx+','+(tipAnchorY-2)+' L'+(tx+tw)+','+bB);
-    } else {
-      tipBdr.setAttribute('d',
-        'M'+(tx-tw)+','+bT+' L'+(tx-hw+rx)+','+bT+' Q'+(tx-hw)+','+bT+' '+(tx-hw)+','+(bT+rx)+
-        ' L'+(tx-hw)+','+(bB-rx)+' Q'+(tx-hw)+','+bB+' '+(tx-hw+rx)+','+bB+
-        ' L'+(tx+hw-rx)+','+bB+' Q'+(tx+hw)+','+bB+' '+(tx+hw)+','+(bB-rx)+
-        ' L'+(tx+hw)+','+(bT+rx)+' Q'+(tx+hw)+','+bT+' '+(tx+hw-rx)+','+bT+' L'+(tx+tw)+','+bT);
-      tipTip.setAttribute('d', 'M'+(tx+tw)+','+bT+' L'+tx+','+(tipAnchorY+2)+' L'+(tx-tw)+','+bT);
-    }
-
-    tipVal.setAttribute('x', tx); tipVal.setAttribute('y', bT + bh * 0.32);
-    tipLbl.setAttribute('x', tx); tipLbl.setAttribute('y', bT + bh * 0.72);
-    tip.style.opacity = '1';
-  }
-
-  function hideTip() {
-    tip.style.opacity = '';
-  }
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§4 HOVER Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
-     Nodes have clear gaps Ã¢â€ â€™ element-level mouseleave.
-     On hover: highlight hovered node + all neighbours + connecting edges.
-     Everything else dims.                                                */
-  var allNodeGs = Array.prototype.slice.call(nodeLayer.querySelectorAll('.node-g'));
-  var allEdges  = Array.prototype.slice.call(edgeLayer.querySelectorAll('.edge'));
-  var clusterNames = ['','Frontend','Backend','Data','Infra','Auth'];
-
-  nodes.forEach(function(n) {
-    var ng = n._ng;
-    ng.addEventListener('mouseenter', function() {
-      if (!dataLayerEl.classList.contains('ready')) return;
-
-      /* clear all stale classes */
-      allNodeGs.forEach(function(el) { el.classList.remove('hovered'); el.classList.remove('connected'); });
-      allEdges.forEach(function(el)  { el.classList.remove('connected'); });
-
-      dataLayerEl.classList.add('hovering');
-      ng.classList.add('hovered');
-
-      /* mark neighbours */
-      n.neighbours.forEach(function(nid) {
-        var nng = document.getElementById('ng-' + nid);
-        if (nng) nng.classList.add('connected');
+    edges.forEach(function (edge) {
+      var a = byId[edge.a];
+      var b = byId[edge.b];
+      var line = ctx.el('line', {
+        x1: a.x,
+        y1: a.y,
+        x2: b.x,
+        y2: b.y,
+        'class': 'edge series-' + a.cluster + ' use-series-stroke',
+        'data-a': edge.a,
+        'data-b': edge.b
       });
-
-      /* mark connecting edges */
-      n.edgeEls.forEach(function(el) { el.classList.add('connected'); });
-
-      var deg = n.neighbours.length;
-      showTip(n.x, n.y, n.r,
-        n.label,
-        clusterNames[n.cluster] + ' \u00b7 ' + deg + ' connection' + (deg !== 1 ? 's' : ''));
+      edgeLayer.appendChild(line);
+      a.edgeEls.push(line);
+      b.edgeEls.push(line);
     });
 
-    ng.addEventListener('mouseleave', function() {
-      allNodeGs.forEach(function(el) { el.classList.remove('hovered'); el.classList.remove('connected'); });
-      allEdges.forEach(function(el)  { el.classList.remove('connected'); });
-      dataLayerEl.classList.remove('hovering');
-      hideTip();
+    nodes.forEach(function (node) {
+      var labelY = (node.y + node.r + 13 <= plotB) ? node.y + node.r + 11 : node.y - node.r - 4;
+      var group = ctx.el('g', {
+        id: 'ng-' + node.id,
+        'class': 'node-g',
+        'data-item-cx': String(node.x),
+        'data-item-top': String(node.y - node.r),
+        'data-node-id': node.id,
+        'data-cluster': String(node.cluster)
+      });
+      var circle = ctx.el('circle', {
+        cx: node.x,
+        cy: node.y,
+        r: node.r,
+        'class': 'node-circle series-' + node.cluster + ' use-series-stroke'
+      });
+      var label = ctx.el('text', {
+        x: node.x,
+        y: labelY,
+        'text-anchor': 'middle',
+        'class': 'node-lbl'
+      });
+      label.textContent = node.label;
+      group.appendChild(circle);
+      group.appendChild(label);
+      nodeLayer.appendChild(group);
+      node._group = group;
+      nodeItems.push(group);
     });
-  });
 
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ PRINT TOGGLE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+    ctx.initStandardLegend({
+      legendEl: legendRoot,
+      title: 'SERIES',
+      items: [
+        { cls: 'series-1', label: 'Frontend', value: '3 nodes' },
+        { cls: 'series-2', label: 'Backend', value: '4 nodes' },
+        { cls: 'series-3', label: 'Data', value: '4 nodes' },
+        { cls: 'series-4', label: 'Infra', value: '3 nodes' },
+        { cls: 'series-5', label: 'Auth', value: '2 nodes' }
+      ]
+    });
 
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§2 DARK MODE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+    plotShiftX = ctx.rebalancePlotArea({
+      legendEl: legendRoot,
+      measureNodes: [dataLayerEl],
+      moveNodes: [dataLayerEl],
+      slotLeft: 0,
+      legendGap: 24
+    }).shiftX || 0;
+
+    ctx.initRevealSequence(edgeLayer.querySelectorAll('.edge'), {
+      animationName: 'fadeIn',
+      duration: 0.8,
+      easing: 'ease-out',
+      delays: Array.prototype.map.call(edgeLayer.querySelectorAll('.edge'), function (_, index) {
+        return ctx.getStaggerDelay(index, edges.length, 1.0);
+      })
+    });
+
+    ctx.initRevealSequence(nodeItems, {
+      animationName: 'fadeIn',
+      duration: 0.8,
+      easing: 'ease-out',
+      delays: nodeItems.map(function (_, index) {
+        return ctx.getStaggerDelay(index, nodes.length, 1.0);
+      })
+    });
+
+    var connectedHover = ctx.initConnectedHover(dataLayerEl, nodeItems, {
+      allNodes: nodeItems,
+      allEdges: Array.prototype.slice.call(edgeLayer.querySelectorAll('.edge')),
+      getRelatedItems: function (itemEl) {
+        var node = byId[itemEl.getAttribute('data-node-id')];
+        return node ? node.neighbours.map(function (nid) {
+          return document.getElementById('ng-' + nid);
+        }).filter(Boolean) : [];
+      },
+      getRelatedEdges: function (itemEl) {
+        var node = byId[itemEl.getAttribute('data-node-id')];
+        return node ? node.edgeEls : [];
+      }
+    });
+
+    ctx.initStandardTooltip(dataLayerEl, nodeItems, {
+      tip: document.getElementById('tip'),
+      plotL: plotL,
+      plotR: plotR,
+      plotT: plotT,
+      plotB: plotB,
+      placement: 'side',
+      minWidth: 220,
+      paddingX: 20,
+      paddingY: 18,
+      lineHeights: [42, 32, 32],
+      trackPointer: false,
+      getAnchor: function (itemEl) {
+        return {
+          x: (Number(itemEl.getAttribute('data-item-cx')) || 0) + plotShiftX,
+          y: Number(itemEl.getAttribute('data-item-top')) || 0
+        };
+      },
+      getContent: function (itemEl) {
+        var node = byId[itemEl.getAttribute('data-node-id')];
+        var degree = node ? node.neighbours.length : 0;
+        return {
+          primary: node ? node.label : '',
+          label: clusterNames[node ? node.cluster : 0] || '',
+          meta: degree + ' connection' + (degree === 1 ? '' : 's')
+        };
+      },
+      onActivate: function (itemEl) {
+        connectedHover.activate(itemEl);
+      },
+      onDeactivate: function () {
+        connectedHover.clear();
+      },
+      leaveTarget: dataLayerEl
+    });
+
+    ctx.markReadyAfterReveal(dataLayerEl, [
+      {
+        delays: nodeItems.map(function (_, index) { return ctx.getStaggerDelay(index, nodes.length, 1.0); }),
+        duration: 0.8,
+        buffer: 0.1
+      },
+      {
+        delays: Array.prototype.map.call(edgeLayer.querySelectorAll('.edge'), function (_, index) { return ctx.getStaggerDelay(index, edges.length, 1.0); }),
+        duration: 0.8,
+        buffer: 0.1
+      }
+    ]);
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());

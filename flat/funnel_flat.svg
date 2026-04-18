@@ -1,349 +1,194 @@
+﻿<svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%"
+  preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
+  font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+  <script type="text/javascript">
+    <![CDATA[
+    (function () {
+      if (window.location.href.indexOf('theme=dark') !== -1) {
+        document.documentElement.classList.add('dark');
+      }
+    }());
+    ]]>
+  </script>
 
-<svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%"
-     preserveAspectRatio="xMidYMid meet"
-     xmlns="http://www.w3.org/2000/svg"
-     font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
-<defs>
-  <style>
-    @import url('chart-shared.css');
-    .chart-shell-hidden { display:none; }
-    .card-bg, .border-light, .border-dark, .card-title, .card-subtitle, .footer, .toggle-wrap { display:none !important; }
+  <defs>
+    <style>
+      @import url('chart-shared.css');
+      svg {
+        --critical-tick-fill: #79747E;
+        --critical-summary-text: #1C1B1F;
+        --critical-summary-muted: #79747E;
+        --critical-summary-panel: #E7E0EC;
+        --critical-summary-stroke: #79747E;
+      }
+      svg.dark {
+        --critical-tick-fill: #938F99;
+        --critical-summary-text: #E6E0E9;
+        --critical-summary-muted: #938F99;
+        --critical-summary-panel: #49454F;
+        --critical-summary-stroke: #938F99;
+      }
+      @keyframes stageFade {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      .fstage { opacity: 0; cursor: pointer; transition: opacity 0.2s ease; }
+      .fstage.visible { opacity: 1; }
+      .data-layer.ready.hovering .fstage.visible { opacity: 0.20; }
+      .data-layer.ready.hovering .fstage.visible.hovered { opacity: 1; }
+    </style>
+  </defs>
 
-    /* Ã‚Â§9 Ã¢â‚¬â€ Card shell */
-    .card-bg  { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    .card-title       { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .card-subtitle       { font-size:11px; fill:#79747E; font-weight:400; }
-    .legend-label     { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    .legend-value     { font-size:11px; fill:#1C1B1F; font-weight:500; opacity:0; transition:opacity 0.2s; }
-    .tick-label       { font-size:10px; fill:#79747E; font-weight:400; }
-    .legend-bg   { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .legend-divider  { stroke:#79747E; stroke-width:0.5; opacity:0.3; }
-    .legend-title  { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-    .footer   { font-size:10px; fill:#79747E; font-weight:400; }
-    .toggle-wrap   { cursor:pointer; }
-    .toggle-track  { fill:#E7E0EC; }
-    .toggle-thumb  { fill:#ffffff; }
-    .toggle-label  { font-size:11px; font-weight:500; fill:#49454F; }
-    .print-track { fill:#E7E0EC; transition:fill 0.3s; }
-    .print-thumb { fill:#ffffff; }
-    .print-label { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.print .legend-value  { opacity:1; }
-    svg.print .print-track { fill:#d97316; }
+  <g class="data-layer" id="data-layer">
+    <g class="fstage" id="fi0"
+      data-name="Awareness" data-val="48,200" data-pct="100%" data-dropoff=""
+      data-cx="459" data-cy="130">
+      <polygon class="series-1" points="109,100 809,100 669,160 249,160"/>
+    </g>
 
-    /* Ã‚Â§1 Ã¢â‚¬â€ Standard palette */
-    .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
-    .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
-    .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
-    .series-7 { fill:#0D9488; } .series-8 { fill:#64748B; }
-    svg.dark .series-1 { fill:#22D3EE; } svg.dark .series-2 { fill:#10B981; }
-    svg.dark .series-3 { fill:#FBB724; } svg.dark .series-4 { fill:#FB6181; }
-    svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
-    svg.dark .series-7 { fill:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; }
+    <g class="fstage" id="fi1"
+      data-name="Interest" data-val="28,900" data-pct="59.9%" data-dropoff="Drop 40.1%"
+      data-cx="459" data-cy="196">
+      <polygon class="series-2" points="249,166 669,166 565,226 353,226"/>
+    </g>
 
-    /* Ã‚Â§3 Ã¢â‚¬â€ Method A1: animationend + .visible, .ready gates hover */
-    @keyframes stageFade { from{opacity:0} to{opacity:1} }
-    .fstage         { opacity:0; cursor:pointer; transition:opacity .2s ease; }
-    .fstage.visible { opacity:1; }
-    .data-layer.ready.hovering .fstage.visible         { opacity:0.20; transition:opacity .2s ease; }
-    .data-layer.ready.hovering .fstage.visible.hovered { opacity:1;    transition:opacity .2s ease; }
+    <g class="fstage" id="fi2"
+      data-name="Consideration" data-val="14,600" data-pct="30.3%" data-dropoff="Drop 49.5%"
+      data-cx="459" data-cy="262">
+      <polygon class="series-3" points="353,232 565,232 516,292 402,292"/>
+    </g>
 
-    /* Ã‚Â§5 Ã¢â‚¬â€ Tooltip bubble classes */
-    .tip-bg     { fill:#FFFBFE; }
-    .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
-    .tip-pct    { fill:#79747E; font-size:10px; font-weight:400; }
-    .tip           { opacity:0; pointer-events:none; transition:opacity .15s ease; }
-    svg.print .tip { opacity:0 !important; }
+    <g class="fstage" id="fi3"
+      data-name="Intent" data-val="7,840" data-pct="16.3%" data-dropoff="Drop 46.3%"
+      data-cx="459" data-cy="328">
+      <polygon class="series-4" points="402,298 516,298 487,358 431,358"/>
+    </g>
 
-    /* Ã‚Â§9 Ã¢â‚¬â€ Border rings */
-    .border-dark  { display:none; }
-    .border-light { display:block; }
+    <g class="fstage" id="fi4"
+      data-name="Evaluation" data-val="3,920" data-pct="8.1%" data-dropoff="Drop 50.0%"
+      data-cx="459" data-cy="394">
+      <polygon class="series-5" points="431,364 487,364 473,424 445,424"/>
+    </g>
 
-    /* Ã‚Â§9 Ã¢â‚¬â€ Dark mode overrides */
-    svg.dark .card-bg  { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-    svg.dark .card-title       { fill:#E6E0E9; }
-    svg.dark .card-subtitle       { fill:#938F99; }
-    svg.dark .legend-label     { fill:#E6E0E9; }
-    svg.dark .legend-value     { fill:#E6E0E9; }
-    svg.dark .tick-label       { fill:#938F99; }
-    svg.dark .legend-bg   { fill:#49454F; stroke:#938F99; }
-    svg.dark .legend-divider  { stroke:#938F99; }
-    svg.dark .legend-title  { fill:#938F99; }
-    svg.dark .footer   { fill:#938F99; }
-    svg.dark .toggle-track  { fill:#49454F; }
-    svg.dark .toggle-label  { fill:#CAC4D0; }
-    svg.dark .print-track { fill:#49454F; }
-    svg.dark .print-label { fill:#CAC4D0; }
-    svg.dark.print .print-track { fill:#d97316; }
-    svg.dark .tip-bg     { fill:#1C1B1F; }
-    svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .tip-tail   { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .tip-value  { fill:#E6E0E9; }
-    svg.dark .tip-label  { fill:#CAC4D0; }
-    svg.dark .tip-pct    { fill:#938F99; }
-    svg.dark .border-dark  { display:block; }
-    svg.dark .border-light { display:none; }
-  </style>
-</defs>
-
-<!-- Ã‚Â§9 Ã¢â‚¬â€ Card shell -->
-<!-- Ã‚Â§9 Ã¢â‚¬â€ Typography -->
-
-<!-- Ã‚Â§9 Ã¢â‚¬â€ Toggles -->
-
-<!--
-  Plot area: x=68..850 y=100..500
-  cx=459, band h=60, gap=6, 6 stages
-  hw: 350, 210, 106, 57, 28, 14
-  y_tops: 100,166,232,298,364,430  y_bots: 160,226,292,358,424,490
--->
-
-<!-- Ã‚Â§7 Layer 2 Ã¢â‚¬â€ Data (.data-layer) -->
-<g class="data-layer" id="data-layer">
-
-  <!-- fi0: Awareness  hw_top=350 hw_bot=210  y=100..160 -->
-  <g class="fstage" id="fi0"
-     data-name="Awareness" data-val="48,200" data-pct="100%" data-dropoff=""
-     data-cx="459" data-cy="130" data-delay="0.00">
-    <polygon class="series-1" points="109,100 809,100 669,160 249,160"/>
-    <text x="459" y="124" text-anchor="middle" class="tip-value" font-size="13" pointer-events="none">48,200</text>
-    <text x="459" y="140" text-anchor="middle" class="legend-label" font-size="11" pointer-events="none">Awareness</text>
+    <g class="fstage" id="fi5"
+      data-name="Purchase" data-val="1,960" data-pct="4.1%" data-dropoff="Drop 50.0%"
+      data-cx="459" data-cy="460">
+      <polygon class="series-6" points="445,430 473,430 473,490 445,490"/>
+    </g>
   </g>
 
-  <!-- fi1: Interest  hw_top=210 hw_bot=106  y=166..226 -->
-  <g class="fstage" id="fi1"
-     data-name="Interest" data-val="28,900" data-pct="59.9%" data-dropoff="Ã¢â€ â€œ 40.1%"
-     data-cx="459" data-cy="196" data-delay="0.13">
-    <polygon class="series-2" points="249,166 669,166 565,226 353,226"/>
-    <text x="459" y="190" text-anchor="middle" class="tip-value" font-size="13" pointer-events="none">28,900</text>
-    <text x="459" y="206" text-anchor="middle" class="legend-label" font-size="11" pointer-events="none">Interest</text>
+  <g id="legend-root"></g>
+
+  <g id="tip-layer" pointer-events="none">
+    <g class="tip" id="tip">
+      <rect id="tip-bg" class="tip-bg" rx="12"/>
+      <path id="tip-bdr" class="tip-border"/>
+      <path id="tip-tail" class="tip-tail"/>
+      <text id="tip-val" class="tip-value" text-anchor="middle" dominant-baseline="central"/>
+      <text id="tip-lbl" class="tip-label" text-anchor="middle" dominant-baseline="central"/>
+      <text id="tip-meta" class="tip-pct" text-anchor="middle" dominant-baseline="central"/>
+    </g>
   </g>
 
-  <!-- fi2: Consideration  hw_top=106 hw_bot=57  y=232..292 -->
-  <g class="fstage" id="fi2"
-     data-name="Consideration" data-val="14,600" data-pct="30.3%" data-dropoff="Ã¢â€ â€œ 49.5%"
-     data-cx="459" data-cy="262" data-delay="0.25">
-    <polygon class="series-3" points="353,232 565,232 516,292 402,292"/>
-    <text x="459" y="256" text-anchor="middle" class="tip-value" font-size="13" pointer-events="none">14,600</text>
-    <text x="459" y="272" text-anchor="middle" class="legend-label" font-size="11" pointer-events="none">Consideration</text>
-  </g>
-
-  <!-- fi3: Intent  hw_top=57 hw_bot=28  y=298..358 -->
-  <g class="fstage" id="fi3"
-     data-name="Intent" data-val="7,840" data-pct="16.3%" data-dropoff="Ã¢â€ â€œ 46.3%"
-     data-cx="459" data-cy="328" data-delay="0.38">
-    <polygon class="series-4" points="402,298 516,298 487,358 431,358"/>
-    <text x="459" y="322" text-anchor="middle" class="tip-value" font-size="12" pointer-events="none">7,840</text>
-    <text x="459" y="337" text-anchor="middle" class="legend-label" font-size="10" pointer-events="none">Intent</text>
-  </g>
-
-  <!-- fi4: Evaluation  hw_top=28 hw_bot=14  y=364..424 -->
-  <g class="fstage" id="fi4"
-     data-name="Evaluation" data-val="3,920" data-pct="8.1%" data-dropoff="Ã¢â€ â€œ 50.0%"
-     data-cx="459" data-cy="394" data-delay="0.50">
-    <polygon class="series-5" points="431,364 487,364 473,424 445,424"/>
-    <text x="459" y="390" text-anchor="middle" class="tip-value" font-size="11" pointer-events="none">3,920</text>
-    <text x="459" y="404" text-anchor="middle" class="legend-label" font-size="9" pointer-events="none">Eval.</text>
-  </g>
-
-  <!-- fi5: Purchase  hw=14 rect  y=430..490 -->
-  <g class="fstage" id="fi5"
-     data-name="Purchase" data-val="1,960" data-pct="4.1%" data-dropoff="Ã¢â€ â€œ 50.0%"
-     data-cx="459" data-cy="460" data-delay="0.63">
-    <polygon class="series-6" points="445,430 473,430 473,490 445,490"/>
-    <text x="459" y="456" text-anchor="middle" class="tip-value" font-size="10" pointer-events="none">1,960</text>
-    <text x="459" y="470" text-anchor="middle" class="legend-label" font-size="9" pointer-events="none">Purchase</text>
-  </g>
-
-</g><!-- end .data-layer -->
-
-<!-- Ã‚Â§7 Layer 3 Ã¢â‚¬â€ Drop-off labels (structural overlay, paints above funnel) -->
-<g id="dropoff-labels">
-  <text x="820" y="137" class="tick-label">Ã¢â€ â€œ 40.1%</text>
-  <text x="820" y="203" class="tick-label">Ã¢â€ â€œ 49.5%</text>
-  <text x="820" y="269" class="tick-label">Ã¢â€ â€œ 46.3%</text>
-  <text x="820" y="330" class="tick-label">Ã¢â€ â€œ 50.0%</text>
-  <text x="820" y="396" class="tick-label">Ã¢â€ â€œ 50.0%</text>
-</g>
-
-<!-- Ã‚Â§9 Ã¢â‚¬â€ Legend -->
-<rect x="870" y="100" width="210" height="248" rx="14" class="legend-bg legend-panel"/>
-<text x="888" y="124" class="legend-title legend-heading">FUNNEL STAGES</text>
-<g transform="translate(888,140)">
-  <rect x="0" y="0" width="14" height="14" rx="3" class="series-1"/>
-  <text x="22" y="11" class="legend-label">Awareness</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">48,200</text>
-</g>
-<g transform="translate(888,170)">
-  <rect x="0" y="0" width="14" height="14" rx="3" class="series-2"/>
-  <text x="22" y="11" class="legend-label">Interest</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">28,900</text>
-</g>
-<g transform="translate(888,200)">
-  <rect x="0" y="0" width="14" height="14" rx="3" class="series-3"/>
-  <text x="22" y="11" class="legend-label">Consideration</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">14,600</text>
-</g>
-<g transform="translate(888,230)">
-  <rect x="0" y="0" width="14" height="14" rx="3" class="series-4"/>
-  <text x="22" y="11" class="legend-label">Intent</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">7,840</text>
-</g>
-<g transform="translate(888,260)">
-  <rect x="0" y="0" width="14" height="14" rx="3" class="series-5"/>
-  <text x="22" y="11" class="legend-label">Evaluation</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">3,920</text>
-</g>
-<line x1="888" y1="288" x2="1062" y2="288" class="legend-divider"/>
-<g transform="translate(888,300)">
-  <rect x="0" y="0" width="14" height="14" rx="3" class="series-6"/>
-  <text x="22" y="11" class="legend-label">Purchase</text>
-  <text x="188" y="11" class="legend-value" text-anchor="end">1,960</text>
-</g>
-
-<rect x="870" y="362" width="210" height="46" rx="14" class="legend-bg legend-panel"/>
-<text x="888" y="382" class="legend-title legend-heading">OVERALL CONVERSION</text>
-<text x="888" y="398" class="legend-label">Top Ã¢â€ â€™ Purchase <tspan font-weight="500">4.1%</tspan></text>
-
-<!-- Ã‚Â§7 Layer 4 Ã¢â‚¬â€ Tooltip (JS-driven, always last) -->
-<g class="tip" id="tip">
-  <rect id="tip-bg"  class="tip-bg"     rx="9"/>
-  <path id="tip-bdr" class="tip-border"/>
-  <path id="tip-arr" class="tip-tail"/>
-  <text id="tip-val" class="tip-value"  text-anchor="middle"/>
-  <text id="tip-lbl" class="tip-label"  text-anchor="middle"/>
-  <text id="tip-pct" class="tip-pct"    text-anchor="middle"/>
-</g>
-
-<script href="chart-shared.js"></script>
-<script type="text/javascript"><![CDATA[
+  <script href="chart-shared.js"></script>
+  <script type="text/javascript"><![CDATA[
 (function () {
   var svg = document.documentElement;
   svg._chartInit = function (svgEl, ctx) {
-var svg         = document.getElementById('root');
-  var dataLayerEl = document.getElementById('data-layer');
-  var stages = Array.prototype.slice.call(dataLayerEl.querySelectorAll('.fstage'));
+    var dataLayerEl = ctx.$$('#data-layer');
+    var legendRoot = ctx.$$('#legend-root');
+    var tip = ctx.$$('#tip');
+    var stages = ctx.$$all('.fstage');
+    var timing;
+    var delays;
+    var plotShiftX = 0;
 
-  /* Ã‚Â§2 Ã¢â‚¬â€ isDark declared before all other code */
+    if (!dataLayerEl || !legendRoot || !tip || !stages.length) return;
 
-  /* Ã‚Â§3 Ã¢â‚¬â€ Method A1: animationend + .visible, adaptive stagger, .ready gate */
-  var duration = 0.8;
-  var stagger  = Math.min(0.25, 1.0 / stages.length);
-  var lastDelay = 0;
-
-  stages.forEach(function(g, i) {
-    var delay = (i * stagger).toFixed(2);
-    if (parseFloat(delay) > lastDelay) lastDelay = parseFloat(delay);
-    g.style.animation = 'stageFade ' + duration + 's ease-out ' + delay + 's';
-    g.addEventListener('animationend', function() {
-      g.style.animation = '';
-      g.classList.add('visible');
-    }, { once: true });
-  });
-
-  setTimeout(function() {
-    dataLayerEl.classList.add('ready');
-  }, (lastDelay + duration + 0.1) * 1000);
-
-  /* Ã‚Â§5 Ã¢â‚¬â€ JS-driven tooltip */
-  var tip    = document.getElementById('tip');
-  var tipBg  = document.getElementById('tip-bg');
-  var tipBdr = document.getElementById('tip-bdr');
-  var tipArr = document.getElementById('tip-arr');
-  var tipVal = document.getElementById('tip-val');
-  var tipLbl = document.getElementById('tip-lbl');
-  var tipPct = document.getElementById('tip-pct');
-  var BH = 62, TAIL = 10, RX = 9, TW = 8;
-
-  function posTip(cx, cy, name, val, pct, dropoff) {
-    /* 1 Ã¢â‚¬â€ set text first so getBBox measures real widths */
-    tipVal.textContent = val;
-    tipLbl.textContent = name;
-    tipPct.textContent = pct + (dropoff ? '  Ã‚Â·  ' + dropoff : '');
-
-    /* 2 Ã¢â‚¬â€ measure, derive hw */
-    var pad = 20;
-    var hw = Math.max(
-      tipVal.getBBox().width + pad,
-      tipLbl.getBBox().width + pad,
-      tipPct.getBBox().width + pad,
-      60
-    ) / 2;
-
-    /* 3 Ã¢â‚¬â€ clamp tx */
-    var tx = Math.max(hw + 8, Math.min(cx, 1100 - hw - 8));
-
-    /* 4 Ã¢â‚¬â€ flip: bubble below when near top */
-    var flip = cy < BH + TAIL + 20;
-    var bT = flip ? cy + TAIL      : cy - TAIL - BH;
-    var bB = flip ? cy + TAIL + BH : cy - TAIL;
-    if (bT < 8)   { bT = 8;   bB = bT + BH; }
-    if (bB > 610) { bB = 610; bT = bB - BH; }
-    var bL = tx - hw, bR = tx + hw;
-
-    /* 5 Ã¢â‚¬â€ background rect */
-    tipBg.setAttribute('x', bL);      tipBg.setAttribute('y', bT);
-    tipBg.setAttribute('width', hw*2); tipBg.setAttribute('height', BH);
-
-    /* 6 Ã¢â‚¬â€ open border path + tail */
-    var openD, tailD;
-    if (!flip) {
-      openD = 'M'+(tx+TW)+','+bB+
-        ' L'+(bR-RX)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-RX)+
-        ' L'+bR+','+(bT+RX)+' Q'+bR+','+bT+' '+(bR-RX)+','+bT+
-        ' L'+(bL+RX)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+RX)+
-        ' L'+bL+','+(bB-RX)+' Q'+bL+','+bB+' '+(bL+RX)+','+bB+
-        ' L'+(tx-TW)+','+bB;
-      tailD = 'M'+(tx-TW)+','+bB+' L'+tx+','+(bB+TAIL)+' L'+(tx+TW)+','+bB;
-    } else {
-      openD = 'M'+(tx-TW)+','+bT+
-        ' L'+(bL+RX)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+RX)+
-        ' L'+bL+','+(bB-RX)+' Q'+bL+','+bB+' '+(bL+RX)+','+bB+
-        ' L'+(bR-RX)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-RX)+
-        ' L'+bR+','+(bT+RX)+' Q'+bR+','+bT+' '+(bR-RX)+','+bT+
-        ' L'+(tx+TW)+','+bT;
-      tailD = 'M'+(tx+TW)+','+bT+' L'+tx+','+(bT-TAIL)+' L'+(tx-TW)+','+bT;
-    }
-    tipBdr.setAttribute('d', openD);
-    tipArr.setAttribute('d', tailD);
-
-    /* 7 Ã¢â‚¬â€ text positions */
-    tipVal.setAttribute('x', tx); tipVal.setAttribute('y', bT + BH * 0.26);
-    tipLbl.setAttribute('x', tx); tipLbl.setAttribute('y', bT + BH * 0.52);
-    tipPct.setAttribute('x', tx); tipPct.setAttribute('y', bT + BH * 0.78);
-  }
-
-  /* Ã‚Â§4 Ã¢â‚¬â€ Hover: A1 pattern, container mouseleave (adjacent trapezoids) */
-  stages.forEach(function(g) {
-    g.addEventListener('mouseenter', function() {
-      dataLayerEl.classList.add('hovering');
-      stages.forEach(function(s) { s.classList.remove('hovered'); });
-      g.classList.add('hovered');
-      tip.style.opacity = '1';
-      var cx      = parseFloat(g.getAttribute('data-cx'));
-      var cy      = parseFloat(g.getAttribute('data-cy'));
-      var name    = g.getAttribute('data-name');
-      var val     = g.getAttribute('data-val');
-      var pct     = g.getAttribute('data-pct');
-      var dropoff = g.getAttribute('data-dropoff');
-      posTip(cx, cy, name, val, pct, dropoff);
+    ctx.initStandardLegend({
+      legendEl: legendRoot,
+      title: 'SERIES',
+      rowGap: 30,
+      items: [
+        { cls: 'series-1', label: 'Awareness', value: '48,200' },
+        { cls: 'series-2', label: 'Interest', value: '28,900' },
+        { cls: 'series-3', label: 'Consideration', value: '14,600' },
+        { cls: 'series-4', label: 'Intent', value: '7,840' },
+        { cls: 'series-5', label: 'Evaluation', value: '3,920' },
+        { cls: 'series-6', label: 'Purchase', value: '1,960' }
+      ]
     });
-    g.addEventListener('mouseleave', function() {
-      g.classList.remove('hovered');
-      tip.style.opacity = '';
+    plotShiftX = ctx.rebalancePlotArea({
+      legendEl: legendRoot,
+      measureNodes: [dataLayerEl],
+      moveNodes: [dataLayerEl],
+      outerLeft: 24,
+      legendGap: 32
+    }).shiftX || 0;
+    timing = ctx.getStaggerTiming(stages.length, null, svgEl);
+    delays = stages.map(function (_, index) {
+      return ctx.getStaggerDelay(index, stages.length, null, svgEl);
     });
-  });
+    ctx.initRevealSequence(stages, {
+      animationName: 'stageFade',
+      duration: timing.duration,
+      easing: 'ease-out',
+      delays: delays
+    });
 
-  /* container mouseleave for .hovering Ã¢â‚¬â€ prevents flicker between adjacent trapezoids */
-  dataLayerEl.addEventListener('mouseleave', function() {
-    dataLayerEl.classList.remove('hovering');
-  });
+    ctx.markReadyAfterReveal(dataLayerEl, {
+      delays: delays,
+      duration: timing.duration,
+      buffer: timing.buffer
+    });
 
-  /* Ã‚Â§2 Ã¢â‚¬â€ Dark mode toggle */
+    ctx.initStandardTooltip(dataLayerEl, stages, {
+      leaveTarget: dataLayerEl,
+      tip: tip,
+      plotL: 68,
+      plotR: 820,
+      plotT: 100,
+      plotB: 500,
+      boxHeight: 120,
+      minWidth: 220,
+      paddingX: 20,
+      paddingY: 18,
+      lineHeights: [42, 32, 32],
+      trackPointer: false,
+      getContent: function (stageEl) {
+        var dropoff = stageEl.getAttribute('data-dropoff') || '';
+        return {
+          primary: stageEl.getAttribute('data-val') || '',
+          label: stageEl.getAttribute('data-name') || '',
+          meta: dropoff ? (stageEl.getAttribute('data-pct') || '') + ' - ' + dropoff : (stageEl.getAttribute('data-pct') || '')
+        };
+      },
+      getAnchor: function (stageEl) {
+        return {
+          x: parseFloat(stageEl.getAttribute('data-cx')) + plotShiftX,
+          y: parseFloat(stageEl.getAttribute('data-cy'))
+        };
+      }
+    });
+
+    stages.forEach(function (stageEl) {
+      stageEl.addEventListener('mouseenter', function () {
+        dataLayerEl.classList.add('hovering');
+        stages.forEach(function (otherStage) { otherStage.classList.remove('hovered'); });
+        stageEl.classList.add('hovered');
+      });
+      stageEl.addEventListener('mouseleave', function () {
+        stageEl.classList.remove('hovered');
+      });
+    });
+
+    dataLayerEl.addEventListener('mouseleave', function () {
+      dataLayerEl.classList.remove('hovering');
+      stages.forEach(function (stageEl) { stageEl.classList.remove('hovered'); });
+    });
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());
 ]]></script>
 </svg>
+

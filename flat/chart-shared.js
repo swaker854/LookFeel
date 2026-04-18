@@ -102,12 +102,36 @@
     return (lastDelay + duration + buffer) * 1000;
   }
 
+  function markReadyAfterReveal(target, reveal) {
+    var delayMs = 0;
+
+    function updateDelay(entry) {
+      var nextDelay = typeof entry === 'number'
+        ? Math.max(0, Number(entry) || 0)
+        : getRevealReadyDelayMs(entry || {});
+      if (nextDelay > delayMs) delayMs = nextDelay;
+    }
+
+    if (Array.isArray(reveal)) {
+      reveal.forEach(updateDelay);
+    } else {
+      updateDelay(reveal);
+    }
+
+    global.setTimeout(function () {
+      if (target) target.classList.add('ready');
+    }, delayMs);
+
+    return delayMs;
+  }
+
   /*
    * buildChartTip(ancX, ancY, bw, bh, plotL, plotR, plotT, plotB)
    *
    * Computes a smart tooltip position that:
    *  - stays inside the plot area (plotL/R/T/B)
-   *  - places the box above or below the anchor, choosing the side with more room
+   *  - prefers placing the box above the anchor, only flipping below when needed
+   *  - when below, biases the box sideways so the cursor is less likely to cover text
    *  - generates the rounded-rect border path (with tail gap) and tail triangle path
    *
    * Returns { bL, bT, bR, bB, bCx, tailUp, borderPath, tailPath }
@@ -124,12 +148,27 @@
   function buildChartTip(ancX, ancY, bw, bh, plotL, plotR, plotT, plotB) {
     var rx = 12, tw = 10, TAIL = 12;
     var hw = bw / 2;
+    var topRoom = ancY - plotT;
+    var bottomRoom = plotB - ancY;
+    var preferBelow = false;
+    var belowOffset = Math.min(Math.max(24, bw * 0.18), 56);
+    var targetCx = ancX;
 
-    // Horizontal: center on anchor, clamp to plot bounds
-    var bCx = Math.min(Math.max(ancX, plotL + hw), plotR - hw);
+    if (topRoom < bh + TAIL && bottomRoom >= bh + TAIL) {
+      preferBelow = true;
+    } else if (topRoom < bh + TAIL && bottomRoom > topRoom) {
+      preferBelow = true;
+    }
 
-    // Vertical: prefer the side with more room
-    var tailUp = (plotB - ancY) >= (ancY - plotT);
+    if (preferBelow) {
+      targetCx = ancX + (plotR - ancX >= ancX - plotL ? belowOffset : -belowOffset);
+    }
+
+    // Horizontal: clamp inside plot bounds, with a slight side bias when below the anchor.
+    var bCx = Math.min(Math.max(targetCx, plotL + hw), plotR - hw);
+
+    // Vertical: prefer above unless there is not enough room.
+    var tailUp = preferBelow;
     var bT, bB;
     if (tailUp) {
       bT = ancY + TAIL; bB = bT + bh;
@@ -179,6 +218,131 @@
       e.setAttribute(key, attrs[key]);
     });
     return e;
+  }
+
+  function clearChildren(node) {
+    if (!node) return;
+    while (node.firstChild) node.removeChild(node.firstChild);
+  }
+
+  function fitTextWithEllipsis(textEl, text, maxWidth) {
+    var fullText = text == null ? '' : String(text);
+    var low;
+    var high;
+    var mid;
+    var truncated;
+
+    if (!textEl) return fullText;
+    textEl.textContent = fullText;
+    if (!(maxWidth > 0) || typeof textEl.getComputedTextLength !== 'function') return fullText;
+
+    try {
+      if (textEl.getComputedTextLength() <= maxWidth) return fullText;
+    } catch (error) {
+      return fullText;
+    }
+
+    low = 0;
+    high = fullText.length;
+    while (low < high) {
+      mid = Math.ceil((low + high) / 2);
+      truncated = fullText.slice(0, mid) + '...';
+      textEl.textContent = truncated;
+      try {
+        if (textEl.getComputedTextLength() <= maxWidth) {
+          low = mid;
+        } else {
+          high = mid - 1;
+        }
+      } catch (error) {
+        textEl.textContent = fullText;
+        return fullText;
+      }
+    }
+
+    truncated = fullText.slice(0, low) + '...';
+    textEl.textContent = truncated;
+    return truncated;
+  }
+
+  function initStandardLegend(svgEl, options) {
+    var opts = options || {};
+    var legendEl = opts.legendEl || null;
+    var items = Array.isArray(opts.items) ? opts.items : [];
+    var x = opts.x == null ? 858 : Number(opts.x);
+    var y = opts.y == null ? 88 : Number(opts.y);
+    var width = opts.width == null ? 214 : Number(opts.width);
+    var height = opts.height == null ? 455 : Number(opts.height);
+    var radius = opts.radius == null ? 18 : Number(opts.radius);
+    var title = opts.title || 'SERIES';
+    var titleX = opts.titleX == null ? x + 20 : Number(opts.titleX);
+    var titleY = opts.titleY == null ? y + 30 : Number(opts.titleY);
+    var rowX = opts.rowX == null ? x + 20 : Number(opts.rowX);
+    var rowStartY = opts.rowStartY == null ? y + 58 : Number(opts.rowStartY);
+    var rowGap = opts.rowGap == null ? 42 : Number(opts.rowGap);
+    var swatchSize = opts.swatchSize == null ? 14 : Number(opts.swatchSize);
+    var swatchRadius = opts.swatchRadius == null ? 3 : Number(opts.swatchRadius);
+    var labelX = opts.labelX == null ? 22 : Number(opts.labelX);
+    var valueX = opts.valueX == null ? 174 : Number(opts.valueX);
+    var labelMaxWidth = opts.labelMaxWidth == null ? 0 : Number(opts.labelMaxWidth);
+
+    if (!svgEl || !legendEl) return null;
+
+    clearChildren(legendEl);
+    legendEl.appendChild(createSvgEl('rect', {
+      x: x,
+      y: y,
+      width: width,
+      height: height,
+      rx: radius,
+      'class': 'legend-bg legend-panel'
+    }));
+    legendEl.appendChild(createSvgEl('text', {
+      x: titleX,
+      y: titleY,
+      'class': 'legend-title legend-heading'
+    }));
+    legendEl.lastChild.textContent = title;
+
+    items.forEach(function (item, index) {
+      var swatchAttrs = {
+        x: 0,
+        y: 0,
+        width: swatchSize,
+        height: swatchSize,
+        rx: swatchRadius,
+        'class': item.cls || ''
+      };
+      var row = createSvgEl('g', {
+        'class': 'legend-row',
+        transform: 'translate(' + rowX + ',' + (rowStartY + rowGap * index) + ')'
+      });
+      if (item.swatchStyle) swatchAttrs.style = item.swatchStyle;
+      var swatch = createSvgEl('rect', swatchAttrs);
+      var label = createSvgEl('text', {
+        x: labelX,
+        y: 7,
+        'class': 'legend-label legend-row-label',
+        'dominant-baseline': 'middle'
+      });
+      var value = createSvgEl('text', {
+        x: valueX,
+        y: 7,
+        'class': 'legend-value legend-row-value',
+        'text-anchor': 'end',
+        'dominant-baseline': 'middle'
+      });
+
+      label.textContent = item.label || '';
+      value.textContent = item.value || '';
+      row.appendChild(swatch);
+      row.appendChild(label);
+      row.appendChild(value);
+      legendEl.appendChild(row);
+      if (labelMaxWidth > 0) fitTextWithEllipsis(label, item.label || '', labelMaxWidth);
+    });
+
+    return legendEl;
   }
 
   function setClassState(nodes, className, active) {
@@ -515,6 +679,61 @@
     });
   }
 
+  function initSeriesHoverController(svgEl, options) {
+    var opts = options || {};
+    var hoverLayer = opts.hoverLayer || null;
+    var activeDotSelector = opts.activeDotSelector || '.dot-g.active';
+    var resolveDotGroup = typeof opts.resolveDotGroup === 'function'
+      ? opts.resolveDotGroup
+      : function (itemEl) { return itemEl && itemEl._dotGroup ? itemEl._dotGroup : null; };
+
+    function clearActiveDots() {
+      if (!hoverLayer || !hoverLayer.querySelectorAll) return;
+      Array.prototype.forEach.call(hoverLayer.querySelectorAll(activeDotSelector), function (node) {
+        node.classList.remove('active');
+      });
+    }
+
+    function activate(itemEl) {
+      var activeSid = itemEl ? Number(itemEl.getAttribute('data-series-id')) || null : null;
+      clearActiveDots();
+      setSeriesHoverState(svgEl, {
+        hoverLayer: hoverLayer,
+        hovering: true,
+        activeSid: activeSid,
+        seriesIds: opts.seriesIds,
+        pointCount: opts.pointCount,
+        pointIndices: opts.pointIndices,
+        lineSelector: opts.lineSelector,
+        areaSelector: opts.areaSelector,
+        dotSelector: opts.dotSelector
+      });
+      var dotGroup = resolveDotGroup(itemEl);
+      if (dotGroup) dotGroup.classList.add('active');
+    }
+
+    function clear() {
+      clearActiveDots();
+      setSeriesHoverState(svgEl, {
+        hoverLayer: hoverLayer,
+        hovering: false,
+        activeSid: null,
+        seriesIds: opts.seriesIds,
+        pointCount: opts.pointCount,
+        pointIndices: opts.pointIndices,
+        lineSelector: opts.lineSelector,
+        areaSelector: opts.areaSelector,
+        dotSelector: opts.dotSelector
+      });
+    }
+
+    return {
+      activate: activate,
+      clear: clear,
+      clearActiveDots: clearActiveDots
+    };
+  }
+
   function eventToSvgPoint(svgEl, event) {
     var pt = svgEl.createSVGPoint();
     pt.x = event.clientX;
@@ -796,6 +1015,240 @@
     });
   }
 
+  function initConnectedHover(chartEl, itemEls, options) {
+    var opts = options || {};
+    var items = Array.prototype.slice.call(itemEls || []);
+    var allNodes = Array.prototype.slice.call(opts.allNodes || items);
+    var allEdges = Array.prototype.slice.call(opts.allEdges || []);
+    var hoverClass = opts.hoverClass === false ? '' : (opts.hoverClass || 'hovering');
+    var activeClass = opts.activeClass || 'active';
+    var connectedClass = opts.connectedClass || 'connected';
+    var getRelatedItems = typeof opts.getRelatedItems === 'function' ? opts.getRelatedItems : function () { return []; };
+    var getRelatedEdges = typeof opts.getRelatedEdges === 'function' ? opts.getRelatedEdges : function () { return []; };
+
+    function clear() {
+      allNodes.forEach(function (node) {
+        if (!node) return;
+        node.classList.remove(activeClass);
+        node.classList.remove(connectedClass);
+      });
+      allEdges.forEach(function (edge) {
+        if (!edge) return;
+        edge.classList.remove(connectedClass);
+      });
+      if (chartEl && hoverClass) chartEl.classList.remove(hoverClass);
+    }
+
+    function activate(itemEl) {
+      clear();
+      if (!itemEl) return;
+      if (chartEl && hoverClass) chartEl.classList.add(hoverClass);
+      itemEl.classList.add(activeClass);
+      Array.prototype.slice.call(getRelatedItems(itemEl) || []).forEach(function (node) {
+        if (node) node.classList.add(connectedClass);
+      });
+      Array.prototype.slice.call(getRelatedEdges(itemEl) || []).forEach(function (edge) {
+        if (edge) edge.classList.add(connectedClass);
+      });
+    }
+
+    return {
+      activate: activate,
+      clear: clear,
+      items: items,
+      allNodes: allNodes,
+      allEdges: allEdges
+    };
+  }
+
+  function initStandardTooltip(svgEl, chartEl, itemEls, options) {
+    var opts = options || {};
+    var items = Array.prototype.slice.call(itemEls || []);
+    var tipEl = opts.tip || null;
+    var bgEl = opts.bg || null;
+    var borderEl = opts.border || null;
+    var tailEl = opts.tail || null;
+    var primaryEl = opts.primary || null;
+    var labelEl = opts.label || null;
+    var metaEl = opts.meta || null;
+    var plotL = opts.plotL == null ? 0 : opts.plotL;
+    var plotR = opts.plotR == null ? 0 : opts.plotR;
+    var plotT = opts.plotT == null ? 0 : opts.plotT;
+    var plotB = opts.plotB == null ? 0 : opts.plotB;
+    var boxHeight = opts.boxHeight == null ? 120 : opts.boxHeight;
+    var minWidth = opts.minWidth == null ? 60 : opts.minWidth;
+    var pad = opts.padding == null ? 20 : opts.padding;
+    var paddingX = opts.paddingX == null ? 20 : opts.paddingX;
+    var paddingY = opts.paddingY == null ? 18 : opts.paddingY;
+    var lineY = Array.isArray(opts.lineY) ? opts.lineY : [0.22, 0.52, 0.80];
+    var lineHeights = Array.isArray(opts.lineHeights) ? opts.lineHeights : [42, 32, 32];
+    var placement = opts.placement || 'auto';
+    var anchorInset = opts.anchorInset == null ? 0 : opts.anchorInset;
+    var gap = opts.gap == null ? 14 : opts.gap;
+    var rx = opts.rx == null ? 12 : opts.rx;
+    var tw = opts.tw == null ? 10 : opts.tw;
+    var getContent = typeof opts.getContent === 'function' ? opts.getContent : function () { return {}; };
+    var getAnchor = typeof opts.getAnchor === 'function' ? opts.getAnchor : null;
+    var trackPointer = opts.trackPointer !== false;
+
+    function findTipPart(part, selectors) {
+      if (part) return part;
+      if (!tipEl || !tipEl.querySelector) return null;
+      for (var i = 0; i < selectors.length; i += 1) {
+        part = tipEl.querySelector(selectors[i]);
+        if (part) return part;
+      }
+      return null;
+    }
+
+    bgEl = findTipPart(bgEl, ['#tip-bg', '.tip-bg', '[data-tip-role="bg"]']);
+    borderEl = findTipPart(borderEl, ['#tip-bdr', '.tip-border', '[data-tip-role="border"]']);
+    tailEl = findTipPart(tailEl, ['#tip-arr', '#tip-tail', '.tip-tail', '[data-tip-role="tail"]']);
+    primaryEl = findTipPart(primaryEl, ['#tip-val', '.tip-value', '[data-tip-role="primary"]']);
+    labelEl = findTipPart(labelEl, ['#tip-lbl', '.tip-label', '[data-tip-role="label"]']);
+    metaEl = findTipPart(metaEl, ['#tip-pct', '#tip-meta', '.tip-pct', '[data-tip-role="meta"]']);
+
+    function getFallbackAnchor(itemEl) {
+      var box = itemEl.getBBox();
+      return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+    }
+
+    function getActiveAnchor(itemEl) {
+      if (getAnchor) return getAnchor(itemEl, itemEl.__tipPoint || null) || getFallbackAnchor(itemEl);
+      if (trackPointer && itemEl.__tipPoint) return itemEl.__tipPoint;
+      return getFallbackAnchor(itemEl);
+    }
+
+      function renderTip(itemEl) {
+        var content = getContent(itemEl) || {};
+        var primary = content.primary || '';
+        var label = content.label || '';
+        var meta = content.meta || '';
+        var width;
+        var box;
+        var anchor;
+        var height;
+        var y;
+        var sideWidth;
+        var sideHeight;
+
+        if (!tipEl || !bgEl || !borderEl || !tailEl || !primaryEl || !labelEl || !metaEl) return;
+
+        primaryEl.textContent = primary;
+        labelEl.textContent = label;
+        metaEl.textContent = meta;
+
+        anchor = getActiveAnchor(itemEl);
+        sideWidth = Math.max(
+          (primaryEl.getBBox ? primaryEl.getBBox().width : 0) + paddingX * 2,
+          (labelEl.getBBox ? labelEl.getBBox().width : 0) + paddingX * 2,
+          (metaEl.getBBox ? metaEl.getBBox().width : 0) + paddingX * 2,
+          minWidth
+        );
+        sideHeight = paddingY * 2 + lineHeights.reduce(function (sum, lineHeight) {
+          return sum + lineHeight;
+        }, 0);
+
+        if (placement === 'side') {
+          width = sideWidth;
+          height = sideHeight;
+          box = buildSideTooltipChrome(anchor.x, anchor.y, width, height, plotL, plotR, plotT, plotB, anchorInset, gap, rx, tw);
+
+          bgEl.setAttribute('x', box.bL);
+          bgEl.setAttribute('y', box.bT);
+          bgEl.setAttribute('width', width);
+          bgEl.setAttribute('height', height);
+          borderEl.setAttribute('d', box.borderPath);
+          tailEl.setAttribute('d', box.tailPath);
+
+          y = box.bT + paddingY;
+          primaryEl.setAttribute('x', box.bL + width / 2);
+          primaryEl.setAttribute('y', y + lineHeights[0] / 2);
+          y += lineHeights[0];
+          labelEl.setAttribute('x', box.bL + width / 2);
+          labelEl.setAttribute('y', y + lineHeights[1] / 2);
+          y += lineHeights[1];
+          metaEl.setAttribute('x', box.bL + width / 2);
+          metaEl.setAttribute('y', y + lineHeights[2] / 2);
+          return;
+        }
+
+        width = Math.max(
+          (primaryEl.getBBox ? primaryEl.getBBox().width : 0) + pad,
+          (labelEl.getBBox ? labelEl.getBBox().width : 0) + pad,
+          (metaEl.getBBox ? metaEl.getBBox().width : 0) + pad,
+          minWidth
+        );
+        box = buildChartTip(anchor.x, anchor.y, width, boxHeight, plotL, plotR, plotT, plotB);
+
+        if (box.tailUp) {
+          width = sideWidth;
+          height = sideHeight;
+          box = buildSideTooltipChrome(anchor.x, anchor.y, width, height, plotL, plotR, plotT, plotB, anchorInset, gap, rx, tw);
+
+          bgEl.setAttribute('x', box.bL);
+          bgEl.setAttribute('y', box.bT);
+          bgEl.setAttribute('width', width);
+          bgEl.setAttribute('height', height);
+          borderEl.setAttribute('d', box.borderPath);
+          tailEl.setAttribute('d', box.tailPath);
+
+          y = box.bT + paddingY;
+          primaryEl.setAttribute('x', box.bL + width / 2);
+          primaryEl.setAttribute('y', y + lineHeights[0] / 2);
+          y += lineHeights[0];
+          labelEl.setAttribute('x', box.bL + width / 2);
+          labelEl.setAttribute('y', y + lineHeights[1] / 2);
+          y += lineHeights[1];
+          metaEl.setAttribute('x', box.bL + width / 2);
+          metaEl.setAttribute('y', y + lineHeights[2] / 2);
+          return;
+        }
+
+        bgEl.setAttribute('x', box.bL);
+        bgEl.setAttribute('y', box.bT);
+        bgEl.setAttribute('width', width);
+        bgEl.setAttribute('height', boxHeight);
+        borderEl.setAttribute('d', box.borderPath);
+        tailEl.setAttribute('d', box.tailPath);
+        primaryEl.setAttribute('x', box.bCx);
+        primaryEl.setAttribute('y', box.bT + boxHeight * lineY[0]);
+        labelEl.setAttribute('x', box.bCx);
+        labelEl.setAttribute('y', box.bT + boxHeight * lineY[1]);
+        metaEl.setAttribute('x', box.bCx);
+        metaEl.setAttribute('y', box.bT + boxHeight * lineY[2]);
+      }
+
+    if (trackPointer) {
+      items.forEach(function (itemEl) {
+        function updatePointer(event) {
+          itemEl.__tipPoint = eventToSvgPoint(svgEl, event);
+          if (itemEl.classList.contains('active')) renderTip(itemEl);
+        }
+        itemEl.addEventListener('mouseenter', updatePointer);
+        itemEl.addEventListener('mousemove', updatePointer);
+      });
+    }
+
+    return initExclusiveHoverTips(chartEl, items, {
+      leaveTarget: opts.leaveTarget,
+      activeClass: opts.activeClass,
+      hoverClass: opts.hoverClass,
+      resolveTip: function () {
+        return tipEl;
+      },
+      beforeShow: function (itemEl) {
+        renderTip(itemEl);
+        if (typeof opts.beforeShow === 'function') opts.beforeShow(itemEl, tipEl);
+      },
+      afterHide: function () {
+        if (typeof opts.afterHide === 'function') opts.afterHide(tipEl);
+      },
+      onActivate: opts.onActivate,
+      onDeactivate: opts.onDeactivate
+    });
+  }
+
   function buildStackedSideTooltip(tipLayer, opts) {
     var PAD = 22, DOT_R = 5, DOT_X = 20, LBL_X = 38, rx = 12;
     var rowH = 42, hdrH = 38, divH = 12, totH = 46;
@@ -953,6 +1406,10 @@
     });
 
     return { tips: tips, hits: hits, crosshairs: crosshairs };
+  }
+
+  function initStackedSummaryTooltip(svgEl, options) {
+    return initStackedColumnHover(svgEl, options);
   }
 
   function initPointSeriesHover(svgEl, options) {
@@ -1278,6 +1735,59 @@
     svgEl.__chartPalette = colors && colors.length ? colors.slice() : null;
   }
 
+  function getSeriesToneColor(svgEl, seriesIndex, toneIndex) {
+    var index = Math.max(1, Number(seriesIndex) || 1);
+    var tone = Math.max(0, Number(toneIndex) || 0);
+    var wantDark = !!(svgEl && svgEl.classList && svgEl.classList.contains('dark'));
+    var base = '';
+
+    if (svgEl && global.getComputedStyle) {
+      base = global.getComputedStyle(svgEl).getPropertyValue('--series-' + index).trim();
+    }
+    if (!base) {
+      base = (wantDark ? DEFAULT_DARK_PALETTE : DEFAULT_LIGHT_PALETTE)[(index - 1) % DEFAULT_LIGHT_PALETTE.length];
+    }
+    return tone === 0 ? base : shiftTone(base, tone, wantDark);
+  }
+
+  function colorToRgb(color) {
+    var value = String(color || '').trim();
+    var match;
+    var parsed;
+    if (!value) return [0, 0, 0];
+    if (value.charAt(0) === '#') {
+      parsed = hexToRgb(value);
+      if (parsed) return [parsed.r, parsed.g, parsed.b];
+    }
+    match = value.match(/[\d.]+/g);
+    return match ? [Number(match[0]) || 0, Number(match[1]) || 0, Number(match[2]) || 0] : [0, 0, 0];
+  }
+
+  function getReadableTextColors(fillColor, options) {
+    var opts = options || {};
+    var rgb = colorToRgb(fillColor);
+    var threshold = opts.threshold == null ? 0.62 : Number(opts.threshold);
+    var luminance = (0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]) / 255;
+    return luminance > threshold
+      ? {
+          title: opts.lightTitle || '#1C1B1F',
+          sub: opts.lightSub || '#49454F'
+        }
+      : {
+          title: opts.darkTitle || '#FFFFFF',
+          sub: opts.darkSub || 'rgba(255,255,255,0.82)'
+        };
+  }
+
+  function getSeriesDepthColor(svgEl, seriesIndex, depth, options) {
+    var opts = options || {};
+    var value = Math.max(0, Number(depth) || 0);
+    var offset = opts.offset == null ? 0 : Number(opts.offset);
+    var maxDepth = opts.maxDepth == null ? Infinity : Math.max(0, Number(opts.maxDepth) || 0);
+    var toneIndex = Math.min(value, maxDepth) + offset;
+    return getSeriesToneColor(svgEl, seriesIndex, Math.max(0, toneIndex));
+  }
+
   function initChart(svgEl) {
     if (!svgEl || svgEl.__chartSharedInitialized) return;
     svgEl.__chartSharedInitialized = true;
@@ -1306,21 +1816,25 @@
     if (typeof svgEl._chartInit === 'function') {
       svgEl._chartInit(svgEl, {
         $$: $$,
-        $$all: $$all,
-        el: createSvgEl,
-        buildTip: buildChartTip,
-        layoutSideTooltip: layoutSideTooltip,
+          $$all: $$all,
+          el: createSvgEl,
+          initStandardLegend: function (options) { return initStandardLegend(svgEl, options); },
+          buildTip: buildChartTip,
+          layoutSideTooltip: layoutSideTooltip,
         initSideBubbles: function (options) { return initSideBubbles(svgEl, { $$: $$, $$all: $$all }, options); },
         initRadialHover: initRadialHover,
         initExclusiveHover: initExclusiveHover,
         initExclusiveHoverTips: initExclusiveHoverTips,
+        initConnectedHover: initConnectedHover,
+        initStandardTooltip: function (chartEl, itemEls, options) { return initStandardTooltip(svgEl, chartEl, itemEls, options); },
         buildStackedSideTooltip: buildStackedSideTooltip,
-        initStackedColumnHover: function (options) { return initStackedColumnHover(svgEl, options); },
+        initStackedSummaryTooltip: function (options) { return initStackedSummaryTooltip(svgEl, options); },
         initPointSeriesHover: function (options) { return initPointSeriesHover(svgEl, options); },
         getStaggerStep: function (count, totalWindow) { return getStaggerStep(count, totalWindow, svgEl); },
         getStaggerDelay: function (index, count, totalWindow) { return getStaggerDelay(index, count, totalWindow, svgEl); },
         getStaggerTiming: function (count, options) { return getStaggerTiming(count, options, svgEl); },
         getRevealReadyDelayMs: getRevealReadyDelayMs,
+        markReadyAfterReveal: markReadyAfterReveal,
         buildChartTip: buildChartTip,
         activateExclusive: activateExclusive,
         setElementsActive: setElementsActive,
@@ -1333,10 +1847,15 @@
         initAreaClipReveal: function (options) { return initAreaClipReveal(svgEl, options); },
         getNearestSeriesIdAtColumn: getNearestSeriesIdAtColumn,
         setSeriesHoverState: function (options) { return setSeriesHoverState(svgEl, options); },
+        initSeriesHoverController: function (options) { return initSeriesHoverController(svgEl, options); },
         eventToSvgPoint: eventToSvgPoint,
         initSeriesVerticalGradients: function (options) { return initSeriesVerticalGradients(svgEl, options); },
-        rebalancePlotArea: function (options) { return rebalancePlotArea(svgEl, options); }
-      });
+        rebalancePlotArea: function (options) { return rebalancePlotArea(svgEl, options); },
+          getSeriesToneColor: function (seriesIndex, toneIndex) { return getSeriesToneColor(svgEl, seriesIndex, toneIndex); },
+          getSeriesDepthColor: function (seriesIndex, depth, options) { return getSeriesDepthColor(svgEl, seriesIndex, depth, options); },
+          getReadableTextColors: function (fillColor, options) { return getReadableTextColors(fillColor, options); },
+          colorToRgb: colorToRgb
+        });
     }
 
     applyPalette(svgEl, svgEl.__chartPalette, svgEl.classList.contains('dark'));

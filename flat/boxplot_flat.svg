@@ -1,96 +1,30 @@
 <svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<script type="text/javascript"><![CDATA[
+(function () {
+  if (window.location.href.indexOf('theme=dark') !== -1) {
+    document.documentElement.classList.add('dark');
+  }
+}());
+]]></script>
 <defs>
   <style>
     @import url('chart-shared.css');
-  .chart-shell-hidden { display:none; }
-  .card-bg, .border-light, .border-dark { display:none; }
-    .card-bg        { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    .card-title     { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .card-subtitle  { font-size:11px; fill:#79747E; font-weight:400; }
-    .tick-label     { font-size:10px; fill:#79747E; font-weight:400; }
-    .category-label { font-size:10px; fill:#79747E; font-weight:500; }
-    .grid-line      { stroke:#E7E0EC; stroke-width:1; }
-    .axis-line      { stroke:#79747E; stroke-width:1.5; }
-    .footer         { font-size:10px; fill:#79747E; font-weight:400; }
-    .toggle-wrap    { cursor:pointer; }
-    .toggle-track   { fill:#E7E0EC; }
-    .toggle-thumb   { fill:#ffffff; }
-    .toggle-label   { font-size:11px; font-weight:500; fill:#49454F; }
-    .print-track    { fill:#E7E0EC; transition:fill 0.3s; }
-    .print-thumb    { fill:#ffffff; }
-    .print-label    { font-size:11px; font-weight:500; fill:#49454F; }
-
-    svg.print .print-track  { fill:#d97316; }
-
-    /* Standard palette ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â fill and stroke unified */
-    .series-1 { fill:#00D4E8; stroke:#00D4E8; } .series-2 { fill:#00B87A; stroke:#00B87A; }
-    .series-3 { fill:#F59E0B; stroke:#F59E0B; } .series-4 { fill:#F43F5E; stroke:#F43F5E; }
-    .series-5 { fill:#8B5CF6; stroke:#8B5CF6; } .series-6 { fill:#3B82F6; stroke:#3B82F6; }
-    .series-7 { fill:#0D9488; stroke:#0D9488; } .series-8 { fill:#64748B; stroke:#64748B; }
-
-    svg.dark .series-1 { fill:#22D3EE; stroke:#22D3EE; } svg.dark .series-2 { fill:#10B981; stroke:#10B981; }
-    svg.dark .series-3 { fill:#FBB724; stroke:#FBB724; } svg.dark .series-4 { fill:#FB6181; stroke:#FB6181; }
-    svg.dark .series-5 { fill:#A78BFA; stroke:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; stroke:#60A5FA; }
-    svg.dark .series-7 { fill:#2DD4BF; stroke:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; stroke:#94A3B8; }
-
-    @keyframes dataFadeIn { from { opacity:0; } to { opacity:1; } }
-    .data-body         { opacity:0; transition:opacity 0.2s ease; }
+    .data-body { opacity:0; transition:opacity 0.2s ease; }
     .data-body.visible { opacity:1; }
-
-    .data-item       { cursor:pointer; }
-    .data-tip        { opacity:0; pointer-events:none; transition:opacity 0.2s ease; }
-    .data-item.active .data-tip { opacity:1; }
-    .data-layer.ready.hovering .data-item        { opacity:0.20; transition:opacity 0.2s ease; }
+    .data-layer.ready.hovering .data-item { opacity:0.20; transition:opacity 0.2s ease; }
     .data-layer.ready.hovering .data-item.active { opacity:1; }
-    svg.print .data-tip { opacity:0 !important; }
-    svg.print .data-layer.hovering .data-item { opacity:1 !important; }
-
-    .tip-bg     { fill:#FFFBFE; }
-    .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-value  { fill:#1C1B1F; font-size:28px; font-weight:700; }
-    .tip-label  { fill:#49454F; font-size:22px; font-weight:400; }
-    svg.dark .tip-value { fill:#E6E0E9; }
-    svg.dark .tip-label { fill:#CAC4D0; }
-    .whisker    { stroke-width:2; stroke-linecap:round; fill:none; }
-    .median     { stroke:#FFFBFE; stroke-width:2.5; stroke-linecap:round; fill:none; }
-
-    svg.dark .card-bg        { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-    svg.dark .card-title     { fill:#E6E0E9; }
-    svg.dark .card-subtitle  { fill:#938F99; }
-    svg.dark .tick-label     { fill:#938F99; }
-    svg.dark .category-label { fill:#938F99; }
-    svg.dark .grid-line      { stroke:#49454F; }
-    svg.dark .axis-line      { stroke:#938F99; }
-    svg.dark .footer         { fill:#938F99; }
-    svg.dark .toggle-track   { fill:#49454F; }
-    svg.dark .toggle-label   { fill:#CAC4D0; }
-    svg.dark .print-track    { fill:#49454F; }
-    svg.dark .print-label    { fill:#CAC4D0; }
-    svg.dark.print .print-track { fill:#d97316; }
-    svg.dark .tip-bg     { fill:#1C1B1F; }
-    svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
-    svg.dark .tip-tail   { fill:#1C1B1F; stroke:#938F99; stroke-width:1; }
-    svg.dark .tip-value  { fill:#E6E0E9; }
-    svg.dark .tip-label  { fill:#CAC4D0; }
-    svg.dark .median     { stroke:#1C1B1F; }
-
-    .border-dark  { display:none; }
-    .border-light { display:block; }
-    svg.dark .border-dark  { display:block; }
-    svg.dark .border-light { display:none; }
-    .card-bg, .border-light, .border-dark, .card-title, .card-subtitle, .footer, .toggle-wrap { display:none !important; }
+    .whisker { stroke-width:2; stroke-linecap:round; fill:none; }
+    .median { stroke:#FFFBFE; stroke-width:2.5; stroke-linecap:round; fill:none; }
+    svg.dark .median { stroke:#1C1B1F; }
   </style>
 </defs>
-
-
 
 <line x1="68" y1="500" x2="850" y2="500" class="axis-line"/>
 <line x1="68" y1="400" x2="850" y2="400" class="grid-line"/>
 <line x1="68" y1="300" x2="850" y2="300" class="grid-line"/>
 <line x1="68" y1="200" x2="850" y2="200" class="grid-line"/>
 <line x1="68" y1="100" x2="850" y2="100" class="grid-line"/>
-<line x1="68" y1="100" x2="68"  y2="500" class="axis-line"/>
+<line x1="68" y1="100" x2="68" y2="500" class="axis-line"/>
 
 <text x="56" y="504" class="tick-label" text-anchor="end">$0</text>
 <text x="56" y="404" class="tick-label" text-anchor="end">$25M</text>
@@ -108,230 +42,178 @@
 <text x="760" y="522" class="category-label" text-anchor="middle">Other</text>
 
 <g class="data-layer">
-
-<!-- Cyan -->
-<g class="data-item" id="bw1">
-  <g class="data-body stagger-1">
-    <line class="whisker series-1" x1="130" y1="124" x2="130" y2="164"/>
-    <line class="whisker series-1" x1="110" y1="124" x2="150" y2="124"/>
-    <line class="whisker series-1" x1="130" y1="268" x2="130" y2="332"/>
-    <line class="whisker series-1" x1="110" y1="332" x2="150" y2="332"/>
-    <rect class="series-1" x="102" y="164" width="56" height="104" rx="10" fill-opacity="0.85"/>
-    <line class="median" x1="106" y1="212" x2="154" y2="212"/>
-    <circle class="series-1" cx="130" cy="108" r="5" fill="none" stroke-width="2"/>
+  <g class="data-item" id="bw1" data-value="$72M" data-label="Median - Cyan" data-meta="IQR $58-$84M | Range $42-$94M" data-tip-x="130" data-tip-y="140">
+    <g class="data-body">
+      <line class="whisker series-1 use-series-stroke" x1="130" y1="124" x2="130" y2="164"/>
+      <line class="whisker series-1 use-series-stroke" x1="110" y1="124" x2="150" y2="124"/>
+      <line class="whisker series-1 use-series-stroke" x1="130" y1="268" x2="130" y2="332"/>
+      <line class="whisker series-1 use-series-stroke" x1="110" y1="332" x2="150" y2="332"/>
+      <rect class="series-1" x="102" y="164" width="56" height="104" rx="10" fill-opacity="0.85"/>
+      <line class="median" x1="106" y1="212" x2="154" y2="212"/>
+      <circle class="series-1 use-series-stroke" cx="130" cy="108" r="5" fill="none" stroke-width="2"/>
+    </g>
   </g>
-  <g class="data-tip" transform="translate(130,140)">
-    <rect x="-105" y="12" width="210" height="140" rx="12" class="tip-bg"/>
-    <path d="M-10,12 L-93,12 Q-105,12 -105,24 L-105,140 Q-105,152 -93,152 L93,152 Q105,152 105,140 L105,24 Q105,12 93,12 L10,12" class="tip-border"/>
-    <path d="M-10,12 L0,0 L10,12" class="tip-tail"/>
-    <text x="0" y="36" text-anchor="middle" dominant-baseline="central" class="tip-value">$72M</text>
-    <text x="0" y="69" text-anchor="middle" dominant-baseline="central" class="tip-label">Median Ãƒâ€šÃ‚Â· Cyan</text>
-    <text x="0" y="99" text-anchor="middle" dominant-baseline="central" class="tip-label">IQR $58ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“$84M</text>
-    <text x="0" y="129" text-anchor="middle" dominant-baseline="central" class="tip-label">Range $42ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“$94M</text>
+  <g class="data-item" id="bw2" data-value="$68M" data-label="Median - Emerald" data-meta="IQR $56-$79M | Range $40-$90M" data-tip-x="220" data-tip-y="152">
+    <g class="data-body">
+      <line class="whisker series-2 use-series-stroke" x1="220" y1="140" x2="220" y2="184"/>
+      <line class="whisker series-2 use-series-stroke" x1="200" y1="140" x2="240" y2="140"/>
+      <line class="whisker series-2 use-series-stroke" x1="220" y1="276" x2="220" y2="340"/>
+      <line class="whisker series-2 use-series-stroke" x1="200" y1="340" x2="240" y2="340"/>
+      <rect class="series-2" x="192" y="184" width="56" height="92" rx="10" fill-opacity="0.85"/>
+      <line class="median" x1="196" y1="228" x2="244" y2="228"/>
+      <circle class="series-2 use-series-stroke" cx="220" cy="116" r="5" fill="none" stroke-width="2"/>
+    </g>
   </g>
-</g>
-
-<!-- Emerald -->
-<g class="data-item" id="bw2">
-  <g class="data-body stagger-2">
-    <line class="whisker series-2" x1="220" y1="140" x2="220" y2="184"/>
-    <line class="whisker series-2" x1="200" y1="140" x2="240" y2="140"/>
-    <line class="whisker series-2" x1="220" y1="276" x2="220" y2="340"/>
-    <line class="whisker series-2" x1="200" y1="340" x2="240" y2="340"/>
-    <rect class="series-2" x="192" y="184" width="56" height="92" rx="10" fill-opacity="0.85"/>
-    <line class="median" x1="196" y1="228" x2="244" y2="228"/>
-    <circle class="series-2" cx="220" cy="116" r="5" fill="none" stroke-width="2"/>
+  <g class="data-item" id="bw3" data-value="$60M" data-label="Median - Amber" data-meta="IQR $50-$74M | Range $35-$85M" data-tip-x="310" data-tip-y="172">
+    <g class="data-body">
+      <line class="whisker series-3 use-series-stroke" x1="310" y1="160" x2="310" y2="204"/>
+      <line class="whisker series-3 use-series-stroke" x1="290" y1="160" x2="330" y2="160"/>
+      <line class="whisker series-3 use-series-stroke" x1="310" y1="300" x2="310" y2="360"/>
+      <line class="whisker series-3 use-series-stroke" x1="290" y1="360" x2="330" y2="360"/>
+      <rect class="series-3" x="282" y="204" width="56" height="96" rx="10" fill-opacity="0.85"/>
+      <line class="median" x1="286" y1="260" x2="334" y2="260"/>
+      <circle class="series-3 use-series-stroke" cx="310" cy="372" r="5" fill="none" stroke-width="2"/>
+    </g>
   </g>
-  <g class="data-tip" transform="translate(220,152)">
-    <rect x="-105" y="12" width="210" height="140" rx="12" class="tip-bg"/>
-    <path d="M-10,12 L-93,12 Q-105,12 -105,24 L-105,140 Q-105,152 -93,152 L93,152 Q105,152 105,140 L105,24 Q105,12 93,12 L10,12" class="tip-border"/>
-    <path d="M-10,12 L0,0 L10,12" class="tip-tail"/>
-    <text x="0" y="36" text-anchor="middle" dominant-baseline="central" class="tip-value">$68M</text>
-    <text x="0" y="69" text-anchor="middle" dominant-baseline="central" class="tip-label">Median Ãƒâ€šÃ‚Â· Emerald</text>
-    <text x="0" y="99" text-anchor="middle" dominant-baseline="central" class="tip-label">IQR $56ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“$79M</text>
-    <text x="0" y="129" text-anchor="middle" dominant-baseline="central" class="tip-label">Range $40ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“$90M</text>
+  <g class="data-item" id="bw4" data-value="$55M" data-label="Median - Rose" data-meta="IQR $46-$68M | Range $30-$80M" data-tip-x="400" data-tip-y="192">
+    <g class="data-body">
+      <line class="whisker series-4 use-series-stroke" x1="400" y1="180" x2="400" y2="228"/>
+      <line class="whisker series-4 use-series-stroke" x1="380" y1="180" x2="420" y2="180"/>
+      <line class="whisker series-4 use-series-stroke" x1="400" y1="316" x2="400" y2="380"/>
+      <line class="whisker series-4 use-series-stroke" x1="380" y1="380" x2="420" y2="380"/>
+      <rect class="series-4" x="372" y="228" width="56" height="88" rx="10" fill-opacity="0.85"/>
+      <line class="median" x1="376" y1="280" x2="424" y2="280"/>
+      <circle class="series-4 use-series-stroke" cx="400" cy="148" r="5" fill="none" stroke-width="2"/>
+    </g>
   </g>
-</g>
-
-<!-- Amber -->
-<g class="data-item" id="bw3">
-  <g class="data-body stagger-3">
-    <line class="whisker series-3" x1="310" y1="160" x2="310" y2="204"/>
-    <line class="whisker series-3" x1="290" y1="160" x2="330" y2="160"/>
-    <line class="whisker series-3" x1="310" y1="300" x2="310" y2="360"/>
-    <line class="whisker series-3" x1="290" y1="360" x2="330" y2="360"/>
-    <rect class="series-3" x="282" y="204" width="56" height="96" rx="10" fill-opacity="0.85"/>
-    <line class="median" x1="286" y1="260" x2="334" y2="260"/>
-    <circle class="series-3" cx="310" cy="372" r="5" fill="none" stroke-width="2"/>
+  <g class="data-item" id="bw5" data-value="$79M" data-label="Median - Violet" data-meta="IQR $68-$90M | Range $55-$100M" data-tip-x="490" data-tip-y="118">
+    <g class="data-body">
+      <line class="whisker series-5 use-series-stroke" x1="490" y1="100" x2="490" y2="140"/>
+      <line class="whisker series-5 use-series-stroke" x1="470" y1="100" x2="510" y2="100"/>
+      <line class="whisker series-5 use-series-stroke" x1="490" y1="228" x2="490" y2="280"/>
+      <line class="whisker series-5 use-series-stroke" x1="470" y1="280" x2="510" y2="280"/>
+      <rect class="series-5" x="462" y="140" width="56" height="88" rx="10" fill-opacity="0.85"/>
+      <line class="median" x1="466" y1="184" x2="514" y2="184"/>
+      <circle class="series-5 use-series-stroke" cx="490" cy="292" r="5" fill="none" stroke-width="2"/>
+    </g>
   </g>
-  <g class="data-tip" transform="translate(310,172)">
-    <rect x="-105" y="12" width="210" height="140" rx="12" class="tip-bg"/>
-    <path d="M-10,12 L-93,12 Q-105,12 -105,24 L-105,140 Q-105,152 -93,152 L93,152 Q105,152 105,140 L105,24 Q105,12 93,12 L10,12" class="tip-border"/>
-    <path d="M-10,12 L0,0 L10,12" class="tip-tail"/>
-    <text x="0" y="36" text-anchor="middle" dominant-baseline="central" class="tip-value">$60M</text>
-    <text x="0" y="69" text-anchor="middle" dominant-baseline="central" class="tip-label">Median Ãƒâ€šÃ‚Â· Amber</text>
-    <text x="0" y="99" text-anchor="middle" dominant-baseline="central" class="tip-label">IQR $50ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“$74M</text>
-    <text x="0" y="129" text-anchor="middle" dominant-baseline="central" class="tip-label">Range $35ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“$85M</text>
+  <g class="data-item" id="bw6" data-value="$64M" data-label="Median - Blue" data-meta="IQR $55-$76M | Range $38-$87M" data-tip-x="580" data-tip-y="166">
+    <g class="data-body">
+      <line class="whisker series-6 use-series-stroke" x1="580" y1="152" x2="580" y2="196"/>
+      <line class="whisker series-6 use-series-stroke" x1="560" y1="152" x2="600" y2="152"/>
+      <line class="whisker series-6 use-series-stroke" x1="580" y1="280" x2="580" y2="348"/>
+      <line class="whisker series-6 use-series-stroke" x1="560" y1="348" x2="600" y2="348"/>
+      <rect class="series-6" x="552" y="196" width="56" height="84" rx="10" fill-opacity="0.85"/>
+      <line class="median" x1="556" y1="244" x2="604" y2="244"/>
+      <circle class="series-6 use-series-stroke" cx="580" cy="128" r="5" fill="none" stroke-width="2"/>
+    </g>
   </g>
-</g>
-
-<!-- Rose -->
-<g class="data-item" id="bw4">
-  <g class="data-body stagger-4">
-    <line class="whisker series-4" x1="400" y1="180" x2="400" y2="228"/>
-    <line class="whisker series-4" x1="380" y1="180" x2="420" y2="180"/>
-    <line class="whisker series-4" x1="400" y1="316" x2="400" y2="380"/>
-    <line class="whisker series-4" x1="380" y1="380" x2="420" y2="380"/>
-    <rect class="series-4" x="372" y="228" width="56" height="88" rx="10" fill-opacity="0.85"/>
-    <line class="median" x1="376" y1="280" x2="424" y2="280"/>
-    <circle class="series-4" cx="400" cy="148" r="5" fill="none" stroke-width="2"/>
+  <g class="data-item" id="bw7" data-value="$61M" data-label="Median - Teal" data-meta="IQR $52-$72M | Range $36-$83M" data-tip-x="670" data-tip-y="180">
+    <g class="data-body">
+      <line class="whisker series-7 use-series-stroke" x1="670" y1="168" x2="670" y2="212"/>
+      <line class="whisker series-7 use-series-stroke" x1="650" y1="168" x2="690" y2="168"/>
+      <line class="whisker series-7 use-series-stroke" x1="670" y1="292" x2="670" y2="356"/>
+      <line class="whisker series-7 use-series-stroke" x1="650" y1="356" x2="690" y2="356"/>
+      <rect class="series-7" x="642" y="212" width="56" height="80" rx="10" fill-opacity="0.85"/>
+      <line class="median" x1="646" y1="256" x2="694" y2="256"/>
+      <circle class="series-7 use-series-stroke" cx="670" cy="380" r="5" fill="none" stroke-width="2"/>
+    </g>
   </g>
-  <g class="data-tip" transform="translate(400,192)">
-    <rect x="-105" y="12" width="210" height="140" rx="12" class="tip-bg"/>
-    <path d="M-10,12 L-93,12 Q-105,12 -105,24 L-105,140 Q-105,152 -93,152 L93,152 Q105,152 105,140 L105,24 Q105,12 93,12 L10,12" class="tip-border"/>
-    <path d="M-10,12 L0,0 L10,12" class="tip-tail"/>
-    <text x="0" y="36" text-anchor="middle" dominant-baseline="central" class="tip-value">$55M</text>
-    <text x="0" y="69" text-anchor="middle" dominant-baseline="central" class="tip-label">Median Ãƒâ€šÃ‚Â· Rose</text>
-    <text x="0" y="99" text-anchor="middle" dominant-baseline="central" class="tip-label">IQR $46ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“$68M</text>
-    <text x="0" y="129" text-anchor="middle" dominant-baseline="central" class="tip-label">Range $30ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“$80M</text>
-  </g>
-</g>
-
-<!-- Violet -->
-<g class="data-item" id="bw5">
-  <g class="data-body stagger-5">
-    <line class="whisker series-5" x1="490" y1="100" x2="490" y2="140"/>
-    <line class="whisker series-5" x1="470" y1="100" x2="510" y2="100"/>
-    <line class="whisker series-5" x1="490" y1="228" x2="490" y2="280"/>
-    <line class="whisker series-5" x1="470" y1="280" x2="510" y2="280"/>
-    <rect class="series-5" x="462" y="140" width="56" height="88" rx="10" fill-opacity="0.85"/>
-    <line class="median" x1="466" y1="184" x2="514" y2="184"/>
-    <circle class="series-5" cx="490" cy="292" r="5" fill="none" stroke-width="2"/>
-  </g>
-  <g class="data-tip" transform="translate(490,118)">
-    <rect x="-105" y="12" width="210" height="140" rx="12" class="tip-bg"/>
-    <path d="M-10,12 L-93,12 Q-105,12 -105,24 L-105,140 Q-105,152 -93,152 L93,152 Q105,152 105,140 L105,24 Q105,12 93,12 L10,12" class="tip-border"/>
-    <path d="M-10,12 L0,0 L10,12" class="tip-tail"/>
-    <text x="0" y="36" text-anchor="middle" dominant-baseline="central" class="tip-value">$79M</text>
-    <text x="0" y="69" text-anchor="middle" dominant-baseline="central" class="tip-label">Median Ãƒâ€šÃ‚Â· Violet</text>
-    <text x="0" y="99" text-anchor="middle" dominant-baseline="central" class="tip-label">IQR $68ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“$90M</text>
-    <text x="0" y="129" text-anchor="middle" dominant-baseline="central" class="tip-label">Range $55ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“$100M</text>
+  <g class="data-item" id="bw8" data-value="$48M" data-label="Median - Other" data-meta="IQR $36-$58M | Range $22-$68M" data-tip-x="760" data-tip-y="242">
+    <g class="data-body">
+      <line class="whisker series-8 use-series-stroke" x1="760" y1="228" x2="760" y2="268"/>
+      <line class="whisker series-8 use-series-stroke" x1="740" y1="228" x2="780" y2="228"/>
+      <line class="whisker series-8 use-series-stroke" x1="760" y1="356" x2="760" y2="412"/>
+      <line class="whisker series-8 use-series-stroke" x1="740" y1="412" x2="780" y2="412"/>
+      <rect class="series-8" x="732" y="268" width="56" height="88" rx="10" fill-opacity="0.85"/>
+      <line class="median" x1="736" y1="308" x2="784" y2="308"/>
+      <circle class="series-8 use-series-stroke" cx="760" cy="212" r="5" fill="none" stroke-width="2"/>
+    </g>
   </g>
 </g>
 
-<!-- Blue -->
-<g class="data-item" id="bw6">
-  <g class="data-body stagger-6">
-    <line class="whisker series-6" x1="580" y1="152" x2="580" y2="196"/>
-    <line class="whisker series-6" x1="560" y1="152" x2="600" y2="152"/>
-    <line class="whisker series-6" x1="580" y1="280" x2="580" y2="348"/>
-    <line class="whisker series-6" x1="560" y1="348" x2="600" y2="348"/>
-    <rect class="series-6" x="552" y="196" width="56" height="84" rx="10" fill-opacity="0.85"/>
-    <line class="median" x1="556" y1="244" x2="604" y2="244"/>
-    <circle class="series-6" cx="580" cy="128" r="5" fill="none" stroke-width="2"/>
-  </g>
-  <g class="data-tip" transform="translate(580,166)">
-    <rect x="-105" y="12" width="210" height="140" rx="12" class="tip-bg"/>
-    <path d="M-10,12 L-93,12 Q-105,12 -105,24 L-105,140 Q-105,152 -93,152 L93,152 Q105,152 105,140 L105,24 Q105,12 93,12 L10,12" class="tip-border"/>
-    <path d="M-10,12 L0,0 L10,12" class="tip-tail"/>
-    <text x="0" y="36" text-anchor="middle" dominant-baseline="central" class="tip-value">$64M</text>
-    <text x="0" y="69" text-anchor="middle" dominant-baseline="central" class="tip-label">Median Ãƒâ€šÃ‚Â· Blue</text>
-    <text x="0" y="99" text-anchor="middle" dominant-baseline="central" class="tip-label">IQR $55ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“$76M</text>
-    <text x="0" y="129" text-anchor="middle" dominant-baseline="central" class="tip-label">Range $38ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“$87M</text>
+<g id="tip-layer" pointer-events="none">
+  <g class="tip" id="tip">
+    <rect id="tip-bg" class="tip-bg" rx="12"/>
+    <path id="tip-bdr" class="tip-border"/>
+    <path id="tip-tail" class="tip-tail"/>
+    <text id="tip-val" class="tip-value" text-anchor="middle" dominant-baseline="central"/>
+    <text id="tip-lbl" class="tip-label" text-anchor="middle" dominant-baseline="central"/>
+    <text id="tip-meta" class="tip-pct" text-anchor="middle" dominant-baseline="central"/>
   </g>
 </g>
 
-<!-- Teal -->
-<g class="data-item" id="bw7">
-  <g class="data-body stagger-7">
-    <line class="whisker series-7" x1="670" y1="168" x2="670" y2="212"/>
-    <line class="whisker series-7" x1="650" y1="168" x2="690" y2="168"/>
-    <line class="whisker series-7" x1="670" y1="292" x2="670" y2="356"/>
-    <line class="whisker series-7" x1="650" y1="356" x2="690" y2="356"/>
-    <rect class="series-7" x="642" y="212" width="56" height="80" rx="10" fill-opacity="0.85"/>
-    <line class="median" x1="646" y1="256" x2="694" y2="256"/>
-    <circle class="series-7" cx="670" cy="380" r="5" fill="none" stroke-width="2"/>
-  </g>
-  <g class="data-tip" transform="translate(670,180)">
-    <rect x="-105" y="12" width="210" height="140" rx="12" class="tip-bg"/>
-    <path d="M-10,12 L-93,12 Q-105,12 -105,24 L-105,140 Q-105,152 -93,152 L93,152 Q105,152 105,140 L105,24 Q105,12 93,12 L10,12" class="tip-border"/>
-    <path d="M-10,12 L0,0 L10,12" class="tip-tail"/>
-    <text x="0" y="36" text-anchor="middle" dominant-baseline="central" class="tip-value">$61M</text>
-    <text x="0" y="69" text-anchor="middle" dominant-baseline="central" class="tip-label">Median Ãƒâ€šÃ‚Â· Teal</text>
-    <text x="0" y="99" text-anchor="middle" dominant-baseline="central" class="tip-label">IQR $52ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“$72M</text>
-    <text x="0" y="129" text-anchor="middle" dominant-baseline="central" class="tip-label">Range $36ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“$83M</text>
-  </g>
-</g>
-
-<!-- Other -->
-<g class="data-item" id="bw8">
-  <g class="data-body stagger-8">
-    <line class="whisker series-8" x1="760" y1="228" x2="760" y2="268"/>
-    <line class="whisker series-8" x1="740" y1="228" x2="780" y2="228"/>
-    <line class="whisker series-8" x1="760" y1="356" x2="760" y2="412"/>
-    <line class="whisker series-8" x1="740" y1="412" x2="780" y2="412"/>
-    <rect class="series-8" x="732" y="268" width="56" height="88" rx="10" fill-opacity="0.85"/>
-    <line class="median" x1="736" y1="308" x2="784" y2="308"/>
-    <circle class="series-8" cx="760" cy="212" r="5" fill="none" stroke-width="2"/>
-  </g>
-  <g class="data-tip" transform="translate(760,242)">
-    <rect x="-105" y="12" width="210" height="140" rx="12" class="tip-bg"/>
-    <path d="M-10,12 L-93,12 Q-105,12 -105,24 L-105,140 Q-105,152 -93,152 L93,152 Q105,152 105,140 L105,24 Q105,12 93,12 L10,12" class="tip-border"/>
-    <path d="M-10,12 L0,0 L10,12" class="tip-tail"/>
-    <text x="0" y="36" text-anchor="middle" dominant-baseline="central" class="tip-value">$48M</text>
-    <text x="0" y="69" text-anchor="middle" dominant-baseline="central" class="tip-label">Median Ãƒâ€šÃ‚Â· Other</text>
-    <text x="0" y="99" text-anchor="middle" dominant-baseline="central" class="tip-label">IQR $36ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“$58M</text>
-    <text x="0" y="129" text-anchor="middle" dominant-baseline="central" class="tip-label">Range $22ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“$68M</text>
-  </g>
-</g>
-
-</g>
-
-<!-- LEGEND -->
-<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg legend-panel"/>
-<text x="878" y="118" class="legend-title legend-heading">SERIES</text>
-<g class="legend-row" transform="translate(878,146)"><rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Cyan</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$72M</text></g>
-<g class="legend-row" transform="translate(878,188)"><rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Emerald</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$68M</text></g>
-<g class="legend-row" transform="translate(878,230)"><rect class="series-3" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Amber</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$60M</text></g>
-<g class="legend-row" transform="translate(878,272)"><rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Rose</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$55M</text></g>
-<g class="legend-row" transform="translate(878,314)"><rect class="series-5" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Violet</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$79M</text></g>
-<g class="legend-row" transform="translate(878,356)"><rect class="series-6" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Blue</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$64M</text></g>
-<g class="legend-row" transform="translate(878,398)"><rect class="series-7" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Teal</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$61M</text></g>
-<g class="legend-row" transform="translate(878,440)"><rect class="series-8" x="0" y="0" width="14" height="14" rx="3"/><text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Other</text><text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">$48M</text></g>
-
+<g id="legend-root"></g>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
 (function () {
   var svg = document.documentElement;
   svg._chartInit = function (svgEl, ctx) {
-var svg         = document.getElementById('root');
-  var dataLayerEl = document.querySelector('.data-layer');
-
-  /* Ãƒâ€šÃ‚Â§2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â isDark hoisted before all build and animation code */
-
-  var dataItemEls = Array.prototype.slice.call(document.querySelectorAll('.data-item'));
-  dataItemEls.forEach(function(itemEl) {
-    itemEl.addEventListener('mouseenter', function() {
-      if (dataLayerEl) dataLayerEl.classList.add('hovering');
-      dataItemEls.forEach(function(x) { x.classList.remove('active'); }); /* Ãƒâ€šÃ‚Â§4 clear stale */
-      itemEl.classList.add('active');
+    var dataLayerEl = svgEl.querySelector('.data-layer');
+    var tip = svgEl.querySelector('#tip');
+    var legendRoot = svgEl.querySelector('#legend-root');
+    var dataItemEls = ctx.$$all('.data-item');
+    var dataBodyEls = ctx.$$all('.data-body');
+    var timing = ctx.getStaggerTiming(dataBodyEls.length, { duration: 0.8 }, svgEl);
+    var delays = dataBodyEls.map(function (_, index) {
+      return ctx.getStaggerDelay(index, dataBodyEls.length, null, svgEl);
     });
-    itemEl.addEventListener('mouseleave', function() {
-      itemEl.classList.remove('active');
-      if (dataLayerEl) dataLayerEl.classList.remove('hovering');
+
+    ctx.initRevealSequence(dataBodyEls, {
+      animationName: 'dataFadeIn',
+      duration: timing.duration,
+      easing: 'ease-out',
+      delays: delays
     });
-  });
-  var bbDelays = [0, 0.25, 0.50, 0.75, 1.00, 1.25, 1.50, 1.75];
-  document.querySelectorAll('.data-body').forEach(function(bb, i) {
-    bb.style.animation = 'dataFadeIn 0.8s ease-out ' + bbDelays[i] + 's';
-    bb.addEventListener('animationend', function() {
-      bb.style.animation = 'none';
-      bb.classList.add('visible');
-    }, { once: true });
-  });
-  /* gate hover on .ready after last box animation: 1.75s + 0.8s + 100ms buffer */
-  setTimeout(function() { if (dataLayerEl) dataLayerEl.classList.add('ready'); }, (1.75 + 0.8) * 1000 + 100);
+
+    ctx.markReadyAfterReveal(dataLayerEl, {
+      delays: delays,
+      duration: timing.duration,
+      buffer: timing.buffer
+    });
+
+    ctx.initStandardTooltip(dataLayerEl, dataItemEls, {
+      leaveTarget: dataLayerEl,
+      tip: tip,
+      meta: svgEl.querySelector('#tip-meta'),
+      plotL: 68,
+      plotR: 850,
+      plotT: 100,
+      plotB: 500,
+      boxHeight: 148,
+      minWidth: 320,
+      lineY: [0.24, 0.52, 0.78],
+      trackPointer: false,
+      getContent: function (itemEl) {
+        return {
+          primary: itemEl.getAttribute('data-value') || '',
+          label: itemEl.getAttribute('data-label') || '',
+          meta: itemEl.getAttribute('data-meta') || ''
+        };
+      },
+      getAnchor: function (itemEl) {
+        return {
+          x: parseFloat(itemEl.getAttribute('data-tip-x')) || 0,
+          y: parseFloat(itemEl.getAttribute('data-tip-y')) || 0
+        };
+      }
+    });
+
+    ctx.initStandardLegend({
+      legendEl: legendRoot,
+      title: 'SERIES',
+      items: [
+        { cls: 'series-1', label: 'Cyan', value: '$72M' },
+        { cls: 'series-2', label: 'Emerald', value: '$68M' },
+        { cls: 'series-3', label: 'Amber', value: '$60M' },
+        { cls: 'series-4', label: 'Rose', value: '$55M' },
+        { cls: 'series-5', label: 'Violet', value: '$79M' },
+        { cls: 'series-6', label: 'Blue', value: '$64M' },
+        { cls: 'series-7', label: 'Teal', value: '$61M' },
+        { cls: 'series-8', label: 'Other', value: '$48M' }
+      ]
+    });
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());

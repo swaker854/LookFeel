@@ -1,412 +1,321 @@
 <svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<script type="text/javascript"><![CDATA[
+(function () {
+  if (window.location.href.indexOf('theme=dark') !== -1) {
+    document.documentElement.classList.add('dark');
+  }
+}());
+]]></script>
 <defs>
 <style>
   @import url('chart-shared.css');
-  .chart-shell-hidden { display:none; }
-  .card-bg, .border-light, .border-dark { display:none; }
-  .card-bg      { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-  .card-title   { font-size:18px;font-weight:500;fill:#1C1B1F;letter-spacing:-.2px; }
-  .card-subtitle{ font-size:11px;fill:#79747E;font-weight:400; }
-  .tick-label   { font-size:10px;fill:#79747E;font-weight:400; }
-  .footer       { font-size:10px;fill:#79747E;font-weight:400; }
-  .toggle-wrap  { cursor:pointer; }
-  .toggle-track { fill:#E7E0EC; } .toggle-thumb { fill:#fff; }
-  .toggle-label { font-size:11px;font-weight:500;fill:#49454F; }
-  .print-track  { fill:#E7E0EC;transition:fill .3s; } .print-thumb { fill:#fff; }
-  .print-label  { font-size:11px;font-weight:500;fill:#49454F; }
-  svg.print .print-track  { fill:#d97316; }
 
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ standard palette Ã¢â‚¬â€ light mode Ã¢â€â‚¬Ã¢â€â‚¬ */
-  .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
-  .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
-  .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
-  .series-7 { fill:#0D9488; } .series-8 { fill:#64748B; }
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ standard palette Ã¢â‚¬â€ dark mode Ã¢â€â‚¬Ã¢â€â‚¬ */
-  svg.dark .series-1 { fill:#22D3EE; } svg.dark .series-2 { fill:#10B981; }
-  svg.dark .series-3 { fill:#FBB724; } svg.dark .series-4 { fill:#FB6181; }
-  svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
-  svg.dark .series-7 { fill:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; }
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ depth blend ratios + bg targets Ã¢â€â‚¬Ã¢â€â‚¬ */
-  #root {
-    --blend-d0:0.15; --blend-d1:0; --blend-d2:0.45; --blend-d3:0.62; --blend-d4:0.75;
-    --blend-dark-d0:0.08; --blend-dark-d1:0; --blend-dark-d2:0.24; --blend-dark-d3:0.38; --blend-dark-d4:0.50;
-    --bg-light:#FFFBFE; --bg-dark:#2C2B30;
+  svg {
+    --critical-tick-fill: #79747E;
+  }
+  svg.dark {
+    --critical-tick-fill: #938F99;
   }
 
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ Method A @keyframes Ã¢â‚¬â€ animationend adds .visible, no fill-mode conflict Ã¢â€â‚¬Ã¢â€â‚¬ */
-  @keyframes cellFade { from{opacity:0} to{opacity:1} }
-  .icell         { cursor:pointer; transition:opacity .2s ease; }
-  .icell.visible { opacity:1; }
+  .tick-label { fill: var(--critical-tick-fill); }
 
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ hover dimming gated on .ready Ã¢â€â‚¬Ã¢â€â‚¬ */
-  .data-layer.ready.hovering .icell.visible         { opacity:0.20; }
-  .data-layer.ready.hovering .icell.visible.hovered { opacity:1; }
+  @keyframes cellFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ tooltip Ã¢â€â‚¬Ã¢â€â‚¬ */
-  .tip           { opacity:0; pointer-events:none; transition:opacity .12s ease; }
-  svg.print .tip { opacity:0 !important; }
-  .tip-bg     { fill:#FFFBFE; }
-  .tip-border { fill:#FFFBFE;stroke:#79747E;stroke-width:1; }
-  .tip-tail   { fill:#FFFBFE;stroke:#79747E;stroke-width:1; }
-  .tip-value  { fill:#1C1B1F;font-size:28px;font-weight:700; }
-  .tip-label  { fill:#49454F;font-size:22px;font-weight:400; }
-  .tip-pct    { fill:#79747E;font-size:22px;font-weight:400; }
-  svg.dark .tip-value { fill:#E6E0E9; }
-  svg.dark .tip-label { fill:#CAC4D0; }
-  svg.dark .tip-pct   { fill:#CAC4D0; }
-
-  svg.dark .card-bg      { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-  svg.dark .card-title   { fill:#E6E0E9; } svg.dark .card-subtitle  { fill:#938F99; }
-  svg.dark .tick-label   { fill:#938F99; }
-  svg.dark .footer       { fill:#938F99; }
-  svg.dark .toggle-track { fill:#49454F; } svg.dark .toggle-label   { fill:#CAC4D0; }
-  svg.dark .print-track  { fill:#49454F; } svg.dark .print-label    { fill:#CAC4D0; }
-  svg.dark.print .print-track { fill:#d97316; }
-  svg.dark .tip-bg     { fill:#1C1B1F; }
-  svg.dark .tip-border { fill:#1C1B1F;stroke:#938F99; }
-  svg.dark .tip-tail   { fill:#1C1B1F;stroke:#938F99; }
-  svg.dark .tip-value  { fill:#E6E0E9; } svg.dark .tip-label { fill:#CAC4D0; }
-  svg.dark .tip-pct    { fill:#CAC4D0; }
-  .border-dark  { display:none; } .border-light { display:block; }
-  svg.dark .border-dark  { display:block; } svg.dark .border-light { display:none; }
-  .card-bg, .border-light, .border-dark, .card-title, .card-subtitle, .footer, .toggle-wrap { display:none !important; }
+  .icell { opacity: 0; cursor: pointer; transition: opacity .2s ease; }
+  .icell.visible { opacity: 1; }
+  .data-layer.ready.hovering .icell.visible { opacity: 0.20; }
+  .data-layer.ready.hovering .icell.visible.hovered { opacity: 1; }
 </style>
 <clipPath id="chart-clip"><rect x="68" y="100" width="782" height="400"/></clipPath>
 </defs>
 
-
-
-<text x="148" y="92" class="tick-label" text-anchor="middle">L0 Ã‚Â· root</text>
-<text x="312" y="92" class="tick-label" text-anchor="middle">L1 Ã‚Â· module</text>
-<text x="476" y="92" class="tick-label" text-anchor="middle">L2 Ã‚Â· submodule</text>
-<text x="640" y="92" class="tick-label" text-anchor="middle">L3 Ã‚Â· class</text>
-<text x="804" y="92" class="tick-label" text-anchor="middle">L4 Ã‚Â· leaf</text>
+<g id="x-labels">
+  <text x="148" y="92" class="tick-label" text-anchor="middle">L0 - root</text>
+  <text x="312" y="92" class="tick-label" text-anchor="middle">L1 - module</text>
+  <text x="476" y="92" class="tick-label" text-anchor="middle">L2 - submodule</text>
+  <text x="640" y="92" class="tick-label" text-anchor="middle">L3 - class</text>
+  <text x="804" y="92" class="tick-label" text-anchor="middle">L4 - leaf</text>
+</g>
 
 <g class="data-layer" id="data-layer" clip-path="url(#chart-clip)"></g>
 
-<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg legend-panel"/>
-<text x="878" y="118" class="legend-title legend-heading">MODULE</text>
-<g id="lgd-items"></g>
+<g id="legend-root"></g>
 
-<g class="tip" id="tip">
-  <rect id="tip-bg"  class="tip-bg"  rx="9"/>
+<g class="tip" id="tip" style="opacity:0;pointer-events:none;">
+  <rect id="tip-bg" class="tip-bg" rx="9"/>
   <path id="tip-bdr" class="tip-border"/>
-  <path id="tip-arr" class="tip-tail"/>
-  <text id="tip-name" class="tip-value" text-anchor="middle"/>
-  <text id="tip-val"  class="tip-label" text-anchor="middle"/>
-  <text id="tip-pct"  class="tip-pct" text-anchor="middle"/>
+  <path id="tip-tail" class="tip-tail"/>
+  <text id="tip-lbl" class="tip-label" text-anchor="middle" dominant-baseline="central"/>
+  <text id="tip-val" class="tip-value" text-anchor="middle" dominant-baseline="central"/>
+  <text id="tip-meta" class="tip-pct" text-anchor="middle" dominant-baseline="central"/>
 </g>
-
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
-(function () {
+  (function () {
   var svg = document.documentElement;
   svg._chartInit = function (svgEl, ctx) {
-var svg        = document.getElementById('root');
-  var dataLayerEl = document.getElementById('data-layer');
-  var ns         = 'http://www.w3.org/2000/svg';
-  var isDark     = false;
+    var dataLayerEl = document.getElementById('data-layer');
+    var legendRoot = document.getElementById('legend-root');
+    var xLabelsEl = document.getElementById('x-labels');
 
-  var PALETTE_LIGHT = {
-    1:[0,212,232], 2:[0,184,122], 3:[245,158,11], 4:[244,63,94],
-    5:[139,92,246], 6:[59,130,246], 7:[13,148,136], 8:[100,116,139]
-  };
-  var PALETTE_DARK = {
-    1:[34,211,238], 2:[16,185,129], 3:[251,183,36], 4:[251,97,129],
-    5:[167,139,250], 6:[96,165,250], 7:[45,212,191], 8:[148,163,184]
-  };
+    var TOTAL = 819293;
+    var SCALE_Y = 400 / TOTAL;
+    var COL_W = 160;
+    var COL_GAP = 4;
+    var REVEAL_DURATION = 0.8;
+    var COL_START = [0, 0.25, 0.50, 0.75, 1.00];
+    var COL_ANIM_WINDOW = 1.0;
 
-  function cssVar(name) {
-    return window.getComputedStyle(svg).getPropertyValue(name).trim();
-  }
+    function colX(depth) { return 68 + depth * (COL_W + COL_GAP); }
 
-  function hexToRgb(h) {
-    var n = parseInt(h.replace('#',''),16);
-    return [(n>>16)&255,(n>>8)&255,n&255];
-  }
+    var nodes = [
+      ['flare',819293,0,1],
+      ['analytics',48716,1,1],['animate',93278,1,2],['data',30284,1,3],
+      ['display',24254,1,4],['flex',4877,1,5],['physics',29934,1,6],
+      ['query',75492,1,7],['scale',31294,1,8],['util',91480,1,2],['vis',389684,1,3],
+      ['cluster',15207,2,1],['graph',26435,2,1],['optimization',7074,2,1],
+      ['Easing',17010,2,2],['FunctionSequence',5842,2,2],['interpolate',23457,2,2],
+      ['Parallel',5176,2,2],['Scheduler',5593,2,2],['Sequence',5534,2,2],
+      ['Transition',9201,2,2],['Transitioner',19975,2,2],
+      ['converters',18349,2,3],['DataField',1759,2,3],['DataSchema',2165,2,3],
+      ['DataSource',3331,2,3],['DataUtil',3322,2,3],
+      ['DirtySprite',8833,2,4],['LineSprite',1732,2,4],['RectSprite',3623,2,4],['TextSprite',10066,2,4],
+      ['FlexSprite',4877,2,5],
+      ['NBodyForce',10498,2,6],['Particle',2822,2,6],['Simulation',9983,2,6],
+      ['Spring',2213,2,6],['SpringForce',1681,2,6],
+      ['AggregateExpression',1616,2,7],['Arithmetic',3891,2,7],['Comparison',5103,2,7],
+      ['DateUtil',4141,2,7],['Expression',5130,2,7],['Fn',3240,2,7],
+      ['Query',13896,2,7],['StringUtil',4130,2,7],
+      ['LogScale',3151,2,8],['OrdinalScale',3770,2,8],['QuantitativeScale',4839,2,8],
+      ['Scale',4268,2,8],['TimeScale',5833,2,8],
+      ['Arrays',8258,2,2],['Colors',10001,2,2],['Dates',8217,2,2],['Displays',12555,2,2],
+      ['Geometry',10993,2,2],['math',9346,2,2],['Property',5559,2,2],
+      ['Sort',6887,2,2],['Stats',6557,2,2],
+      ['axis',33886,2,3],['controls',53040,2,3],['vis_data',110230,2,3],
+      ['legend',36003,2,3],['operator',139985,2,3],
+      ['Axis',24593,3,3],['CartesianAxes',6703,3,3],
+      ['AnchorControl',2138,3,3],['ClickControl',3824,3,3],['ControlList',4665,3,3],
+      ['DragControl',2649,3,3],['HoverControl',4896,3,3],
+      ['NavigationControl',7862,3,3],['PanZoomControl',5771,3,3],
+      ['SelectionControl',7852,3,3],['TooltipControl',8435,3,3],
+      ['Data',20544,3,3],['DataList',19788,3,3],['DataSprite',10349,3,3],
+      ['NodeSprite',19382,3,3],['render',8514,3,3],['ScaleBinding',11275,3,3],['Tree',7147,3,3],
+      ['Legend',20859,3,3],['LegendItem',4614,3,3],['LegendRange',10530,3,3],
+      ['distortion',14219,3,3],['encoder',10759,3,3],['filter_op',11893,3,3],
+      ['label',17057,3,3],['layout',67804,3,3],
+      ['AxisLayout',6702,4,3],['CircleLayout',5618,4,3],['CirclePackingLayout',12003,4,3],
+      ['ForceDirectedLayout',8411,4,3],['IcicleTreeLayout',4864,4,3],
+      ['RadialTreeLayout',7982,4,3],['StackedAreaLayout',9121,4,3],
+      ['BifocalDistortion',4461,4,3],['Distortion',6314,4,3],['FisheyeDistortion',3444,4,3]
+    ];
 
-  function blendRgb(base, bgHex, t) {
-    var bg = hexToRgb(bgHex);
-    return 'rgb('+[0,1,2].map(function(i){
-      return Math.round(base[i]+(bg[i]-base[i])*t);
-    }).join(',')+')';
-  }
+    var yPos = {
+      'flare':100,
+      'analytics':100,'animate':123.8,'data':169.5,'display':184.3,'flex':199.1,
+      'physics':201.1,'query':214.8,'scale':251.5,'util':265.2,'vis':310.3,
+      'cluster':100,'graph':107.4,'optimization':120.2,
+      'Easing':123.8,'FunctionSequence':132.0,'interpolate':134.8,
+      'Parallel':143.2,'Scheduler':145.7,'Sequence':147.9,'Transition':150.2,'Transitioner':153.9,
+      'converters':169.5,'DataField':178.5,'DataSchema':179.3,'DataSource':180.3,'DataUtil':181.9,
+      'DirtySprite':184.3,'LineSprite':188.6,'RectSprite':189.4,'TextSprite':190.8,
+      'FlexSprite':199.1,
+      'NBodyForce':201.1,'Particle':206.2,'Simulation':207.5,'Spring':212.3,'SpringForce':213.4,
+      'AggregateExpression':214.8,'Arithmetic':215.6,'Comparison':217.5,'DateUtil':221.2,
+      'Expression':223.5,'Fn':225.8,'Query':227.4,'StringUtil':234.0,
+      'LogScale':251.5,'OrdinalScale':252.9,'QuantitativeScale':254.4,'Scale':256.1,'TimeScale':257.6,
+      'Arrays':265.2,'Colors':268.6,'Dates':272.4,'Displays':275.8,'Geometry':281.6,
+      'math':286.4,'Property':290.2,'Sort':292.5,'Stats':295.1,
+      'axis':310.3,'controls':323.8,'vis_data':347.0,'legend':374.2,'operator':388.7,
+      'Axis':310.3,'CartesianAxes':322.2,
+      'AnchorControl':323.8,'ClickControl':324.8,'ControlList':326.5,'DragControl':329.0,
+      'HoverControl':330.2,'NavigationControl':332.6,'PanZoomControl':336.1,
+      'SelectionControl':338.7,'TooltipControl':342.2,
+      'Data':347.0,'DataList':355.0,'DataSprite':362.4,'NodeSprite':366.5,
+      'render':374.0,'ScaleBinding':377.4,'Tree':382.8,
+      'Legend':374.2,'LegendItem':383.3,'LegendRange':384.9,
+      'distortion':388.7,'encoder':394.5,'filter_op':399.0,'label':403.3,'layout':410.5,
+      'AxisLayout':410.5,'CircleLayout':413.4,'CirclePackingLayout':416.0,
+      'ForceDirectedLayout':420.8,'IcicleTreeLayout':424.5,
+      'RadialTreeLayout':426.8,'StackedAreaLayout':430.2,
+      'BifocalDistortion':388.7,'Distortion':390.6,'FisheyeDistortion':393.0
+    };
 
-  function getTint(ci, depth) {
-    var palette = isDark ? PALETTE_DARK : PALETTE_LIGHT;
-    var base = palette[ci] || [128,128,128];
-    var d    = Math.min(depth,4);
-    var t    = parseFloat(cssVar((isDark ? '--blend-dark-d' : '--blend-d') + d));
-    var bg   = cssVar(isDark ? '--bg-dark' : '--bg-light');
-    return blendRgb(base, bg, t);
-  }
+    var MODULES = [
+      { name:'analytics', val:'48,716', ci:1 },
+      { name:'animate', val:'93,278', ci:2 },
+      { name:'data', val:'30,284', ci:3 },
+      { name:'display', val:'24,254', ci:4 },
+      { name:'flex', val:'4,877', ci:5 },
+      { name:'physics', val:'29,934', ci:6 },
+      { name:'query', val:'75,492', ci:7 },
+      { name:'scale', val:'31,294', ci:8 },
+      { name:'util', val:'91,480', ci:2 }
+    ];
 
-  var TOTAL = 819293, S = 400/TOTAL;
-  var COL_W = 160, COL_GAP = 4;
-  var COL_DUR   = 0.8;
-  var COL_START = [0, 0.25, 0.50, 0.75, 1.00];
-  /* per-column stagger: cap at 0.25s but scale down so each column
-     spreads within ~1s regardless of cell count */
-  var COL_ANIM_WINDOW = 1.0;
-  function colX(d){ return 68+d*(COL_W+COL_GAP); }
+    var makeEl = ctx.el;
+    var depthTotal = [0, 0, 0, 0, 0];
+    var depthIndex = [0, 0, 0, 0, 0];
+    var cellNodes = [];
+    var colorTargets = [];
+    var revealDelays = [];
+    var plotShiftX = 0;
 
-  var nodes = [
-    ['flare',819293,0,1],
-    ['analytics',48716,1,1],['animate',93278,1,2],['data',30284,1,3],
-    ['display',24254,1,4],['flex',4877,1,5],['physics',29934,1,6],
-    ['query',75492,1,7],['scale',31294,1,8],['util',91480,1,2],['vis',389684,1,3],
-    ['cluster',15207,2,1],['graph',26435,2,1],['optimization',7074,2,1],
-    ['Easing',17010,2,2],['FunctionSequence',5842,2,2],['interpolate',23457,2,2],
-    ['Parallel',5176,2,2],['Scheduler',5593,2,2],['Sequence',5534,2,2],
-    ['Transition',9201,2,2],['Transitioner',19975,2,2],
-    ['converters',18349,2,3],['DataField',1759,2,3],['DataSchema',2165,2,3],
-    ['DataSource',3331,2,3],['DataUtil',3322,2,3],
-    ['DirtySprite',8833,2,4],['LineSprite',1732,2,4],['RectSprite',3623,2,4],['TextSprite',10066,2,4],
-    ['FlexSprite',4877,2,5],
-    ['NBodyForce',10498,2,6],['Particle',2822,2,6],['Simulation',9983,2,6],
-    ['Spring',2213,2,6],['SpringForce',1681,2,6],
-    ['AggregateExpression',1616,2,7],['Arithmetic',3891,2,7],['Comparison',5103,2,7],
-    ['DateUtil',4141,2,7],['Expression',5130,2,7],['Fn',3240,2,7],
-    ['Query',13896,2,7],['StringUtil',4130,2,7],
-    ['LogScale',3151,2,8],['OrdinalScale',3770,2,8],['QuantitativeScale',4839,2,8],
-    ['Scale',4268,2,8],['TimeScale',5833,2,8],
-    ['Arrays',8258,2,2],['Colors',10001,2,2],['Dates',8217,2,2],['Displays',12555,2,2],
-    ['Geometry',10993,2,2],['math',9346,2,2],['Property',5559,2,2],
-    ['Sort',6887,2,2],['Stats',6557,2,2],
-    ['axis',33886,2,3],['controls',53040,2,3],['vis_data',110230,2,3],
-    ['legend',36003,2,3],['operator',139985,2,3],
-    ['Axis',24593,3,3],['CartesianAxes',6703,3,3],
-    ['AnchorControl',2138,3,3],['ClickControl',3824,3,3],['ControlList',4665,3,3],
-    ['DragControl',2649,3,3],['HoverControl',4896,3,3],
-    ['NavigationControl',7862,3,3],['PanZoomControl',5771,3,3],
-    ['SelectionControl',7852,3,3],['TooltipControl',8435,3,3],
-    ['Data',20544,3,3],['DataList',19788,3,3],['DataSprite',10349,3,3],
-    ['NodeSprite',19382,3,3],['render',8514,3,3],['ScaleBinding',11275,3,3],['Tree',7147,3,3],
-    ['Legend',20859,3,3],['LegendItem',4614,3,3],['LegendRange',10530,3,3],
-    ['distortion',14219,3,3],['encoder',10759,3,3],['filter_op',11893,3,3],
-    ['label',17057,3,3],['layout',67804,3,3],
-    ['AxisLayout',6702,4,3],['CircleLayout',5618,4,3],['CirclePackingLayout',12003,4,3],
-    ['ForceDirectedLayout',8411,4,3],['IcicleTreeLayout',4864,4,3],
-    ['RadialTreeLayout',7982,4,3],['StackedAreaLayout',9121,4,3],
-    ['BifocalDistortion',4461,4,3],['Distortion',6314,4,3],['FisheyeDistortion',3444,4,3],
-  ];
-
-  var yPos = {
-    'flare':100,
-    'analytics':100,'animate':123.8,'data':169.5,'display':184.3,'flex':199.1,
-    'physics':201.1,'query':214.8,'scale':251.5,'util':265.2,'vis':310.3,
-    'cluster':100,'graph':107.4,'optimization':120.2,
-    'Easing':123.8,'FunctionSequence':132.0,'interpolate':134.8,
-    'Parallel':143.2,'Scheduler':145.7,'Sequence':147.9,'Transition':150.2,'Transitioner':153.9,
-    'converters':169.5,'DataField':178.5,'DataSchema':179.3,'DataSource':180.3,'DataUtil':181.9,
-    'DirtySprite':184.3,'LineSprite':188.6,'RectSprite':189.4,'TextSprite':190.8,
-    'FlexSprite':199.1,
-    'NBodyForce':201.1,'Particle':206.2,'Simulation':207.5,'Spring':212.3,'SpringForce':213.4,
-    'AggregateExpression':214.8,'Arithmetic':215.6,'Comparison':217.5,'DateUtil':221.2,
-    'Expression':223.5,'Fn':225.8,'Query':227.4,'StringUtil':234.0,
-    'LogScale':251.5,'OrdinalScale':252.9,'QuantitativeScale':254.4,'Scale':256.1,'TimeScale':257.6,
-    'Arrays':265.2,'Colors':268.6,'Dates':272.4,'Displays':275.8,'Geometry':281.6,
-    'math':286.4,'Property':290.2,'Sort':292.5,'Stats':295.1,
-    'axis':310.3,'controls':323.8,'vis_data':347.0,'legend':374.2,'operator':388.7,
-    'Axis':310.3,'CartesianAxes':322.2,
-    'AnchorControl':323.8,'ClickControl':324.8,'ControlList':326.5,'DragControl':329.0,
-    'HoverControl':330.2,'NavigationControl':332.6,'PanZoomControl':336.1,
-    'SelectionControl':338.7,'TooltipControl':342.2,
-    'Data':347.0,'DataList':355.0,'DataSprite':362.4,'NodeSprite':366.5,
-    'render':374.0,'ScaleBinding':377.4,'Tree':382.8,
-    'Legend':374.2,'LegendItem':383.3,'LegendRange':384.9,
-    'distortion':388.7,'encoder':394.5,'filter_op':399.0,'label':403.3,'layout':410.5,
-    'AxisLayout':410.5,'CircleLayout':413.4,'CirclePackingLayout':416.0,
-    'ForceDirectedLayout':420.8,'IcicleTreeLayout':424.5,
-    'RadialTreeLayout':426.8,'StackedAreaLayout':430.2,
-    'BifocalDistortion':388.7,'Distortion':390.6,'FisheyeDistortion':393.0,
-  };
-
-  var makeEl = ctx.el;
-
-  /* pre-count cells per depth so colStagger() has totals before buildCells runs */
-  var depthTotal=[0,0,0,0,0];
-  nodes.forEach(function(n){ depthTotal[n[2]]++; });
-
-  var depthCount=[0,0,0,0,0];
-  var cellEls=[];
-
-  function buildCells(){
-    nodes.forEach(function(n){
-      var name=n[0],val=n[1],depth=n[2],ci=n[3];
-      var x=colX(depth),y=yPos[name]||100,h=Math.max(1.5,val*S);
-      var idx=depthCount[depth]++;
-      var stagger=Math.min(0.25, COL_ANIM_WINDOW / Math.max(depthTotal[depth], 1));
-      var delay=(COL_START[depth]+idx*stagger).toFixed(2);
-
-      var g=makeEl('g',{'class':'icell',
-        'data-name':name,'data-val':val,'data-ci':ci,'data-depth':depth});
-
-      // Ã‚Â§3 fix: inline opacity:0 before animation so CSS has no base value to snap back to.
-      // animationend clears both animation and inline opacity, then adds .visible.
-      g.style.opacity   = '0';
-      g.style.animation = 'cellFade '+COL_DUR+'s ease-out '+delay+'s';
-      g.addEventListener('animationend',function(){
-        g.style.animation = 'none';
-        g.style.opacity   = '';
-        g.classList.add('visible');
-      },{once:true});
-
-      var r=makeEl('rect',{x:x,y:y,width:COL_W,height:h,
-        fill:getTint(ci,depth),stroke:'white','stroke-width':'1',rx:depth<2?3:2});
-      g.appendChild(r);
-
-      if(h>=13){
-        var t=makeEl('text',{x:x+6,y:y+h/2,'dominant-baseline':'central',
-          'font-size':depth<=1?10:9,'font-weight':depth<=1?'500':'400',
-          'fill':'white',
-          'fill-opacity':depth>=3?'0.85':'1',
-          'pointer-events':'none'});
-        var ml=Math.floor(COL_W/5.8);
-        t.textContent=name.length>ml?name.slice(0,ml-1)+'Ã¢â‚¬Â¦':name;
-        g.appendChild(t);
-      }
-      dataLayerEl.appendChild(g);
-      cellEls.push({r:r,ci:ci,depth:depth});
+    nodes.forEach(function (node) {
+      depthTotal[node[2]] += 1;
     });
-    attachHover();
-  }
 
-  function recolor(){
-    cellEls.forEach(function(c){
-      c.r.setAttribute('fill',getTint(c.ci,c.depth));
-    });
-    buildLegend();
-  }
-
-  var MODULES=[
-    {name:'analytics',val:'48,716',ci:1},{name:'animate',val:'93,278',ci:2},
-    {name:'data',val:'30,284',ci:3},{name:'display',val:'24,254',ci:4},
-    {name:'flex',val:'4,877',ci:5},{name:'physics',val:'29,934',ci:6},
-    {name:'query',val:'75,492',ci:7},{name:'scale',val:'31,294',ci:8},
-    {name:'util',val:'91,480',ci:2},
-  ];
-
-  function buildLegend(){
-    var lg=document.getElementById('lgd-items');
-    lg.innerHTML='';
-    MODULES.forEach(function(m,i){
-      var g=makeEl('g',{'class':'legend-row',transform:'translate(878,'+(146+i*42)+')'});
-      var r=makeEl('rect',{x:0,y:0,width:14,height:14,rx:3,fill:getTint(m.ci,1)});
-      var t=makeEl('text',{x:22,y:7,'class':'legend-label legend-row-label','dominant-baseline':'middle'}); t.textContent=m.name;
-      var v=makeEl('text',{x:174,y:7,'class':'legend-value legend-row-value','text-anchor':'end','dominant-baseline':'middle'}); v.textContent=m.val;
-      g.appendChild(r);g.appendChild(t);g.appendChild(v);lg.appendChild(g);
-    });
-  }
-
-  var tip=document.getElementById('tip'),
-      tipBg=document.getElementById('tip-bg'),tipBdr=document.getElementById('tip-bdr'),
-      tipArr=document.getElementById('tip-arr'),tipName=document.getElementById('tip-name'),
-      tipVal=document.getElementById('tip-val'),tipPct=document.getElementById('tip-pct');
-  var BH=120,TAIL=12;
-
-  function posTip(mx,my,name,val){
-    /* set text first so getBBox measures real rendered width */
-    tipName.textContent=name;
-    tipVal.textContent=parseInt(val).toLocaleString()+' lines';
-    tipPct.textContent=(parseInt(val)/TOTAL*100).toFixed(1)+'% of total';
-
-    /* measure actual widths, derive hw */
-    var pad=20;
-    var hw=Math.max(
-      tipName.getBBox().width+pad,
-      tipVal.getBBox().width+pad,
-      tipPct.getBBox().width+pad,
-      60
-    )/2;
-
-    var rx9=12, tw=10;
-    var tx=Math.max(hw+8,Math.min(mx,1092-hw));
-    var flip=my<BH+TAIL+20;
-    var bT,bB;
-    if(!flip){ bT=my-TAIL-BH; bB=my-TAIL; }
-    else     { bT=my+TAIL;    bB=my+TAIL+BH; }
-    // clamp vertically
-    if(bT<8)   { bT=8;   bB=bT+BH; }
-    if(bB>610) { bB=610; bT=bB-BH; }
-    var bL=tx-hw, bR=tx+hw;
-
-    // background rect
-    tipBg.setAttribute('x',bL); tipBg.setAttribute('y',bT);
-    tipBg.setAttribute('width',hw*2); tipBg.setAttribute('height',BH);
-
-    // open-path border Ã¢â‚¬â€ gap of Ã‚Â±tw at the tail side, no Z
-    var openPath, tailPath;
-    if(!flip){
-      // tail below: gap at bottom centre
-      openPath='M'+(tx+tw)+','+bB+
-        ' L'+(bR-rx9)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-rx9)+
-        ' L'+bR+','+(bT+rx9)+' Q'+bR+','+bT+' '+(bR-rx9)+','+bT+
-        ' L'+(bL+rx9)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+rx9)+
-        ' L'+bL+','+(bB-rx9)+' Q'+bL+','+bB+' '+(bL+rx9)+','+bB+
-        ' L'+(tx-tw)+','+bB;
-      tailPath='M'+(tx-tw)+','+bB+' L'+tx+','+(my)+' L'+(tx+tw)+','+bB;
-    } else {
-      // tail above: gap at top centre
-      openPath='M'+(tx-tw)+','+bT+
-        ' L'+(bL+rx9)+','+bT+' Q'+bL+','+bT+' '+bL+','+(bT+rx9)+
-        ' L'+bL+','+(bB-rx9)+' Q'+bL+','+bB+' '+(bL+rx9)+','+bB+
-        ' L'+(bR-rx9)+','+bB+' Q'+bR+','+bB+' '+bR+','+(bB-rx9)+
-        ' L'+bR+','+(bT+rx9)+' Q'+bR+','+bT+' '+(bR-rx9)+','+bT+
-        ' L'+(tx+tw)+','+bT;
-      tailPath='M'+(tx+tw)+','+bT+' L'+tx+','+my+' L'+(tx-tw)+','+bT;
+    function formatNodeLabel(name) {
+      var maxLength = Math.floor(COL_W / 5.8);
+      return name.length > maxLength ? name.slice(0, Math.max(0, maxLength - 3)) + '...' : name;
     }
-    tipBdr.setAttribute('d',openPath);
-    tipArr.setAttribute('d',tailPath);
 
-    tipName.setAttribute('x',tx);tipName.setAttribute('y',bT+BH*0.22);
-    tipVal.setAttribute('x',tx); tipVal.setAttribute('y',bT+BH*0.52);
-    tipPct.setAttribute('x',tx); tipPct.setAttribute('y',bT+BH*0.80);
-  }
+    function renderLegend() {
+      ctx.initStandardLegend({
+        legendEl: legendRoot,
+        title: 'MODULE',
+        items: MODULES.map(function (module) {
+          return {
+            label: module.name,
+            value: module.val,
+            swatchStyle: 'fill:' + ctx.getSeriesDepthColor(module.ci, 1)
+          };
+        })
+      });
+    }
 
-  function attachHover(){
-    dataLayerEl.querySelectorAll('.icell').forEach(function(c){
-      c.addEventListener('mouseenter',function(e){
+    function buildCells() {
+      nodes.forEach(function (node) {
+        var name = node[0];
+        var val = node[1];
+        var depth = node[2];
+        var ci = node[3];
+        var x = colX(depth);
+        var y = yPos[name] || 100;
+        var height = Math.max(1.5, val * SCALE_Y);
+        var idx = depthIndex[depth]++;
+        var step = Math.min(0.25, COL_ANIM_WINDOW / Math.max(depthTotal[depth], 1));
+        var delay = COL_START[depth] + idx * step;
+        var cell = makeEl('g', {
+          'class': 'icell',
+          'data-name': name,
+          'data-val': String(val),
+          'data-depth': String(depth),
+          'data-ci': String(ci)
+        });
+          var rect = makeEl('rect', {
+            x: x,
+            y: y,
+            width: COL_W,
+            height: height,
+            fill: ctx.getSeriesDepthColor(ci, depth),
+            stroke: 'white',
+            'stroke-width': '1',
+            rx: depth < 2 ? 3 : 2
+        });
+
+        cell.appendChild(rect);
+        if (height >= 13) {
+          var text = makeEl('text', {
+            x: x + 6,
+            y: y + height / 2,
+            'dominant-baseline': 'central',
+            'font-size': depth <= 1 ? 10 : 9,
+            'font-weight': depth <= 1 ? '500' : '400',
+            fill: 'white',
+            'fill-opacity': depth >= 3 ? '0.85' : '1',
+            'pointer-events': 'none'
+          });
+          text.textContent = formatNodeLabel(name);
+          cell.appendChild(text);
+        }
+
+        dataLayerEl.appendChild(cell);
+        cellNodes.push(cell);
+        colorTargets.push({ rect: rect, ci: ci, depth: depth });
+        revealDelays.push(delay);
+      });
+    }
+
+    function recolor() {
+      colorTargets.forEach(function (target) {
+        target.rect.setAttribute('fill', ctx.getSeriesDepthColor(target.ci, target.depth));
+      });
+      renderLegend();
+    }
+
+    buildCells();
+    renderLegend();
+    plotShiftX = ctx.rebalancePlotArea({
+      legendEl: legendRoot,
+      measureNodes: [dataLayerEl, xLabelsEl],
+      moveNodes: [dataLayerEl, xLabelsEl],
+      outerLeft: 24,
+      legendGap: 32
+    }).shiftX || 0;
+
+    ctx.initRevealSequence(cellNodes, {
+      animationName: 'cellFade',
+      duration: REVEAL_DURATION,
+      easing: 'ease-out',
+      delays: revealDelays
+    });
+
+    ctx.initStandardTooltip(dataLayerEl, cellNodes, {
+      tip: document.getElementById('tip'),
+      plotL: 68,
+      plotR: 850,
+      plotT: 100,
+      plotB: 500,
+      placement: 'side',
+      minWidth: 260,
+      paddingX: 20,
+      paddingY: 30,
+      lineHeights: [42, 32, 32],
+      getContent: function (itemEl) {
+        var val = parseInt(itemEl.getAttribute('data-val'), 10);
+        return {
+          primary: val.toLocaleString() + ' lines',
+          label: itemEl.getAttribute('data-name') || '',
+          meta: (val / TOTAL * 100).toFixed(1) + '% of total'
+        };
+      },
+      getAnchor: function (itemEl) {
+        var box = itemEl.getBBox();
+        return {
+          x: box.x + box.width / 2 + plotShiftX,
+          y: box.y + box.height / 2
+        };
+      },
+      onActivate: function (itemEl) {
         dataLayerEl.classList.add('hovering');
-        dataLayerEl.querySelectorAll('.icell').forEach(function(x){ x.classList.remove('hovered'); });
-        c.classList.add('hovered');
-        var sp=ctx.eventToSvgPoint(svg,e);
-        posTip(sp.x,sp.y,c.dataset.name,c.dataset.val);
-        tip.style.opacity='1';
-      });
-      c.addEventListener('mousemove',function(e){
-        var sp=ctx.eventToSvgPoint(svg,e);
-        posTip(sp.x,sp.y,c.dataset.name,c.dataset.val);
-      });
-      c.addEventListener('mouseleave',function(){
-        c.classList.remove('hovered');
-        tip.style.opacity='';
-      });
+        cellNodes.forEach(function (node) {
+          node.classList.toggle('hovered', node === itemEl);
+        });
+      },
+      onDeactivate: function () {
+        dataLayerEl.classList.remove('hovering');
+        cellNodes.forEach(function (node) {
+          node.classList.remove('hovered');
+        });
+      },
+      leaveTarget: dataLayerEl
     });
-    /* hovering managed on container Ã¢â‚¬â€ prevents flicker when moving between adjacent cells */
-    dataLayerEl.addEventListener('mouseleave',function(){
-      dataLayerEl.classList.remove('hovering');
+
+    ctx.markReadyAfterReveal(dataLayerEl, {
+      delays: revealDelays,
+      duration: REVEAL_DURATION,
+      buffer: 0.1
     });
-  }
 
+    svgEl._onModeChange = function () { recolor(); };
 
-
-  buildCells();
-  // gate hover dimming after last cell's animationend fires
-  var d4stagger=Math.min(0.25, COL_ANIM_WINDOW / Math.max(depthTotal[4], 1));
-  var lastDelay=COL_START[4]+(depthTotal[4]-1)*d4stagger;
-  setTimeout(function(){dataLayerEl.classList.add('ready');},(lastDelay+COL_DUR+0.1)*1000);
-  buildLegend();
-
-  svgEl._onModeChange = function (wantDark) {
-    isDark = !!wantDark;
     recolor();
   };
-  recolor();
-  };
+
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());
 ]]></script>

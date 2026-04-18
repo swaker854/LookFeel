@@ -1,470 +1,347 @@
 <svg id="root" class="chart-standard" viewBox="-40 88 1120 455" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<script type="text/javascript"><![CDATA[
+(function () {
+  if (window.location.href.indexOf('theme=dark') !== -1) {
+    document.documentElement.classList.add('dark');
+  }
+}());
+]]></script>
 <defs>
   <style>
     @import url('chart-shared.css');
-    .chart-shell-hidden { display:none; }
-    .card-bg, .border-light, .border-dark, .card-title, .card-subtitle, .footer, .toggle-wrap { display:none !important; }
 
-    .card-bg { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    svg.dark .card-bg { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-
-    .card-title  { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .card-subtitle { font-size:11px; fill:#79747E; font-weight:400; }
-    .footer      { font-size:10px; fill:#79747E; font-weight:400; }
-    svg.dark .card-title   { fill:#E6E0E9; }
-    svg.dark .card-subtitle { fill:#938F99; }
-    svg.dark .footer       { fill:#938F99; }
-
-    /* Ã‚Â§1 palette */
-    .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
-    .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
-    .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
-    svg.dark .series-1 { fill:#22D3EE; } svg.dark .series-2 { fill:#10B981; }
-    svg.dark .series-3 { fill:#FBB724; } svg.dark .series-4 { fill:#FB6181; }
-    svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
-
-    .stroke-1 { stroke:#00D4E8; } .stroke-2 { stroke:#00B87A; }
-    .stroke-3 { stroke:#F59E0B; } .stroke-4 { stroke:#F43F5E; }
-    .stroke-5 { stroke:#8B5CF6; } .stroke-6 { stroke:#3B82F6; }
-    svg.dark .stroke-1 { stroke:#22D3EE; } svg.dark .stroke-2 { stroke:#10B981; }
-    svg.dark .stroke-3 { stroke:#FBB724; } svg.dark .stroke-4 { stroke:#FB6181; }
-    svg.dark .stroke-5 { stroke:#A78BFA; } svg.dark .stroke-6 { stroke:#60A5FA; }
-
-    /* toggles */
-    .toggle-wrap  { cursor:pointer; }
-    .toggle-track { fill:#E7E0EC; }
-    .toggle-thumb { fill:#ffffff; }
-    .toggle-label { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.dark .toggle-track { fill:#49454F; }
-    svg.dark .toggle-label { fill:#CAC4D0; }
-
-    .print-track { fill:#E7E0EC; transition:fill 0.3s; }
-    .print-thumb { fill:#ffffff; }
-    .print-label { font-size:11px; font-weight:500; fill:#49454F; }
-    svg.dark .print-track { fill:#49454F; }
-    svg.dark .print-label { fill:#CAC4D0; }
-    svg.print .print-track { fill:#d97316; }
-    svg.dark.print .print-track { fill:#d97316; }
-    svg.print #tip-layer { display:none; }
-
-    /* borders */
-    .border-dark  { display:none; }
-    .border-light { display:block; }
-    svg.dark .border-dark  { display:block; }
-    svg.dark .border-light { display:none; }
-
-    /* legend */
-    .legend-bg    { fill:#E7E0EC; stroke:#79747E; stroke-width:0.5; }
-    .legend-title { font-size:10px; fill:#79747E; font-weight:500; letter-spacing:0.4px; }
-    .legend-label { font-size:11px; fill:#1C1B1F; font-weight:400; }
-    svg.dark .legend-bg    { fill:#49454F; stroke:#938F99; }
-    svg.dark .legend-title { fill:#938F99; }
-    svg.dark .legend-label { fill:#E6E0E9; }
-
-    /* ring guide */
     .ring-guide {
       fill: none;
       stroke: #E7E0EC;
       stroke-width: 1;
       stroke-dasharray: 4 6;
+      opacity: 0;
     }
+    .ring-guide.visible { opacity: 1; }
     svg.dark .ring-guide { stroke: #49454F; }
 
-    /* Ã‚Â§3 A1 edges Ã¢â‚¬â€ decorative, never hover targets */
-    @keyframes edgeFadeIn { from{opacity:0} to{opacity:1} }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
     .edge {
       fill: none;
       stroke-width: 1.2;
       opacity: 0;
     }
-    .edge.visible { opacity:1; }
+    .edge.visible { opacity: 1; }
 
-    /* Ã‚Â§3 A1 Ã¢â‚¬â€ node-g is the hover target */
-    @keyframes nodeFadeIn { from{opacity:0} to{opacity:1} }
-    .node-g { opacity:0; cursor:pointer; }
-    .node-g.visible { opacity:1; }
+    .node-g {
+      opacity: 0;
+      cursor: pointer;
+    }
+    .node-g.visible { opacity: 1; }
 
-    .node-circle { stroke-width:2; }
-    .node-lbl { font-size:9.5px; font-weight:500; fill:#1C1B1F; pointer-events:none; }
-    svg.dark .node-lbl { fill:#E6E0E9; }
+    .node-circle { stroke-width: 2; }
+    .node-lbl {
+      font-size: 9.5px;
+      font-weight: 500;
+      fill: #1C1B1F;
+      pointer-events: none;
+    }
+    svg.dark .node-lbl { fill: #E6E0E9; }
 
-    /* Ã‚Â§4 hover Ã¢â‚¬â€ gated on .ready
-       Baseline: .data-layer.ready re-establishes opacity:1 after animation is killed.
-       Hover rules sit at higher specificity and override cleanly.            */
-    .data-layer.ready .node-g                    { opacity:1; }
-    .data-layer.ready .edge                      { opacity:1; }
+    .data-layer.ready .node-g { opacity: 1; }
+    .data-layer.ready .edge { opacity: 1; }
+    .data-layer.ready .ring-guide.visible { opacity: 1; }
 
-    .data-layer.ready.hovering .node-g           { opacity:0.15; transition:opacity 0.2s ease; }
-    .data-layer.ready.hovering .node-g.hovered   { opacity:1; }
-    .data-layer.ready.hovering .node-g.connected { opacity:1; }
-
-    .data-layer.ready.hovering .edge             { opacity:0.05; transition:opacity 0.2s ease; }
-    .data-layer.ready.hovering .edge.connected   { opacity:1; }
-
-    /* Ã‚Â§5 JS-driven tooltip */
-    .tip-bg     { fill:#FFFBFE; }
-    .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-value  { fill:#1C1B1F; font-size:13px; font-weight:500; }
-    .tip-label  { fill:#49454F; font-size:10px; font-weight:400; }
-    .tip        { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    svg.print .tip { opacity:0 !important; }
-    svg.dark .tip-bg     { fill:#1C1B1F; }
-    svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .tip-tail   { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .tip-value  { fill:#E6E0E9; }
-    svg.dark .tip-label  { fill:#CAC4D0; }
-    #tip-layer { pointer-events:none; }
   </style>
 </defs>
 
-
-
-<!-- Ã‚Â§7 DATA LAYER Ã¢â‚¬â€ built entirely by JS -->
-<g class="data-layer" id="data-layer">
+<g class="data-layer relation-chart" id="data-layer">
   <g id="ring-layer"></g>
   <g id="edge-layer"></g>
   <g id="node-layer"></g>
 </g>
 
-<!-- Ã‚Â§7 tooltip always last -->
+<g id="legend-root"></g>
+
 <g id="tip-layer">
-  <g class="tip" id="tip">
-    <rect class="tip-bg"     id="tip-bg"  rx="9"/>
-    <path class="tip-border" id="tip-bdr"/>
-    <path class="tip-tail"   id="tip-tip"/>
-    <text class="tip-value"  id="tip-val" text-anchor="middle" dominant-baseline="central"/>
-    <text class="tip-label"  id="tip-lbl" text-anchor="middle" dominant-baseline="central"/>
+  <g class="tip" id="tip" style="opacity:0;pointer-events:none;">
+    <rect id="tip-bg" class="tip-bg" rx="9"/>
+    <path id="tip-bdr" class="tip-border"/>
+    <path id="tip-tail" class="tip-tail"/>
+    <text id="tip-val" class="tip-value" text-anchor="middle" dominant-baseline="central"/>
+    <text id="tip-lbl" class="tip-label" text-anchor="middle" dominant-baseline="central"/>
+    <text id="tip-meta" class="tip-pct" text-anchor="middle" dominant-baseline="central"/>
   </g>
 </g>
-
-<!-- legend Ã¢â‚¬â€ right panel -->
-<rect x="870" y="100" width="210" height="190" rx="14" class="legend-bg legend-panel"/>
-<text x="888" y="124" class="legend-title legend-heading">CLUSTER</text>
-<g transform="translate(888,140)">
-  <circle class="series-1" cx="7" cy="7" r="7"/>
-  <text x="22" y="11" class="legend-label">Frontend</text>
-</g>
-<g transform="translate(888,168)">
-  <circle class="series-2" cx="7" cy="7" r="7"/>
-  <text x="22" y="11" class="legend-label">Backend</text>
-</g>
-<g transform="translate(888,196)">
-  <circle class="series-3" cx="7" cy="7" r="7"/>
-  <text x="22" y="11" class="legend-label">Data</text>
-</g>
-<g transform="translate(888,224)">
-  <circle class="series-4" cx="7" cy="7" r="7"/>
-  <text x="22" y="11" class="legend-label">Infra</text>
-</g>
-<g transform="translate(888,252)">
-  <circle class="series-5" cx="7" cy="7" r="7"/>
-  <text x="22" y="11" class="legend-label">Auth</text>
-</g>
-
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
 (function () {
   var svg = document.documentElement;
   svg._chartInit = function (svgEl, ctx) {
-var svg          = document.getElementById('root');
-  var dataLayerEl  = document.getElementById('data-layer');
-  var ringLayer    = document.getElementById('ring-layer');
-  var edgeLayer    = document.getElementById('edge-layer');
-  var nodeLayer    = document.getElementById('node-layer');
+    var dataLayerEl = document.getElementById('data-layer');
+    var ringLayer = document.getElementById('ring-layer');
+    var edgeLayer = document.getElementById('edge-layer');
+    var nodeLayer = document.getElementById('node-layer');
+    var legendRoot = document.getElementById('legend-root');
+    var tip = document.getElementById('tip');
+    var plotL = 68;
+    var plotR = 850;
+    var plotT = 100;
+    var plotB = 500;
+    var cx = (plotL + plotR) / 2;
+    var cy = (plotT + plotB) / 2;
+    var ringR = 185;
+    var labelR = ringR + 26;
+    var gapDeg = 14;
+    var plotShiftX = 0;
 
-  /* Ã‚Â§2 isDark before all build code */
+    var nodes = [
+      { id:'web-app', label:'Web App', cluster:1 },
+      { id:'mobile', label:'Mobile', cluster:1 },
+      { id:'cdn', label:'CDN', cluster:1 },
+      { id:'api-gw', label:'API GW', cluster:2 },
+      { id:'user-svc', label:'User Svc', cluster:2 },
+      { id:'order-svc', label:'Order Svc', cluster:2 },
+      { id:'notify', label:'Notify', cluster:2 },
+      { id:'postgres', label:'Postgres', cluster:3 },
+      { id:'redis', label:'Redis', cluster:3 },
+      { id:'kafka', label:'Kafka', cluster:3 },
+      { id:'analytics', label:'Analytics', cluster:3 },
+      { id:'k8s', label:'K8s', cluster:4 },
+      { id:'monitor', label:'Monitor', cluster:4 },
+      { id:'cicd', label:'CI/CD', cluster:4 },
+      { id:'auth-svc', label:'Auth Svc', cluster:5 },
+      { id:'oauth', label:'OAuth', cluster:5 }
+    ];
 
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ DATA Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
-     cluster: 1=Frontend 2=Backend 3=Data 4=Infra 5=Auth
-     Nodes ordered by cluster so they group together on the ring.        */
-  var nodes = [
-    /* Frontend */
-    { id:'web-app',   label:'Web App',   cluster:1 },
-    { id:'mobile',    label:'Mobile',    cluster:1 },
-    { id:'cdn',       label:'CDN',       cluster:1 },
-    /* Backend */
-    { id:'api-gw',    label:'API GW',    cluster:2 },
-    { id:'user-svc',  label:'User Svc',  cluster:2 },
-    { id:'order-svc', label:'Order Svc', cluster:2 },
-    { id:'notify',    label:'Notify',    cluster:2 },
-    /* Data */
-    { id:'postgres',  label:'Postgres',  cluster:3 },
-    { id:'redis',     label:'Redis',     cluster:3 },
-    { id:'kafka',     label:'Kafka',     cluster:3 },
-    { id:'analytics', label:'Analytics', cluster:3 },
-    /* Infra */
-    { id:'k8s',       label:'K8s',       cluster:4 },
-    { id:'monitor',   label:'Monitor',   cluster:4 },
-    { id:'cicd',      label:'CI/CD',     cluster:4 },
-    /* Auth */
-    { id:'auth-svc',  label:'Auth Svc',  cluster:5 },
-    { id:'oauth',     label:'OAuth',     cluster:5 },
-  ];
+    var edges = [
+      { a:'web-app', b:'cdn' },
+      { a:'mobile', b:'cdn' },
+      { a:'cdn', b:'api-gw' },
+      { a:'web-app', b:'api-gw' },
+      { a:'api-gw', b:'user-svc' },
+      { a:'api-gw', b:'order-svc' },
+      { a:'order-svc', b:'notify' },
+      { a:'user-svc', b:'notify' },
+      { a:'user-svc', b:'postgres' },
+      { a:'order-svc', b:'postgres' },
+      { a:'user-svc', b:'redis' },
+      { a:'order-svc', b:'redis' },
+      { a:'notify', b:'kafka' },
+      { a:'api-gw', b:'kafka' },
+      { a:'kafka', b:'analytics' },
+      { a:'postgres', b:'analytics' },
+      { a:'auth-svc', b:'api-gw' },
+      { a:'auth-svc', b:'oauth' },
+      { a:'oauth', b:'k8s' },
+      { a:'k8s', b:'api-gw' },
+      { a:'k8s', b:'postgres' },
+      { a:'k8s', b:'monitor' },
+      { a:'cicd', b:'k8s' },
+      { a:'monitor', b:'analytics' }
+    ];
 
-  var edges = [
-    { a:'web-app',   b:'cdn'       },
-    { a:'mobile',    b:'cdn'       },
-    { a:'cdn',       b:'api-gw'    },
-    { a:'web-app',   b:'api-gw'    },
-    { a:'api-gw',    b:'user-svc'  },
-    { a:'api-gw',    b:'order-svc' },
-    { a:'order-svc', b:'notify'    },
-    { a:'user-svc',  b:'notify'    },
-    { a:'user-svc',  b:'postgres'  },
-    { a:'order-svc', b:'postgres'  },
-    { a:'user-svc',  b:'redis'     },
-    { a:'order-svc', b:'redis'     },
-    { a:'notify',    b:'kafka'     },
-    { a:'api-gw',    b:'kafka'     },
-    { a:'kafka',     b:'analytics' },
-    { a:'postgres',  b:'analytics' },
-    { a:'auth-svc',  b:'api-gw'    },
-    { a:'auth-svc',  b:'oauth'     },
-    { a:'oauth',     b:'k8s'       },
-    { a:'k8s',       b:'api-gw'    },
-    { a:'k8s',       b:'postgres'  },
-    { a:'k8s',       b:'monitor'   },
-    { a:'cicd',      b:'k8s'       },
-    { a:'monitor',   b:'analytics' },
-  ];
+    var clusterNames = {
+      1: 'Frontend',
+      2: 'Backend',
+      3: 'Data',
+      4: 'Infra',
+      5: 'Auth'
+    };
+    var clusterItems = [
+      { cls: 'series-1', label: 'Frontend', value: '3 nodes' },
+      { cls: 'series-2', label: 'Backend', value: '4 nodes' },
+      { cls: 'series-3', label: 'Data', value: '4 nodes' },
+      { cls: 'series-4', label: 'Infra', value: '3 nodes' },
+      { cls: 'series-5', label: 'Auth', value: '2 nodes' }
+    ];
 
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ BUILD LOOKUP + DEGREE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
-  var byId = {};
-  nodes.forEach(function(n) { byId[n.id] = n; n.neighbours = []; n.edgeEls = []; });
-  edges.forEach(function(e) {
-    byId[e.a].neighbours.push(e.b);
-    byId[e.b].neighbours.push(e.a);
-  });
+    var byId = {};
+    var nodeItems = [];
+    var edgeItems = [];
+    var revealNodes = [];
+    var revealDelays = [];
+    var totalEdgeWindow;
+    var totalNodeWindow;
 
-  /* radius encodes degree */
-  nodes.forEach(function(n) {
-    n.r = 11 + Math.min(n.neighbours.length - 1, 5) * 2.2;
-  });
+    nodes.forEach(function (node) {
+      node.neighbours = [];
+      node.edgeEls = [];
+      byId[node.id] = node;
+    });
 
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ CIRCULAR LAYOUT Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
-     Plot area: left=68 right=850 top=100 bottom=500
-     Centre the circle within the plot area.
-     Gap of ~14Ã‚Â° between each cluster group.                            */
-  var plotL = 68, plotR = 850, plotT = 100, plotB = 500;
-  var cx = (plotL + plotR) / 2;   /* 459 */
-  var cy = (plotT + plotB) / 2;   /* 300 */
-  var ringR = 185;                 /* radius of the node ring */
-  var labelR = ringR + 26;        /* label offset from centre */
+    edges.forEach(function (edge) {
+      byId[edge.a].neighbours.push(edge.b);
+      byId[edge.b].neighbours.push(edge.a);
+    });
 
-  var N = nodes.length;           /* 16 */
-  var gapDeg = 14;                /* degrees of gap between clusters */
+    nodes.forEach(function (node) {
+      node.r = 11 + Math.min(node.neighbours.length - 1, 5) * 2.2;
+    });
 
-  /* count clusters */
-  var clusterCounts = {};
-  nodes.forEach(function(n) { clusterCounts[n.cluster] = (clusterCounts[n.cluster] || 0) + 1; });
-  var clusterIds = [1, 2, 3, 4, 5];
-  var numClusters = clusterIds.length;
+    (function layoutNodes() {
+      var totalGapDeg = 5 * gapDeg;
+      var nodeArcDeg = 360 - totalGapDeg;
+      var degPerNode = nodeArcDeg / nodes.length;
+      var angleDeg = -90 - (nodeArcDeg / 2);
+      var prevCluster = null;
 
-  /* total arc available for nodes = 360 - gaps */
-  var totalGapDeg = numClusters * gapDeg;
-  var nodeArcDeg  = 360 - totalGapDeg;
-  /* degrees per node slot */
-  var degPerNode  = nodeArcDeg / N;
+      nodes.forEach(function (node) {
+        if (prevCluster !== null && node.cluster !== prevCluster) angleDeg += gapDeg;
+        node.angle = angleDeg + degPerNode / 2;
+        angleDeg += degPerNode;
+        prevCluster = node.cluster;
 
-  /* assign angle to each node, leaving a gap before each new cluster */
-  var angleDeg = -90 - (nodeArcDeg / 2);  /* start at top, centred */
-  var prevCluster = null;
-  nodes.forEach(function(n) {
-    if (prevCluster !== null && n.cluster !== prevCluster) {
-      angleDeg += gapDeg;
-    }
-    n.angle = angleDeg + degPerNode / 2;
-    angleDeg += degPerNode;
-    prevCluster = n.cluster;
-
-    var rad = n.angle * Math.PI / 180;
-    n.x = cx + ringR * Math.cos(rad);
-    n.y = cy + ringR * Math.sin(rad);
-
-    /* label position Ã¢â‚¬â€ pushed outward, anchor based on side */
-    var lx = cx + labelR * Math.cos(rad);
-    var ly = cy + labelR * Math.sin(rad);
-    var anchor = (Math.cos(rad) > 0.1) ? 'start' : (Math.cos(rad) < -0.1) ? 'end' : 'middle';
-    n.lx = lx; n.ly = ly; n.anchor = anchor;
-  });
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ STAGGER Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
-  var totalEls  = edges.length + nodes.length;
-  var stagger   = Math.min(0.25, 1.0 / totalEls);
-  var lastDelay = (totalEls - 1) * stagger;
-  var readyDelay = (lastDelay + 0.8 + 0.1) * 1000;
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ DRAW RING GUIDE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
-  var ringGuide = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-  ringGuide.setAttribute('cx', cx);
-  ringGuide.setAttribute('cy', cy);
-  ringGuide.setAttribute('r',  ringR);
-  ringGuide.setAttribute('class', 'ring-guide');
-  ringLayer.appendChild(ringGuide);
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ BUILD EDGES Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
-  edges.forEach(function(e, i) {
-    var na = byId[e.a], nb = byId[e.b];
-
-    /* quadratic bezier: control point pulled toward centre by a pull factor.
-       Pull = 0.35 means control point is 35% of the way from midpoint to centre. */
-    var pull = 0.42;
-    var mx = (na.x + nb.x) / 2;
-    var my = (na.y + nb.y) / 2;
-    var qx = mx + (cx - mx) * pull;
-    var qy = my + (cy - my) * pull;
-
-    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttribute('d', 'M' + na.x + ',' + na.y + ' Q' + qx + ',' + qy + ' ' + nb.x + ',' + nb.y);
-    path.setAttribute('class', 'edge stroke-' + na.cluster);
-    path.setAttribute('data-a', e.a);
-    path.setAttribute('data-b', e.b);
-    path.style.animationDelay = (i * stagger) + 's';
-    edgeLayer.appendChild(path);
-
-    na.edgeEls.push(path);
-    nb.edgeEls.push(path);
-  });
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ BUILD NODES Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
-  nodes.forEach(function(n, i) {
-    var ng = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    ng.setAttribute('class', 'node-g');
-    ng.setAttribute('id', 'ng-' + n.id);
-    ng.style.animationDelay = (edges.length * stagger + i * stagger) + 's';
-
-    var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    circle.setAttribute('cx', n.x); circle.setAttribute('cy', n.y);
-    circle.setAttribute('r',  n.r);
-    circle.setAttribute('class', 'node-circle series-' + n.cluster + ' stroke-' + n.cluster);
-
-    var lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    lbl.setAttribute('x', n.lx); lbl.setAttribute('y', n.ly + 3.5);
-    lbl.setAttribute('text-anchor', n.anchor);
-    lbl.setAttribute('class', 'node-lbl');
-    lbl.textContent = n.label;
-
-    ng.appendChild(circle);
-    ng.appendChild(lbl);
-    nodeLayer.appendChild(ng);
-    n._ng = ng;
-  });
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§3 A1 ANIMATION Ã¢â‚¬â€ animationend per element, .visible provides resting opacity Ã¢â€â‚¬Ã¢â€â‚¬ */
-  Array.prototype.forEach.call(edgeLayer.querySelectorAll('.edge'), function(el) {
-    el.style.animation = 'edgeFadeIn 0.8s ease-out ' + el.style.animationDelay;
-    el.addEventListener('animationend', function() {
-      el.style.animation = 'none';
-      el.classList.add('visible');
-    }, { once: true });
-  });
-  Array.prototype.forEach.call(nodeLayer.querySelectorAll('.node-g'), function(el) {
-    el.style.animation = 'nodeFadeIn 0.8s ease-out ' + el.style.animationDelay;
-    el.addEventListener('animationend', function() {
-      el.style.animation = 'none';
-      el.classList.add('visible');
-    }, { once: true });
-  });
-
-  setTimeout(function() {
-    dataLayerEl.classList.add('ready');
-  }, readyDelay);
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§5 TOOLTIP Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
-  var tip    = document.getElementById('tip');
-  var tipBg  = document.getElementById('tip-bg');
-  var tipBdr = document.getElementById('tip-bdr');
-  var tipTip = document.getElementById('tip-tip');
-  var tipVal = document.getElementById('tip-val');
-  var tipLbl = document.getElementById('tip-lbl');
-
-  function showTip(nx, ny, nodeR, valTxt, lblTxt) {
-    tipVal.textContent = valTxt;
-    tipLbl.textContent = lblTxt;
-    var pad = 20, bh = 38, rx = 9, tw = 8, tail = 10;
-    var hw  = Math.max(tipVal.getBBox().width, tipLbl.getBBox().width) / 2 + pad / 2;
-    var tx  = Math.max(hw + 8, Math.min(nx, plotR - hw - 8));
-    var anchorY = ny - nodeR;
-    var above = (anchorY - tail - bh - 4) >= plotT;
-    var bT, bB;
-    if (above) { bB = anchorY - tail; bT = bB - bh; }
-    else        { bT = ny + nodeR + tail; bB = bT + bh; }
-
-    tipBg.setAttribute('x', tx - hw); tipBg.setAttribute('y', bT);
-    tipBg.setAttribute('width', hw * 2); tipBg.setAttribute('height', bh);
-
-    var tipAnchorY = above ? anchorY : ny + nodeR;
-    if (above) {
-      tipBdr.setAttribute('d',
-        'M'+(tx+tw)+','+bB+' L'+(tx+hw-rx)+','+bB+' Q'+(tx+hw)+','+bB+' '+(tx+hw)+','+(bB-rx)+
-        ' L'+(tx+hw)+','+(bT+rx)+' Q'+(tx+hw)+','+bT+' '+(tx+hw-rx)+','+bT+
-        ' L'+(tx-hw+rx)+','+bT+' Q'+(tx-hw)+','+bT+' '+(tx-hw)+','+(bT+rx)+
-        ' L'+(tx-hw)+','+(bB-rx)+' Q'+(tx-hw)+','+bB+' '+(tx-hw+rx)+','+bB+' L'+(tx-tw)+','+bB);
-      tipTip.setAttribute('d', 'M'+(tx-tw)+','+bB+' L'+tx+','+(tipAnchorY-2)+' L'+(tx+tw)+','+bB);
-    } else {
-      tipBdr.setAttribute('d',
-        'M'+(tx-tw)+','+bT+' L'+(tx-hw+rx)+','+bT+' Q'+(tx-hw)+','+bT+' '+(tx-hw)+','+(bT+rx)+
-        ' L'+(tx-hw)+','+(bB-rx)+' Q'+(tx-hw)+','+bB+' '+(tx-hw+rx)+','+bB+
-        ' L'+(tx+hw-rx)+','+bB+' Q'+(tx+hw)+','+bB+' '+(tx+hw)+','+(bB-rx)+
-        ' L'+(tx+hw)+','+(bT+rx)+' Q'+(tx+hw)+','+bT+' '+(tx+hw-rx)+','+bT+' L'+(tx+tw)+','+bT);
-      tipTip.setAttribute('d', 'M'+(tx+tw)+','+bT+' L'+tx+','+(tipAnchorY+2)+' L'+(tx-tw)+','+bT);
-    }
-    tipVal.setAttribute('x', tx); tipVal.setAttribute('y', bT + bh * 0.32);
-    tipLbl.setAttribute('x', tx); tipLbl.setAttribute('y', bT + bh * 0.72);
-    tip.style.opacity = '1';
-  }
-
-  function hideTip() {
-    tip.style.opacity = '';
-  }
-
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§4 HOVER Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
-     Nodes sit on a ring with clear gaps Ã¢â€ â€™ element-level mouseleave.
-     Stale-clear on every mouseenter is non-optional.                   */
-  var allNodeGs = Array.prototype.slice.call(nodeLayer.querySelectorAll('.node-g'));
-  var allEdges  = Array.prototype.slice.call(edgeLayer.querySelectorAll('.edge'));
-  var clusterNames = ['','Frontend','Backend','Data','Infra','Auth'];
-
-  nodes.forEach(function(n) {
-    var ng = n._ng;
-    ng.addEventListener('mouseenter', function() {
-      if (!dataLayerEl.classList.contains('ready')) return;
-
-      /* clear stale */
-      allNodeGs.forEach(function(el) { el.classList.remove('hovered'); el.classList.remove('connected'); });
-      allEdges.forEach(function(el)  { el.classList.remove('connected'); });
-      dataLayerEl.classList.add('hovering');
-
-      ng.classList.add('hovered');
-
-      /* mark neighbours */
-      n.neighbours.forEach(function(nid) {
-        var nng = document.getElementById('ng-' + nid);
-        if (nng) nng.classList.add('connected');
+        var rad = node.angle * Math.PI / 180;
+        node.x = cx + ringR * Math.cos(rad);
+        node.y = cy + ringR * Math.sin(rad);
+        node.lx = cx + labelR * Math.cos(rad);
+        node.ly = cy + labelR * Math.sin(rad);
+        node.anchor = Math.cos(rad) > 0.1 ? 'start' : (Math.cos(rad) < -0.1 ? 'end' : 'middle');
       });
+    }());
 
-      /* mark connecting edges */
-      n.edgeEls.forEach(function(el) { el.classList.add('connected'); });
+    ringLayer.appendChild(ctx.el('circle', {
+      cx: cx,
+      cy: cy,
+      r: ringR,
+      'class': 'ring-guide'
+    }));
+    revealNodes.push(ringLayer.firstChild);
+    revealDelays.push(0);
 
-      var deg = n.neighbours.length;
-      showTip(n.x, n.y, n.r,
-        n.label,
-        clusterNames[n.cluster] + ' \u00b7 ' + deg + ' connection' + (deg !== 1 ? 's' : ''));
+    totalEdgeWindow = Math.min(1.2, Math.max(0.6, edges.length * 0.04));
+    edges.forEach(function (edge, index) {
+      var fromNode = byId[edge.a];
+      var toNode = byId[edge.b];
+      var midX = (fromNode.x + toNode.x) / 2;
+      var midY = (fromNode.y + toNode.y) / 2;
+      var ctrlX = midX + (cx - midX) * 0.42;
+      var ctrlY = midY + (cy - midY) * 0.42;
+      var edgeEl = ctx.el('path', {
+        d: 'M' + fromNode.x + ',' + fromNode.y + ' Q' + ctrlX + ',' + ctrlY + ' ' + toNode.x + ',' + toNode.y,
+        'class': 'edge series-' + fromNode.cluster + ' use-series-stroke',
+        'data-a': edge.a,
+        'data-b': edge.b
+      });
+      edgeLayer.appendChild(edgeEl);
+      fromNode.edgeEls.push(edgeEl);
+      toNode.edgeEls.push(edgeEl);
+      edgeItems.push(edgeEl);
+      revealNodes.push(edgeEl);
+      revealDelays.push(0.08 + ctx.getStaggerDelay(index, edges.length, totalEdgeWindow, svgEl));
     });
 
-    ng.addEventListener('mouseleave', function() {
-      allNodeGs.forEach(function(el) { el.classList.remove('hovered'); el.classList.remove('connected'); });
-      allEdges.forEach(function(el)  { el.classList.remove('connected'); });
-      dataLayerEl.classList.remove('hovering');
-      hideTip();
+    totalNodeWindow = Math.min(1.0, Math.max(0.4, nodes.length * 0.04));
+    nodes.forEach(function (node, index) {
+      var nodeEl = ctx.el('g', {
+        id: 'ng-' + node.id,
+        'class': 'node-g',
+        'data-node-id': node.id,
+        'data-item-cx': String(node.x),
+        'data-item-top': String(node.y)
+      });
+      var circleEl = ctx.el('circle', {
+        cx: node.x,
+        cy: node.y,
+        r: node.r,
+        'class': 'node-circle series-' + node.cluster + ' use-series-stroke'
+      });
+      var labelEl = ctx.el('text', {
+        x: node.lx,
+        y: node.ly + 3.5,
+        'text-anchor': node.anchor,
+        'class': 'node-lbl'
+      });
+      labelEl.textContent = node.label;
+      nodeEl.appendChild(circleEl);
+      nodeEl.appendChild(labelEl);
+      nodeLayer.appendChild(nodeEl);
+      node._el = nodeEl;
+      nodeItems.push(nodeEl);
+      revealNodes.push(nodeEl);
+      revealDelays.push(0.48 + ctx.getStaggerDelay(index, nodes.length, totalNodeWindow, svgEl));
     });
-  });
 
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ PRINT TOGGLE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+    ctx.initRevealSequence(revealNodes, {
+      animationName: 'fadeIn',
+      duration: 0.8,
+      easing: 'ease-out',
+      delays: revealDelays
+    });
 
-  /* Ã¢â€â‚¬Ã¢â€â‚¬ Ã‚Â§2 DARK MODE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
+    ctx.initStandardLegend({
+      legendEl: legendRoot,
+      title: 'SERIES',
+      items: clusterItems
+    });
+
+    plotShiftX = ctx.rebalancePlotArea({
+      legendEl: legendRoot,
+      measureNodes: [dataLayerEl],
+      moveNodes: [dataLayerEl],
+      slotLeft: 0,
+      legendGap: 24,
+      clamp: true
+    }).shiftX || 0;
+
+    var connectedHover = ctx.initConnectedHover(dataLayerEl, nodeItems, {
+      allNodes: nodeItems,
+      allEdges: edgeItems,
+      getRelatedItems: function (itemEl) {
+        var node = byId[itemEl.getAttribute('data-node-id')];
+        return node ? node.neighbours.map(function (id) {
+          var other = byId[id];
+          return other && other._el ? other._el : null;
+        }).filter(Boolean) : [];
+      },
+      getRelatedEdges: function (itemEl) {
+        var node = byId[itemEl.getAttribute('data-node-id')];
+        return node ? node.edgeEls : [];
+      }
+    });
+
+    ctx.initStandardTooltip(dataLayerEl, nodeItems, {
+      tip: tip,
+      plotL: plotL,
+      plotR: plotR,
+      plotT: plotT,
+      plotB: plotB,
+      placement: 'side',
+      minWidth: 220,
+      paddingX: 20,
+      paddingY: 18,
+      lineHeights: [42, 32, 32],
+      trackPointer: false,
+      getAnchor: function (itemEl) {
+        return {
+          x: (Number(itemEl.getAttribute('data-item-cx')) || 0) + plotShiftX,
+          y: Number(itemEl.getAttribute('data-item-top')) || 0
+        };
+      },
+      getContent: function (itemEl) {
+        var node = byId[itemEl.getAttribute('data-node-id')];
+        var degree = node ? node.neighbours.length : 0;
+        return {
+          primary: node ? node.label : '',
+          label: clusterNames[node ? node.cluster : 1] || '',
+          meta: degree + ' connection' + (degree === 1 ? '' : 's')
+        };
+      },
+      onActivate: function (itemEl) {
+        connectedHover.activate(itemEl);
+      },
+      onDeactivate: function () {
+        connectedHover.clear();
+      },
+      leaveTarget: dataLayerEl
+    });
+
+    ctx.markReadyAfterReveal(dataLayerEl, {
+      delays: revealDelays,
+      duration: 0.8,
+      buffer: 0.1
+    });
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());

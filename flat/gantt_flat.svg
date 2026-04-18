@@ -2,113 +2,38 @@
      preserveAspectRatio="xMidYMid meet"
      xmlns="http://www.w3.org/2000/svg"
      font-family="'Roboto','Helvetica Neue',Arial,sans-serif">
+<script type="text/javascript"><![CDATA[
+(function () {
+  if (window.location.href.indexOf('theme=dark') !== -1) {
+    document.documentElement.classList.add('dark');
+  }
+}());
+]]></script>
 <defs>
   <style>
     @import url('chart-shared.css');
-  .chart-shell-hidden { display:none; }
-  .card-bg, .border-light, .border-dark, .card-title, .card-subtitle, .footer, .toggle-wrap { display:none !important; }
-
-    .card-bg        { fill:#FFFBFE; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.10)); }
-    .card-title     { font-size:18px; font-weight:500; fill:#1C1B1F; letter-spacing:-0.2px; }
-    .card-subtitle  { font-size:11px; fill:#79747E; font-weight:400; }
-    .footer         { font-size:10px; fill:#79747E; font-weight:400; }
-
-    .toggle-wrap    { cursor:pointer; }
-    .toggle-track   { fill:#E7E0EC; }
-    .toggle-thumb   { fill:#ffffff; }
-    .toggle-label   { font-size:11px; font-weight:500; fill:#49454F; }
-    .print-track    { fill:#E7E0EC; transition:fill 0.3s; }
-    .print-thumb    { fill:#ffffff; }
-    .print-label    { font-size:11px; font-weight:500; fill:#49454F; }
-
-    svg.print .print-track   { fill:#d97316; }
-    svg.print .today-line    { display:none; }
-    svg.print .today-lbl     { display:none; }
-
-    .border-dark  { display:none; }
-    .border-light { display:block; }
-    svg.dark .border-dark  { display:block; }
-    svg.dark .border-light { display:none; }
-    .card-bg, .border-light, .border-dark { display:none !important; }
-
-    .series-1 { fill:#00D4E8; } .series-2 { fill:#00B87A; }
-    .series-3 { fill:#F59E0B; } .series-4 { fill:#F43F5E; }
-    .series-5 { fill:#8B5CF6; } .series-6 { fill:#3B82F6; }
-    .series-7 { fill:#0D9488; } .series-8 { fill:#64748B; }
-    svg.dark .series-1 { fill:#22D3EE; } svg.dark .series-2 { fill:#10B981; }
-    svg.dark .series-3 { fill:#FBB724; } svg.dark .series-4 { fill:#FB6181; }
-    svg.dark .series-5 { fill:#A78BFA; } svg.dark .series-6 { fill:#60A5FA; }
-    svg.dark .series-7 { fill:#2DD4BF; } svg.dark .series-8 { fill:#94A3B8; }
-
-    svg.dark .card-bg        { fill:#1C1B1F; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
-    svg.dark .card-title     { fill:#E6E0E9; }
-    svg.dark .card-subtitle  { fill:#938F99; }
-    svg.dark .footer         { fill:#938F99; }
-    svg.dark .toggle-track   { fill:#49454F; }
-    svg.dark .toggle-label   { fill:#CAC4D0; }
-    svg.dark .print-track    { fill:#49454F; }
-    svg.dark .print-label    { fill:#CAC4D0; }
-    svg.dark.print .print-track { fill:#d97316; }
-
-    .grid-line  { stroke:#79747E; stroke-width:0.5; opacity:0.2; }
-    .axis-lbl   { font-size:10px; fill:#79747E; font-weight:400; }
-    .row-lbl    { font-size:10px; fill:#1C1B1F; font-weight:400; }
+    .grid-line { stroke:#79747E; stroke-width:0.5; opacity:0.2; }
+    .axis-lbl { font-size:10px; fill:#79747E; font-weight:400; }
+    .row-lbl { font-size:10px; fill:#1C1B1F; font-weight:400; }
     svg.dark .row-lbl { fill:#E6E0E9; }
     .row-stripe { fill:#79747E; opacity:0.04; }
     svg.dark .row-stripe { fill:#ffffff; opacity:0.04; }
-
-    /* Ãƒâ€šÃ‚Â§3 A2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â .data-body child of .data-item; both fill-mode safe, no hover conflict
-       Adaptive stagger: Math.min(0.25, 1.0/11) = 0.09s */
-    @keyframes dataFadeIn { from{opacity:0} to{opacity:1} }
-    .data-body    { animation: dataFadeIn 0.8s ease-out both; }
-    .stagger-1    { animation-delay:0.00s; } .stagger-2  { animation-delay:0.09s; }
-    .stagger-3    { animation-delay:0.18s; } .stagger-4  { animation-delay:0.27s; }
-    .stagger-5    { animation-delay:0.36s; } .stagger-6  { animation-delay:0.45s; }
-    .stagger-7    { animation-delay:0.55s; } .stagger-8  { animation-delay:0.64s; }
-    .stagger-9    { animation-delay:0.73s; } .stagger-10 { animation-delay:0.82s; }
-    .stagger-11   { animation-delay:0.91s; }
-
-    .data-item { cursor:pointer; }
-    .data-layer.ready.hovering .data-item        { opacity:0.20; transition:opacity .2s ease; }
+    .data-body { opacity:0; }
+    .data-body.visible { opacity:1; }
+    .data-layer.ready.hovering .data-item { opacity:0.20; transition:opacity .2s ease; }
     .data-layer.ready.hovering .data-item.active { opacity:1; }
-
-    /* Tooltip ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â three-layer construction matching reference:
-       1. tip-bg     : filled rect, no stroke ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â paints interior
-       2. tip-border : open-bottom path ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â border that stops at tail opening
-       3. tip-tail   : tail triangle ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â shares endpoints with tip-border gap, no crossing stroke */
-    .tip-bg     { fill:#FFFBFE; }
-    .tip-border { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-tail   { fill:#FFFBFE; stroke:#79747E; stroke-width:1; }
-    .tip-value  { fill:#1C1B1F; font-size:28px; font-weight:700; }
-    .tip-label  { fill:#49454F; font-size:22px; font-weight:400; }
-    svg.dark .tip-value { fill:#E6E0E9; }
-    svg.dark .tip-label { fill:#CAC4D0; }
-    svg.dark .tip-bg     { fill:#1C1B1F; }
-    svg.dark .tip-border { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .tip-tail   { fill:#1C1B1F; stroke:#938F99; }
-    svg.dark .tip-value  { fill:#E6E0E9; }
-    svg.dark .tip-label  { fill:#CAC4D0; }
-
-    .tip           { opacity:0; pointer-events:none; transition:opacity 0.15s ease; }
-    svg.print .tip { opacity:0 !important; }
-
     .today-line { stroke:#F43F5E; stroke-width:1.5; stroke-dasharray:4 3; opacity:0.7; }
     svg.dark .today-line { stroke:#FB6181; }
-    .today-lbl  { font-size:9px; fill:#F43F5E; font-weight:500; }
+    .today-lbl { font-size:9px; fill:#F43F5E; font-weight:500; }
     svg.dark .today-lbl { fill:#FB6181; }
-    .milestone  { fill:#F43F5E; }
+    .milestone { fill:#F43F5E; }
     svg.dark .milestone { fill:#FB6181; }
-
-    .dep { stroke:#79747E; stroke-width:0.8; fill:none; opacity:0.35; marker-end:url(#dep-arrow); }
-    svg.dark .dep { stroke:#938F99; }
+    .milestone-layer { opacity:0; pointer-events:none; }
+    .milestone-layer.visible { opacity:1; }
+    svg.print .today-line,
+    svg.print .today-lbl { display:none; }
   </style>
-  <marker id="dep-arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-    <path d="M1 1L6 4L1 7" fill="none" stroke="#79747E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-  </marker>
 </defs>
-
-
-
 
 <rect class="row-stripe" x="68" y="120" width="782" height="36"/>
 <rect class="row-stripe" x="68" y="192" width="782" height="36"/>
@@ -125,7 +50,7 @@
 <text x="655" y="114" class="axis-lbl" text-anchor="middle">Aug 2026</text>
 <text x="785" y="114" class="axis-lbl" text-anchor="middle">Sep 2026</text>
 
-<line class="grid-line" x1="68"  y1="120" x2="68"  y2="500"/>
+<line class="grid-line" x1="68" y1="120" x2="68" y2="500"/>
 <line class="grid-line" x1="198" y1="120" x2="198" y2="500"/>
 <line class="grid-line" x1="329" y1="120" x2="329" y2="500"/>
 <line class="grid-line" x1="459" y1="120" x2="459" y2="500"/>
@@ -149,262 +74,138 @@
 <text x="62" y="460" class="row-lbl" text-anchor="end">Infra</text>
 <text x="62" y="492" class="row-lbl" text-anchor="end">Launch</text>
 
-<path class="dep" d="M 329 138 Q 340 138 340 175 L 340 210"/>
-<path class="dep" d="M 394 214 Q 405 214 405 250 L 405 282"/>
-<path class="dep" d="M 589 362 Q 600 362 600 398 L 600 420"/>
-
 <line class="today-line" x1="106" y1="100" x2="106" y2="500"/>
 <text x="108" y="108" class="today-lbl">Today</text>
 
 <g class="data-layer" id="data-layer">
-
-  <g class="data-item stagger-1" data-cx="133" data-barty="129" data-val="Apr 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Apr 30" data-lbl="User Research Ãƒâ€šÃ‚Â· 30 days">
-    <g class="data-body stagger-1"><rect x="70" y="129" width="126" height="18" rx="4" class="series-1"/>
+  <g class="data-item" data-cx="133" data-barty="129" data-val="Apr 1 - Apr 30" data-lbl="User Research" data-meta="30 days">
+    <g class="data-body"><rect x="70" y="129" width="126" height="18" rx="4" class="series-1"/>
     <text x="133" y="141" text-anchor="middle" font-size="9" font-weight="500" fill="#1C1B1F" opacity="0.75">User Research</text></g>
   </g>
 
-  <g class="data-item stagger-2" data-cx="150" data-barty="147" data-val="Apr 10 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ May 10" data-lbl="Competitive Analysis Ãƒâ€šÃ‚Â· 30 days">
-    <g class="data-body stagger-2"><rect x="106" y="147" width="88" height="9" rx="3" class="series-8" opacity="0.6"/>
-    <text x="150" y="154" text-anchor="middle" font-size="8" fill="#1C1B1F" opacity="0.6">Competitive Analysis</text></g>
-  </g>
-
-  <g class="data-item stagger-3" data-cx="255" data-barty="201" data-val="Apr 28 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ May 31" data-lbl="UX Wireframes Ãƒâ€šÃ‚Â· 33 days">
-    <g class="data-body stagger-3"><rect x="183" y="201" width="145" height="18" rx="4" class="series-2"/>
+  <g class="data-item" data-cx="255" data-barty="201" data-val="Apr 28 - May 31" data-lbl="UX Wireframes" data-meta="33 days">
+    <g class="data-body"><rect x="183" y="201" width="145" height="18" rx="4" class="series-2"/>
     <text x="255" y="213" text-anchor="middle" font-size="9" font-weight="500" fill="#fff" opacity="0.9">UX Wireframes</text></g>
   </g>
 
-  <g class="data-item stagger-4" data-cx="392" data-barty="219" data-val="May 15 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Jul 15" data-lbl="Visual Design System Ãƒâ€šÃ‚Â· 61 days">
-    <g class="data-body stagger-4"><rect x="262" y="219" width="260" height="9" rx="3" class="series-5" opacity="0.7"/>
-    <text x="392" y="226" text-anchor="middle" font-size="8" fill="#fff" opacity="0.85">Visual Design System</text></g>
-  </g>
-
-  <g class="data-item stagger-5" data-cx="329" data-barty="273" data-val="May 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Jun 30" data-lbl="Component Library Ãƒâ€šÃ‚Â· 61 days">
-    <g class="data-body stagger-5"><rect x="198" y="273" width="261" height="18" rx="4" class="series-6"/>
+  <g class="data-item" data-cx="329" data-barty="273" data-val="May 1 - Jun 30" data-lbl="Component Library" data-meta="61 days">
+    <g class="data-body"><rect x="198" y="273" width="261" height="18" rx="4" class="series-6"/>
     <text x="329" y="285" text-anchor="middle" font-size="9" font-weight="500" fill="#fff" opacity="0.9">Component Library</text></g>
   </g>
 
-  <g class="data-item stagger-6" data-cx="568" data-barty="291" data-val="Jun 15 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Aug 31" data-lbl="App Integration &amp; E2E Ãƒâ€šÃ‚Â· 77 days">
-    <g class="data-body stagger-6"><rect x="394" y="291" width="349" height="9" rx="3" class="series-3" opacity="0.8"/>
-    <text x="568" y="298" text-anchor="middle" font-size="8" fill="#1C1B1F" opacity="0.75">App Integration &amp; E2E</text></g>
-  </g>
-
-  <g class="data-item stagger-7" data-cx="295" data-barty="345" data-val="Apr 15 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Jun 30" data-lbl="API Development Ãƒâ€šÃ‚Â· 76 days">
-    <g class="data-body stagger-7"><rect x="132" y="345" width="327" height="18" rx="4" class="series-7"/>
+  <g class="data-item" data-cx="295" data-barty="345" data-val="Apr 15 - Jun 30" data-lbl="API Development" data-meta="76 days">
+    <g class="data-body"><rect x="132" y="345" width="327" height="18" rx="4" class="series-7"/>
     <text x="295" y="357" text-anchor="middle" font-size="9" font-weight="500" fill="#fff" opacity="0.9">API Development</text></g>
   </g>
 
-  <g class="data-item stagger-8" data-cx="480" data-barty="363" data-val="Jun 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Aug 15" data-lbl="Data Pipeline &amp; ML Models Ãƒâ€šÃ‚Â· 75 days">
-    <g class="data-body stagger-8"><rect x="329" y="363" width="303" height="9" rx="3" class="series-1" opacity="0.75"/>
-    <text x="480" y="370" text-anchor="middle" font-size="8" fill="#1C1B1F" opacity="0.7">Data Pipeline &amp; ML Models</text></g>
-  </g>
-
-  <g class="data-item stagger-9" data-cx="556" data-barty="417" data-val="Jul 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Aug 15" data-lbl="Integration Testing Ãƒâ€šÃ‚Â· 46 days">
-    <g class="data-body stagger-9"><rect x="459" y="417" width="194" height="18" rx="4" class="series-4"/>
+  <g class="data-item" data-cx="556" data-barty="417" data-val="Jul 1 - Aug 15" data-lbl="Integration Testing" data-meta="46 days">
+    <g class="data-body"><rect x="459" y="417" width="194" height="18" rx="4" class="series-4"/>
     <text x="556" y="429" text-anchor="middle" font-size="9" font-weight="500" fill="#fff" opacity="0.9">Integration Testing</text></g>
   </g>
 
-  <g class="data-item stagger-10" data-cx="695" data-barty="435" data-val="Aug 15 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Sep 15" data-lbl="UAT &amp; Acceptance Ãƒâ€šÃ‚Â· 31 days">
-    <g class="data-body stagger-10"><rect x="631" y="435" width="128" height="9" rx="3" class="series-3" opacity="0.65"/>
-    <text x="695" y="442" text-anchor="middle" font-size="8" fill="#1C1B1F" opacity="0.7">UAT &amp; Acceptance</text></g>
-  </g>
-
-  <g class="data-item stagger-11" data-cx="167" data-barty="452" data-val="Apr 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ May 15" data-lbl="Cloud Provisioning Ãƒâ€šÃ‚Â· 45 days">
-    <g class="data-body stagger-11"><rect x="70" y="452" width="194" height="8" rx="3" class="series-8" opacity="0.6"/>
+  <g class="data-item" data-cx="167" data-barty="452" data-val="Apr 1 - May 15" data-lbl="Cloud Provisioning" data-meta="45 days">
+    <g class="data-body"><rect x="70" y="452" width="194" height="8" rx="3" class="series-8" opacity="0.6"/>
     <text x="167" y="458" text-anchor="middle" font-size="8" fill="#1C1B1F" opacity="0.6">Cloud Provisioning</text></g>
   </g>
-
 </g>
 
-<!-- JS-driven tooltip layer ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â painted last, always on top.
-     Three elements per the reference pattern:
-       tip-bg     : filled rect (no stroke) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â solid interior
-       tip-border : open-bottom rounded-rect path ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â border with gap at tail root
-       tip-tail   : tail triangle ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â plugs the gap seamlessly -->
-<g id="tip-layer" class="tip">
-  <rect  id="tip-bg"  class="tip-bg"/>
-  <path  id="tip-bdr" class="tip-border"/>
-  <path  id="tip-tip" class="tip-tail"/>
-  <text  id="tip-val" class="tip-value" text-anchor="middle" dominant-baseline="central"/>
-  <text  id="tip-lbl" class="tip-label" text-anchor="middle" dominant-baseline="central"/>
+<g id="tip-layer" pointer-events="none">
+  <g class="tip" id="tip">
+    <rect id="tip-bg" class="tip-bg" rx="12"/>
+    <path id="tip-bdr" class="tip-border"/>
+    <path id="tip-tail" class="tip-tail"/>
+    <text id="tip-val" class="tip-value" text-anchor="middle" dominant-baseline="central"/>
+    <text id="tip-lbl" class="tip-label" text-anchor="middle" dominant-baseline="central"/>
+    <text id="tip-meta" class="tip-pct" text-anchor="middle" dominant-baseline="central"/>
+  </g>
 </g>
 
-<!-- Milestones -->
-<g transform="translate(459,300)"><polygon class="milestone" points="0,-8 8,0 0,8 -8,0"/></g>
-<text x="461" y="293" class="today-lbl" font-size="9">ÃƒÅ½Ã‚Â± Alpha</text>
-<g transform="translate(631,372)"><polygon class="milestone" points="0,-8 8,0 0,8 -8,0"/></g>
-<text x="633" y="365" class="today-lbl" font-size="9">ÃƒÅ½Ã‚Â² Beta</text>
-<g transform="translate(843,492)"><polygon class="milestone" points="0,-7 7,0 0,7 -7,0"/></g>
-<text x="790" y="497" class="today-lbl" font-size="9" text-anchor="middle">GA Launch Ãƒâ€šÃ‚Â· Sep 30</text>
+<g id="milestone-layer" class="milestone-layer">
+  <g transform="translate(459,300)"><polygon class="milestone" points="0,-8 8,0 0,8 -8,0"/></g>
+  <text x="461" y="293" class="today-lbl" font-size="9">Alpha</text>
+  <g transform="translate(631,372)"><polygon class="milestone" points="0,-8 8,0 0,8 -8,0"/></g>
+  <text x="633" y="365" class="today-lbl" font-size="9">Beta</text>
+  <g transform="translate(843,492)"><polygon class="milestone" points="0,-7 7,0 0,7 -7,0"/></g>
+  <text x="790" y="497" class="today-lbl" font-size="9" text-anchor="middle">GA Launch - Sep 30</text>
+</g>
 
-<!-- LEGEND -->
-<rect x="858" y="88" width="214" height="455" rx="18" class="legend-bg legend-panel"/>
-<text x="878" y="118" class="legend-title legend-heading">WORKSTREAM</text>
-<g class="legend-row" transform="translate(878,146)">
-  <rect class="series-1" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">User Research</text>
-  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">30d</text>
-</g>
-<g class="legend-row" transform="translate(878,188)">
-  <rect class="series-2" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">UX Wireframes</text>
-  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">33d</text>
-</g>
-<g class="legend-row" transform="translate(878,230)">
-  <rect class="series-6" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Component Library</text>
-  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">61d</text>
-</g>
-<g class="legend-row" transform="translate(878,272)">
-  <rect class="series-7" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">API Development</text>
-  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">76d</text>
-</g>
-<g class="legend-row" transform="translate(878,314)">
-  <rect class="series-4" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Integration Testing</text>
-  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">46d</text>
-</g>
-<g class="legend-row" transform="translate(878,356)">
-  <rect class="series-8" x="0" y="0" width="14" height="14" rx="3"/>
-  <text x="22" y="7" class="legend-label legend-row-label" dominant-baseline="middle">Infrastructure</text>
-  <text x="174" y="7" class="legend-value legend-row-value" text-anchor="end" dominant-baseline="middle">45d</text>
-</g>
+<g id="legend-root"></g>
 
 <script href="chart-shared.js"></script>
 <script type="text/javascript"><![CDATA[
 (function () {
   var svg = document.documentElement;
   svg._chartInit = function (svgEl, ctx) {
-var svg         = document.getElementById('root');
-  var dataLayerEl = document.getElementById('data-layer');
-  var tip    = document.getElementById('tip-layer');
-  var tipBg  = document.getElementById('tip-bg');
-  var tipBdr = document.getElementById('tip-bdr');
-  var tipTip = document.getElementById('tip-tip');
-  var tipVal = document.getElementById('tip-val');
-  var tipLbl = document.getElementById('tip-lbl');
-
-  /* Ãƒâ€šÃ‚Â§2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â isDark hoisted before all build and animation code */
-
-  var pad  = 20;   // horizontal padding each side
-  var bh   = 90;   // bubble body height
-  var rx   = 12;   // corner radius
-  var tail = 12;   // tail length
-  var tw   = 10;   // half-width of tail opening
-
-  function showTip(cx, barTopY, valStr, lblStr) {
-    // 1. Set text content first
-    tipVal.textContent = valStr;
-    tipLbl.textContent = lblStr;
-
-    // 2. Measure actual rendered widths with getBBox()
-    var valW = tipVal.getBBox().width + pad * 2;
-    var lblW = tipLbl.getBBox().width + pad * 2;
-    var hw   = Math.max(valW, lblW, 60) / 2;  // half-width, min 60px total
-
-    // 3. Clamp tx so bubble never exits card edges
-    var tx = Math.max(hw + 8, Math.min(cx, 1100 - hw - 8));
-
-    // 4. Bubble sits ABOVE the bar by default (tail points down toward bar).
-    var ty = barTopY - tail - bh - 4;
-    var flip = ty < 90;   // not enough headroom ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â flip below bar
-    if (flip) ty = barTopY + tail + 4;
-
-    // 5. Position group at (tx, ty) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â local y=0 is top of bubble body
-    tip.setAttribute('transform', 'translate(' + tx + ',' + ty + ')');
-
-    // 6. Background rect
-    tipBg.setAttribute('x', -hw);
-    tipBg.setAttribute('y', 0);
-    tipBg.setAttribute('width', hw * 2);
-    tipBg.setAttribute('height', bh);
-    tipBg.setAttribute('rx', rx);
-
-    var bdrPath, tipPath;
-    if (!flip) {
-      // tail below ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â gap on bottom edge
-      bdrPath =
-        'M' + tw + ',' + bh +
-        ' L' + (hw - rx) + ',' + bh +
-        ' Q' + hw + ',' + bh + ' ' + hw + ',' + (bh - rx) +
-        ' L' + hw + ',' + rx +
-        ' Q' + hw + ',0 ' + (hw - rx) + ',0' +
-        ' L' + -(hw - rx) + ',0' +
-        ' Q' + (-hw) + ',0 ' + (-hw) + ',' + rx +
-        ' L' + (-hw) + ',' + (bh - rx) +
-        ' Q' + (-hw) + ',' + bh + ' ' + -(hw - rx) + ',' + bh +
-        ' L' + (-tw) + ',' + bh;
-      tipPath =
-        'M' + tw + ',' + bh +
-        ' L0,' + (bh + tail) +
-        ' L' + (-tw) + ',' + bh;
-    } else {
-      // tail above ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â gap on top edge (flipped)
-      bdrPath =
-        'M' + (-tw) + ',0' +
-        ' L' + -(hw - rx) + ',0' +
-        ' Q' + (-hw) + ',0 ' + (-hw) + ',' + rx +
-        ' L' + (-hw) + ',' + (bh - rx) +
-        ' Q' + (-hw) + ',' + bh + ' ' + -(hw - rx) + ',' + bh +
-        ' L' + (hw - rx) + ',' + bh +
-        ' Q' + hw + ',' + bh + ' ' + hw + ',' + (bh - rx) +
-        ' L' + hw + ',' + rx +
-        ' Q' + hw + ',0 ' + (hw - rx) + ',0' +
-        ' L' + tw + ',0';
-      tipPath =
-        'M' + (-tw) + ',0' +
-        ' L0,' + (-tail) +
-        ' L' + tw + ',0';
-    }
-    tipBdr.setAttribute('d', bdrPath);
-    tipTip.setAttribute('d', tipPath);
-
-    // 8. Text positions centred vertically in the bubble body
-    tipVal.setAttribute('x', 0);
-    tipVal.setAttribute('y', bh * 0.32);
-    tipLbl.setAttribute('x', 0);
-    tipLbl.setAttribute('y', bh * 0.70);
-
-    tip.style.opacity = '1';
-  }
-
-  function hideTip() {
-    tip.style.opacity = '';
-  }
-
-  var dataItemEls = Array.prototype.slice.call(document.querySelectorAll('.data-item'));
-  dataItemEls.forEach(function(itemEl) {
-    itemEl.addEventListener('mouseenter', function() {
-      if (dataLayerEl) dataLayerEl.classList.add('hovering');
-      dataItemEls.forEach(function(x) { x.classList.remove('active'); }); /* Ãƒâ€šÃ‚Â§4 clear stale */
-      itemEl.classList.add('active');
-      showTip(
-        parseFloat(itemEl.getAttribute('data-cx')),
-        parseFloat(itemEl.getAttribute('data-barty')),
-        itemEl.getAttribute('data-val'),
-        itemEl.getAttribute('data-lbl')
-      );
+    var dataLayerEl = svgEl.querySelector('#data-layer');
+    var tip = svgEl.querySelector('#tip');
+    var legendRoot = svgEl.querySelector('#legend-root');
+    var milestoneLayer = svgEl.querySelector('#milestone-layer');
+    var dataItemEls = ctx.$$all('.data-item');
+    var dataBodyEls = ctx.$$all('.data-body');
+    var timing = ctx.getStaggerTiming(dataBodyEls.length, { duration: 0.8 }, svgEl);
+    var delays = dataBodyEls.map(function (_, index) {
+      return ctx.getStaggerDelay(index, dataBodyEls.length, null, svgEl);
     });
-    itemEl.addEventListener('mouseleave', function() {
-      itemEl.classList.remove('active');
-      if (dataLayerEl) dataLayerEl.classList.remove('hovering');
-      hideTip();
+
+    ctx.initRevealSequence(dataBodyEls, {
+      animationName: 'dataFadeIn',
+      duration: timing.duration,
+      easing: 'ease-out',
+      delays: delays
     });
-  });
 
-  /* Ãƒâ€šÃ‚Â§3/Ãƒâ€šÃ‚Â§4 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â gate hover on .ready after last bar animation completes */
-  var BAR_COUNT   = 11;
-  var BAR_STAGGER = Math.min(0.25, 1.0 / BAR_COUNT); /* adaptive: ~0.091s */
-  var BAR_DUR     = 0.8;
-  var lastBarDelay = (BAR_COUNT - 1) * BAR_STAGGER;
-  setTimeout(function() { if (dataLayerEl) dataLayerEl.classList.add('ready'); },
-    (lastBarDelay + BAR_DUR + 0.1) * 1000);
+    ctx.markReadyAfterReveal(dataLayerEl, {
+      delays: delays,
+      duration: timing.duration,
+      buffer: timing.buffer
+    });
 
-  /* Dark toggle */
+    setTimeout(function () {
+      if (milestoneLayer) {
+        ctx.animateAndMarkVisible(milestoneLayer, 'dataFadeIn 0.3s ease-out 0s');
+      }
+    }, Math.max(0, timing.readyDelayMs - 200));
 
-  /* Print toggle */
+    ctx.initStandardTooltip(dataLayerEl, dataItemEls, {
+      leaveTarget: dataLayerEl,
+      tip: tip,
+      meta: svgEl.querySelector('#tip-meta'),
+      plotL: 68,
+      plotR: 850,
+      plotT: 100,
+      plotB: 500,
+      boxHeight: 148,
+      minWidth: 320,
+      lineY: [0.24, 0.52, 0.78],
+      trackPointer: false,
+      getContent: function (itemEl) {
+        return {
+          primary: itemEl.getAttribute('data-val') || '',
+          label: itemEl.getAttribute('data-lbl') || '',
+          meta: itemEl.getAttribute('data-meta') || ''
+        };
+      },
+      getAnchor: function (itemEl) {
+        return {
+          x: parseFloat(itemEl.getAttribute('data-cx')) || 0,
+          y: parseFloat(itemEl.getAttribute('data-barty')) || 0
+        };
+      }
+    });
 
-  /* Inter-frame dark mode sync */
+    ctx.initStandardLegend({
+      legendEl: legendRoot,
+      title: 'WORKSTREAM',
+      labelMaxWidth: 118,
+      items: [
+        { cls: 'series-1', label: 'User Research', value: '30d' },
+        { cls: 'series-2', label: 'UX Wireframes', value: '33d' },
+        { cls: 'series-6', label: 'Component Library', value: '61d' },
+        { cls: 'series-7', label: 'API Development', value: '76d' },
+        { cls: 'series-4', label: 'Integration Testing', value: '46d' },
+        { cls: 'series-8', label: 'Cloud Provisioning', value: '45d' }
+      ]
+    });
   };
   if (window.bootstrapChart) { window.bootstrapChart(svg); }
 }());
