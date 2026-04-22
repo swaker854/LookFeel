@@ -1,0 +1,1010 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>figma-theme.css - Bootstrap Reskin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',system-ui,sans-serif;font-size:13px;background:#F7F6F2;color:#242421;-webkit-font-smoothing:antialiased;}
+.page{max-width:1100px;margin:0 auto;padding:40px 32px 80px;}
+.cover{padding:48px 0 36px;border-bottom:2px solid #EEA555;margin-bottom:40px;}
+.cover-title{font-size:42px;font-weight:700;letter-spacing:-.02em;color:#242421;}
+.cover-sub{font-size:22px;font-weight:400;color:#5E5D57;margin-top:4px;}
+.cover-meta{margin-top:16px;font-size:12px;color:#999790;line-height:1.8;}
+.section-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#999790;margin-bottom:12px;}
+.section-title{font-size:18px;font-weight:600;color:#242421;border-bottom:1px solid #ECEAE3;padding-bottom:10px;margin:40px 0 16px;}
+.note{font-size:11px;color:#999790;font-style:italic;border-left:2px solid #EEA555;padding:7px 10px;background:#FEF8EE;border-radius:0 3px 3px 0;margin:0 0 20px;line-height:1.6;}
+.comparison{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px;}
+.comp-panel{border:1px solid #D4D2C9;border-radius:6px;overflow:hidden;}
+.comp-label{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:8px 12px;border-bottom:1px solid #ECEAE3;}
+.comp-label.before{background:#ECEAE3;color:#5E5D57;}
+.comp-label.after{background:#FDECD0;color:#8C5510;}
+.comp-img{display:block;width:100%;height:auto;}
+.code-block{background:#1e1c1a;border-radius:6px;padding:16px;font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.8;color:#d4d0c8;overflow-x:auto;white-space:pre;margin-bottom:20px;}
+.how-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;}
+.how-card{border:1px solid #D4D2C9;border-radius:6px;padding:14px;background:#fff;}
+.how-card-title{font-size:12px;font-weight:600;margin-bottom:8px;}
+.how-card ul{list-style:none;}
+.how-card ul li{font-size:11px;color:#5E5D57;padding:2px 0;line-height:1.5;}
+.how-card ul li::before{content:"-> ";color:#EEA555;font-weight:600;}
+.diff-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:20px;}
+.diff-table th{background:#ECEAE3;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#5E5D57;padding:7px 12px;border:.5px solid #D4D2C9;}
+.diff-table td{padding:6px 12px;border:.5px solid #ECEAE3;vertical-align:middle;}
+.diff-table tr:nth-child(odd) td{background:#fff;}
+.diff-table tr:nth-child(even) td{background:#F7F6F2;}
+.mono{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#5E5D57;}
+.val-before{color:#A32D2D;background:#FCEBEB;padding:1px 5px;border-radius:2px;font-family:'JetBrains Mono',monospace;font-size:10px;}
+.val-after{color:#0F6E56;background:#E1F5EE;padding:1px 5px;border-radius:2px;font-family:'JetBrains Mono',monospace;font-size:10px;}
+.full-css{border:1px solid #D4D2C9;border-radius:6px;overflow:hidden;margin-bottom:20px;}
+.full-css-header{background:#ECEAE3;padding:10px 16px;font-size:11px;font-weight:600;color:#5E5D57;border-bottom:1px solid #D4D2C9;display:flex;justify-content:space-between;align-items:center;}
+.file-tag{font-family:'JetBrains Mono',monospace;font-size:12px;color:#8C5510;background:#FEF8EE;padding:3px 8px;border-radius:3px;}
+.component-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px;}
+.component-card{border:1px solid #D4D2C9;border-radius:6px;background:#fff;overflow:hidden;}
+.component-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid #ECEAE3;background:#FCFBF8;gap:12px;}
+.component-title{font-size:12px;font-weight:600;color:#242421;}
+.component-sub{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#999790;}
+.component-body{padding:14px;}
+.component-notes{margin-top:12px;padding-top:12px;border-top:1px solid #ECEAE3;}
+.component-notes ul{list-style:none;}
+.component-notes li{font-size:11px;color:#5E5D57;line-height:1.6;padding:2px 0;}
+.component-notes li::before{content:"-> ";color:#EEA555;font-weight:600;}
+.component-note{font-size:11px;color:#5E5D57;line-height:1.6;padding:8px 0;border-top:1px solid #ECEAE3;}
+.component-note:first-of-type{padding-top:0;border-top:none;}
+.demo-stack{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.demo-stack.demo-column{flex-direction:column;align-items:stretch;}
+.demo-gap-lg{gap:12px;}
+.demo-muted{font-size:11px;color:#999790;}
+.demo-space-between{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+.demo-scope{font-family:'Inter',system-ui,sans-serif;color:#242421;}
+.demo-scope .btn,.demo-scope .form-control,.demo-scope .form-select,.demo-scope .badge,.demo-scope .nav-link,.demo-scope .dropdown-item,.demo-scope .card-title,.demo-scope .alert,.demo-scope .table{font-family:'Inter',system-ui,sans-serif;}
+.demo-scope .btn{font-size:12px;font-weight:500;padding:0 12px;height:30px;border-radius:3px;border:1px solid transparent;display:inline-flex;align-items:center;justify-content:center;letter-spacing:0;transition:background-color 100ms ease,border-color 100ms ease,color 100ms ease;text-decoration:none;cursor:default;}
+.demo-scope .btn-primary{background:#EEA555;border-color:#EEA555;color:#3D1E00;}
+.demo-scope .btn-secondary{background:transparent;border-color:#D4D2C9;color:#5E5D57;}
+.demo-scope .btn-outline-primary{background:#fff;border-color:#EEA555;color:#8C5510;}
+.demo-scope .btn-danger{background:#E24B4A;border-color:#E24B4A;color:#fff;}
+.demo-scope .btn-ghost{background:transparent;border-color:transparent;color:#5E5D57;padding:0 6px;}
+.demo-scope .form-control,.demo-scope .form-select{font-size:12px;font-weight:400;height:30px;padding:0 8px;border:1px solid #D4D2C9;border-radius:3px;background:#fff;color:#242421;line-height:30px;outline:none;min-width:0;}
+.demo-scope .form-control::placeholder{color:#999790;}
+.demo-scope .form-control.is-focus,.demo-scope .form-select.is-focus{border-color:#EEA555;box-shadow:0 0 0 2px rgba(238,165,85,.25);}
+.demo-scope .demo-field{display:grid;gap:8px;}
+.demo-scope .demo-field label{font-size:11px;font-weight:600;color:#5E5D57;}
+.demo-scope .badge{font-size:10px;font-weight:600;letter-spacing:.03em;padding:2px 6px;border-radius:3px;text-transform:uppercase;line-height:1.4;display:inline-block;}
+.demo-scope .bg-primary{background:#FDECD0;color:#8C5510;}
+.demo-scope .bg-success{background:#E1F5EE;color:#0F6E56;}
+.demo-scope .bg-danger{background:#FCEBEB;color:#A32D2D;}
+.demo-scope .bg-secondary{background:#ECEAE3;color:#5E5D57;}
+.demo-scope .table{width:100%;border-collapse:collapse;font-size:12px;color:#242421;}
+.demo-scope .table th{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#5E5D57;background:#ECEAE3;border:1px solid #D4D2C9;padding:6px 12px;height:32px;white-space:nowrap;text-align:left;}
+.demo-scope .table td{padding:0 12px;height:34px;border-bottom:1px solid #ECEAE3;vertical-align:middle;}
+.demo-scope .table-hover tbody tr:nth-child(2) td{background:#FEF8EE;}
+.demo-scope .table .table-active td{background:#FDECD0;border-left:3px solid #EEA555;padding-left:9px;}
+.demo-scope .text-end{text-align:right;font-variant-numeric:tabular-nums lining-nums;}
+.demo-scope .dropdown-menu{border:1px solid #D4D2C9;border-radius:3px;box-shadow:0 2px 4px rgba(0,0,0,.08),0 1px 6px rgba(0,0,0,.05);padding:2px 0;background:#fff;min-width:180px;}
+.demo-scope .dropdown-header{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#999790;padding:8px 12px 3px;}
+.demo-scope .dropdown-item{font-size:12px;font-weight:400;color:#242421;padding:0 12px;height:34px;display:flex;align-items:center;text-decoration:none;}
+.demo-scope .dropdown-item.active{background:#FEF8EE;color:#8C5510;font-weight:500;border-left:3px solid #EEA555;padding-left:9px;}
+.demo-scope .dropdown-divider{border-top:1px solid #ECEAE3;margin:2px 0;}
+.demo-scope .nav-tabs{display:flex;border-bottom:1px solid #D4D2C9;}
+.demo-scope .nav-link{font-size:12px;font-weight:500;color:#5E5D57;padding:0 14px;height:32px;display:flex;align-items:center;border-bottom:2px solid transparent;text-decoration:none;}
+.demo-scope .nav-link.active{color:#8C5510;border-bottom-color:#EEA555;font-weight:600;}
+.demo-scope .card{border:1px solid #D4D2C9;border-radius:4px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);}
+.demo-scope .card-header{font-size:12px;font-weight:600;color:#242421;background:#F7F6F2;border-bottom:1px solid #ECEAE3;padding:8px 14px;}
+.demo-scope .card-body{padding:14px;}
+.demo-scope .card-title{font-size:12px;font-weight:600;color:#5E5D57;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
+.demo-scope .card-text{font-size:12px;color:#242421;line-height:1.5;}
+.demo-scope .card-footer{font-size:11px;color:#999790;background:#F7F6F2;border-top:1px solid #ECEAE3;padding:6px 14px;}
+.demo-scope .alert{font-size:12px;border-radius:3px;padding:10px 14px;border:1px solid;border-left-width:3px;}
+.demo-scope .alert-warning{background:#FEF8EE;color:#8C5510;border-color:#EEA555;}
+@media (max-width:900px){.comparison,.component-grid{grid-template-columns:1fr;}.page{padding-left:20px;padding-right:20px;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="cover">
+  <div class="cover-title">figma-theme.css</div>
+  <div class="cover-sub">Figma-inspired Bootstrap 5 reskin</div>
+  <div class="cover-meta">
+    Drop in after <code style="font-family:'JetBrains Mono',monospace;font-size:11px;background:#ECEAE3;padding:1px 5px;border-radius:2px;">bootstrap.min.css</code> &nbsp;-&nbsp;
+    No SCSS compilation &nbsp;-&nbsp; No HTML changes &nbsp;-&nbsp;
+    Brand anchor <span style="display:inline-block;width:10px;height:10px;background:#EEA555;border-radius:2px;vertical-align:middle;margin:0 3px;"></span> <code style="font-family:'JetBrains Mono',monospace;font-size:11px;">#EEA555</code>
+  </div>
+</div>
+
+<div class="section-label">Usage</div>
+<div class="code-block">&lt;!-- 1. Bootstrap first --&gt;
+&lt;link rel="stylesheet" href="bootstrap.min.css"&gt;
+
+&lt;!-- 2. Theme layer - that's it --&gt;
+&lt;link rel="stylesheet" href="figma-theme.css"&gt;</div>
+
+<div class="section-label">Before &amp; after</div>
+<div class="note">Same HTML intent, but now the examples below are live markup instead of screenshots. Each card also calls out the specific theme rules that shape the rendered component.</div>
+<div class="component-grid demo-scope">
+  <div class="component-card">
+    <div class="component-head">
+      <div class="component-title">Buttons</div>
+      <div class="component-sub">Primary, secondary, outline, ghost</div>
+    </div>
+    <div class="component-body">
+      <div class="demo-stack demo-gap-lg">
+        <button class="btn btn-primary">Publish</button>
+        <button class="btn btn-secondary">Secondary</button>
+        <button class="btn btn-outline-primary">Outline</button>
+        <button class="btn btn-danger">Delete</button>
+        <button class="btn btn-ghost">...</button>
+      </div>
+      <div class="component-notes"><ul>
+        <li><span class="mono">.btn</span> sets a compact <span class="mono">12px</span> medium-weight label, <span class="mono">30px</span> height, <span class="mono">12px</span> horizontal padding, and a <span class="mono">3px</span> radius.</li>
+        <li><span class="mono">.btn-primary</span> uses amber fill and border <span class="mono">#EEA555</span> with dark text <span class="mono">#3D1E00</span>.</li>
+        <li><span class="mono">.btn-secondary</span> and <span class="mono">.btn-ghost</span> reduce weight with transparent surfaces and warm neutral borders.</li>
+      </ul></div>
+    </div>
+  </div>
+  <div class="component-card">
+    <div class="component-head">
+      <div class="component-title">Inputs &amp; Selects</div>
+      <div class="component-sub">Compact fields + focus ring</div>
+    </div>
+    <div class="component-body">
+      <div class="demo-stack demo-column">
+        <div class="demo-field"><label>Project name</label><input class="form-control" placeholder="Untitled workspace"></div>
+        <div class="demo-field"><label>Theme</label><select class="form-select is-focus"><option>Figma inspired</option><option>System</option></select></div>
+      </div>
+      <div class="component-notes"><ul>
+        <li><span class="mono">.form-control, .form-select</span> use <span class="mono">12px</span> text, <span class="mono">30px</span> height, <span class="mono">8px</span> horizontal padding, a white fill, and border <span class="mono">#D4D2C9</span>.</li>
+        <li>Focus swaps the border to <span class="mono">#EEA555</span> and adds a <span class="mono">0 0 0 2px rgba(238,165,85,.25)</span> halo.</li>
+        <li>Placeholders soften to <span class="mono">#999790</span> to keep hierarchy clear.</li>
+      </ul></div>
+    </div>
+  </div>
+  <div class="component-card">
+    <div class="component-head">
+      <div class="component-title">Badges &amp; Status</div>
+      <div class="component-sub">Tinted, not solid</div>
+    </div>
+    <div class="component-body">
+      <div class="demo-space-between"><div class="demo-stack"><span class="badge bg-primary">Draft</span><span class="badge bg-success">Live</span><span class="badge bg-danger">Error</span><span class="badge bg-secondary">Muted</span></div><div class="demo-muted">Semantic fills stay light and readable.</div></div>
+      <div class="component-notes"><ul>
+        <li><span class="mono">.badge</span> drops to <span class="mono">10px</span> uppercase text with <span class="mono">2px 6px</span> padding and a <span class="mono">3px</span> radius.</li>
+        <li>Semantic variants use tinted surfaces like <span class="mono">#FDECD0</span> and <span class="mono">#E1F5EE</span> instead of heavy solid fills.</li>
+        <li>Text colors stay dark enough for contrast, including <span class="mono">#8C5510</span> and <span class="mono">#0F6E56</span>.</li>
+      </ul></div>
+    </div>
+  </div>
+  <div class="component-card">
+    <div class="component-head">
+      <div class="component-title">Table</div>
+      <div class="component-sub">Header, hover, selected row</div>
+    </div>
+    <div class="component-body">
+      <table class="table table-hover"><thead><tr><th>Name</th><th>Status</th><th class="text-end">Views</th></tr></thead><tbody><tr><td>Executive summary</td><td><span class="badge bg-secondary">Draft</span></td><td class="text-end">1,248</td></tr><tr class="table-active"><td>Revenue board</td><td><span class="badge bg-primary">Selected</span></td><td class="text-end">8,421</td></tr><tr><td>Ops checklist</td><td><span class="badge bg-success">Ready</span></td><td class="text-end">932</td></tr></tbody></table>
+      <div class="component-notes"><ul>
+        <li><span class="mono">.table</span> uses <span class="mono">12px</span> body text with a warm border palette and <span class="mono">34px</span> row height.</li>
+        <li>Headers shrink to <span class="mono">11px</span>, become uppercase, and sit on <span class="mono">#ECEAE3</span>.</li>
+        <li><span class="mono">.table-active</span> switches to <span class="mono">#FDECD0</span> and adds a <span class="mono">3px</span> amber left rule for selection.</li>
+      </ul></div>
+    </div>
+  </div>
+  <div class="component-card">
+    <div class="component-head">
+      <div class="component-title">Dropdown &amp; Tabs</div>
+      <div class="component-sub">Menu treatment + active nav</div>
+    </div>
+    <div class="component-body">
+      <div class="demo-stack demo-column"><div class="nav-tabs"><a class="nav-link active" href="#">Layers</a><a class="nav-link" href="#">Tokens</a><a class="nav-link" href="#">Exports</a></div><div class="dropdown-menu"><div class="dropdown-header">View</div><a class="dropdown-item" href="#">Show grid</a><a class="dropdown-item active" href="#">Snap to layout</a><div class="dropdown-divider"></div><a class="dropdown-item" href="#">Reset zoom</a></div></div>
+      <div class="component-notes"><ul>
+        <li><span class="mono">.nav-tabs .nav-link</span> use <span class="mono">12px</span> medium text, a <span class="mono">32px</span> height, and a transparent bottom border until active.</li>
+        <li>The active tab changes to <span class="mono">#8C5510</span> with a <span class="mono">2px</span> amber underline.</li>
+        <li><span class="mono">.dropdown-item.active</span> mirrors table selection with an amber-tinted row and <span class="mono">3px</span> left accent.</li>
+      </ul></div>
+    </div>
+  </div>
+  <div class="component-card">
+    <div class="component-head">
+      <div class="component-title">Card &amp; Alert</div>
+      <div class="component-sub">Subtle elevation + bordered feedback</div>
+    </div>
+    <div class="component-body">
+      <div class="demo-stack demo-column"><div class="card"><div class="card-header">Prototype settings</div><div class="card-body"><div class="card-title">Sharing</div><div class="card-text">Anyone on the team can inspect and comment. Publishing keeps the layout locked to approved tokens.</div></div><div class="card-footer">Updated 2 minutes ago</div></div><div class="alert alert-warning">Heads up: one color token is still unpublished.</div></div>
+      <div class="component-notes"><ul>
+        <li><span class="mono">.card</span> adds a warm border, white surface, and a soft two-layer shadow instead of heavy elevation.</li>
+        <li><span class="mono">.card-header</span> uses the neutral surface <span class="mono">#F7F6F2</span> with a divider for structure.</li>
+        <li><span class="mono">.alert</span> keeps a light contextual background and emphasizes state with a <span class="mono">3px</span> left border.</li>
+      </ul></div>
+    </div>
+  </div>
+<div class="section-title">What changed - key deltas</div>
+<table class="diff-table">
+  <tr><th>Property</th><th>Bootstrap default</th><th>figma-theme.css</th><th>Impact</th></tr>
+  <tr><td>Component height</td><td><span class="val-before">38px</span></td><td><span class="val-after">30px</span></td><td>Denser, more data visible</td></tr>
+  <tr><td>UI font size</td><td><span class="val-before">14px</span></td><td><span class="val-after">12px</span></td><td>Figma-compact information density</td></tr>
+  <tr><td>Border radius</td><td><span class="val-before">6px</span></td><td><span class="val-after">3px</span></td><td>Sharp, tool-like rather than rounded/soft</td></tr>
+  <tr><td>Border color</td><td><span class="val-before">#dee2e6</span></td><td><span class="val-after">#D4D2C9</span></td><td>Warm-tinted, cohesive with brand neutrals</td></tr>
+  <tr><td>Primary color</td><td><span class="val-before">#0d6efd (blue)</span></td><td><span class="val-after">#EEA555 (amber)</span></td><td>Brand-consistent accent throughout</td></tr>
+  <tr><td>Focus ring</td><td><span class="val-before">3px solid #86b7fe</span></td><td><span class="val-after">2px rgba(amber, .25)</span></td><td>Soft halo - less intrusive, still accessible</td></tr>
+  <tr><td>Badge style</td><td><span class="val-before">Solid filled</span></td><td><span class="val-after">Tinted bg + dark text</span></td><td>Legible, not visually heavy</td></tr>
+  <tr><td>Table header</td><td><span class="val-before">14px normal weight</span></td><td><span class="val-after">11px uppercase 600</span></td><td>Clear column labelling, Figma-style</td></tr>
+  <tr><td>Selected row</td><td><span class="val-before">Generic blue tint</span></td><td><span class="val-after">Amber-100 + left border</span></td><td>Brand-consistent, clear selection signal</td></tr>
+  <tr><td>Active nav tab</td><td><span class="val-before">White card + border</span></td><td><span class="val-after">2px amber bottom border</span></td><td>Minimal, Figma-native tab style</td></tr>
+  <tr><td>Dropdown item active</td><td><span class="val-before">Blue solid fill</span></td><td><span class="val-after">Amber-50 + left accent</span></td><td>Consistent with table selection pattern</td></tr>
+  <tr><td>Alert style</td><td><span class="val-before">Filled background</span></td><td><span class="val-after">Tinted bg + left border</span></td><td>Less aggressive, contextual cue</td></tr>
+  <tr><td>Card shadow</td><td><span class="val-before">None or heavy</span></td><td><span class="val-after">elevation-1 (subtle)</span></td><td>Lifts card without visual weight</td></tr>
+  <tr><td>Button font weight</td><td><span class="val-before">400 normal</span></td><td><span class="val-after">500 medium</span></td><td>Buttons feel intentional, not generic</td></tr>
+  <tr><td>Scrollbar</td><td><span class="val-before">OS default (wide)</span></td><td><span class="val-after">6px warm-tinted</span></td><td>Figma-style thin scrollbars</td></tr>
+</table>
+
+<div class="section-title">What's covered</div>
+<div class="how-grid">
+  <div class="how-card">
+    <div class="how-card-title" style="color:#1D9E75;">Core components</div>
+    <ul>
+      <li>Buttons (primary, secondary, ghost, danger, outline)</li>
+      <li>Inputs &amp; selects (all sizes)</li>
+      <li>Checkboxes, radios, switches</li>
+      <li>Badges (all semantic variants)</li>
+      <li>Tables (hover, selected, header)</li>
+      <li>Dropdowns</li>
+      <li>Cards &amp; card headers</li>
+    </ul>
+  </div>
+  <div class="how-card">
+    <div class="how-card-title" style="color:#1D9E75;">Navigation &amp; layout</div>
+    <ul>
+      <li>Nav tabs (bottom-border style)</li>
+      <li>Nav pills (segmented control)</li>
+      <li>Sidebar nav with active state</li>
+      <li>Breadcrumbs</li>
+      <li>Pagination</li>
+      <li>List groups</li>
+      <li>Progress bars</li>
+    </ul>
+  </div>
+  <div class="how-card">
+    <div class="how-card-title" style="color:#1D9E75;">Overlays &amp; feedback</div>
+    <ul>
+      <li>Modals (brand border + elevation)</li>
+      <li>Alerts (left-border style)</li>
+      <li>Tooltips (dark, compact)</li>
+      <li>Popovers</li>
+      <li>Focus rings (all interactive)</li>
+      <li>Selection highlight</li>
+      <li>Scrollbars (WebKit)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section-title">Full CSS source</div>
+<div class="note">Copy the block below as <code style="font-family:'JetBrains Mono',monospace;font-size:10px;">figma-theme.css</code> and link it after Bootstrap. The file is self-contained - no build step, no preprocessor, no dependencies.</div>
+<div class="full-css">
+  <div class="full-css-header">
+    <span class="file-tag">figma-theme.css</span>
+    <span style="font-size:11px;color:#999790;">713 lines - drop in after bootstrap.min.css</span>
+  </div>
+  <div class="code-block" style="border-radius:0;margin:0;">/*
+ * figma-theme.css
+ * -----------------------------------------------------------------------------
+ * Figma-inspired reskin for Bootstrap 5.
+ * Load this AFTER bootstrap.min.css. No SCSS compilation required.
+ * No HTML changes needed - drop in and it applies.
+ *
+ * Brand: #EEA555 (amber-400)
+ * Approach: Figma density + restraint, brand amber as the accent colour.
+ * -----------------------------------------------------------------------------
+ */
+
+/* -- 1. Bootstrap variable overrides ---------------------------------------- */
+:root {
+  /* Brand */
+  --bs-primary:             #EEA555;
+  --bs-primary-rgb:         238, 165, 85;
+  --bs-primary-text-emphasis: #5A3308;
+  --bs-primary-bg-subtle:   #FEF8EE;
+  --bs-primary-border-subtle: #FDECD0;
+
+  /* Semantics */
+  --bs-success:             #1D9E75;
+  --bs-success-rgb:         29, 158, 117;
+  --bs-success-bg-subtle:   #E1F5EE;
+  --bs-danger:              #E24B4A;
+  --bs-danger-rgb:          226, 75, 74;
+  --bs-danger-bg-subtle:    #FCEBEB;
+  --bs-warning:             #C47E1E;
+  --bs-warning-rgb:         196, 126, 30;
+  --bs-warning-bg-subtle:   #FEF8EE;
+  --bs-info:                #378ADD;
+  --bs-info-rgb:            55, 138, 221;
+  --bs-info-bg-subtle:      #E6F1FB;
+
+  /* Surfaces */
+  --bs-body-bg:             #F7F6F2;
+  --bs-body-color:          #242421;
+  --bs-secondary-color:     #5E5D57;
+  --bs-tertiary-color:      #999790;
+  --bs-secondary-bg:        #ECEAE3;
+  --bs-tertiary-bg:         #F7F6F2;
+  --bs-border-color:        #D4D2C9;
+  --bs-border-color-translucent: rgba(36,36,33,.12);
+
+  /* Typography - Figma uses Inter at 11-12px for UI */
+  --bs-body-font-family:    'Inter', system-ui, -apple-system, sans-serif;
+  --bs-body-font-size:      0.8125rem;   /* 13px */
+  --bs-body-line-height:    1.5;
+  --bs-body-font-weight:    400;
+
+  /* Shape - Figma: 3px everywhere, pill for toggles */
+  --bs-border-radius:       3px;
+  --bs-border-radius-sm:    2px;
+  --bs-border-radius-lg:    4px;
+  --bs-border-radius-xl:    6px;
+  --bs-border-radius-xxl:   8px;
+  --bs-border-radius-pill:  999px;
+
+  /* Component heights */
+  --fig-height-sm:          24px;
+  --fig-height-md:          30px;   /* Figma default */
+  --fig-height-lg:          36px;
+  --fig-row-height:         34px;
+
+  /* Focus */
+  --bs-focus-ring-width:    2px;
+  --bs-focus-ring-opacity:  0.25;
+  --bs-focus-ring-color:    rgba(238, 165, 85, 0.35);
+
+  /* Link */
+  --bs-link-color:          #C47E1E;
+  --bs-link-hover-color:    #8C5510;
+}
+
+/* -- 2. Base typography ------------------------------------------------------ */
+body {
+  font-family: var(--bs-body-font-family);
+  font-size: var(--bs-body-font-size);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #242421;
+}
+
+/* Small / label text */
+small, .small      { font-size: 0.75rem; }   /* 12px */
+.text-muted        { color: #999790 !important; }
+.text-secondary    { color: #5E5D57 !important; }
+
+/* -- 3. Buttons -------------------------------------------------------------- */
+.btn {
+  --bs-btn-font-size:       0.75rem;          /* 12px */
+  --bs-btn-font-weight:     500;
+  --bs-btn-padding-y:       0;
+  --bs-btn-padding-x:       12px;
+  --bs-btn-border-radius:   var(--bs-border-radius);
+  --bs-btn-border-width:    1px;
+  height: var(--fig-height-md);
+  display: inline-flex;
+  align-items: center;
+  letter-spacing: 0;
+  transition: background-color 100ms ease, border-color 100ms ease, color 100ms ease;
+}
+
+.btn-sm {
+  --bs-btn-font-size:       0.6875rem;        /* 11px */
+  --bs-btn-padding-x:       8px;
+  height: var(--fig-height-sm);
+}
+
+.btn-lg {
+  --bs-btn-padding-x:       16px;
+  height: var(--fig-height-lg);
+}
+
+/* Primary - amber solid */
+.btn-primary {
+  --bs-btn-color:           #3D1E00;
+  --bs-btn-bg:              #EEA555;
+  --bs-btn-border-color:    #EEA555;
+  --bs-btn-hover-color:     #3D1E00;
+  --bs-btn-hover-bg:        #C47E1E;
+  --bs-btn-hover-border-color: #C47E1E;
+  --bs-btn-active-bg:       #8C5510;
+  --bs-btn-active-border-color: #8C5510;
+  --bs-btn-disabled-bg:     #FAD49A;
+  --bs-btn-disabled-border-color: #FAD49A;
+}
+
+/* Secondary - ghost style */
+.btn-secondary {
+  --bs-btn-color:           #5E5D57;
+  --bs-btn-bg:              transparent;
+  --bs-btn-border-color:    #D4D2C9;
+  --bs-btn-hover-color:     #242421;
+  --bs-btn-hover-bg:        #ECEAE3;
+  --bs-btn-hover-border-color: #D4D2C9;
+  --bs-btn-active-bg:       #D4D2C9;
+  --bs-btn-active-color:    #242421;
+  --bs-btn-disabled-color:  #999790;
+  --bs-btn-disabled-bg:     transparent;
+}
+
+/* Outline variants - Figma-style ghost */
+.btn-outline-secondary {
+  --bs-btn-color:           #5E5D57;
+  --bs-btn-border-color:    #D4D2C9;
+  --bs-btn-hover-color:     #242421;
+  --bs-btn-hover-bg:        #ECEAE3;
+  --bs-btn-hover-border-color: #D4D2C9;
+  --bs-btn-active-bg:       #D4D2C9;
+  --bs-btn-active-color:    #242421;
+}
+
+.btn-outline-primary {
+  --bs-btn-color:           #8C5510;
+  --bs-btn-border-color:    #EEA555;
+  --bs-btn-hover-color:     #3D1E00;
+  --bs-btn-hover-bg:        #EEA555;
+  --bs-btn-hover-border-color: #EEA555;
+}
+
+/* Danger */
+.btn-danger {
+  --bs-btn-bg:              #E24B4A;
+  --bs-btn-border-color:    #E24B4A;
+  --bs-btn-color:           #fff;
+  --bs-btn-hover-bg:        #A32D2D;
+  --bs-btn-hover-border-color: #A32D2D;
+  --bs-btn-hover-color:     #fff;
+}
+
+/* Ghost / icon button utility */
+.btn-ghost {
+  --bs-btn-color:           #5E5D57;
+  --bs-btn-bg:              transparent;
+  --bs-btn-border-color:    transparent;
+  --bs-btn-hover-color:     #242421;
+  --bs-btn-hover-bg:        #ECEAE3;
+  --bs-btn-hover-border-color: transparent;
+  --bs-btn-active-bg:       #D4D2C9;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+/* -- 4. Form controls -------------------------------------------------------- */
+.form-control,
+.form-select {
+  font-family: var(--bs-body-font-family);
+  font-size: 0.75rem;                         /* 12px */
+  font-weight: 400;
+  height: var(--fig-height-md);
+  padding: 0 8px;
+  border: 1px solid #D4D2C9;
+  border-radius: var(--bs-border-radius);
+  background-color: #fff;
+  color: #242421;
+  transition: border-color 100ms ease, box-shadow 100ms ease;
+  line-height: var(--fig-height-md);
+}
+
+.form-control:hover,
+.form-select:hover {
+  border-color: #B0AEA6;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #EEA555;
+  box-shadow: 0 0 0 2px rgba(238, 165, 85, 0.25);
+  outline: none;
+}
+
+.form-control::placeholder { color: #999790; }
+
+.form-control-sm,
+.form-select-sm {
+  font-size: 0.6875rem;                       /* 11px */
+  height: var(--fig-height-sm);
+  padding: 0 6px;
+}
+
+.form-control-lg,
+.form-select-lg {
+  height: var(--fig-height-lg);
+  font-size: 0.8125rem;
+}
+
+/* Textarea - no fixed height */
+textarea.form-control {
+  height: auto;
+  padding: 6px 8px;
+  line-height: 1.5;
+}
+
+/* Input group */
+.input-group-text {
+  font-size: 0.75rem;
+  font-weight: 500;
+  height: var(--fig-height-md);
+  padding: 0 8px;
+  border-color: #D4D2C9;
+  background: #ECEAE3;
+  color: #5E5D57;
+  border-radius: var(--bs-border-radius);
+}
+
+/* -- 5. Checkboxes, radios, switches ---------------------------------------- */
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: 0;
+  min-height: auto;
+}
+
+.form-check-input {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  flex-shrink: 0;
+  border: 1px solid #D4D2C9;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: border-color 100ms, background-color 100ms;
+}
+
+.form-check-input[type="radio"] { border-radius: 50%; }
+
+.form-check-input:checked {
+  background-color: #EEA555;
+  border-color: #EEA555;
+}
+
+.form-check-input:focus {
+  box-shadow: 0 0 0 2px rgba(238, 165, 85, 0.25);
+  border-color: #EEA555;
+}
+
+.form-check-label {
+  font-size: 0.75rem;
+  color: #242421;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* Switch */
+.form-switch .form-check-input {
+  width: 28px;
+  height: 16px;
+  border-radius: 999px;
+}
+
+.form-switch .form-check-input:checked { background-color: #EEA555; border-color: #EEA555; }
+
+/* -- 6. Badges --------------------------------------------------------------- */
+.badge {
+  font-family: var(--bs-body-font-family);
+  font-size: 0.625rem;                        /* 10px */
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+/* Semantic badge colours - tinted, not solid */
+.badge.bg-success   { background: #E1F5EE !important; color: #0F6E56 !important; }
+.badge.bg-danger    { background: #FCEBEB !important; color: #A32D2D !important; }
+.badge.bg-warning   { background: #FEF8EE !important; color: #8C5510 !important; }
+.badge.bg-info      { background: #E6F1FB !important; color: #185FA5 !important; }
+.badge.bg-secondary { background: #ECEAE3 !important; color: #5E5D57 !important; }
+.badge.bg-primary   { background: #FDECD0 !important; color: #8C5510 !important; }
+.badge.bg-dark      { background: #3A3935 !important; color: #F7F6F2 !important; }
+.badge.bg-light     { background: #ECEAE3 !important; color: #5E5D57 !important; }
+
+/* -- 7. Tables --------------------------------------------------------------- */
+.table {
+  --bs-table-bg:            transparent;
+  --bs-table-striped-bg:    #F7F6F2;
+  --bs-table-hover-bg:      #FEF8EE;
+  --bs-table-active-bg:     #FDECD0;
+  --bs-table-border-color:  #ECEAE3;
+  font-size: 0.75rem;                         /* 12px */
+  color: #242421;
+}
+
+.table &gt; thead &gt; tr &gt; th,
+.table &gt; thead &gt; tr &gt; td {
+  font-size: 0.6875rem;                       /* 11px */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #5E5D57;
+  background: #ECEAE3;
+  border-color: #D4D2C9;
+  padding: 6px 12px;
+  height: 32px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.table &gt; tbody &gt; tr &gt; td,
+.table &gt; tbody &gt; tr &gt; th {
+  padding: 0 12px;
+  height: var(--fig-row-height);
+  vertical-align: middle;
+  border-color: #ECEAE3;
+}
+
+.table &gt; tbody &gt; tr:last-child &gt; td { border-bottom: none; }
+
+/* Hover */
+.table-hover &gt; tbody &gt; tr:hover &gt; td {
+  background-color: #FEF8EE;
+}
+
+/* Selected / active row */
+.table &gt; tbody &gt; tr.table-active &gt; td {
+  background-color: #FDECD0 !important;
+  border-left: 3px solid #EEA555;
+  padding-left: 9px;
+}
+
+/* Bordered table */
+.table-bordered { border: .5px solid #D4D2C9; }
+.table-bordered &gt; thead &gt; tr &gt; th,
+.table-bordered &gt; tbody &gt; tr &gt; td { border: .5px solid #D4D2C9; }
+
+/* Numeric columns */
+.table .text-end,
+.table .col-num { font-variant-numeric: tabular-nums lining-nums; }
+
+/* -- 8. Dropdowns ------------------------------------------------------------ */
+.dropdown-menu {
+  font-size: 0.75rem;
+  border: 1px solid #D4D2C9;
+  border-radius: var(--bs-border-radius);
+  box-shadow: 0 2px 4px rgba(0,0,0,.08), 0 1px 6px rgba(0,0,0,.05);
+  padding: 2px 0;
+  background: #fff;
+  min-width: 160px;
+}
+
+.dropdown-item {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #242421;
+  padding: 0 12px;
+  height: var(--fig-row-height);
+  display: flex;
+  align-items: center;
+  border-radius: 0;
+  transition: background 80ms ease;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background: #FEF8EE;
+  color: #242421;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+  background: #FEF8EE;
+  color: #8C5510;
+  font-weight: 500;
+  border-left: 3px solid #EEA555;
+  padding-left: 9px;
+}
+
+.dropdown-header {
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #999790;
+  padding: 8px 12px 3px;
+}
+
+.dropdown-divider { border-color: #ECEAE3; margin: 2px 0; }
+
+/* Dropdown toggle button - Figma-style */
+.dropdown-toggle {
+  gap: 6px;
+}
+.dropdown-toggle::after {
+  border: none;
+  width: 8px;
+  height: 8px;
+  background-image: url("data:image/svg+xml,%3Csvg width='8' height='5' viewBox='0 0 8 5' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L4 4L7 1' stroke='%23999790' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-left: 2px;
+  vertical-align: middle;
+}
+
+/* -- 9. Nav &amp; tabs ----------------------------------------------------------- */
+/* Tabs - Figma-style segmented control */
+.nav-tabs {
+  border-bottom: 1px solid #D4D2C9;
+  gap: 0;
+}
+
+.nav-tabs .nav-link {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #5E5D57;
+  padding: 0 14px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  margin-bottom: -1px;
+  transition: color 100ms, border-color 100ms;
+}
+
+.nav-tabs .nav-link:hover { color: #242421; background: #F7F6F2; border-bottom-color: #D4D2C9; }
+
+.nav-tabs .nav-link.active {
+  color: #8C5510;
+  border-bottom: 2px solid #EEA555;
+  background: transparent;
+  font-weight: 600;
+}
+
+/* Pills - Figma-style segmented panel */
+.nav-pills {
+  background: #ECEAE3;
+  border-radius: 4px;
+  padding: 2px;
+  gap: 1px;
+  display: inline-flex;
+}
+
+.nav-pills .nav-link {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #5E5D57;
+  padding: 3px 10px;
+  border-radius: 3px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  transition: background 80ms, color 80ms;
+}
+
+.nav-pills .nav-link:hover { color: #242421; }
+
+.nav-pills .nav-link.active {
+  background: #fff;
+  color: #242421;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0,0,0,.1);
+}
+
+/* Sidebar nav */
+.nav-sidebar .nav-link {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #5E5D57;
+  padding: 0 16px;
+  height: var(--fig-height-md);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 0;
+  border-left: 3px solid transparent;
+  transition: background 80ms, color 80ms;
+}
+
+.nav-sidebar .nav-link:hover { background: #F7F6F2; color: #242421; }
+
+.nav-sidebar .nav-link.active {
+  background: #FEF8EE;
+  color: #8C5510;
+  font-weight: 600;
+  border-left-color: #EEA555;
+  padding-left: 13px;
+}
+
+/* -- 10. Cards --------------------------------------------------------------- */
+.card {
+  border: 1px solid #D4D2C9;
+  border-radius: var(--bs-border-radius-lg);
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
+}
+
+.card-header {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #242421;
+  background: #F7F6F2;
+  border-bottom: 1px solid #ECEAE3;
+  padding: 8px 14px;
+  border-radius: var(--bs-border-radius-lg) var(--bs-border-radius-lg) 0 0;
+}
+
+.card-body { padding: 14px; }
+.card-title { font-size: 0.75rem; font-weight: 600; color: #5E5D57; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+.card-text { color: #242421; }
+.card-footer { font-size: 0.6875rem; color: #999790; background: #F7F6F2; border-top: 1px solid #ECEAE3; padding: 6px 14px; border-radius: 0 0 var(--bs-border-radius-lg) var(--bs-border-radius-lg); }
+
+/* -- 11. Modals -------------------------------------------------------------- */
+.modal-content {
+  border: 1.5px solid #EEA555;
+  border-radius: var(--bs-border-radius-xl);
+  box-shadow: 0 8px 16px rgba(0,0,0,.12), 0 4px 14px rgba(0,0,0,.08);
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid #ECEAE3;
+  background: #fff;
+}
+
+.modal-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #242421;
+  letter-spacing: -0.01em;
+}
+
+.modal-body { padding: 14px 16px; font-size: 0.75rem; }
+.modal-footer { padding: 10px 16px; background: #F7F6F2; border-top: 1px solid #ECEAE3; gap: 6px; }
+
+.btn-close {
+  width: 20px;
+  height: 20px;
+  background-size: 10px;
+  opacity: 0.5;
+}
+.btn-close:hover { opacity: 1; }
+
+/* -- 12. Alerts -------------------------------------------------------------- */
+.alert {
+  font-size: 0.75rem;
+  border-radius: var(--bs-border-radius);
+  padding: 10px 14px;
+  border-width: 1px;
+  border-left-width: 3px;
+}
+
+.alert-success  { background: #E1F5EE; color: #0F6E56; border-color: #1D9E75; }
+.alert-danger   { background: #FCEBEB; color: #A32D2D; border-color: #E24B4A; }
+.alert-warning  { background: #FEF8EE; color: #8C5510; border-color: #EEA555; }
+.alert-info     { background: #E6F1FB; color: #185FA5; border-color: #378ADD; }
+.alert-primary  { background: #FEF8EE; color: #8C5510; border-color: #EEA555; }
+.alert-secondary{ background: #ECEAE3; color: #5E5D57; border-color: #D4D2C9; }
+
+/* -- 13. Pagination ---------------------------------------------------------- */
+.pagination { gap: 2px; }
+
+.page-link {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #5E5D57;
+  border: 1px solid #D4D2C9;
+  border-radius: var(--bs-border-radius) !important;
+  padding: 0 9px;
+  height: var(--fig-height-sm);
+  display: flex;
+  align-items: center;
+  transition: background 80ms, color 80ms;
+}
+
+.page-link:hover  { background: #ECEAE3; color: #242421; border-color: #D4D2C9; }
+.page-item.active .page-link { background: #EEA555; border-color: #EEA555; color: #3D1E00; font-weight: 600; }
+.page-item.disabled .page-link { color: #999790; background: transparent; }
+
+/* -- 14. Progress ------------------------------------------------------------ */
+.progress {
+  height: 4px;
+  border-radius: 2px;
+  background: #ECEAE3;
+}
+
+.progress-bar {
+  background: #EEA555;
+  border-radius: 2px;
+}
+
+/* -- 15. Tooltips ------------------------------------------------------------ */
+.tooltip-inner {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  background: #242421;
+  border-radius: 3px;
+  padding: 4px 8px;
+  max-width: 220px;
+}
+
+.tooltip.bs-tooltip-top .tooltip-arrow::before  { border-top-color: #242421; }
+.tooltip.bs-tooltip-bottom .tooltip-arrow::before { border-bottom-color: #242421; }
+
+/* -- 16. Popover ------------------------------------------------------------- */
+.popover {
+  border: 1px solid #D4D2C9;
+  border-radius: var(--bs-border-radius-lg);
+  box-shadow: 0 4px 8px rgba(0,0,0,.10), 0 2px 10px rgba(0,0,0,.06);
+  font-size: 0.75rem;
+}
+
+.popover-header {
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #F7F6F2;
+  border-bottom: 1px solid #ECEAE3;
+  padding: 8px 12px;
+  border-radius: var(--bs-border-radius-lg) var(--bs-border-radius-lg) 0 0;
+}
+
+.popover-body { padding: 10px 12px; color: #242421; }
+
+/* -- 17. List groups --------------------------------------------------------- */
+.list-group-item {
+  font-size: 0.75rem;
+  color: #242421;
+  border-color: #ECEAE3;
+  padding: 0 12px;
+  height: var(--fig-row-height);
+  display: flex;
+  align-items: center;
+  transition: background 80ms;
+}
+
+.list-group-item:hover { background: #FEF8EE; }
+
+.list-group-item.active {
+  background: #FDECD0;
+  border-color: #ECEAE3;
+  border-left: 3px solid #EEA555;
+  color: #8C5510;
+  font-weight: 600;
+  padding-left: 9px;
+}
+
+/* -- 18. Breadcrumbs --------------------------------------------------------- */
+.breadcrumb {
+  font-size: 0.75rem;
+  gap: 2px;
+}
+
+.breadcrumb-item + .breadcrumb-item::before { color: #999790; content: "/"; }
+.breadcrumb-item a { color: #5E5D57; text-decoration: none; }
+.breadcrumb-item a:hover { color: #242421; }
+.breadcrumb-item.active { color: #242421; font-weight: 500; }
+
+/* -- 19. Scrollbars (WebKit) ------------------------------------------------- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D4D2C9; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #B0AEA6; }
+
+/* -- 20. Focus visible ------------------------------------------------------- */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(238, 165, 85, 0.35);
+}
+
+/* -- 21. Selection ----------------------------------------------------------- */
+::selection { background: rgba(238, 165, 85, 0.2); color: inherit; }
+</div>
+</div>
+
+<div style="margin-top:40px;padding-top:14px;border-top:.5px solid #D4D2C9;font-size:11px;color:#999790;font-style:italic;">
+  Next: dark mode variant of figma-theme.css - or chart / data visualization palette
+</div>
+
+</div>
+</body>
+</html>
+
+
+
