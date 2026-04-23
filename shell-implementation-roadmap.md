@@ -454,7 +454,7 @@ Adopt through shared form selectors in [_bootstrap-override.scss](E:\home\dev\gi
 
 | Selector / property | Action | Before | After | Notes |
 |---|---|---|---|---|
-| `.form-floating .form-control:not(textarea)` `height` | update | `calc(1.5em + .75rem + 2px)` | `var(--inet-control-height-md)` | align shared floating controls to shell control height |
+| `.form-floating .form-control:not(textarea)` `height` | keep | `calc(1.5em + .75rem + 2px)` | `calc(1.5em + .75rem + 2px)` | do not change — see float-label note below |
 | shared input selectors `padding-inline` | update | inherited Bootstrap/default | `var(--inet-space-4)` | use `8px` only as a temporary fallback if spacing tokens are not yet available |
 | shared input selectors `border-radius` | update | inherited Bootstrap/default | `var(--inet-radius-md)` | align form controls to shell radius |
 | shared input selectors `border-color` | update | `var(--inet-input-border-color)` | `var(--inet-default-border-color)` | align shared input borders to the default shell border |
@@ -463,8 +463,12 @@ Adopt through shared form selectors in [_bootstrap-override.scss](E:\home\dev\gi
 
 #### 2. Keep float-label behavior stable
 
-- preserve current float-label layout behavior
-- modernize spacing and focus appearance without breaking label placement
+Do not replace the `calc(1.5em + .75rem + 2px)` height on `.form-floating .form-control:not(textarea)` with a fixed token value.
+
+The calc is deliberate geometry: `1.5em` (one line of text at the element font size) + `.75rem` (top padding + bottom padding, both set to `$form-floating-padding-y: .375rem`) + `2px` (borders). It keeps the float-label input height proportional to the font size and internally consistent with the SCSS label-positioning variables (`$form-floating-padding-y`, `$form-floating-label-y`) that are baked in at compile time.
+
+At StyleBI's 13px base font the calc already resolves to approximately `31–34px`, which is close enough to the 30px shell baseline for visual consistency. The `min-height: var(--inet-control-height-md)` applied to the base `.form-control` selector provides the 30px floor for non-float-label inputs without touching float-label geometry.
+
 - do not widen scope into per-component form rewrites in this phase
 
 ### Key selectors
@@ -477,6 +481,15 @@ Adopt through shared form selectors in [_bootstrap-override.scss](E:\home\dev\gi
 
 - consistent `30px` shell control baseline
 - clearer primary-focus behavior
+
+### Validation checks
+
+The float-label height is intentionally left at its calc value, so label-positioning regressions are not a concern here. The main change to verify is the new focus ring and border-radius on all shared inputs. Open a dialog or form-heavy screen and check these two float-label components for any unexpected positioning shift from the `border-radius` or `padding-inline` additions:
+
+| File | What to check |
+|---|---|
+| [app/portal/data/data-datasource-browser/datasources-database/driver-wizard/driver-wizard.component.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\app\portal\data\data-datasource-browser\datasources-database\driver-wizard\driver-wizard.component.scss) | `span.helper-text` uses `bottom: -1.5em` — verify helper text still clears the field border after radius change |
+| [app/vsobjects/dialog/graph/chart-line-pane.component.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\app\vsobjects\dialog\graph\chart-line-pane.component.scss) | custom invalid feedback uses `top: 0em` — verify feedback text is not clipped after padding-inline change |
 
 ## Phase 4: Dialog And Modal Standardization
 
@@ -580,6 +593,16 @@ Make shell navigation read as part of the frame rather than as colorful pills or
 
 - calmer shell framing
 - stronger distinction between shell chrome and Composer authoring states
+
+### Validation checks
+
+Phase 5 adds `min-height` and `background-color` to shared nav/tab selectors. Three component files have explicit geometry or token references that need visual confirmation after this phase lands:
+
+| File | What to check |
+|---|---|
+| [app/composer/gui/composer-main.component.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\app\composer\gui\composer-main.component.scss) | `.tabs-bottom.nav-tabs { height: 33px }` — explicit height coexists with the new `min-height`; verify Composer bottom tabs render at the correct height and are not taller than expected |
+| [app/composer/gui/tab-selector/tab-selector-shared.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\app\composer\gui\tab-selector\tab-selector-shared.scss) | nav-link anchors have padding zeroed out — verify these tabs still have visible hit area after `min-height` is added via the shared selector |
+| [app/viewer/viewer-view/page-tab.component.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\app\viewer\viewer-view\page-tab.component.scss) | `.tab-scroller-button` consumes `var(--inet-nav-tabs-bg-color)` directly — token retune flows here automatically; verify the scroll button background matches the retuned tab rail color |
 
 ## Phase 6: Panel Headers, Shared Surfaces, And Utility Adoption
 
@@ -890,7 +913,7 @@ Use this appendix when implementation needs explicit before/after changes rather
 
 | Selector | Property | Action | Before | After | Notes |
 |---|---|---|---|---|---|
-| `.form-floating .form-control:not(textarea)` | `height` | update | `calc(1.5em + .75rem + 2px)` | `var(--inet-control-height-md)` | replace bootstrap-derived control height |
+| `.form-floating .form-control:not(textarea)` | `height` | keep | `calc(1.5em + .75rem + 2px)` | `calc(1.5em + .75rem + 2px)` | do not change - calc is locked to `$form-floating-padding-y` and `$form-floating-label-y` SCSS variables; resolves to ~31-34px at StyleBI's 13px font which is close enough to the 30px shell baseline |
 | `.form-control, .form-control[readonly], .form-control.input-group-btn-addon, .input-group > .input-group-btn-addon` | `border-color` | keep/update | `var(--inet-input-border-color)` | `var(--inet-input-border-color)` | keep hook; value changes through token retuning |
 | same shared input selector | `background-color` | keep/update | `var(--inet-input-bg-color)` | `var(--inet-input-bg-color)` | keep hook; value changes through token retuning |
 | same shared input selector | `color` | keep/update | `var(--inet-input-text-color)` | `var(--inet-input-text-color)` | keep hook; value changes through token retuning |
@@ -1001,3 +1024,51 @@ Use this appendix when implementation needs explicit before/after changes rather
 | shared shell table header selector | `font-weight` | add/update | inherited/current | `600` | make shell headers clear without becoming BI-grid headers |
 | shared shell row hover selector | `background-color` | add/update | inherited/current Bootstrap hover behavior | `var(--inet-ui-neutral-hover-bg-color)` | use neutral shell hover, not visualization selection color |
 | shared shell row selected selector | `background-color` | add/update | current selected-item behavior where applicable | `var(--inet-shell-selected-bg-color)` | do not borrow visualization or worksheet state styling |
+
+## Appendix G: UI Impact Analysis
+
+This appendix maps the roadmap back to the current `stylebi` portal codebase so implementation can distinguish broad shared changes from narrower surface tuning.
+
+### Highest-risk shared changes
+
+| Area | Why risk is high | Primary implementation files | Major UI areas affected |
+|---|---|---|---|
+| inputs and selects | shared `form-control` styling is used extremely broadly across dialogs, property panes, and editors | [_bootstrap-override.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_bootstrap-override.scss:456), [_variables.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_variables.scss:239) | Composer property dialogs, binding editors, wizard forms, settings panes |
+| default and secondary buttons | shared variant selectors are centralized, but the app has a very large installed base of `btn-default` usage | [_bootstrap-override.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_bootstrap-override.scss:601), [_variables.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_variables.scss:265) | dialog footers, inline editor actions, chart and table binding tools, list actions |
+| dialogs | shared dialog chrome is reused across a large number of Composer and portal modal flows | [_bootstrap-override.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_bootstrap-override.scss:774), [modal-header.component.html](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\app\widget\modal-header\modal-header.component.html:18), [standard-dialog.component.html](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\app\widget\standard-dialog\standard-dialog.component.html:17) | VS property dialogs, table/chart binding dialogs, named group dialogs, configuration popups |
+| tabs and navigation | shared tab selectors affect both dialog tabs and persistent shell/composer tab rails | [_bootstrap-override.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_bootstrap-override.scss:774), [_themeable.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_themeable.scss:1271) | dialog tab strips, Composer bottom tabs, viewer bottom tabs, schedule and VPM sub-nav |
+| toolbars and side panels | shared toolbar background tokens fan out through many shell-adjacent selectors in `_themeable.scss` | [_themeable.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_themeable.scss:1333), [_variables.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_variables.scss:197) | viewer toolbar, repository tree, search chrome, data-model header panes, wizard toolbars, slide-outs |
+
+### Impact by phase
+
+| Phase | Primary files | UI impact surface | Risk level | What to watch |
+|---|---|---|---|---|
+| Phase 1 foundation tokens | [_variables.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_variables.scss:142) | broad shell text, borders, toolbar surfaces, tab rails | high visual spread, lower implementation complexity | contrast drift, hierarchy changes, unintended shell-wide color shifts |
+| Phase 2 button remap | [_bootstrap-override.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_bootstrap-override.scss:601), [_variables.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_variables.scss:265) | buttons throughout dialogs and editors | high | neutral secondary/default buttons becoming too low-contrast or too visually similar |
+| Phase 3 inputs and focus | [_bootstrap-override.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_bootstrap-override.scss:456), [_variables.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_variables.scss:239) | nearly every form-heavy surface | highest | height regressions, clipped text, floating-label alignment, focus visibility |
+| Phase 4 dialogs | [_bootstrap-override.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_bootstrap-override.scss:774), [modal-header.component.html](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\app\widget\modal-header\modal-header.component.html:18) | shared modal flows across Composer and portal | high | title wrapping, footer density, close-button alignment, header/body rhythm |
+| Phase 5 tabs and navigation | [_bootstrap-override.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_bootstrap-override.scss:774), [_themeable.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_themeable.scss:1271) | dialog tabs, Composer bottom tabs, shared sub-nav | medium-high | active-state clarity, passive hover tone, shell tabs accidentally picking up Composer-state semantics |
+| Phase 6 toolbars and panels | [_themeable.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_themeable.scss:1333), [_themeable.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_themeable.scss:1373) | viewer, repository, data-model, wizard, slide-out chrome | medium-high | shell surfaces becoming too flat, toolbar groupings losing hierarchy, side-panel framing becoming too weak |
+| Phase 7 shell tables and lists | [_bootstrap-override.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_bootstrap-override.scss:583) | shell lists and light tables | medium | selected and hover states becoming too subtle or colliding with visualization-owned table semantics |
+
+### Concrete high-use UI touchpoints
+
+| Touchpoint | Evidence in codebase | Why it matters |
+|---|---|---|
+| shared dialog header | [modal-header.component.html](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\app\widget\modal-header\modal-header.component.html:18) is used across about 151 dialog templates | shell dialog changes will be seen almost immediately across Composer and portal |
+| default action buttons | `btn-default` appears broadly in dialog and editor templates | the neutralization of default actions will change the feel of most modal and inline action rows |
+| form controls | `form-control` is pervasive in binding and VS property panes | input sizing and focus changes will have the broadest practical regression surface |
+| dialog tabs | many VS property dialogs use `.nav-tabs`, for example [tab-property-dialog.component.html](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\app\composer\dialog\vs\tab-property-dialog.component.html:23) and [text-property-dialog.component.html](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\app\composer\dialog\vs\text-property-dialog.component.html:22) | tab-state tuning must work for repeated dialog patterns, not just shell sub-nav |
+| Composer bottom tabs | [data-editor-tab-pane.component.html](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\app\binding\widget\binding-tree\data-editor-tab-pane.component.html:20) uses `.composer-bottom-tabs` plus the highlight helpers targeted in Phase 5 | bottom-tab sizing and active-border changes will be highly visible in authoring workflows |
+| toolbar family | [_themeable.scss](E:\home\dev\github\stylebi-visual_BI_tool\stylebi\web\projects\portal\src\scss\_themeable.scss:1373) groups data-model, explorer, worksheet details, slide-outs, and wizard aggregate toolbar surfaces together | one token or selector change can alter multiple authoring surfaces at once |
+
+### Recommended regression sweep
+
+After implementation, visually verify at minimum:
+
+- one property dialog with tabs, such as a VS property dialog
+- one wizard flow using shared toolbar chrome
+- one repository/search screen
+- one binding editor pane with dense form controls
+- one Composer bottom-tab surface
+- one shell list or light table using shared `list-group-item` or Bootstrap table selectors
