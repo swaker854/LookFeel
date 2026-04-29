@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shell Palette — Options A / B / C</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #F8F7F4;
+    color: #35342F;
+    padding: 40px 48px;
+    font-size: 13px;
+  }
+
+  h1 { font-size: 20px; font-weight: 600; color: #1F1F1B; margin-bottom: 4px; }
+  .subtitle { color: #6A685F; margin-bottom: 48px; font-size: 13px; }
+
+  /* ---- option block ---- */
+  .option {
+    background: #fff;
+    border: 1px solid #D9D5CC;
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    max-width: 1080px;
+  }
+
+  .option-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 6px;
+  }
+
+  .option-badge {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  .badge-a { background: #ECE9E2; color: #35342F; }
+  .badge-b { background: #EDE8F5; color: #3D2070; }
+  .badge-c { background: #DCEEF5; color: #123F50; }
+
+  .option-title { font-size: 16px; font-weight: 600; color: #1F1F1B; }
+
+  .option-desc {
+    font-size: 12px;
+    color: #6A685F;
+    margin-bottom: 24px;
+    line-height: 1.5;
+    max-width: 680px;
+  }
+
+  .tradeoff {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .pro, .con {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .pro { background: #E2F3E8; color: #1D5B39; }
+  .con { background: #F7DEDE; color: #7F2E2E; }
+  .pro::before { content: "+"; font-weight: 700; }
+  .con::before { content: "−"; font-weight: 700; }
+
+  /* ---- palette strip ---- */
+  .strip-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #99958C;
+    margin-bottom: 6px;
+    margin-top: 16px;
+  }
+
+  .strip {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+
+  .chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .chip-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.1);
+    flex-shrink: 0;
+  }
+
+  .chip-name {
+    font-size: 9px;
+    color: #6A685F;
+    text-align: center;
+    line-height: 1.3;
+    max-width: 44px;
+  }
+
+  .chip-hex {
+    font-size: 9px;
+    color: #99958C;
+    font-family: "Cascadia Code","Consolas",monospace;
+    text-align: center;
+  }
+
+  .strip-divider {
+    width: 1px;
+    background: #D9D5CC;
+    margin: 0 6px;
+    align-self: stretch;
+    border-radius: 1px;
+  }
+
+  /* ---- semantic badge demo ---- */
+  .demo-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #99958C;
+    margin-bottom: 10px;
+    margin-top: 24px;
+  }
+
+  .demo-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .demo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px 5px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid transparent;
+  }
+
+  .demo-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .demo-card {
+    border-radius: 8px;
+    border: 1px solid #D9D5CC;
+    padding: 10px 14px;
+    font-size: 12px;
+    min-width: 120px;
+  }
+
+  .demo-card-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+
+  .demo-card-val {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  hr.divider {
+    border: none;
+    border-top: 1px solid #ECE9E2;
+    margin: 28px 0 0;
+  }
+
+  .count-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #F1EFEA;
+    color: #6A685F;
+    font-weight: 500;
+    margin-left: auto;
+  }
+</style>
+</head>
+<body>
+
+<h1>Shell Palette — Options A / B / C</h1>
+<p class="subtitle">Three structural arrangements of the same hues. Semantic demo shows how status badges read in each option.</p>
+
+
+<!-- ================================================================
+     OPTION A — STATUS QUO
+     ================================================================ -->
+<div class="option">
+  <div class="option-header">
+    <span class="option-badge badge-a">Option A</span>
+    <span class="option-title">Status Quo — 3 support + 4 semantic</span>
+    <span class="count-badge">8 accent hues</span>
+  </div>
+  <p class="option-desc">
+    Support family (violet / rose / teal) used only for structural/categorical meaning in areas like Data Model.
+    Semantic family (green / amber / red / blue) reserved for states. Clean separation of roles.
+  </p>
+  <div class="tradeoff">
+    <span class="pro">Maximum role clarity — support never means a state</span>
+    <span class="pro">Conventional semantic colors — green/amber/red/blue are universal</span>
+    <span class="con">8 accent hues is a lot — risk of visual noise</span>
+    <span class="con">Teal and blue read as the same "cool" family in dense UI</span>
+  </div>
+
+  <div class="strip-label">Primary</div>
+  <div class="strip">
+    <div class="chip"><div class="chip-dot" style="background:#E58A2A;"></div><div class="chip-name">primary</div><div class="chip-hex">#E58A2A</div></div>
+  </div>
+
+  <div class="strip-label">Support (structural / categorical only)</div>
+  <div class="strip">
+    <div class="chip"><div class="chip-dot" style="background:#7455A8;"></div><div class="chip-name">secondary violet</div><div class="chip-hex">#7455A8</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#EDE8F5; border-color:#C9BBE8;"></div><div class="chip-name">violet-soft</div><div class="chip-hex">#EDE8F5</div></div>
+    <div class="strip-divider"></div>
+    <div class="chip"><div class="chip-dot" style="background:#B54B6E;"></div><div class="chip-name">third rose</div><div class="chip-hex">#B54B6E</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#F5DCEA; border-color:#E8C4D4;"></div><div class="chip-name">rose-soft</div><div class="chip-hex">#F5DCEA</div></div>
+    <div class="strip-divider"></div>
+    <div class="chip"><div class="chip-dot" style="background:#1D8A86;"></div><div class="chip-name">fourth teal</div><div class="chip-hex">#1D8A86</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#D5EDEC; border-color:#B0D8D7;"></div><div class="chip-name">teal-soft</div><div class="chip-hex">#D5EDEC</div></div>
+  </div>
+
+  <div class="strip-label">Semantic (states only)</div>
+  <div class="strip">
+    <div class="chip"><div class="chip-dot" style="background:#2E8B57;"></div><div class="chip-name">success</div><div class="chip-hex">#2E8B57</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#E2F3E8; border-color:#B8DECA;"></div><div class="chip-name">success-soft</div><div class="chip-hex">#E2F3E8</div></div>
+    <div class="strip-divider"></div>
+    <div class="chip"><div class="chip-dot" style="background:#B7791F;"></div><div class="chip-name">warning</div><div class="chip-hex">#B7791F</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#F8E8CC; border-color:#E8CEAA;"></div><div class="chip-name">warning-soft</div><div class="chip-hex">#F8E8CC</div></div>
+    <div class="strip-divider"></div>
+    <div class="chip"><div class="chip-dot" style="background:#C84C4C;"></div><div class="chip-name">danger</div><div class="chip-hex">#C84C4C</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#F7DEDE; border-color:#ECC0C0;"></div><div class="chip-name">danger-soft</div><div class="chip-hex">#F7DEDE</div></div>
+    <div class="strip-divider"></div>
+    <div class="chip"><div class="chip-dot" style="background:#3E7FC4;"></div><div class="chip-name">info</div><div class="chip-hex">#3E7FC4</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#E4EFFA; border-color:#BBCFED;"></div><div class="chip-name">info-soft</div><div class="chip-hex">#E4EFFA</div></div>
+  </div>
+
+  <hr class="divider">
+  <div class="demo-label">Semantic badges in use</div>
+  <div class="demo-row">
+    <div class="demo-badge" style="background:#E2F3E8; color:#1D5B39; border-color:#B8DECA;">
+      <div class="demo-dot" style="background:#2E8B57;"></div>Success
+    </div>
+    <div class="demo-badge" style="background:#F8E8CC; color:#7A4E10; border-color:#E8CEAA;">
+      <div class="demo-dot" style="background:#B7791F;"></div>Warning
+    </div>
+    <div class="demo-badge" style="background:#F7DEDE; color:#7F2E2E; border-color:#ECC0C0;">
+      <div class="demo-dot" style="background:#C84C4C;"></div>Danger
+    </div>
+    <div class="demo-badge" style="background:#E4EFFA; color:#1F548A; border-color:#BBCFED;">
+      <div class="demo-dot" style="background:#3E7FC4;"></div>Info
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================
+     OPTION B — TEAL COLLAPSES INTO INFO
+     ================================================================ -->
+<div class="option">
+  <div class="option-header">
+    <span class="option-badge badge-b">Option B</span>
+    <span class="option-title">Teal collapses into Info — blue retired</span>
+    <span class="count-badge">6 accent hues</span>
+  </div>
+  <p class="option-desc">
+    Teal replaces blue as the info semantic. The "fourth" structural slot is eliminated.
+    Support family shrinks to violet + rose. Fewer total hues, and teal reads naturally as informational.
+  </p>
+  <div class="tradeoff">
+    <span class="pro">6 hues instead of 8 — meaningfully leaner</span>
+    <span class="pro">Teal is a natural informational color in many systems</span>
+    <span class="pro">Eliminates teal/blue near-collision from Option A</span>
+    <span class="con">Breaks blue=info convention — may feel unfamiliar</span>
+    <span class="con">Teal doing double duty (structural + semantic) blurs the role boundary</span>
+    <span class="con">Lose a structural slot — only 2 categorical colors for Data Model etc.</span>
+  </div>
+
+  <div class="strip-label">Primary</div>
+  <div class="strip">
+    <div class="chip"><div class="chip-dot" style="background:#E58A2A;"></div><div class="chip-name">primary</div><div class="chip-hex">#E58A2A</div></div>
+  </div>
+
+  <div class="strip-label">Support (structural / categorical only)</div>
+  <div class="strip">
+    <div class="chip"><div class="chip-dot" style="background:#7455A8;"></div><div class="chip-name">secondary violet</div><div class="chip-hex">#7455A8</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#EDE8F5; border-color:#C9BBE8;"></div><div class="chip-name">violet-soft</div><div class="chip-hex">#EDE8F5</div></div>
+    <div class="strip-divider"></div>
+    <div class="chip"><div class="chip-dot" style="background:#B54B6E;"></div><div class="chip-name">third rose</div><div class="chip-hex">#B54B6E</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#F5DCEA; border-color:#E8C4D4;"></div><div class="chip-name">rose-soft</div><div class="chip-hex">#F5DCEA</div></div>
+  </div>
+
+  <div class="strip-label">Semantic (states only) — blue retired, teal promoted</div>
+  <div class="strip">
+    <div class="chip"><div class="chip-dot" style="background:#2E8B57;"></div><div class="chip-name">success</div><div class="chip-hex">#2E8B57</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#E2F3E8; border-color:#B8DECA;"></div><div class="chip-name">success-soft</div><div class="chip-hex">#E2F3E8</div></div>
+    <div class="strip-divider"></div>
+    <div class="chip"><div class="chip-dot" style="background:#B7791F;"></div><div class="chip-name">warning</div><div class="chip-hex">#B7791F</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#F8E8CC; border-color:#E8CEAA;"></div><div class="chip-name">warning-soft</div><div class="chip-hex">#F8E8CC</div></div>
+    <div class="strip-divider"></div>
+    <div class="chip"><div class="chip-dot" style="background:#C84C4C;"></div><div class="chip-name">danger</div><div class="chip-hex">#C84C4C</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#F7DEDE; border-color:#ECC0C0;"></div><div class="chip-name">danger-soft</div><div class="chip-hex">#F7DEDE</div></div>
+    <div class="strip-divider"></div>
+    <div class="chip"><div class="chip-dot" style="background:#1D8A86;"></div><div class="chip-name">info (teal)</div><div class="chip-hex">#1D8A86</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#D5EDEC; border-color:#B0D8D7;"></div><div class="chip-name">info-soft</div><div class="chip-hex">#D5EDEC</div></div>
+  </div>
+
+  <hr class="divider">
+  <div class="demo-label">Semantic badges in use</div>
+  <div class="demo-row">
+    <div class="demo-badge" style="background:#E2F3E8; color:#1D5B39; border-color:#B8DECA;">
+      <div class="demo-dot" style="background:#2E8B57;"></div>Success
+    </div>
+    <div class="demo-badge" style="background:#F8E8CC; color:#7A4E10; border-color:#E8CEAA;">
+      <div class="demo-dot" style="background:#B7791F;"></div>Warning
+    </div>
+    <div class="demo-badge" style="background:#F7DEDE; color:#7F2E2E; border-color:#ECC0C0;">
+      <div class="demo-dot" style="background:#C84C4C;"></div>Danger
+    </div>
+    <div class="demo-badge" style="background:#D5EDEC; color:#0F4E4C; border-color:#B0D8D7;">
+      <div class="demo-dot" style="background:#1D8A86;"></div>Info
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================
+     OPTION C — VIOLET AS 5TH SEMANTIC
+     ================================================================ -->
+<div class="option">
+  <div class="option-header">
+    <span class="option-badge badge-c">Option C</span>
+    <span class="option-title">Violet promoted to 5th semantic (In Progress)</span>
+    <span class="count-badge">7 accent hues</span>
+  </div>
+  <p class="option-desc">
+    Violet moves from structural to semantic, gaining the "in-progress" or "neutral-alert" slot used in
+    tools like GitHub, Linear, and Jira. Support family shrinks to rose + teal only.
+    Info stays blue. Adds a useful state that the current 4-semantic system lacks.
+  </p>
+  <div class="tradeoff">
+    <span class="pro">Violet/purple is the universal "in-progress" color in BI/PM tools</span>
+    <span class="pro">Adds a genuinely useful 5th semantic state — often requested</span>
+    <span class="pro">Info stays blue — zero convention break</span>
+    <span class="con">7 accents — still fairly broad</span>
+    <span class="con">Support shrinks to 2 — rose + teal only for categorical use</span>
+    <span class="con">A 5th semantic state needs an agreed name and clear usage rules</span>
+  </div>
+
+  <div class="strip-label">Primary</div>
+  <div class="strip">
+    <div class="chip"><div class="chip-dot" style="background:#E58A2A;"></div><div class="chip-name">primary</div><div class="chip-hex">#E58A2A</div></div>
+  </div>
+
+  <div class="strip-label">Support (structural / categorical only)</div>
+  <div class="strip">
+    <div class="chip"><div class="chip-dot" style="background:#B54B6E;"></div><div class="chip-name">third rose</div><div class="chip-hex">#B54B6E</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#F5DCEA; border-color:#E8C4D4;"></div><div class="chip-name">rose-soft</div><div class="chip-hex">#F5DCEA</div></div>
+    <div class="strip-divider"></div>
+    <div class="chip"><div class="chip-dot" style="background:#1D8A86;"></div><div class="chip-name">fourth teal</div><div class="chip-hex">#1D8A86</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#D5EDEC; border-color:#B0D8D7;"></div><div class="chip-name">teal-soft</div><div class="chip-hex">#D5EDEC</div></div>
+  </div>
+
+  <div class="strip-label">Semantic (states only) — violet added as 5th state</div>
+  <div class="strip">
+    <div class="chip"><div class="chip-dot" style="background:#2E8B57;"></div><div class="chip-name">success</div><div class="chip-hex">#2E8B57</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#E2F3E8; border-color:#B8DECA;"></div><div class="chip-name">success-soft</div><div class="chip-hex">#E2F3E8</div></div>
+    <div class="strip-divider"></div>
+    <div class="chip"><div class="chip-dot" style="background:#B7791F;"></div><div class="chip-name">warning</div><div class="chip-hex">#B7791F</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#F8E8CC; border-color:#E8CEAA;"></div><div class="chip-name">warning-soft</div><div class="chip-hex">#F8E8CC</div></div>
+    <div class="strip-divider"></div>
+    <div class="chip"><div class="chip-dot" style="background:#C84C4C;"></div><div class="chip-name">danger</div><div class="chip-hex">#C84C4C</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#F7DEDE; border-color:#ECC0C0;"></div><div class="chip-name">danger-soft</div><div class="chip-hex">#F7DEDE</div></div>
+    <div class="strip-divider"></div>
+    <div class="chip"><div class="chip-dot" style="background:#3E7FC4;"></div><div class="chip-name">info</div><div class="chip-hex">#3E7FC4</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#E4EFFA; border-color:#BBCFED;"></div><div class="chip-name">info-soft</div><div class="chip-hex">#E4EFFA</div></div>
+    <div class="strip-divider"></div>
+    <div class="chip"><div class="chip-dot" style="background:#7455A8;"></div><div class="chip-name">in-progress</div><div class="chip-hex">#7455A8</div></div>
+    <div class="chip"><div class="chip-dot" style="background:#EDE8F5; border-color:#C9BBE8;"></div><div class="chip-name">progress-soft</div><div class="chip-hex">#EDE8F5</div></div>
+  </div>
+
+  <hr class="divider">
+  <div class="demo-label">Semantic badges in use</div>
+  <div class="demo-row">
+    <div class="demo-badge" style="background:#E2F3E8; color:#1D5B39; border-color:#B8DECA;">
+      <div class="demo-dot" style="background:#2E8B57;"></div>Success
+    </div>
+    <div class="demo-badge" style="background:#F8E8CC; color:#7A4E10; border-color:#E8CEAA;">
+      <div class="demo-dot" style="background:#B7791F;"></div>Warning
+    </div>
+    <div class="demo-badge" style="background:#F7DEDE; color:#7F2E2E; border-color:#ECC0C0;">
+      <div class="demo-dot" style="background:#C84C4C;"></div>Danger
+    </div>
+    <div class="demo-badge" style="background:#E4EFFA; color:#1F548A; border-color:#BBCFED;">
+      <div class="demo-dot" style="background:#3E7FC4;"></div>Info
+    </div>
+    <div class="demo-badge" style="background:#EDE8F5; color:#3D2070; border-color:#C9BBE8;">
+      <div class="demo-dot" style="background:#7455A8;"></div>In Progress
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================
+     SIDE BY SIDE SUMMARY
+     ================================================================ -->
+<div style="max-width:1080px; margin-top: 8px;">
+  <div style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#99958C; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #D9D5CC;">
+    All three options — accent hues at a glance
+  </div>
+  <table style="border-collapse:collapse; width:100%; font-size:12px;">
+    <thead>
+      <tr style="border-bottom:1px solid #D9D5CC;">
+        <th style="text-align:left; padding:8px 12px; color:#6A685F; font-weight:600; width:120px;"></th>
+        <th style="text-align:left; padding:8px 12px; color:#6A685F; font-weight:600;">Option A</th>
+        <th style="text-align:left; padding:8px 12px; color:#6A685F; font-weight:600;">Option B</th>
+        <th style="text-align:left; padding:8px 12px; color:#6A685F; font-weight:600;">Option C</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid #F1EFEA;">
+        <td style="padding:8px 12px; color:#6A685F; font-weight:600;">Support</td>
+        <td style="padding:8px 12px;">
+          <div style="display:flex;gap:6px;align-items:center;">
+            <div style="width:14px;height:14px;border-radius:3px;background:#7455A8;"></div>violet
+            <div style="width:14px;height:14px;border-radius:3px;background:#B54B6E;"></div>rose
+            <div style="width:14px;height:14px;border-radius:3px;background:#1D8A86;"></div>teal
+          </div>
+        </td>
+        <td style="padding:8px 12px;">
+          <div style="display:flex;gap:6px;align-items:center;">
+            <div style="width:14px;height:14px;border-radius:3px;background:#7455A8;"></div>violet
+            <div style="width:14px;height:14px;border-radius:3px;background:#B54B6E;"></div>rose
+          </div>
+        </td>
+        <td style="padding:8px 12px;">
+          <div style="display:flex;gap:6px;align-items:center;">
+            <div style="width:14px;height:14px;border-radius:3px;background:#B54B6E;"></div>rose
+            <div style="width:14px;height:14px;border-radius:3px;background:#1D8A86;"></div>teal
+          </div>
+        </td>
+      </tr>
+      <tr style="border-bottom:1px solid #F1EFEA;">
+        <td style="padding:8px 12px; color:#6A685F; font-weight:600;">Semantic</td>
+        <td style="padding:8px 12px;">
+          <div style="display:flex;gap:6px;align-items:center;">
+            <div style="width:14px;height:14px;border-radius:3px;background:#2E8B57;"></div>
+            <div style="width:14px;height:14px;border-radius:3px;background:#B7791F;"></div>
+            <div style="width:14px;height:14px;border-radius:3px;background:#C84C4C;"></div>
+            <div style="width:14px;height:14px;border-radius:3px;background:#3E7FC4;"></div>
+            <span style="color:#99958C; font-size:11px;">4 states</span>
+          </div>
+        </td>
+        <td style="padding:8px 12px;">
+          <div style="display:flex;gap:6px;align-items:center;">
+            <div style="width:14px;height:14px;border-radius:3px;background:#2E8B57;"></div>
+            <div style="width:14px;height:14px;border-radius:3px;background:#B7791F;"></div>
+            <div style="width:14px;height:14px;border-radius:3px;background:#C84C4C;"></div>
+            <div style="width:14px;height:14px;border-radius:3px;background:#1D8A86;"></div>
+            <span style="color:#99958C; font-size:11px;">4 states, teal info</span>
+          </div>
+        </td>
+        <td style="padding:8px 12px;">
+          <div style="display:flex;gap:6px;align-items:center;">
+            <div style="width:14px;height:14px;border-radius:3px;background:#2E8B57;"></div>
+            <div style="width:14px;height:14px;border-radius:3px;background:#B7791F;"></div>
+            <div style="width:14px;height:14px;border-radius:3px;background:#C84C4C;"></div>
+            <div style="width:14px;height:14px;border-radius:3px;background:#3E7FC4;"></div>
+            <div style="width:14px;height:14px;border-radius:3px;background:#7455A8;"></div>
+            <span style="color:#99958C; font-size:11px;">5 states</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px; color:#6A685F; font-weight:600;">Total accents</td>
+        <td style="padding:8px 12px; font-weight:600;">8</td>
+        <td style="padding:8px 12px; font-weight:600; color:#7455A8;">6 ← leanest</td>
+        <td style="padding:8px 12px; font-weight:600;">7</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

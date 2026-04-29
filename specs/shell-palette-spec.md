@@ -24,7 +24,7 @@ This document does not define the Composer authoring palette or the future visua
 
 - The shell should feel mostly neutral.
 - The shell should have one routine accent: primary.
-- Secondary and other hues should still exist, but with reduced use.
+- Secondary and other support hues should still exist, but with reduced use.
 - Success, warning, danger, and info should be semantic-only by default.
 - Routine controls such as default and secondary buttons should be driven by neutral control tokens, not by the secondary hue.
 
@@ -59,17 +59,25 @@ This is the only routine shell accent.
 | `primary-soft` | `#F6E2C8` | soft primary surface |
 | `primary-text` | `#4A2500` | text on soft primary surfaces |
 
-## Secondary Family
+## Support Families
 
-This family still exists, but should not behave like a second brand accent.
+These families exist for limited informational, structural, or categorical meaning in shell-adjacent areas such as Data Model.
+
+They should not behave like additional routine shell accents.
 
 | New token | Value | Intended use |
 |---|---|---|
-| `secondary` | `#2F7E9E` | limited cool semantic emphasis |
-| `secondary-hover` | `#276B86` | hover state |
-| `secondary-active` | `#1D5368` | active state |
-| `secondary-soft` | `#DCEEF5` | soft informational surface |
-| `secondary-text` | `#123F50` | text on secondary-soft surfaces |
+| `secondary` | `#7455A8` | constrained violet structural/categorical emphasis |
+| `secondary-hover` | `#624494` | hover state |
+| `secondary-active` | `#4E3378` | active state |
+| `secondary-soft` | `#EDE8F5` | soft violet support surface |
+| `secondary-text` | `#3D2070` | text on secondary-soft surfaces |
+| `third` | `#B54B6E` | constrained rose structural/categorical emphasis |
+| `third-soft` | `#F5DCEA` | soft rose support surface |
+| `third-text` | `#6B1F3A` | text on third-soft surfaces |
+| `fourth` | `#1D8A86` | constrained teal structural/categorical emphasis |
+| `fourth-soft` | `#D5EDEC` | soft teal support surface |
+| `fourth-text` | `#0F4E4C` | text on fourth-soft surfaces |
 
 ## Semantic Families
 
@@ -96,8 +104,15 @@ These should be reserved for meaning-bearing states.
 |---|---|---|
 | Neutrals | Heavy use | Primary source of hierarchy |
 | Primary | Moderate, intentional | Only routine shell accent |
-| Secondary | Limited | Cool semantic or informational emphasis only |
+| Secondary / Third / Fourth | Limited | Support families for recurring informational or structural meaning only |
 | Success / Warning / Danger / Info | Semantic only | No routine chrome usage |
+
+## Support Family Rules
+
+- `secondary`, `third`, and `fourth` are constrained support families, not routine shell accents.
+- They should not be used for general chrome, arbitrary emphasis, or primary action styling.
+- Prefer `*-soft` plus matching `*-text` tokens over saturated fills in shell surfaces.
+- Use them only where the same recurring meaning appears across a product area, such as Data Model categorization.
 
 ## Control Strategy
 
@@ -169,15 +184,21 @@ To preserve compatibility:
 | `primary-soft` | `--inet-navbar-home-bg-color` | redefine | likely map to soft primary or primary depending on desired emphasis | home affordance |
 | `primary-hover` | `--inet-link-color` | redefine | optional, or keep separate link tuning | decide if links remain amber family |
 
-### Secondary Family
+### Support Families
 
 | New shell token | Current token | Status | Recommendation | Notes |
 |---|---|---|---|---|
-| `secondary` | `--inet-secondary-color` | redefine | keep as limited semantic cool color | no longer routine chrome |
-| `secondary-hover` | `--inet-secondary-color-dark` | redefine | map to `#276B86` | semantic hover |
-| `secondary-active` | none | add | add new alias token | semantic active state |
-| `secondary-soft` | `--inet-secondary-color-light` | redefine | map to `#DCEEF5` | informational soft fill |
-| `secondary-text` | none | add | add new alias token | text on secondary-soft surfaces |
+| `secondary` | `--inet-secondary-color` | redefine | map to `#7455A8` | constrained violet support family |
+| `secondary-hover` | `--inet-secondary-color-dark` | redefine | map to `#624494` | structural hover |
+| `secondary-active` | none | add | add new alias token `#4E3378` | structural active state |
+| `secondary-soft` | `--inet-secondary-color-light` | redefine | map to `#EDE8F5` | violet soft fill |
+| `secondary-text` | none | add | add new alias token `#3D2070` | text on secondary-soft surfaces |
+| `third` | `--inet-third-color` | redefine | map to `#B54B6E` | constrained rose support family |
+| `third-soft` | `--inet-third-color-light` | redefine | map to `#F5DCEA` | rose soft fill |
+| `third-text` | none | add | add new alias token `#6B1F3A` | text on third-soft surfaces |
+| `fourth` | `--inet-fourth-color` | redefine | map to `#1D8A86` | constrained teal support family |
+| `fourth-soft` | `--inet-fourth-color-light` | redefine | map to `#D5EDEC` | teal soft fill |
+| `fourth-text` | none | add | add new alias token `#0F4E4C` | text on fourth-soft surfaces |
 
 ### Semantic Families
 
@@ -219,9 +240,11 @@ These are the most important behavior changes.
 
 | Existing token | Recommendation | Notes |
 |---|---|---|
-| `--inet-secondary-color` | keep | semantic/info-family token |
-| `--inet-secondary-color-light` | keep | soft semantic fill |
-| `--inet-secondary-color-dark` | keep | dark semantic fill/text |
+| `--inet-secondary-color` | redefine | constrained violet support family (`#7455A8`) |
+| `--inet-secondary-color-light` | redefine | violet soft fill (`#EDE8F5`) |
+| `--inet-secondary-color-dark` | redefine | violet active/dark (`#4E3378`) |
+| `--inet-third-color*` | redefine | constrained rose support family (`#B54B6E`) |
+| `--inet-fourth-color*` | redefine | constrained teal support family (`#1D8A86`) |
 | `--inet-success-color*` | keep | semantic family |
 | `--inet-warning-color*` | keep | semantic family |
 | `--inet-danger-color*` | keep | semantic family |
@@ -244,6 +267,10 @@ The following shell aliases do not map cleanly today and should be added.
 | `--inet-primary-text-color` | missing text-on-primary-soft value |
 | `--inet-secondary-active-color` | missing active value |
 | `--inet-secondary-text-color` | missing text-on-secondary-soft value |
+| `--inet-third-soft-color` | clarify soft support surface role |
+| `--inet-third-text-color` | text on third-soft surfaces |
+| `--inet-fourth-soft-color` | clarify soft support surface role |
+| `--inet-fourth-text-color` | text on fourth-soft surfaces |
 | `--inet-ui-neutral-color` | needed for neutral control strategy |
 | `--inet-ui-neutral-border-color` | needed for neutral control strategy |
 | `--inet-ui-neutral-hover-bg-color` | needed for neutral control strategy |
@@ -262,7 +289,7 @@ The shell should look modern by relying on:
 
 - warm, disciplined neutrals
 - one primary amber accent
-- reduced use of secondary and other hues
+- reduced use of secondary and support hues
 - semantic colors only when they convey meaning
 
 This preserves a complete palette while keeping the shell visually calm.

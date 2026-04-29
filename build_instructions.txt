@@ -1,0 +1,8 @@
+.\mvnw.cmd install -DskipTests -pl core
+.\mvnw.cmd clean install -DskipTests
+.\mvnw.cmd -o spring-boot:run -pl server -DskipTests
+in web folder, npm run build:watch
+
+everyone - repository only
+advanced - repository + scheduler
+everyone + advanced - repository + pinboard + create->composer, not data source, but no scheduler

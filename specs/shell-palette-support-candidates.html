@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Support Family — Current vs Candidates</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #F8F7F4;
+    color: #35342F;
+    padding: 40px 48px;
+    font-size: 13px;
+  }
+
+  h1 { font-size: 20px; font-weight: 600; color: #1F1F1B; margin-bottom: 4px; }
+  .subtitle { color: #6A685F; margin-bottom: 48px; font-size: 13px; }
+
+  .section { margin-bottom: 56px; }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #99958C;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #D9D5CC;
+  }
+
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 960px;
+  }
+
+  .col-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .col-label.current { background: #F7DEDE; color: #7F2E2E; }
+  .col-label.proposed { background: #E2F3E8; color: #1D5B39; }
+
+  .swatch-row {
+    display: flex;
+    gap: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.09);
+    width: fit-content;
+  }
+
+  .swatch {
+    width: 150px;
+    background: #fff;
+    border-right: 1px solid rgba(0,0,0,0.06);
+  }
+  .swatch:last-child { border-right: none; }
+
+  .swatch-color {
+    height: 80px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  .swatch-info { padding: 10px 12px 12px; }
+  .swatch-name { font-size: 11px; font-weight: 600; color: #1F1F1B; margin-bottom: 2px; }
+  .swatch-hex { font-size: 11px; color: #6A685F; font-family: "Cascadia Code","Consolas",monospace; margin-bottom: 3px; }
+  .swatch-use { font-size: 10px; color: #99958C; line-height: 1.4; }
+
+  /* conflict callout */
+  .conflict-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    font-size: 11px;
+    color: #7F2E2E;
+    background: #F7DEDE;
+    border-radius: 6px;
+    padding: 8px 12px;
+    max-width: fit-content;
+  }
+  .conflict-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.12);
+  }
+
+  .ok-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    font-size: 11px;
+    color: #1D5B39;
+    background: #E2F3E8;
+    border-radius: 6px;
+    padding: 8px 12px;
+    max-width: fit-content;
+  }
+
+  hr.divider { border: none; border-top: 1px solid #D9D5CC; margin: 48px 0; }
+
+  /* semantic reference strip */
+  .semantic-strip {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .semantic-strip-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #99958C;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-right: 4px;
+  }
+  .sem-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #35342F;
+    background: #fff;
+    border: 1px solid #D9D5CC;
+    border-radius: 20px;
+    padding: 3px 10px 3px 6px;
+  }
+  .sem-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<h1>Support Family — Current vs Candidates</h1>
+<p class="subtitle">Compare current support hues against proposed replacements. Semantic family shown for reference.</p>
+
+<!-- Semantic reference -->
+<div class="semantic-strip">
+  <span class="semantic-strip-label">Semantic (fixed):</span>
+  <div class="sem-chip"><div class="sem-dot" style="background:#2E8B57;"></div>success #2E8B57</div>
+  <div class="sem-chip"><div class="sem-dot" style="background:#B7791F;"></div>warning #B7791F</div>
+  <div class="sem-chip"><div class="sem-dot" style="background:#C84C4C;"></div>danger #C84C4C</div>
+  <div class="sem-chip"><div class="sem-dot" style="background:#3E7FC4;"></div>info #3E7FC4</div>
+  <div class="sem-chip"><div class="sem-dot" style="background:#E58A2A;"></div>primary #E58A2A</div>
+</div>
+
+<!-- ===== SECONDARY ===== -->
+<div class="section">
+  <div class="section-title">Secondary — too close to Info</div>
+  <div class="compare-grid">
+
+    <div>
+      <div class="col-label current">Current</div>
+      <div class="swatch-row">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#2F7E9E; color:#fff;">secondary</div>
+          <div class="swatch-info">
+            <div class="swatch-name">secondary</div>
+            <div class="swatch-hex">#2F7E9E</div>
+            <div class="swatch-use">~195° teal-blue</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#276B86; color:#fff;">hover</div>
+          <div class="swatch-info">
+            <div class="swatch-name">secondary-hover</div>
+            <div class="swatch-hex">#276B86</div>
+            <div class="swatch-use"></div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#DCEEF5; color:#123F50;">soft</div>
+          <div class="swatch-info">
+            <div class="swatch-name">secondary-soft</div>
+            <div class="swatch-hex">#DCEEF5</div>
+            <div class="swatch-use"></div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#DCEEF5; color:#123F50; font-size:10px;">text on soft</div>
+          <div class="swatch-info">
+            <div class="swatch-name">secondary-text</div>
+            <div class="swatch-hex">#123F50</div>
+            <div class="swatch-use"></div>
+          </div>
+        </div>
+      </div>
+      <div class="conflict-note">
+        <div class="conflict-swatch" style="background:#3E7FC4;"></div>
+        Visually merges with info #3E7FC4 (~210°)
+      </div>
+    </div>
+
+    <div>
+      <div class="col-label proposed">Proposed — Violet</div>
+      <div class="swatch-row">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#7455A8; color:#fff;">secondary</div>
+          <div class="swatch-info">
+            <div class="swatch-name">secondary</div>
+            <div class="swatch-hex">#7455A8</div>
+            <div class="swatch-use">~270° violet</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#624494; color:#fff;">hover</div>
+          <div class="swatch-info">
+            <div class="swatch-name">secondary-hover</div>
+            <div class="swatch-hex">#624494</div>
+            <div class="swatch-use"></div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#EDE8F5; color:#3D2070;">soft</div>
+          <div class="swatch-info">
+            <div class="swatch-name">secondary-soft</div>
+            <div class="swatch-hex">#EDE8F5</div>
+            <div class="swatch-use"></div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#EDE8F5; color:#3D2070; font-size:10px;">text on soft</div>
+          <div class="swatch-info">
+            <div class="swatch-name">secondary-text</div>
+            <div class="swatch-hex">#3D2070</div>
+            <div class="swatch-use"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ok-note">
+        ~75° away from info blue — clearly purple, common BI category color
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== THIRD ===== -->
+<div class="section">
+  <div class="section-title">Third — too close to Warning and Primary</div>
+  <div class="compare-grid">
+
+    <div>
+      <div class="col-label current">Current</div>
+      <div class="swatch-row">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#C9A227; color:#fff;">third</div>
+          <div class="swatch-info">
+            <div class="swatch-name">third</div>
+            <div class="swatch-hex">#C9A227</div>
+            <div class="swatch-use">~45° gold</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#F6EDD2; color:#6F5710;">soft</div>
+          <div class="swatch-info">
+            <div class="swatch-name">third-soft</div>
+            <div class="swatch-hex">#F6EDD2</div>
+            <div class="swatch-use"></div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#F6EDD2; color:#6F5710; font-size:10px;">text on soft</div>
+          <div class="swatch-info">
+            <div class="swatch-name">third-text</div>
+            <div class="swatch-hex">#6F5710</div>
+            <div class="swatch-use"></div>
+          </div>
+        </div>
+      </div>
+      <div class="conflict-note">
+        <div class="conflict-swatch" style="background:#B7791F;"></div>
+        <div class="conflict-swatch" style="background:#E58A2A;"></div>
+        Conflicts with both warning #B7791F and primary #E58A2A
+      </div>
+    </div>
+
+    <div>
+      <div class="col-label proposed">Proposed — Rose / Berry</div>
+      <div class="swatch-row">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#B54B6E; color:#fff;">third</div>
+          <div class="swatch-info">
+            <div class="swatch-name">third</div>
+            <div class="swatch-hex">#B54B6E</div>
+            <div class="swatch-use">~340° rose</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#F5DCEA; color:#6B1F3A;">soft</div>
+          <div class="swatch-info">
+            <div class="swatch-name">third-soft</div>
+            <div class="swatch-hex">#F5DCEA</div>
+            <div class="swatch-use"></div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#F5DCEA; color:#6B1F3A; font-size:10px;">text on soft</div>
+          <div class="swatch-info">
+            <div class="swatch-name">third-text</div>
+            <div class="swatch-hex">#6B1F3A</div>
+            <div class="swatch-use"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ok-note">
+        ~340° rose/berry — cool-red, clearly not amber warning or orange primary
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== FOURTH ===== -->
+<div class="section">
+  <div class="section-title">Fourth — too close to Success</div>
+  <div class="compare-grid">
+
+    <div>
+      <div class="col-label current">Current</div>
+      <div class="swatch-row">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#6E9F4E; color:#fff;">fourth</div>
+          <div class="swatch-info">
+            <div class="swatch-name">fourth</div>
+            <div class="swatch-hex">#6E9F4E</div>
+            <div class="swatch-use">~100° yellow-green</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#E7F1DB; color:#426229;">soft</div>
+          <div class="swatch-info">
+            <div class="swatch-name">fourth-soft</div>
+            <div class="swatch-hex">#E7F1DB</div>
+            <div class="swatch-use"></div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#E7F1DB; color:#426229; font-size:10px;">text on soft</div>
+          <div class="swatch-info">
+            <div class="swatch-name">fourth-text</div>
+            <div class="swatch-hex">#426229</div>
+            <div class="swatch-use"></div>
+          </div>
+        </div>
+      </div>
+      <div class="conflict-note">
+        <div class="conflict-swatch" style="background:#2E8B57;"></div>
+        Both read as "green" — indistinct from success #2E8B57
+      </div>
+    </div>
+
+    <div>
+      <div class="col-label proposed">Proposed — Teal</div>
+      <div class="swatch-row">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#1D8A86; color:#fff;">fourth</div>
+          <div class="swatch-info">
+            <div class="swatch-name">fourth</div>
+            <div class="swatch-hex">#1D8A86</div>
+            <div class="swatch-use">~177° teal</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#D5EDEC; color:#0F4E4C;">soft</div>
+          <div class="swatch-info">
+            <div class="swatch-name">fourth-soft</div>
+            <div class="swatch-hex">#D5EDEC</div>
+            <div class="swatch-use"></div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#D5EDEC; color:#0F4E4C; font-size:10px;">text on soft</div>
+          <div class="swatch-info">
+            <div class="swatch-name">fourth-text</div>
+            <div class="swatch-hex">#0F4E4C</div>
+            <div class="swatch-use"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ok-note">
+        ~177° teal — blue-green vs success's yellow-green, instantly distinct
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ===== FULL PROPOSED SET TOGETHER ===== -->
+<div class="section">
+  <div class="section-title">Proposed Support Set — All together with semantics</div>
+  <p style="font-size:12px; color:#6A685F; margin-bottom:20px;">Support families (top) alongside the fixed semantic strip (bottom) — verify no hue collisions at a glance.</p>
+
+  <!-- Support proposed -->
+  <div style="display:flex; gap:0; border-radius:8px; overflow:hidden; border:1px solid rgba(0,0,0,0.09); width:fit-content; margin-bottom:8px;">
+    <div class="swatch" style="border-right:1px solid rgba(0,0,0,0.06);">
+      <div class="swatch-color" style="background:#7455A8; color:#fff; font-size:10px;">secondary</div>
+      <div class="swatch-info"><div class="swatch-name">Violet</div><div class="swatch-hex">#7455A8</div></div>
+    </div>
+    <div class="swatch" style="border-right:1px solid rgba(0,0,0,0.06);">
+      <div class="swatch-color" style="background:#EDE8F5; color:#3D2070; font-size:10px;">sec-soft</div>
+      <div class="swatch-info"><div class="swatch-name">violet-soft</div><div class="swatch-hex">#EDE8F5</div></div>
+    </div>
+    <div class="swatch" style="border-right:1px solid rgba(0,0,0,0.06); border-left:3px solid #D9D5CC;">
+      <div class="swatch-color" style="background:#B54B6E; color:#fff; font-size:10px;">third</div>
+      <div class="swatch-info"><div class="swatch-name">Rose</div><div class="swatch-hex">#B54B6E</div></div>
+    </div>
+    <div class="swatch" style="border-right:1px solid rgba(0,0,0,0.06);">
+      <div class="swatch-color" style="background:#F5DCEA; color:#6B1F3A; font-size:10px;">third-soft</div>
+      <div class="swatch-info"><div class="swatch-name">rose-soft</div><div class="swatch-hex">#F5DCEA</div></div>
+    </div>
+    <div class="swatch" style="border-right:1px solid rgba(0,0,0,0.06); border-left:3px solid #D9D5CC;">
+      <div class="swatch-color" style="background:#1D8A86; color:#fff; font-size:10px;">fourth</div>
+      <div class="swatch-info"><div class="swatch-name">Teal</div><div class="swatch-hex">#1D8A86</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#D5EDEC; color:#0F4E4C; font-size:10px;">fourth-soft</div>
+      <div class="swatch-info"><div class="swatch-name">teal-soft</div><div class="swatch-hex">#D5EDEC</div></div>
+    </div>
+  </div>
+
+  <!-- Semantic strip -->
+  <div style="display:flex; gap:0; border-radius:8px; overflow:hidden; border:1px solid rgba(0,0,0,0.09); width:fit-content; margin-bottom:4px;">
+    <div class="swatch" style="border-right:1px solid rgba(0,0,0,0.06);">
+      <div class="swatch-color" style="background:#E58A2A; color:#fff; font-size:10px;">primary</div>
+      <div class="swatch-info"><div class="swatch-name" style="color:#99958C;">Primary</div><div class="swatch-hex">#E58A2A</div></div>
+    </div>
+    <div class="swatch" style="border-right:1px solid rgba(0,0,0,0.06);">
+      <div class="swatch-color" style="background:#2E8B57; color:#fff; font-size:10px;">success</div>
+      <div class="swatch-info"><div class="swatch-name" style="color:#99958C;">Success</div><div class="swatch-hex">#2E8B57</div></div>
+    </div>
+    <div class="swatch" style="border-right:1px solid rgba(0,0,0,0.06);">
+      <div class="swatch-color" style="background:#B7791F; color:#fff; font-size:10px;">warning</div>
+      <div class="swatch-info"><div class="swatch-name" style="color:#99958C;">Warning</div><div class="swatch-hex">#B7791F</div></div>
+    </div>
+    <div class="swatch" style="border-right:1px solid rgba(0,0,0,0.06);">
+      <div class="swatch-color" style="background:#C84C4C; color:#fff; font-size:10px;">danger</div>
+      <div class="swatch-info"><div class="swatch-name" style="color:#99958C;">Danger</div><div class="swatch-hex">#C84C4C</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#3E7FC4; color:#fff; font-size:10px;">info</div>
+      <div class="swatch-info"><div class="swatch-name" style="color:#99958C;">Info</div><div class="swatch-hex">#3E7FC4</div></div>
+    </div>
+  </div>
+  <p style="font-size:10px; color:#99958C; margin-top:6px;">Top row = support (proposed). Bottom row = semantic (fixed). No hue collision.</p>
+
+</div>
+
+</body>
+</html>

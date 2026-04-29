@@ -1,0 +1,713 @@
+/*
+ * figma-theme.css
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Figma-inspired reskin for Bootstrap 5.
+ * Load this AFTER bootstrap.min.css. No SCSS compilation required.
+ * No HTML changes needed — drop in and it applies.
+ *
+ * Brand: #EEA555 (amber-400)
+ * Approach: Figma density + restraint, brand amber as the accent colour.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+/* ── 1. Bootstrap variable overrides ──────────────────────────────────────── */
+:root {
+  /* Brand */
+  --bs-primary:             #EEA555;
+  --bs-primary-rgb:         238, 165, 85;
+  --bs-primary-text-emphasis: #5A3308;
+  --bs-primary-bg-subtle:   #FEF8EE;
+  --bs-primary-border-subtle: #FDECD0;
+
+  /* Semantics */
+  --bs-success:             #1D9E75;
+  --bs-success-rgb:         29, 158, 117;
+  --bs-success-bg-subtle:   #E1F5EE;
+  --bs-danger:              #E24B4A;
+  --bs-danger-rgb:          226, 75, 74;
+  --bs-danger-bg-subtle:    #FCEBEB;
+  --bs-warning:             #C47E1E;
+  --bs-warning-rgb:         196, 126, 30;
+  --bs-warning-bg-subtle:   #FEF8EE;
+  --bs-info:                #378ADD;
+  --bs-info-rgb:            55, 138, 221;
+  --bs-info-bg-subtle:      #E6F1FB;
+
+  /* Surfaces */
+  --bs-body-bg:             #F7F6F2;
+  --bs-body-color:          #242421;
+  --bs-secondary-color:     #5E5D57;
+  --bs-tertiary-color:      #999790;
+  --bs-secondary-bg:        #ECEAE3;
+  --bs-tertiary-bg:         #F7F6F2;
+  --bs-border-color:        #D4D2C9;
+  --bs-border-color-translucent: rgba(36,36,33,.12);
+
+  /* Typography — Figma uses Inter at 11–12px for UI */
+  --bs-body-font-family:    'Inter', system-ui, -apple-system, sans-serif;
+  --bs-body-font-size:      0.8125rem;   /* 13px */
+  --bs-body-line-height:    1.5;
+  --bs-body-font-weight:    400;
+
+  /* Shape — Figma: 3px everywhere, pill for toggles */
+  --bs-border-radius:       3px;
+  --bs-border-radius-sm:    2px;
+  --bs-border-radius-lg:    4px;
+  --bs-border-radius-xl:    6px;
+  --bs-border-radius-xxl:   8px;
+  --bs-border-radius-pill:  999px;
+
+  /* Component heights */
+  --fig-height-sm:          24px;
+  --fig-height-md:          30px;   /* Figma default */
+  --fig-height-lg:          36px;
+  --fig-row-height:         34px;
+
+  /* Focus */
+  --bs-focus-ring-width:    2px;
+  --bs-focus-ring-opacity:  0.25;
+  --bs-focus-ring-color:    rgba(238, 165, 85, 0.35);
+
+  /* Link */
+  --bs-link-color:          #C47E1E;
+  --bs-link-hover-color:    #8C5510;
+}
+
+/* ── 2. Base typography ────────────────────────────────────────────────────── */
+body {
+  font-family: var(--bs-body-font-family);
+  font-size: var(--bs-body-font-size);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #242421;
+}
+
+/* Small / label text */
+small, .small      { font-size: 0.75rem; }   /* 12px */
+.text-muted        { color: #999790 !important; }
+.text-secondary    { color: #5E5D57 !important; }
+
+/* ── 3. Buttons ────────────────────────────────────────────────────────────── */
+.btn {
+  --bs-btn-font-size:       0.75rem;          /* 12px */
+  --bs-btn-font-weight:     500;
+  --bs-btn-padding-y:       0;
+  --bs-btn-padding-x:       12px;
+  --bs-btn-border-radius:   var(--bs-border-radius);
+  --bs-btn-border-width:    1px;
+  height: var(--fig-height-md);
+  display: inline-flex;
+  align-items: center;
+  letter-spacing: 0;
+  transition: background-color 100ms ease, border-color 100ms ease, color 100ms ease;
+}
+
+.btn-sm {
+  --bs-btn-font-size:       0.6875rem;        /* 11px */
+  --bs-btn-padding-x:       8px;
+  height: var(--fig-height-sm);
+}
+
+.btn-lg {
+  --bs-btn-padding-x:       16px;
+  height: var(--fig-height-lg);
+}
+
+/* Primary — amber solid */
+.btn-primary {
+  --bs-btn-color:           #3D1E00;
+  --bs-btn-bg:              #EEA555;
+  --bs-btn-border-color:    #EEA555;
+  --bs-btn-hover-color:     #3D1E00;
+  --bs-btn-hover-bg:        #C47E1E;
+  --bs-btn-hover-border-color: #C47E1E;
+  --bs-btn-active-bg:       #8C5510;
+  --bs-btn-active-border-color: #8C5510;
+  --bs-btn-disabled-bg:     #FAD49A;
+  --bs-btn-disabled-border-color: #FAD49A;
+}
+
+/* Secondary — ghost style */
+.btn-secondary {
+  --bs-btn-color:           #5E5D57;
+  --bs-btn-bg:              transparent;
+  --bs-btn-border-color:    #D4D2C9;
+  --bs-btn-hover-color:     #242421;
+  --bs-btn-hover-bg:        #ECEAE3;
+  --bs-btn-hover-border-color: #D4D2C9;
+  --bs-btn-active-bg:       #D4D2C9;
+  --bs-btn-active-color:    #242421;
+  --bs-btn-disabled-color:  #999790;
+  --bs-btn-disabled-bg:     transparent;
+}
+
+/* Outline variants — Figma-style ghost */
+.btn-outline-secondary {
+  --bs-btn-color:           #5E5D57;
+  --bs-btn-border-color:    #D4D2C9;
+  --bs-btn-hover-color:     #242421;
+  --bs-btn-hover-bg:        #ECEAE3;
+  --bs-btn-hover-border-color: #D4D2C9;
+  --bs-btn-active-bg:       #D4D2C9;
+  --bs-btn-active-color:    #242421;
+}
+
+.btn-outline-primary {
+  --bs-btn-color:           #8C5510;
+  --bs-btn-border-color:    #EEA555;
+  --bs-btn-hover-color:     #3D1E00;
+  --bs-btn-hover-bg:        #EEA555;
+  --bs-btn-hover-border-color: #EEA555;
+}
+
+/* Danger */
+.btn-danger {
+  --bs-btn-bg:              #E24B4A;
+  --bs-btn-border-color:    #E24B4A;
+  --bs-btn-color:           #fff;
+  --bs-btn-hover-bg:        #A32D2D;
+  --bs-btn-hover-border-color: #A32D2D;
+  --bs-btn-hover-color:     #fff;
+}
+
+/* Ghost / icon button utility */
+.btn-ghost {
+  --bs-btn-color:           #5E5D57;
+  --bs-btn-bg:              transparent;
+  --bs-btn-border-color:    transparent;
+  --bs-btn-hover-color:     #242421;
+  --bs-btn-hover-bg:        #ECEAE3;
+  --bs-btn-hover-border-color: transparent;
+  --bs-btn-active-bg:       #D4D2C9;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+/* ── 4. Form controls ──────────────────────────────────────────────────────── */
+.form-control,
+.form-select {
+  font-family: var(--bs-body-font-family);
+  font-size: 0.75rem;                         /* 12px */
+  font-weight: 400;
+  height: var(--fig-height-md);
+  padding: 0 8px;
+  border: 1px solid #D4D2C9;
+  border-radius: var(--bs-border-radius);
+  background-color: #fff;
+  color: #242421;
+  transition: border-color 100ms ease, box-shadow 100ms ease;
+  line-height: var(--fig-height-md);
+}
+
+.form-control:hover,
+.form-select:hover {
+  border-color: #B0AEA6;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #EEA555;
+  box-shadow: 0 0 0 2px rgba(238, 165, 85, 0.25);
+  outline: none;
+}
+
+.form-control::placeholder { color: #999790; }
+
+.form-control-sm,
+.form-select-sm {
+  font-size: 0.6875rem;                       /* 11px */
+  height: var(--fig-height-sm);
+  padding: 0 6px;
+}
+
+.form-control-lg,
+.form-select-lg {
+  height: var(--fig-height-lg);
+  font-size: 0.8125rem;
+}
+
+/* Textarea — no fixed height */
+textarea.form-control {
+  height: auto;
+  padding: 6px 8px;
+  line-height: 1.5;
+}
+
+/* Input group */
+.input-group-text {
+  font-size: 0.75rem;
+  font-weight: 500;
+  height: var(--fig-height-md);
+  padding: 0 8px;
+  border-color: #D4D2C9;
+  background: #ECEAE3;
+  color: #5E5D57;
+  border-radius: var(--bs-border-radius);
+}
+
+/* ── 5. Checkboxes, radios, switches ──────────────────────────────────────── */
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: 0;
+  min-height: auto;
+}
+
+.form-check-input {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  flex-shrink: 0;
+  border: 1px solid #D4D2C9;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: border-color 100ms, background-color 100ms;
+}
+
+.form-check-input[type="radio"] { border-radius: 50%; }
+
+.form-check-input:checked {
+  background-color: #EEA555;
+  border-color: #EEA555;
+}
+
+.form-check-input:focus {
+  box-shadow: 0 0 0 2px rgba(238, 165, 85, 0.25);
+  border-color: #EEA555;
+}
+
+.form-check-label {
+  font-size: 0.75rem;
+  color: #242421;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* Switch */
+.form-switch .form-check-input {
+  width: 28px;
+  height: 16px;
+  border-radius: 999px;
+}
+
+.form-switch .form-check-input:checked { background-color: #EEA555; border-color: #EEA555; }
+
+/* ── 6. Badges ─────────────────────────────────────────────────────────────── */
+.badge {
+  font-family: var(--bs-body-font-family);
+  font-size: 0.625rem;                        /* 10px */
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+/* Semantic badge colours — tinted, not solid */
+.badge.bg-success   { background: #E1F5EE !important; color: #0F6E56 !important; }
+.badge.bg-danger    { background: #FCEBEB !important; color: #A32D2D !important; }
+.badge.bg-warning   { background: #FEF8EE !important; color: #8C5510 !important; }
+.badge.bg-info      { background: #E6F1FB !important; color: #185FA5 !important; }
+.badge.bg-secondary { background: #ECEAE3 !important; color: #5E5D57 !important; }
+.badge.bg-primary   { background: #FDECD0 !important; color: #8C5510 !important; }
+.badge.bg-dark      { background: #3A3935 !important; color: #F7F6F2 !important; }
+.badge.bg-light     { background: #ECEAE3 !important; color: #5E5D57 !important; }
+
+/* ── 7. Tables ─────────────────────────────────────────────────────────────── */
+.table {
+  --bs-table-bg:            transparent;
+  --bs-table-striped-bg:    #F7F6F2;
+  --bs-table-hover-bg:      #FEF8EE;
+  --bs-table-active-bg:     #FDECD0;
+  --bs-table-border-color:  #ECEAE3;
+  font-size: 0.75rem;                         /* 12px */
+  color: #242421;
+}
+
+.table > thead > tr > th,
+.table > thead > tr > td {
+  font-size: 0.6875rem;                       /* 11px */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #5E5D57;
+  background: #ECEAE3;
+  border-color: #D4D2C9;
+  padding: 6px 12px;
+  height: 32px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.table > tbody > tr > td,
+.table > tbody > tr > th {
+  padding: 0 12px;
+  height: var(--fig-row-height);
+  vertical-align: middle;
+  border-color: #ECEAE3;
+}
+
+.table > tbody > tr:last-child > td { border-bottom: none; }
+
+/* Hover */
+.table-hover > tbody > tr:hover > td {
+  background-color: #FEF8EE;
+}
+
+/* Selected / active row */
+.table > tbody > tr.table-active > td {
+  background-color: #FDECD0 !important;
+  border-left: 3px solid #EEA555;
+  padding-left: 9px;
+}
+
+/* Bordered table */
+.table-bordered { border: .5px solid #D4D2C9; }
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > td { border: .5px solid #D4D2C9; }
+
+/* Numeric columns */
+.table .text-end,
+.table .col-num { font-variant-numeric: tabular-nums lining-nums; }
+
+/* ── 8. Dropdowns ──────────────────────────────────────────────────────────── */
+.dropdown-menu {
+  font-size: 0.75rem;
+  border: 1px solid #D4D2C9;
+  border-radius: var(--bs-border-radius);
+  box-shadow: 0 2px 4px rgba(0,0,0,.08), 0 1px 6px rgba(0,0,0,.05);
+  padding: 2px 0;
+  background: #fff;
+  min-width: 160px;
+}
+
+.dropdown-item {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #242421;
+  padding: 0 12px;
+  height: var(--fig-row-height);
+  display: flex;
+  align-items: center;
+  border-radius: 0;
+  transition: background 80ms ease;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background: #FEF8EE;
+  color: #242421;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+  background: #FEF8EE;
+  color: #8C5510;
+  font-weight: 500;
+  border-left: 3px solid #EEA555;
+  padding-left: 9px;
+}
+
+.dropdown-header {
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #999790;
+  padding: 8px 12px 3px;
+}
+
+.dropdown-divider { border-color: #ECEAE3; margin: 2px 0; }
+
+/* Dropdown toggle button — Figma-style */
+.dropdown-toggle {
+  gap: 6px;
+}
+.dropdown-toggle::after {
+  border: none;
+  width: 8px;
+  height: 8px;
+  background-image: url("data:image/svg+xml,%3Csvg width='8' height='5' viewBox='0 0 8 5' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L4 4L7 1' stroke='%23999790' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-left: 2px;
+  vertical-align: middle;
+}
+
+/* ── 9. Nav & tabs ─────────────────────────────────────────────────────────── */
+/* Tabs — Figma-style segmented control */
+.nav-tabs {
+  border-bottom: 1px solid #D4D2C9;
+  gap: 0;
+}
+
+.nav-tabs .nav-link {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #5E5D57;
+  padding: 0 14px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  margin-bottom: -1px;
+  transition: color 100ms, border-color 100ms;
+}
+
+.nav-tabs .nav-link:hover { color: #242421; background: #F7F6F2; border-bottom-color: #D4D2C9; }
+
+.nav-tabs .nav-link.active {
+  color: #8C5510;
+  border-bottom: 2px solid #EEA555;
+  background: transparent;
+  font-weight: 600;
+}
+
+/* Pills — Figma-style segmented panel */
+.nav-pills {
+  background: #ECEAE3;
+  border-radius: 4px;
+  padding: 2px;
+  gap: 1px;
+  display: inline-flex;
+}
+
+.nav-pills .nav-link {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #5E5D57;
+  padding: 3px 10px;
+  border-radius: 3px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  transition: background 80ms, color 80ms;
+}
+
+.nav-pills .nav-link:hover { color: #242421; }
+
+.nav-pills .nav-link.active {
+  background: #fff;
+  color: #242421;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0,0,0,.1);
+}
+
+/* Sidebar nav */
+.nav-sidebar .nav-link {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #5E5D57;
+  padding: 0 16px;
+  height: var(--fig-height-md);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 0;
+  border-left: 3px solid transparent;
+  transition: background 80ms, color 80ms;
+}
+
+.nav-sidebar .nav-link:hover { background: #F7F6F2; color: #242421; }
+
+.nav-sidebar .nav-link.active {
+  background: #FEF8EE;
+  color: #8C5510;
+  font-weight: 600;
+  border-left-color: #EEA555;
+  padding-left: 13px;
+}
+
+/* ── 10. Cards ─────────────────────────────────────────────────────────────── */
+.card {
+  border: 1px solid #D4D2C9;
+  border-radius: var(--bs-border-radius-lg);
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
+}
+
+.card-header {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #242421;
+  background: #F7F6F2;
+  border-bottom: 1px solid #ECEAE3;
+  padding: 8px 14px;
+  border-radius: var(--bs-border-radius-lg) var(--bs-border-radius-lg) 0 0;
+}
+
+.card-body { padding: 14px; }
+.card-title { font-size: 0.75rem; font-weight: 600; color: #5E5D57; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+.card-text { color: #242421; }
+.card-footer { font-size: 0.6875rem; color: #999790; background: #F7F6F2; border-top: 1px solid #ECEAE3; padding: 6px 14px; border-radius: 0 0 var(--bs-border-radius-lg) var(--bs-border-radius-lg); }
+
+/* ── 11. Modals ────────────────────────────────────────────────────────────── */
+.modal-content {
+  border: 1.5px solid #EEA555;
+  border-radius: var(--bs-border-radius-xl);
+  box-shadow: 0 8px 16px rgba(0,0,0,.12), 0 4px 14px rgba(0,0,0,.08);
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid #ECEAE3;
+  background: #fff;
+}
+
+.modal-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #242421;
+  letter-spacing: -0.01em;
+}
+
+.modal-body { padding: 14px 16px; font-size: 0.75rem; }
+.modal-footer { padding: 10px 16px; background: #F7F6F2; border-top: 1px solid #ECEAE3; gap: 6px; }
+
+.btn-close {
+  width: 20px;
+  height: 20px;
+  background-size: 10px;
+  opacity: 0.5;
+}
+.btn-close:hover { opacity: 1; }
+
+/* ── 12. Alerts ────────────────────────────────────────────────────────────── */
+.alert {
+  font-size: 0.75rem;
+  border-radius: var(--bs-border-radius);
+  padding: 10px 14px;
+  border-width: 1px;
+  border-left-width: 3px;
+}
+
+.alert-success  { background: #E1F5EE; color: #0F6E56; border-color: #1D9E75; }
+.alert-danger   { background: #FCEBEB; color: #A32D2D; border-color: #E24B4A; }
+.alert-warning  { background: #FEF8EE; color: #8C5510; border-color: #EEA555; }
+.alert-info     { background: #E6F1FB; color: #185FA5; border-color: #378ADD; }
+.alert-primary  { background: #FEF8EE; color: #8C5510; border-color: #EEA555; }
+.alert-secondary{ background: #ECEAE3; color: #5E5D57; border-color: #D4D2C9; }
+
+/* ── 13. Pagination ────────────────────────────────────────────────────────── */
+.pagination { gap: 2px; }
+
+.page-link {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #5E5D57;
+  border: 1px solid #D4D2C9;
+  border-radius: var(--bs-border-radius) !important;
+  padding: 0 9px;
+  height: var(--fig-height-sm);
+  display: flex;
+  align-items: center;
+  transition: background 80ms, color 80ms;
+}
+
+.page-link:hover  { background: #ECEAE3; color: #242421; border-color: #D4D2C9; }
+.page-item.active .page-link { background: #EEA555; border-color: #EEA555; color: #3D1E00; font-weight: 600; }
+.page-item.disabled .page-link { color: #999790; background: transparent; }
+
+/* ── 14. Progress ──────────────────────────────────────────────────────────── */
+.progress {
+  height: 4px;
+  border-radius: 2px;
+  background: #ECEAE3;
+}
+
+.progress-bar {
+  background: #EEA555;
+  border-radius: 2px;
+}
+
+/* ── 15. Tooltips ──────────────────────────────────────────────────────────── */
+.tooltip-inner {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  background: #242421;
+  border-radius: 3px;
+  padding: 4px 8px;
+  max-width: 220px;
+}
+
+.tooltip.bs-tooltip-top .tooltip-arrow::before  { border-top-color: #242421; }
+.tooltip.bs-tooltip-bottom .tooltip-arrow::before { border-bottom-color: #242421; }
+
+/* ── 16. Popover ───────────────────────────────────────────────────────────── */
+.popover {
+  border: 1px solid #D4D2C9;
+  border-radius: var(--bs-border-radius-lg);
+  box-shadow: 0 4px 8px rgba(0,0,0,.10), 0 2px 10px rgba(0,0,0,.06);
+  font-size: 0.75rem;
+}
+
+.popover-header {
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #F7F6F2;
+  border-bottom: 1px solid #ECEAE3;
+  padding: 8px 12px;
+  border-radius: var(--bs-border-radius-lg) var(--bs-border-radius-lg) 0 0;
+}
+
+.popover-body { padding: 10px 12px; color: #242421; }
+
+/* ── 17. List groups ───────────────────────────────────────────────────────── */
+.list-group-item {
+  font-size: 0.75rem;
+  color: #242421;
+  border-color: #ECEAE3;
+  padding: 0 12px;
+  height: var(--fig-row-height);
+  display: flex;
+  align-items: center;
+  transition: background 80ms;
+}
+
+.list-group-item:hover { background: #FEF8EE; }
+
+.list-group-item.active {
+  background: #FDECD0;
+  border-color: #ECEAE3;
+  border-left: 3px solid #EEA555;
+  color: #8C5510;
+  font-weight: 600;
+  padding-left: 9px;
+}
+
+/* ── 18. Breadcrumbs ───────────────────────────────────────────────────────── */
+.breadcrumb {
+  font-size: 0.75rem;
+  gap: 2px;
+}
+
+.breadcrumb-item + .breadcrumb-item::before { color: #999790; content: "/"; }
+.breadcrumb-item a { color: #5E5D57; text-decoration: none; }
+.breadcrumb-item a:hover { color: #242421; }
+.breadcrumb-item.active { color: #242421; font-weight: 500; }
+
+/* ── 19. Scrollbars (WebKit) ───────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D4D2C9; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #B0AEA6; }
+
+/* ── 20. Focus visible ─────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(238, 165, 85, 0.35);
+}
+
+/* ── 21. Selection ─────────────────────────────────────────────────────────── */
+::selection { background: rgba(238, 165, 85, 0.2); color: inherit; }
